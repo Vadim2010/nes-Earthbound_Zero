@@ -19,8 +19,8 @@ BANK_TABLE      ends
 ; ---------------------------------------------------------------------------
 
 RETURN_OPERAND  struc ; (sizeof=0x4)    ; XREF: ROM:E105/r
-nullsub_3:      .WORD ?                 ; offset (00000000)
-field_2:        .WORD ?
+subroutine:     .WORD ?                 ; offset (00000000)
+value:          .WORD ?
 RETURN_OPERAND  ends
 
 ; ---------------------------------------------------------------------------

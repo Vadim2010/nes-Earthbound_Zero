@@ -92,7 +92,7 @@ PPU_MASK_SHOW_SPRITES_L8 = %00000100
 PPU_MASK_SHOW_BACKGROUND_L8 = %00000010
 PPU_MASK_GRAYSCALE = %00000001
 
-PPU_MASK	= $2001
+PPU_MASK = $2001
 
 ; VSO- ----	vblank (V), sprite 0 hit (S), sprite overflow (O), read resets write pair for $2005/2006
 ;----------￾-------￾----------￾---------------------------------------------'
@@ -164,39 +164,39 @@ OAM_DMA = $4014	; OAM DMA high address
 
 .segment "CODE"
 .proc load_attribute 
-    lda PPU_STATUS        ; read PPU status to reset the high/low latch
-    lda #$23    ; 27 ; 2B ; 2F
-    sta PPU_ADDR          ; write the high byte of $23C0 address
+    LDA PPU_STATUS        ; read PPU status to reset the high/low latch
+    LDA #$23    ; 27 ; 2B ; 2F
+    STA PPU_ADDR          ; write the high byte of $23C0 address
 
-    lda #$C0
-    sta PPU_ADDR          ; write the low byte of $23C0 address
+    LDA #$C0
+    STA PPU_ADDR          ; write the low byte of $23C0 address
 
-    ldx #$00              ; start out at 0
+    LDX #$00              ; start out at 0
     LoadAttributeLoop:
-        lda #%00000000 ; attribute, x      ; load data from address (attribute + the value in x)
-        sta PPU_DATA          ; write to PPU
-        inx                   ; X = X + 1
-        cpx #$40              ; Compare X to hex $08, decimal 8 - copying 8 bytes
-    bne LoadAttributeLoop  ; Branch to LoadAttributeLoop if compare was Not Equal to zero
+        LDA #%00000000 ; attribute, x      ; load data from address (attribute + the value in x)
+        STA PPU_DATA          ; write to PPU
+        INX                   ; X = X + 1
+        CPX #$40              ; Compare X to hex $08, decimal 8 - copying 8 bytes
+    BNE LoadAttributeLoop  ; Branch to LoadAttributeLoop if compare was Not Equal to zero
 
 
-    lda PPU_STATUS        ; read PPU status to reset the high/low latch
-    lda #$2B    ; 27 ; 2B ; 2F
-    sta PPU_ADDR          ; write the high byte of $23C0 address
+    LDA PPU_STATUS        ; read PPU status to reset the high/low latch
+    LDA #$2B    ; 27 ; 2B ; 2F
+    STA PPU_ADDR                ; write the high byte of $23C0 address
 
-    lda #$C0
-    sta PPU_ADDR          ; write the low byte of $23C0 address
+    LDA #$C0
+    STA PPU_ADDR                ; write the low byte of $23C0 address
 
-    ldx #$00              ; start out at 0
+    LDX #$00                    ; start out at 0
     LoadAttributeLoop_2:
-        lda #%00000000 ; attribute, x      ; load data from address (attribute + the value in x)
-        sta PPU_DATA          ; write to PPU
+        LDA #%00000000          ; attribute, x      ; load data from address (attribute + the value in x)
+        STA PPU_DATA            ; write to PPU
 
-        inx                   ; X = X + 1
-        cpx #$40              ; Compare X to hex $08, decimal 8 - copying 8 bytes
-    bne LoadAttributeLoop_2  ; Branch to LoadAttributeLoop if compare was Not Equal to zero
+        INX                     ; X = X + 1
+        CPX #$40                ; Compare X to hex $08, decimal 8 - copying 8 bytes
+    BNE LoadAttributeLoop_2     ; Branch to LoadAttributeLoop if compare was Not Equal to zero
 
-    rts
+    RTS
 .endproc
 
 ; F8ED
@@ -214,18 +214,18 @@ OAM_DMA = $4014	; OAM DMA high address
     ;|         |       |          |  byte of the 16-bit address is written      |
     ;|         |       |          |  first, then the low-byte.                  |
     ;----------￾-------￾----------￾---------------------------------------------'
-    lda #$3F
-	ldx #$00
-	
-    sta PPU_ADDR             ; write the high byte of $3F00 address   
-    stx PPU_ADDR             ; write the low byte of $3F00 address
+    LDA #$3F
+    LDX #$00
 
-@LoadPalettesLoop:
-    lda palette_background, x        ; load data from address (palette + the value in x)
-                            ; 1st time through loop it will load palette+0
-                            ; 2nd time through loop it will load palette+1
-                            ; 3rd time through loop it will load palette+2
-                            ; etc
+    STA PPU_ADDR                ; write the high byte of $3F00 address   
+    STX PPU_ADDR                ; write the low byte of $3F00 address
+
+@next_color:
+    LDA PaletteBackground0, x   ; load data from address (palette + the value in x)
+                                ; 1st time through loop it will load palette+0
+                                ; 2nd time through loop it will load palette+1
+                                ; 3rd time through loop it will load palette+2
+                                ; etc
 
     ; PPUDATA	$2007	dddd dddd	PPU data read/write
     ;----------￾-------￾----------￾---------------------------------------------'
@@ -234,25 +234,25 @@ OAM_DMA = $4014	; OAM DMA high address
     ;|         |       |          |  Used to read/write to the address spec-    |
     ;|         |       |          |  ified via $2006 in VRAM.                   |
     ;----------￾-------￾----------￾---------------------------------------------'
-    sta PPU_DATA             ; write to PPU
+    STA PPU_DATA             ; write to PPU
     ;    WRITE_PPU_DATA
 
-    inx                   ; X = X + 1
-    cpx #$20              ; Compare X to hex $20, decimal 16 - copying 16 bytes = 4 sprites
-    bne @LoadPalettesLoop  ; Branch to LoadPalettesLoop if compare was Not Equal to zero
-                        ; if compare was equal to 32, keep going down
-						
-	lda #$3F
-	ldx #$00
-	
-    sta PPU_ADDR             ; write the high byte of $3F00 address   
-    stx PPU_ADDR             ; write the low byte of $3F00 address
-	
-	stx PPU_ADDR             ; write the high byte of $0000 address
-	stx PPU_ADDR             ; write the low byte of $0000 address
-	iny
+    INX                         ; X = X + 1
+    CPX #$20                    ; Compare X to hex $20, decimal 16 - copying 16 bytes = 4 sprites
+    BNE @next_color             ; Branch to LoadPalettesLoop if compare was Not Equal to zero
+                                ; if compare was equal to 32, keep going down
+
+    LDA #$3F
+    LDX #$00
+
+    STA PPU_ADDR                ; write the high byte of $3F00 address   
+    STX PPU_ADDR                ; write the low byte of $3F00 address
+
+    STX PPU_ADDR                ; write the high byte of $0000 address
+    STX PPU_ADDR                ; write the low byte of $0000 address
+    INY
     ;rts
-	JMP loc_F7CA
+    JMP loc_F7CA
 .endproc
 
 .proc oam_dma
@@ -268,96 +268,104 @@ OAM_DMA = $4014	; OAM DMA high address
 ; PPU_MASK_GRAYSCALE          = %00000001
 ;=============================================
 
-    lda #(PPU_MASK_SHOW_SPRITES|PPU_MASK_SHOW_BACKGROUND|PPU_MASK_SHOW_SPRITES_L8|PPU_MASK_SHOW_BACKGROUND_L8) ; PPU_MASK_SHOW_SPRITES
-    sta PPU_MASK
+    LDA #(PPU_MASK_SHOW_SPRITES|PPU_MASK_SHOW_BACKGROUND|PPU_MASK_SHOW_SPRITES_L8|PPU_MASK_SHOW_BACKGROUND_L8)
+    STA PPU_MASK
     set OAM_ADDR, #0
-    set OAM_DMA, #$02
-
-    rts
+    set OAM_DMA, #2
+    RTS
 .endproc
 
 ; this moves all the sprites in oam memory offscreen by setting y to 255
 .proc clear_sprites
-	lda #255
-	ldx #0
-	clear_sprites_loop:
-		sta oam, X
-		inx
-		inx
-		inx
-		inx
-        bne clear_sprites_loop
-    rts
+    LDA #$F0
+
+@clear_sprites_loop:
+    STA oam, X
+    INX
+    INX
+    INX
+    INX
+    BNE @clear_sprites_loop
+    RTS
 .endproc
 
 ; clear the entire background on a vblank
 .proc clear_background_all
-		jsr wait_for_vblank
+        JSR wait_for_vblank
 
-        ldy #$20
+        LDY #$20
 		outer_background_clear_loop:
-	        lda PPU_STATUS        ; PPU_STATUS = $2002
-			sty PPU_ADDR
+	        LDA PPU_STATUS
+			STY PPU_ADDR
 
-			lda #0
-			tax
-			sta PPU_ADDR
+			LDA #0
+			TAX
+			STA PPU_ADDR
 			inner_background_clear_loop:
-	            sta PPU_DATA
-				inx
-				bne inner_background_clear_loop
-			iny
-			cpy #$24
-		bne outer_background_clear_loop
+	            STA PPU_DATA
+				INX
+				BNE inner_background_clear_loop
+			INY
+			CPY #$24
+		BNE outer_background_clear_loop
 
-        ldy #$28
+        LDY #$28
 		outer_background_clear_loop2:
-	        lda PPU_STATUS        ; PPU_STATUS = $2002
-			sty PPU_ADDR
+	        LDA PPU_STATUS
+			STY PPU_ADDR
 
-			lda #0
-			tax
-			sta PPU_ADDR
+			LDA #0
+			TAX
+			STA PPU_ADDR
 			inner_background_clear_loop2:
-	            sta PPU_DATA
-				inx
-				bne inner_background_clear_loop2
-			iny
-			cpy #$2C
-		bne outer_background_clear_loop2
+	            STA PPU_DATA
+				INX
+				BNE inner_background_clear_loop2
+			INY
+			CPY #$2C
+		BNE outer_background_clear_loop2
 
-	rts
+	RTS
 .endproc
 
 ; FCEE
 .proc set_ppu:
-    LDA #0              ; A, X = 0
+    ; clear $00-$FF zeropage
+    LDA #0
     TAX
 
-loc_FCF1:                               
-    STA 0,X             
-    INX 
-    BNE loc_FCF1
-    JSR sub_FC8A
-    LDA #PPU_CTRL_SPRITE  
-    STA PPU_CTRL           
+@next_clear:
+    STA 0,X
+    INX
+    BNE @next_clear
+
+    JSR clear_sprites
+    ; VBlank Disable, Sprite Size = 8x8, PPU Horizontal Write, Name Table Address 0 = $2000
+    ; Screen Pattern Table Address 0 = $0000, Sprite Pattern Table Address 1 = $1000
+    LDA #PPU_CTRL_SPRITE
+    STA PPU_CTRL
     STA CntrlPPU
-    LDA #$80
+    ; set bank mode for PRG and CHR
+    LDA #PRG_SWAP_8000|CHR_12_INVERSION
     STA BankMode
     STA BANK_SELECT
-    LDA #PPU_MASK_SHOW_BACKGROUND|PPU_MASK_SHOW_SPRITES     
-    STA PPU_MASK           
+    ; allow display of sprites
+    LDA #PPU_MASK_SHOW_BACKGROUND|PPU_MASK_SHOW_SPRITES
+    STA PPU_MASK
     STA mask_PPU
+    ; vertical nametable mirroring
     LDA #0
     STA MIRROR
     RTS
 .endproc
 
 .segment "DATA"
-palette_background: .res 16		; in the original game starts at $500
-palette_sprites:	.res 16		;
+PaletteBackground0: .res 16     ; in the original game starts at $500
+PaletteSprites0:    .res 16
+PaletteBackground1: .res 16     ; in the original game starts at $520
+PaletteSprites1:    .res 16
 
 .segment "OAM"
-;.org $200						; in the original game starts at $200 
-oam: .res 256        			; sprite OAM data to be uploaded by DMA
+;.org $200                      ; in the original game starts at $200 
+oam: .res 256                   ; sprite OAM data to be uploaded by DMA
 

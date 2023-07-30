@@ -1,35 +1,35 @@
 .segment "CODE"
 ; FE13
 irq:
-    save_registers			; store registers onto the stack
+    save_registers              ; store registers onto the stack
 
-    lda BankTableOffset
-    pha						; store bank table offset (bank memory register)
-    jsr interrupt_handler
-    pla                 	; restore bank table offset (bank memory register)
-    ora BankMode
-    sta BANK_SELECT
-    ldx InterruptOffset
-    inx 
-    inx 
-    stx InterruptOffset
-    lda InterruptTable+1,X
-    bne @no_irq_disable
-    sta IRQ_DISABLE			; disable MMC3 interrupts and acknowledge any pending interrupts
-    sta byte_EB
+    LDA BankTableOffset
+    PHA                         ; store bank table offset (bank memory register)
+    JSR interrupt_handler
+    PLA                         ; restore bank table offset (bank memory register)
+    ORA BankMode
+    STA BANK_SELECT
+    LDX InterruptOffset
+    INX 
+    INX 
+    STX InterruptOffset
+    LDA InterruptTable+1,X
+    BNE @no_irq_disable
+    STA IRQ_DISABLE             ; disable MMC3 interrupts and acknowledge any pending interrupts
+    STA byte_EB
 
 @no_irq_disable:
-    restore_registers		; restore registers from the stack
-    rti
+    restore_registers           ; restore registers from the stack
+    RTI
 
 ; FE3A
 .proc interrupt_handler:
-    sta IRQ_DISABLE       	; disable MMC3 interrupts and acknowledge any pending interrupts
-    ldx InterruptOffset
-    lda InterruptTable+1,X
-    pha						; store the high address of the subprogram on the stack 
-    lda InterruptTable,X
-    pha                 	; store the low address of the subprogram on the stack
-    sta IRQ_ENABLE       	; enable MMC3 interrupts
-    rts						; return from subroutine (execute the subprogram)
+    STA IRQ_DISABLE             ; disable MMC3 interrupts and acknowledge any pending interrupts
+    LDX InterruptOffset
+    LDA InterruptTable+1,X
+    PHA                         ; store the high address of the subprogram on the stack 
+    LDA InterruptTable,X
+    PHA                         ; store the low address of the subprogram on the stack
+    STA IRQ_ENABLE              ; enable MMC3 interrupts
+    RTS                         ; return from subroutine (execute the subprogram)
 .endproc

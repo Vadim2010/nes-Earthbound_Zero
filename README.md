@@ -13,6 +13,10 @@ XX is the memory bank number in hexadecimal format. There are 32 such banks (00 
 
 Contains the main game code.
 
+#### battle.asm
+
+Game battle code.
+
 #### rammap.asm
 
 This file serves as a cheat sheet providing information about the allocation of zero page memory. It is intended for reference purposes only. The information here duplicates memory allocation in the code, offering the convenience of having memory allocation details in one centralized location.
@@ -29,11 +33,16 @@ Basic subroutines for working with sound.
 
 The file contains nes image structure.
 
+#### irq_handler.asm
+
+Interrupt routines.
+
 #### mmc3.asm
 
 Basic subroutines for working with MMC3 chip (mapper).
 
 #### palette.asm
+
 Information about NES colour palette.
 
 #### ppu.asm
@@ -44,7 +53,7 @@ The file defines all PPU registers and basic subroutines.
 
 Basic procedures for working with additional RAM on a game cartridge.
 
-## lib directory
+### lib directory
 
 #### gamepad.asm
 
@@ -53,6 +62,10 @@ Definitions for gamepad flags, gamepad state variables and procedures for determ
 #### macros.asm
 
 The macros definition file.
+
+#### screen.asm
+
+Subroutines for working with the game screen.
 
 ### vectors directory
 

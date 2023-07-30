@@ -3,88 +3,88 @@
 ; Initialize NES hardware and set up PPU
 reset:
     ; LDA #%00001000
-	; STA PPU_CTRL
-	set PPU_CTRL, PPU_CTRL_SPRITE	; disable NMI, set sprite size = 8x8
-									; Screen Pattern Table Address 0 = $0000
-									; Sprite Pattern Table Address 1 = $1000
-									; PPU Horizontal Write (INC = 1)
-									; Name Table Address 0 = $2000
+    ; STA PPU_CTRL
+    set PPU_CTRL, PPU_CTRL_SPRITE   ; disable NMI, set sprite size = 8x8
+                                    ; Screen Pattern Table Address 0 = $0000
+                                    ; Sprite Pattern Table Address 1 = $1000
+                                    ; PPU Horizontal Write (INC = 1)
+                                    ; Name Table Address 0 = $2000
 
-    sei								; mask interrupts
-    cld								; disable decimal mode
-	
-    lda #0
-    sta PPU_MASK     				; disable rendering
-    sta pAPU_SV_CSR    				; silence channels and halt its' length counters
-	sta pAPU_DM_CR
+    SEI                             ; mask interrupts
+    CLD                             ; disable decimal mode
 
-	sta IRQ_DISABLE					; disable MMC3 interrupts and acknowledge any pending interrupts
-	
-	lda #$40
-	sta pAPU_F_CNTR					; disable frame counter interrupts
-	sta SRAM						; disable SRAM				
-	
-	ldx #2
+    LDA #0
+    STA PPU_MASK                    ; disable rendering
+    STA pAPU_SV_CSR                 ; silence channels and halt its' length counters
+    STA pAPU_DM_CR
+
+    STA IRQ_DISABLE                 ; disable MMC3 interrupts and acknowledge any pending interrupts
+
+    LDA #$40
+    STA pAPU_F_CNTR                 ; disable frame counter interrupts
+    STA SRAM                        ; disable SRAM
+
+    LDX #2
 @WaitVblank:
-    bit PPU_STATUS
-    bpl @WaitVblank
-    dex 
-    bne @WaitVblank
-    bit PPU_STATUS
-	    
-    ldy #$3F
-    ldx #0
-    sty PPU_ADDR 					; write the high byte of $3F00 address
-    stx PPU_ADDR 					; write the low byte of $3F00 address
-	    
-    ldx #$20
-    lda #$F
+    BIT PPU_STATUS
+    BPL @WaitVblank
+    DEX 
+    BNE @WaitVblank
+    BIT PPU_STATUS
+; write image palette address $3F00 (see PPU memory map)
+    LDY #$3F
+    LDX #0
+    STY PPU_ADDR                    ; write the high byte of $3F00 address
+    STX PPU_ADDR                    ; write the low byte of $3F00 address
+
+    LDX #$20                        ; the number of bytes written (Image + Sprite Palette Size)
+    LDA BLACK                       ; #$F
 @LoadPalettesLoop:
-    sta PPU_DATA
-    dex 
-    bne @LoadPalettesLoop
-	
-    sty PPU_ADDR					; write the high byte of $3F00 address
-    stx PPU_ADDR                    ; write the low byte of $3F00 address
-	
-    stx PPU_ADDR					; write the high byte of $0000 address
-    stx PPU_ADDR                    ; write the low byte of $0000 address
-	
-    lda #PPU_MASK_SHOW_BACKGROUND_L8|PPU_MASK_SHOW_SPRITES_L8|PPU_MASK_SHOW_BACKGROUND|PPU_MASK_SHOW_SPRITES
-    sta PPU_MASK
-    bit PPU_STATUS
-    lda #$10
-    tax
+    STA PPU_DATA
+    DEX 
+    BNE @LoadPalettesLoop
+
+    STY PPU_ADDR                    ; write the high byte of $3F00 address
+    STX PPU_ADDR                    ; write the low byte of $3F00 address
+
+    STX PPU_ADDR                    ; write the high byte of $0000 address
+    STX PPU_ADDR                    ; write the low byte of $0000 address
+
+    LDA #PPU_MASK_SHOW_BACKGROUND_L8|PPU_MASK_SHOW_SPRITES_L8|PPU_MASK_SHOW_BACKGROUND|PPU_MASK_SHOW_SPRITES
+    STA PPU_MASK
+    BIT PPU_STATUS
+    LDA #$10
+    TAX
 loc_FF95:
-    sta PPU_ADDR
-    sta PPU_ADDR
-    eor #0
-    dex 
-    bne loc_FF95
-	    
-    ldx #$FF
-    txs 
-    lda #0
-    sta BANK_SELECT
-    jsr set_ppu
-    jsr sub_FD14
-	    
-    ldx #7
-    lda #$13
-    jsr mmc3_bank_set			    ; set memory bank $13 to $A000
-	    
-    bit PPU_STATUS
-    lda CntrlPPU
-    ora #$80						; enable NMI
-    sta CntrlPPU
-    sta PPU_CTRL
-    cli 
-    jmp main
+    STA PPU_ADDR
+    STA PPU_ADDR
+    EOR #0
+    DEX
+    BNE loc_FF95
+
+    LDX #$FF
+    TXS                             ; set SP = $FF
+    LDA #0
+    STA BANK_SELECT
+    JSR set_ppu
+    JSR set_apu
+
+    LDX #7
+    LDA #$13
+    JSR mmc3_bank_set               ; set memory bank $13 to $A000
+
+    BIT PPU_STATUS
+    LDA CntrlPPU
+    ORA #$80                        ; enable NMI
+    STA CntrlPPU
+    STA PPU_CTRL
+    CLI
+    JMP main
 
 .segment "ZEROPAGE"
-;.org $FF							; in the original game $FF
+;.org $FF                           ; in the original game $FF
 CntrlPPU .res 1
 
 .segment "RODATA"
 .org $FFE0
-	.BYTE 'EARTH BOUND 1.00',0
+    .BYTE 'EARTH BOUND 1.00',0

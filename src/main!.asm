@@ -1,68 +1,175 @@
-; F202
-.proc start_battle:
-    jsr bank17_A000
-    jsr bank16
-    jsr sub_F479
-    ldx #$2C ; ','
-    ldy #9
-    lda ($5C),Y
-    and #$F0
-    cmp #$50 ; 'P'
-    beq loc_F21C
-    lsr A
-    lsr A
-    lsr A
-    lsr A
-    tax
+.segment "IMG"
 
-loc_F21C:
-    txa
-    jsr sub_F255
-    jsr bank14_8000
-    jsr unk_9630
-    jsr bank16
-    jsr sub_FD5E
-    jsr sub_FD80
-    jsr sub_EC65
-    jsr byte_A000
-    jsr sub_ECA3
-    rts
-.endproc
+.include "./def/header.asm"
+.include "./lib/macros.asm"
+.include "./lib/gamepad.asm"
+.include "./def/ppu.asm"
+.include "./def/palette.asm"
+.include "./def/apu.asm"
+.include "./def/mmc3.asm"
+.include "./def/sram.asm"
 
-; F4A3
-.proc set_nmi_id4
-    lda #4
-    sta NMI_ID
-    lda #0
-    sta num_of_chr
-    lda #0
-    sta Offset400
-    lda #$80
-    sta CHRToPPU
-    rts
-.endproc
+.include "./vectors/irq.asm"
+.include "./vectors/reset.asm"
+.include "./vectors/nmi.asm"
 
+.include "battle.asm"
 
+; CB44
+main:
+    JSR sram_read_enable
+    ;lda #SRAM_WRITE_DISABLE|SRAM_ENABLE
+    ;sta ModeSRAM
+    set ModeSRAM, #SRAM_WRITE_DISABLE|SRAM_ENABLE
+    JSR bank14_8000
+    JSR game_intro                       ; $9400 bank14
+    LDA #0
+    STA ModeSRAM
+
+@new_place:
+    JSR bank13_A000
+    JSR $BCEC
+
+loc_CB5D:
+    JSR sub_C542
+    JSR sub_CEFC
+    LDA #0
+    STA byte_24
+    LDA byte_7406
+    AND #$F
+    EOR #$84
+    STA byte_D
+
+loc_CB70:
+    JSR sub_FD5E
+    JSR sub_CFAC
+
+loc_CB76:
+    JSR sub_DE99
+    JSR sub_EEF0
+    LDA byte_25
+    BNE loc_CB91
+    LDA byte_DE
+    AND #$70
+    BEQ loc_CB8F
+    JSR sub_CC9D
+    AND #8
+    BEQ loc_CB8F
+    LDA #1
+
+loc_CB8F:
+    STA byte_1F
+
+loc_CB91:
+    JSR wait_fill_PPU
+    LDA byte_20
+    BNE @new_place
+    JSR sub_DD01
+    JSR sub_DFDA
+    JSR sub_CC2B        ; draw screen
+    LDA byte_21
+    BEQ loc_CBAD
+    JSR bank13_A000
+    JSR $A1C6
+    BCC loc_CBEB
+
+loc_CBAD:
+    JSR bank13_A000
+    LDA #0
+    LDY byte_DA
+    STA byte_DA
+    LDA byte_22
+    ORA byte_23
+    ORA byte_21
+    ORA byte_20
+    BNE loc_CBEB
+    TYA 
+    AND #$F0
+    BMI loc_CBE2
+    BNE loc_CBCD
+    JSR byte_A123
+    JMP loc_CBE5
+; ---------------------------------------------------------------------------
+
+loc_CBCD:
+    JSR sub_CC9D
+    AND #$A0
+    BEQ loc_CBE5
+    BMI loc_CBDC
+    JSR byte_A82F
+    JMP loc_CBE5
+; ---------------------------------------------------------------------------
+
+loc_CBDC:
+    JSR $A000
+    JMP loc_CBE5
+; ---------------------------------------------------------------------------
+
+loc_CBE2:
+    JSR byte_A178
+
+loc_CBE5:
+    JSR bank14_8000
+    JSR $9516
+
+loc_CBEB:
+    LDA byte_48
+    BEQ loc_CC17
+    CMP #$A2
+    BEQ loc_CC1A
+    JSR wait_fill_PPU
+    LDA byte_78C
+    PHA 
+    JSR start_battle
+    PLA 
+    BCS loc_CC14
+    JSR sub_FD28
+    LDA byte_21
+    BEQ loc_CC11
+    JSR bank13_A000
+    JSR $AB53
+    LDA byte_20
+    BNE loc_CC14
+
+loc_CC11:
+    JMP loc_CB70
+; ---------------------------------------------------------------------------
+
+loc_CC14:
+    JMP loc_CB5D
+; ---------------------------------------------------------------------------
+
+loc_CC17:
+    JMP loc_CB76
+; ---------------------------------------------------------------------------
+
+loc_CC1A:
+    JSR bank14_8000
+    JSR $9779
+    JSR start_battle
+    BCS loc_CC14
+    JSR bank14_8000
+    JMP $97A3
 
 ; F5F7
 .proc set_jmp_addr
-    sta AddrForJmp
-    lda #0
-    asl AddrForJmp
-    rol A
-    asl AddrForJmp
-    rol A
-    asl AddrForJmp
-    rol A
-    sta AddrForJmp+1
-    clc 
-    lda AddrForJmp
-    adc #0
-    sta AddrForJmp
-    lda AddrForJmp+1
-    adc #$9E
-    sta AddrForJmp+1
-    rts
+    STA AddrForJmp
+    LDA #0
+    ASL AddrForJmp
+    ROL A
+    ASL AddrForJmp
+    ROL A
+    ASL AddrForJmp
+    ROL A
+    STA AddrForJmp+1
+    CLC
+    LDA AddrForJmp
+    ADC #0
+    STA AddrForJmp
+    LDA AddrForJmp+1
+    ADC #$9E
+    STA AddrForJmp+1
+    RTS
 .endproc
 
 
@@ -70,178 +177,98 @@ loc_F21C:
 ; F74C
 ; save JMP $F76A to $D7
 .proc save_jmp_instr
-    lda #$6A ; 'j'
-    sta JmpInstr+1
-    lda #$F7
-    sta JmpInstr+2
-    lda #$4C ; 'L'
-    sta JmpInstr
-    rts
+    LDA #$6A ; 'j'
+    STA JmpInstr+1
+    LDA #$F7
+    STA JmpInstr+2
+    LDA #$4C ; 'L'
+    STA JmpInstr
+    RTS
 .endproc
 
-
-
-; FD14
-.proc sub_FD14
-    lda #$1C
-    sta BankNum
-    lda #0
-    ldx #0
-
-loc_FD1C:
-    sta $700,X          ; Clear 700-7FF
-    inx 
-    bne loc_FD1C
-    jsr bank_8000_1D_A000
-    jmp loc_8006		; bank 1C
+; F759
+; clear first byte (JMP $F76A to $D7)
+.proc clear_jmp_instr
+    LDA #0
+    STA JmpInstr
+    JMP wait_nmi
 .endproc
+
 
 
 ; FD28
 .proc sub_FD28
-    cmp byte_78C
-    beq loc_FD30
-    sta byte_7F5
+    CMP byte_78C
+    BEQ loc_FD30
+    STA byte_7F5
 
 loc_FD30:
-    jmp wait_nmi
+    JMP wait_nmi
 .endproc
 
-
-; FD33
-.proc sub_FD33
-    lda CHRToPPU
-    ora byte_E0
-    bne sub_FD33
-    rts
-.endproc
-
-
-; FD3A
-; wait for the whole frame to be output
-.proc wait_frame
-    jsr wait_nmi
-    dex 
-    bne wait_frame
-    rts
-.endproc
-
-
-; FD41
-; wait for NMI interrupt processing to complete
-.proc wait_nmi
-    lda #1
-    sta NMIReady
-
-@wait:
-    lda NMIReady
-    bne @wait
-    rts
-.endproc
-
-
-; FD4A
-.proc sub_FD4A
-    lda CHRToPPU
-    bne sub_FD4A
-    rts
-.endproc
 
 ; FD4F
 .proc sub_FD4F
-    lda #0
-    sta byte_DA
+    LDA #0
+    STA byte_DA
 
 loc_FD53:
-    lda byte_DA
-    beq loc_FD53
-    pha 
-    lda #0
-    sta byte_DA
-    pla
-    rts
+    LDA byte_DA
+    BEQ loc_FD53
+    PHA 
+    LDA #0
+    STA byte_DA
+    PLA
+    RTS
 .endproc
 
 ; FD5E
 .proc sub_FD5E
-    jsr sub_FD33
-    sec 
-    ror byte_E2
-    ldx #0
+    JSR wait_fill_PPU
+    SEC                 ; set carry flag
+    ROR byte_E2
+    LDX #0
 
 loc_FD66:
-    lda #0
-    sta $300,X
-    lda #$F0
-    sta $200,X
-    inx 
-    inx 
-    inx 
-    inx 
-    sta $200,X
-    inx 
-    inx 
-    inx 
-    inx 
-    bne loc_FD66
-    asl byte_E2
-    rts
-.endproc
-
-; FD80
-.proc sub_FD80
-    jsr sub_FD33
-    lda #8
-    ldx #$80
-    sta NMI_ID
-    stx num_of_chr
-    lda #0
-    ldx #$20 ; ' '
-    sta PPU_addr+1
-    stx PPU_addr
-    lda #0
-    sta chr
-    sta next
-
-loc_FD9F:
-    ldx #0
-    lda #$80
-    stx Offset400
-    sta CHRToPPU
-    jsr sub_FD33
-    clc 
-    lda PPU_addr+1
-    adc #$80
-    sta PPU_addr+1
-    lda PPU_addr
-    adc #0
-    sta PPU_addr
-    cmp #$28 ; '('
-    bcc loc_FD9F
-    rts
+    LDA #0
+    STA $300,X
+    LDA #$F0
+    STA $200,X
+    INX
+    INX
+    INX
+    INX
+    STA $200,X
+    INX
+    INX
+    INX
+    INX
+    BNE loc_FD66
+    ASL byte_E2
+    RTS
 .endproc
 
 ; FDC0
 .proc sub_FDC0
-    jsr sub_FD33
-    lda byte_E7
-    and #$BF
-    sta byte_E7
-    lda #0
-    sta byte_E8
-    sta byte_E9
-    clc
+    JSR wait_fill_PPU
+    LDA byte_E7
+    AND #$BF
+    STA byte_E7
+    LDA #0
+    STA byte_E8
+    STA byte_E9
+    CLC
 
 loc_FDD0:
-    tax
-    lda $301,X
-    and #$BF
-    sta $301,X
-    lda #0
-    sta $304,X
-    sta $305,X
-    txa 
-    adc #8
-    bcc loc_FDD0
-    rts
+    TAX
+    LDA $301,X
+    AND #$BF
+    STA $301,X
+    LDA #0
+    STA $304,X
+    STA $305,X
+    TXA 
+    ADC #8
+    BCC loc_FDD0
+    RTS
 .endproc

@@ -2,8 +2,8 @@
 byte_0:         .BYTE 0     
 byte_1:         .BYTE 0     
 byte_2:         .BYTE 0,0,0,0,0
-		
-BankNum .res 1
+
+BankNum: .res 1
 
 byte_8:         .BYTE 0     
 byte_9:         .BYTE 0     
@@ -56,10 +56,10 @@ byte_3D:        .BYTE 0
 byte_3E:        .BYTE 0     
 byte_3F:        .BYTE 0  
    
-BankPPU7C_X000 .res 1
-BankPPU7C_X400 .res 1
-BankPPU7C_X800 .res 1
-BankPPU7C_XC00 .res 1
+BankPPU7C_X000: .res 1
+BankPPU7C_X400: .res 1
+BankPPU7C_X800: .res 1
+BankPPU7C_XC00: .res 1
  
 byte_41:        .BYTE 0     
 byte_42:        .BYTE 0     
@@ -81,8 +81,8 @@ byte_5A:        .BYTE 0
 byte_5C:        .BYTE 0     
 byte_5D:        .BYTE 0,0,0     
  
-pPPUTable .res 2
-AddrForJmp .addr   					; for F2AE
+pPPUTable: .res 2                    ; store pointer at tables (CHR banks, palettes,)
+AddrForJmp: .addr                    ; for F2AE
 
 byte_64:        .BYTE 0     
 byte_65:        .BYTE 0     
@@ -148,8 +148,8 @@ byte_AD:        .BYTE 0
 byte_AE:        .BYTE 0     
 byte_AF:        .BYTE 0,0,0,0,0,0,0,0,0,0
 
-GamePadBit0 .res 1
-GamePadBit1 .res 1    
+GamePadBit0: .res 1
+GamePadBit1: .res 1    
  
 byte_C2:        .BYTE 0     
 byte_C3:        .BYTE 0     
@@ -172,88 +172,70 @@ byte_D3:        .BYTE 0,0
 byte_D5:        .BYTE 0     
 byte_D6:        .BYTE 0     
 
-JmpInstr .res 3				; jump istruction	
+JmpInstr: .res 3				; jump istruction	
 
 byte_DA:        .BYTE 0     
 byte_DB:        .BYTE 0     
 
-GamePad0Status .res 1     
-GamePad1Status .res 1
+GamePad0Status: .res 1     
+GamePad1Status: .res 1
    
-byte_DE:        .BYTE 0,0      
-byte_E0:        .BYTE 0     
+byte_DE:        .BYTE 0,0
+
+OtherNMIFlags: .res 1
+
 byte_E1:        .BYTE 0     
 byte_E2:        .BYTE 0     
 byte_E3:        .BYTE 0     
 byte_E4:        .BYTE 0
      
-CHRToPPU .res 1
-Offset400 .res 1
+NMIFlags: .res 1
+Offset400: .res 1
      
 byte_E7:        .BYTE 0     
 byte_E8:        .BYTE 0     
-byte_E9:        .BYTE 0
-     
-NMIReady .res 1
+
+ShiftPosWindow: .res 1
+NMIReady: .res 1
      
 byte_EB:        .BYTE 0     
 byte_EC:        .BYTE 0
      
-InterruptOffset .res 1     
-BankTableOffset .res 1     
-BankMode .res 1
-BankTable .res 8				; BANK_TABLE <?>          
+InterruptOffset: .res 1     
+BankTableOffset: .res 1     
+BankMode: .res 1
+BankTable: .res 8                ; BANK_TABLE <?>
 
 byte_F8:        .BYTE 0,0,0,0
 
-horizontal_scroll_PPU .res 1
-vertical_scroll_PPU .res 1 
-mask_PPU .res 1     
-CntrlPPU .res 1
+HorizontalScrollPPU: .res 1
+VerticalScrollPPU: .res 1 
+MaskPPU: .res 1     
+CntrlPPU: .res 1
 
 .segment "STACK"     
-Stack .res 256
+Stack: .res 256
 
 .segment "OAM"
-oam .res 256
+oam: .res 256
 
 .segment "DATA"
-byte_300 .res 256
+byte_300: .res 256
 
-NMI_ID .res 1
-num_of_chr .res 1
-PPU_addr .res 1
-chr .res 1
-next .res 1
+NMI_ID: .res 256
+; $500
+PaletteBackground0: .res 16
+PaletteSprites0:    .res 16
+PaletteBackground1: .res 16
+PaletteSprites1:    .res 16
 
-byte_405:   .BYTE 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 
-			.BYTE 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 
-			.BYTE 0,0,0,0,0 
-byte_42B:	.BYTE 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 
-			.BYTE 0,0,0,0,0,0,0,0,0 
-byte_444:	.BYTE 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 
-			.BYTE 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 
-			.BYTE 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 
-			.BYTE 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 
-			.BYTE 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 
-			.BYTE 0,0,0,0,0,0,0,0,0,0,0,0,0,0
-byte_4A2:	.BYTE 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 
-			.BYTE 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 
-			.BYTE 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 
-			.BYTE 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 
-			.BYTE 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 
-			.BYTE 0,0,0,0,0,0,0,0,0,0,0,0,0,0
-			
-palette_background .res 16
-palette_sprites .res 16
+InterruptTable: .res 96
+
+byte_600: .res 256
+byte_700: .res 140
+byte_78C: .res 99
  
-InterruptTable .res 96
-
-byte_600 .res 256
-byte_700 .res 140  
-byte_78C .res 99
- 
-modeSRAM .res 1
+modeSRAM: .res 1
 
 byte_7F0:       .BYTE 0
 byte_7F1:       .BYTE 0,0

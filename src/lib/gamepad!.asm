@@ -42,32 +42,32 @@ GAMEPAD_REGISTER1 = $4017
     set  GAMEPAD_REGISTER, #0
 
     ; the prior set call set the A register to #0, so no need to load it again
-    sta gamepad_press ; clear out our gamepad press byte
+    STA gamepad_press ; clear out our gamepad press byte
 
-    rts 
+    RTS 
 .endproc
 
 ; use this macro to figure out if a specific button was pressed
 .macro button_press_check button
     .local @not_pressed
-    lda GAMEPAD_REGISTER
-    and #%00000001
-    beq @not_pressed    ; beq key not pressed
-        lda button
-        ora gamepad_press
-        sta gamepad_press
+    LDA GAMEPAD_REGISTER
+    AND #%00000001
+    BEQ @not_pressed    ; beq key not pressed
+        LDA button
+        ORA gamepad_press
+        STA gamepad_press
     @not_pressed:   ; key not pressed
 .endmacro
 
 ; initialize and set the gamepad values
 .proc set_gamepad
 
-    jsr gamepad_init ; prepare the gamepad register to pull data serially
+    JSR gamepad_init ; prepare the gamepad register to pull data serially
 
     gamepad_a:
-        lda GAMEPAD_REGISTER
-        and #%00000001
-        sta gamepad_press
+        LDA GAMEPAD_REGISTER
+        AND #%00000001
+        STA gamepad_press
 
     gamepad_b:
         button_press_check PRESS_B
@@ -94,22 +94,22 @@ GAMEPAD_REGISTER1 = $4017
     ; flipp all the bits with an eor #$ff.  Then you can AND the results with current
     ; gamepad pressed.  This will give you what wasn't pressed previously, but what is
     ; pressed now.  Then store that value in the gamepad_new_press
-    lda gamepad_last_press 
-    eor #$ff
-    and gamepad_press
+    LDA gamepad_last_press 
+    EOR #$ff
+    AND gamepad_press
 
-    sta gamepad_new_press ; all these buttons are new presses and not existing presses
+    STA gamepad_new_press ; all these buttons are new presses and not existing presses
 
     ; in order to find what buttons were just released, we load and flip the buttons that
     ; are currently pressed  and and it with what was pressed the last time.
     ; that will give us a button that is not pressed now, but was pressed previously
-    lda gamepad_press       ; reload original gamepad_press flags
-    eor #$ff                ; flip the bits so we have 1 everywhere a button is released
+    LDA gamepad_press       ; reload original gamepad_press flags
+    EOR #$ff                ; flip the bits so we have 1 everywhere a button is released
 
     ; anding with last press shows buttons that were pressed previously and not pressed now
-    and gamepad_last_press  
+    AND gamepad_last_press  
 
     ; then store the results in gamepad_release
-    sta gamepad_release  ; a 1 flag in a button position means a button was just released
-    rts
+    STA gamepad_release  ; a 1 flag in a button position means a button was just released
+    RTS
 .endproc
