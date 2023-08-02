@@ -1,8 +1,8 @@
 ; these are the palette hex values and the colors they represent
 DARK_GRAY           = $00
 MEDIUM_GRAY         = $10
-LIGHT_GRAY          = $20
-LIGHTEST_GRAY       = $30
+LIGHTEST_GRAY       = $20
+WHITE               = $30
 
 DARK_BLUE           = $01
 MEDIUM_BLUE         = $11

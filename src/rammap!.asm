@@ -81,7 +81,6 @@ byte_5A:        .BYTE 0
 byte_5C:        .BYTE 0     
 byte_5D:        .BYTE 0,0,0     
  
-pPPUTable: .res 2                    ; store pointer at tables (CHR banks, palettes,)
 AddrForJmp: .addr                    ; for F2AE
 
 byte_64:        .BYTE 0     
@@ -95,15 +94,15 @@ byte_6B:        .BYTE 0,0,0,0,0
 byte_70:        .BYTE 0     
 byte_71:        .BYTE 0     
 word_72:        .BYTE 0,0   
-byte_74:        .BYTE 0     
-byte_75:        .BYTE 0     
-byte_76:        .BYTE 0     
-byte_77:        .BYTE 0     
-byte_78:        .BYTE 0     
-byte_79:        .BYTE 0     
-byte_7A:        .BYTE 0     
+PointerTilePack:        .BYTE 0     
+PointerTilePack+1:        .BYTE 0     
+PosX:        .BYTE 0     
+PosY:        .BYTE 0     
+NTAddr:        .BYTE 0     
+NTAddr+1:        .BYTE 0     
+BlockIndex:        .BYTE 0     
 byte_7B:        .BYTE 0     
-word_7C:        .BYTE 0,0   
+LoopAddr:        .BYTE 0,0   
 byte_7E:        .BYTE 0     
 byte_7F:        .BYTE 0     
 byte_80:        .BYTE 0     
@@ -180,17 +179,19 @@ byte_DB:        .BYTE 0
 GamePad0Status: .res 1     
 GamePad1Status: .res 1
    
-byte_DE:        .BYTE 0,0
+ButtonPressed:        .BYTE 0,0
 
 OtherNMIFlags: .res 1
 
 byte_E1:        .BYTE 0     
-byte_E2:        .BYTE 0     
+
+flag_clear_oam_300: .res1       ; set 7 bit before clear oam & $300, clear 7 bit after
+
 byte_E3:        .BYTE 0     
 byte_E4:        .BYTE 0
      
 NMIFlags: .res 1
-Offset400: .res 1
+OffsetNMI_ID: .res 1
      
 byte_E7:        .BYTE 0     
 byte_E8:        .BYTE 0     
@@ -221,19 +222,19 @@ oam: .res 256
 
 .segment "DATA"
 byte_300: .res 256
-
+; $400
 NMI_ID: .res 256
 ; $500
-PaletteBackground0: .res 16
-PaletteSprites0:    .res 16
-PaletteBackground1: .res 16
-PaletteSprites1:    .res 16
+PalNMIBG:   .res 16
+PalNMISpr:  .res 16
+PalBG:      .res 16
+PalSpr:     .res 16
 
 InterruptTable: .res 96
 
 byte_600: .res 256
 byte_700: .res 140
-byte_78C: .res 99
+NTAddrC: .res 99
  
 modeSRAM: .res 1
 

@@ -24,3 +24,40 @@
     LDA from
     STA set_var
 .endmacro
+
+; load 16-bit argument into register pair XA
+; X - high byte, A - low byte
+.macro ldax arg
+    .if (.match (.left (1, {arg}), #))
+        ; immediate mode
+        LDA #<(.right (.tcount ({arg})-1, {arg}))
+        LDX #>(.right (.tcount ({arg})-1, {arg}))
+    .else
+        ; assume absolute or zero page
+        LDA arg
+        LDX 1+(arg)
+    .endif
+.endmacro
+
+; load 16-bit argument into register pair YX
+; Y - high byte, X - low byte
+.macro ldxy arg
+    .if (.match (.left (1, {arg}), #))
+        ; immediate mode
+        LDX #<(.right (.tcount ({arg})-1, {arg}))
+        LDY #>(.right (.tcount ({arg})-1, {arg}))
+    .else
+        ; assume absolute or zero page
+        LDX arg
+        LDY 1+(arg)
+    .endif
+.endmacro
+
+; store a 16-bit address in memory
+; Input: 16-bit address (16-bit value), destination memory location (16-bit value)
+.macro store addr, dest
+    LDA #<(addr)
+    STA dest
+    LDA #>(addr)
+    STA dest+1
+.endmacro

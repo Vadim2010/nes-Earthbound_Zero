@@ -31,18 +31,18 @@ loc_F21C:
 ; F479
 .proc sub_F479:
     LDA byte_48
-    STA pPPUTable
+    STA Pointer
     LDA #0
-    STA pPPUTable+1
+    STA Pointer+1
     LDA #$A
     STA byte_64
     JSR sub_F0F1
     CLC 
     LDA #$98
-    ADC pPPUTable
+    ADC Pointer
     STA byte_5C
     LDA #$8F
-    ADC pPPUTable+1
+    ADC Pointer+1
     STA byte_5D
     RTS
 .endproc

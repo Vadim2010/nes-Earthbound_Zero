@@ -1,3 +1,7 @@
+.segment "ZEROPAGE"
+;.org $FF                           ; in the original game $FF
+CntrlPPU .res 1
+
 .segment "CODE"
 ; FF40
 ; Initialize NES hardware and set up PPU
@@ -25,11 +29,11 @@ reset:
     STA SRAM                        ; disable SRAM
 
     LDX #2
-@WaitVblank:
+@wait_vblank:
     BIT PPU_STATUS
-    BPL @WaitVblank
+    BPL @wait_vblank
     DEX 
-    BNE @WaitVblank
+    BNE @wait_vblank
     BIT PPU_STATUS
 ; write image palette address $3F00 (see PPU memory map)
     LDY #$3F
@@ -39,10 +43,10 @@ reset:
 
     LDX #$20                        ; the number of bytes written (Image + Sprite Palette Size)
     LDA BLACK                       ; #$F
-@LoadPalettesLoop:
+@next_color:
     STA PPU_DATA
     DEX 
-    BNE @LoadPalettesLoop
+    BNE @next_color
 
     STY PPU_ADDR                    ; write the high byte of $3F00 address
     STX PPU_ADDR                    ; write the low byte of $3F00 address
@@ -55,12 +59,12 @@ reset:
     BIT PPU_STATUS
     LDA #$10
     TAX
-loc_FF95:
+@loop:
     STA PPU_ADDR
     STA PPU_ADDR
     EOR #0
     DEX
-    BNE loc_FF95
+    BNE @loop
 
     LDX #$FF
     TXS                             ; set SP = $FF
@@ -80,10 +84,6 @@ loc_FF95:
     STA PPU_CTRL
     CLI
     JMP main
-
-.segment "ZEROPAGE"
-;.org $FF                           ; in the original game $FF
-CntrlPPU .res 1
 
 .segment "RODATA"
 .org $FFE0

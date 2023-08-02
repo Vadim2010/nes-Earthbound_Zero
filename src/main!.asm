@@ -1,18 +1,28 @@
 .segment "IMG"
+.incbin "../chr/tiles.chr"
 
 .include "./def/header.asm"
-.include "./lib/macros.asm"
-.include "./lib/gamepad.asm"
-.include "./def/ppu.asm"
-.include "./def/palette.asm"
-.include "./def/apu.asm"
 .include "./def/mmc3.asm"
-.include "./def/sram.asm"
+.include "./def/ppu.asm"
+.include "./def/apu.asm"
+.include "./def/palette.asm"
 
 .include "./vectors/irq.asm"
 .include "./vectors/reset.asm"
 .include "./vectors/nmi.asm"
 
+.include "./lib/macros.asm"
+.include "./lib/banks.asm"
+.include "./lib/sram.asm"
+.include "./lib/ppu_lib.asm"
+.include "./lib/apu_lib.asm"
+.include "./lib/irq_handler.asm"
+.include "./lib/gamepad.asm"
+.include "./lib/delay.asm"
+.include "./lib/unpack.asm"
+.include "./lib/screen.asm"
+
+.include "intro.asm"
 .include "battle.asm"
 
 ; CB44
@@ -20,9 +30,9 @@ main:
     JSR sram_read_enable
     ;lda #SRAM_WRITE_DISABLE|SRAM_ENABLE
     ;sta ModeSRAM
-    set ModeSRAM, #SRAM_WRITE_DISABLE|SRAM_ENABLE
+    set ModeSRAM, #(SRAM_WRITE_DISABLE|SRAM_ENABLE)
     JSR bank14_8000
-    JSR game_intro                       ; $9400 bank14
+    JSR game_intro              ; $9400 bank14
     LDA #0
     STA ModeSRAM
 
@@ -35,7 +45,7 @@ loc_CB5D:
     JSR sub_CEFC
     LDA #0
     STA byte_24
-    LDA byte_7406
+    LDA PointerTilePack06
     AND #$F
     EOR #$84
     STA byte_D
@@ -49,7 +59,7 @@ loc_CB76:
     JSR sub_EEF0
     LDA byte_25
     BNE loc_CB91
-    LDA byte_DE
+    LDA ButtonPressed
     AND #$70
     BEQ loc_CB8F
     JSR sub_CC9D
@@ -61,12 +71,12 @@ loc_CB8F:
     STA byte_1F
 
 loc_CB91:
-    JSR wait_fill_PPU
+    JSR wait_int_processed
     LDA byte_20
     BNE @new_place
     JSR sub_DD01
     JSR sub_DFDA
-    JSR sub_CC2B        ; draw screen
+    JSR sub_CC2B                ; draw screen
     LDA byte_21
     BEQ loc_CBAD
     JSR bank13_A000
@@ -117,8 +127,8 @@ loc_CBEB:
     BEQ loc_CC17
     CMP #$A2
     BEQ loc_CC1A
-    JSR wait_fill_PPU
-    LDA byte_78C
+    JSR wait_int_processed
+    LDA NTAddrC
     PHA 
     JSR start_battle
     PLA 
@@ -177,11 +187,11 @@ loc_CC1A:
 ; F74C
 ; save JMP $F76A to $D7
 .proc save_jmp_instr
-    LDA #$6A ; 'j'
+    LDA #$6A
     STA JmpInstr+1
     LDA #$F7
     STA JmpInstr+2
-    LDA #$4C ; 'L'
+    LDA #$4C
     STA JmpInstr
     RTS
 .endproc
@@ -198,7 +208,7 @@ loc_CC1A:
 
 ; FD28
 .proc sub_FD28
-    CMP byte_78C
+    CMP NTAddrC
     BEQ loc_FD30
     STA byte_7F5
 
@@ -224,9 +234,9 @@ loc_FD53:
 
 ; FD5E
 .proc sub_FD5E
-    JSR wait_fill_PPU
-    SEC                 ; set carry flag
-    ROR byte_E2
+    JSR wait_int_processed
+    SEC                         ; set carry flag
+    ROR flag_clear_oam_300
     LDX #0
 
 loc_FD66:
@@ -244,13 +254,13 @@ loc_FD66:
     INX
     INX
     BNE loc_FD66
-    ASL byte_E2
+    ASL flag_clear_oam_300
     RTS
 .endproc
 
 ; FDC0
 .proc sub_FDC0
-    JSR wait_fill_PPU
+    JSR wait_int_processed
     LDA byte_E7
     AND #$BF
     STA byte_E7

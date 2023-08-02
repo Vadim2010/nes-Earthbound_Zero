@@ -15,7 +15,7 @@ nmi:
     BPL @NMIGo
     RTI
 
-@NMIGo:	
+@NMIGo:
     save_registers              ; save registers on the stack
 
     ; initialize sprite RAM and transfer data
@@ -24,7 +24,7 @@ nmi:
     STX OAM_ADDR                ; 8-bit address in SPR-RAM to access via OAM_DMA ($2004).
     STA OAM_DMA                 ; Transfers 256 bytes of memory into SPR-RAM. The address
                                 ; read from is $100*N, where N is the value written.
-    LDY Offset400
+    LDY OffsetNMI_ID
     LDA OtherNMIFlags           ; get raw flags
     BEQ @no_other_flags
     LDA NMIFlags                ; get NMI flags
@@ -96,7 +96,7 @@ loc_F827:
     STA PPU_CTRL
     STX PPU_MASK
 
-    STY Offset400               ; set offset of next record
+    STY OffsetNMI_ID               ; set offset of next record
     LDA #$80
     STA NMIReady
     LDA BankRegister
@@ -119,7 +119,7 @@ loc_F827:
 @no_chr_bank:
     JSR bank_8000_1D_A000       ; set banks: BankNum to $8000, 1D to $A000
     JSR $8000                   ; Bank 0x1C
-    LDA byte_E2
+    LDA flag_clear_oam_300
     BMI @restore_bank
     LDA byte_E7
     AND #$3F
@@ -166,8 +166,8 @@ loc_F885:
     JSR byte_D7
 
 @end_nmi:
-    ;lda #0
-    ;sta NMIReady
+    ;LDA #0
+    ;STA NMIReady
     set NMIReady, #0
     restore_registers           ;restore registers from the stack
     RTI
@@ -202,11 +202,11 @@ ReturnTable:
     JMP get_function
 .endproc
 
-; F8ED load_palettes: ; in the ppu.asm
+; F8ED load_palettes ; in the ppu_lib.asm
 
 ; F916
 .proc sub_F916
-    JSR sub_F9EF
+    JSR write_nt_block
     LDA NMI_ID,Y
     CMP #5
     BEQ sub_F916
@@ -220,7 +220,7 @@ ReturnTable:
     STA PPU_CTRL
 
 loc_F92A:
-    JSR sub_F9EF
+    JSR write_nt_block
     LDA NMI_ID,Y
     CMP #6
     BEQ loc_F92A
@@ -250,26 +250,7 @@ loc_F92A:
     JMP get_function
 .endproc
 
-; F95C
-.proc fill_ppu
-    INY
-    LDX NMI_ID,Y                ; get number of characters
-    INY
-    LDA NMI_ID,Y                ; get & load PPU address NT (Nametable)
-    STA PPU_ADDR
-    INY
-    LDA NMI_ID,Y
-    STA PPU_ADDR
-    INY
-    LDA NMI_ID,Y                ; get char
-    INY
-
-@write_ppu:
-    STA PPU_DATA
-    DEX
-    BNE @write_ppu
-    JMP get_function
-.endproc
+; F95C fill_ppu ; in the ppu_lib.asm
 
 ; F97C
 .proc read_ppu
@@ -339,26 +320,26 @@ loc_F92A:
 .endproc
 
 ; F9EF
-.proc sub_F9EF
+.proc write_nt_block
     INY
-    LDX NMI_ID,Y            ; get bitfield value
-    STX Bitfield            ; save bitfield value
+    LDX NMI_ID,Y                ; get number of char
+    STX Bitfield                ; save bitfield value
     INY
-    LDA NMI_ID,Y            ; get & load PPU address NT (Nametable)
+    LDA NMI_ID,Y                ; get & load PPU address NT (Nametable)
     STA PPU_ADDR
     INY
     LDA NMI_ID,Y
     STA PPU_ADDR
     INY
     LSR Bitfield
-    BCC loc_FA0F
+    BCC @clear_bit0
     LDA NMI_ID,Y
     STA PPU_DATA
     INY
 
-loc_FA0F:
+@clear_bit0:
     LSR Bitfield
-    BCC loc_FA21
+    BCC @clear_bit1
     LDA NMI_ID,Y
     STA PPU_DATA
     INY
@@ -366,9 +347,9 @@ loc_FA0F:
     STA PPU_DATA
     INY
 
-loc_FA21:
+@clear_bit1:
     LSR Bitfield
-    BCC loc_FA41
+    BCC @clear_bit2
     LDA NMI_ID,Y
     STA PPU_DATA
     INY
@@ -382,11 +363,11 @@ loc_FA21:
     STA PPU_DATA
     INY
 
-loc_FA41:
+@clear_bit2:
     LDX Bitfield
-    BEQ locret_FA80
+    BEQ @end_block
 
-loc_FA45:
+@next_block:
     LDA NMI_ID,Y
     STA PPU_DATA
     INY
@@ -412,9 +393,9 @@ loc_FA45:
     STA PPU_DATA
     INY
     DEX
-    BNE loc_FA45
+    BNE @next_block
 
-locret_FA80:
+@end_block:
     RTS
 .endproc
 
@@ -502,10 +483,10 @@ loc_FAF3:
 
 loc_FAF5:
     STA HorizontalScrollPPU
-    LDA byte_E2
+    LDA flag_clear_oam_300
     AND #$3F ; '?'
     EOR #$20 ; ' '
-    STA byte_E2
+    STA flag_clear_oam_300
     LDA #0
     STA byte_CC
     STA byte_E4
@@ -744,7 +725,7 @@ loc_FC6E:
 
 loc_FC79:
     STX byte_E4
-    LDA byte_E2
+    LDA flag_clear_oam_300
     AND #$20 ; ' '
     BNE loc_FC87
     LDA #$F8
@@ -758,9 +739,9 @@ loc_FC87:
 
 ; FC96
 sub_FC96:
-    LDA byte_E2
+    LDA flag_clear_oam_300
     EOR #$40
-    STA byte_E2
+    STA flag_clear_oam_300
     LDY #$FC
     LDX byte_E4
     BNE loc_FCE7
