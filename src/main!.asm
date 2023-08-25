@@ -21,6 +21,7 @@
 .include "./lib/delay.asm"
 .include "./lib/unpack.asm"
 .include "./lib/screen.asm"
+.include "./lib/math.asm"
 
 .include "intro.asm"
 .include "battle.asm"
@@ -51,7 +52,7 @@ loc_CB5D:
     STA byte_D
 
 loc_CB70:
-    JSR sub_FD5E
+    JSR clear_oam_sprite
     JSR sub_CFAC
 
 loc_CB76:
@@ -86,8 +87,8 @@ loc_CB91:
 loc_CBAD:
     JSR bank13_A000
     LDA #0
-    LDY byte_DA
-    STA byte_DA
+    LDY Gamepad0Buttons
+    STA Gamepad0Buttons
     LDA byte_22
     ORA byte_23
     ORA byte_21
@@ -220,23 +221,23 @@ loc_FD30:
 ; FD4F
 .proc sub_FD4F
     LDA #0
-    STA byte_DA
+    STA Gamepad0Buttons
 
 loc_FD53:
-    LDA byte_DA
+    LDA Gamepad0Buttons
     BEQ loc_FD53
     PHA 
     LDA #0
-    STA byte_DA
+    STA Gamepad0Buttons
     PLA
     RTS
 .endproc
 
 ; FD5E
-.proc sub_FD5E
+.proc clear_oam_sprite
     JSR wait_int_processed
     SEC                         ; set carry flag
-    ROR flag_clear_oam_300
+    ROR flag_clear_OAM_300
     LDX #0
 
 loc_FD66:
@@ -254,7 +255,7 @@ loc_FD66:
     INX
     INX
     BNE loc_FD66
-    ASL flag_clear_oam_300
+    ASL flag_clear_OAM_300
     RTS
 .endproc
 
@@ -265,8 +266,8 @@ loc_FD66:
     AND #$BF
     STA byte_E7
     LDA #0
-    STA byte_E8
-    STA byte_E9
+    STA ShiftX
+    STA ShiftY
     CLC
 
 loc_FDD0:

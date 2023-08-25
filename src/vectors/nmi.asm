@@ -20,7 +20,7 @@ nmi:
 
     ; initialize sprite RAM and transfer data
     LDX #0
-    LDA #2                      ; oam >> 8
+    LDA #2                      ; OAM >> 8
     STX OAM_ADDR                ; 8-bit address in SPR-RAM to access via OAM_DMA ($2004).
     STA OAM_DMA                 ; Transfers 256 bytes of memory into SPR-RAM. The address
                                 ; read from is $100*N, where N is the value written.
@@ -58,8 +58,8 @@ get_function:
     STA NMIFlags
 
 @no_flags:
-    LDX byte_EC
-    BEQ loc_F827
+    LDX IRQCount
+    BEQ @no_irq
     LDA #$FF
     STA IRQ_LATCH
     STA IRQ_RELOAD
@@ -81,15 +81,15 @@ get_function:
     STX IRQ_LATCH
     STX IRQ_RELOAD
     STX IRQ_ENABLE              ; enable MMC3 interrupts
-    STX byte_EB
+    STX IRQLatch
     STA InterruptOffset
     CLI
 
-loc_F827:
-    LDA VerticalScrollPPU
-    LDX HorizontalScrollPPU
-    STA PPU_SCROLL              ; set vertical scroll
-    STX PPU_SCROLL              ; set horizontal scroll
+@no_irq:
+    LDA CameraX
+    LDX CameraY
+    STA PPU_SCROLL              ; set horizontal scroll
+    STX PPU_SCROLL              ; set vertical scroll
 
     LDA CntrlPPU
     LDX MaskPPU
@@ -119,7 +119,7 @@ loc_F827:
 @no_chr_bank:
     JSR bank_8000_1D_A000       ; set banks: BankNum to $8000, 1D to $A000
     JSR $8000                   ; Bank 0x1C
-    LDA flag_clear_oam_300
+    LDA flag_clear_OAM_300
     BMI @restore_bank
     LDA byte_E7
     AND #$3F
@@ -140,30 +140,31 @@ loc_F827:
 
 loc_F885:
     STA OtherNMIFlags
-    JSR sub_FA81
+    JSR draw_sprite
 
 @restore_bank:
-    PLA                         ; 13
+    PLA                         ; restore bank number from the stack 13
     LDX #7                      ; A000
     JSR mmc3_bank_set           ; Set memory bank A - bank number X - mode
-    PLA                         ; 14
+    PLA                         ; restore bank number from the stack 14
     LDX #6                      ; 8000
     JSR mmc3_bank_set           ; Set memory bank A - bank number X - mode
-    PLA                         ; 7
+    PLA                         ; restore bank register from the stack 7
     STA BankRegister
     ORA BankMode
-    STA BANK_SELECT
+    STA BANK_SELECT             ; restore mode ?
+
     JSR gamepad_input
-    LDA GamePad0Status
-    ORA byte_DA
-    STA byte_DA
-    LDA byte_DD
-    ORA byte_DB
-    STA byte_DB
+    LDA Gamepad0Status
+    ORA Gamepad0Buttons
+    STA Gamepad0Buttons
+    LDA Gamepad1Status
+    ORA Gamepad1Buttons
+    STA Gamepad1Buttons
     JSR handle_game_logic
-    LDA byte_D7
+    LDA JmpInstr
     BEQ @end_nmi
-    JSR byte_D7
+    JSR JmpInstr
 
 @end_nmi:
     ;LDA #0
@@ -175,7 +176,7 @@ loc_F885:
 ; F8C1
 ReturnTable:
     .addr get_function-1, sub_F8D7-1, sub_F8DB-1, sub_F8E5-1, load_palettes-1
-    .addr sub_F916-1, sub_F923-1, write_ppu_chars-1, fill_ppu-1, read_ppu-1
+    .addr write_horizontal-1, write_vertical-1, write_ppu_chars-1, fill_ppu-1, read_ppu-1
     .addr sub_F99F-1
 
 ; F8D7
@@ -205,25 +206,25 @@ ReturnTable:
 ; F8ED load_palettes ; in the ppu_lib.asm
 
 ; F916
-.proc sub_F916
+.proc write_horizontal
     JSR write_nt_block
     LDA NMI_ID,Y
     CMP #5
-    BEQ sub_F916
+    BEQ write_horizontal
     JMP get_function
 .endproc
 
 ; F923
-.proc sub_F923:
+.proc write_vertical:
     LDA CntrlPPU
     ORA #PPU_CTRL_INCREMENT_MODE
     STA PPU_CTRL
 
-loc_F92A:
+@next_block:
     JSR write_nt_block
     LDA NMI_ID,Y
     CMP #6
-    BEQ loc_F92A
+    BEQ @next_block
     LDA CntrlPPU
     STA PPU_CTRL
     JMP get_function
@@ -400,7 +401,7 @@ loc_F92A:
 .endproc
 
 ; FA81
-sub_FA81:
+draw_sprite:
     LDA #$15
     LDX #6
     JSR mmc3_bank_set   ; set memory bank 15 at $8000
@@ -427,20 +428,20 @@ loc_FA96:
     BPL loc_FA96
     CLC
     TYA
-    ADC byte_E8
-    STA byte_E8
+    ADC ShiftX
+    STA ShiftX
     LDA #0
-    ADC byte_E9
-    STA byte_E9
+    ADC ShiftY
+    STA ShiftY
     JMP loc_FAC9
 
 loc_FAB8:
     CLC
-    LDA byte_E8
+    LDA ShiftX
     ADC byte_CE
     STA byte_CE
     CLC
-    LDA byte_E9
+    LDA ShiftY
     ADC byte_CF
     STA byte_CF
     DEX
@@ -450,17 +451,17 @@ loc_FAC9:
     CLC
     LDA byte_CE
     BMI loc_FAD6
-    ADC VerticalScrollPPU
-    STA VerticalScrollPPU
+    ADC CameraX
+    STA CameraX
     BCC loc_FAE2
-    BCS loc_FADC
+    BCS @switch_scroll_mode
 
 loc_FAD6:
-    ADC VerticalScrollPPU
-    STA VerticalScrollPPU
+    ADC CameraX
+    STA CameraX
     BCS loc_FAE2
 
-loc_FADC:
+@switch_scroll_mode:
     LDA CntrlPPU
     EOR #1
     STA CntrlPPU
@@ -470,114 +471,114 @@ loc_FAE2:
     LDA byte_CF
     BMI loc_FAEF
     ADC #$10
-    ADC HorizontalScrollPPU
+    ADC CameraY
     BCC loc_FAF3
     BCS loc_FAF5
 
 loc_FAEF:
-    ADC HorizontalScrollPPU
+    ADC CameraY
     BCS loc_FAF5
 
 loc_FAF3:
     ADC #$F0
 
 loc_FAF5:
-    STA HorizontalScrollPPU
-    LDA flag_clear_oam_300
-    AND #$3F ; '?'
-    EOR #$20 ; ' '
-    STA flag_clear_oam_300
+    STA CameraY
+    LDA flag_clear_OAM_300
+    AND #$3F
+    EOR #$20
+    STA flag_clear_OAM_300
     LDA #0
-    STA byte_CC
+    STA SpriteTabOffset
     STA byte_E4
     LDA #8
-    STA byte_CD
+    STA SpriteTabStep
     LDX #$10
 
 loc_FB0B:
-    LDY byte_CC
+    LDY SpriteTabOffset
     LDA $300,Y
     AND #$3F
     BNE loc_FB17
     JMP loc_FC5C
 
 loc_FB17:
-    STA GamePadBit0
-    STX byte_C2
+    STA TileCount
+    STX TileID
     LDA $301,Y
     AND #$C0
-    STA GamePadBit1
+    STA Attribute
     TXA
     LSR A
     LSR A
-    ORA GamePadBit1
+    ORA Attribute
     STA $301,Y
     SEC
     LDA #0
     SBC byte_CE
-    STA byte_C8
+    STA TileX
     SEC
     LDA #0
     SBC byte_CF
-    STA byte_CA
+    STA DeltaY
     LDX byte_E1
-    BIT GamePadBit1
+    BIT Attribute
     BVC loc_FB70
     LDA $304,Y
-    STA byte_C4
+    STA DeltaTileID
     LDA $305,Y
-    STA byte_C5
+    STA DeltaTileID+1
     LDY #0
 
 loc_FB4A:
     CLC
-    LDA ($C4),Y
-    ADC byte_C8
-    STA byte_C8
+    LDA (pSprite),Y
+    ADC TileX
+    STA TileX
     INY
     CLC
-    LDA ($C4),Y
-    ADC byte_CA
-    STA byte_CA
+    LDA (pSprite),Y
+    ADC DeltaY
+    STA DeltaY
     INY
     DEX
     BPL loc_FB4A
     CLC
     TYA
-    ADC byte_C4
-    LDY byte_CC
+    ADC DeltaTileID
+    LDY SpriteTabOffset
     STA $304,Y
     LDA #0
-    ADC byte_C5
+    ADC DeltaTileID+1
     STA $305,Y
     JMP loc_FB83
 
 loc_FB70:
     CLC
     LDA $304,Y
-    ADC byte_C8
-    STA byte_C8
+    ADC TileX
+    STA TileX
     CLC
     LDA $305,Y
-    ADC byte_CA
-    STA byte_CA
+    ADC DeltaY
+    STA DeltaY
     DEX
     BPL loc_FB70
 
 loc_FB83:
-    LDX byte_C2
+    LDX TileID
     CLC
-    LDA byte_C8
+    LDA TileX
     BMI loc_FB96
     ADC $302,Y
-    STA byte_C8
+    STA TileX
     STA $302,Y
     BCC loc_FBA8
     BCS loc_FBA0
 
 loc_FB96:
     ADC $302,Y
-    STA byte_C8
+    STA TileX
     STA $302,Y
     BCS loc_FBA8
 
@@ -588,17 +589,17 @@ loc_FBA0:
 
 loc_FBA8:
     CLC
-    LDA byte_CA
+    LDA DeltaY
     BMI loc_FBB9
     ADC $303,Y
-    STA byte_CA
+    STA DeltaY
     STA $303,Y
     BCC loc_FBCB
     BCS loc_FBC3
 
 loc_FBB9:
     ADC $303,Y
-    STA byte_CA
+    STA DeltaY
     STA $303,Y
     BCS loc_FBCB
 
@@ -620,31 +621,31 @@ loc_FBCB:
     STA byte_C7
     LDY #0
     LDA ($C6),Y
-    STA byte_C4
+    STA DeltaTileID
     INY
     LDA ($C6),Y
-    STA byte_C5
+    STA DeltaTileID+1
     INY
     LDA ($C6),Y
-    STA byte_C2
+    STA TileID
     INY
     LDA ($C6),Y
     STA Bitfield
     LDY #0
 
-loc_FBFA:
-    LDA ($C4),Y
+@next_tile:
+    LDA (pSprite),Y
     INY
     CLC
-    ADC byte_C8
-    STA $203,X
+    ADC TileX
+    STA OAM.PosX,X              ; $203
     ROR A
     EOR byte_C9
     BMI loc_FC1F
-    LDA ($C4),Y
+    LDA (pSprite),Y
     CLC
-    ADC byte_CA
-    STA oam,X
+    ADC DeltaY
+    STA OAM.PosY,X
     ROR A
     EOR byte_CB
     BMI loc_FC1B
@@ -664,35 +665,35 @@ loc_FC1F:
 
 loc_FC25:
     INY
-    LDA ($C4),Y
-    STA GamePadBit1
+    LDA (pSprite),Y
+    STA Attribute
     LDA Bitfield
-    LSR GamePadBit1
-    BCC loc_FC32
+    LSR Attribute
+    BCC @palette_no_bit0
     LSR A
     LSR A
 
-loc_FC32:
-    LSR GamePadBit1
-    BCC loc_FC3A
+@palette_no_bit0:
+    LSR Attribute
+    BCC @palette_no_bit1
     LSR A
     LSR A
     LSR A
     LSR A
 
-loc_FC3A:
+@palette_no_bit1:
     AND #3
-    ASL GamePadBit1
-    ASL GamePadBit1
-    ORA GamePadBit1
+    ASL Attribute
+    ASL Attribute
+    ORA Attribute
     STA $202,X
     INY
     AND #$10
     BEQ loc_FC4C
-    LDA byte_C2
+    LDA TileID
 
 loc_FC4C:
-    ADC ($C4),Y
+    ADC (pSprite),Y
     STA $201,X
     INY
     INX
@@ -702,35 +703,35 @@ loc_FC4C:
     BEQ locret_FC95
 
 loc_FC58:
-    DEC GamePadBit0
-    BNE loc_FBFA
+    DEC TileCount
+    BNE @next_tile
 
 loc_FC5C:
     CLC
-    LDA byte_CD
+    LDA SpriteTabStep
     BMI loc_FC6E
-    ADC byte_CC
-    STA byte_CC
+    ADC SpriteTabOffset
+    STA SpriteTabOffset
     BEQ sub_FC8A
     CMP byte_E3
     BEQ loc_FC79
     JMP loc_FB0B
 
 loc_FC6E:
-    ADC byte_CC
-    STA byte_CC
+    ADC SpriteTabOffset
+    STA SpriteTabOffset
     CMP byte_E3
     BCC sub_FC8A
     JMP loc_FB0B
 
 loc_FC79:
     STX byte_E4
-    LDA flag_clear_oam_300
+    LDA flag_clear_OAM_300
     AND #$20 ; ' '
     BNE loc_FC87
     LDA #$F8
-    STA byte_CC
-    STA byte_CD
+    STA SpriteTabOffset
+    STA SpriteTabStep
 
 loc_FC87:
     JMP loc_FB0B
@@ -739,45 +740,45 @@ loc_FC87:
 
 ; FC96
 sub_FC96:
-    LDA flag_clear_oam_300
+    LDA flag_clear_OAM_300
     EOR #$40
-    STA flag_clear_oam_300
+    STA flag_clear_OAM_300
     LDY #$FC
     LDX byte_E4
     BNE loc_FCE7
     RTS
 
 sub_FCA3:
-    LDA oam,X
+    LDA OAM,X
     PHA
-    LDA oam,Y
-    STA oam,X
+    LDA OAM,Y
+    STA OAM,X
     PLA
-    STA oam,Y
+    STA OAM,Y
     INX
     INY
-    LDA oam,X
+    LDA OAM,X
     PHA
-    LDA oam,Y
-    STA oam,X
+    LDA OAM,Y
+    STA OAM,X
     PLA
-    STA oam,Y
+    STA OAM,Y
     INX
     INY
-    LDA oam,X
+    LDA OAM,X
     PHA
-    LDA oam,Y
-    STA oam,X
+    LDA OAM,Y
+    STA OAM,X
     PLA
-    STA oam,Y
+    STA OAM,Y
     INX
     INY
-    LDA oam,X
+    LDA OAM,X
     PHA
-    LDA oam,Y
-    STA oam,X
+    LDA OAM,Y
+    STA OAM,X
     PLA
-    STA oam,Y
+    STA OAM,Y
     INX
     TYA
     SEC
@@ -785,82 +786,9 @@ sub_FCA3:
     TAY
 
 loc_FCE7:
-    STY GamePadBit0
-    CPX GamePadBit0
+    STY TileCount
+    CPX TileCount
     BCC loc_FCA3
     RTS
 
-; FE4B
-; Subroutine to process gamepad 1 input and perform bitwise operations
-.proc gamepad_input
-    LDX #1
-
-@ReadGamepad:
-    SEC                         ; set carry flag
-
-@SetControllerStrobe:
-    PHP                         ; push processor status register on the stack
-    LDA #1                      ; reset joysticks, write first $01 then $00 into $4016
-    STA GAMEPAD_REGISTER1
-    LDA #0
-    STA GAMEPAD_REGISTER1
-
-    LDY #8                      ; initialize Y to 8 (number of bits to process)
-
-@ReadControllerData:
-    LDA GAMEPAD_REGISTER1,X     ; read the controller data at $4016 + X (NES input registers)
-    LSR A                       ; shift the data right to get the next bit
-    ROL GamePadBit0
-    LSR A
-    ROL GamePadBit1
-    DEY 
-    BNE @ReadControllerData     ; loop until all 8 bits are read
-    LDA GamePadBit0
-    ORA GamePadBit1
-    PLP                         ; pull the original processor status register
-    BCC @HandleController2
-    STA GamePad0Status,X
-    CLC                         ; clear carry flag
-    BCC @SetControllerStrobe
-
-@HandleController2:
-    CMP GamePad0Status,X        ; compare the data with the previously stored data
-    BEQ @SkipControllerUpdate   ; if equal, skip the controller update
-    LDA $DE,X
-
-@SkipControllerUpdate:
-    TAY
-    EOR $DE,X
-    AND GamePad0Status,X
-    STA GamePad0Status,X
-    STY $DE,X
-    DEX 
-    BPL @ReadGamepad
-    RTS 
-.endproc
-
-; FE86
-; subroutine to handle game logic and control flow
-.proc handle_game_logic
-    LDA GamePad0Status
-    BNE @CheckNextState
-    LDA byte_D3
-    CMP #$2A
-    BCC @NextState
-    RTS
-
-@CheckNextState:
-    LDA #0
-    STA byte_D3
-
-@NextState:
-    INC byte_D0
-    BNE @exit
-    INC byte_D3
-    INC byte_D1
-    BNE @exit
-    INC byte_D2
-
-@exit:
-    RTS
-.endproc
+; FE4B gamepad_input in gamepad_lib.asm

@@ -1,7 +1,7 @@
 .segment "CODE"
 
 ; C22C:
-byte_C22C:
+TypeTable:
     .BYTE   0,   1,   2,   3,   8,   9, $96, $97, $98, $99, $9A, $9B, $9C, $9D, $9E, $9F
     .BYTE $A0, $A1, $A2, $A3, $A4, $2A, $2B, $2C, $2D, $2E, $AA, $AB, $AC, $AD, $AE, $93
     .BYTE   4,   5,   6,   7,  $E,  $F, $D6, $D7, $D8, $D9, $DA, $DB, $DC, $DD, $DE, $DF
@@ -18,11 +18,11 @@ loc_C6DB:
     JSR wait_int_processed
     LDX #0
     STX OffsetNMI_ID
-    JSR sub_C86D
+    JSR clear_area
     JSR sub_C6B6
 
 loc_C6E8:
-    JSR sub_C83D
+    JSR tiled_area
     JSR sub_C6B6
     LDA #0
     STA NMI_ID,Y                ; save marker end of block
@@ -32,7 +32,7 @@ loc_C6E8:
 
 loc_C6F9:
     JSR sub_CB1A
-    LDA word_72
+    LDA UnpackID
     CMP #1
     BNE @end_block
     INC PosY
@@ -43,20 +43,20 @@ loc_C6F9:
 .endproc
 
 ; C83D
-.proc sub_C83D
+.proc tiled_area
     JSR nt_calc
     LDA byte_71
     STA byte_7F
     LDX OffsetNMI_ID
     LDY #0
-    STY byte_7E
+    STY ChrCount
     TYA
     PHA
-    JSR sub_CA3D
+    JSR write_rows_header
 
 next_byte:
     DEC byte_7F
-    BPL loc_C865
+    BPL @black_tile
     LDA (PointerTilePack),Y
     JSR get_type
     BCS @tile
@@ -64,67 +64,67 @@ next_byte:
     STY LoopAddr
     LDY #>next_byte             ; $C8
     STY LoopAddr+1
-    JMP loc_C8A1
+    JMP jmp_handler
 ; ---------------------------------------------------------------------------
 
-loc_C865:
+@black_tile:
     LDA #$A0
 
 @tile:
-    JSR sub_CA1F
+    JSR add_tile
     JMP next_byte
 .endproc
 
 ; C86D
-.proc sub_C86D
+.proc clear_area
     DEC PosY
     JSR nt_calc
     LDA byte_71
     STA byte_7F
     LDX OffsetNMI_ID
     LDY #0
-    STY byte_7E
+    STY ChrCount
     TYA
     PHA
-    JSR sub_CA3D
+    JSR write_rows_header
 
-loc_C881:
+next_byte1:
     DEC byte_7F
-    BPL loc_C899
+    BPL @black_tile
     LDA (PointerTilePack),Y
     JSR sub_CA7C
-    BCS loc_C89B
+    BCS @save_tile
     ORA #$80
-    LDY #$81
+    LDY #<next_byte1            ; #$81
     STY LoopAddr
-    LDY #$C8
+    LDY #>next_byte1            ; #$C8
     STY LoopAddr+1
-    JMP loc_C8A1
+    JMP jmp_handler
 ; ---------------------------------------------------------------------------
 
-loc_C899:
+@black_tile:
     LDA #$A0
 
-loc_C89B:
-    JSR sub_CA1F
-    JMP loc_C881
+@save_tile:
+    JSR add_tile
+    JMP next_byte1
 ; ---------------------------------------------------------------------------
 
-loc_C8A1:
-    STA word_72
+jmp_handler:
+    STA UnpackID
     ASL A
     TAY
-    LDA $C8AF,Y
+    LDA >UnpackTable,Y          ; $C8AF
     PHA
-    LDA $C8AE,Y
+    LDA <UnpackTable,Y          ; $C8AE
     PHA
     RTS
 .endproc
 
 ; ---------------------------------------------------------------------------
 ; C8AE
-                .addr loc_C8E2-1, loc_C8E2-1, loc_C8E2-1, loc_C8E2-1, sub_C909-1
-                .addr sub_C8D4-1, sub_C92F-1, sub_C950-1, sub_C8C2-1, sub_C9D2-1
+UnpackTable:    .addr loc_C8E2-1, loc_C8E2-1, loc_C8E2-1, loc_C8E2-1, set_tile_pos-1
+                .addr sub_C8D4-1, fill_tile-1, sub_C950-1, sub_C8C2-1, sub_C9D2-1
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -176,7 +176,7 @@ loc_C8F1:
     TAY
 
 loc_C8FA:
-    LDA word_72
+    LDA UnpackID
     BPL loc_C901
     INC PosY
     RTS
@@ -185,15 +185,12 @@ loc_C8FA:
 loc_C901:
     LDA BlockIndex
     JSR get_tile_pointer
-    LDA word_72
+    LDA UnpackID
     RTS
 .endproc
 
-
-; =============== S U B R O U T I N E =======================================
-
-
-.proc sub_C909:
+; C909
+.proc set_tile_pos:
     LDY BlockIndex              ; get block index
     LDA (PointerTilePack),Y     ; get tile position X
     STA PosX                    ; save tile position X
@@ -207,47 +204,44 @@ loc_C901:
 
 loc_C91B:
     LDY OffsetNMI_ID
-    LDA $401,Y
+    LDA $401,Y                  ; get number of tiles
     BNE loc_C924
     LDX OffsetNMI_ID
 
 loc_C924:
     JSR nt_calc
-    JSR sub_CA3D
+    JSR write_rows_header
     LDY BlockIndex
     JMP (LoopAddr)
 .endproc
 
+; C92F
+.proc fill_tile:
+    LDY BlockIndex
+    LDA (PointerTilePack),Y
+    BCC @save_tile_id
+    LDA #$A0
 
-; =============== S U B R O U T I N E =======================================
+@save_tile_id:
+    STA UnpackID
+    INY
+    LDA (PointerTilePack),Y
+    INY
+    STY BlockIndex
+    TAY
 
-
-sub_C92F:                               ; DATA XREF: ROM:C8AE↑o
-                LDY     BlockIndex
-                LDA     (PointerTilePack),Y
-                BCC     loc_C937
-                LDA     #$A0
-
-loc_C937:                               ; CODE XREF: sub_C92F+4↑j
-                STA     word_72
-                INY
-                LDA     (PointerTilePack),Y
-                INY
-                STY     BlockIndex
-                TAY
-
-loc_C940:                               ; CODE XREF: sub_C92F+19↓j
-                DEY
-                BMI     loc_C94B
-                LDA     word_72
-                JSR     sub_CA1F
-                JMP     loc_C940
+@next_tile:
+    DEY
+    BMI @end
+    LDA UnpackID
+    JSR add_tile
+    JMP @next_tile
 ; ---------------------------------------------------------------------------
 
-loc_C94B:                               ; CODE XREF: sub_C92F+12↑j
-                LDY     BlockIndex
-                JMP     (LoopAddr)
-; End of function sub_C92F
+@end:
+    LDY BlockIndex
+    JMP (LoopAddr)
+.endproc
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -313,7 +307,7 @@ loc_C9A3:                               ; CODE XREF: sub_C950+1A↑j
                 LDY     #0
 
 loc_C9A5:                               ; CODE XREF: sub_C950+7B↓j
-                LDA     word_72
+                LDA     UnpackID
                 BMI     loc_C9B2
                 LDA     ($64),Y
                 JSR     get_type
@@ -328,7 +322,7 @@ loc_C9B2:                               ; CODE XREF: sub_C950+57↑j
 
 loc_C9BB:                               ; CODE XREF: sub_C950+72↓j
                 LDA     #$A0
-                JSR     sub_CA1F
+                JSR     add_tile
 
 loc_C9C0:                               ; CODE XREF: sub_C950+60↑j
                                         ; sub_C950+69↑j
@@ -338,7 +332,7 @@ loc_C9C0:                               ; CODE XREF: sub_C950+60↑j
 
 loc_C9C6:                               ; CODE XREF: sub_C950+5E↑j
                                         ; sub_C950+67↑j
-                JSR     sub_CA1F
+                JSR     add_tile
                 DEC     byte_67
                 BNE     loc_C9A5
 
@@ -361,8 +355,8 @@ sub_C9D2:                               ; DATA XREF: ROM:C8AE↑o
 .proc nt_calc:
     LDA CntrlPPU
     LSR A
-    LSR A
-    LDA HorizontalScrollPPU
+    LSR A                       ; check work with Nametables $2000, $2400 or $2800, $2C00
+    LDA CameraY
     ROR A
     CLC
     ADC #8
@@ -391,7 +385,7 @@ loc_C9F1:
     STA NTAddr
     LDA CntrlPPU
     LSR A
-    LDA VerticalScrollPPU
+    LDA CameraX
     ROR A
     LSR A
     LSR A
@@ -412,15 +406,15 @@ loc_C9F1:
 .endproc
 
 ; CA1F
-.proc sub_CA1F
+.proc add_tile
     STA NMI_ID,X                ; save tile
     INX                         ; increment index
     TXA
     LDX OffsetNMI_ID
     INC $401,X                  ; inctement number of chars
     TAX
-    INC byte_7E
-    INC byte_7B
+    INC ChrCount
+    INC SpriteTabOff
     BEQ loc_CA31
     RTS
 ; ---------------------------------------------------------------------------
@@ -435,7 +429,7 @@ loc_CA31:
 .endproc
 
 ; CA3D
-.proc sub_CA3D
+.proc write_rows_header
     STX OffsetNMI_ID
     LDA #5
     STA NMI_ID,X
@@ -450,7 +444,7 @@ loc_CA31:
     STA NMI_ID,X
     INX
     ORA #$E0
-    STA byte_7B
+    STA SpriteTabOff
     RTS
 .endproc
 
@@ -462,20 +456,20 @@ loc_CA31:
     INY
     STY BlockIndex
     CMP #$40
-    BCS locret_CA7B
+    BCS @exit
     TAY
-    LDA $C22C,Y
+    LDA TypeTable,Y
     LDY BlockIndex
     CMP #$80
-    BCS locret_CA7B
+    BCS @exit
     CMP #$20
     BCS loc_CA79
     CMP #$A
-    BCS loc_CA76
+    BCS @no_procedure
     RTS
 ; ---------------------------------------------------------------------------
 
-loc_CA76:
+@no_procedure:
     ORA #$D0
     RTS
 ; ---------------------------------------------------------------------------
@@ -483,18 +477,18 @@ loc_CA76:
 loc_CA79:
     ORA #$80
 
-locret_CA7B:
+@exit:
     RTS
 .endproc
 
-sub_CA7C:                               ; CODE XREF: sub_C86D+1A↑p
+sub_CA7C:                               ; CODE XREF: clear_area+1A↑p
                                         ; sub_C950+64↑p
                 INY
                 STY     BlockIndex
                 CMP     #$40 ; '@'
                 BCS     loc_CA9F
                 TAY
-                LDA     $C22C,Y
+                LDA     TypeTable,Y
                 LDY     BlockIndex
                 CMP     #$80
                 BCS     loc_CA9C
@@ -530,7 +524,7 @@ loc_CA9F:                               ; CODE XREF: sub_CA7C+5↑j
 
 
 sub_CAA2:
-                LDA     word_72+1
+                LDA     UnpackID+1
                 BPL     loc_CAA9
                 STA     PointerTilePack+1
                 RTS
@@ -542,15 +536,15 @@ loc_CAA9:                               ; CODE XREF: sub_CAA2+2↑j
                 TAX
                 LDA     PointerTilePack
                 ASL     PointerTilePack
-                ROL     word_72+1
+                ROL     UnpackID+1
                 ADC     PointerTilePack
                 STA     PointerTilePack
                 TXA
-                ADC     word_72+1
+                ADC     UnpackID+1
                 ADC     #$80
                 STA     PointerTilePack+1
                 LDA     #$7F
-                STA     word_72+1
+                STA     UnpackID+1
                 LDA     BankTable.CPU_8K_8000
                 PHA
                 LDA     #$18
@@ -609,7 +603,7 @@ loc_CAE1:                               ; CODE XREF: sub_CAA2+9↑j
 sub_CB1A:                               ; CODE XREF: sub_C6DB:loc_C6F9↑p
                 LDA     PointerTilePack+1
                 BPL     loc_CB21
-                STA     word_72+1
+                STA     UnpackID+1
                 RTS
 ; ---------------------------------------------------------------------------
 

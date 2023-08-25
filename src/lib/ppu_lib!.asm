@@ -3,50 +3,15 @@ Pointer: .addr                  ; store pointer at tables (CHR banks, palettes, 
 
 .segment "OAM"
 ;.org $200                      ; in the original game starts at $200 
-oam: .res 256                   ; sprite OAM data to be uploaded by DMA
+OAM: .res 256                   ; sprite OAM data to be uploaded by DMA
 
 .segment "DATA"
+SpriteTable: .res 256           ; $300
 NMI_ID: .res 256                ; $400
 PalNMIBG:   .res 16             ; in the original game starts at $500
 PalNMISpr:  .res 16
 
 .segment "CODE"
-.proc load_attribute 
-    LDA PPU_STATUS              ; read PPU status to reset the high/low latch
-    LDA #$23                    ; 27 ; 2B ; 2F
-    STA PPU_ADDR                ; write the high byte of $23C0 address
-
-    LDA #$C0
-    STA PPU_ADDR                ; write the low byte of $23C0 address
-
-    LDX #$00                    ; start out at 0
-    LoadAttributeLoop:
-        LDA #%00000000          ; attribute, x      ; load data from address (attribute + the value in x)
-        STA PPU_DATA            ; write to PPU
-        INX                     ; X = X + 1
-        CPX #$40                ; Compare X to hex $08, decimal 8 - copying 8 bytes
-    BNE LoadAttributeLoop       ; Branch to LoadAttributeLoop if compare was Not Equal to zero
-
-
-    LDA PPU_STATUS              ; read PPU status to reset the high/low latch
-    LDA #$2B                    ; 27 ; 2B ; 2F
-    STA PPU_ADDR                ; write the high byte of $23C0 address
-
-    LDA #$C0
-    STA PPU_ADDR                ; write the low byte of $23C0 address
-
-    LDX #$00                    ; start out at 0
-    LoadAttributeLoop_2:
-        LDA #%00000000          ; attribute, x      ; load data from address (attribute + the value in x)
-        STA PPU_DATA            ; write to PPU
-
-        INX                     ; X = X + 1
-        CPX #$40                ; Compare X to hex $08, decimal 8 - copying 8 bytes
-    BNE LoadAttributeLoop_2     ; Branch to LoadAttributeLoop if compare was Not Equal to zero
-
-    RTS
-.endproc
-
 ; F496
 ; loads the background and sprite color palettes into RAM before an NMI
 ; interrupt is executed, loading that palette from RAM into the PPU's memory
@@ -150,7 +115,7 @@ set_nmi_id4:
     JMP loc_F7CA
 .endproc
 
-.proc oam_dma
+.proc OAM_dma
     set PPU_CTRL, #%10010000; PPU_CTRL_NMI_ENABLE
 ;=============================================
 ; PPU_MASK_EMPH_BLUE          = %10000000
@@ -192,57 +157,19 @@ set_nmi_id4:
     JMP get_function
 .endproc
 
-; this moves all the sprites in oam memory offscreen by setting y to 255
+; FC8A
+; this moves all the sprites in OAM memory offscreen by setting y to 255
 .proc clear_sprites
     LDA #$F0
 
 @clear_sprites_loop:
-    STA oam, X
+    STA OAM, X
     INX
     INX
     INX
     INX
     BNE @clear_sprites_loop
     RTS
-.endproc
-
-; clear the entire background on a vblank
-.proc clear_background_all
-        JSR wait_for_vblank
-
-        LDY #$20
-		outer_background_clear_loop:
-	        LDA PPU_STATUS
-			STY PPU_ADDR
-
-			LDA #0
-			TAX
-			STA PPU_ADDR
-			inner_background_clear_loop:
-	            STA PPU_DATA
-				INX
-				BNE inner_background_clear_loop
-			INY
-			CPY #$24
-		BNE outer_background_clear_loop
-
-        LDY #$28
-		outer_background_clear_loop2:
-	        LDA PPU_STATUS
-			STY PPU_ADDR
-
-			LDA #0
-			TAX
-			STA PPU_ADDR
-			inner_background_clear_loop2:
-	            STA PPU_DATA
-				INX
-				BNE inner_background_clear_loop2
-			INY
-			CPY #$2C
-		BNE outer_background_clear_loop2
-
-	RTS
 .endproc
 
 ; FCEE

@@ -3,7 +3,7 @@
 irq:
     save_registers              ; store registers onto the stack
 
-    LDA BankTableOffset
+    LDA BankRegister
     PHA                         ; store bank table offset (bank memory register)
     JSR interrupt_handler
     PLA                         ; restore bank table offset (bank memory register)
@@ -16,7 +16,7 @@ irq:
     LDA InterruptTable+1,X
     BNE @no_irq_disable
     STA IRQ_DISABLE             ; disable MMC3 interrupts and acknowledge any pending interrupts
-    STA byte_EB
+    STA IRQLatch
 
 @no_irq_disable:
     restore_registers           ; restore registers from the stack

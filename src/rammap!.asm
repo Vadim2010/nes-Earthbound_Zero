@@ -1,11 +1,12 @@
 .segment "ZEROPAGE"
 byte_0:         .BYTE 0     
 byte_1:         .BYTE 0     
-byte_2:         .BYTE 0,0,0,0,0
+byte_2:         .BYTE 0,0,0,0
 
+CopyrightViolation: .res 1
 BankNum: .res 1
+CHRBank: .res 1
 
-byte_8:         .BYTE 0     
 byte_9:         .BYTE 0     
 byte_A:         .BYTE 0     
 byte_B:         .BYTE 0     
@@ -41,12 +42,15 @@ byte_28:        .BYTE 0
 byte_29:        .BYTE 0     
 byte_2A:        .BYTE 0     
 byte_2B:        .BYTE 0,0,0,0,0
-byte_30:        .BYTE 0     
-byte_31:        .BYTE 0     
-byte_32:        .BYTE 0     
-byte_33:        .BYTE 0,0,0
+
+Dist: .addr
+Source: .addr
+
+byte_34:        .BYTE 0,0
 byte_36:        .BYTE 0     
-byte_37:        .BYTE 0     
+
+ItemCount: .res 1
+
 byte_38:        .BYTE 0     
 byte_39:        .BYTE 0     
 byte_3A:        .BYTE 0     
@@ -55,12 +59,12 @@ byte_3C:        .BYTE 0
 byte_3D:        .BYTE 0     
 byte_3E:        .BYTE 0     
 byte_3F:        .BYTE 0  
-   
-BankPPU7C_X000: .res 1
-BankPPU7C_X400: .res 1
-BankPPU7C_X800: .res 1
-BankPPU7C_XC00: .res 1
- 
+
+BankPPU_X000: .res 1
+BankPPU_X400: .res 1
+BankPPU_X800: .res 1
+BankPPU_XC00: .res 1
+
 byte_41:        .BYTE 0     
 byte_42:        .BYTE 0     
 byte_43:        .BYTE 0     
@@ -79,12 +83,12 @@ byte_58:        .BYTE 0
 byte_59:        .BYTE 0     
 byte_5A:        .BYTE 0     
 byte_5C:        .BYTE 0     
-byte_5D:        .BYTE 0,0,0     
- 
-AddrForJmp: .addr                    ; for F2AE
+byte_5D:        .BYTE 0,0
 
-byte_64:        .BYTE 0     
-byte_65:        .BYTE 0     
+Pointer: .addr                       ; $60 byte for multiply (F125)
+AddrForJmp: .addr                    ; for F2AE
+pTileID: .addr                       ; $64 byte for multiply (F125)
+
 byte_66:        .BYTE 0     
 byte_67:        .BYTE 0     
 byte_68:        .BYTE 0     
@@ -93,35 +97,43 @@ byte_6A:        .BYTE 0
 byte_6B:        .BYTE 0,0,0,0,0     
 byte_70:        .BYTE 0     
 byte_71:        .BYTE 0     
-word_72:        .BYTE 0,0   
-PointerTilePack:        .BYTE 0     
-PointerTilePack+1:        .BYTE 0     
-PosX:        .BYTE 0     
-PosY:        .BYTE 0     
-NTAddr:        .BYTE 0     
-NTAddr+1:        .BYTE 0     
-BlockIndex:        .BYTE 0     
-byte_7B:        .BYTE 0     
-LoopAddr:        .BYTE 0,0   
-byte_7E:        .BYTE 0     
+
+UnpackID: .res 1
+
+byte_73:        .BYTE 0
+
+PointerTilePack: .addr
+PosX: .res 1
+PosY: .res 1
+NTAddr: .addr
+BlockIndex: .res 1
+SpriteTabOff: .res 1
+LoopAddr: .addr
+ChrCount: .res 1
+
 byte_7F:        .BYTE 0     
-byte_80:        .BYTE 0     
-byte_81:        .BYTE 0     
-byte_82:        .BYTE 0     
-byte_83:        .BYTE 0     
-byte_84:        .BYTE 0     
-byte_85:        .BYTE 0     
-byte_86:        .BYTE 0     
-byte_87:        .BYTE 0     
-byte_88:        .BYTE 0     
-byte_89:        .BYTE 0,0     
-byte_8B:        .BYTE 0     
-byte_8C:        .BYTE 0     
-byte_8D:        .BYTE 0     
-byte_8E:        .BYTE 0     
-byte_8F:        .BYTE 0     
+
+CHRBank0:        .BYTE 0     
+CHRBank1:        .BYTE 0     
+CHRBank2:        .BYTE 0     
+CHRBank3:        .BYTE 0     
+
+FuncID: .res 1
+
+CHRBank5:        .BYTE 0     
+CHRBank6:        .BYTE 0     
+CHRBank7:        .BYTE 0     
+CHRBank8:        .BYTE 0     
+CHRBank9:        .BYTE 0,0     
+CHRBankB:        .BYTE 0     
+CHRBankC:        .BYTE 0     
+CHRBankD:        .BYTE 0     
+CHRBankE:        .BYTE 0     
+CHRBankF:        .BYTE 0     
 byte_90:        .BYTE 0     
-byte_91:        .BYTE 0     
+
+TilesNum: .res 1
+
 byte_92:        .BYTE 0     
 byte_93:        .BYTE 0     
 byte_94:        .BYTE 0,0,0     
@@ -147,21 +159,23 @@ byte_AD:        .BYTE 0
 byte_AE:        .BYTE 0     
 byte_AF:        .BYTE 0,0,0,0,0,0,0,0,0,0
 
-GamePadBit0: .res 1
-GamePadBit1: .res 1    
- 
-byte_C2:        .BYTE 0     
-byte_C3:        .BYTE 0     
-byte_C4:        .BYTE 0     
-byte_C5:        .BYTE 0     
-byte_C6:        .BYTE 0     
-byte_C7:        .BYTE 0     
-byte_C8:        .BYTE 0     
+TileCount: .res 1
+Attribute: .res 1
+TileID: .res 1
+Bitfield: .res 1
+pOAMSprite: .addr
+pFrame: .addr
+TileX: .res 1
+
 byte_C9:        .BYTE 0     
-byte_CA:        .BYTE 0     
+
+TileY: .res 1
+
 byte_CB:        .BYTE 0     
-byte_CC:        .BYTE 0     
-byte_CD:        .BYTE 0     
+
+SpriteTabOffset: .res 1
+SpriteTabStep: .res 1
+
 byte_CE:        .BYTE 0     
 byte_CF:        .BYTE 0     
 byte_D0:        .BYTE 0     
@@ -171,59 +185,57 @@ byte_D3:        .BYTE 0,0
 byte_D5:        .BYTE 0     
 byte_D6:        .BYTE 0     
 
-JmpInstr: .res 3				; jump istruction	
+JmpInstr: .res 3				; jump istruction
 
-byte_DA:        .BYTE 0     
-byte_DB:        .BYTE 0     
-
-GamePad0Status: .res 1     
-GamePad1Status: .res 1
-   
-ButtonPressed:        .BYTE 0,0
-
+Gamepad0Buttons: .res 1
+Gamepad1Buttons: .res 1
+Gamepad0Status: .res 1
+Gamepad1Status: .res 1
+ButtonPressed0: .res 1
+ButtonPressed1: .res 1
 OtherNMIFlags: .res 1
 
-byte_E1:        .BYTE 0     
+byte_E1:        .BYTE 0
 
-flag_clear_oam_300: .res1       ; set 7 bit before clear oam & $300, clear 7 bit after
+flag_clear_OAM_300: .res 1       ; set 7 bit before clear OAM & $300, clear 7 bit after
 
-byte_E3:        .BYTE 0     
+byte_E3:        .BYTE 0
 byte_E4:        .BYTE 0
-     
+
 NMIFlags: .res 1
 OffsetNMI_ID: .res 1
-     
-byte_E7:        .BYTE 0     
-byte_E8:        .BYTE 0     
 
-ShiftPosWindow: .res 1
+byte_E7:        .BYTE 0     
+
+ShiftX: .res 1
+ShiftY: .res 1
 NMIReady: .res 1
-     
-byte_EB:        .BYTE 0     
-byte_EC:        .BYTE 0
-     
-InterruptOffset: .res 1     
-BankTableOffset: .res 1     
+IRQLatch: .res 1
+IRQCount: .res 1
+InterruptOffset: .res 1
+BankRegister: .res 1
 BankMode: .res 1
 BankTable: .res 8                ; BANK_TABLE <?>
 
 byte_F8:        .BYTE 0,0,0,0
 
-HorizontalScrollPPU: .res 1
-VerticalScrollPPU: .res 1 
-MaskPPU: .res 1     
+CameraY: .res 1
+CameraX: .res 1 
+MaskPPU: .res 1
 CntrlPPU: .res 1
 
-.segment "STACK"     
+.segment "STACK"
 Stack: .res 256
 
 .segment "OAM"
-oam: .res 256
+OAM: .res 256
 
 .segment "DATA"
-byte_300: .res 256
+SpriteTable: .res 256
+
 ; $400
 NMI_ID: .res 256
+
 ; $500
 PalNMIBG:   .res 16
 PalNMISpr:  .res 16
@@ -234,9 +246,10 @@ InterruptTable: .res 96
 
 byte_600: .res 256
 byte_700: .res 140
+
 NTAddrC: .res 99
  
-modeSRAM: .res 1
+ModeSRAM: .res 1
 
 byte_7F0:       .BYTE 0
 byte_7F1:       .BYTE 0,0

@@ -5,10 +5,10 @@
     JSR bank13_A000
     JSR intro
 
-loc_149406:
-    JSR sub_FD5E
+start_menu:
+    JSR clear_oam_sprite
     JSR clear_nametables
-    JSR chr_5E_5F_to_sram ; copy chr banks $5E, $5F (wall??) in SRAM $6C00-$73FF
+    JSR chr_5E_5F_to_sram ; copy chr banks $5E, $5F in SRAM $6C00-$73FF
     JSR wait_int_processed
     LDA #$19
     ;LDX #$8A
@@ -18,7 +18,7 @@ loc_149406:
                         ; after completion of which returns the original memory bank
                         ; input: A - bank number, YX - (subroutine address - 1)
                         ; Y - high byte, X - low byte
-    JSR sub_EEC8
+    JSR home_camera
     ;LDA #$35
     ;LDX #$62
     ldax #$6235         ; SRAM address for CHR banks $6235
@@ -44,20 +44,20 @@ loc_149406:
     ldax #$623B         ; SRAM address for palettes $623B
     JSR copy_palettes
 
-loc_14942C:
+redraw_game_menu:
     LDX #$C
-    JSR sub_149505
-    JSR sub_1494D7
+    JSR draw_block
+    JSR draw_menu
     JSR game_menu
     LDA #0
     STA byte_D6
-    LDY byte_82
-    LDA (byte_84),Y
+    LDY CHRBank2
+    LDA (CHRBank4),Y
     ASL A
     TAX
-    LDA off_14944D+1,X
+    LDA MenuFunctions+1,X
     PHA
-    LDA off_14944D,X
+    LDA MenuFunctions,X
     PHA
     TYA
     LSR A
@@ -66,20 +66,20 @@ loc_14942C:
 .endproc
 
 ; ---------------------------------------------------------------------------
-off_14944D:     .addr sub_13BE88-1, sub_14948C-1, sub_149472-1, sub_149455-1
+MenuFunctions:     .addr sub_13BE88-1, copy_save-1, erase_save-1, start_new-1
 
 
 ; 14 9D60
 .proc intro
-    JSR sub_FD5E
+    JSR clear_oam_sprite
     JSR clear_nametables
     LDA CntrlPPU
     AND #$FC                    ; select nametable $2000
     LDX #0
     LDY #0
     STA CntrlPPU
-    STX VerticalScrollPPU       ; no screen scrolling
-    STY HorizontalScrollPPU
+    STX CameraX                 ; no screen scrolling
+    STY CameraY
     ; LDA #$63
     ; LDX #$9E
     ldax #CHRBanks0             ; #$9E63 bnk 14
@@ -90,7 +90,7 @@ off_14944D:     .addr sub_13BE88-1, sub_14948C-1, sub_149472-1, sub_149455-1
     ; STA Pointer+1             ; palette address bank14 $9E6F
     store Palette0, Pointer
     JSR preload_palettes
-    JSR reduce_palette
+    JSR darken_palette
     LDA #$16
     CMP apu_78C
     BEQ loc_149D93
@@ -119,7 +119,7 @@ loc_149D93:
     ; STA Pointer+1             ; palette address bank14 $9E6F
     store Palette1, Pointer
     JSR preload_palettes
-    JSR reduce_palette
+    JSR darken_palette
     ; LDA #$69
     ; LDX #$9E
     ldax #CHRBanks1             ; #$9E69 bnk 14
@@ -143,7 +143,7 @@ loc_149D93:
     ; LDA #$18
     ; LDX #$9F
     ldax #IntroMain             ; $9F18
-    JSR load_tilemap_inc
+    JSR load_tilemap_lighten
     LDA #0
     STA Pointer
     LDA #$10
@@ -157,16 +157,16 @@ loc_149D93:
     LDA #$57
     STA byte_3E3
     LDA #0
-    STA byte_DA
+    STA Gamepad0Buttons
 
 loc_149DED:
     CLC 
     LDA Pointer
     ADC #$B0
-    STA byte_3E6
+    STA byte_3E6                ; pointer to frame table in memory bank $15 low byte $96B0
     LDA #0
     ADC #$96
-    STA byte_3E7
+    STA byte_3E7                ; pointer to frame table in memory bank $15 high byte $96B0
     LDA #$A
     STA NMIFlags
     CLC 
@@ -180,18 +180,18 @@ loc_149E0B:
     STA Pointer
 
 loc_149E0D:
-    LDA byte_DA
+    LDA Gamepad0Buttons
     AND #$10
-    BNE loc_149E1B
+    BNE @start_pressed
     LDA NMIFlags
     ORA OtherNMIFlags
     BNE loc_149E0D
     BEQ loc_149DED
 
-loc_149E1B:
+@start_pressed:
     LDX #0
-    STX byte_DA
-    JSR reduce_palette
+    STX Gamepad0Buttons
+    JSR darken_palette
     LDA #$19
     ; LDX #$FF
     ; LDY #$9F
@@ -206,28 +206,28 @@ loc_149E1B:
 ; creates the effect of smoothly increasing the brightness of the image,
 ; then holds for a while at maximum brightness, smoothly decreases brightness to black, clears Nametables
 .proc pulsing
-    JSR load_tilemap_inc
+    JSR load_tilemap_lighten
     LDX #$FF
     JSR pause
     LDX #$40
     JSR pause
-    JSR reduce_palette
+    JSR darken_palette
     LDX #$40
     JSR pause
     JMP clear_nametables
 .endproc
 
 ; 9E44
-.proc load_tilemap_inc
+.proc load_tilemap_lighten
     STA PointerTilePack
     STX PointerTilePack+1
 
-loc_149E48:
+@next_tile:
     JSR sub_C6D2
     DEC PosY
     CMP #0
-    BNE loc_149E48
-    JMP increase_palette        ; increase the brightness of colors in the palette
+    BNE @next_tile
+    JMP lighten_palette        ; increase the brightness of colors in the palette
 .endproc
 
 ; 9E54
@@ -236,7 +236,7 @@ loc_149E48:
     LDA ButtonPressed
     AND #$10
     EOR #$10
-    BEQ @end
+    BEQ @end                    ; if the Start key was pressed, end the cycle
     DEX
     BNE pause
 
@@ -246,87 +246,87 @@ loc_149E48:
 
 ; 9E63 title, 9E69 intro main
 CHRBanks0:
-    .BYTE $42, $72, $7C, $7C, $40, $41
+    .byte $42, $72, $7C, $7C, $40, $41
 CHRBanks1:
-    .BYTE $42, $72, $7C, $41, $D8, $D9
+    .byte $42, $72, $7C, $41, $D8, $D9
           
-; 9E6F      .BYTE $F, $28, $30, $18
-;           .BYTE $F, $21, $30, $12
-;           .BYTE $F, $16, $30, $12
-;           .BYTE $F, $3A, $30, $12
-;           .BYTE $F, $21, $30, $12
-;           .BYTE $F, $21, $30, $12
-;           .BYTE $F, $21, $30, $12
-;           .BYTE $F, $21, $30, $12
-; 9E8F      .BYTE $F, $21, $30, $16
-;           .BYTE $F, $21, $30, $16
-;           .BYTE $F, $21, $30, $16
-;           .BYTE $F, $21, $30, $16
-;           .BYTE $F, $21, $30, $12
-;           .BYTE $F, $21, $30, $12
-;           .BYTE $F, $21, $30, $12
-;           .BYTE $F, $21, $30, $12
+; 9E6F      .byte $F, $28, $30, $18
+;           .byte $F, $21, $30, $12
+;           .byte $F, $16, $30, $12
+;           .byte $F, $3A, $30, $12
+;           .byte $F, $21, $30, $12
+;           .byte $F, $21, $30, $12
+;           .byte $F, $21, $30, $12
+;           .byte $F, $21, $30, $12
+; 9E8F      .byte $F, $21, $30, $16
+;           .byte $F, $21, $30, $16
+;           .byte $F, $21, $30, $16
+;           .byte $F, $21, $30, $16
+;           .byte $F, $21, $30, $12
+;           .byte $F, $21, $30, $12
+;           .byte $F, $21, $30, $12
+;           .byte $F, $21, $30, $12
 Palette0:
-    .BYTE BLACK, LIGHT_YELLOW,   WHITE, MEDIUM_YELLOW;
-    .BYTE BLACK, LIGHT_BLUE,     WHITE, MEDIUM_INDIGO;
-    .BYTE BLACK, MEDIUM_RED,     WHITE, MEDIUM_INDIGO;
-    .BYTE BLACK, LIGHTEST_GREEN, WHITE, MEDIUM_INDIGO;
-    .BYTE BLACK, LIGHT_BLUE,     WHITE, MEDIUM_INDIGO;
-    .BYTE BLACK, LIGHT_BLUE,     WHITE, MEDIUM_INDIGO;
-    .BYTE BLACK, LIGHT_BLUE,     WHITE, MEDIUM_INDIGO;
-    .BYTE BLACK, LIGHT_BLUE,     WHITE, MEDIUM_INDIGO;
+    .byte BLACK, LIGHT_YELLOW,   WHITE, MEDIUM_YELLOW;
+    .byte BLACK, LIGHT_BLUE,     WHITE, MEDIUM_INDIGO;
+    .byte BLACK, MEDIUM_RED,     WHITE, MEDIUM_INDIGO;
+    .byte BLACK, LIGHTEST_GREEN, WHITE, MEDIUM_INDIGO;
+    .byte BLACK, LIGHT_BLUE,     WHITE, MEDIUM_INDIGO;
+    .byte BLACK, LIGHT_BLUE,     WHITE, MEDIUM_INDIGO;
+    .byte BLACK, LIGHT_BLUE,     WHITE, MEDIUM_INDIGO;
+    .byte BLACK, LIGHT_BLUE,     WHITE, MEDIUM_INDIGO;
 
 Palette1:
-    .BYTE BLACK, LIGHT_BLUE,     WHITE, MEDIUM_RED;
-    .BYTE BLACK, LIGHT_BLUE,     WHITE, MEDIUM_RED;
-    .BYTE BLACK, LIGHT_BLUE,     WHITE, MEDIUM_RED;
-    .BYTE BLACK, LIGHT_BLUE,     WHITE, MEDIUM_RED;
-    .BYTE BLACK, LIGHT_BLUE,     WHITE, MEDIUM_INDIGO;
-    .BYTE BLACK, LIGHT_BLUE,     WHITE, MEDIUM_INDIGO;
-    .BYTE BLACK, LIGHT_BLUE,     WHITE, MEDIUM_INDIGO;
-    .BYTE BLACK, LIGHT_BLUE,     WHITE, MEDIUM_INDIGO;
+    .byte BLACK, LIGHT_BLUE,     WHITE, MEDIUM_RED;
+    .byte BLACK, LIGHT_BLUE,     WHITE, MEDIUM_RED;
+    .byte BLACK, LIGHT_BLUE,     WHITE, MEDIUM_RED;
+    .byte BLACK, LIGHT_BLUE,     WHITE, MEDIUM_RED;
+    .byte BLACK, LIGHT_BLUE,     WHITE, MEDIUM_INDIGO;
+    .byte BLACK, LIGHT_BLUE,     WHITE, MEDIUM_INDIGO;
+    .byte BLACK, LIGHT_BLUE,     WHITE, MEDIUM_INDIGO;
+    .byte BLACK, LIGHT_BLUE,     WHITE, MEDIUM_INDIGO;
 
 ; 9EAF
-    .BYTE 8, $40, $23, $C0, $AA, 0
+    .byte 8, $40, $23, $C0, $AA, 0
 ; 9EB5
-    .BYTE 7, 4, $23, $D2, $40, $23, $D3, $10, $23, $DA, 4
-    .BYTE $23, $DB, 1, 0
+    .byte 7, 4, $23, $D2, $40, $23, $D3, $10, $23, $DA, 4
+    .byte $23, $DB, 1, 0
 
 ; 9EC4 by Nintendo
 IntroNintendo:
-    .BYTE $20, $D, $B, $C8, $C9, $CA, $CB, $CD, $CE, $CF, 1     ; $218D
-    .BYTE $20, $D, $C, $D8, 1                                   ; $21AD
-    .BYTE $20, $13, $C, $DF, 1                                  ; $21B3
-    .BYTE $20, $D, $D, $22, $CC, $13, 1                         ; $21CD $CC * $13
-    .BYTE $20, $D, $F, $E3, $E4, $E5, $E6, $E7, $E8, 0          ; $220D
+    .byte $20, $D, $B, $C8, $C9, $CA, $CB, $CD, $CE, $CF, 1     ; $218D
+    .byte $20, $D, $C, $D8, 1                                   ; $21AD
+    .byte $20, $13, $C, $DF, 1                                  ; $21B3
+    .byte $20, $D, $D, $22, $CC, $13, 1                         ; $21CD $CC * $13
+    .byte $20, $D, $F, $E3, $E4, $E5, $E6, $E7, $E8, 0          ; $220D
 
 ; 9EEA by ITOI
 IntroItoi:
-    .BYTE $20, $D, $B, $D9, $DA, $DB, $DC, $DD, $DE, $CE, $CF, 1; $218D
-    .BYTE $20, $D, $C, $D8, 1                                   ; $21AD
-    .BYTE $20, $14, $C, $DF, 1                                  ; $21B4
-    .BYTE $20, 0, $D, $22, $CC, $15, 1                          ; $21C0 $CC * $15
-    .BYTE $20, 8, $F, $F3, $F4, $F5, $F6, $F7, $F8, $F9, $FA    ; $2208
-    .BYTE $FB, $FC, $FD, $FE, $FF, 0
+    .byte $20, $D, $B, $D9, $DA, $DB, $DC, $DD, $DE, $CE, $CF, 1; $218D
+    .byte $20, $D, $C, $D8, 1                                   ; $21AD
+    .byte $20, $14, $C, $DF, 1                                  ; $21B4
+    .byte $20, 0, $D, $22, $CC, $15, 1                          ; $21C0 $CC * $15
+    .byte $20, 8, $F, $F3, $F4, $F5, $F6, $F7, $F8, $F9, $FA    ; $2208
+    .byte $FB, $FC, $FD, $FE, $FF, 0
+
 ; 9F18 intro
 IntroMain:
-    .BYTE $20, 8, 7, $90, $91, $92, $93, $94, $95, $96, $97     ; $2108
-    .BYTE $98, $99, $9A, $9B, $9C, 1
-    .BYTE $A0, $A1, $A2, $A3, $A4, $A5, $A6, $A7, $A8, $A9      ; $2128
-    .BYTE $AA, $AB, $AC, 1
-    .BYTE $B0, $B1, $B2, $B3, $B4, $B5, $B6, $B7, $B8, $B9      ; $2148
-    .BYTE $BA, $BB, $BC, $BD, $BE, $BF, 1
-    .BYTE $C0, $C1, $C2, $C3, $C4, $C5, $C6, $C7, $C8, $C9      ; $2168
-    .BYTE $CA, $CB, $CC, $CD, $CE, $CF, 1
-    .BYTE $D0, $D1, $D2, $D3, $D4, $D5, $D6, $D7, $D8, $D9      ; $2188
-    .BYTE $DA, $DB, $DC, $DD, $DE, 1
-    .BYTE $E0, $E1, $E2, $E3, $E4, $E5, $E6, $E7, $E8, $E9,     ; $21A8
-    .BYTE $EA, $EB, $EC, $ED, $EE, 1
-    .BYTE $F0, $F1, $F2, $F3, $F4, $F5, $F6, $F7, $F8, $F9      ; $21C8
-    .BYTE $FA, $FB, $FC, $FD, $FE, 1
-    .BYTE $FF, $FF, $FF, $FF, $FF, $FF, $FF, $9F, $9F, $9F      ; $21E8
-    .BYTE $9F, $9D, $9E, $AD, $AE, 1
-; 
-    .BYTE $20, 7, $17, $43, $44, $45, $46, $47, $70, $69
-    .BYTE $6A, $6B, $6C, $6D, $6E, $6F, $53, $54, $55, $56
-    .BYTE $57, 0
+    .byte $20, 8, 7, $90, $91, $92, $93, $94, $95, $96, $97     ; $2108
+    .byte $98, $99, $9A, $9B, $9C, 1
+    .byte $A0, $A1, $A2, $A3, $A4, $A5, $A6, $A7, $A8, $A9      ; $2128
+    .byte $AA, $AB, $AC, 1
+    .byte $B0, $B1, $B2, $B3, $B4, $B5, $B6, $B7, $B8, $B9      ; $2148
+    .byte $BA, $BB, $BC, $BD, $BE, $BF, 1
+    .byte $C0, $C1, $C2, $C3, $C4, $C5, $C6, $C7, $C8, $C9      ; $2168
+    .byte $CA, $CB, $CC, $CD, $CE, $CF, 1
+    .byte $D0, $D1, $D2, $D3, $D4, $D5, $D6, $D7, $D8, $D9      ; $2188
+    .byte $DA, $DB, $DC, $DD, $DE, 1
+    .byte $E0, $E1, $E2, $E3, $E4, $E5, $E6, $E7, $E8, $E9,     ; $21A8
+    .byte $EA, $EB, $EC, $ED, $EE, 1
+    .byte $F0, $F1, $F2, $F3, $F4, $F5, $F6, $F7, $F8, $F9      ; $21C8
+    .byte $FA, $FB, $FC, $FD, $FE, 1
+    .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $9F, $9F, $9F      ; $21E8
+    .byte $9F, $9D, $9E, $AD, $AE, 1
+    .byte $20, 7, $17, $43, $44, $45, $46, $47, $70, $69        ; $2307
+    .byte $6A, $6B, $6C, $6D, $6E, $6F, $53, $54, $55, $56
+    .byte $57, 0

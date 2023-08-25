@@ -1,6 +1,6 @@
 .segment "ZEROPAGE"
 ;.org $E9                       ; in the original game $E9
-ShiftPosWindow: .res 1
+ShiftY: .res 1
 
 .segment "DATA"
 PalBG:      .res 16             ; in the original game starts at $520
@@ -17,29 +17,29 @@ PalSpr:     .res 16
 
 shift_up_window:
     LDX #4                      ; shift up
-    JSR sub_FD33
-    STX ShiftPosWindow          ; $E9 <- 4 shift up or $FC shift down
+    JSR wait_int_processed
+    STX ShiftY                  ; $E9 <- 4 shift up or $FC shift down
     LDX #$14
 
 @next_shift:
     LDA #1                      ; shift up or down window
     STA NMIFlags
-    JSR sub_FD33
+    JSR wait_int_processed
     JSR sub_ED1A
     DEX
     BNE @next_shift
     LDA #0
-    STA ShiftPosWindow
+    STA ShiftY
     RTS
 .endproc
 
 ; EDDC
 ; lowers the brightness of the colors of the background and sprite palettes ($500)
 ; in 4 cycles to black
-.proc reduce_palette
+.proc darken_palette
     JSR store_palettes
 
-reduce_color:
+darken_color:
     LDY #5                      ; reduce counter
 
 @next_reduce:
@@ -67,10 +67,10 @@ reduce_color:
 
 ; EE30
 ; increase the brightness colors of background palette and sprite palette in 4 cycles
-.proc increase_palette
+.proc lighten_palette
     JSR wait_int_processed
 
-increase_color:
+lighten_color:
     LDY #5                      ; increase counter
 
 @next_increase:
@@ -181,6 +181,25 @@ wait_palette_to_PPU:
     LDA #$80
     STA NMIFlags
     JMP wait_frames
+.endproc
+
+; EECC
+.proc home_camera:
+    LDX #0
+    LDY #0
+
+set_camera:
+    JSR wait_int_processed
+    LDA #0
+    STA ShiftX
+    STA ShiftY
+    STA IRQCount
+    LDA #$FC
+    AND CntrlPPU
+    STA CntrlPPU
+    STX CameraX
+    STY CameraY
+    JMP wait_nmi
 .endproc
 
 ; FD80

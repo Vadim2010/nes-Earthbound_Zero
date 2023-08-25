@@ -13,6 +13,10 @@ ____
 #### image.chr
 Contains game textures.
 
+## data directory
+____
+#### sprites.asm
+Settings for game sprites, animations. Used by the NMI handler.
 
 ## src directory
 ____

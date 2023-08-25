@@ -410,7 +410,7 @@
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_149455:                             ; DATA XREF: BANK14:944F↑o
+start_new:                             ; DATA XREF: BANK14:944F↑o
                 PHA
                 JSR     sram_write_enable
                 LDA     #$18
@@ -422,16 +422,16 @@ sub_149455:                             ; DATA XREF: BANK14:944F↑o
                 JSR     unk_6041
                 JSR     sram_read_enable
                 JSR     bank13_A000
-                JSR     sub_149A4D
-                BCS     loc_149406
+                JSR     start_game_menu
+                BCS     start_menu
                 JMP     sub_13BE57
-; End of function sub_149455
+; End of function start_new
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_149472:                             ; DATA XREF: BANK14:944F↑o
+erase_save:                             ; DATA XREF: BANK14:944F↑o
                 JSR     sub_1494C0
                 BNE     loc_149489
                 LDA     PointerTilePack02
@@ -442,33 +442,33 @@ sub_149472:                             ; DATA XREF: BANK14:944F↑o
                 STA     (byte_68),Y
                 JSR     sram_read_enable
 
-loc_149489:                             ; CODE XREF: sub_149472+3↑j
-                JMP     loc_14942C
-; End of function sub_149472
+loc_149489:                             ; CODE XREF: erase_save+3↑j
+                JMP     redraw_game_menu
+; End of function erase_save
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_14948C:                             ; DATA XREF: BANK14:944F↑o
+copy_save:                             ; DATA XREF: BANK14:944F↑o
                 STA     byte_36
                 LDX     #$10
-                JSR     sub_149505
+                JSR     draw_block
                 LDA     byte_36
                 SEC
                 ROL     A
                 ASL     A
                 TAX
                 JSR     sub_14950B
-                BIT     byte_83
+                BIT     CHRBank3
                 BVS     loc_1494BD
-                LDA     byte_82
+                LDA     CHRBank2
                 STA     byte_37
                 JSR     sub_1494C0
                 BCS     loc_1494AB
                 BNE     loc_1494BD
 
-loc_1494AB:                             ; CODE XREF: sub_14948C+1B↑j
+loc_1494AB:                             ; CODE XREF: copy_save+1B↑j
                 LDA     byte_36
                 JSR     sub_13BE88
                 JSR     sram_write_enable
@@ -477,17 +477,17 @@ loc_1494AB:                             ; CODE XREF: sub_14948C+1B↑j
                 STA     PointerTilePack02
                 JSR     sub_13BE57
 
-loc_1494BD:                             ; CODE XREF: sub_14948C+12↑j
-                                        ; sub_14948C+1D↑j
-                JMP     loc_14942C
-; End of function sub_14948C
+loc_1494BD:                             ; CODE XREF: copy_save+12↑j
+                                        ; copy_save+1D↑j
+                JMP     redraw_game_menu
+; End of function copy_save
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_1494C0:                             ; CODE XREF: sub_149472↑p
-                                        ; sub_14948C+18↑p
+sub_1494C0:                             ; CODE XREF: erase_save↑p
+                                        ; copy_save+18↑p
                 JSR     sub_13BE88
                 SEC
                 BNE     locret_1494D6
@@ -497,7 +497,7 @@ sub_1494C0:                             ; CODE XREF: sub_149472↑p
                 LDX     #$E
                 JSR     sub_14950B
                 CLC
-                LDA     byte_82
+                LDA     CHRBank2
 
 locret_1494D6:                          ; CODE XREF: sub_1494C0+4↑j
                 RTS
@@ -507,10 +507,10 @@ locret_1494D6:                          ; CODE XREF: sub_1494C0+4↑j
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_1494D7:                             ; CODE XREF: game_intro+31↑p
+draw_menu:                             ; CODE XREF: game_intro+31↑p
                 LDA     #0
 
-loc_1494D9:                             ; CODE XREF: sub_1494D7+24↓j
+loc_1494D9:                             ; CODE XREF: draw_menu+24↓j
                 STA     byte_37
                 LSR     A
                 LSR     A
@@ -518,7 +518,7 @@ loc_1494D9:                             ; CODE XREF: sub_1494D7+24↓j
                 BEQ     loc_1494E4
                 LDA     #4
 
-loc_1494E4:                             ; CODE XREF: sub_1494D7+9↑j
+loc_1494E4:                             ; CODE XREF: draw_menu+9↑j
                 STA     byte_36
                 LDX     byte_37
                 JSR     $6000
@@ -526,7 +526,7 @@ loc_1494E4:                             ; CODE XREF: sub_1494D7+9↑j
                 LSR     A
                 ADC     byte_37
                 TAX
-                JSR     sub_149505
+                JSR     draw_block
                 CLC
                 LDA     byte_37
                 ADC     #4
@@ -535,23 +535,23 @@ loc_1494E4:                             ; CODE XREF: sub_1494D7+9↑j
                 LDX     #$C
                 JSR     $6029
                 JMP     $6034
-; End of function sub_1494D7
+; End of function draw_menu
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_149505:                             ; CODE XREF: game_intro+2E↑p
-                                        ; sub_14948C+4↑p ...
+draw_block:                             ; CODE XREF: game_intro+2E↑p
+                                        ; copy_save+4↑p ...
                 JSR     $601E
                 JMP     write_tile
-; End of function sub_149505
+; End of function draw_block
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_14950B:                             ; CODE XREF: sub_14948C+D↑p
+sub_14950B:                             ; CODE XREF: copy_save+D↑p
                                         ; sub_1494C0+10↑p
                 JSR     $6029
 ; End of function sub_14950B
@@ -1478,89 +1478,88 @@ sub_1499AD:                             ; CODE XREF: sub_149920+2B↑p
 
 ; =============== S U B R O U T I N E =======================================
 
+; 149A4D
+.proc start_game_menu
+    JSR draw_start_game_menu
 
-sub_149A4D:                             ; CODE XREF: sub_149455+15↑p
-                                        ; sub_149A4D+52↓j
-                JSR     sub_149B2A
+@character1:
+    LDA #6
+    STA byte_56
+    LDA #$CA
+    LDX #$62
+    JSR enter_name
+    BCS @exit
 
-loc_149A50:                             ; CODE XREF: sub_149A4D+1B↓j
-                LDA     #6
-                STA     byte_56
-                LDA     #$CA
-                LDX     #$62 ; 'b'
-                JSR     sub_149B7D
-                BCS     locret_149AD4
+@character2:
+    LDA #6
+    STA byte_56
+    LDA #$D0
+    LDX #$62
+    JSR enter_name
+    BCS @character1
 
-loc_149A5D:                             ; CODE XREF: sub_149A4D+28↓j
-                LDA     #6
-                STA     byte_56
-                LDA     #$D0
-                LDX     #$62 ; 'b'
-                JSR     sub_149B7D
-                BCS     loc_149A50
+@character3:
+    LDA #6
+    STA byte_56
+    LDA #$D6
+    LDX #$62
+    JSR enter_name
+    BCS @character2
 
-loc_149A6A:                             ; CODE XREF: sub_149A4D+35↓j
-                LDA     #6
-                STA     byte_56
-                LDA     #$D6
-                LDX     #$62 ; 'b'
-                JSR     sub_149B7D
-                BCS     loc_149A5D
-
-loc_149A77:                             ; CODE XREF: sub_149A4D+42↓j
-                LDA     #6
-                STA     byte_56
-                LDA     #$DC
-                LDX     #$62 ; 'b'
-                JSR     sub_149B7D
-                BCS     loc_149A6A
-                LDA     #$A
-                STA     byte_56
-                LDA     #$E2
-                LDX     #$62 ; 'b'
-                JSR     sub_149B7D
-                BCS     loc_149A77
-                JSR     sub_149D50
-                JSR     sub_149AD5
-                JSR     increase_palette ; increase the brightness of colors in the palette
-                JSR     sub_149B00
-                BCC     loc_149AA2
-                JMP     sub_149A4D
+@character4:
+    LDA #6
+    STA byte_56
+    LDA #$DC
+    LDX #$62
+    JSR enter_name
+    BCS @character3
+    LDA #$A
+    STA byte_56
+    LDA #$E2
+    LDX #$62
+    JSR enter_name
+    BCS @character4
+    JSR sub_149D50
+    JSR sub_149AD5
+    JSR lighten_palette ; increase the brightness of colors in the palette
+    JSR sub_149B00
+    BCC loc_149AA2
+    JMP start_game_menu
 ; ---------------------------------------------------------------------------
 
-loc_149AA2:                             ; CODE XREF: sub_149A4D+50↑j
-                JSR     sub_149D50
-                LDX     #$3C ; '<'
-                JSR     loc_F25E
-                JSR     increase_palette ; increase the brightness of colors in the palette
-                LDA     #2
-                STA     PosX
-                LDA     #3
-                STA     PosY
-                LDX     #$D0
-                LDY     #$64 ; 'd'
-                JSR     sub_149B13
-                LDA     #$FF
-                STA     apu_7F5
-                JSR     increase_palette ; increase the brightness of colors in the palette
-                LDA     #6
-                STA     PosX
-                LDA     #$A
-                STA     PosY
-                LDX     #$7D ; '}'
-                LDY     #$66 ; 'f'
-                JSR     sub_149B13
-                CLC
+loc_149AA2:
+    JSR sub_149D50
+    LDX #$3C
+    JSR loc_F25E
+    JSR lighten_palette ; increase the brightness of colors in the palette
+    LDA #2
+    STA PosX
+    LDA #3
+    STA PosY
+    LDX #$D0
+    LDY #$64
+    JSR sub_149B13
+    LDA #$FF
+    STA apu_7F5
+    JSR lighten_palette ; increase the brightness of colors in the palette
+    LDA #6
+    STA PosX
+    LDA #$A
+    STA PosY
+    LDX #$7D
+    LDY #$66
+    JSR sub_149B13
+    CLC
 
-locret_149AD4:                          ; CODE XREF: sub_149A4D+E↑j
-                RTS
-; End of function sub_149A4D
+@exit:
+    RTS
+.endproc
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_149AD5:                             ; CODE XREF: sub_149A4D+47↑p
+sub_149AD5:                             ; CODE XREF: start_game_menu+47↑p
                 LDA     #$8B
                 LDX     #$6C ; 'l'
                 JSR     sub_149AF9
@@ -1583,7 +1582,7 @@ loc_149AE8:                             ; CODE XREF: sub_149AD5+1B↓j
 
 
 sub_149AF3:                             ; CODE XREF: sub_149AD5:loc_149AE8↑p
-                                        ; sub_149B7D+1B↓p
+                                        ; enter_name+1B↓p
                 JSR     wait_int_processed
                 JMP     $625B
 ; End of function sub_149AF3
@@ -1603,7 +1602,7 @@ sub_149AF9:                             ; CODE XREF: sub_149AD5+4↑p
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_149B00:                             ; CODE XREF: sub_149A4D+4D↑p
+sub_149B00:                             ; CODE XREF: start_game_menu+4D↑p
                 LDA     #$F0
                 LDX     #$62 ; 'b'
                 STA     $80
@@ -1624,8 +1623,8 @@ loc_149B11:                             ; CODE XREF: sub_149B00+D↑j
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_149B13:                             ; CODE XREF: sub_149A4D+6C↑p
-                                        ; sub_149A4D+83↑p
+sub_149B13:                             ; CODE XREF: start_game_menu+6C↑p
+                                        ; start_game_menu+83↑p
                 LDA     #0
                 STA     byte_70
                 STX     PointerTilePack
@@ -1644,22 +1643,22 @@ loc_149B1B:                             ; CODE XREF: sub_149B13+F↓j
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_149B2A:                             ; CODE XREF: sub_149A4D↑p
+draw_start_game_menu:                             ; CODE XREF: start_game_menu↑p
                 JSR     sub_149D50
-                JSR     sub_EEC8
+                JSR     home_camera
                 LDA     #$2D ; '-'
                 LDX     #$6C ; 'l'
                 JSR     sub_149AF9
                 JSR     sub_149B40
                 JSR     sub_149B76
-                JMP     increase_palette ; increase the brightness of colors in the palette
-; End of function sub_149B2A
+                JMP     lighten_palette ; increase the brightness of colors in the palette
+; End of function draw_start_game_menu
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_149B40:                             ; CODE XREF: sub_149B2A+D↑p
+sub_149B40:                             ; CODE XREF: draw_start_game_menu+D↑p
                                         ; sub_149C1C+E5↓p
                 LDA     #$70 ; 'p'
                 STA     pTileID
@@ -1697,7 +1696,7 @@ loc_149B4E:                             ; CODE XREF: sub_149B40+2D↓j
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_149B76:                             ; CODE XREF: sub_149B2A+10↑p
+sub_149B76:                             ; CODE XREF: draw_start_game_menu+10↑p
                                         ; sub_149BF7↓p ...
                 LDA     #0
                 LDX     #$6C ; 'l'
@@ -1708,8 +1707,8 @@ sub_149B76:                             ; CODE XREF: sub_149B2A+10↑p
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_149B7D:                             ; CODE XREF: sub_149A4D+B↑p
-                                        ; sub_149A4D+18↑p ...
+enter_name:                             ; CODE XREF: start_game_menu+B↑p
+                                        ; start_game_menu+18↑p ...
                 STA     word_5C
                 STX     word_5C+1
                 LDY     #0
@@ -1725,7 +1724,7 @@ sub_149B7D:                             ; CODE XREF: sub_149A4D+B↑p
                 LDY     #0
                 JSR     sub_149AF3
 
-loc_149B9B:                             ; CODE XREF: sub_149B7D+B↑j
+loc_149B9B:                             ; CODE XREF: enter_name+B↑j
                 JSR     sub_149BF7
                 LDA     #$24 ; '$'
                 LDX     #$6C ; 'l'
@@ -1738,13 +1737,13 @@ loc_149B9B:                             ; CODE XREF: sub_149B7D+B↑j
                 STA     byte_581,Y
                 STY     byte_55
 
-loc_149BB5:                             ; CODE XREF: sub_149B7D+44↓j
+loc_149BB5:                             ; CODE XREF: enter_name+44↓j
                 LDA     (Pointer),Y
                 BNE     loc_149BBD
                 STY     byte_55
                 LDA     #$A2
 
-loc_149BBD:                             ; CODE XREF: sub_149B7D+3A↑j
+loc_149BBD:                             ; CODE XREF: enter_name+3A↑j
                 STA     byte_580,Y
                 DEY
                 BPL     loc_149BB5
@@ -1755,34 +1754,34 @@ loc_149BBD:                             ; CODE XREF: sub_149B7D+3A↑j
                 JSR     sram_write_enable
                 LDY     byte_56
 
-loc_149BD2:                             ; CODE XREF: sub_149B7D+61↓j
+loc_149BD2:                             ; CODE XREF: enter_name+61↓j
                 LDA     byte_580,Y
                 CMP     #$A2
                 BNE     loc_149BDB
                 LDA     #0
 
-loc_149BDB:                             ; CODE XREF: sub_149B7D+5A↑j
+loc_149BDB:                             ; CODE XREF: enter_name+5A↑j
                 STA     (Pointer),Y
                 DEY
                 BPL     loc_149BD2
                 JSR     sram_read_enable
-                JSR     sub_FD5E
+                JSR     clear_oam_sprite
                 CLC
                 RTS
 ; ---------------------------------------------------------------------------
 
-loc_149BE8:                             ; CODE XREF: sub_149B7D+49↑j
-                JSR     sub_FD5E
+loc_149BE8:                             ; CODE XREF: enter_name+49↑j
+                JSR     clear_oam_sprite
                 SEC
                 RTS
-; End of function sub_149B7D
+; End of function enter_name
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_149BED:                             ; CODE XREF: sub_149B7D+6↑p
-                                        ; sub_149B7D+2A↑p ...
+sub_149BED:                             ; CODE XREF: enter_name+6↑p
+                                        ; enter_name+2A↑p ...
                 LDA     (word_5C),Y
                 STA     Pointer
                 INY
@@ -1795,7 +1794,7 @@ sub_149BED:                             ; CODE XREF: sub_149B7D+6↑p
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_149BF7:                             ; CODE XREF: sub_149B7D:loc_149B9B↑p
+sub_149BF7:                             ; CODE XREF: enter_name:loc_149B9B↑p
                                         ; sub_149C1C+E8↓p
                 JSR     sub_149B76
                 LDX     #8
@@ -1824,17 +1823,17 @@ loc_149C14:                             ; CODE XREF: sub_149BF7+22↓j
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_149C1C:                             ; CODE XREF: sub_149B7D+46↑p
+sub_149C1C:                             ; CODE XREF: enter_name+46↑p
                                         ; sub_149C1C:loc_149D07↓j
                 JSR     sub_149D0A
                 LDA     #$E8
                 LDX     #$62 ; 'b'
-                STA     byte_80
-                STX     byte_81
+                STA     CHRBank0
+                STX     CHRBank1
                 LDA     #$70 ; 'p'
                 LDX     #$64 ; 'd'
-                STA     byte_84
-                STX     byte_85
+                STA     CHRBank4
+                STX     CHRBank5
                 LDA     #1
                 STA     byte_D6
 
@@ -1849,17 +1848,17 @@ loc_149C39:                             ; CODE XREF: sub_149C1C:loc_149C6B↓j
                 JSR     loc_EF7C
 
 loc_149C3F:                             ; CODE XREF: sub_149C1C+1A↑j
-                BIT     byte_83
+                BIT     CHRBank3
                 BVS     loc_149C70
                 BMI     loc_149C4E
-                LDA     byte_83
+                LDA     CHRBank3
                 AND     #$10
                 BNE     loc_149C8B
                 JMP     loc_149C33
 ; ---------------------------------------------------------------------------
 
 loc_149C4E:                             ; CODE XREF: sub_149C1C+27↑j
-                LDX     byte_82
+                LDX     CHRBank2
                 LDA     $6470,X
                 CMP     #$A1
                 BEQ     loc_149C70
@@ -2014,18 +2013,18 @@ sub_149D0A:                             ; CODE XREF: sub_149C1C↑p
                 ADC     #$F
                 TAY
                 LDA     #$59 ; 'Y'
-                STA     oam.PosY+4
+                STA     OAM.PosY+4
                 CLC
                 TYA
                 ADC     byte_55
                 ASL     A
                 ASL     A
                 ASL     A
-                STA     oam.PosX+4
+                STA     OAM.PosX+4
                 LDA     #1
-                STA     oam.TileID+4
+                STA     OAM.TileID+4
                 LDA     #0
-                STA     oam.Attr+4
+                STA     OAM.Attr+4
                 TYA
                 STA     PosX
                 LDA     #$A
@@ -2046,8 +2045,8 @@ sub_149D0A:                             ; CODE XREF: sub_149C1C↑p
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_149D50:                             ; CODE XREF: sub_149A4D+44↑p
-                                        ; sub_149A4D:loc_149AA2↑p ...
+sub_149D50:                             ; CODE XREF: start_game_menu+44↑p
+                                        ; start_game_menu:loc_149AA2↑p ...
                 JSR     $EDDC
                 JSR     $FD5E
                 JSR     $FD80
@@ -2218,7 +2217,7 @@ sub_C296:                               ; CODE XREF: sub_C296+E↓j
                 INX
                 STA     $540,X
                 LDA     #$F
-                STA     byte_EC
+                STA     IRQCount
 
 loc_C2B3:                               ; CODE XREF: sub_C296:loc_C303↓j
                 JSR     bank0_0
@@ -2227,7 +2226,7 @@ loc_C2B6:                               ; CODE XREF: sub_C296+57↓j
                 JSR     wait_int_processed
                 LDX     #0
                 STX     OffsetNMI_ID
-                JSR     sub_C83D
+                JSR     tiled_area
                 STY     OffsetNMI_ID
                 INC     PosY
                 LDY     #0
@@ -2239,10 +2238,10 @@ loc_C2B6:                               ; CODE XREF: sub_C296+57↓j
                 INY
                 TYA
                 JSR     get_tile_pointer
-                LDA     word_72
+                LDA     UnpackID
                 CMP     #0
                 BNE     loc_C2F0
-                JSR     sub_C83D
+                JSR     tiled_area
                 JSR     sub_C306
                 PLA
                 TAX
@@ -2252,7 +2251,7 @@ loc_C2B6:                               ; CODE XREF: sub_C296+57↓j
                 STA     $540,X
 
 loc_C2E9:                               ; CODE XREF: sub_C296+4E↑j
-                LDA     word_72
+                LDA     UnpackID
                 CMP     #0
                 BNE     loc_C2B6
                 RTS
@@ -2260,7 +2259,7 @@ loc_C2E9:                               ; CODE XREF: sub_C296+4E↑j
 
 loc_C2F0:                               ; CODE XREF: sub_C296+40↑j
                 INC     PosY
-                JSR     sub_C86D
+                JSR     clear_area
                 JSR     sub_C306
                 PLA
                 TAX
@@ -2399,7 +2398,7 @@ loc_C455:                               ; CODE XREF: sub_C43F+22↓j
 loc_C458:                               ; CODE XREF: sub_C43F+14↑j
                 LDA     #2
                 JSR     get_tile_pointer
-                LDA     word_72
+                LDA     UnpackID
                 CMP     #0
                 BNE     loc_C455
                 INC     PosY
@@ -2414,7 +2413,7 @@ loc_C458:                               ; CODE XREF: sub_C43F+14↑j
 
 
 sub_C46E:                               ; CODE XREF: sub_C306+2↑p
-                LDA     byte_7E
+                LDA     ChrCount
                 LSR     A
                 ADC     #0
                 TAX
@@ -2445,7 +2444,7 @@ loc_C48C:                               ; CODE XREF: sub_C46E+23↓j
                 CLC
                 AND     #3
                 ADC     #3
-                ADC     byte_7E
+                ADC     ChrCount
                 LSR     A
                 LSR     A
                 STA     LoopAddr
@@ -2465,7 +2464,7 @@ loc_C48C:                               ; CODE XREF: sub_C46E+23↓j
                 ORA     #$C0
                 STA     NTAddr+1
                 ORA     #$F8
-                STA     byte_7B
+                STA     SpriteTabOff
                 TXA
                 ORA     #3
                 STA     NTAddr
@@ -2528,7 +2527,7 @@ loc_C4E5:                               ; CODE XREF: sub_C46E+C0↓j
 ; ---------------------------------------------------------------------------
 
 loc_C528:                               ; CODE XREF: sub_C46E+B5↑j
-                INC     byte_7B
+                INC     SpriteTabOff
                 BEQ     loc_C531
                 INC     NTAddr+1
                 JMP     loc_C4E5
@@ -2539,7 +2538,7 @@ loc_C531:                               ; CODE XREF: sub_C46E+BC↑j
                 EOR     NTAddr
                 STA     NTAddr
                 LDA     #$F8
-                STA     byte_7B
+                STA     SpriteTabOff
                 AND     NTAddr+1
                 STA     NTAddr+1
                 JMP     loc_C4E5
@@ -2734,22 +2733,21 @@ sub_C637:                               ; CODE XREF: sub_C542:loc_C55B↑p
 
 ; =============== S U B R O U T I N E =======================================
 
-
-sub_C665:                               ; CODE XREF: sub_C542+12↑p
-                                        ; sub_D9FA+7↓p
-                STA     Pointer+1
-                LDA     #0
-                LSR     Pointer+1
-                ROR     A
-                LSR     Pointer+1
-                ROR     A
-                ADC     #0
-                STA     Pointer
-                LDA     Pointer+1
-                ADC     #$74 ; 't'
-                STA     Pointer+1
-                RTS
-; End of function sub_C665
+; C665
+.proc sub_C665
+    STA Pointer+1
+    LDA #0
+    LSR Pointer+1
+    ROR A
+    LSR Pointer+1
+    ROR A
+    ADC #0
+    STA Pointer
+    LDA Pointer+1
+    ADC #$74
+    STA Pointer+1
+    RTS
+.endproc
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -2769,7 +2767,7 @@ loc_C682:                               ; CODE XREF: sub_C67A+3↑j
                 JMP     sub_C6D2
 ; ---------------------------------------------------------------------------
 
-loc_C68B:                               ; CODE XREF: sub_F0B0+1E↓j
+sub_C68B:                               ; CODE XREF: sub_F0B0+1E↓j
                 PHA
                 JSR     wait_int_processed
                 JSR     nt_calc
@@ -2799,13 +2797,13 @@ sub_C6B6:                               ; CODE XREF: sub_C6DB+A↓p
                                         ; sub_C6DB+10↓p ...
                 LDA     byte_70
                 CLC
-                SBC     byte_7E
+                SBC     ChrCount
                 BCC     loc_C6CF
                 TAY
 
 loc_C6BE:                               ; CODE XREF: sub_C6B6+E↓j
                 LDA     #$A0
-                JSR     sub_CA1F
+                JSR     add_tile
                 DEY
                 BPL     loc_C6BE
                 LDY     OffsetNMI_ID
@@ -2828,9 +2826,9 @@ sub_C707:                               ; CODE XREF: sub_F562+33↓p
                 LDA     #$33 ; '3'
                 STA     OffsetNMI_ID
                 PHA
-                JSR     sub_C83D
+                JSR     tiled_area
                 JSR     sub_C6B6
-                STY     byte_7B
+                STY     SpriteTabOff
                 PLA
                 TAX
                 LDA     #5
@@ -2841,12 +2839,12 @@ sub_C707:                               ; CODE XREF: sub_F562+33↓p
 loc_C723:                               ; CODE XREF: sub_C707+A5↓j
                 LDA     #0
                 STA     NMI_ID,Y
-                CPX     byte_7B
+                CPX     SpriteTabOff
                 BCS     loc_C6F9
                 LDA     #8
                 STA     NMI_ID,Y
                 LDA     $401,X
-                STA     byte_7E
+                STA     ChrCount
                 STA     $401,Y
                 LDA     #$A0
                 STA     $404,Y
@@ -2911,7 +2909,7 @@ loc_C79F:                               ; CODE XREF: sub_C707+90↑j
 loc_C7A4:                               ; CODE XREF: sub_C707+85↑j
                 INC     PPU_addr+1
                 INX
-                DEC     byte_7E
+                DEC     ChrCount
                 BNE     loc_C75F
                 JMP     loc_C723
 ; End of function sub_C707
@@ -3017,10 +3015,10 @@ sub_C80E:                               ; CODE XREF: sub_C7D4+12↑p
                 SBC     #$20 ; ' '
                 STA     $403,X
                 LDA     $402,X
-                STA     byte_7B
+                STA     SpriteTabOff
                 SBC     #0
                 STA     $402,X
-                EOR     byte_7B
+                EOR     SpriteTabOff
                 AND     #4
                 BEQ     locret_C83C
                 SEC
@@ -3060,9 +3058,9 @@ loc_CC3F:                               ; CODE XREF: sub_CC2B+18↓j
                 CMP     #9
                 BCS     loc_CC3F
                 SEC
-                ROR     flag_clear_oam_300
+                ROR     flag_clear_OAM_300
                 JSR     sub_E065
-                ASL     flag_clear_oam_300
+                ASL     flag_clear_OAM_300
                 JSR     sub_D232
                 LDA     #0
                 STA     NMI_ID,X
@@ -3088,9 +3086,9 @@ loc_CC77:                               ; CODE XREF: sub_CC2B+4E↓j
                 LDA     NMIFlags
                 BNE     loc_CC77
                 SEC
-                ROR     flag_clear_oam_300
+                ROR     flag_clear_OAM_300
                 JSR     sub_E065
-                ASL     flag_clear_oam_300
+                ASL     flag_clear_OAM_300
 
 loc_CC83:                               ; CODE XREF: sub_CC2B+30↑j
                                         ; sub_CC2B+4A↑j
@@ -3230,7 +3228,7 @@ loc_CD26:                               ; CODE XREF: sub_CCB1+80↓j
                 JSR     wait_frames      ; wait for the whole frame to be output
                 JSR     sub_C542
                 JSR     sub_CEFC
-                JSR     sub_FD5E
+                JSR     clear_oam_sprite
                 JSR     sub_CFAC
                 JSR     sub_CD9D
                 LDX     #$2C ; ','
@@ -3245,7 +3243,7 @@ loc_CD70:                               ; CODE XREF: sub_CCB1+C6↓j
 loc_CD79:                               ; CODE XREF: sub_CCB1+24↑j
                 LDX     #0
                 STX     byte_22
-                STX     byte_DA
+                STX     Gamepad0Buttons
                 STX     byte_F
                 JSR     sub_CDAF
                 PLA
@@ -3375,8 +3373,8 @@ sub_CE6D:
                 STX     Pointer+1
                 LDA     #0
                 LDX     #$20 ; ' '
-                STA     byte_64
-                STX     byte_65
+                STA     pTileID
+                STX     pTileID+1
                 LDA     #$10
                 STA     byte_68
 
@@ -3385,8 +3383,8 @@ loc_CE81:                               ; CODE XREF: sub_CE6D+42↓j
                 LDX     Pointer+1
                 LDY     #9
                 JSR     sub_CEB2
-                LDA     byte_64
-                LDX     byte_65
+                LDA     pTileID
+                LDX     pTileID+1
                 LDY     #5
                 JSR     sub_CEB2
                 CLC
@@ -3398,11 +3396,11 @@ loc_CE81:                               ; CODE XREF: sub_CE6D+42↓j
                 STA     Pointer+1
                 CLC
                 LDA     #$40 ; '@'
-                ADC     byte_64
-                STA     byte_64
+                ADC     pTileID
+                STA     pTileID
                 LDA     #0
-                ADC     byte_65
-                STA     byte_65
+                ADC     pTileID+1
+                STA     pTileID+1
                 DEC     byte_68
                 BNE     loc_CE81
                 RTS
@@ -3546,8 +3544,8 @@ sub_CFAC:                               ; CODE XREF: sub_C3F4+1↑p
                 AND     #$FC
                 ORA     byte_1E
                 STA     CntrlPPU
-                STX     VerticalScrollPPU
-                STY     HorizontalScrollPPU
+                STX     CameraX
+                STY     CameraY
                 STY     byte_99
                 CLC
                 LDA     byte_1A
@@ -3621,8 +3619,8 @@ loc_D02E:                               ; CODE XREF: sub_CFAC+64↑j
                 LDA     #$88
                 STA     byte_A0
                 LDA     #0
-                STA     byte_EC
-                STA     byte_DA
+                STA     IRQCount
+                STA     Gamepad0Buttons
                 RTS
 ; End of function sub_CFAC
 
@@ -5336,7 +5334,7 @@ loc_DA3C:                               ; CODE XREF: sub_DA16+B↑j
 
 sub_DA48:                               ; CODE XREF: sub_ECA3+F↓p
                 LDA     byte_37
-                STA     byte_64
+                STA     pTileID
                 LDA     byte_49
                 STA     Pointer
                 LDA     byte_4A
@@ -5409,10 +5407,10 @@ loc_DAB9:                               ; CODE XREF: sub_DA48+63↑j
                 LDY     #$11
                 SEC
                 LDA     ($38),Y
-                SBC     byte_64
+                SBC     pTileID
                 INY
                 LDA     ($38),Y
-                SBC     byte_65
+                SBC     pTileID+1
                 INY
                 LDA     ($38),Y
                 SBC     byte_66
@@ -5496,7 +5494,7 @@ loc_DB33:                               ; CODE XREF: sub_DA48+E1↑j
 sub_DB40:                               ; CODE XREF: sub_DA48+75↑p
                 TAX
                 INX
-                STX     byte_64
+                STX     pTileID
                 INX
                 STX     Pointer
                 LDA     #0
@@ -5507,12 +5505,12 @@ sub_DB40:                               ; CODE XREF: sub_DA48+75↑p
                 JSR     sub_DCDF
                 LDY     #0
                 LDA     ($68),Y
-                STA     byte_64
+                STA     pTileID
                 JSR     sub_F109
                 LDA     Pointer+1
-                STA     byte_64
+                STA     pTileID
                 LDA     AddrForJmp
-                STA     byte_65
+                STA     pTileID+1
                 LDA     AddrForJmp+1
                 STA     byte_66
                 RTS
@@ -5728,7 +5726,7 @@ loc_DC77:                               ; CODE XREF: sub_DC71+2↑j
                 LSR     A
                 LSR     A
                 LSR     A
-                JSR     sub_F125
+                JSR     multiply
                 LSR     A
                 LSR     A
                 LSR     A
@@ -6282,19 +6280,19 @@ loc_DF12:                               ; CODE XREF: sub_DEF9+14↑j
                 CLC
                 LDA     byte_1A
                 ADC     #$A4
-                STA     byte_64
+                STA     pTileID
                 LDA     byte_1B
                 ADC     #0
-                STA     byte_65
+                STA     pTileID+1
                 SEC
                 LDY     #6
                 LDA     ($30),Y
-                SBC     byte_64
-                STA     byte_64
+                SBC     pTileID
+                STA     pTileID
                 INY
                 LDA     ($30),Y
-                SBC     byte_65
-                STA     byte_65
+                SBC     pTileID+1
+                STA     pTileID+1
                 LDY     #8
                 LDA     Pointer+1
                 AND     #4
@@ -6306,7 +6304,7 @@ loc_DF12:                               ; CODE XREF: sub_DEF9+14↑j
                 ORA     ($30),Y
                 STA     ($30),Y
                 INY
-                LDA     byte_65
+                LDA     pTileID+1
                 AND     #4
                 ASL     A
                 ASL     A
@@ -6323,10 +6321,10 @@ loc_DF12:                               ; CODE XREF: sub_DEF9+14↑j
                 ROR     A
                 STA     ($30),Y
                 INY
-                LDA     byte_64
-                LSR     byte_65
+                LDA     pTileID
+                LSR     pTileID+1
                 ROR     A
-                LSR     byte_65
+                LSR     pTileID+1
                 ROR     A
                 STA     ($30),Y
                 LDA     byte_3E
@@ -6682,15 +6680,15 @@ loc_E1D4:                               ; CODE XREF: sub_E788+1D↓p
                 SEC
                 LDA     byte_3C
                 SBC     byte_1A
-                STA     byte_64
+                STA     pTileID
                 LDA     byte_3D
                 SBC     byte_1B
-                STA     byte_65
+                STA     pTileID+1
                 SEC
                 LDA     #$C0
-                SBC     byte_64
+                SBC     pTileID
                 LDA     #3
-                SBC     byte_65
+                SBC     pTileID+1
                 BCC     locret_E20E
                 LDA     byte_18
                 SBC     #$40 ; '@'
@@ -6886,10 +6884,10 @@ sub_E2A2:
                 TAX
                 LDY     #0
                 LDA     (Pointer),Y
-                STA     byte_64
+                STA     pTileID
                 INY
                 LDA     (Pointer),Y
-                STA     byte_65
+                STA     pTileID+1
                 INY
                 LDA     (Pointer),Y
                 STA     byte_6A
@@ -6899,9 +6897,9 @@ sub_E2A2:
                 SEC
 
 loc_E315:                               ; CODE XREF: sub_E2A2+75↓j
-                BIT     flag_clear_oam_300
+                BIT     flag_clear_OAM_300
                 BVS     loc_E315
-                ROR     flag_clear_oam_300
+                ROR     flag_clear_OAM_300
                 LDY     #0
 
 loc_E31D:                               ; CODE XREF: sub_E2A2+CF↓j
@@ -6968,7 +6966,7 @@ loc_E369:                               ; CODE XREF: sub_E2A2+C1↑j
                 BNE     loc_E31D
 
 loc_E373:                               ; CODE XREF: sub_E2A2+CB↑j
-                ASL     flag_clear_oam_300
+                ASL     flag_clear_OAM_300
                 RTS
 ; End of function sub_E2A2
 
@@ -7029,9 +7027,9 @@ loc_E3AD:                               ; CODE XREF: sub_E376+2E↑j
                 RLA     $DDE4,Y
                 ISB     ($B1,X)
                 CPX     byte_9D
-                CPX     byte_DB
+                CPX     Gamepad1Buttons
                 CPX     byte_2
-                CPX     byte_65
+                CPX     pTileID+1
                 CPX     CHRBankF
                 CPX     byte_20
                 ASL     NMIFlags
@@ -8121,8 +8119,8 @@ loc_E94C:                               ; CODE XREF: sub_E96C+3↓j
                 STA     byte_A0
                 LDA     #0
                 STA     byte_E7
-                STA     byte_E8
-                STA     byte_E9
+                STA     ShiftX
+                STA     ShiftY
                 JSR     sub_E733
 
 loc_E95B:                               ; CODE XREF: sub_E904+4↑j
@@ -8205,10 +8203,10 @@ loc_E9B3:                               ; CODE XREF: sub_EA38+60↓j
                 STA     byte_E7
                 LDY     #$C
                 LDA     ($30),Y
-                STA     byte_E8
+                STA     ShiftX
                 INY
                 LDA     ($30),Y
-                STA     byte_E9
+                STA     ShiftY
                 RTS
 ; END OF FUNCTION CHUNK FOR sub_EB92
 
@@ -8507,9 +8505,9 @@ loc_EB76:                               ; CODE XREF: sub_EB3A+33↑j
                 LDA     byte_1F
                 STA     byte_E7
                 LDA     $EBF3,X
-                STA     byte_E8
+                STA     ShiftX
                 LDA     $EBF4,X
-                STA     byte_E9
+                STA     ShiftY
 ; End of function sub_EB3A
 
 ; [00000001 BYTES: COLLAPSED FUNCTION nullsub_2. PRESS CTRL-NUMPAD+ TO EXPAND]
@@ -8582,10 +8580,10 @@ loc_EBD4:                               ; CODE XREF: ROM:EBCF↑j
 
 
 sub_EC65:                               ; CODE XREF: start_battle+2D↓p
-                JSR     reduce_palette
+                JSR     darken_palette
                 LDX     #0
                 LDY     #8
-                JSR     sub_EECC
+                JSR     set_camera
                 LDA     #$EC
                 LDX     #$EC
                 JSR     set_ppu_banks
@@ -8641,7 +8639,7 @@ loc_ECBC:                               ; CODE XREF: sub_ECA3+21↓j
 
 loc_ECC6:                               ; CODE XREF: sub_ECA3+1E↑j
                 JSR     wait_int_processed
-                JSR     reduce_color
+                JSR     darken_color
                 JSR     restore_palettes
                 LDA     #$60 ; '`'
                 LDX     #0
@@ -8650,7 +8648,7 @@ loc_ECC6:                               ; CODE XREF: sub_ECA3+1E↑j
                                         ; X - mode
                 LDA     #0
                 STA     byte_A000
-                STA     byte_EC
+                STA     IRQCount
                 STA     byte_70
                 STA     byte_71
                 STA     byte_48
@@ -8673,8 +8671,8 @@ sub_ED1A:                               ; CODE XREF: sub_EC65+38↑p
                                         ; sub_ECF1+1E↑p
                 SEC
                 LDA     #$59 ; 'Y'
-                SBC     HorizontalScrollPPU
-                STA     byte_EC
+                SBC     CameraY
+                STA     IRQCount
                 RTS
 ; End of function sub_ED1A
 
@@ -8763,35 +8761,8 @@ loc_EE28:                               ; CODE XREF: sub_EE21+B↓j
                 STA     PalBG,X
                 DEX
                 BPL     loc_EE28
-                BMI     increase_color
+                BMI     lighten_color
 ; End of function sub_EE21
-
-; =============== S U B R O U T I N E =======================================
-
-
-sub_EEC8:
-                LDX     #0
-                LDY     #0
-; End of function sub_EEC8
-
-
-; =============== S U B R O U T I N E =======================================
-
-
-sub_EECC:                               ; CODE XREF: sub_EC65+7↑p
-                JSR     wait_int_processed
-                LDA     #0
-                STA     byte_E8
-                STA     byte_E9
-                STA     byte_EC
-                LDA     #$FC
-                AND     CntrlPPU
-                STA     CntrlPPU
-                STX     VerticalScrollPPU
-                STY     HorizontalScrollPPU
-                JMP     wait_nmi
-; End of function sub_EECC
-
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -8800,8 +8771,8 @@ sub_EEE4:                               ; CODE XREF: ROM:loc_CCC6↑p
                                         ; sub_EEF0+21↓p
                 JSR     wait_int_processed
                 LDA     #4
-                EOR     VerticalScrollPPU
-                STA     VerticalScrollPPU
+                EOR     CameraX
+                STA     CameraX
                 JMP     wait_nmi
 ; End of function sub_EEE4
 
@@ -8891,7 +8862,7 @@ sub_EF4B:                               ; CODE XREF: sub_F5C2+16↓p
                 TAX
                 LDY     #1
                 LDA     ($80),Y
-                JSR     sub_F125
+                JSR     multiply
                 STA     CHRBank2
                 LDY     #0
                 STY     CHRBank7
@@ -8922,29 +8893,29 @@ loc_EF7A:                               ; CODE XREF: sub_EF4B+27↑j
                 STA     CHRBank6
                 JSR     wait_int_processed
                 LDY     #$18
-                STY     byte_65
+                STY     pTileID+1
                 LDA     #0
-                STA     oam+2
+                STA     OAM+2
 
 loc_EF88:                               ; CODE XREF: sub_EF4B+B9↓j
                                         ; sub_EF4B:loc_F052↓j
                 LDY     #5
                 LDA     ($80),Y
-                STA     oam+1
+                STA     OAM+1
                 LDY     #2
                 LDA     ($80),Y
                 LDX     CHRBank6
-                JSR     sub_F125
+                JSR     multiply
                 CLC
                 ADC     PosX
                 ASL     A
                 ASL     A
                 ASL     A
-                STA     oam+3
+                STA     OAM+3
                 LDY     #3
                 LDA     ($80),Y
                 LDX     CHRBank7
-                JSR     sub_F125
+                JSR     multiply
                 CLC
                 ADC     PosY
                 ASL     A
@@ -8952,37 +8923,37 @@ loc_EF88:                               ; CODE XREF: sub_EF4B+B9↓j
                 ASL     A
                 CLC
                 ADC     #7
-                STA     oam
-                LDY     byte_65
+                STA     OAM
+                LDY     pTileID+1
 
 loc_EFB8:                               ; CODE XREF: sub_EF4B+90↓j
                 LDX     #0
-                STX     byte_DA
+                STX     Gamepad0Buttons
 
 loc_EFBC:                               ; CODE XREF: sub_EF4B+7C↓j
                 JSR     sub_F1ED
                 JSR     wait_nmi
-                LDA     byte_DA
+                LDA     Gamepad0Buttons
                 BNE     loc_EFE1
                 DEY
                 BNE     loc_EFBC
                 LDY     #5
                 LDA     ($80),Y
-                EOR     oam+1
-                STA     oam+1
+                EOR     OAM+1
+                STA     OAM+1
                 LDA     ButtonPressed
                 BNE     loc_EFDD
                 LDY     #$18
-                STY     byte_65
+                STY     pTileID+1
                 BNE     loc_EFB8
 
 loc_EFDD:                               ; CODE XREF: sub_EF4B+8A↑j
                 LDY     #6
-                STY     byte_65
+                STY     pTileID+1
 
 loc_EFE1:                               ; CODE XREF: sub_EF4B+79↑j
                 LDX     #0
-                STX     byte_DA
+                STX     Gamepad0Buttons
                 TAX
                 LDY     #4
                 AND     #$F0
@@ -8994,7 +8965,7 @@ loc_EFE1:                               ; CODE XREF: sub_EF4B+79↑j
 
 loc_EFF5:                               ; CODE XREF: sub_EF4B+119↓j
                 LDA     #$F0
-                STA     oam
+                STA     OAM
                 RTS
 ; ---------------------------------------------------------------------------
 
@@ -9030,7 +9001,7 @@ loc_F010:                               ; CODE XREF: sub_EF4B+162↓j
                 STA     byte_6A
                 LDA     ($80),Y
                 LDX     Pointer
-                JSR     sub_F125
+                JSR     multiply
                 CLC
                 ADC     byte_6A
                 STA     byte_6A
@@ -9125,19 +9096,19 @@ sub_F0B0:
                 LDY     #2
                 LDA     ($80),Y
                 LDX     CHRBank6
-                JSR     sub_F125
+                JSR     multiply
                 CLC
                 ADC     PosX
                 STA     PosX
                 LDY     #3
                 LDA     ($80),Y
                 LDX     CHRBank7
-                JSR     sub_F125
+                JSR     multiply
                 CLC
                 ADC     PosY
                 STA     PosY
                 PLA
-                JMP     loc_C68B
+                JMP     sub_C68B
 ; End of function sub_F0B0
 
 ; ---------------------------------------------------------------------------
@@ -9158,7 +9129,7 @@ loc_F0F5:                               ; CODE XREF: sub_F0F1+F↓j
                 ROR     Pointer
                 BCC     loc_F0FE
                 CLC
-                ADC     byte_64
+                ADC     pTileID
 
 loc_F0FE:                               ; CODE XREF: sub_F0F1+8↑j
                 ROR     A
@@ -9185,7 +9156,7 @@ loc_F10D:                               ; CODE XREF: sub_F109+11↓j
                 ROR     Pointer
                 BCC     loc_F118
                 CLC
-                ADC     byte_64
+                ADC     pTileID
 
 loc_F118:                               ; CODE XREF: sub_F109+A↑j
                 ROR     A
@@ -9202,36 +9173,9 @@ loc_F118:                               ; CODE XREF: sub_F109+A↑j
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_F125:                               ; CODE XREF: sub_DC71+E↑p
-                                        ; sub_EF4B+B↑p ...
-                STA     Pointer
-                STX     byte_64
-                LDA     #0
-                LDX     #8
-
-loc_F12D:                               ; CODE XREF: sub_F125+11↓j
-                ROR     Pointer
-                BCC     loc_F134
-                CLC
-                ADC     byte_64
-
-loc_F134:                               ; CODE XREF: sub_F125+A↑j
-                ROR     A
-                DEX
-                BNE     loc_F12D
-                TAX
-                LDA     Pointer
-                ROR     A
-                RTS
-; End of function sub_F125
-
-
-; =============== S U B R O U T I N E =======================================
-
-
 sub_F13D:                               ; CODE XREF: sub_DA48+10↑p
                                         ; sub_F2ED+33↓p
-                LDA     byte_64
+                LDA     pTileID
 
 loc_F13F:                               ; CODE XREF: sub_F13D:loc_F13F↓j
                 BEQ     loc_F13F
@@ -9244,11 +9188,11 @@ loc_F13F:                               ; CODE XREF: sub_F13D:loc_F13F↓j
 loc_F14B:                               ; CODE XREF: sub_F13D+1F↓j
                 ROL     A
                 BCS     loc_F152
-                CMP     byte_64
+                CMP     pTileID
                 BCC     loc_F155
 
 loc_F152:                               ; CODE XREF: sub_F13D+F↑j
-                SBC     byte_64
+                SBC     pTileID
                 SEC
 
 loc_F155:                               ; CODE XREF: sub_F13D+13↑j
@@ -9421,12 +9365,12 @@ sub_F296:
                 AND     byte_24
                 RLA     ($22,X)
                 LDX     #0
-                STX     byte_DA
+                STX     Gamepad0Buttons
 
 loc_F2A2:                               ; CODE XREF: sub_F296+15↓j
                 JSR     wait_nmi
-                LDA     byte_DA
-                STX     byte_DA
+                LDA     Gamepad0Buttons
+                STX     Gamepad0Buttons
                 AND     #$C0
                 BEQ     loc_F2A2
                 RTS
@@ -9504,9 +9448,9 @@ sub_F2ED:
                 PHA
                 LDA     AddrForJmp
                 PHA
-                LDA     byte_65
+                LDA     pTileID+1
                 PHA
-                LDA     byte_64
+                LDA     pTileID
                 PHA
                 LDA     byte_69
                 PHA
@@ -9530,14 +9474,14 @@ loc_F30B:                               ; CODE XREF: sub_F2ED+23↓j
                 LDA     Pointer
                 PHA
                 LDA     #$64 ; 'd'
-                STA     byte_64
+                STA     pTileID
                 JSR     sub_F13D
                 JSR     sub_F1ED
                 LSR     A
                 PHP
                 TAX
                 LDA     $F37D,X
-                STA     byte_64
+                STA     pTileID
                 JSR     sub_F0F1
                 PLP
                 BCS     loc_F346
@@ -9581,9 +9525,9 @@ loc_F357:                               ; CODE XREF: sub_F2ED+71↓j
                 PLA
                 STA     byte_69
                 PLA
-                STA     byte_64
+                STA     pTileID
                 PLA
-                STA     byte_65
+                STA     pTileID+1
                 PLA
                 STA     AddrForJmp
                 PLA
@@ -9729,10 +9673,10 @@ sub_F52E:                               ; CODE XREF: sub_F4CE+4D↑p
                 TAX
                 INY
                 LDA     (Pointer),Y
-                STA     byte_64
+                STA     pTileID
                 INY
                 LDA     (Pointer),Y
-                STA     byte_65
+                STA     pTileID+1
 
 loc_F539:                               ; CODE XREF: sub_F52E+31↓j
                 TXA
@@ -9744,9 +9688,9 @@ loc_F539:                               ; CODE XREF: sub_F52E+31↓j
                 STA     byte_70
                 LDA     AddrForJmp
                 STA     PosX
-                LDA     byte_64
+                LDA     pTileID
                 STA     PointerTilePack
-                LDA     byte_65
+                LDA     pTileID+1
                 STA     PointerTilePack+1
                 JSR     sub_F562
                 CLC
@@ -9773,9 +9717,9 @@ sub_F562:                               ; CODE XREF: sub_F52E+22↑p
                 PHA
                 LDA     AddrForJmp
                 PHA
-                LDA     byte_65
+                LDA     pTileID+1
                 PHA
-                LDA     byte_64
+                LDA     pTileID
                 PHA
                 LDA     byte_67
                 PHA
@@ -9823,9 +9767,9 @@ loc_F5AC:                               ; CODE XREF: sub_F562+28↑j
                 PLA
                 STA     byte_67
                 PLA
-                STA     byte_64
+                STA     pTileID
                 PLA
-                STA     byte_65
+                STA     pTileID+1
                 PLA
                 STA     AddrForJmp
                 PLA
@@ -9957,9 +9901,9 @@ sub_F673:                               ; CODE XREF: sub_F614+3A↑p
                 LDA     $619,Y
                 STA     Pointer+1
                 LDA     $603,Y
-                STA     byte_64
+                STA     pTileID
                 LDA     $604,Y
-                STA     byte_65
+                STA     pTileID+1
                 LDY     #3
                 LDA     (Pointer),Y
                 STA     AddrForJmp
@@ -9974,9 +9918,9 @@ sub_F673:                               ; CODE XREF: sub_F614+3A↑p
                 PLA
                 TAY
                 SEC
-                LDA     byte_64
+                LDA     pTileID
                 SBC     AddrForJmp
-                LDA     byte_65
+                LDA     pTileID+1
                 SBC     AddrForJmp+1
                 RTS
 ; End of function sub_F673
@@ -10113,11 +10057,11 @@ locret_F771:                            ; CODE XREF: sub_F76A+2↑j
 sub_F772:                               ; CODE XREF: sub_F76A+4↑p
                 LDA     byte_59
                 BEQ     locret_F79E
-                BIT     flag_clear_oam_300
+                BIT     flag_clear_OAM_300
                 BVS     locret_F79E
                 LDX     #0
-                LDA     byte_DA
-                STX     byte_DA
+                LDA     Gamepad0Buttons
+                STX     Gamepad0Buttons
                 AND     #$40 ; '@'
                 BEQ     locret_F79E
                 TXA

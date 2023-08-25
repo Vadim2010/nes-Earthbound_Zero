@@ -21,7 +21,7 @@ loc_F21C:
     JSR $8000                   ; bank 14
     JSR $9630                   ; bank 14
     JSR bank16
-    JSR sub_FD5E
+    JSR clear_oam_sprite
     JSR clear_nametables
     JSR sub_EC65
     JSR $A000                   ; bank 17
@@ -35,7 +35,7 @@ loc_F21C:
     LDA #0
     STA Pointer+1
     LDA #$A
-    STA byte_64
+    STA pTileID
     JSR sub_F0F1
     CLC 
     LDA #$98
