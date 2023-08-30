@@ -23,6 +23,7 @@
 .include "./lib/screen.asm"
 .include "./lib/math.asm"
 
+.include "sound.asm"
 .include "intro.asm"
 .include "start_game.asm"
 .include "battle.asm"

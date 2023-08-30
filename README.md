@@ -24,12 +24,18 @@ ____
 Contains the main game code.
 
 
+#### sound.asm
+Code and data to work with sound in the game.
+
+
 #### intro.asm
 Code for the game's opening credits and save selection.
+
 
 #### start_game.asm
 Code and data for the initial game menu. Starting a new game, deleting and copying saves, entering character names, game history.
 Some data and code are copied from memory at address $B800 to SRAM at address $6000, their contents in a more readable format can be found in the file start_game_sram.asm
+
 
 #### battle.asm
 Game battle code.
