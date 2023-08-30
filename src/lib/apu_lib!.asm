@@ -2,17 +2,16 @@
 
 ; FD14
 .proc set_apu
-    ;lda #$1C
-    ;sta BankNum
+    ;LDA #$1C
+    ;STA BankNum
     set BankNum, #$1C
-    ; Clear 700-7FF
     LDA #0
     LDX #0
 
-loc_FD1C:
-    STA $700,X
+ @clear:
+    STA $700,X                  ; Clear $700-7FF
     INX
-    BNE loc_FD1C
+    BNE  @clear
 
     JSR bank_8000_1D_A000
     JMP $8006                   ; bank 1C

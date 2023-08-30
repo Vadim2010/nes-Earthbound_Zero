@@ -42,7 +42,7 @@ reset:
     STX PPU_ADDR                    ; write the low byte of $3F00 address
 
     LDX #$20                        ; the number of bytes written (Image + Sprite Palette Size)
-    LDA BLACK                       ; #$F
+    LDA #(BLACK)                      ; #$F
 @next_color:
     STA PPU_DATA
     DEX 
@@ -54,7 +54,7 @@ reset:
     STX PPU_ADDR                    ; write the high byte of $0000 address
     STX PPU_ADDR                    ; write the low byte of $0000 address
 
-    LDA #PPU_MASK_SHOW_BACKGROUND_L8|PPU_MASK_SHOW_SPRITES_L8|PPU_MASK_SHOW_BACKGROUND|PPU_MASK_SHOW_SPRITES
+    LDA #(PPU_MASK_SHOW_BACKGROUND_L8|PPU_MASK_SHOW_SPRITES_L8|PPU_MASK_SHOW_BACKGROUND|PPU_MASK_SHOW_SPRITES)
     STA PPU_MASK
     BIT PPU_STATUS
     LDA #$10
@@ -84,7 +84,3 @@ reset:
     STA PPU_CTRL
     CLI
     JMP main
-
-.segment "RODATA"
-.org $FFE0
-    .BYTE 'EARTH BOUND 1.00',0

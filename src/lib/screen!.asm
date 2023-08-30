@@ -17,14 +17,14 @@ PalSpr:     .res 16
 
 shift_up_window:
     LDX #4                      ; shift up
-    JSR wait_int_processed
+    JSR wait_nmi_processed
     STX ShiftY                  ; $E9 <- 4 shift up or $FC shift down
     LDX #$14
 
 @next_shift:
     LDA #1                      ; shift up or down window
     STA NMIFlags
-    JSR wait_int_processed
+    JSR wait_nmi_processed
     JSR sub_ED1A
     DEX
     BNE @next_shift
@@ -68,7 +68,7 @@ darken_color:
 ; EE30
 ; increase the brightness colors of background palette and sprite palette in 4 cycles
 .proc lighten_palette
-    JSR wait_int_processed
+    JSR wait_nmi_processed
 
 lighten_color:
     LDY #5                      ; increase counter
@@ -127,7 +127,7 @@ lighten_color:
 ; EE7F
 ; makes a copy of palettes into pre-prepared palettes for transfer to the PPU.
 .proc restore_palettes
-    JSR wait_int_processed
+    JSR wait_nmi_processed
     LDX #$1F
 
 @next_color:
@@ -141,7 +141,7 @@ lighten_color:
 ; EE8E
 ; makes a copy of palettes from pre-prepared palettes for transfer to PPU.
 .proc store_palettes
-    JSR wait_int_processed
+    JSR wait_nmi_processed
     LDX #$1F
 
 @next_color:
@@ -156,7 +156,7 @@ lighten_color:
 .proc copy_palettes
     STA Pointer
     STX Pointer+1
-    JSR wait_int_processed
+    JSR wait_nmi_processed
     LDY #$1F
 
 @next_color:
@@ -189,7 +189,7 @@ wait_palette_to_PPU:
     LDY #0
 
 set_camera:
-    JSR wait_int_processed
+    JSR wait_nmi_processed
     LDA #0
     STA ShiftX
     STA ShiftY
@@ -204,7 +204,7 @@ set_camera:
 
 ; FD80
 .proc clear_nametables
-    JSR wait_int_processed
+    JSR wait_nmi_processed
     LDA #8                      ; fill_ppu function ID
     LDX #$80                    ; number of char for fill
     STA NMI_ID
@@ -222,7 +222,7 @@ set_camera:
     LDA #$80
     STX OffsetNMI_ID
     STA NMIFlags
-    JSR wait_int_processed
+    JSR wait_nmi_processed
 
     CLC                         ; clear carry flag
     LDA PPU_addr+1              ; get next nametable address + $80

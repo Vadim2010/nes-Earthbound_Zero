@@ -24,22 +24,24 @@
 .include "./lib/math.asm"
 
 .include "intro.asm"
+.include "start_game.asm"
 .include "battle.asm"
 
 ; CB44
 main:
     JSR sram_read_enable
-    ;lda #SRAM_WRITE_DISABLE|SRAM_ENABLE
-    ;sta ModeSRAM
+    ;LDA #SRAM_WRITE_DISABLE|SRAM_ENABLE
+    ;STA ModeSRAM
     set ModeSRAM, #(SRAM_WRITE_DISABLE|SRAM_ENABLE)
     JSR bank14_8000
     JSR game_intro              ; $9400 bank14
-    LDA #0
-    STA ModeSRAM
+    ;LDA #0
+    ;STA ModeSRAM
+    set ModeSRAM, #(SRAM_WRITE_ENABLE|SRAM_DISABLE)
 
 @new_place:
     JSR bank13_A000
-    JSR $BCEC
+    JSR routine_selector        ; execute a function from the table BANK13:BCFD
 
 loc_CB5D:
     JSR sub_C542
@@ -72,7 +74,7 @@ loc_CB8F:
     STA byte_1F
 
 loc_CB91:
-    JSR wait_int_processed
+    JSR wait_nmi_processed
     LDA byte_20
     BNE @new_place
     JSR sub_DD01
@@ -128,7 +130,7 @@ loc_CBEB:
     BEQ loc_CC17
     CMP #$A2
     BEQ loc_CC1A
-    JSR wait_int_processed
+    JSR wait_nmi_processed
     LDA NTAddrC
     PHA 
     JSR start_battle
@@ -235,7 +237,7 @@ loc_FD53:
 
 ; FD5E
 .proc clear_oam_sprite
-    JSR wait_int_processed
+    JSR wait_nmi_processed
     SEC                         ; set carry flag
     ROR flag_clear_OAM_300
     LDX #0
@@ -261,7 +263,7 @@ loc_FD66:
 
 ; FDC0
 .proc sub_FDC0
-    JSR wait_int_processed
+    JSR wait_nmi_processed
     LDA byte_E7
     AND #$BF
     STA byte_E7

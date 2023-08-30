@@ -38,14 +38,14 @@ nmi:
     STA OtherNMIFlags           ; keep flags except bit 7
 
 get_function:
-    LDA NMI_ID,Y                ; get NMI function ID (order number in the ReturnTable)? get next
+    LDA NMI_ID,Y                ; get NMI function ID (order number in the NMITable)? get next
     BEQ @end_of_record
     BMI @no_functions
-    ASL A                       ; get offset for ReturnTable
+    ASL A                       ; get offset for NMITable
     TAX
-    LDA ReturnTable + 1,X       ; store the high address of the subprogram on the stack
+    LDA NMITable + 1,X          ; store the high address of the subprogram on the stack
     PHA
-    LDA ReturnTable,X           ; store the low address - 1 of the subprogram on the stack
+    LDA NMITable,X              ; store the low address - 1 of the subprogram on the stack
     PHA
     RTS                         ; execute the subprogram
 
@@ -96,7 +96,7 @@ get_function:
     STA PPU_CTRL
     STX PPU_MASK
 
-    STY OffsetNMI_ID               ; set offset of next record
+    STY OffsetNMI_ID            ; set offset of next record
     LDA #$80
     STA NMIReady
     LDA BankRegister
@@ -174,10 +174,10 @@ loc_F885:
     RTI
 
 ; F8C1
-ReturnTable:
+NMITable:
     .addr get_function-1, sub_F8D7-1, sub_F8DB-1, sub_F8E5-1, load_palettes-1
     .addr write_horizontal-1, write_vertical-1, write_ppu_chars-1, fill_ppu-1, read_ppu-1
-    .addr sub_F99F-1
+    .addr print-1
 
 ; F8D7
 .proc sub_F8D7:
@@ -276,7 +276,7 @@ ReturnTable:
 .endproc
 
 ; F99F
-.proc sub_F99F
+.proc print
     LDA BankRegister
     PHA                         ; store bank register into stack
     LDA BankTable.PPU_1K_0800
@@ -404,7 +404,7 @@ ReturnTable:
 draw_sprite:
     LDA #$15
     LDX #6
-    JSR mmc3_bank_set   ; set memory bank 15 at $8000
+    JSR mmc3_bank_set           ; set memory bank 15 at $8000
     LDA #0
     STA byte_CE
     STA byte_CF
@@ -736,7 +736,7 @@ loc_FC79:
 loc_FC87:
     JMP loc_FB0B
 
-; FC8A clear_sprites
+; FC8A oam_offscreen
 
 ; FC96
 sub_FC96:

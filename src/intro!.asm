@@ -9,11 +9,11 @@ start_menu:
     JSR clear_oam_sprite
     JSR clear_nametables
     JSR chr_5E_5F_to_sram ; copy chr banks $5E, $5F in SRAM $6C00-$73FF
-    JSR wait_int_processed
+    JSR wait_nmi_processed
     LDA #$19
     ;LDX #$8A
     ;LDY #$A2
-    ldxy #($A28B - 1)   ; procedure bank $19
+    ldxy #(copy_to_sram - 1)   ; procedure bank $19
     JSR bank_A000_a     ; changes the memory bank $A000, transfers the execution of the code
                         ; after completion of which returns the original memory bank
                         ; input: A - bank number, YX - (subroutine address - 1)
@@ -51,8 +51,8 @@ redraw_game_menu:
     JSR game_menu
     LDA #0
     STA byte_D6
-    LDY CHRBank2
-    LDA (CHRBank4),Y
+    LDY CurrentFieldPosition
+    LDA (pStr),Y
     ASL A
     TAX
     LDA MenuFunctions+1,X
@@ -66,7 +66,137 @@ redraw_game_menu:
 .endproc
 
 ; ---------------------------------------------------------------------------
-MenuFunctions:     .addr sub_13BE88-1, copy_save-1, erase_save-1, start_new-1
+MenuFunctions:     .addr get_save_block-1, copy_save-1, erase_save-1, start_new-1
+
+; BANK14:9455
+.proc start_new
+    PHA
+    JSR sram_write_enable
+    LDA #$18
+    LDX #7
+    JSR mmc3_bank_set   ; Set memory bank A - bank number X - mode
+    PLA
+    JSR copy_pure_save          ;SRAM:6041
+    JSR sram_read_enable
+    JSR bank13_A000
+    JSR new_game
+    BCS start_menu
+    JMP make_save
+.endproc
+
+; BANK14:9472
+.proc erase_save
+    JSR erase_dialog
+    BNE @exit
+    LDA CurrentGame.PureSave.GameNumber
+    JSR get_dist_save_addr
+    JSR sram_write_enable
+    LDY #3
+    LDA #0
+    STA (pDist),Y
+    JSR sram_read_enable
+
+@exit:
+    JMP redraw_game_menu
+.endproc
+
+; BANK14:948C
+.proc copy_save
+    STA SaveNum
+    LDX #$10
+    JSR draw_block
+    LDA SaveNum
+    SEC
+    ROL A
+    ASL A
+    TAX
+    JSR cur_game_menu
+    BIT Buttons
+    BVS @exit
+    LDA CurrentFieldPosition
+    STA ItemCount
+    JSR erase_dialog
+    BCS @save
+    BNE @exit
+
+@save:
+    LDA SaveNum
+    JSR get_save_block
+    JSR sram_write_enable
+    LDA ItemCount
+    ORA #$B0
+    STA CurrentPlayer.PureSave.GameNumber
+    JSR make_save
+
+@exit:
+    JMP redraw_game_menu
+.endproc
+
+; BANK14:94C0
+.proc erase_dialog
+    JSR get_save_block
+    SEC
+    BNE @exit
+    LDX #$E
+    JSR get_pointer_tilepak         ; SRAM:601E
+    JSR write_tiles
+    LDX #$E
+    JSR cur_game_menu
+    CLC
+    LDA CurrentFieldPosition
+
+@exit:
+    RTS
+.endproc
+
+; BANK14:94D7
+.proc draw_menu
+    LDA #0
+
+@menu_item:
+    STA ItemCount
+    LSR A
+    LSR A
+    JSR get_save_block
+    BEQ @free
+    LDA #4
+
+@free:
+    STA SaveNum
+    LDX ItemCount
+    JSR $6000
+    LDA SaveNum
+    LSR A
+    ADC ItemCount
+    TAX
+    JSR draw_block
+    CLC
+    LDA ItemCount
+    ADC #4
+    CMP #$C
+    BCC @menu_item
+    LDX #$C
+    JSR get_cursor              ; SRAM:6029
+    JMP set_pos_6_5             ; SRAM:$6034
+.endproc
+
+; BANK14:9505
+; Draws a block from a TilepackTable
+; Input: A - block offset in table
+.proc draw_block
+    JSR get_pointer_tilepak     ; SRAM:601E
+    JMP write_tiles
+.endproc
+
+; BANK14:950B
+.proc cur_game_menu
+    JSR get_cursor              ; SRAM:6029
+
+game_menu:
+    JSR cursor_update
+    LDA #$FF
+    JMP get_cursor_pos
+.endproc
 
 
 ; 14 9D60

@@ -16,7 +16,7 @@ PalNMISpr:  .res 16
 ; loads the background and sprite color palettes into RAM before an NMI
 ; interrupt is executed, loading that palette from RAM into the PPU's memory
 .proc preload_palettes:
-    JSR wait_int_processed
+    JSR wait_nmi_processed
     LDY #$1F
 
 @next_color:
@@ -41,7 +41,7 @@ set_nmi_id4:
 ; copies 32 bytes of a packed tilemap at $400
 ; input YX - pointer to the packed fragment Y - high byte, X - low byte
 .proc copy_packed_tiles
-    JSR wait_int_processed
+    JSR wait_nmi_processed
     STX Pointer
     STY Pointer+1
     LDY #$1F
@@ -159,46 +159,47 @@ set_nmi_id4:
 
 ; FC8A
 ; this moves all the sprites in OAM memory offscreen by setting y to 255
-.proc clear_sprites
+.proc oam_offscreen
     LDA #$F0
 
-@clear_sprites_loop:
+@offscreen:
     STA OAM, X
     INX
     INX
     INX
     INX
-    BNE @clear_sprites_loop
+    BNE @offscreen
+exit:
     RTS
 .endproc
 
 ; FCEE
 .proc set_ppu:
-    ; clear $00-$FF zeropage
+
     LDA #0
     TAX
 
-@next_clear:
-    STA 0,X
+@clear:
+    STA 0,X                     ; clear $00-$FF zeropage
     INX
-    BNE @next_clear
+    BNE @clear
 
-    JSR clear_sprites
+    JSR oam_offscreen
     ; VBlank Disable, Sprite Size = 8x8, PPU Horizontal Write, Name Table Address 0 = $2000
     ; Screen Pattern Table Address 0 = $0000, Sprite Pattern Table Address 1 = $1000
-    LDA #PPU_CTRL_SPRITE
+    LDA #(PPU_CTRL_SPRITE)
     STA PPU_CTRL
     STA CntrlPPU
     ; set bank mode for PRG and CHR
-    LDA #PRG_SWAP_8000|CHR_12_INVERSION
+    LDA #(PRG_SWAP_8000|CHR_12_INVERSION)
     STA BankMode
     STA BANK_SELECT
     ; allow display of sprites
-    LDA #PPU_MASK_SHOW_BACKGROUND|PPU_MASK_SHOW_SPRITES
+    LDA #(PPU_MASK_SHOW_BACKGROUND|PPU_MASK_SHOW_SPRITES)
     STA PPU_MASK
     STA mask_PPU
-    ; vertical nametable mirroring
+
     LDA #0
-    STA MIRROR
+    STA MIRROR                  ; vertical nametable mirroring
     RTS
 .endproc

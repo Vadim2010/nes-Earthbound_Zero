@@ -47,7 +47,7 @@ Dist: .addr
 Source: .addr
 
 byte_34:        .BYTE 0,0
-byte_36:        .BYTE 0     
+SaveNum:        .BYTE 0     
 
 ItemCount: .res 1
 
@@ -91,7 +91,7 @@ pTileID: .addr                       ; $64 byte for multiply (F125)
 
 byte_66:        .BYTE 0     
 byte_67:        .BYTE 0     
-byte_68:        .BYTE 0     
+pDist:        .BYTE 0     
 byte_69:        .BYTE 0     
 byte_6A:        .BYTE 0     
 byte_6B:        .BYTE 0,0,0,0,0     
@@ -115,8 +115,8 @@ byte_7F:        .BYTE 0
 
 CHRBank0:        .BYTE 0     
 CHRBank1:        .BYTE 0     
-CHRBank2:        .BYTE 0     
-CHRBank3:        .BYTE 0     
+CurrentFieldPosition:        .BYTE 0     
+Buttons:        .BYTE 0     
 
 FuncID: .res 1
 
