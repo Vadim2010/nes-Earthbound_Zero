@@ -4,6 +4,8 @@ This repository is dedicated to disassembling Earthbound_Zero for NES.
 
 You may notice an exclamation mark in the names of asm files, which indicates that the file is being actively edited and updated. Asm files without an exclamation mark in their names (except macros.asm) are most likely final versions. Other files and directories will appear as each stage progresses.
 
+## banks directory
+____
 #### Files bankXX.asm
 XX is the memory bank number in hexadecimal format. There are 32 such banks (00 - 1F ). The files contain assembly code obtained using the IDA Pro disassembler.
 
