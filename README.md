@@ -18,6 +18,12 @@ ____
 #### sprites.asm
 Settings for game sprites, animations. Used by the NMI handler.
 
+#### msg_chr80_CD.asm
+Represents a list of pointers to messages that are contained in character blocks of memory $80-$CF.
+
+#### data1.asm, data2.asm, data3.asm
+Data files needed to correctly link locations, characters, and dialogs.
+
 ## src directory
 ____
 #### main.asm

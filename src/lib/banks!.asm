@@ -104,8 +104,8 @@ BankTable .res BANK_TABLE
 
 ; E3CC
 ReturnTab:
-	.addr sub_E428-1, loc_E43C-1, sub_E3DE-1, sub_E4B2-1, sub_E49E-1
-	.addr loc_E4DC-1, loc_E403-1, loc_E466-1, loc_E490-1
+    .addr sub_E428-1, loc_E43C-1, sub_E3DE-1, sub_E4B2-1, sub_E49E-1
+    .addr loc_E4DC-1, loc_E403-1, loc_E466-1, loc_E490-1
 
 ; F239
 ; set memory bank $16 at $8000
