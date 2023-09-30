@@ -26,6 +26,12 @@ Represents a list of pointers to messages that are contained in character blocks
 #### data1.asm, data2.asm, data3.asm
 Data files needed to correctly link locations, characters, and dialogs.
 
+#### dataXX.asm
+Contains data for constructing game locations, and some additional data.
+
+#### enemy.asm
+Contains data about enemy parameters, locations they are in, etc.
+
 ## src directory
 ____
 #### main.asm
