@@ -45,7 +45,7 @@ main:
     JSR routine_selector        ; execute a function from the table BANK13:BCFD
 
 loc_CB5D:
-    JSR sub_C542
+    JSR load_character_data
     JSR sub_CEFC
     LDA #0
     STA byte_24

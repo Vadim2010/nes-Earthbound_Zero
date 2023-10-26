@@ -788,7 +788,7 @@ sub_FCA3:
 loc_FCE7:
     STY TileCount
     CPX TileCount
-    BCC loc_FCA3
+    BCC sub_FCA3
     RTS
 
 ; FE4B gamepad_input in gamepad_lib.asm

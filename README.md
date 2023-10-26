@@ -32,6 +32,9 @@ Contains data for constructing game locations, and some additional data.
 #### enemy.asm
 Contains data about enemy parameters, locations they are in, etc.
 
+#### sound.asm
+Contains data of sound effects and music in the game.
+
 ## src directory
 ____
 #### main.asm

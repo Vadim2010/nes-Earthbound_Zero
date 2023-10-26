@@ -26,9 +26,9 @@ byte_18:        .BYTE 0
 byte_19:        .BYTE 0     
 byte_1A:        .BYTE 0     
 byte_1B:        .BYTE 0     
-byte_1C:        .BYTE 0     
-byte_1D:        .BYTE 0     
-byte_1E:        .BYTE 0     
+ShiftCameraX:        .BYTE 0     
+ShiftCameraY:        .BYTE 0     
+MaskCntrlPPU:        .BYTE 0     
 byte_1F:        .BYTE 0     
 byte_20:        .BYTE 0     
 byte_21:        .BYTE 0     
@@ -139,9 +139,9 @@ byte_93:        .BYTE 0
 byte_94:        .BYTE 0,0,0     
 byte_97:        .BYTE 0     
 byte_98:        .BYTE 0     
-byte_99:        .BYTE 0     
+ScreenY:        .BYTE 0     
 byte_9A:        .BYTE 0     
-byte_9B:        .BYTE 0,0     
+BlockCount:        .BYTE 0,0     
 byte_9D:        .BYTE 0,0,0     
 byte_A0:        .BYTE 0     
 byte_A1:        .BYTE 0     
@@ -154,7 +154,7 @@ byte_A7:        .BYTE 0
 byte_A8:        .BYTE 0,0     
 byte_AA:        .BYTE 0     
 byte_AB:        .BYTE 0     
-byte_AC:        .BYTE 0     
+MaskORA:        .BYTE 0     
 byte_AD:        .BYTE 0     
 byte_AE:        .BYTE 0     
 byte_AF:        .BYTE 0,0,0,0,0,0,0,0,0,0
