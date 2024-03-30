@@ -143,3 +143,15 @@ NMI interrupt handler subroutines.
 
 #### reset.asm
 Reset handler subroutine (NES initialisation)
+
+## Getting Started
+
+Install [Git](https://git-scm.com/download/win) and run the command to copy the repository to the folder C:\Earthbound_Zero:
+    git clone https://github.com/Vadim2010/nes-Earthbound_Zero C:\Earthbound_Zero
+
+Or download the repository image as an [archive](https://github.com/Vadim2010/nes-Earthbound_Zero.git).
+
+Before you start building the project, install [make for Windows](http://gnuwin32.sourceforge.net/packages/make.htm) (or `sudo apt-get install build-essential` for ubuntu) and [cc65](https://cc65.github.io/getting-started.html) and add them to your environment PATH.
+
+To build the original game image, run command prompt, navigate to the C:\Earthbound_Zero\original folder and run the make command.
+
