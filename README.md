@@ -147,6 +147,7 @@ Reset handler subroutine (NES initialisation)
 ## Getting Started
 
 Install [Git](https://git-scm.com/download/win) and run the command to copy the repository to the folder `C:\Earthbound_Zero`:
+
     `git clone https://github.com/Vadim2010/nes-Earthbound_Zero C:\Earthbound_Zero`
 
 Or download the repository image as an [archive](https://github.com/Vadim2010/nes-Earthbound_Zero.git).
