@@ -313,58 +313,141 @@
                 .BYTE $1F, $1F, $1F, $1F, $1F, $1F, $1F, $1F, $1F, $1F
                 .BYTE $1F, $1F, $1F, $1F, $1F, $1F, $1F, $1F, $1F, $1F
                 .BYTE $1F, $1F, $1F, $1F, $1F, $1F, $1F, $1F, $1F, $1F
-                .BYTE $1F, $1F, $1F, $1F, $1F, $1F, $1F, $1F, 0, 0, 0
+                .BYTE $1F, $1F, $1F, $1F, $1F, $1F, $1F, $1F, 0
                 .BYTE 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
                 .BYTE 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
                 .BYTE 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
                 .BYTE 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-                .BYTE $F, 0, $10, $30, $F, 0, $10
-                .BYTE $30, $F, 0, $10, $30, 0, 0, $40, $30, $F, $3A, $18
-                .BYTE $38, $F, $3A, $10, $20, $F, $3A, $25, $1A, 2, $3A
-                .BYTE $4B, $12, $F, $20, $20, $10, $F, $20, $20, $10, $F
-                .BYTE $20, $20, $28, 9, $20, $40, $3B, $F, $38, $18, $1C
-                .BYTE $F, $38, $10, $3B, $F, $38, $25, $1A, $1A, $38, $40
-                .BYTE 0, $F, $38, $18, $16, $F, $10, $30, $21, $F, $3A
-                .BYTE $28, $21, $17, $38, $40, $3C, $F, $39, 0, 0, $F
-                .BYTE $39, $20, $10, $F, $39, $30, $2B, $1B, $39, $40
-                .BYTE $3B, $F, $38, $18, $1C, $F, $38, $10, $3B, $F, $38
-                .BYTE $25, $1A, $1A, $38, $40, 0, $F, $38, $18, $21, $F
-                .BYTE $10, $30, $2A, $F, 0, $10, $30, $14, $10, $40, $21
-                .BYTE $F, $38, $18, 0, $F, $38, $24, $2B, $F, $12, $31
-                .BYTE 2, $1A, $21, $40, 0, $F, $38, $18, $1C, $F, $38
-                .BYTE $10, $3B, $F, $38, $25, $1A, $1A, $38, $40, 0, $F
-                .BYTE $10, 0, 8, $F, $10, 0, $16, $F, $10, 0, $12, $13
-                .BYTE 0, $66, $30, $F, $10, 0, 8, $F, $10, 0, $16, $F
-                .BYTE $10, 0, $12, $13, 0, $41, $30, $F, $10, 0, 8, $F
-                .BYTE $10, 0, $16, $F, $10, 0, $12, $13, 0, $40, $30, $F
-                .BYTE $10, 0, 8, $F, $10, 0, $16, $F, $10, 0, $12, $13
-                .BYTE 0, $40, $30, $F, $10, 0, 8, $F, $10, 0, $16, $F
-                .BYTE $10, 0, $12, $13, 0, $40, $30, $F, $10, 0, 8, $F
-                .BYTE $10, 0, $16, $F, $10, 0, $12, $13, 0, $40, $30, $F
-                .BYTE $10, 0, 8, $F, $10, 0, $16, $F, $10, 0, $12, $13
-                .BYTE 0, $40, $30, $F, 0, $10, $30, $F, 0, $10, $30, $F
-                .BYTE 0, $10, $30, 0, 0, $40, $30, $F, $38, $18, $17, $F
-                .BYTE $38, $18, $28, $F, $38, 0, $27, $A, $38, $76, $22
-                .BYTE $F, $3B, $18, $38, $F, $28, $18, $38, $F, $33, $25
-                .BYTE $38, $16, $26, $40, 0, $F, $F, $17, $27, $F, $F
-                .BYTE $17, $27, $F, $F, $17, $27, $E, $18, $6E, $28, $F
-                .BYTE 4, $15, $25, $F, $38, $18, $21, $F, $38, $18, $28
-                .BYTE $1D, 4, $4C, $34, $F, $34, $30, $24, $F, $34, $30
-                .BYTE $35, $F, $2B, $35, $15, $F, $34, 0, $3B, $F, $37
-                .BYTE $35, $17, $F, $37, $28, $17, $F, $37, $3A, $17, $18
-                .BYTE $37, $40, $17, $F, $3B, $34, $2B, $F, $3B, $28, $2B
-                .BYTE $F, $3B, $29, $2B, $18, $3B, $40, $2B, $F, $3B, $15
-                .BYTE $1B, $F, $38, $15, $1B, $F, $3B, $B, $1B, $18, $3B
-                .BYTE $40, $1B, $F, $3A, $18, $38, $F, $3A, 0, $20, $F
-                .BYTE $3A, $25, $1A, $B, $3A, $42, $12, $F, 4, 3, $23
-                .BYTE $F, 4, $27, $30, $F, 4, 5, $30, $1A, 4, $40, $34
-                .BYTE $F, $F, $21, $30, $F, $12, $12, $21, $F, $12, $21
-                .BYTE $30, $E, $17, $6E, $30, $F, $10, $33, $22, $F, $10
-                .BYTE 3, $22, $F, 0, $10, $30, 0, 0, $40, $30, $F, $37
-                .BYTE $18, $31, $F, $37, $10, $3B, $F, $37, $30, $24, $1A
-                .BYTE $37, $40, $27, $F, 0, $10, $30, $F, 0, $10, $30
-                .BYTE $F, 0, $10, $30, 0, 0, $40, $30, 1, 1, 1, 1, 1, 1
-                .BYTE 1
+                .BYTE 0, 0
+                .BYTE BLACK, DARK_GRAY, MEDIUM_GRAY, WHITE; PALETTE0
+                .BYTE BLACK, DARK_GRAY, MEDIUM_GRAY, WHITE; PALETTE1
+                .BYTE BLACK, DARK_GRAY, MEDIUM_GRAY, WHITE; PALETTE2
+                .BYTE DARK_GRAY, DARK_GRAY, $40, WHITE; PALETTE3
+                .BYTE BLACK, LIGHTEST_GREEN, MEDIUM_YELLOW, LIGHTEST_YELLOW; PALETTE0
+                .BYTE BLACK, LIGHTEST_GREEN, MEDIUM_GRAY, LIGHTEST_GRAY; PALETTE1
+                .BYTE BLACK, LIGHTEST_GREEN, LIGHT_REDVIOLET, MEDIUM_GREEN; PALETTE2
+                .BYTE DARK_INDIGO, LIGHTEST_GREEN, $4B, MEDIUM_INDIGO; PALETTE3
+                .BYTE BLACK, LIGHTEST_GRAY, LIGHTEST_GRAY, MEDIUM_GRAY; PALETTE0
+                .BYTE BLACK, LIGHTEST_GRAY, LIGHTEST_GRAY, MEDIUM_GRAY; PALETTE1
+                .BYTE BLACK, LIGHTEST_GRAY, LIGHTEST_GRAY, LIGHT_YELLOW; PALETTE2
+                .BYTE DARK_CHARTREUSE, LIGHTEST_GRAY, $40, LIGHTEST_CYAN; PALETTE3
+                .BYTE BLACK, LIGHTEST_YELLOW, MEDIUM_YELLOW, MEDIUM_TURQUOISE; PALETTE0
+                .BYTE BLACK, LIGHTEST_YELLOW, MEDIUM_GRAY, LIGHTEST_CYAN; PALETTE1
+                .BYTE BLACK, LIGHTEST_YELLOW, LIGHT_REDVIOLET, MEDIUM_GREEN; PALETTE2
+                .BYTE MEDIUM_GREEN, LIGHTEST_YELLOW, $40, DARK_GRAY; PALETTE3
+                .BYTE BLACK, LIGHTEST_YELLOW, MEDIUM_YELLOW, MEDIUM_RED; PALETTE0
+                .BYTE BLACK, MEDIUM_GRAY, WHITE, LIGHT_BLUE; PALETTE1
+                .BYTE BLACK, LIGHTEST_GREEN, LIGHT_YELLOW, LIGHT_BLUE; PALETTE2
+                .BYTE MEDIUM_ORANGE, LIGHTEST_YELLOW, $40, LIGHTEST_TURQUOISE; PALETTE3
+                .BYTE BLACK, LIGHTEST_CHARTREUSE, DARK_GRAY, DARK_GRAY; PALETTE0
+                .BYTE BLACK, LIGHTEST_CHARTREUSE, LIGHTEST_GRAY, MEDIUM_GRAY; PALETTE1
+                .BYTE BLACK, LIGHTEST_CHARTREUSE, WHITE, LIGHT_CYAN; PALETTE2
+                .BYTE MEDIUM_CYAN, LIGHTEST_CHARTREUSE, $40, LIGHTEST_CYAN; PALETTE3
+                .BYTE BLACK, LIGHTEST_YELLOW, MEDIUM_YELLOW, MEDIUM_TURQUOISE; PALETTE0
+                .BYTE BLACK, LIGHTEST_YELLOW, MEDIUM_GRAY, LIGHTEST_CYAN; PALETTE1
+                .BYTE BLACK, LIGHTEST_YELLOW, LIGHT_REDVIOLET, MEDIUM_GREEN; PALETTE2
+                .BYTE MEDIUM_GREEN, LIGHTEST_YELLOW, $40, DARK_GRAY; PALETTE3
+                .BYTE BLACK, LIGHTEST_YELLOW, MEDIUM_YELLOW, LIGHT_BLUE; PALETTE0
+                .BYTE BLACK, MEDIUM_GRAY, WHITE, LIGHT_GREEN; PALETTE1
+                .BYTE BLACK, DARK_GRAY, MEDIUM_GRAY, WHITE; PALETTE2
+                .BYTE MEDIUM_PURPLE, MEDIUM_GRAY, $40, LIGHT_BLUE; PALETTE3
+                .BYTE BLACK, LIGHTEST_YELLOW, MEDIUM_YELLOW, DARK_GRAY; PALETTE0
+                .BYTE BLACK, LIGHTEST_YELLOW, LIGHT_PURPLE, LIGHT_CYAN; PALETTE1
+                .BYTE BLACK, MEDIUM_INDIGO, LIGHTEST_BLUE, DARK_INDIGO; PALETTE2
+                .BYTE MEDIUM_GREEN, LIGHT_BLUE, $40, DARK_GRAY; PALETTE3
+                .BYTE BLACK, LIGHTEST_YELLOW, MEDIUM_YELLOW, MEDIUM_TURQUOISE; PALETTE0
+                .BYTE BLACK, LIGHTEST_YELLOW, MEDIUM_GRAY, LIGHTEST_CYAN; PALETTE1
+                .BYTE BLACK, LIGHTEST_YELLOW, LIGHT_REDVIOLET, MEDIUM_GREEN; PALETTE2
+                .BYTE MEDIUM_GREEN, LIGHTEST_YELLOW, $40, DARK_GRAY; PALETTE3
+                .BYTE BLACK, MEDIUM_GRAY, DARK_GRAY, DARK_YELLOW; PALETTE0
+                .BYTE BLACK, MEDIUM_GRAY, DARK_GRAY, MEDIUM_RED; PALETTE1
+                .BYTE BLACK, MEDIUM_GRAY, DARK_GRAY, MEDIUM_INDIGO; PALETTE2
+                .BYTE MEDIUM_VIOLET, DARK_GRAY, $66, WHITE; PALETTE3
+                .BYTE BLACK, MEDIUM_GRAY, DARK_GRAY, DARK_YELLOW; PALETTE0
+                .BYTE BLACK, MEDIUM_GRAY, DARK_GRAY, MEDIUM_RED; PALETTE1
+                .BYTE BLACK, MEDIUM_GRAY, DARK_GRAY, MEDIUM_INDIGO; PALETTE2
+                .BYTE MEDIUM_VIOLET, DARK_GRAY, $41, WHITE; PALETTE3
+                .BYTE BLACK, MEDIUM_GRAY, DARK_GRAY, DARK_YELLOW; PALETTE0
+                .BYTE BLACK, MEDIUM_GRAY, DARK_GRAY, MEDIUM_RED; PALETTE1
+                .BYTE BLACK, MEDIUM_GRAY, DARK_GRAY, MEDIUM_INDIGO; PALETTE2
+                .BYTE MEDIUM_VIOLET, DARK_GRAY, $40, WHITE; PALETTE3
+                .BYTE BLACK, MEDIUM_GRAY, DARK_GRAY, DARK_YELLOW; PALETTE0
+                .BYTE BLACK, MEDIUM_GRAY, DARK_GRAY, MEDIUM_RED; PALETTE1
+                .BYTE BLACK, MEDIUM_GRAY, DARK_GRAY, MEDIUM_INDIGO; PALETTE2
+                .BYTE MEDIUM_VIOLET, DARK_GRAY, $40, WHITE; PALETTE3
+                .BYTE BLACK, MEDIUM_GRAY, DARK_GRAY, DARK_YELLOW; PALETTE0
+                .BYTE BLACK, MEDIUM_GRAY, DARK_GRAY, MEDIUM_RED; PALETTE1
+                .BYTE BLACK, MEDIUM_GRAY, DARK_GRAY, MEDIUM_INDIGO; PALETTE2
+                .BYTE MEDIUM_VIOLET, DARK_GRAY, $40, WHITE; PALETTE3
+                .BYTE BLACK, MEDIUM_GRAY, DARK_GRAY, DARK_YELLOW; PALETTE0
+                .BYTE BLACK, MEDIUM_GRAY, DARK_GRAY, MEDIUM_RED; PALETTE1
+                .BYTE BLACK, MEDIUM_GRAY, DARK_GRAY, MEDIUM_INDIGO; PALETTE2
+                .BYTE MEDIUM_VIOLET, DARK_GRAY, $40, WHITE; PALETTE3
+                .BYTE BLACK, MEDIUM_GRAY, DARK_GRAY, DARK_YELLOW; PALETTE0
+                .BYTE BLACK, MEDIUM_GRAY, DARK_GRAY, MEDIUM_RED; PALETTE1
+                .BYTE BLACK, MEDIUM_GRAY, DARK_GRAY, MEDIUM_INDIGO; PALETTE2
+                .BYTE MEDIUM_VIOLET, DARK_GRAY, $40, WHITE; PALETTE3
+                .BYTE BLACK, DARK_GRAY, MEDIUM_GRAY, WHITE; PALETTE0
+                .BYTE BLACK, DARK_GRAY, MEDIUM_GRAY, WHITE; PALETTE1
+                .BYTE BLACK, DARK_GRAY, MEDIUM_GRAY, WHITE; PALETTE2
+                .BYTE DARK_GRAY, DARK_GRAY, $40, WHITE; PALETTE3
+                .BYTE BLACK, LIGHTEST_YELLOW, MEDIUM_YELLOW, MEDIUM_ORANGE; PALETTE0
+                .BYTE BLACK, LIGHTEST_YELLOW, MEDIUM_YELLOW, LIGHT_YELLOW; PALETTE1
+                .BYTE BLACK, LIGHTEST_YELLOW, DARK_GRAY, LIGHT_ORANGE; PALETTE2
+                .BYTE DARK_GREEN, LIGHTEST_YELLOW, $76, LIGHT_INDIGO; PALETTE3
+                .BYTE BLACK, LIGHTEST_CYAN, MEDIUM_YELLOW, LIGHTEST_YELLOW; PALETTE0
+                .BYTE BLACK, LIGHT_YELLOW, MEDIUM_YELLOW, LIGHTEST_YELLOW; PALETTE1
+                .BYTE BLACK, LIGHTEST_VIOLET, LIGHT_REDVIOLET, LIGHTEST_YELLOW; PALETTE2
+                .BYTE MEDIUM_RED, LIGHT_RED, $40, DARK_GRAY; PALETTE3
+                .BYTE BLACK, BLACK, MEDIUM_ORANGE, LIGHT_ORANGE; PALETTE0
+                .BYTE BLACK, BLACK, MEDIUM_ORANGE, LIGHT_ORANGE; PALETTE1
+                .BYTE BLACK, BLACK, MEDIUM_ORANGE, LIGHT_ORANGE; PALETTE2
+                .BYTE $E, MEDIUM_YELLOW, $6E, LIGHT_YELLOW; PALETTE3
+                .BYTE BLACK, DARK_PURPLE, MEDIUM_REDVIOLET, LIGHT_REDVIOLET; PALETTE0
+                .BYTE BLACK, LIGHTEST_YELLOW, MEDIUM_YELLOW, LIGHT_BLUE; PALETTE1
+                .BYTE BLACK, LIGHTEST_YELLOW, MEDIUM_YELLOW, LIGHT_YELLOW; PALETTE2
+                .BYTE $1D, DARK_PURPLE, $4C, LIGHTEST_PURPLE; PALETTE3
+                .BYTE BLACK, LIGHTEST_PURPLE, WHITE, LIGHT_PURPLE; PALETTE0
+                .BYTE BLACK, LIGHTEST_PURPLE, WHITE, LIGHTEST_REDVIOLET; PALETTE1
+                .BYTE BLACK, LIGHT_CYAN, LIGHTEST_REDVIOLET, MEDIUM_REDVIOLET; PALETTE2
+                .BYTE BLACK, LIGHTEST_PURPLE, DARK_GRAY, LIGHTEST_CYAN; PALETTE3
+                .BYTE BLACK, LIGHTEST_ORANGE, LIGHTEST_REDVIOLET, MEDIUM_ORANGE; PALETTE0
+                .BYTE BLACK, LIGHTEST_ORANGE, LIGHT_YELLOW, MEDIUM_ORANGE; PALETTE1
+                .BYTE BLACK, LIGHTEST_ORANGE, LIGHTEST_GREEN, MEDIUM_ORANGE; PALETTE2
+                .BYTE MEDIUM_YELLOW, LIGHTEST_ORANGE, $40, MEDIUM_ORANGE; PALETTE3
+                .BYTE BLACK, LIGHTEST_CYAN, LIGHTEST_PURPLE, LIGHT_CYAN; PALETTE0
+                .BYTE BLACK, LIGHTEST_CYAN, LIGHT_YELLOW, LIGHT_CYAN; PALETTE1
+                .BYTE BLACK, LIGHTEST_CYAN, LIGHT_CHARTREUSE, LIGHT_CYAN; PALETTE2
+                .BYTE MEDIUM_YELLOW, LIGHTEST_CYAN, $40, LIGHT_CYAN; PALETTE3
+                .BYTE BLACK, LIGHTEST_CYAN, MEDIUM_REDVIOLET, MEDIUM_CYAN; PALETTE0
+                .BYTE BLACK, LIGHTEST_YELLOW, MEDIUM_REDVIOLET, MEDIUM_CYAN; PALETTE1
+                .BYTE BLACK, LIGHTEST_CYAN, DARK_CYAN, MEDIUM_CYAN; PALETTE2
+                .BYTE MEDIUM_YELLOW, LIGHTEST_CYAN, $40, MEDIUM_CYAN; PALETTE3
+                .BYTE BLACK, LIGHTEST_GREEN, MEDIUM_YELLOW, LIGHTEST_YELLOW; PALETTE0
+                .BYTE BLACK, LIGHTEST_GREEN, DARK_GRAY, LIGHTEST_GRAY; PALETTE1
+                .BYTE BLACK, LIGHTEST_GREEN, LIGHT_REDVIOLET, MEDIUM_GREEN; PALETTE2
+                .BYTE DARK_CYAN, LIGHTEST_GREEN, $42, MEDIUM_INDIGO; PALETTE3
+                .BYTE BLACK, DARK_PURPLE, DARK_VIOLET, LIGHT_VIOLET; PALETTE0
+                .BYTE BLACK, DARK_PURPLE, LIGHT_ORANGE, WHITE; PALETTE1
+                .BYTE BLACK, DARK_PURPLE, DARK_REDVIOLET, WHITE; PALETTE2
+                .BYTE MEDIUM_GREEN, DARK_PURPLE, $40, LIGHTEST_PURPLE; PALETTE3
+                .BYTE BLACK, BLACK, LIGHT_BLUE, WHITE; PALETTE0
+                .BYTE BLACK, MEDIUM_INDIGO, MEDIUM_INDIGO, LIGHT_BLUE; PALETTE1
+                .BYTE BLACK, MEDIUM_INDIGO, LIGHT_BLUE, WHITE; PALETTE2
+                .BYTE $E, MEDIUM_ORANGE, $6E, WHITE; PALETTE3
+                .BYTE BLACK, MEDIUM_GRAY, LIGHTEST_VIOLET, LIGHT_INDIGO; PALETTE0
+                .BYTE BLACK, MEDIUM_GRAY, DARK_VIOLET, LIGHT_INDIGO; PALETTE1
+                .BYTE BLACK, DARK_GRAY, MEDIUM_GRAY, WHITE; PALETTE2
+                .BYTE DARK_GRAY, DARK_GRAY, $40, WHITE; PALETTE3
+BackgroundPalette:.BYTE BLACK, LIGHTEST_ORANGE, MEDIUM_YELLOW, LIGHTEST_BLUE; PALETTE0
+                .BYTE BLACK, LIGHTEST_ORANGE, MEDIUM_GRAY, LIGHTEST_CYAN; PALETTE1
+                .BYTE BLACK, LIGHTEST_ORANGE, WHITE, LIGHT_PURPLE; PALETTE2
+                .BYTE MEDIUM_GREEN, LIGHTEST_ORANGE, $40, LIGHT_ORANGE; PALETTE3
+                .BYTE BLACK, DARK_GRAY, MEDIUM_GRAY, WHITE; PALETTE0
+                .BYTE BLACK, DARK_GRAY, MEDIUM_GRAY, WHITE; PALETTE1
+                .BYTE BLACK, DARK_GRAY, MEDIUM_GRAY, WHITE; PALETTE2
+                .BYTE DARK_GRAY, DARK_GRAY, $40, WHITE; PALETTE3
+                .BYTE 1, 1, 1, 1, 1, 1, 1
                 .BYTE 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 5, 7, 8, 9, $B, 0
                 .BYTE 0, 3, 5, 7, 8, 9, $B, 0, 0, $C, $D, $E, $F, $10
                 .BYTE $11, $48, 0, $C, $D, $E, $F, $10, $11, $48, 0, $12
@@ -414,19 +497,19 @@ game_intro:                             ; CODE XREF: main+B↑P
                 JSR     bank13_A000
                 JSR     intro
 
-loc_149406:                             ; CODE XREF: sub_149455+18↓j
-                JSR     sub_FD5E
+start_menu:                             ; CODE XREF: start_new+18↓j
+                JSR     clear_oam_sprite
                 JSR     clear_nametables
                 JSR     chr_5E_5F_to_sram ; copy chr banks $5E, $5F (wall??) in SRAM $6C00-$73FF
-                JSR     wait_fill_PPU
-                LDA     #$19
+                JSR     wait_nmi_processed
+                LDA     #$19            ; copy_to_sram BANK19:A28B
                 LDX     #$8A
                 LDY     #$A2
                 JSR     bank_A000_a     ; changes the memory bank $A000, transfers the execution of the code after completion of which returns the original memory bank
                                         ; input: A - bank number, YX - (subroutine address - 1)
                                         ; Y - high byte, X - low byte
-                JSR     sub_EEC8
-                LDA     #$35 ; '5'      ; SRAM address for CHR banks $6230
+                JSR     home_camera
+                LDA     #$35 ; '5'      ; SRAM address for CHR banks BANK19:6235 (copied 19 bank)
                 LDX     #$62 ; 'b'
                 JSR     set_ppu_banks   ; set 6 memory banks for PPU
                                         ; pPPUTable = XA address (X - high and A - low byte)
@@ -445,25 +528,26 @@ loc_149406:                             ; CODE XREF: sub_149455+18↓j
                                         ; |-------------------------------------|
                                         ; |   $0C00    |        5        |  1K  |
                                         ; ---------------------------------------
-                LDA     #$3B ; ';'
+                LDA     #$3B ; ';'      ; SRAM address for palettes banks BANK19:623B (copied 19 bank)
                 LDX     #$62 ; 'b'
                 JSR     copy_palettes
 
-loc_14942C:                             ; CODE XREF: sub_149472:loc_149489↓j
-                                        ; sub_14948C:loc_1494BD↓j
-                LDX     #$C
-                JSR     sub_149505
-                JSR     sub_1494D7
+redraw_game_menu:                       ; CODE XREF: erase_save:@exit↓j
+                                        ; copy_save:@exit↓j
+                LDX     #$C             ; offset TilepackTable - ClearBottomScreen
+                JSR     draw_block      ; Draws a block from a TilepackTable
+                                        ; Input: A - block offset in table
+                JSR     draw_menu
                 JSR     game_menu
                 LDA     #0
                 STA     byte_D6
-                LDY     byte_82
-                LDA     (byte_84),Y
+                LDY     CurrentFieldPosition
+                LDA     (pStr),Y
                 ASL     A
                 TAX
-                LDA     off_14944D+1,X
+                LDA     MenuFunctions+1,X
                 PHA
-                LDA     off_14944D,X
+                LDA     MenuFunctions,X
                 PHA
                 TYA
                 LSR     A
@@ -472,14 +556,14 @@ loc_14942C:                             ; CODE XREF: sub_149472:loc_149489↓j
 ; End of function game_intro
 
 ; ---------------------------------------------------------------------------
-off_14944D:     .WORD sub_13BE88-1      ; DATA XREF: game_intro+45↑r
+MenuFunctions:  .WORD get_save_block-1  ; DATA XREF: game_intro+45↑r
                                         ; game_intro+41↑r
-                .WORD sub_14948C-1, sub_149472-1, sub_149455-1
+                .WORD copy_save-1, erase_save-1, start_new-1
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_149455:                             ; DATA XREF: BANK14:944F↑o
+start_new:                              ; DATA XREF: BANK14:944F↑o
                 PHA
                 JSR     sram_write_enable
                 LDA     #$18
@@ -488,153 +572,158 @@ sub_149455:                             ; DATA XREF: BANK14:944F↑o
                                         ; A - bank number
                                         ; X - mode
                 PLA
-                JSR     unk_6041
+                JSR     copy_pure_save
                 JSR     sram_read_enable
                 JSR     bank13_A000
-                JSR     sub_149A4D
-                BCS     loc_149406
-                JMP     sub_13BE57
-; End of function sub_149455
+                JSR     new_game
+                BCS     start_menu
+                JMP     make_save
+; End of function start_new
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_149472:                             ; DATA XREF: BANK14:944F↑o
-                JSR     sub_1494C0
-                BNE     loc_149489
-                LDA     byte_7402
-                JSR     sub_13BEBB
+erase_save:                             ; DATA XREF: BANK14:944F↑o
+                JSR     erase_dialog
+                BNE     @exit
+                LDA     CurrentGame.PureSave.GameNumber
+                JSR     get_dist_save_addr ; Input: A - destination block number
+                                        ; Output: returns the destination address to pDist
+                                        ;         returns $7400 - source address to pTileID
                 JSR     sram_write_enable
                 LDY     #3
                 LDA     #0
-                STA     (byte_68),Y
+                STA     (pDist),Y
                 JSR     sram_read_enable
 
-loc_149489:                             ; CODE XREF: sub_149472+3↑j
-                JMP     loc_14942C
-; End of function sub_149472
+@exit:                                  ; CODE XREF: erase_save+3↑j
+                JMP     redraw_game_menu
+; End of function erase_save
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_14948C:                             ; DATA XREF: BANK14:944F↑o
-                STA     byte_36
-                LDX     #$10
-                JSR     sub_149505
-                LDA     byte_36
+copy_save:                              ; DATA XREF: BANK14:944F↑o
+                STA     SaveNum
+                LDX     #$10            ; ToWhich
+                JSR     draw_block      ; Draws a block from a TilepackTable
+                                        ; Input: A - block offset in table
+                LDA     SaveNum
                 SEC
                 ROL     A
                 ASL     A
                 TAX
-                JSR     sub_14950B
-                BIT     byte_83
-                BVS     loc_1494BD
-                LDA     byte_82
-                STA     byte_37
-                JSR     sub_1494C0
-                BCS     loc_1494AB
-                BNE     loc_1494BD
+                JSR     cur_game_menu
+                BIT     Buttons
+                BVS     @exit
+                LDA     CurrentFieldPosition
+                STA     ItemCount
+                JSR     erase_dialog
+                BCS     @save
+                BNE     @exit
 
-loc_1494AB:                             ; CODE XREF: sub_14948C+1B↑j
-                LDA     byte_36
-                JSR     sub_13BE88
+@save:                                  ; CODE XREF: copy_save+1B↑j
+                LDA     SaveNum
+                JSR     get_save_block
                 JSR     sram_write_enable
-                LDA     byte_37
+                LDA     ItemCount
                 ORA     #$B0
-                STA     byte_7402
-                JSR     sub_13BE57
+                STA     CurrentPlayer.PureSave.GameNumber
+                JSR     make_save
 
-loc_1494BD:                             ; CODE XREF: sub_14948C+12↑j
-                                        ; sub_14948C+1D↑j
-                JMP     loc_14942C
-; End of function sub_14948C
+@exit:                                  ; CODE XREF: copy_save+12↑j
+                                        ; copy_save+1D↑j
+                JMP     redraw_game_menu
+; End of function copy_save
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_1494C0:                             ; CODE XREF: sub_149472↑p
-                                        ; sub_14948C+18↑p
-                JSR     sub_13BE88
+erase_dialog:                           ; CODE XREF: erase_save↑p
+                                        ; copy_save+18↑p
+                JSR     get_save_block
                 SEC
-                BNE     locret_1494D6
-                LDX     #$E
-                JSR     unk_601E
-                JSR     write_tile
-                LDX     #$E
-                JSR     sub_14950B
+                BNE     @exit
+                LDX     #$E             ; EraseDialog
+                JSR     get_pointer_tilepak ; returns a pointer from the TilepackTable
+                                        ; Input: X - offset in the TilepackTable table
+                                        ; Output: PointerTilePack - pointer from the TilepackTable table
+                JSR     write_tiles
+                LDX     #$E             ; stru_196218
+                JSR     cur_game_menu
                 CLC
-                LDA     byte_82
+                LDA     CurrentFieldPosition
 
-locret_1494D6:                          ; CODE XREF: sub_1494C0+4↑j
+@exit:                                  ; CODE XREF: erase_dialog+4↑j
                 RTS
-; End of function sub_1494C0
+; End of function erase_dialog
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_1494D7:                             ; CODE XREF: game_intro+31↑p
+draw_menu:                              ; CODE XREF: game_intro+31↑p
                 LDA     #0
 
-loc_1494D9:                             ; CODE XREF: sub_1494D7+24↓j
-                STA     byte_37
+@menu_item:                             ; CODE XREF: draw_menu+24↓j
+                STA     ItemCount
                 LSR     A
                 LSR     A
-                JSR     sub_13BE88
-                BEQ     loc_1494E4
+                JSR     get_save_block
+                BEQ     @free
                 LDA     #4
 
-loc_1494E4:                             ; CODE XREF: sub_1494D7+9↑j
-                STA     byte_36
-                LDX     byte_37
-                JSR     $6000
-                LDA     byte_36
+@free:                                  ; CODE XREF: draw_menu+9↑j
+                STA     SaveNum
+                LDX     ItemCount
+                JSR     sub_196000
+                LDA     SaveNum
                 LSR     A
-                ADC     byte_37
-                TAX
-                JSR     sub_149505
+                ADC     ItemCount
+                TAX                     ; TilepackTable SRAM19:611A
+                JSR     draw_block      ; Draws a block from a TilepackTable
+                                        ; Input: A - block offset in table
                 CLC
-                LDA     byte_37
+                LDA     ItemCount
                 ADC     #4
                 CMP     #$C
-                BCC     loc_1494D9
+                BCC     @menu_item
                 LDX     #$C
-                JSR     $6029
-                JMP     $6034
-; End of function sub_1494D7
+                JSR     get_cursor
+                JMP     set_pos_6_5
+; End of function draw_menu
+
+
+; =============== S U B R O U T I N E =======================================
+
+; Draws a block from a TilepackTable
+; Input: A - block offset in table
+
+draw_block:                             ; CODE XREF: game_intro+2E↑p
+                                        ; copy_save+4↑p ...
+                JSR     get_pointer_tilepak ; returns a pointer from the TilepackTable
+                                        ; Input: X - offset in the TilepackTable table
+                                        ; Output: PointerTilePack - pointer from the TilepackTable table
+                JMP     write_tiles
+; End of function draw_block
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_149505:                             ; CODE XREF: game_intro+2E↑p
-                                        ; sub_14948C+4↑p ...
-                JSR     $601E
-                JMP     write_tile
-; End of function sub_149505
-
-
-; =============== S U B R O U T I N E =======================================
-
-
-sub_14950B:                             ; CODE XREF: sub_14948C+D↑p
-                                        ; sub_1494C0+10↑p
-                JSR     $6029
-; End of function sub_14950B
-
-
-; =============== S U B R O U T I N E =======================================
-
+cur_game_menu:                          ; CODE XREF: copy_save+D↑p
+                                        ; erase_dialog+10↑p
+                JSR     get_cursor
 
 game_menu:                              ; CODE XREF: game_intro+34↑p
-                JSR     sub_EF34
+                JSR     cursor_update
                 LDA     #$FF
-                JMP     sub_F0B0
-; End of function game_menu
-
+                JMP     get_cursor_pos  ; get position of cursor and set cursor tile
+; End of function cur_game_menu         ; Input: A - tile ID
+                                        ; Output: PosX, PosY
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -649,8 +738,8 @@ sub_149516:                             ; CODE XREF: main+A4↑P
                 BNE     locret_149538
                 BIT     byte_A0
                 BMI     locret_149538
-                JSR     loc_1495D3
-                LDX     byte_15
+                JSR     sub_1495D3
+                LDX     MsgNumber
                 LDA     byte_149593,X
 
 loc_149530:                             ; CODE XREF: sub_149516+2F↓j
@@ -674,13 +763,13 @@ loc_149539:                             ; CODE XREF: sub_149516:loc_149530↑j
                 LSR     A
                 LSR     A
                 LSR     A
-                JSR     sub_E0F2
+                JSR     get_save_field
                 JMP     loc_149530
 ; ---------------------------------------------------------------------------
 
 loc_149548:                             ; CODE XREF: sub_149516+26↑j
                 CLC
-                ADC     $24
+                ADC     byte_24
                 CMP     #9
                 BCC     loc_149551
                 LDA     #8
@@ -700,12 +789,12 @@ loc_149563:                             ; CODE XREF: sub_149516+49↑j
                 STX     byte_24
                 TYA
                 AND     #$F8
-                STA     byte_68
+                STA     pDist
                 LDA     #0
-                ASL     byte_68
+                ASL     pDist
                 ROL     A
                 ADC     #$92
-                STA     byte_68+1
+                STA     pDist+1
 
 loc_149573:                             ; CODE XREF: sub_149516+67↓j
                 JSR     sub_F1ED
@@ -714,12 +803,12 @@ loc_149573:                             ; CODE XREF: sub_149516+67↓j
                 LSR     A
                 LSR     A
                 TAY
-                LDA     (byte_68),Y
+                LDA     (pDist),Y
                 BEQ     loc_149573
                 STA     byte_48
                 LDA     #$19
                 LDX     #$A6
-                LDY     #$A4
+                LDY     #$A4            ; BANK19:A4A7
                 JSR     bank_A000_a     ; changes the memory bank $A000, transfers the execution of the code after completion of which returns the original memory bank
                                         ; input: A - bank number, YX - (subroutine address - 1)
                                         ; Y - high byte, X - low byte
@@ -729,98 +818,83 @@ locret_14958A:                          ; DATA XREF: sub_149516+3F↑r
 ; End of function sub_149516
 
 ; ---------------------------------------------------------------------------
-                .BYTE $20
-                .BYTE $15
-                .BYTE $10
-                .BYTE  $D
-                .BYTE  $A
-                .BYTE   8
-                .BYTE   6
-                .BYTE   5
+                .BYTE $20, $15, $10, $D, $A, 8, 6, 5
 byte_149593:    .BYTE 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, $C, $11, $E8, $26
                                         ; DATA XREF: sub_149516+17↑r
                 .BYTE $2D, $34, $3D, $43, $4D, $55, $5D, $65, 0, 0, 0
                 .BYTE 0, 0, $6C, $74, $7C, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
                 .BYTE $E0, 0, 0, $8D, $95, $9C, $A7, 0, $AD, 0, 0, $B5
                 .BYTE $BD, $C5, $CD, 0, 0, $D6, 0, 0, 0, $DC, 0
-; ---------------------------------------------------------------------------
 
-loc_1495D3:                             ; CODE XREF: sub_149516+12↑p
+; =============== S U B R O U T I N E =======================================
+
+
+sub_1495D3:                             ; CODE XREF: sub_149516+12↑p
                 LDX     #0
-                LDA     $7408,X
-                BEQ     unk_14962A
-                JSR     $C665
+
+loc_1495D5:                             ; CODE XREF: sub_1495D3+5A↓j
+                LDA     CurrentGame.PureSave.CharactersNum,X
+                BEQ     loc_14962A
+                JSR     get_sram_pointer ; Input: A -
+                                        ; Output: Pointer (word) = High $74 Low $40 * A
                 LDY     #1
-                LDA     ($60),Y
+                LDA     (Pointer),Y
                 LSR     A
                 BCC     loc_1495E8
                 LDA     #7
                 BNE     loc_1495ED
 
-loc_1495E8:                             ; CODE XREF: BANK14:95E2↑j
+loc_1495E8:                             ; CODE XREF: sub_1495D3+F↑j
                 LSR     A
-                BCC     unk_14962A
+                BCC     loc_14962A
                 LDA     #7
 
-loc_1495ED:                             ; CODE XREF: BANK14:95E6↑j
-                STA     $64
+loc_1495ED:                             ; CODE XREF: sub_1495D3+13↑j
+                STA     pTileID
                 CLC
                 TXA
-                ADC     $D5
-                AND     $64
-                BNE     unk_14962A
-                JSR     $FDE7
+                ADC     byte_D5
+                AND     pTileID
+                BNE     loc_14962A
+                JSR     sram_write_enable
                 SEC
                 LDY     #$14
-                LDA     ($60),Y
+                LDA     (Pointer),Y
                 SBC     #1
-                STA     $64
+                STA     pTileID
                 INY
-                LDA     ($60),Y
-; ---------------------------------------------------------------------------
-                .BYTE $E9
-                .BYTE   0
-                .BYTE $85
-                .BYTE $65 ; e
-                .BYTE $90
-                .BYTE  $F
-                .BYTE $A5
-                .BYTE $64 ; d
-                .BYTE   5
-                .BYTE $65 ; e
-                .BYTE $F0
-                .BYTE   9
-                .BYTE $A5
-                .BYTE $65 ; e
-                .BYTE $91
-                .BYTE $60 ; `
-                .BYTE $88
-                .BYTE $A5
-                .BYTE $64 ; d
-                .BYTE $91
-                .BYTE $60 ; `
-                .BYTE $20
-                .BYTE $ED
-                .BYTE $FD
-                .BYTE $8A
-                .BYTE $48 ; H
-                .BYTE $A9
-                .BYTE $16
-                .BYTE $20
-                .BYTE $FE
-                .BYTE $ED
-                .BYTE $20
-                .BYTE $B0
-                .BYTE $EE
-                .BYTE $68 ; h
-                .BYTE $AA
-unk_14962A:     .BYTE $E8               ; CODE XREF: BANK14:95D8↑j
-                                        ; BANK14:95E9↑j ...
-                .BYTE $E0
-                .BYTE   4
-                .BYTE $90
-                .BYTE $A6
-                .BYTE $60 ; `
+                LDA     (Pointer),Y
+                SBC     #0
+                STA     pTileID+1
+                BCC     loc_14961B
+                LDA     pTileID
+                ORA     pTileID+1
+                BEQ     loc_14961B
+                LDA     pTileID+1
+                STA     (Pointer),Y
+                DEY
+                LDA     pTileID
+                STA     (Pointer),Y
+
+loc_14961B:                             ; CODE XREF: sub_1495D3+37↑j
+                                        ; sub_1495D3+3D↑j
+                JSR     sram_read_enable
+                TXA
+                PHA
+                LDA     #$16
+                JSR     one_color_palettes_save
+                JSR     back_palettes
+                PLA
+                TAX
+
+loc_14962A:                             ; CODE XREF: sub_1495D3+5↑j
+                                        ; sub_1495D3+16↑j ...
+                INX
+                CPX     #4
+                BCC     loc_1495D5
+                RTS
+; End of function sub_1495D3
+
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -829,18 +903,20 @@ sub_149630:                             ; CODE XREF: start_battle+21↑P
                 LDA     byte_48
                 CMP     #$A2
                 BEQ     locret_149684
-                LDA     #$30 ; '0'
-                JSR     sub_EDFE
-                JSR     loc_EEB0
+                LDA     #WHITE
+                JSR     one_color_palettes_save
+                JSR     back_palettes
                 JSR     sub_FDC0
+
+loc_149641:                             ; CODE XREF: sub_13BDD9+29↑P
                 LDA     #7
-                STA     NMI_ID
+                STA     NMI_Data.NMI_ID ; NMITable
                 LDA     #0
-                STA     num_of_chr
-                STA     pPPUTable
+                STA     NMI_Data.NumOfChr ; NMITable
+                STA     Pointer
 
 loc_14964D:                             ; CODE XREF: sub_149630+43↓j
-                LDX     pPPUTable
+                LDX     Pointer
                 LDA     byte_1496F1,X
                 CMP     #$FF
                 BEQ     loc_149675
@@ -848,25 +924,25 @@ loc_14964D:                             ; CODE XREF: sub_149630+43↓j
                 LSR     A
                 LSR     A
                 LSR     A
-                STA     pPPUTable+1
+                STA     Pointer+1
                 LDA     byte_1496F1,X
                 AND     #$F
                 STA     AddrForJmp
                 JSR     sub_149685
-                LDX     pPPUTable+1
+                LDX     Pointer+1
                 LDY     AddrForJmp
-                STY     pPPUTable+1
+                STY     Pointer+1
                 STX     AddrForJmp
                 JSR     sub_149685
-                INC     pPPUTable
+                INC     Pointer
                 BNE     loc_14964D
 
 loc_149675:                             ; CODE XREF: sub_149630+24↑j
-                LDA     num_of_chr
+                LDA     NMI_Data.NumOfChr ; NMITable
                 CMP     #0
                 BEQ     locret_149684
                 LDA     #0
-                STA     OffsetNMI_ID
+                STA     OffsetNMI_Data
                 LDA     #1
                 STA     NMIFlags
 
@@ -888,12 +964,12 @@ sub_149685:                             ; CODE XREF: sub_149630+33↑p
                 LDA     #0
 
 loc_14968E:                             ; CODE XREF: sub_149685+5↑j
-                STA     byte_77
+                STA     Row
                 PHA
                 LDA     #$F
                 SEC
-                SBC     pPPUTable+1
-                STA     byte_76
+                SBC     Pointer+1
+                STA     Column
                 JSR     loc_1496B8
                 LDA     #$F
                 CLC
@@ -903,44 +979,46 @@ loc_14968E:                             ; CODE XREF: sub_149685+5↑j
                 LDA     #$1D
 
 loc_1496A6:                             ; CODE XREF: sub_149685+1D↑j
-                STA     byte_77
+                STA     Row
                 JSR     loc_1496B8
                 LDA     #$10
                 CLC
-                ADC     pPPUTable+1
-                STA     byte_76
+                ADC     Pointer+1
+                STA     Column
                 JSR     loc_1496B8
                 PLA
-                STA     byte_77
+                STA     Row
 
 loc_1496B8:                             ; CODE XREF: sub_149685+13↑p
                                         ; sub_149685+23↑p ...
-                LDA     num_of_chr
+                LDA     NMI_Data.NumOfChr ; NMITable
                 CMP     #$14
                 BCC     loc_1496CF
                 LDA     #0
-                STA     OffsetNMI_ID
+                STA     OffsetNMI_Data
                 LDA     #1
                 STA     NMIFlags
-                JSR     wait_fill_PPU
+                JSR     wait_nmi_processed
                 LDA     #0
-                STA     num_of_chr
+                STA     NMI_Data.NumOfChr ; NMITable
 
 loc_1496CF:                             ; CODE XREF: sub_149685+38↑j
-                JSR     sub_C9D7
-                LDA     num_of_chr
+                JSR     nt_calc         ; Calculate Name table address
+                                        ; Input: CameraX, CameraY, Column, Row
+                                        ; Output: NTAddr address for screen tile position (Column, Row + 1)
+                LDA     NMI_Data.NumOfChr ; NMITable
                 ASL     A
                 CLC
-                ADC     num_of_chr
+                ADC     NMI_Data.NumOfChr ; NMITable
                 TAX
-                LDA     byte_78
-                STA     PPU_addr,X
-                LDA     byte_79
-                STA     PPU_addr+1,X
+                LDA     NTAddr
+                STA     NMI_Data.PPU_Addr,X ; NMITable
+                LDA     NTAddr+1
+                STA     NMI_Data.PPU_Addr+1,X ; NMITable
                 LDA     #0
-                STA     chr,X
-                STA     next,X
-                INC     num_of_chr
+                STA     NMI_Data.Chr,X  ; NMITable
+                STA     NMI_Data.Next,X ; NMITable
+                INC     NMI_Data.NumOfChr ; NMITable
                 RTS
 ; End of function sub_149685
 
@@ -966,23 +1044,24 @@ byte_1496F1:    .BYTE 0, $FE, $10, $FD, $EE, $11, $FB, $FC, $ED, $20, $21
 
 
 sub_149779:                             ; CODE XREF: main+D9↑P
-                LDA     #$38 ; '8'
-                JSR     $EE21
+                LDA     #LIGHTEST_YELLOW
+                JSR     one_color_lighten_palette
                 LDA     #5
                 JSR     sub_149920
                 LDA     #$C2
-                LDX     #$99
+                LDX     #$99            ; 99C2
                 JSR     sub_1497D6
                 LDA     #$FF
-                JSR     $FD28
+                JSR     sub_FD28
                 LDX     #$B4
-                JSR     $FD3A
+                JSR     wait_frames     ; wait for a few frames
+                                        ; input: X - number of frames
                 LDA     #$F
-                JSR     $EDFE
+                JSR     one_color_palettes_save
                 LDA     #0
-                STA     $EC
-                JSR     $CE02
-                JMP     $D674
+                STA     IRQCount
+                JSR     chr_5E_5F_to_sram ; copy chr banks $5E, $5F (wall??) in SRAM $6C00-$73FF
+                JMP     sub_D674
 ; End of function sub_149779
 
 
@@ -993,26 +1072,26 @@ sub_1497A3:                             ; CODE XREF: main+E4↑J
                 LDA     #$E
                 JSR     sub_149920
                 LDA     #$D5
-                LDX     #$99
+                LDX     #$99            ; 99D5
                 JSR     sub_1497D6
                 LDA     #$FF
-                JSR     $FD28
+                JSR     sub_FD28
                 LDA     #$E0
-                LDX     #$99
+                LDX     #$99            ; 99E0
                 JSR     sub_1497D6
                 LDA     #9
-                STA     $7F0
+                STA     apu_7F0
                 LDA     #1
-                STA     $7F4
+                STA     byte_7F4
                 LDA     #$E9
-                LDX     #$99
+                LDX     #$99            ; 99E9
                 JSR     sub_1497D6
                 LDA     #$1A
                 LDX     #7
                 JSR     mmc3_bank_set   ; Set memory bank
                                         ; A - bank number
                                         ; X - mode
-                JMP     $A000
+                JMP     sub_1AA000
 ; End of function sub_1497A3
 
 
@@ -1021,43 +1100,43 @@ sub_1497A3:                             ; CODE XREF: main+E4↑J
 
 sub_1497D6:                             ; CODE XREF: sub_149779+E↑p
                                         ; sub_1497A3+9↑p ...
-                STA     $68
-                STX     $69
+                STA     pDist
+                STX     pDist+1
                 LDY     #0
-                STY     $6B
+                STY     CursorMode
 
 loc_1497DE:                             ; CODE XREF: sub_1497D6+64↓j
-                LDA     ($68),Y
+                LDA     (pDist),Y
                 BEQ     locret_14983C
-                STA     $6C
+                STA     byte_6C
                 INY
-                LDA     ($68),Y
-                STA     $6D
+                LDA     (pDist),Y
+                STA     byte_6D
                 INY
                 AND     #$20 ; ' '
                 BEQ     loc_1497F1
                 SEC
-                ROL     $6B
+                ROL     CursorMode
 
 loc_1497F1:                             ; CODE XREF: sub_1497D6+16↑j
                 TYA
                 PHA
-                LDA     $6D
+                LDA     byte_6D
                 AND     #3
                 BEQ     loc_149808
                 TAX
-                LDA     $9A05,X
+                LDA     byte_149A05,X
                 JSR     sub_EE0E
-                JSR     $FD41
+                JSR     wait_nmi        ; wait for NMI interrupt processing to complete
                 LDA     #$F
-                JSR     $EE0E
+                JSR     sub_EE0E
 
 loc_149808:                             ; CODE XREF: sub_1497D6+21↑j
                                         ; sub_1497D6+60↓j
-                JSR     $FD41
-                LDA     $6B
+                JSR     wait_nmi        ; wait for NMI interrupt processing to complete
+                LDA     CursorMode
                 BNE     loc_149815
-                LDA     $6C
+                LDA     byte_6C
                 AND     #3
                 BNE     loc_149820
 
@@ -1073,20 +1152,20 @@ loc_149816:                             ; CODE XREF: sub_1497D6+48↓j
                 BPL     loc_149816
 
 loc_149820:                             ; CODE XREF: sub_1497D6+3D↑j
-                LDA     $6C
+                LDA     byte_6C
                 ASL     A
                 ASL     A
-                AND     $6D
+                AND     byte_6D
                 AND     #4
                 BEQ     loc_149834
                 LSR     A
-                EOR     $FD
-                STA     $FD
+                EOR     CameraX
+                STA     CameraX
                 LDA     #$A
-                STA     $7F0
+                STA     apu_7F0
 
 loc_149834:                             ; CODE XREF: sub_1497D6+52↑j
-                DEC     $6C
+                DEC     byte_6C
                 BNE     loc_149808
                 PLA
                 TAY
@@ -1101,7 +1180,7 @@ locret_14983C:                          ; CODE XREF: sub_1497D6+A↑j
 
 
 sub_14983D:                             ; CODE XREF: sub_1497D6+41↑p
-                BIT     $6D
+                BIT     byte_6D
                 BPL     locret_149877
                 BVC     loc_149859
                 JSR     sub_149878
@@ -1114,7 +1193,7 @@ sub_14983D:                             ; CODE XREF: sub_1497D6+41↑p
 
 loc_149851:                             ; CODE XREF: sub_14983D+9↑j
                 SEC
-                LDA     $FC
+                LDA     CameraY
                 SBC     #1
                 JMP     loc_149871
 ; ---------------------------------------------------------------------------
@@ -1133,7 +1212,7 @@ loc_149859:                             ; CODE XREF: sub_14983D+4↑j
 
 loc_14986C:                             ; CODE XREF: sub_14983D+21↑j
                 CLC
-                LDA     $FC
+                LDA     CameraY
                 ADC     #$11
 
 loc_149871:                             ; CODE XREF: sub_14983D+19↑j
@@ -1141,7 +1220,7 @@ loc_149871:                             ; CODE XREF: sub_14983D+19↑j
                 SBC     #$F
 
 loc_149875:                             ; CODE XREF: sub_14983D:loc_149871↑j
-                STA     $FC
+                STA     CameraY
 
 locret_149877:                          ; CODE XREF: sub_14983D+2↑j
                                         ; sub_14983D+E↑j ...
@@ -1154,10 +1233,10 @@ locret_149877:                          ; CODE XREF: sub_14983D+2↑j
 
 sub_149878:                             ; CODE XREF: sub_14983D+6↑p
                                         ; sub_14983D:loc_149859↑p
-                JSR     $FD33
-                LDX     $6A
+                JSR     wait_nmi_processed
+                LDX     FieldPosition
                 CLC
-                LDA     $FC
+                LDA     CameraY
                 AND     #$F
                 RTS
 ; End of function sub_149878
@@ -1168,10 +1247,10 @@ sub_149878:                             ; CODE XREF: sub_14983D+6↑p
 
 sub_149883:                             ; CODE XREF: sub_14983D+11↑p
                                         ; sub_14983D+2C↑p
-                STX     $6A
+                STX     FieldPosition
                 JSR     sub_14988D
                 LDA     #$80
-                STA     $E5
+                STA     NMIFlags
                 RTS
 ; End of function sub_149883
 
@@ -1182,98 +1261,93 @@ sub_149883:                             ; CODE XREF: sub_14983D+11↑p
 sub_14988D:                             ; CODE XREF: sub_149883+2↑p
                                         ; sub_14998B+6↓p
                 LDX     #$24 ; '$'
-; End of function sub_14988D
 
-
-; =============== S U B R O U T I N E =======================================
-
-
-sub_14988F:                             ; CODE XREF: sub_149920+3F↓p
-                STX     $62
+loc_14988F:                             ; CODE XREF: sub_149920+3F↓p
+                STX     AddrForJmp
                 LDX     #0
 
-loc_149893:                             ; CODE XREF: sub_14988F+B↓j
+loc_149893:                             ; CODE XREF: sub_14988D+D↓j
                 CMP     #$F
                 BCC     loc_14989C
                 SBC     #$F
                 INX
                 BCS     loc_149893
 
-loc_14989C:                             ; CODE XREF: sub_14988F+6↑j
+loc_14989C:                             ; CODE XREF: sub_14988D+8↑j
                 ASL     A
                 ASL     A
-                STA     $6E
+                STA     byte_6E
                 TXA
                 LSR     A
                 ROR     A
                 ROR     A
                 AND     #$C0
-                ORA     $6E
-                STA     $60
+                ORA     byte_6E
+                STA     Pointer
                 LDA     #6
-                ASL     $60
+                ASL     Pointer
                 ROL     A
-                ASL     $60
+                ASL     Pointer
                 ROL     A
-                ASL     $60
+                ASL     Pointer
                 ROL     A
-                ASL     $60
+                ASL     Pointer
                 ROL     A
-                STA     $61
+                STA     Pointer+1
                 ORA     #3
-                STA     $65
-                LDA     $6E
+                STA     pTileID+1
+                LDA     byte_6E
                 AND     #$38 ; '8'
                 ORA     #$C0
-                STA     $64
-                JSR     $FD33
+                STA     pTileID
+                JSR     wait_nmi_processed
                 LDA     #5
                 LDY     #$40 ; '@'
-                STA     $400
-                STY     $401
+                STA     NMI_Data.NMI_ID ; NMITable
+                STY     NMI_Data.NumOfChr ; NMITable
                 LDY     #8
-                STA     $444
-                STY     $445
-                LDA     $61
-                LDY     $60
+                STA     byte_444
+                STY     byte_444+1
+                LDA     Pointer+1
+                LDY     Pointer
                 AND     #3
-                ORA     $62
-                STA     $402
-                STY     $403
-                LDA     $65
-                LDY     $64
+                ORA     AddrForJmp
+                STA     NMI_Data.PPU_Addr ; NMITable
+                STY     NMI_Data.PPU_Addr+1 ; NMITable
+                LDA     pTileID+1
+                LDY     pTileID
                 AND     #3
-                ORA     $62
-                STA     $446
-                STY     $447
+                ORA     AddrForJmp
+                STA     byte_444+2
+                STY     byte_444+3
                 LDY     #$3F ; '?'
 
-loc_1498F9:                             ; CODE XREF: sub_14988F+73↓j
-                LDA     ($60),Y
+loc_1498F9:                             ; CODE XREF: sub_14988D+75↓j
+                LDA     (Pointer),Y
                 JSR     sub_149919
-                STA     $404,Y
+                STA     NMI_Data.Chr,Y  ; NMITable
                 DEY
                 BPL     loc_1498F9
                 LDY     #7
 
-loc_149906:                             ; CODE XREF: sub_14988F+80↓j
-                LDA     ($64),Y
+loc_149906:                             ; CODE XREF: sub_14988D+82↓j
+                LDA     (pTileID),Y
                 JSR     sub_149919
-                STA     $448,Y
+                STA     byte_444+4,Y
                 DEY
                 BPL     loc_149906
                 LDA     #0
-                STA     $450
-                STA     $E6
+                STA     byte_444+$C
+                STA     OffsetNMI_Data
                 RTS
-; End of function sub_14988F
+; End of function sub_14988D
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_149919:                             ; CODE XREF: sub_14988F+6C↑p
-                                        ; sub_14988F+79↑p
+sub_149919:                             ; CODE XREF: sub_14988D+6E↑p
+                                        ; sub_14988D+7B↑p
                 CPX     #4
                 BCC     locret_14991F
                 LDA     #0
@@ -1288,41 +1362,57 @@ locret_14991F:                          ; CODE XREF: sub_149919+2↑j
 
 sub_149920:                             ; CODE XREF: sub_149779+7↑p
                                         ; sub_1497A3+2↑p
-                STA     $6A
+                STA     FieldPosition
                 LDA     #$B
-                JSR     $FD28
+                JSR     sub_FD28
                 JSR     sub_1499A3
-                JSR     $EECC
-                JSR     $FD5E
-                JSR     $FD33
+                JSR     set_camera
+                JSR     clear_oam_sprite
+                JSR     wait_nmi_processed
                 LDX     #$F
 
 loc_149935:                             ; CODE XREF: sub_149920+1C↓j
-                LDA     $9A3D,X
-                STA     $340,X
+                LDA     stru_149A3D,X
+                STA     SpriteTable.Tiles+$40,X
                 DEX
                 BPL     loc_149935
-                LDA     #$2D ; '-'
+                LDA     #$2D ; '-'      ; 9A2D
                 LDX     #$9A
-                STA     $60
-                STX     $61
-                JSR     $E087
+                STA     Pointer
+                STX     Pointer+1
+                JSR     sub_E087
                 LDA     #$54 ; 'T'
                 JSR     sub_1499AD
-                LDA     #$F9
+                LDA     #$F9            ; 99F9
                 LDX     #$99
-                JSR     $CEE8
+                JSR     set_ppu_banks   ; set 6 memory banks for PPU
+                                        ; pPPUTable = XA address (X - high and A - low byte)
+                                        ;
+                                        ; |PPU address | PPUTable offset | Size |
+                                        ; |-------------------------------------|
+                                        ; |   $1000    |        0        |  2K  |
+                                        ; |-------------------------------------|
+                                        ; |   $1800    |        1        |  2K  |
+                                        ; |-------------------------------------|
+                                        ; |   $0000    |        2        |  1K  |
+                                        ; |-------------------------------------|
+                                        ; |   $0400    |        3        |  1K  |
+                                        ; |-------------------------------------|
+                                        ; |   $0800    |        4        |  1K  |
+                                        ; |-------------------------------------|
+                                        ; |   $0C00    |        5        |  1K  |
+                                        ; ---------------------------------------
                 LDA     #1
-                STA     $E5
+                STA     NMIFlags
                 LDY     #4
 
 loc_14995B:                             ; CODE XREF: sub_149920+49↓j
                 TYA
                 PHA
                 LDX     #$20 ; ' '
-                JSR     sub_14988F
+                JSR     loc_14988F
                 LDA     #$80
-                STA     $E5
+                STA     NMIFlags
                 PLA
                 TAY
                 DEY
@@ -1330,21 +1420,21 @@ loc_14995B:                             ; CODE XREF: sub_149920+49↓j
                 JSR     sub_14998B
                 LDX     #3
 
-loc_149970:                             ; CODE XREF: sub_149920+57↓j
-                LDA     $9A09,X
-                STA     $540,X
+@next_byte:                             ; CODE XREF: sub_149920+57↓j
+                LDA     off_149A09,X
+                STA     InterruptTable,X
                 DEX
-                BPL     loc_149970
+                BPL     @next_byte
                 LDA     #$9F
-                STA     $EC
+                STA     IRQCount
                 LDX     #$1F
 
-loc_14997F:                             ; CODE XREF: sub_149920+66↓j
-                LDA     $9A0D,X
-                STA     $520,X
+@next_color:                            ; CODE XREF: sub_149920+66↓j
+                LDA     Palettes_0,X
+                STA     PalBG,X
                 DEX
-                BPL     loc_14997F
-                JMP     $EE30
+                BPL     @next_color
+                JMP     lighten_palette ; increase the brightness of colors in the palette
 ; End of function sub_149920
 
 
@@ -1353,19 +1443,19 @@ loc_14997F:                             ; CODE XREF: sub_149920+66↓j
 
 sub_14998B:                             ; CODE XREF: sub_149920+4B↑p
                 CLC
-                LDA     $6A
+                LDA     FieldPosition
                 ADC     #$B
 
 loc_149990:                             ; CODE XREF: sub_14998B+15↓j
                 PHA
                 JSR     sub_14988D
                 LDA     #$80
-                STA     $E5
+                STA     NMIFlags
                 PLA
                 SEC
                 SBC     #1
                 BCC     locret_1499A2
-                CMP     $6A
+                CMP     FieldPosition
                 BCS     loc_149990
 
 locret_1499A2:                          ; CODE XREF: sub_14998B+11↑j
@@ -1377,7 +1467,7 @@ locret_1499A2:                          ; CODE XREF: sub_14998B+11↑j
 
 
 sub_1499A3:                             ; CODE XREF: sub_149920+7↑p
-                LDA     $6A
+                LDA     FieldPosition
                 ASL     A
                 ASL     A
                 ASL     A
@@ -1396,343 +1486,232 @@ sub_1499AD:                             ; CODE XREF: sub_149920+2B↑p
                 TAY
                 LDA     #0
                 LDX     #$60 ; '`'
-                JSR     $CE08
+                JSR     loc_CE08
                 PLA
                 CLC
                 ADC     #2
                 TAY
                 LDA     #0
                 LDX     #$68 ; 'h'
-                JMP     $CE08
+                JMP     loc_CE08
 ; End of function sub_1499AD
 
 ; ---------------------------------------------------------------------------
-                .BYTE $80
-                .BYTE   0
-                .BYTE $80
-                .BYTE $80
-                .BYTE $80
-                .BYTE $82
-                .BYTE $20
-                .BYTE $83
-                .BYTE $20
-                .BYTE $82
-                .BYTE $C0
-                .BYTE $81
-                .BYTE $80
-                .BYTE $82
-                .BYTE $20
-                .BYTE $83
-                .BYTE $20
-                .BYTE $82
-                .BYTE   0
-                .BYTE $80
-                .BYTE $C0
-                .BYTE $20
-                .BYTE $C3
-                .BYTE $20
-                .BYTE $C2
-                .BYTE $80
-                .BYTE $C1
-                .BYTE $80
-                .BYTE $C3
-                .BYTE   0
-                .BYTE $40 ; @
-                .BYTE   2
-                .BYTE $10
-                .BYTE   7
-                .BYTE $20
-                .BYTE   6
-                .BYTE $50 ; P
-                .BYTE   5
-                .BYTE   0
-                .BYTE   8
-                .BYTE $23 ; #
-                .BYTE   8
-                .BYTE $22 ; "
-                .BYTE $F0
-                .BYTE $A1
-                .BYTE $F0
+                .WORD $80, $8080, $8280, $8320, $8220, $81C0, $8280, $8320
+                .WORD $8220
+                .BYTE 0
+                .WORD $C080, $C320, $C220, $C180, $C380
+                .BYTE 0
+                .WORD $240, $710, $620, $550
+                .BYTE 0
+                .WORD $2308, $2208, $A1F0, $F0, $400, $80, $A9A9, $AAAB
+CHRBank_1:      .BYTE $76, $70, $50, $51, $52, $53
+                .BYTE $76, $70, $48, $49, $4A, $4B
+byte_149A05:    .BYTE $F, $38, $21, $34 ; DATA XREF: sub_1497D6+24↑r
+off_149A09:     .WORD locret_EDCA       ; DATA XREF: sub_149920:@next_byte↑r
                 .BYTE   0
                 .BYTE   0
-                .BYTE   4
-                .BYTE $80
-                .BYTE   0
-                .BYTE $A9
-                .BYTE $A9
-                .BYTE $AB
-                .BYTE $AA
-                .BYTE $76 ; v
-                .BYTE $70 ; p
-                .BYTE $50 ; P
-                .BYTE $51 ; Q
-                .BYTE $52 ; R
-                .BYTE $53 ; S
-                .BYTE $76 ; v
-                .BYTE $70 ; p
-                .BYTE $48 ; H
-                .BYTE $49 ; I
-                .BYTE $4A ; J
-                .BYTE $4B ; K
-                .BYTE  $F
-                .BYTE $38 ; 8
-                .BYTE $21 ; !
-                .BYTE $34 ; 4
-                .BYTE $CA
-                .BYTE $ED
-                .BYTE   0
-                .BYTE   0
-                .BYTE  $F
-                .BYTE $12
-                .BYTE $30 ; 0
-                .BYTE   0
-                .BYTE  $F
-                .BYTE $10
-                .BYTE $30 ; 0
-                .BYTE   0
-                .BYTE  $F
-                .BYTE $17
-                .BYTE $37 ; 7
-                .BYTE $16
-                .BYTE  $F
-                .BYTE $38 ; 8
-                .BYTE $30 ; 0
-                .BYTE   0
-                .BYTE  $F
-                .BYTE  $F
-                .BYTE   0
-                .BYTE $30 ; 0
-                .BYTE  $F
-                .BYTE  $F
-                .BYTE $16
-                .BYTE $37 ; 7
-                .BYTE  $F
-                .BYTE  $F
-                .BYTE $24 ; $
-                .BYTE $37 ; 7
-                .BYTE  $F
-                .BYTE  $F
-                .BYTE $12
-                .BYTE $37 ; 7
-                .BYTE $68 ; h
-                .BYTE $78 ; x
-                .BYTE   0
-                .BYTE   0
-                .BYTE $58 ; X
-                .BYTE $88
-                .BYTE   0
-                .BYTE   0
-                .BYTE $78 ; x
-                .BYTE $88
-                .BYTE   0
-                .BYTE   0
-                .BYTE $68 ; h
-                .BYTE $98
-                .BYTE   0
-                .BYTE   0
-                .BYTE $86
-                .BYTE   0
-                .BYTE $F4
-                .BYTE $76 ; v
-                .BYTE   0
-                .BYTE   0
-                .BYTE $C0
-                .BYTE $99
-                .BYTE   6
-                .BYTE   0
-                .BYTE $E4
-                .BYTE $76 ; v
-                .BYTE   0
-                .BYTE   0
-                .BYTE $C4
-                .BYTE $99
+Palettes_0:     .BYTE BLACK, MEDIUM_INDIGO, WHITE, DARK_GRAY; PALETTE0
+                                        ; DATA XREF: sub_149920:@next_color↑r
+                .BYTE BLACK, MEDIUM_GRAY, WHITE, DARK_GRAY; PALETTE1
+                .BYTE BLACK, MEDIUM_ORANGE, LIGHTEST_ORANGE, MEDIUM_RED; PALETTE2
+                .BYTE BLACK, LIGHTEST_YELLOW, WHITE, DARK_GRAY; PALETTE3
+                .BYTE BLACK, BLACK, DARK_GRAY, WHITE; PALETTE0
+                .BYTE BLACK, BLACK, MEDIUM_RED, LIGHTEST_ORANGE; PALETTE1
+                .BYTE BLACK, BLACK, LIGHT_PURPLE, LIGHTEST_ORANGE; PALETTE2
+                .BYTE BLACK, BLACK, MEDIUM_INDIGO, LIGHTEST_ORANGE; PALETTE3
+                .BYTE $68, $78, 0, 0, $58, $88, 0, 0, $78, $88, 0, 0, $68
+                .BYTE $98, 0, 0
+stru_149A3D:    ANIM_SPRITE <$86, 0, $F4, $76, 0, 0, FRAME.pSprite+$99C0>
+                                        ; DATA XREF: sub_149920:loc_149935↑r
+                ANIM_SPRITE <6, 0, $E4, $76, 0, 0, FRAME.pSprite+$99C4>
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_149A4D:                             ; CODE XREF: sub_149455+15↑p
-                                        ; sub_149A4D+52↓j
-                JSR     sub_149B2A
+new_game:                               ; CODE XREF: start_new+15↑p
+                                        ; new_game+52↓j
+                JSR     draw_start_game_menu
 
-loc_149A50:                             ; CODE XREF: sub_149A4D+1B↓j
+@character1:                            ; CODE XREF: new_game+1B↓j
                 LDA     #6
                 STA     byte_56
-                LDA     #$CA
+                LDA     #$CA            ; SRAM19:62CA
                 LDX     #$62 ; 'b'
-                JSR     sub_149B7D
-                BCS     locret_149AD4
+                JSR     enter_name
+                BCS     @exit
 
-loc_149A5D:                             ; CODE XREF: sub_149A4D+28↓j
+@character2:                            ; CODE XREF: new_game+28↓j
                 LDA     #6
                 STA     byte_56
-                LDA     #$D0
+                LDA     #$D0            ; SRAM19:62D0
                 LDX     #$62 ; 'b'
-                JSR     sub_149B7D
-                BCS     loc_149A50
+                JSR     enter_name
+                BCS     @character1
 
-loc_149A6A:                             ; CODE XREF: sub_149A4D+35↓j
+@character3:                            ; CODE XREF: new_game+35↓j
                 LDA     #6
                 STA     byte_56
-                LDA     #$D6
+                LDA     #$D6            ; SRAM19:62D6
                 LDX     #$62 ; 'b'
-                JSR     sub_149B7D
-                BCS     loc_149A5D
+                JSR     enter_name
+                BCS     @character2
 
-loc_149A77:                             ; CODE XREF: sub_149A4D+42↓j
+@character4:                            ; CODE XREF: new_game+42↓j
                 LDA     #6
                 STA     byte_56
-                LDA     #$DC
+                LDA     #$DC            ; SRAM19:62DC
                 LDX     #$62 ; 'b'
-                JSR     sub_149B7D
-                BCS     loc_149A6A
+                JSR     enter_name
+                BCS     @character3
                 LDA     #$A
                 STA     byte_56
-                LDA     #$E2
+                LDA     #$E2            ; SRAM19:62E2
                 LDX     #$62 ; 'b'
-                JSR     sub_149B7D
-                BCS     loc_149A77
-                JSR     sub_149D50
-                JSR     sub_149AD5
-                JSR     increase_palette ; increase the brightness of colors in the palette
-                JSR     sub_149B00
-                BCC     loc_149AA2
-                JMP     sub_149A4D
+                JSR     enter_name
+                BCS     @character4
+                JSR     clear_screen
+                JSR     draw_confirm
+                JSR     lighten_palette ; increase the brightness of colors in the palette
+                JSR     confirm
+                BCC     @yes
+                JMP     new_game
 ; ---------------------------------------------------------------------------
 
-loc_149AA2:                             ; CODE XREF: sub_149A4D+50↑j
-                JSR     sub_149D50
+@yes:                                   ; CODE XREF: new_game+50↑j
+                JSR     clear_screen
                 LDX     #$3C ; '<'
-                JSR     loc_F25E
-                JSR     increase_palette ; increase the brightness of colors in the palette
+                JSR     delay
+                JSR     lighten_palette ; increase the brightness of colors in the palette
                 LDA     #2
-                STA     byte_76
+                STA     Column
                 LDA     #3
-                STA     byte_77
-                LDX     #$D0
+                STA     Row
+                LDX     #$D0            ; SRAM19:64D0
                 LDY     #$64 ; 'd'
-                JSR     sub_149B13
+                JSR     print_story
                 LDA     #$FF
                 STA     apu_7F5
-                JSR     increase_palette ; increase the brightness of colors in the palette
+                JSR     lighten_palette ; increase the brightness of colors in the palette
                 LDA     #6
-                STA     byte_76
+                STA     Column
                 LDA     #$A
-                STA     byte_77
-                LDX     #$7D ; '}'
+                STA     Row
+                LDX     #$7D ; '}'      ; SRAM19:667D
                 LDY     #$66 ; 'f'
-                JSR     sub_149B13
+                JSR     print_story
                 CLC
 
-locret_149AD4:                          ; CODE XREF: sub_149A4D+E↑j
+@exit:                                  ; CODE XREF: new_game+E↑j
                 RTS
-; End of function sub_149A4D
+; End of function new_game
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_149AD5:                             ; CODE XREF: sub_149A4D+47↑p
-                LDA     #$8B
+draw_confirm:                           ; CODE XREF: new_game+47↑p
+                LDA     #$8B            ; SRAM19:6C8B character names, favorite food
                 LDX     #$6C ; 'l'
-                JSR     sub_149AF9
-                LDA     #$C0
+                JSR     draw_frame
+                LDA     #$C0            ; SRAM19:6CC0 frame Is this OK? Yes No
                 LDX     #$6C ; 'l'
-                JSR     sub_149AF9
-                JSR     $6286
+                JSR     draw_frame
+                JSR     get_anim_sprite
                 LDY     #0
 
-loc_149AE8:                             ; CODE XREF: sub_149AD5+1B↓j
-                JSR     sub_149AF3
-                JSR     $629B
+@next_sprite:                           ; CODE XREF: draw_confirm+1B↓j
+                JSR     anim_sprite
+                JSR     next_anim_sprite
                 CMP     #$20 ; ' '
-                BNE     loc_149AE8
+                BNE     @next_sprite
                 RTS
-; End of function sub_149AD5
+; End of function draw_confirm
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_149AF3:                             ; CODE XREF: sub_149AD5:loc_149AE8↑p
-                                        ; sub_149B7D+1B↓p
-                JSR     wait_fill_PPU
-                JMP     $625B
-; End of function sub_149AF3
+anim_sprite:                            ; CODE XREF: draw_confirm:@next_sprite↑p
+                                        ; enter_name+1B↓p
+                JSR     wait_nmi_processed
+                JMP     set_anim_sprite
+; End of function anim_sprite
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_149AF9:                             ; CODE XREF: sub_149AD5+4↑p
-                                        ; sub_149AD5+B↑p ...
-                STA     word_74
-                STX     word_74+1
-                JMP     write_tile
-; End of function sub_149AF9
+draw_frame:                             ; CODE XREF: draw_confirm+4↑p
+                                        ; draw_confirm+B↑p ...
+                STA     PointerTilePack
+                STX     PointerTilePack+1
+                JMP     write_tiles
+; End of function draw_frame
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_149B00:                             ; CODE XREF: sub_149A4D+4D↑p
-                LDA     #$F0
+confirm:                                ; CODE XREF: new_game+4D↑p
+                LDA     #$F0            ; SRAM19:62F0
                 LDX     #$62 ; 'b'
-                STA     $80
-                STX     $81
-                JSR     $EF34
-                LDA     $82
-                BEQ     loc_149B11
+                STA     pCursor
+                STX     pCursor+1
+                JSR     cursor_update
+                LDA     CurrentFieldPosition
+                BEQ     @yes
                 SEC
                 RTS
 ; ---------------------------------------------------------------------------
 
-loc_149B11:                             ; CODE XREF: sub_149B00+D↑j
+@yes:                                   ; CODE XREF: confirm+D↑j
                 CLC
                 RTS
-; End of function sub_149B00
+; End of function confirm
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_149B13:                             ; CODE XREF: sub_149A4D+6C↑p
-                                        ; sub_149A4D+83↑p
+print_story:                            ; CODE XREF: new_game+6C↑p
+                                        ; new_game+83↑p
                 LDA     #0
                 STA     byte_70
-                STX     word_74
-                STY     word_74+1
+                STX     PointerTilePack
+                STY     PointerTilePack+1
 
-loc_149B1B:                             ; CODE XREF: sub_149B13+F↓j
-                JSR     sub_C707
-                DEC     byte_77
+@next_string:                           ; CODE XREF: print_story+F↓j
+                JSR     print_string
+                DEC     Row
                 CMP     #0
-                BNE     loc_149B1B
-                JSR     sub_F29E
-                JMP     sub_149D50
-; End of function sub_149B13
+                BNE     @next_string
+                JSR     wait_A_B
+                JMP     clear_screen
+; End of function print_story
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_149B2A:                             ; CODE XREF: sub_149A4D↑p
-                JSR     sub_149D50
-                JSR     sub_EEC8
-                LDA     #$2D ; '-'
+draw_start_game_menu:                   ; CODE XREF: new_game↑p
+                JSR     clear_screen
+                JSR     home_camera
+                LDA     #$2D ; '-'      ; SRAM19:6C2D
                 LDX     #$6C ; 'l'
-                JSR     sub_149AF9
-                JSR     sub_149B40
-                JSR     sub_149B76
-                JMP     increase_palette ; increase the brightness of colors in the palette
-; End of function sub_149B2A
+                JSR     draw_frame
+                JSR     draw_alphabetic
+                JSR     draw_name_frame
+                JMP     lighten_palette ; increase the brightness of colors in the palette
+; End of function draw_start_game_menu
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_149B40:                             ; CODE XREF: sub_149B2A+D↑p
-                                        ; sub_149C1C+E5↓p
-                LDA     #$70 ; 'p'
+draw_alphabetic:                        ; CODE XREF: draw_start_game_menu+D↑p
+                                        ; input_name+E5↓p
+                LDA     #$70 ; 'p'      ; SRAM19:6470
                 STA     pTileID
                 LDA     #$64 ; 'd'
                 STA     pTileID+1
@@ -1740,340 +1719,356 @@ sub_149B40:                             ; CODE XREF: sub_149B2A+D↑p
                 STA     AddrForJmp+1
                 LDX     #4
 
-loc_149B4E:                             ; CODE XREF: sub_149B40+2D↓j
+loc_149B4E:                             ; CODE XREF: draw_alphabetic+2D↓j
                 TXA
                 PHA
                 LDA     #8
                 STA     AddrForJmp
                 LDA     AddrForJmp
-                STA     byte_76
+                STA     Column
                 LDA     AddrForJmp+1
-                STA     byte_77
+                STA     Row
                 LDA     pTileID
-                STA     word_74
+                STA     PointerTilePack
                 LDA     pTileID+1
-                STA     word_74+1
+                STA     PointerTilePack+1
                 JSR     loc_C6DB
-                JSR     $62B5
+                JSR     get_next_string
                 PLA
                 TAX
                 DEX
                 BNE     loc_149B4E
                 LDA     #$66 ; 'f'
-                LDX     #$6C ; 'l'
-                JMP     sub_149AF9
-; End of function sub_149B40
+                LDX     #$6C ; 'l'      ; SRAM19:6C66
+                JMP     draw_frame
+; End of function draw_alphabetic
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_149B76:                             ; CODE XREF: sub_149B2A+10↑p
-                                        ; sub_149BF7↓p ...
-                LDA     #0
+draw_name_frame:                        ; CODE XREF: draw_start_game_menu+10↑p
+                                        ; draw_ask↓p ...
+                LDA     #0              ; SRAM19:6C00
                 LDX     #$6C ; 'l'
-                JMP     sub_149AF9
-; End of function sub_149B76
+                JMP     draw_frame
+; End of function draw_name_frame
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_149B7D:                             ; CODE XREF: sub_149A4D+B↑p
-                                        ; sub_149A4D+18↑p ...
-                STA     word_5C
-                STX     word_5C+1
+enter_name:                             ; CODE XREF: new_game+B↑p
+                                        ; new_game+18↑p ...
+                STA     pCharacter
+                STX     pCharacter+1
                 LDY     #0
-                JSR     sub_149BED
-                ORA     pPPUTable
-                BEQ     loc_149B9B
-                LDA     #$22 ; '"'
+                JSR     get_pointer     ; Input: Y = 0 pointer at FRAME
+                                        ;        Y = 2 pointer at TilePack (Ask)
+                                        ;        Y = 4 pointer at Name
+                                        ; Output: Pointer - result
+                ORA     Pointer
+                BEQ     @food
+                LDA     #$22 ; '"'      ; ROM:FF22
                 STA     AddrForJmp
                 LDA     #$FF
                 STA     AddrForJmp+1
                 LDA     #$80
                 STA     pTileID
                 LDY     #0
-                JSR     sub_149AF3
+                JSR     anim_sprite
 
-loc_149B9B:                             ; CODE XREF: sub_149B7D+B↑j
-                JSR     sub_149BF7
-                LDA     #$24 ; '$'
+@food:                                  ; CODE XREF: enter_name+B↑j
+                JSR     draw_ask
+                LDA     #$24 ; '$'      ; SRAM19:6C24
                 LDX     #$6C ; 'l'
-                JSR     sub_149AF9
+                JSR     draw_frame
                 LDY     #4
-                JSR     sub_149BED
+                JSR     get_pointer     ; Input: Y = 0 pointer at FRAME
+                                        ;        Y = 2 pointer at TilePack (Ask)
+                                        ;        Y = 4 pointer at Name
+                                        ; Output: Pointer - result
                 LDY     byte_56
                 LDA     #0
                 STA     byte_70
                 STA     byte_581,Y
-                STY     byte_55
+                STY     NamePos
 
-loc_149BB5:                             ; CODE XREF: sub_149B7D+44↓j
-                LDA     (pPPUTable),Y
+loc_149BB5:                             ; CODE XREF: enter_name+44↓j
+                LDA     (Pointer),Y
                 BNE     loc_149BBD
-                STY     byte_55
-                LDA     #$A2
+                STY     NamePos
+                LDA     #$A2            ; ?
 
-loc_149BBD:                             ; CODE XREF: sub_149B7D+3A↑j
+loc_149BBD:                             ; CODE XREF: enter_name+3A↑j
                 STA     byte_580,Y
                 DEY
                 BPL     loc_149BB5
-                JSR     sub_149C1C
+                JSR     input_name
                 BCS     loc_149BE8
                 LDY     #4
-                JSR     sub_149BED
+                JSR     get_pointer     ; Input: Y = 0 pointer at FRAME
+                                        ;        Y = 2 pointer at TilePack (Ask)
+                                        ;        Y = 4 pointer at Name
+                                        ; Output: Pointer - result
                 JSR     sram_write_enable
                 LDY     byte_56
 
-loc_149BD2:                             ; CODE XREF: sub_149B7D+61↓j
+@prev_char:                             ; CODE XREF: enter_name+61↓j
                 LDA     byte_580,Y
                 CMP     #$A2
-                BNE     loc_149BDB
+                BNE     @no_letter
                 LDA     #0
 
-loc_149BDB:                             ; CODE XREF: sub_149B7D+5A↑j
-                STA     (pPPUTable),Y
+@no_letter:                             ; CODE XREF: enter_name+5A↑j
+                STA     (Pointer),Y
                 DEY
-                BPL     loc_149BD2
+                BPL     @prev_char
                 JSR     sram_read_enable
-                JSR     sub_FD5E
+                JSR     clear_oam_sprite
                 CLC
                 RTS
 ; ---------------------------------------------------------------------------
 
-loc_149BE8:                             ; CODE XREF: sub_149B7D+49↑j
-                JSR     sub_FD5E
+loc_149BE8:                             ; CODE XREF: enter_name+49↑j
+                JSR     clear_oam_sprite
                 SEC
                 RTS
-; End of function sub_149B7D
+; End of function enter_name
 
 
 ; =============== S U B R O U T I N E =======================================
 
+; Input: Y = 0 pointer at FRAME
+;        Y = 2 pointer at TilePack (Ask)
+;        Y = 4 pointer at Name
+; Output: Pointer - result
 
-sub_149BED:                             ; CODE XREF: sub_149B7D+6↑p
-                                        ; sub_149B7D+2A↑p ...
-                LDA     (word_5C),Y
-                STA     pPPUTable
+get_pointer:                            ; CODE XREF: enter_name+6↑p
+                                        ; enter_name+2A↑p ...
+                LDA     (pCharacter),Y
+                STA     Pointer
                 INY
-                LDA     (word_5C),Y
-                STA     pPPUTable+1
+                LDA     (pCharacter),Y
+                STA     Pointer+1
                 RTS
-; End of function sub_149BED
+; End of function get_pointer
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_149BF7:                             ; CODE XREF: sub_149B7D:loc_149B9B↑p
-                                        ; sub_149C1C+E8↓p
-                JSR     sub_149B76
+draw_ask:                               ; CODE XREF: enter_name:@food↑p
+                                        ; input_name+E8↓p
+                JSR     draw_name_frame
                 LDX     #8
-                JSR     loc_F25E
+                JSR     delay
                 LDY     #2
-                JSR     sub_149BED
+                JSR     get_pointer     ; Input: Y = 0 pointer at FRAME
+                                        ;        Y = 2 pointer at TilePack (Ask)
+                                        ;        Y = 4 pointer at Name
+                                        ; Output: Pointer - result
 
-loc_149C04:                             ; CODE XREF: sub_149C1C+C1↓p
-                LDA     pPPUTable
-                STA     word_74
-                LDA     pPPUTable+1
-                STA     word_74+1
+loc_149C04:                             ; CODE XREF: input_name+C1↓p
+                LDA     Pointer
+                STA     PointerTilePack
+                LDA     Pointer+1
+                STA     PointerTilePack+1
                 LDA     #9
-                STA     byte_76
+                STA     Column
                 LDA     #3
-                STA     byte_77
+                STA     Row
 
-loc_149C14:                             ; CODE XREF: sub_149BF7+22↓j
+loc_149C14:                             ; CODE XREF: draw_ask+22↓j
                 JSR     loc_C6DB
                 CMP     #0
                 BNE     loc_149C14
                 RTS
-; End of function sub_149BF7
+; End of function draw_ask
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_149C1C:                             ; CODE XREF: sub_149B7D+46↑p
-                                        ; sub_149C1C:loc_149D07↓j
-                JSR     sub_149D0A
-                LDA     #$E8
+input_name:                             ; CODE XREF: enter_name+46↑p
+                                        ; input_name:@zero_length↓j
+                JSR     oam_sprite
+                LDA     #$E8            ; SRAM19:62E8
                 LDX     #$62 ; 'b'
-                STA     byte_80
-                STX     byte_81
-                LDA     #$70 ; 'p'
+                STA     pCursor
+                STX     pCursor+1
+                LDA     #$70 ; 'p'      ; SRAM19:6470
                 LDX     #$64 ; 'd'
-                STA     byte_84
-                STX     byte_85
+                STA     pStr
+                STX     pStr+1
                 LDA     #1
                 STA     byte_D6
 
-loc_149C33:                             ; CODE XREF: sub_149C1C+2F↓j
-                JSR     loc_EF3F
-                JMP     loc_149C3F
+@update_loop:                           ; CODE XREF: input_name+2F↓j
+                JSR     short_cursor_update
+                JMP     @command_button
 ; ---------------------------------------------------------------------------
 
-loc_149C39:                             ; CODE XREF: sub_149C1C:loc_149C6B↓j
-                                        ; sub_149C1C:loc_149C88↓j
-                JSR     sub_149D0A
+loc_149C39:                             ; CODE XREF: input_name:loc_149C6B↓j
+                                        ; input_name:loc_149C88↓j
+                JSR     oam_sprite
                 JSR     loc_EF7C
 
-loc_149C3F:                             ; CODE XREF: sub_149C1C+1A↑j
-                BIT     byte_83
-                BVS     loc_149C70
-                BMI     loc_149C4E
-                LDA     byte_83
+@command_button:                        ; CODE XREF: input_name+1A↑j
+                BIT     Buttons
+                BVS     @back
+                BMI     @buttonA
+                LDA     Buttons
                 AND     #$10
-                BNE     loc_149C8B
-                JMP     loc_149C33
+                BNE     @end
+                JMP     @update_loop
 ; ---------------------------------------------------------------------------
 
-loc_149C4E:                             ; CODE XREF: sub_149C1C+27↑j
-                LDX     byte_82
-                LDA     $6470,X
+@buttonA:                               ; CODE XREF: input_name+27↑j
+                LDX     CurrentFieldPosition
+                LDA     AlphabeticalList,X
                 CMP     #$A1
-                BEQ     loc_149C70
+                BEQ     @back
                 CMP     #$A2
-                BEQ     loc_149C8B
+                BEQ     @end
                 CMP     #$A3
-                BEQ     loc_149C6E
-                LDX     byte_55
+                BEQ     @previous
+                LDX     NamePos
                 STA     byte_580,X
                 CPX     byte_56
                 BEQ     loc_149C6B
                 INX
-                STX     byte_55
+                STX     NamePos
 
-loc_149C6B:                             ; CODE XREF: sub_149C1C+4A↑j
+loc_149C6B:                             ; CODE XREF: input_name+4A↑j
                 JMP     loc_149C39
 ; ---------------------------------------------------------------------------
 
-loc_149C6E:                             ; CODE XREF: sub_149C1C+41↑j
+@previous:                              ; CODE XREF: input_name+41↑j
                 SEC
                 RTS
 ; ---------------------------------------------------------------------------
 
-loc_149C70:                             ; CODE XREF: sub_149C1C+25↑j
-                                        ; sub_149C1C+39↑j
+@back:                                  ; CODE XREF: input_name+25↑j
+                                        ; input_name+39↑j
                 LDA     #$A2
-                LDX     byte_55
+                LDX     NamePos
                 CPX     byte_56
                 BNE     loc_149C7D
                 CMP     byte_580,X
                 BNE     loc_149C85
 
-loc_149C7D:                             ; CODE XREF: sub_149C1C+5A↑j
+loc_149C7D:                             ; CODE XREF: input_name+5A↑j
                 STA     byte_580,X
                 DEX
                 BMI     loc_149C88
-                STX     byte_55
+                STX     NamePos
 
-loc_149C85:                             ; CODE XREF: sub_149C1C+5F↑j
+loc_149C85:                             ; CODE XREF: input_name+5F↑j
                 STA     byte_580,X
 
-loc_149C88:                             ; CODE XREF: sub_149C1C+65↑j
+loc_149C88:                             ; CODE XREF: input_name+65↑j
                 JMP     loc_149C39
 ; ---------------------------------------------------------------------------
 
-loc_149C8B:                             ; CODE XREF: sub_149C1C+2D↑j
-                                        ; sub_149C1C+3D↑j
-                LDY     byte_55
+@end:                                   ; CODE XREF: input_name+2D↑j
+                                        ; input_name+3D↑j
+                LDY     NamePos
 
-loc_149C8D:                             ; CODE XREF: sub_149C1C+82↓j
+@get_letter:                            ; CODE XREF: input_name+82↓j
                 LDA     byte_580,Y
                 CMP     #$A2
-                BEQ     loc_149C9D
+                BEQ     @no_letter
                 CMP     #$A0
-                BNE     loc_149CA0
+                BNE     @letter
                 LDA     #$A2
                 STA     byte_580,Y
 
-loc_149C9D:                             ; CODE XREF: sub_149C1C+76↑j
+@no_letter:                             ; CODE XREF: input_name+76↑j
                 DEY
-                BPL     loc_149C8D
+                BPL     @get_letter
 
-loc_149CA0:                             ; CODE XREF: sub_149C1C+7A↑j
+@letter:                                ; CODE XREF: input_name+7A↑j
                 CPY     byte_56
                 BEQ     loc_149CA5
                 INY
 
-loc_149CA5:                             ; CODE XREF: sub_149C1C+86↑j
-                STY     byte_55
+loc_149CA5:                             ; CODE XREF: input_name+86↑j
+                STY     NamePos
                 CPY     #0
-                BEQ     loc_149D07
+                BEQ     @zero_length
                 LDX     #0
 
-loc_149CAD:                             ; CODE XREF: sub_149C1C+AB↓j
+@next_row:                              ; CODE XREF: input_name+AB↓j
                 LDY     #0
 
-loc_149CAF:                             ; CODE XREF: sub_149C1C+A1↓j
-                LDA     $63F8,X
-                BEQ     loc_149CC9
+@next_compare:                          ; CODE XREF: input_name+A1↓j
+                LDA     Names,X
+                BEQ     @last_row
                 CMP     #1
-                BEQ     loc_149CCF
+                BEQ     @repeat_msg
                 INX
                 INY
                 CMP     byte_57F,Y
-                BEQ     loc_149CAF
+                BEQ     @next_compare
 
-loc_149CBF:                             ; CODE XREF: sub_149C1C+A9↓j
-                LDA     $63F8,X
+@next_tile:                             ; CODE XREF: input_name+A9↓j
+                LDA     Names,X
                 INX
                 CMP     #1
-                BNE     loc_149CBF
-                BEQ     loc_149CAD
+                BNE     @next_tile
+                BEQ     @next_row
 
-loc_149CC9:                             ; CODE XREF: sub_149C1C+96↑j
+@last_row:                              ; CODE XREF: input_name+96↑j
                 LDA     #0
                 STA     byte_D6
                 CLC
                 RTS
 ; ---------------------------------------------------------------------------
 
-loc_149CCF:                             ; CODE XREF: sub_149C1C+9A↑j
-                JSR     sub_F465
-                JSR     sub_149B76
+@repeat_msg:                            ; CODE XREF: input_name+9A↑j
+                JSR     long_delay
+                JSR     draw_name_frame
                 LDA     #$7F
-                LDX     #$63 ; 'c'
-                STA     pPPUTable
-                STX     pPPUTable+1
+                LDX     #$63 ; 'c'      ; SRAM19:637F
+                STA     Pointer
+                STX     Pointer+1
                 JSR     loc_149C04
                 LDA     byte_580
                 CMP     #$A0
                 BEQ     loc_149CFE
                 LDA     #$98
-                LDX     #$63 ; 'c'
-                STA     word_74
-                STX     word_74+1
+                LDX     #$63 ; 'c'      ; SRAM19:6398
+                STA     PointerTilePack
+                STX     PointerTilePack+1
                 LDX     #8
                 LDY     #$E
-                STX     byte_76
-                STY     byte_77
+                STX     Column
+                STY     Row
 
-loc_149CF7:                             ; CODE XREF: sub_149C1C+E0↓j
+@next_msg_row:                          ; CODE XREF: input_name+E0↓j
                 JSR     loc_C6DB
                 CMP     #0
-                BNE     loc_149CF7
+                BNE     @next_msg_row
 
-loc_149CFE:                             ; CODE XREF: sub_149C1C+C9↑j
-                JSR     sub_F29E
-                JSR     sub_149B40
-                JSR     sub_149BF7
+loc_149CFE:                             ; CODE XREF: input_name+C9↑j
+                JSR     wait_A_B
+                JSR     draw_alphabetic
+                JSR     draw_ask
 
-loc_149D07:                             ; CODE XREF: sub_149C1C+8D↑j
-                JMP     sub_149C1C
-; End of function sub_149C1C
+@zero_length:                           ; CODE XREF: input_name+8D↑j
+                JMP     input_name
+; End of function input_name
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_149D0A:                             ; CODE XREF: sub_149C1C↑p
-                                        ; sub_149C1C:loc_149C39↑p
-                LDA     byte_76
+oam_sprite:                             ; CODE XREF: input_name↑p
+                                        ; input_name:loc_149C39↑p
+                LDA     Column
                 PHA
-                LDA     byte_77
+                LDA     Row
                 PHA
                 JSR     wait_nmi        ; wait for NMI interrupt processing to complete
                 SEC
@@ -2085,96 +2080,100 @@ sub_149D0A:                             ; CODE XREF: sub_149C1C↑p
                 ADC     #$F
                 TAY
                 LDA     #$59 ; 'Y'
-                STA     oam.PosY+4
+                STA     OAM_Cache.PosY+4
                 CLC
                 TYA
-                ADC     byte_55
+                ADC     NamePos
                 ASL     A
                 ASL     A
                 ASL     A
-                STA     oam.PosX+4
-                LDA     #1
-                STA     oam.TileID+4
+                STA     OAM_Cache.PosX+4
+                LDA     #1              ; underline
+                STA     OAM_Cache.TileID+4
                 LDA     #0
-                STA     oam.Attr+4
+                STA     OAM_Cache.Attr+4
                 TYA
-                STA     byte_76
+                STA     Column
                 LDA     #$A
-                STA     byte_77
+                STA     Row
                 LDA     #$80
-                STA     word_74
+                STA     PointerTilePack
                 LDA     #5
-                STA     word_74+1
+                STA     PointerTilePack+1
                 JSR     loc_C6DB
                 PLA
-                STA     byte_77
+                STA     Row
                 PLA
-                STA     byte_76
+                STA     Column
                 RTS
-; End of function sub_149D0A
+; End of function oam_sprite
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_149D50:                             ; CODE XREF: sub_149A4D+44↑p
-                                        ; sub_149A4D:loc_149AA2↑p ...
-                JSR     $EDDC
-                JSR     $FD5E
-                JSR     $FD80
-                LDX     #$FD
+clear_screen:                           ; CODE XREF: new_game+44↑p
+                                        ; new_game:@yes↑p ...
+                JSR     darken_palette
+                JSR     clear_oam_sprite
+                JSR     clear_nametables
+                LDX     #$FD            ; SRAM19:62FD
                 LDY     #$62 ; 'b'
-                JMP     $F732
-; End of function sub_149D50
+                JMP     copy_packed_tiles ; copies the palettes at the pointer Pointer offset at $400
+; End of function clear_screen
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
 intro:                                  ; CODE XREF: game_intro+3↑p
-                JSR     sub_FD5E
+                JSR     clear_oam_sprite
                 JSR     clear_nametables
-                LDA     CntrlPPU
+                LDA     CntrlPPU        ; PPU_CTRL
                 AND     #$FC            ; select nametable $2000
                 LDX     #0
                 LDY     #0
-                STA     CntrlPPU
-                STX     VerticalScrollPPU ; no screen scrolling
-                STY     HorizontalScrollPPU
+                STA     CntrlPPU        ; PPU_CTRL
+                STX     CameraX         ; no screen scrolling
+                STY     CameraY
                 LDA     #$63 ; 'c'
                 LDX     #$9E
                 JSR     set_ppu_banks   ; char table address bank14 $9E63
-                LDA     #$6F ; 'o'
-                STA     pPPUTable
+                LDA     #$6F ; 'o'      ; $9E6F
+                STA     Pointer
                 LDA     #$9E
-                STA     pPPUTable+1     ; palette address bank14 $9E6F
-                JSR     load_palette
-                JSR     reduce_palette
+                STA     Pointer+1       ; palette address bank14 $9E6F
+                JSR     preload_palettes
+                JSR     darken_palette
                 LDA     #$16
                 CMP     apu_78C
                 BEQ     loc_149D93
                 STA     apu_7F5
 
 loc_149D93:                             ; CODE XREF: intro+2E↑j
-                LDX     #$AF
+                LDX     #$AF            ; $9EAF
                 LDY     #$9E
-                JSR     copy_palettes_400 ; copies the palettes at the pointer pPPUTable offset at $400
-                LDA     #$C4
+                JSR     copy_packed_tiles ; copies the palettes at the pointer Pointer offset at $400
+                LDA     #$C4            ; $9EC4
                 LDX     #$9E
-                JSR     pulsing
-                LDX     #$AF
+                JSR     pulsing         ; creates the effect of smoothly increasing the brightness of
+                                        ; the image, then holds for a while at maximum brightness,
+                                        ; smoothly decreases brightness to black, clears Nametables
+                LDX     #$AF            ; $9EAF
                 LDY     #$9E
-                JSR     copy_palettes_400 ; copies the palettes at the pointer pPPUTable offset at $400
-                LDA     #$EA
+                JSR     copy_packed_tiles ; copies the palettes at the pointer Pointer offset at $400
+                LDA     #$EA            ; $9EEA
                 LDX     #$9E
-                JSR     pulsing
+                JSR     pulsing         ; creates the effect of smoothly increasing the brightness of
+                                        ; the image, then holds for a while at maximum brightness,
+                                        ; smoothly decreases brightness to black, clears Nametables
                 LDA     #$8F
-                STA     pPPUTable
+                STA     Pointer
                 LDA     #$9E
-                STA     pPPUTable+1
-                JSR     load_palette
-                JSR     reduce_palette
-                LDA     #$69 ; 'i'
+                STA     Pointer+1       ; $9E8F
+                JSR     preload_palettes
+                JSR     darken_palette
+                LDA     #$69 ; 'i'      ; $9E69
                 LDX     #$9E
                 JSR     set_ppu_banks   ; set 6 memory banks for PPU
                                         ; pPPUTable = XA address (X - high and A - low byte)
@@ -2193,59 +2192,59 @@ loc_149D93:                             ; CODE XREF: intro+2E↑j
                                         ; |-------------------------------------|
                                         ; |   $0C00    |        5        |  1K  |
                                         ; ---------------------------------------
-                LDA     #$18
+                LDA     #$18            ; $9F18
                 LDX     #$9F
-                JSR     sub_149E44
+                JSR     load_tilemap_lighten
                 LDA     #0
-                STA     pPPUTable
+                STA     Pointer
                 LDA     #$10
-                STA     byte_3E0
+                STA     SpriteTable.Tiles+$E0
                 LDA     #0
-                STA     byte_3E1
-                STA     byte_3E4
-                STA     byte_3E5
-                LDA     #$58 ; 'X'
-                STA     byte_3E2
-                LDA     #$57 ; 'W'
-                STA     byte_3E3
+                STA     SpriteTable.TileID+$E0
+                STA     SpriteTable.field_4+$E0
+                STA     SpriteTable.field_5+$E0
+                LDA     #$58
+                STA     SpriteTable.PosX+$E0
+                LDA     #$57
+                STA     SpriteTable.PosY+$E0
                 LDA     #0
-                STA     byte_DA
+                STA     Gamepad0Buttons
 
-loc_149DED:                             ; CODE XREF: intro+B9↓j
+@loop:                                  ; CODE XREF: intro+B9↓j
                 CLC
-                LDA     pPPUTable
-                ADC     #$B0
-                STA     byte_3E6
+                LDA     Pointer
+                ADC     #$B0            ; BANK15:96B0
+                STA     SpriteTable.pFrame+$E0
                 LDA     #0
                 ADC     #$96
-                STA     byte_3E7
+                STA     SpriteTable.pFrame+$E1
                 LDA     #$A
                 STA     NMIFlags
                 CLC
-                LDA     pPPUTable
+                LDA     Pointer
                 ADC     #4
                 CMP     #$1C
-                BNE     loc_149E0B
+                BNE     @save_count
                 LDA     #0
 
-loc_149E0B:                             ; CODE XREF: intro+A7↑j
-                STA     pPPUTable
+@save_count:                            ; CODE XREF: intro+A7↑j
+                STA     Pointer
 
-loc_149E0D:                             ; CODE XREF: intro+B7↓j
-                LDA     byte_DA
+@wait:                                  ; CODE XREF: intro+B7↓j
+                LDA     Gamepad0Buttons
                 AND     #$10
-                BNE     loc_149E1B
+                BNE     @start_pressed
                 LDA     NMIFlags
                 ORA     OtherNMIFlags
-                BNE     loc_149E0D
-                BEQ     loc_149DED
+                BNE     @wait
+                BEQ     @loop
 
-loc_149E1B:                             ; CODE XREF: intro+B1↑j
+@start_pressed:                         ; CODE XREF: intro+B1↑j
                 LDX     #0
-                STX     byte_DA
-                JSR     reduce_palette
-                LDA     #$19
-                LDX     #$FF
+                STX     Gamepad0Buttons
+                JSR     darken_palette
+                LDA     #$19            ; BANK19:A000
+                LDX     #$FF            ; check_copyrights
                 LDY     #$9F
                 JSR     bank_A000_a     ; changes the memory bank $A000, transfers the execution of the code after completion of which returns the original memory bank
                                         ; input: A - bank number, YX - (subroutine address - 1)
@@ -2256,15 +2255,18 @@ loc_149E1B:                             ; CODE XREF: intro+B1↑j
 
 ; =============== S U B R O U T I N E =======================================
 
+; creates the effect of smoothly increasing the brightness of
+; the image, then holds for a while at maximum brightness,
+; smoothly decreases brightness to black, clears Nametables
 
 pulsing:                                ; CODE XREF: intro+3E↑p
                                         ; intro+4C↑p
-                JSR     sub_149E44
+                JSR     load_tilemap_lighten
                 LDX     #$FF
                 JSR     pause
                 LDX     #$40 ; '@'
                 JSR     pause
-                JSR     reduce_palette
+                JSR     darken_palette
                 LDX     #$40 ; '@'
                 JSR     pause
                 JMP     clear_nametables
@@ -2274,18 +2276,18 @@ pulsing:                                ; CODE XREF: intro+3E↑p
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_149E44:                             ; CODE XREF: intro+68↑p
+load_tilemap_lighten:                   ; CODE XREF: intro+68↑p
                                         ; pulsing↑p
-                STA     word_74
-                STX     word_74+1
+                STA     PointerTilePack
+                STX     PointerTilePack+1
 
-loc_149E48:                             ; CODE XREF: sub_149E44+B↓j
+@next_tile:                             ; CODE XREF: load_tilemap_lighten+B↓j
                 JSR     sub_C6D2
-                DEC     byte_77
+                DEC     Row
                 CMP     #0
-                BNE     loc_149E48
-                JMP     increase_palette ; increase the brightness of colors in the palette
-; End of function sub_149E44
+                BNE     @next_tile
+                JMP     lighten_palette ; increase the brightness of colors in the palette
+; End of function load_tilemap_lighten
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -2294,7 +2296,7 @@ loc_149E48:                             ; CODE XREF: sub_149E44+B↓j
 pause:                                  ; CODE XREF: pulsing+5↑p
                                         ; pulsing+A↑p ...
                 JSR     wait_nmi        ; wait for NMI interrupt processing to complete
-                LDA     byte_DE
+                LDA     ButtonPressed0
                 AND     #$10
                 EOR     #$10
                 BEQ     @end
@@ -2306,238 +2308,56 @@ pause:                                  ; CODE XREF: pulsing+5↑p
 ; End of function pause
 
 ; ---------------------------------------------------------------------------
-chr_tables:     .BYTE $42, $72, $7C, $7C, $40, $41
-                .BYTE $42, $72, $7C, $41, $D8, $D9
-palette_tables: .BYTE $F, $28, $30, $18 ; PALETTE0
-                .BYTE $F, $21, $30, $12 ; PALETTE1
-                .BYTE $F, $16, $30, $12 ; PALETTE2
-                .BYTE $F, $3A, $30, $12 ; PALETTE3
-                .BYTE $F, $21, $30, $12 ; PALETTE0
-                .BYTE $F, $21, $30, $12 ; PALETTE1
-                .BYTE $F, $21, $30, $12 ; PALETTE2
-                .BYTE $F, $21, $30, $12 ; PALETTE3
-                .BYTE $F, $21, $30, $16 ; PALETTE0
-                .BYTE $F, $21, $30, $16 ; PALETTE1
-                .BYTE $F, $21, $30, $16 ; PALETTE2
-                .BYTE $F, $21, $30, $16 ; PALETTE3
-                .BYTE $F, $21, $30, $12 ; PALETTE0
-                .BYTE $F, $21, $30, $12 ; PALETTE1
-                .BYTE $F, $21, $30, $12 ; PALETTE2
-                .BYTE $F, $21, $30, $12 ; PALETTE3
-                .BYTE 8, $40, $23, $C0, $AA, 0, 7, 4, $23, $D2, $40, $23
-                .BYTE $D3, $10, $23, $DA, 4, $23, $DB, 1, 0, $20, $D, $B
-                .BYTE $C8, $C9, $CA, $CB, $CD, $CE, $CF, 1
-                .BYTE $20
-                .BYTE  $D
-                .BYTE  $C
-                .BYTE $D8
-                .BYTE   1
-                .BYTE $20
-                .BYTE $13
-                .BYTE  $C
-                .BYTE $DF
-                .BYTE   1
-                .BYTE $20
-                .BYTE  $D
-                .BYTE  $D
-                .BYTE $22 ; "
-                .BYTE $CC
-                .BYTE $13
-                .BYTE   1
-                .BYTE $20
-                .BYTE  $D
-                .BYTE  $F
-                .BYTE $E3
-                .BYTE $E4
-                .BYTE $E5
-                .BYTE $E6
-                .BYTE $E7
-                .BYTE $E8
-                .BYTE   0
-                .BYTE $20, $D, $B, $D9, $DA, $DB, $DC, $DD, $DE, $CE, $CF
-                .BYTE 1, $20, $D, $C, $D8, 1, $20, $14, $C, $DF, 1, $20
-                .BYTE 0, $D, $22, $CC, $15, 1, $20, 8, $F
-                .BYTE $F3
-                .BYTE $F4
-                .BYTE $F5
-                .BYTE $F6
-                .BYTE $F7
-                .BYTE $F8
-                .BYTE $F9
-                .BYTE $FA
-                .BYTE $FB
-                .BYTE $FC
-                .BYTE $FD
-                .BYTE $FE
-                .BYTE $FF
-                .BYTE   0
-                .BYTE $20
-                .BYTE   8
-                .BYTE   7
-                .BYTE $90
-                .BYTE $91
-                .BYTE $92
-                .BYTE $93
-                .BYTE $94
-                .BYTE $95
-                .BYTE $96
-                .BYTE $97
-                .BYTE $98
-                .BYTE $99
-                .BYTE $9A
-                .BYTE $9B
-                .BYTE $9C
-                .BYTE   1
-                .BYTE $A0
-                .BYTE $A1
-                .BYTE $A2
-                .BYTE $A3
-                .BYTE $A4
-                .BYTE $A5
-                .BYTE $A6
-                .BYTE $A7
-                .BYTE $A8
-                .BYTE $A9
-                .BYTE $AA
-                .BYTE $AB
-                .BYTE $AC
-                .BYTE   1
-                .BYTE $B0
-                .BYTE $B1
-                .BYTE $B2
-                .BYTE $B3
-                .BYTE $B4
-                .BYTE $B5
-                .BYTE $B6
-                .BYTE $B7
-                .BYTE $B8
-                .BYTE $B9
-                .BYTE $BA
-                .BYTE $BB
-                .BYTE $BC
-                .BYTE $BD
-                .BYTE $BE
-                .BYTE $BF
-                .BYTE   1
-                .BYTE $C0
-                .BYTE $C1
-                .BYTE $C2
-                .BYTE $C3
-                .BYTE $C4
-                .BYTE $C5
-                .BYTE $C6
-                .BYTE $C7
-                .BYTE $C8
-                .BYTE $C9
-                .BYTE $CA
-                .BYTE $CB
-                .BYTE $CC
-                .BYTE $CD
-                .BYTE $CE
-                .BYTE $CF
-                .BYTE   1
-                .BYTE $D0
-                .BYTE $D1
-                .BYTE $D2
-                .BYTE $D3
-                .BYTE $D4
-                .BYTE $D5
-                .BYTE $D6
-                .BYTE $D7
-                .BYTE $D8
-                .BYTE $D9
-                .BYTE $DA
-                .BYTE $DB
-                .BYTE $DC
-                .BYTE $DD
-                .BYTE $DE
-                .BYTE   1
-                .BYTE $E0
-                .BYTE $E1
-                .BYTE $E2
-                .BYTE $E3
-                .BYTE $E4
-                .BYTE $E5
-                .BYTE $E6
-                .BYTE $E7
-                .BYTE $E8
-                .BYTE $E9
-                .BYTE $EA
-                .BYTE $EB
-                .BYTE $EC
-                .BYTE $ED
-                .BYTE $EE
-                .BYTE   1
-                .BYTE $F0
-                .BYTE $F1
-                .BYTE $F2
-                .BYTE $F3
-                .BYTE $F4
-                .BYTE $F5
-                .BYTE $F6
-                .BYTE $F7
-                .BYTE $F8
-                .BYTE $F9
-                .BYTE $FA
-                .BYTE $FB
-                .BYTE $FC
-                .BYTE $FD
-                .BYTE $FE
-                .BYTE   1
-                .BYTE $FF
-                .BYTE $FF
-                .BYTE $FF
-                .BYTE $FF
-                .BYTE $FF
-                .BYTE $FF
-                .BYTE $FF
-                .BYTE $9F
-                .BYTE $9F
-                .BYTE $9F
-                .BYTE $9F
-                .BYTE $9D
-                .BYTE $9E
-                .BYTE $AD
-                .BYTE $AE
-                .BYTE   1
-                .BYTE $20
-                .BYTE   7
-                .BYTE $17
-; ---------------------------------------------------------------------------
-                SRE     ($44,X)
-                EOR     $46
-                SRE     $70
-                ADC     #$6A ; 'j'
-                ARR     #$6C ; 'l'
-                ADC     $6F6E
-                SRE     ($54),Y
-                EOR     $56,X
-                SRE     0,X
-                ISB     $FFFF,X
-                ISB     $FFFF,X
-                ISB     $FFFF,X
-                ISB     $FFFF,X
-                ISB     $FFFF,X
-                ISB     $FFFF,X
-                ISB     $FFFF,X
-                ISB     $FFFF,X
-                ISB     $FFFF,X
-                ISB     $FFFF,X
-                ISB     $FFFF,X
-                ISB     $FFFF,X
-                ISB     $FFFF,X
-                ISB     $FFFF,X
-                ISB     $FFFF,X
-                ISB     $FFFF,X
-                ISB     $FFFF,X
-                ISB     $FFFF,X
-                ISB     $FFFF,X
-                ISB     $FFFF,X
-                ISB     $FFFF,X
-                ISB     $FFFF,X
-                ISB     $FFFF,X
-                ISB     $FFFF,X
-                ISB     $FFFF,X
-                ISB     $FFFF,X
-                ISB     $FFFF,X
+CHRBanks0:      .BYTE $42, $72, $7C, $7C, $40, $41
+CHRBanks1:      .BYTE $42, $72, $7C, $41, $D8, $D9
+Palettes0:      .BYTE BLACK, LIGHT_YELLOW, WHITE, MEDIUM_YELLOW; PALETTE0
+                .BYTE BLACK, LIGHT_BLUE, WHITE, MEDIUM_INDIGO; PALETTE1
+                .BYTE BLACK, MEDIUM_RED, WHITE, MEDIUM_INDIGO; PALETTE2
+                .BYTE BLACK, LIGHTEST_GREEN, WHITE, MEDIUM_INDIGO; PALETTE3
+                .BYTE BLACK, LIGHT_BLUE, WHITE, MEDIUM_INDIGO; PALETTE0
+                .BYTE BLACK, LIGHT_BLUE, WHITE, MEDIUM_INDIGO; PALETTE1
+                .BYTE BLACK, LIGHT_BLUE, WHITE, MEDIUM_INDIGO; PALETTE2
+                .BYTE BLACK, LIGHT_BLUE, WHITE, MEDIUM_INDIGO; PALETTE3
+Palettes1:      .BYTE BLACK, LIGHT_BLUE, WHITE, MEDIUM_RED; PALETTE0
+                .BYTE BLACK, LIGHT_BLUE, WHITE, MEDIUM_RED; PALETTE1
+                .BYTE BLACK, LIGHT_BLUE, WHITE, MEDIUM_RED; PALETTE2
+                .BYTE BLACK, LIGHT_BLUE, WHITE, MEDIUM_RED; PALETTE3
+                .BYTE BLACK, LIGHT_BLUE, WHITE, MEDIUM_INDIGO; PALETTE0
+                .BYTE BLACK, LIGHT_BLUE, WHITE, MEDIUM_INDIGO; PALETTE1
+                .BYTE BLACK, LIGHT_BLUE, WHITE, MEDIUM_INDIGO; PALETTE2
+                .BYTE BLACK, LIGHT_BLUE, WHITE, MEDIUM_INDIGO; PALETTE3
+                .BYTE 8, $40, $23, $C0, $AA, 0
+                .BYTE 7, 4, $23, $D2, $40, $23, $D3, $10, $23, $DA, 4
+                .BYTE $23, $DB, 1, 0
+IntroNintendo:  .BYTE $20, $D, $B, $C8, $C9, $CA, $CB, $CD, $CE, $CF, 1
+                .BYTE $20, $D, $C, $D8, 1
+                .BYTE $20, $13, $C, $DF, 1
+                .BYTE $20, $D, $D, $22, $CC, $13, 1
+                .BYTE $20, $D, $F, $E3, $E4, $E5, $E6, $E7, $E8, 0
+IntroItoi:      .BYTE $20, $D, $B, $D9, $DA, $DB, $DC, $DD, $DE, $CE, $CF
+                .BYTE 1
+                .BYTE $20, $D, $C, $D8, 1
+                .BYTE $20, $14, $C, $DF, 1
+                .BYTE $20, 0, $D, $22, $CC, $15, 1
+                .BYTE $20, 8, $F, $F3, $F4, $F5, $F6, $F7, $F8, $F9, $FA
+                .BYTE $FB, $FC, $FD, $FE, $FF, 0
+IntroMain:      .BYTE $20, 8, 7, $90, $91, $92, $93, $94, $95, $96, $97
+                .BYTE $98, $99, $9A, $9B, $9C, 1
+                .BYTE $A0, $A1, $A2, $A3, $A4, $A5, $A6, $A7, $A8, $A9
+                .BYTE $AA, $AB, $AC, 1
+                .BYTE $B0, $B1, $B2, $B3, $B4, $B5, $B6, $B7, $B8, $B9
+                .BYTE $BA, $BB, $BC, $BD, $BE, $BF, 1
+                .BYTE $C0, $C1, $C2, $C3, $C4, $C5, $C6, $C7, $C8, $C9
+                .BYTE $CA, $CB, $CC, $CD, $CE, $CF, 1
+                .BYTE $D0, $D1, $D2, $D3, $D4, $D5, $D6, $D7, $D8, $D9
+                .BYTE $DA, $DB, $DC, $DD, $DE, 1
+                .BYTE $E0, $E1, $E2, $E3, $E4, $E5, $E6, $E7, $E8, $E9
+                .BYTE $EA, $EB, $EC, $ED, $EE, 1
+                .BYTE $F0, $F1, $F2, $F3, $F4, $F5, $F6, $F7, $F8, $F9
+                .BYTE $FA, $FB, $FC, $FD, $FE, 1
+                .BYTE $FF, $FF, $FF, $FF, $FF, $FF, $FF, $9F, $9F, $9F
+                .BYTE $9F, $9D, $9E, $AD, $AE, 1
+                .BYTE $20, 7, $17, $43, $44, $45, $46, $47, $70, $69, $6A
+                .BYTE $6B, $6C, $6D, $6E, $6F, $53, $54, $55, $56, $57
+                .BYTE 0
 ; end of 'BANK14'

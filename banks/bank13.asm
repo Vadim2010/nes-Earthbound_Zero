@@ -2,7 +2,7 @@
 
 ; Segment type: Pure code
                 ;.segment BANK13
-                * =  $A000
+                ;* =  $A000
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -12,7 +12,7 @@ sub_13A000:                             ; CODE XREF: main:loc_CBDC↑P
                 STA     byte_7F1
 
 loc_13A005:                             ; DATA XREF: BANK13:off_13A1A4↓o
-                LDA     CurrentGame.field_21E
+                LDA     $761E
                 STA     Pointer
                 LDY     #$F0
 
@@ -57,7 +57,7 @@ loc_13A03B:                             ; CODE XREF: sub_13A000+46↓j
                 INY
                 CPY     #$2C ; ','
                 BCC     loc_13A03B
-                JSR     sub_C3E6
+                JSR     state
                 LDA     #$F5
                 LDX     #$A0
                 JSR     sub_13AC44
@@ -82,8 +82,8 @@ loc_13A064:                             ; CODE XREF: sub_13A000+7F↓j
 loc_13A074:                             ; CODE XREF: sub_13A000+6F↑j
                 LDX     #$A
                 LDY     #3
-                STX     PosX
-                STY     PosY
+                STX     Column
+                STY     Row
                 JSR     loc_EF7C
                 JMP     loc_13A064
 ; ---------------------------------------------------------------------------
@@ -283,11 +283,10 @@ loc_13A192:                             ; CODE XREF: sub_13A178+15↑j
 ; End of function sub_13A178
 
 ; ---------------------------------------------------------------------------
-off_13A1A4:     .WORD sub_13A1EA-1, sub_13A20F-1, sub_13A262-1, loc_13A005-1
-                                        ; DATA XREF: sub_13A178+27↑r
-                                        ; sub_13A178+23↑r
-                .WORD sub_13A238-1, sub_13A1BA-1
-                CURSOR <2, 3, 6, 2, $C0, $3A, 2, 3, $F0D1>
+off_13A1A4:     .word sub_13A1EA-1, sub_13A20F-1, sub_13A262-1, loc_13A005-1
+                .word sub_13A238-1, sub_13A1BA-1
+                .byte 2, 3, 6, 2, $C0, $3A, 2, 3,
+                .word $F0D1
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -492,10 +491,10 @@ loc_13A2A7:                             ; CODE XREF: sub_13A262+34↑j
 ; End of function sub_13A262
 
 ; ---------------------------------------------------------------------------
-off_13A2BC:     .WORD sub_13A2C6-1, sub_13A37D-1, sub_13A315-1, sub_13A390-1
+off_13A2BC:     .word sub_13A2C6-1, sub_13A37D-1, sub_13A315-1, sub_13A390-1
                                         ; DATA XREF: sub_13A262+55↑r
                                         ; sub_13A262+51↑r
-                .WORD sub_13A3A9-1
+                .word sub_13A3A9-1
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -700,20 +699,20 @@ sub_13A3BC:                             ; CODE XREF: sub_13A238+1F↑p
 ; End of function sub_13A3BC
 
 ; ---------------------------------------------------------------------------
-off_13A3CB:     .WORD sub_13A443-1, sub_13A451-1, sub_13A443-1, sub_13A443-1
+off_13A3CB:     .word sub_13A443-1, sub_13A451-1, sub_13A443-1, sub_13A443-1
                                         ; DATA XREF: sub_13A3BC+A↑r
                                         ; sub_13A3BC+6↑r
-                .WORD sub_13A443-1, sub_13A49A-1, sub_13A4CF-1, sub_13A451-1
-                .WORD sub_13A465-1, sub_13A443-1, sub_13A4EB-1, sub_13A4F0-1
-                .WORD sub_13A4F5-1, sub_13A4FA-1, sub_13A4FF-1, sub_13A504-1
-                .WORD sub_13A50C-1, sub_13A74D-1, sub_13A756-1, sub_13A75F-1
-                .WORD sub_13A79A-1, sub_13A7A7-1, sub_13A7B4-1, sub_13A7BB-1
-                .WORD sub_13A7C2-1, sub_13A7C9-1, sub_13A7D0-1, sub_13A811-1
-                .WORD sub_13A443-1, sub_13A443-1, sub_13A7D7-1, sub_13A478-1
-                .WORD sub_13A807-1, sub_13A80C-1, sub_13A825-1, sub_13A816-1
-                .WORD sub_13A43E-1, sub_13A427-1, sub_13A612-1, sub_13A4DB-1
-                .WORD sub_13A4E0-1, sub_13A4E5-1, sub_13A73F-1, sub_13A43E-1
-                .WORD sub_13A738-1, sub_13A746-1
+                .word sub_13A443-1, sub_13A49A-1, sub_13A4CF-1, sub_13A451-1
+                .word sub_13A465-1, sub_13A443-1, sub_13A4EB-1, sub_13A4F0-1
+                .word sub_13A4F5-1, sub_13A4FA-1, sub_13A4FF-1, sub_13A504-1
+                .word sub_13A50C-1, sub_13A74D-1, sub_13A756-1, sub_13A75F-1
+                .word sub_13A79A-1, sub_13A7A7-1, sub_13A7B4-1, sub_13A7BB-1
+                .word sub_13A7C2-1, sub_13A7C9-1, sub_13A7D0-1, sub_13A811-1
+                .word sub_13A443-1, sub_13A443-1, sub_13A7D7-1, sub_13A478-1
+                .word sub_13A807-1, sub_13A80C-1, sub_13A825-1, sub_13A816-1
+                .word sub_13A43E-1, sub_13A427-1, sub_13A612-1, sub_13A4DB-1
+                .word sub_13A4E0-1, sub_13A4E5-1, sub_13A73F-1, sub_13A43E-1
+                .word sub_13A738-1, sub_13A746-1
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -792,7 +791,7 @@ sub_13A465:                             ; DATA XREF: BANK13:off_13A3CB↑o
                 JSR     sub_13A990
                 JSR     sram_write_enable
                 LDA     #$A
-                STA     CurrentGame.PureSave.field_19
+                STA     CurrentGame + GAME_SAVE::PureSave.field_19
                 JSR     sram_read_enable
                 LDX     #$16
                 JMP     loc_13A445
@@ -816,7 +815,7 @@ loc_13A480:                             ; CODE XREF: sub_13A478+10↓j
                 JSR     sram_read_enable
                 LDA     #$40 ; '@'
                 STA     byte_20
-                LDA     #1
+                LDA     #1              ; sub_13BD0D
                 STA     FuncID          ; ID from table BANK13:BCFD (RoutineTable)
                 LDX     #$48 ; 'H'
                 JMP     loc_13A445
@@ -973,7 +972,7 @@ sub_13A50C:                             ; DATA XREF: BANK13:off_13A3CB↑o
                 LDX     #$42 ; 'B'
                 JSR     loc_13A445
                 JSR     sram_write_enable
-                DEC     CurrentGame.PureSave.field_1F
+                DEC     CurrentGame + GAME_SAVE::PureSave.field_1F
                 PHP
                 JSR     sram_read_enable
                 PLP
@@ -1157,7 +1156,7 @@ sub_13A612:                             ; DATA XREF: BANK13:off_13A3CB↑o
 
 sub_13A62C:                             ; CODE XREF: sub_13A612↑p
                                         ; sub_13A7D7↓p
-                LDA     CurrentGame.field_21F
+                LDA     CurrentGame + GAME_SAVE::field_21F
                 AND     #2
                 BEQ     locret_13A63A
                 PLA
@@ -1332,7 +1331,7 @@ loc_13A6F0:                             ; CODE XREF: sub_13B600+20↓p
                 BCS     loc_13A71E
                 TXA
                 JSR     sub_D86C
-                LDA     BankTable.CPU_8K_8000
+                LDA     BankTable + BANK_TABLE::CPU_8K_8000
                 PHA
                 LDY     #$15
                 LDA     (Dist),Y
@@ -1369,7 +1368,7 @@ sub_13A728:                             ; CODE XREF: sub_13A6E0+19↑p
                 LDX     #0
 
 loc_13A72C:                             ; CODE XREF: sub_13A728+D↓j
-                CMP     CurrentGame.PureSave.CharactersNum,X
+                CMP     CurrentGame + GAME_SAVE::PureSave.CharactersNum,X
                 CLC
                 BEQ     locret_13A737
                 INX
@@ -1544,7 +1543,7 @@ sub_13A7D0:                             ; DATA XREF: BANK13:off_13A3CB↑o
 
 sub_13A7D7:                             ; DATA XREF: BANK13:off_13A3CB↑o
                 JSR     sub_13A62C
-                LDA     CurrentGame.field_21C
+                LDA     CurrentGame + GAME_SAVE::field_21C
                 BPL     loc_13A7E2
                 JMP     sub_13A443
 ; ---------------------------------------------------------------------------
@@ -1555,12 +1554,12 @@ loc_13A7E2:                             ; CODE XREF: sub_13A7D7+6↑j
 
 loc_13A7E7:                             ; CODE XREF: sub_13A7D7+17↓j
                 LDA     byte_13A803,X
-                STA     CurrentGame.PureSave.field_4,X
+                STA     CurrentGame + GAME_SAVE::PureSave.GlobalX,X
                 DEX
                 BPL     loc_13A7E7
                 JSR     sub_D9FA
                 JSR     loc_D8CE
-                LDA     #2
+                LDA     #2              ; check_copyright
                 STA     FuncID          ; ID from table BANK13:BCFD (RoutineTable)
                 LDA     #$40 ; '@'
                 STA     byte_20
@@ -1632,7 +1631,7 @@ sub_13A82F:                             ; CODE XREF: main+92↑P
                 STA     byte_7F1
 
 loc_13A834:                             ; CODE XREF: sub_13A825+7↑j
-                LDA     byte_14
+                LDA     MapSectorID
                 CMP     #1
                 BEQ     loc_13A843
                 CMP     #2
@@ -1678,19 +1677,19 @@ loc_13A843:                             ; CODE XREF: sub_13A82F+9↑j
                                         ; |   $0C00    |        5        |  1K  |
                                         ; ---------------------------------------
                 LDA     #$DF
-                STA     OAM.TileID
+                STA     OAM + OAM_TILE::TileID
                 LDA     #0
-                STA     OAM.Attr
+                STA     OAM + OAM_TILE::Attr
                 LDX     #$40 ; '@'
                 LDA     byte_6785
                 JSR     sub_13A8D4
                 SBC     #8
-                STA     OAM.PosX
+                STA     OAM + OAM_TILE::PosX
                 LDX     #$80
                 LDA     byte_6787
                 JSR     sub_13A8D4
                 SBC     #$21 ; '!'
-                STA     OAM.PosY
+                STA     OAM + OAM_TILE::PosY
                 LDA     #$E9
                 LDX     #$A8            ; A8E9
                 JSR     copy_palettes
@@ -1702,14 +1701,14 @@ loc_13A899:                             ; CODE XREF: sub_13A82F+79↓j
                 JSR     wait_frames     ; wait for a few frames
                                         ; input: X - number of frames
                 LDA     #$DF
-                EOR     OAM.TileID
-                STA     OAM.TileID
+                EOR     OAM + OAM_TILE::TileID
+                STA     OAM + OAM_TILE::TileID
                 BIT     Gamepad0Buttons
                 BVC     loc_13A899
                 LDA     #0
                 STA     Gamepad0Buttons
                 LDA     #$F0
-                STA     OAM.PosY
+                STA     OAM + OAM_TILE::PosY
                 JSR     wait_nmi_processed
                 JSR     darken_color
                 JSR     restore_palettes
@@ -1722,9 +1721,9 @@ loc_13A899:                             ; CODE XREF: sub_13A82F+79↓j
                                         ; A - bank number
                                         ; X - mode
                 LDA     #0
-                STA     byte_7F7
+                STA     DMCflag
                 JSR     clear_oam_sprite
-                JMP     load_location
+                JMP     draw_screen
 ; End of function sub_13A82F
 
 
@@ -1737,8 +1736,8 @@ sub_13A8D4:                             ; CODE XREF: sub_13A82F+4A↑p
                 BPL     @exit
                 TAY
                 TXA
-                ORA     OAM.Attr
-                STA     OAM.Attr
+                ORA     OAM + OAM_TILE::Attr
+                STA     OAM + OAM_TILE::Attr
                 TYA
                 SBC     #7
 
@@ -1867,8 +1866,8 @@ sub_13A972:                             ; CODE XREF: sub_13A262+E↑p
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_13A979:                             ; CODE XREF: sub_13A315+11↑p
-                                        ; sub_13A9D6+42↓p
+sub_13A979:                             ; CODE XREF: sub_DA48+DC↑P
+                                        ; sub_13A315+11↑p ...
                 LDA     #0
                 JSR     sub_13B058
                 BCS     loc_13A9A1
@@ -2037,7 +2036,7 @@ sub_13AA3F:                             ; CODE XREF: sub_13A9D6+24↑p
                 JSR     sram_write_enable
                 JSR     sub_E772
                 ORA     byte_EC5D,X
-                STA     CurrentGame.field_220,Y
+                STA     CurrentGame + GAME_SAVE::field_220,Y
                 JMP     sram_read_enable
 ; End of function sub_13AA3F
 
@@ -2085,27 +2084,24 @@ byte_13AA74:    .BYTE 0, 1, 2, 4, 8, $10, $20, $20
 
 sub_13AA7C:                             ; CODE XREF: sub_13A443:loc_13A445↑p
                                         ; sub_13A44B↑p ...
-                LDA     byte_13AA87,X
+                LDA     word_13AA87,X
                 STA     PointerTilePack
-                LDA     byte_13AA87+1,X
+                LDA     word_13AA87+1,X
                 STA     byte_73
                 RTS
 ; End of function sub_13AA7C
 
 ; ---------------------------------------------------------------------------
-byte_13AA87:    .BYTE 0, 0, $85, 3, $86, 3, $87, 3, 0, 0, $D7, 3, $DB
+word_13AA87:    .word 0, $385, $386, $387, 0, $3D7, $3DB, $6C7, $6C8, $6D0
                                         ; DATA XREF: sub_13AA7C↑r
                                         ; sub_13AA7C+5↑r
-                .BYTE 3, $C7, 6, $C8, 6, $D0, 6, $C9, 6, $8E, 3, $8F, 3
-                .BYTE $90, 3, $91, 3, $92, 3, $93, 3, $94, 3, $95, 3, $96
-                .BYTE 3, $97, 3, $98, 3, $AF, 6, $B0, 6, $B1, 6, $B2, 6
-                .BYTE $B3, 6, $B4, 6, $B5, 6, $B6, 6, $B7, 6, $B8, 6, $B9
-                .BYTE 6, $BA, 6, $BB, 6, $BC, 6, $BD, 6, $BE, 6, $A7, 6
-                .BYTE $A8, 6, $A5, 6, $AA, 6, $A9, 6, $C1, 6, $A6, 6, $C3
-                .BYTE 6, $C4, 6, $C5, 6, $C6, 6, $BF, 6, $C0, 6, $99, 3
-                .BYTE $9A, 3, $9B, 3, $CB, 6, $9D, 3, $CC, 6, $CD, 6, $CA
-                .BYTE 6, $A1, 3, $CF, 6, $CE, 6, $14, 0, $16, 0, $38, 3
-                .BYTE $18, 0, $21, 0, $1B, 0
+                .word $6C9, $38E, $38F, $390, $391, $392, $393, $394, $395
+                .word $396, $397, $398, $6AF, $6B0, $6B1, $6B2, $6B3, $6B4
+                .word $6B5, $6B6, $6B7, $6B8, $6B9, $6BA, $6BB, $6BC, $6BD
+                .word $6BE, $6A7, $6A8, $6A5, $6AA, $6A9, $6C1, $6A6, $6C3
+                .word $6C4, $6C5, $6C6, $6BF, $6C0, $399, $39A, $39B, $6CB
+                .word $39D, $6CC, $6CD, $6CA, $3A1, $6CF, $6CE, $14, $16
+                .word $338, $18, $21, $1B
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -2142,7 +2138,7 @@ loc_13AB30:                             ; CODE XREF: sub_13A123+4F↑p
                 LDA     #0
                 STA     byte_2C
                 CLC
-                JMP     sub_FD4F
+                JMP     wait_press_button
 ; ---------------------------------------------------------------------------
 
 loc_13AB3C:                             ; CODE XREF: sub_13AB0F+23↑j
@@ -2158,11 +2154,11 @@ sub_13AB3E:                             ; CODE XREF: sub_13A9D6↑p
                                         ; sub_13AB0F↑p ...
                 JSR     sub_E655
 
-loc_13AB41:                             ; CODE XREF: sub_13AD27:loc_13AD61↓p
+@load_msg_bank:                         ; CODE XREF: sub_13AD27:loc_13AD61↓p
                                         ; sub_13AFD1+11↓p ...
                 LDY     #1
-                LDA     (Dist),Y
-                JMP     sub_DE6C
+                LDA     (Dist),Y        ; get msg number
+                JMP     set_msg_bank
 ; End of function sub_13AB3E
 
 
@@ -2203,35 +2199,35 @@ sub_13AB5E:                             ; CODE XREF: sub_13AB0F+E↑p
 ; End of function sub_13AB5E
 
 ; ---------------------------------------------------------------------------
-off_13AB69:     .WORD loc_13AB30-1, loc_13AC88-1, sub_13AC8D-1, return-1
+off_13AB69:     .word loc_13AB30-1, loc_13AC88-1, sub_13AC8D-1, return-1
                                         ; DATA XREF: sub_13AB5E+6↑r
                                         ; sub_13AB5E+2↑r
-                .WORD sub_13ACBA-1, sub_13AC54-1, sub_13AC54-1, infinite_loop-1
-                .WORD sub_13AD0D-1, sub_13ADA2-1, loc_13AC71-1, loc_13AC71-1
-                .WORD sub_13AC61-1, sub_13AC6A-1, infinite_loop-1, sub_13AC4B-1
-                .WORD sub_13AE23-1, sub_13AE35-1, sub_13AE4A-1, sub_13AE6C-1
-                .WORD sub_13AE5E-1, sub_13AE7A-1, sub_13AE8A-1, sub_13B48D-1
-                .WORD sub_13B0AD-1, sub_13AE97-1, sub_13AEBD-1, sub_13B505-1
-                .WORD sub_13B0E4-1, sub_13AE9E-1, sub_13AEC5-1, sub_13B484-1
-                .WORD sub_13B196-1, sub_13B172-1, sub_13B184-1, sub_13AFAC-1
-                .WORD loc_13AFB8-1, sub_13AEB6-1, sub_13AED3-1, sub_13AF8E-1
-                .WORD sub_13AEDB-1, loc_13AEEE-1, sub_13AF15-1, loc_13AF2F-1
-                .WORD loc_13AFDC-1, sub_13AFD1-1, loc_13AFEA-1, loc_13AFF5-1
-                .WORD loc_13B00C-1, sub_13B03C-1, sub_13AF5E-1, sub_13B028-1
-                .WORD loc_13AC71-1, loc_13AC71-1, sub_13B3D8-1, sub_13ADFA-1
-                .WORD sub_13B1BD-1, loc_13B1D8-1, sub_13B0D1-1, sub_13B235-1
-                .WORD sub_13B42B-1, sub_13B420-1, sub_13B246-1, sub_13AC57-1
-                .WORD loc_13AC71-1, sub_13B4EB-1, sub_13B440-1, sub_13B459-1
-                .WORD sub_13B472-1, sub_13B511-1, sub_13B290-1, sub_13B2FC-1
-                .WORD sub_13B323-1, sub_13B339-1, sub_13B34A-1, sub_13B3A8-1
-                .WORD sub_13B3B5-1, sub_13B317-1, sub_13B432-1, sub_13B3E8-1
-                .WORD sub_13B5A9-1, loc_13B64A-1, sub_13B5E2-1, sub_13B600-1
-                .WORD sub_13B5F1-1, sub_13B546-1, sub_13B4A0-1, sub_13B4A9-1
-                .WORD sub_13AEAA-1, sub_13B629-1, sub_13B695-1, sub_13B6AC-1
-                .WORD sub_13B6B4-1, sub_13B6BC-1, infinite_loop-1, sub_13B6C4-1
-                .WORD sub_13B5C9-1, sub_13B640-1, sub_13B1FD-1, sub_13B223-1
-                .WORD sub_13B6DB-1, sub_13B6EA-1, sub_13B70C-1, sub_13B725-1
-                .WORD sub_13B72D-1, sub_13B735-1, sub_13B73F-1, sub_13B751-1
+                .word sub_13ACBA-1, sub_13AC54-1, sub_13AC54-1, infinite_loop-1
+                .word sub_13AD0D-1, sub_13ADA2-1, loc_13AC71-1, loc_13AC71-1
+                .word sub_13AC61-1, sub_13AC6A-1, infinite_loop-1, sub_13AC4B-1
+                .word sub_13AE23-1, sub_13AE35-1, sub_13AE4A-1, sub_13AE6C-1
+                .word sub_13AE5E-1, sub_13AE7A-1, sub_13AE8A-1, sub_13B48D-1
+                .word sub_13B0AD-1, sub_13AE97-1, sub_13AEBD-1, sub_13B505-1
+                .word sub_13B0E4-1, sub_13AE9E-1, sub_13AEC5-1, sub_13B484-1
+                .word sub_13B196-1, sub_13B172-1, sub_13B184-1, sub_13AFAC-1
+                .word loc_13AFB8-1, sub_13AEB6-1, sub_13AED3-1, sub_13AF8E-1
+                .word sub_13AEDB-1, loc_13AEEE-1, sub_13AF15-1, loc_13AF2F-1
+                .word loc_13AFDC-1, sub_13AFD1-1, loc_13AFEA-1, loc_13AFF5-1
+                .word loc_13B00C-1, sub_13B03C-1, sub_13AF5E-1, sub_13B028-1
+                .word loc_13AC71-1, loc_13AC71-1, sub_13B3D8-1, sub_13ADFA-1
+                .word sub_13B1BD-1, loc_13B1D8-1, sub_13B0D1-1, sub_13B235-1
+                .word sub_13B42B-1, sub_13B420-1, sub_13B246-1, sub_13AC57-1
+                .word loc_13AC71-1, sub_13B4EB-1, sub_13B440-1, sub_13B459-1
+                .word sub_13B472-1, sub_13B511-1, sub_13B290-1, sub_13B2FC-1
+                .word sub_13B323-1, sub_13B339-1, sub_13B34A-1, sub_13B3A8-1
+                .word sub_13B3B5-1, sub_13B317-1, sub_13B432-1, sub_13B3E8-1
+                .word sub_13B5A9-1, loc_13B64A-1, sub_13B5E2-1, sub_13B600-1
+                .word sub_13B5F1-1, sub_13B546-1, sub_13B4A0-1, sub_13B4A9-1
+                .word sub_13AEAA-1, sub_13B629-1, sub_13B695-1, sub_13B6AC-1
+                .word sub_13B6B4-1, sub_13B6BC-1, infinite_loop-1, sub_13B6C4-1
+                .word sub_13B5C9-1, sub_13B640-1, sub_13B1FD-1, sub_13B223-1
+                .word sub_13B6DB-1, sub_13B6EA-1, sub_13B70C-1, sub_13B725-1
+                .word sub_13B72D-1, sub_13B735-1, sub_13B73F-1, sub_13B751-1
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -2410,7 +2406,7 @@ return:                                 ; DATA XREF: BANK13:off_13AB69↑o
 
 
 sub_13ACBA:                             ; DATA XREF: BANK13:off_13AB69↑o
-                LDA     CurrentGame.PureSave.field_4
+                LDA     CurrentGame + GAME_SAVE::PureSave.GlobalX
                 AND     #$3F ; '?'
                 CMP     #$24 ; '$'
                 BCC     loc_13AD05
@@ -2498,7 +2494,7 @@ sub_13AD27:                             ; CODE XREF: sub_13ADAE+A↓p
 
 loc_13AD29:                             ; CODE XREF: sub_13A44B+3↑j
                                         ; sub_13AD27+38↓j
-                LDY     PosY
+                LDY     Row
                 CPY     #$1B
                 BCC     loc_13AD36
                 JSR     sub_13AD98
@@ -2508,19 +2504,19 @@ loc_13AD29:                             ; CODE XREF: sub_13A44B+3↑j
 loc_13AD36:                             ; CODE XREF: sub_13AD27+6↑j
                 LDA     byte_2D
                 BNE     loc_13AD40
-                LDY     PosY
+                LDY     Row
                 CPY     #$19
                 BCS     loc_13AD84
 
 loc_13AD40:                             ; CODE XREF: sub_13AD27+11↑j
                                         ; sub_13AD27+67↓j
-                JSR     sub_CAA2
+                JSR     text2stack
                 LDA     #$16
                 STA     byte_70
                 LDA     #0
                 STA     byte_71
                 JSR     print_string
-                JSR     sub_C7AF
+                JSR     move_chars      ; Move $A4 chars from $432-4D6 to $45B-4FF
                 CMP     #0
                 BEQ     loc_13AD61
                 LDY     #0
@@ -2531,7 +2527,7 @@ loc_13AD40:                             ; CODE XREF: sub_13AD27+11↑j
                 BNE     loc_13AD29
 
 loc_13AD61:                             ; CODE XREF: sub_13AD27+2C↑j
-                JSR     loc_13AB41
+                JSR     @load_msg_bank
                 LDA     #0
                 STA     byte_70
                 STA     byte_71
@@ -2539,7 +2535,7 @@ loc_13AD61:                             ; CODE XREF: sub_13AD27+2C↑j
 
 loc_13AD6C:                             ; CODE XREF: sub_13AD27:loc_13AD84↓p
                 SEC
-                LDA     PosY
+                LDA     Row
                 SBC     #$13
                 LSR     A
                 STA     byte_2D
@@ -2553,7 +2549,7 @@ loc_13AD75:                             ; CODE XREF: sub_13AD27+34↑j
 
 loc_13AD7B:                             ; CODE XREF: sub_13AD0D+18↑j
                                         ; sub_13AD27+50↑j
-                LDY     PosY
+                LDY     Row
                 CPY     #$1B
                 BCC     loc_13AD84
                 JSR     sub_13AD98
@@ -2577,8 +2573,8 @@ sub_13AD98:                             ; CODE XREF: sub_13AD27+8↑p
                                         ; sub_13AD27+5A↑p
                 LDX     #4
                 JSR     sub_C7C1
-                DEC     PosY
-                DEC     PosY
+                DEC     Row
+                DEC     Row
                 RTS
 ; End of function sub_13AD98
 
@@ -2620,14 +2616,14 @@ loc_13ADC5:                             ; CODE XREF: sub_13AD27+64↑p
                 STX     pCursor+1
                 LDY     #6
                 LDA     (pCursor),Y
-                STA     PosX
+                STA     Column
                 LDA     #$D1
                 LDX     #$F0            ; ROM:F0D1
                 STA     pStr
                 STX     pStr+1
                 JSR     loc_EF4B
                 LDA     #8
-                STA     PosX
+                STA     Column
                 RTS
 ; End of function sub_13ADAE
 
@@ -2680,7 +2676,7 @@ sub_13AE23:                             ; DATA XREF: BANK13:off_13AB69↑o
                 JSR     sram_write_enable
                 JSR     sub_13AE58
                 ORA     byte_EC5D,X
-                STA     CurrentGame.field_200,Y
+                STA     CurrentGame + GAME_SAVE::field_200,Y
                 LDY     byte_35
                 INY
                 JMP     sram_read_enable
@@ -2695,7 +2691,7 @@ sub_13AE35:                             ; DATA XREF: BANK13:off_13AB69↑o
                 JSR     sub_13AE58
                 ORA     byte_EC5D,X
                 EOR     byte_EC5D,X
-                STA     CurrentGame.field_200,Y
+                STA     CurrentGame + GAME_SAVE::field_200,Y
                 LDY     byte_35
                 INY
                 JMP     sram_read_enable
@@ -2734,7 +2730,7 @@ sub_13AE5E:                             ; DATA XREF: BANK13:off_13AB69↑o
                 TAX
                 INY
                 JSR     sram_write_enable
-                INC     CurrentGame.field_260,X
+                INC     CurrentGame + GAME_SAVE::field_260,X
                 JMP     sram_read_enable
 ; End of function sub_13AE5E
 
@@ -2748,7 +2744,7 @@ sub_13AE6C:                             ; DATA XREF: BANK13:off_13AB69↑o
                 TAX
                 INY
                 JSR     sram_write_enable
-                DEC     CurrentGame.field_260,X
+                DEC     CurrentGame + GAME_SAVE::field_260,X
                 JMP     sram_read_enable
 ; End of function sub_13AE6C
 
@@ -2763,7 +2759,7 @@ sub_13AE7A:                             ; DATA XREF: BANK13:off_13AB69↑o
                 INY
                 JSR     sram_write_enable
                 LDA     #0
-                STA     CurrentGame.field_260,X
+                STA     CurrentGame + GAME_SAVE::field_260,X
                 JMP     sram_read_enable
 ; End of function sub_13AE7A
 
@@ -2776,7 +2772,7 @@ sub_13AE8A:                             ; DATA XREF: BANK13:off_13AB69↑o
                 LDA     (Source),Y      ; byte_109EAB, byte_109EB3
                 TAX
                 INY
-                LDA     CurrentGame.field_260,X
+                LDA     CurrentGame + GAME_SAVE::field_260,X
                 CMP     (Source),Y      ; byte_109EAB, byte_109EB3
                 JMP     sub_13AC7A
 ; End of function sub_13AE8A
@@ -2812,9 +2808,9 @@ sub_13AE9E:                             ; DATA XREF: BANK13:off_13AB69↑o
 
 
 sub_13AEAA:                             ; DATA XREF: BANK13:off_13AB69↑o
-                LDA     CurrentGame.PureSave.field_10
+                LDA     CurrentGame + GAME_SAVE::PureSave.cash
                 STA     word_2A
-                LDA     CurrentGame.PureSave.field_10+1
+                LDA     CurrentGame + GAME_SAVE::PureSave.cash+1
                 STA     word_2A+1
                 INY
                 RTS
@@ -2874,10 +2870,10 @@ sub_13AED3:                             ; DATA XREF: BANK13:off_13AB69↑o
 
 sub_13AEDB:                             ; DATA XREF: BANK13:off_13AB69↑o
                 CLC
-                LDA     CurrentGame.PureSave.field_10
+                LDA     CurrentGame + GAME_SAVE::PureSave.cash
                 ADC     word_2A
                 STA     Pointer
-                LDA     CurrentGame.PureSave.field_10+1
+                LDA     CurrentGame + GAME_SAVE::PureSave.cash+1
                 ADC     word_2A+1
                 STA     Pointer+1
                 BCS     loc_13AF12
@@ -2885,10 +2881,10 @@ sub_13AEDB:                             ; DATA XREF: BANK13:off_13AB69↑o
 
 loc_13AEEE:                             ; DATA XREF: BANK13:off_13AB69↑o
                 SEC
-                LDA     CurrentGame.PureSave.field_10
+                LDA     CurrentGame + GAME_SAVE::PureSave.cash
                 SBC     word_2A
                 STA     Pointer
-                LDA     CurrentGame.PureSave.field_10+1
+                LDA     CurrentGame + GAME_SAVE::PureSave.cash+1
                 SBC     word_2A+1
                 STA     Pointer+1
                 BCC     loc_13AF12
@@ -2896,9 +2892,9 @@ loc_13AEEE:                             ; DATA XREF: BANK13:off_13AB69↑o
 loc_13AEFF:                             ; CODE XREF: sub_13AEDB+11↑j
                 JSR     sram_write_enable
                 LDA     Pointer
-                STA     CurrentGame.PureSave.field_10
+                STA     CurrentGame + GAME_SAVE::PureSave.cash
                 LDA     Pointer+1
-                STA     CurrentGame.PureSave.field_10+1
+                STA     CurrentGame + GAME_SAVE::PureSave.cash+1
                 JSR     sram_read_enable
                 INY
                 INY
@@ -2916,13 +2912,13 @@ loc_13AF12:                             ; CODE XREF: sub_13AEDB+F↑j
 
 sub_13AF15:                             ; DATA XREF: BANK13:off_13AB69↑o
                 CLC
-                LDA     CurrentGame.PureSave.field_12
+                LDA     CurrentGame + GAME_SAVE::PureSave.field_12
                 ADC     word_2A
                 STA     Pointer
-                LDA     CurrentGame.PureSave.field_12+1
+                LDA     CurrentGame + GAME_SAVE::PureSave.field_12+1
                 ADC     word_2A+1
                 STA     Pointer+1
-                LDA     CurrentGame.PureSave.field_14
+                LDA     CurrentGame + GAME_SAVE::PureSave.field_14
                 ADC     #0
                 STA     AddrForJmp
                 BCS     loc_13AF12
@@ -2930,13 +2926,13 @@ sub_13AF15:                             ; DATA XREF: BANK13:off_13AB69↑o
 
 loc_13AF2F:                             ; DATA XREF: BANK13:off_13AB69↑o
                 SEC
-                LDA     CurrentGame.PureSave.field_12
+                LDA     CurrentGame + GAME_SAVE::PureSave.field_12
                 SBC     word_2A
                 STA     Pointer
-                LDA     CurrentGame.PureSave.field_12+1
+                LDA     CurrentGame + GAME_SAVE::PureSave.field_12+1
                 SBC     word_2A+1
                 STA     Pointer+1
-                LDA     CurrentGame.PureSave.field_14
+                LDA     CurrentGame + GAME_SAVE::PureSave.field_14
                 SBC     #0
                 STA     AddrForJmp
                 BCC     loc_13AF12
@@ -2944,11 +2940,11 @@ loc_13AF2F:                             ; DATA XREF: BANK13:off_13AB69↑o
 loc_13AF47:                             ; CODE XREF: sub_13AF15+18↑j
                 JSR     sram_write_enable
                 LDA     Pointer
-                STA     CurrentGame.PureSave.field_12
+                STA     CurrentGame + GAME_SAVE::PureSave.field_12
                 LDA     Pointer+1
-                STA     CurrentGame.PureSave.field_12+1
+                STA     CurrentGame + GAME_SAVE::PureSave.field_12+1
                 LDA     AddrForJmp
-                STA     CurrentGame.PureSave.field_14
+                STA     CurrentGame + GAME_SAVE::PureSave.field_14
                 INY
                 INY
                 JMP     sram_read_enable
@@ -2967,7 +2963,9 @@ sub_13AF5E:                             ; DATA XREF: BANK13:off_13AB69↑o
                 STA     Pointer
                 LDA     word_2A+1
                 STA     Pointer+1
-                JSR     sub_F0F1
+                JSR     get_offset      ; Input: Pointer - first multiplier
+                                        ;        pTileID - second multiplier
+                                        ; Output: AddrForJmp, Pointer - result Pointer * pTileID
                 LDA     #$64 ; 'd'
                 STA     pTileID
                 JSR     sub_F13D
@@ -3069,7 +3067,7 @@ loc_13AFDC:                             ; DATA XREF: BANK13:off_13AB69↑o
                 STY     byte_35
                 JSR     sub_13B0A3
                 PHP
-                JSR     loc_13AB41
+                JSR     @load_msg_bank
                 PLP
                 BNE     sub_13B023
                 BEQ     loc_13AFEC
@@ -3287,16 +3285,16 @@ sub_13B0A3:                             ; CODE XREF: sub_13A98B↑p
 sub_13B0AD:                             ; DATA XREF: BANK13:off_13AB69↑o
                 LDA     #$18
                 STA     byte_2C
-                LDA     PosX
+                LDA     Column
                 PHA
-                LDA     PosY
+                LDA     Row
                 PHA
                 STY     byte_35
                 JSR     sub_13B763
                 PLA
-                STA     PosY
+                STA     Row
                 PLA
-                STA     PosX
+                STA     Column
                 BCS     loc_13B0CC
 
 loc_13B0C4:                             ; CODE XREF: sub_13B0D1+11↓j
@@ -3324,7 +3322,7 @@ sub_13B0D1:                             ; DATA XREF: BANK13:off_13AB69↑o
                 TAX
                 CPX     #4
                 BCS     loc_13B0CC
-                LDA     CurrentGame.PureSave.CharactersNum,X
+                LDA     CurrentGame + GAME_SAVE::PureSave.CharactersNum,X
                 BEQ     loc_13B0CC
                 STA     byte_28
                 BNE     loc_13B0C4
@@ -3365,7 +3363,7 @@ loc_13B0EB:                             ; CODE XREF: sub_13B0E4+D↓j
 
 loc_13B118:                             ; CODE XREF: sub_13B0E4+5F↓j
                 LDX     #$C
-                STX     PosX
+                STX     Column
                 JSR     loc_EF7C
                 LDA     Buttons
                 AND     #$C
@@ -3403,7 +3401,7 @@ loc_13B146:                             ; CODE XREF: sub_13B0E4+3F↑j
                 LDA     Pointer+1
                 STA     word_2A+1
                 LDX     #8
-                STX     PosX
+                STX     Column
                 LDY     byte_35
                 LDA     #$40 ; '@'
                 BIT     Buttons
@@ -3423,9 +3421,9 @@ sub_13B172:                             ; DATA XREF: BANK13:off_13AB69↑o
                 LDA     #$21 ; '!'
                 STA     byte_2C
                 STY     byte_35
-                LDA     PosX
+                LDA     Column
                 PHA
-                LDA     PosY
+                LDA     Row
                 PHA
                 JSR     sub_13B87F
                 JMP     loc_13B1A5
@@ -3439,9 +3437,9 @@ sub_13B184:                             ; DATA XREF: BANK13:off_13AB69↑o
                 LDA     #$22 ; '"'
                 STA     byte_2C
                 STY     byte_35
-                LDA     PosX
+                LDA     Column
                 PHA
-                LDA     PosY
+                LDA     Row
                 PHA
                 JSR     sub_13B814
                 JMP     loc_13B1A5
@@ -3455,18 +3453,18 @@ sub_13B196:                             ; DATA XREF: BANK13:off_13AB69↑o
                 LDA     #$20 ; ' '
                 STA     byte_2C
                 STY     byte_35
-                LDA     PosX
+                LDA     Column
                 PHA
-                LDA     PosY
+                LDA     Row
                 PHA
                 JSR     sub_13B7B6
 
 loc_13B1A5:                             ; CODE XREF: sub_13B172+F↑j
                                         ; sub_13B184+F↑j
                 PLA
-                STA     PosY
+                STA     Row
                 PLA
-                STA     PosX
+                STA     Column
                 BCS     loc_13B1B8
                 JSR     sub_13BBC3
                 JSR     sub_13BB8C
@@ -3560,10 +3558,10 @@ sub_13B1FD:                             ; DATA XREF: BANK13:off_13AB69↑o
                 LDY     #$28 ; '('
                 LDA     (Pointer),Y
                 BEQ     loc_13B21B
-                STA     CurrentGame.field_280
+                STA     CurrentGame + GAME_SAVE::field_280
                 STY     AddrForJmp
                 JSR     loc_13BC5A
-                JSR     loc_13AB41
+                JSR     @load_msg_bank
 
 loc_13B216:                             ; CODE XREF: sub_13B223+F↓j
                 LDY     byte_35
@@ -3585,7 +3583,7 @@ loc_13B220:                             ; CODE XREF: sub_13B223+3↓j
 
 
 sub_13B223:                             ; DATA XREF: BANK13:off_13AB69↑o
-                LDA     CurrentGame.field_280
+                LDA     CurrentGame + GAME_SAVE::field_280
                 BEQ     loc_13B220
                 STA     byte_29
                 STY     byte_35
@@ -3662,7 +3660,7 @@ sub_13B246:                             ; DATA XREF: BANK13:off_13AB69↑o
 
 
 sub_13B290:                             ; DATA XREF: BANK13:off_13AB69↑o
-                LDA     BankTable.PPU_2K_1800
+                LDA     BankTable + BANK_TABLE::PPU_2K_1800
                 JSR     sub_13B29C
 
 loc_13B295:                             ; CODE XREF: sub_13B2FC+18↓j
@@ -3821,7 +3819,7 @@ sub_13B34A:                             ; DATA XREF: BANK13:off_13AB69↑o
                 LDA     #$F0
                 STA     byte_23
                 LDA     #$3F ; '?'
-                STA     byte_15
+                STA     MsgNumber
                 JSR     sram_write_enable
                 LDA     #0
                 STA     byte_67C0
@@ -4116,19 +4114,19 @@ sub_13B4A9:                             ; DATA XREF: BANK13:off_13AB69↑o
                 LDA     pTileID+1
                 SBC     (Pointer),Y
                 STA     word_2A+1
-                JSR     loc_13AB41
+                JSR     @load_msg_bank
                 JSR     sram_write_enable
                 LDX     #3
 
 loc_13B4D0:                             ; CODE XREF: sub_13B4A9+2E↓j
-                LDA     CurrentGame.PureSave.field_4,X
-                STA     CurrentGame.PureSave.field_C,X
+                LDA     CurrentGame + GAME_SAVE::PureSave.GlobalX,X
+                STA     CurrentGame + GAME_SAVE::PureSave.field_C,X
                 DEX
                 BPL     loc_13B4D0
                 LDA     #0
-                STA     CurrentGame.PureSave.field_15
-                STA     CurrentGame.PureSave.field_16
-                STA     CurrentGame.PureSave.field_17
+                STA     CurrentGame + GAME_SAVE::PureSave.field_15
+                STA     CurrentGame + GAME_SAVE::PureSave.field_16
+                STA     CurrentGame + GAME_SAVE::PureSave.field_17
                 JSR     sram_read_enable
                 LDY     byte_35
                 INY
@@ -4144,8 +4142,8 @@ sub_13B4EB:                             ; DATA XREF: BANK13:off_13AB69↑o
                 LDX     #3
 
 loc_13B4F0:                             ; CODE XREF: sub_13B4EB+C↓j
-                LDA     CurrentGame.PureSave.field_C,X
-                STA     CurrentGame.PureSave.field_4,X
+                LDA     CurrentGame + GAME_SAVE::PureSave.field_C,X
+                STA     CurrentGame + GAME_SAVE::PureSave.GlobalX,X
                 DEX
                 BPL     loc_13B4F0
                 LDA     #$20 ; ' '
@@ -4161,9 +4159,9 @@ loc_13B4F0:                             ; CODE XREF: sub_13B4EB+C↓j
 
 
 sub_13B505:                             ; DATA XREF: BANK13:off_13AB69↑o
-                LDA     CurrentGame.PureSave.field_15
-                ORA     CurrentGame.PureSave.field_16
-                ORA     CurrentGame.PureSave.field_17
+                LDA     CurrentGame + GAME_SAVE::PureSave.field_15
+                ORA     CurrentGame + GAME_SAVE::PureSave.field_16
+                ORA     CurrentGame + GAME_SAVE::PureSave.field_17
                 JMP     loc_13AC82
 ; End of function sub_13B505
 
@@ -4237,7 +4235,7 @@ sub_13B561:                             ; CODE XREF: sub_13B546+A↑p
                 LDX     #0
 
 loc_13B566:                             ; CODE XREF: sub_13B561+1C↓j
-                LDA     CurrentGame.PureSave.CharactersNum,X
+                LDA     CurrentGame + GAME_SAVE::PureSave.CharactersNum,X
                 BEQ     loc_13B57A
                 JSR     get_sram_pointer ; Input: A -
                                         ; Output: Pointer (word) = High $74 Low $40 * A
@@ -4487,10 +4485,10 @@ sub_13B695:                             ; DATA XREF: BANK13:off_13AB69↑o
                 LDA     (Source),Y      ; byte_109EAB, byte_109EB3
                 JSR     sub_FD28
                 JSR     sram_write_enable
-                LDA     CurrentGame.PureSave.field_4
+                LDA     CurrentGame + GAME_SAVE::PureSave.GlobalX
                 AND     #$C0
                 ORA     (Source),Y      ; byte_109EAB, byte_109EB3
-                STA     CurrentGame.PureSave.field_4
+                STA     CurrentGame + GAME_SAVE::PureSave.GlobalX
                 INY
                 JMP     sram_read_enable
 ; End of function sub_13B695
@@ -4538,11 +4536,11 @@ sub_13B6BC:                             ; DATA XREF: BANK13:off_13AB69↑o
 sub_13B6C4:                             ; DATA XREF: BANK13:off_13AB69↑o
                 JSR     sram_write_enable
                 LDA     #$20 ; ' '
-                ORA     CurrentGame.PureSave.Characters.field_30
-                STA     CurrentGame.PureSave.Characters.field_30
+                ORA     CurrentGame + GAME_SAVE::PureSave.Characters.field_30
+                STA     CurrentGame + GAME_SAVE::PureSave.Characters.field_30
                 LDA     #$20 ; ' '
-                ORA     CurrentGame.PureSave.Characters.field_30+$40
-                STA     CurrentGame.PureSave.Characters.field_30+$40
+                ORA     CurrentGame + GAME_SAVE::PureSave.Characters.field_30+$40
+                STA     CurrentGame + GAME_SAVE::PureSave.Characters.field_30+$40
                 INY
                 JMP     sram_read_enable
 ; End of function sub_13B6C4
@@ -4569,7 +4567,7 @@ sub_13B6DB:                             ; DATA XREF: BANK13:off_13AB69↑o
 
 
 sub_13B6EA:                             ; DATA XREF: BANK13:off_13AB69↑o
-                LDA     CurrentGame.field_21E
+                LDA     CurrentGame + GAME_SAVE::field_21E
                 CMP     #$FF
                 BEQ     loc_13B6F4
                 JMP     loc_13AC88
@@ -4581,7 +4579,7 @@ loc_13B6F4:                             ; CODE XREF: sub_13B6EA+5↑j
 
 loc_13B6F9:                             ; CODE XREF: sub_13B6EA+16↓j
                 LDA     byte_13B708,X
-                STA     CurrentGame.PureSave.field_C,X
+                STA     CurrentGame + GAME_SAVE::PureSave.field_C,X
                 DEX
                 BPL     loc_13B6F9
                 JSR     sram_read_enable
@@ -4600,15 +4598,15 @@ sub_13B70C:                             ; DATA XREF: BANK13:off_13AB69↑o
                 LDA     #$66 ; 'f'
                 STA     byte_2C
                 STY     byte_35
-                LDA     PosX
+                LDA     Column
                 PHA
-                LDA     PosY
+                LDA     Row
                 PHA
                 JSR     sub_13B9E4
                 PLA
-                STA     PosY
+                STA     Row
                 PLA
-                STA     PosX
+                STA     Column
                 LDY     byte_35
                 INY
                 RTS
@@ -4620,7 +4618,7 @@ sub_13B70C:                             ; DATA XREF: BANK13:off_13AB69↑o
 
 sub_13B725:                             ; DATA XREF: BANK13:off_13AB69↑o
                 JSR     wait_nmi_processed
-                JSR     reduce_bg
+                JSR     bg_blackout
                 INY
                 RTS
 ; End of function sub_13B725
@@ -4663,7 +4661,7 @@ sub_13B73F:                             ; DATA XREF: BANK13:off_13AB69↑o
                 JSR     bank_A000_a     ; changes the memory bank $A000, transfers the execution of the code after completion of which returns the original memory bank
                                         ; input: A - bank number, YX - (subroutine address - 1)
                                         ; Y - high byte, X - low byte
-                JSR     loc_13AB41
+                JSR     @load_msg_bank
                 LDY     byte_35
                 INY
                 RTS
@@ -4681,7 +4679,7 @@ sub_13B751:                             ; DATA XREF: BANK13:off_13AB69↑o
                 JSR     bank_A000_a     ; changes the memory bank $A000, transfers the execution of the code after completion of which returns the original memory bank
                                         ; input: A - bank number, YX - (subroutine address - 1)
                                         ; Y - high byte, X - low byte
-                JSR     loc_13AB41
+                JSR     @load_msg_bank
                 LDY     byte_35
                 INY
                 RTS
@@ -4695,8 +4693,8 @@ sub_13B763:                             ; CODE XREF: sub_13AA4E+11↑p
                                         ; sub_13B0AD+C↑p
                 LDX     #2
                 LDY     #$19
-                STX     PosX
-                STY     PosY
+                STX     Column
+                STY     Row
                 LDX     #2
 
 loc_13B76D:                             ; CODE XREF: sub_13B763+19↓j
@@ -4704,19 +4702,19 @@ loc_13B76D:                             ; CODE XREF: sub_13B763+19↓j
                 BEQ     loc_13B77E
                 LDA     #$A0
                 JSR     sub_C68B
-                DEC     PosY
-                DEC     PosY
+                DEC     Row
+                DEC     Row
                 DEX
                 BPL     loc_13B76D
 
 loc_13B77E:                             ; CODE XREF: sub_13B763+D↑j
-                DEC     PosX
+                DEC     Column
                 SEC
-                LDA     PosY
+                LDA     Row
                 SBC     #4
-                STA     PosY
+                STA     Row
                 JSR     sub_C3C0
-                JSR     loc_13AB41
+                JSR     @load_msg_bank
                 LDA     #$AC
                 LDX     #$B7            ; B7AC
                 STA     pCursor
@@ -4748,7 +4746,7 @@ loc_13B79E:                             ; CODE XREF: sub_13B763+37↑j
 
 sub_13B7B6:                             ; CODE XREF: sub_13A262↑p
                                         ; sub_13B196+C↑p
-                JSR     sub_C3B2
+                JSR     goods_psi
                 LDX     #$FF
 
 loc_13B7BB:                             ; CODE XREF: sub_13B7B6+F↓j
@@ -4829,7 +4827,7 @@ sub_13B803:                             ; CODE XREF: sub_13B7B6+18↑p
 
 sub_13B814:                             ; CODE XREF: sub_13B184+C↑p
                 JSR     sub_C3B9
-                JSR     loc_13AB41
+                JSR     @load_msg_bank
                 SEC
                 LDA     byte_35
                 ADC     Source          ; byte_109EAB, byte_109EB3
@@ -4840,7 +4838,7 @@ sub_13B814:                             ; CODE XREF: sub_13B184+C↑p
                 LDY     #3
 
 loc_13B829:                             ; CODE XREF: sub_13B814+45↓j
-                STY     PosY
+                STY     Row
                 LDY     byte_35
                 INY
                 STY     byte_35
@@ -4850,19 +4848,19 @@ loc_13B829:                             ; CODE XREF: sub_13B814+45↓j
                 LDA     #$C
                 STA     byte_70
                 LDX     #3
-                STX     PosX
+                STX     Column
                 JSR     sub_13BBAF
                 JSR     sub_13BBC3
                 LDA     #0
                 STA     byte_70
                 LDX     #$F
-                STX     PosX
+                STX     Column
                 LDA     #$6F ; 'o'
                 LDX     #$B8            ; B86F
                 JSR     sub_13AC44
 
 loc_13B853:                             ; CODE XREF: sub_13B814+20↑j
-                LDY     PosY
+                LDY     Row
                 INY
                 INY
                 CPY     #$B
@@ -4890,7 +4888,7 @@ loc_13B86C:                             ; CODE XREF: sub_13B814+54↑j
 
 
 sub_13B87F:                             ; CODE XREF: sub_13B172+C↑p
-                JSR     sub_C3B2
+                JSR     goods_psi
                 LDA     #$D8
                 LDX     #$B8            ; B8D8
                 JSR     sub_13AC44
@@ -4908,7 +4906,7 @@ loc_13B88B:                             ; CODE XREF: sub_13B87F+31↓j
 
 loc_13B896:                             ; CODE XREF: sub_13B87F+13↑j
                                         ; sub_13B87F+43↓j
-                LDA     CurrentGame.field_2B0,X
+                LDA     CurrentGame + GAME_SAVE::field_2B0,X
                 BNE     loc_13B89D
                 LDX     #0
 
@@ -4966,7 +4964,7 @@ sub_13B8CA:                             ; CODE XREF: sub_13B87F+20↑p
 
 
 sub_13B8E6:                             ; CODE XREF: sub_13A238↑p
-                JSR     sub_C3B2
+                JSR     goods_psi
                 LDX     #$FF
 
 loc_13B8EB:                             ; CODE XREF: sub_13B8E6+F↓j
@@ -4978,7 +4976,7 @@ loc_13B8EB:                             ; CODE XREF: sub_13B8E6+F↓j
 
 loc_13B8F2:                             ; CODE XREF: sub_13B8E6+8↑j
                                         ; sub_13B8E6+47↓j
-                LDA     CurrentGame.PureSave.CharactersNum,X
+                LDA     CurrentGame + GAME_SAVE::PureSave.CharactersNum,X
                 BEQ     loc_13B8EB
                 CMP     #3
                 BCS     loc_13B8EB
@@ -5088,7 +5086,7 @@ byte_13B98B:    .BYTE $60, $E0, $A8, 0  ; DATA XREF: sub_13B935+2A↑r
 
 
 sub_13B98F:                             ; CODE XREF: sub_13A612+3↑p
-                JSR     sub_C3B2
+                JSR     goods_psi
                 LDA     #$D1
                 LDX     #$B9            ; B9D1
                 JSR     sub_13AC44
@@ -5112,7 +5110,7 @@ loc_13B9AC:                             ; CODE XREF: sub_13B98F+19↑j
 
 
 sub_13B9AF:                             ; CODE XREF: sub_13B98F+A↑p
-                LDA     CurrentGame.field_21D
+                LDA     CurrentGame + GAME_SAVE::field_21D
                 STA     pTileID+1
                 LDX     #0
 
@@ -5154,13 +5152,13 @@ sub_13B9E4:                             ; CODE XREF: sub_13B70C+C↑p
                 JSR     sub_13BA72
                 JSR     sram_write_enable
                 LDA     #0
-                STA     CurrentGame.PureSave.field_31
+                STA     CurrentGame + GAME_SAVE::PureSave.field_31
                 STA     ItemCount
                 LDY     #$10
                 LDA     #$A2
 
 loc_13BA07:                             ; CODE XREF: sub_13B9E4+27↓j
-                STA     CurrentGame.PureSave.field_20,Y
+                STA     CurrentGame + GAME_SAVE::PureSave.field_20,Y
                 DEY
                 BPL     loc_13BA07
                 STA     byte_D6
@@ -5182,7 +5180,7 @@ loc_13BA1E:                             ; CODE XREF: sub_13B9E4+31↑j
 loc_13BA24:                             ; CODE XREF: sub_13B9E4+59↓j
                 LDY     ItemCount
                 BEQ     loc_13BA18
-                LDA     CurrentGame.PureSave.field_20,Y
+                LDA     CurrentGame + GAME_SAVE::PureSave.field_20,Y
                 CMP     #$A2
                 BNE     loc_13BA30
                 DEY
@@ -5190,7 +5188,7 @@ loc_13BA24:                             ; CODE XREF: sub_13B9E4+59↓j
 loc_13BA30:                             ; CODE XREF: sub_13B9E4+49↑j
                 LDA     #$A2
                 STY     ItemCount
-                STA     CurrentGame.PureSave.field_20,Y
+                STA     CurrentGame + GAME_SAVE::PureSave.field_20,Y
                 BNE     loc_13BA18
 
 loc_13BA39:                             ; CODE XREF: sub_13B9E4+3C↑j
@@ -5201,7 +5199,7 @@ loc_13BA39:                             ; CODE XREF: sub_13B9E4+3C↑j
                 BEQ     loc_13BA54
                 LDA     byte_580,Y
                 LDY     ItemCount
-                STA     CurrentGame.PureSave.field_20,Y
+                STA     CurrentGame + GAME_SAVE::PureSave.field_20,Y
                 CPY     #$10
                 BCS     loc_13BA18
                 INY
@@ -5212,19 +5210,19 @@ loc_13BA54:                             ; CODE XREF: sub_13B9E4+3E↑j
                                         ; sub_13B9E4+5D↑j
                 LDY     ItemCount
                 BEQ     loc_13BA18
-                LDA     CurrentGame.PureSave.field_20,Y
+                LDA     CurrentGame + GAME_SAVE::PureSave.field_20,Y
                 CMP     #$A2
                 BEQ     loc_13BA60
                 INY
 
 loc_13BA60:                             ; CODE XREF: sub_13B9E4+79↑j
                 LDA     #0
-                STA     CurrentGame.PureSave.field_20,Y
+                STA     CurrentGame + GAME_SAVE::PureSave.field_20,Y
                 STA     byte_D6
                 LDA     #$F0
-                STA     OAM.PosY+4
+                STA     OAM + OAM_TILE::PosY+4
                 JSR     sram_read_enable
-                JMP     loc_13AB41
+                JMP     @load_msg_bank
 ; End of function sub_13B9E4
 
 
@@ -5263,17 +5261,17 @@ sub_13BA8D:                             ; CODE XREF: sub_13B9E4+2B↑p
                 LDX     #$BA            ; BAE5
                 JSR     sub_13AC44
                 LDA     #$32 ; '2'
-                STA     OAM.PosY+4
+                STA     OAM + OAM_TILE::PosY+4
                 LDA     #1
-                STA     OAM.TileID+4
+                STA     OAM + OAM_TILE::TileID+4
                 LDA     #0
-                STA     OAM.Attr+4
+                STA     OAM + OAM_TILE::Attr+4
                 LDA     ItemCount
                 ASL     A
                 ASL     A
                 ASL     A
                 ADC     #$48 ; 'H'
-                STA     OAM.PosX+4
+                STA     OAM + OAM_TILE::PosX+4
                 LDA     #$EF
                 LDX     #$BA            ; BAEF
                 STA     pCursor
@@ -5342,8 +5340,8 @@ sub_13BB21:                             ; CODE XREF: sub_13B7B6+15↑p
                 LDX     #9
                 LDY     #3
                 STA     byte_70
-                STX     PosX
-                STY     PosY
+                STX     Column
+                STY     Row
                 JMP     sub_C6D2
 ; End of function sub_13BB21
 
@@ -5357,20 +5355,20 @@ sub_13BB40:                             ; CODE XREF: sub_13B7B6+1B↑p
                 LDX     #7
                 LDY     #5
                 STA     byte_70
-                STY     PosY
+                STY     Row
                 LDY     #0
 
 loc_13BB4C:                             ; CODE XREF: sub_13BB40+28↓j
-                STX     PosX
+                STX     Column
                 STY     CurrentFieldPosition
                 LDA     (pStr),Y
                 STA     byte_29
                 JSR     sub_13BBAF
                 LDX     #$13
-                CPX     PosX
+                CPX     Column
                 BNE     loc_13BB63
-                INC     PosY
-                INC     PosY
+                INC     Row
+                INC     Row
                 LDX     #7
 
 loc_13BB63:                             ; CODE XREF: sub_13BB40+1B↑j
@@ -5407,8 +5405,8 @@ sub_13BB6F:                             ; CODE XREF: sub_13A9D6+59↑p
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_13BB8C:                             ; CODE XREF: sub_13A9D6:loc_13AA05↑p
-                                        ; sub_13AFC4+A↑j ...
+sub_13BB8C:                             ; CODE XREF: sub_DA48+CE↑P
+                                        ; sub_13A9D6:loc_13AA05↑p ...
                 JSR     sub_13BBDF
                 LDY     #0
                 LDA     (Pointer),Y
@@ -5426,7 +5424,7 @@ loc_13BB9F:                             ; CODE XREF: sub_13BB8C+1B↓j
                 CMP     #0
                 BNE     loc_13BB9F
                 JSR     sram_read_enable
-                JMP     loc_13AB41
+                JMP     @load_msg_bank
 ; End of function sub_13BB8C
 
 
@@ -5443,15 +5441,15 @@ sub_13BBAF:                             ; CODE XREF: sub_13B814+2A↑p
                 LDA     (Pointer),Y
                 STA     PointerTilePack+1
                 JSR     sub_C6D2
-                JMP     loc_13AB41
+                JMP     @load_msg_bank
 ; End of function sub_13BBAF
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_13BBC3:                             ; CODE XREF: sub_13AFC4+7↑p
-                                        ; sub_13B03C+13↑p ...
+sub_13BBC3:                             ; CODE XREF: sub_DA48+B7↑P
+                                        ; sub_13AFC4+7↑p ...
                 JSR     sub_13BBDF
                 LDY     #6
                 LDA     (Pointer),Y
@@ -5459,18 +5457,19 @@ sub_13BBC3:                             ; CODE XREF: sub_13AFC4+7↑p
                 INY
                 LDA     (Pointer),Y
                 STA     word_2A+1
-                JMP     loc_13AB41
+                JMP     @load_msg_bank
 ; End of function sub_13BBC3
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_13BBD4:                             ; CODE XREF: sub_13B34A+33↑p
+sub_13BBD4:                             ; CODE XREF: sub_CCB1+92↑P
+                                        ; sub_13B34A+33↑p
                 JSR     sub_13BBDF
                 LDY     #2
                 JSR     loc_E6A9
-                JMP     loc_13AB41
+                JMP     @load_msg_bank
 ; End of function sub_13BBD4
 
 
@@ -5518,7 +5517,7 @@ loc_13BBF2:                             ; CODE XREF: sub_13BC3A+33↓p
 
 sub_13BC04:                             ; CODE XREF: sub_13A53E+29↑j
                                         ; sub_13A57A+48↑j ...
-                JSR     sub_FD4F
+                JSR     wait_press_button
                 JMP     sub_C3D5
 ; End of function sub_13BC04
 
@@ -5532,7 +5531,7 @@ sub_13BC0A:                             ; CODE XREF: sub_13AD0D+11↑p
                 PHA
                 LDA     byte_73
                 PHA
-                JSR     sub_C3A0
+                JSR     out_msg_frame
                 PLA
                 STA     byte_73
                 PLA
@@ -5541,9 +5540,9 @@ sub_13BC0A:                             ; CODE XREF: sub_13AD0D+11↑p
                 STA     byte_2D
                 LDX     #8
                 LDY     #$13
-                STX     PosX
-                STY     PosY
-                JMP     loc_13AB41
+                STX     Column
+                STY     Row
+                JMP     @load_msg_bank
 ; End of function sub_13BC0A
 
 
@@ -5552,16 +5551,16 @@ sub_13BC0A:                             ; CODE XREF: sub_13AD0D+11↑p
 
 sub_13BC28:                             ; CODE XREF: sub_13B0E4+2↑p
                                         ; sub_13B484+2↑p
-                LDA     PosX
+                LDA     Column
                 PHA
-                LDA     PosY
+                LDA     Row
                 PHA
                 JSR     sub_C3DF
                 PLA
-                STA     PosY
+                STA     Row
                 PLA
-                STA     PosX
-                JMP     loc_13AB41
+                STA     Column
+                JMP     @load_msg_bank
 ; End of function sub_13BC28
 
 
@@ -5709,10 +5708,10 @@ routine_selector:                       ; CODE XREF: main+16↑P
 ; End of function routine_selector
 
 ; ---------------------------------------------------------------------------
-RoutineTable:   .WORD darken_palette-1  ; DATA XREF: routine_selector+C↑r
+RoutineTable:   .word darken_palette-1  ; DATA XREF: routine_selector+C↑r
                                         ; routine_selector+8↑r
-                .WORD sub_13BD0D-1, check_copyright-1, sub_13BD31-1, sub_13BD5C-1
-                .WORD sub_13BDD9-1, loc_13BD34-1, sub_13BE0F-1
+                .word sub_13BD0D-1, check_copyright-1, sub_13BD31-1, sub_13BD5C-1
+                .word sub_13BDD9-1, loc_13BD34-1, sub_13BE0F-1
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -5730,8 +5729,8 @@ sub_13BD0D:                             ; DATA XREF: BANK13:BCFF↑o
 check_copyright:                        ; DATA XREF: BANK13:BCFF↑o
                 LDA     #$10
                 STA     byte_7F1
-                LDA     #$34 ; '4'
-                JSR     sub_EE21
+                LDA     #LIGHTEST_PURPLE
+                JSR     one_color_lighten_palette
                 LDA     CopyrightViolation
                 BEQ     @no_violation
                 LDA     #$19
@@ -5793,8 +5792,8 @@ loc_13BD45:                             ; CODE XREF: sub_13BD3B+1E↓j
 sub_13BD5C:                             ; DATA XREF: BANK13:BCFF↑o
                 LDA     #9
                 STA     apu_7F0
-                LDA     #$11
-                JSR     sub_EE21
+                LDA     #MEDIUM_BLUE
+                JSR     one_color_lighten_palette
                 JSR     clear_oam_sprite
                 JSR     home_camera
                 LDA     #$5D ; ']'
@@ -5826,8 +5825,8 @@ loc_13BD91:                             ; CODE XREF: sub_13BD5C+70↓j
 loc_13BD95:                             ; CODE XREF: sub_13BD5C+67↓j
                 JSR     wait_nmi_processed
                 LDA     #1
-                STA     SpriteTable.field_5,X
-                LDA     SpriteTable.PosY,X
+                STA     SpriteTable + ANIM_SPRITE::field_5,X
+                LDA     SpriteTable + ANIM_SPRITE::PosY,X
                 AND     #$1F
                 BNE     loc_13BDAA
                 LDA     #$E8
@@ -5840,11 +5839,11 @@ loc_13BDAA:                             ; CODE XREF: sub_13BD5C+46↑j
 
 loc_13BDAE:                             ; CODE XREF: sub_13BD5C+4C↑j
                 CLC
-                ADC     SpriteTable.pFrame,X
-                STA     SpriteTable.pFrame,X
+                ADC     $306,X
+                STA     SpriteTable + ANIM_SPRITE::pFrame,X
                 TYA
-                ADC     SpriteTable.pFrame+1,X
-                STA     SpriteTable.pFrame+1,X
+                ADC     SpriteTable + ANIM_SPRITE::pFrame+1,X
+                STA     SpriteTable + ANIM_SPRITE::pFrame+1,X
                 CLC
                 TXA
                 ADC     #8
@@ -5878,10 +5877,10 @@ sub_13BDD9:                             ; DATA XREF: BANK13:BCFF↑o
 
 loc_13BDEA:                             ; CODE XREF: sub_13BDD9+24↓j
                 LDA     byte_13BE4F,Y
-                STA     SpriteTable.field_5,X
+                STA     SpriteTable + ANIM_SPRITE::field_5,X
                 DEY
                 LDA     byte_13BE4F,Y
-                STA     SpriteTable.field_4,X
+                STA     SpriteTable + ANIM_SPRITE::field_4,X
                 CLC
                 TXA
                 ADC     #8
@@ -5930,7 +5929,7 @@ byte_13BE4F:    .BYTE $FE, $FF, 2, $FF, $FF, $FE, 1, $FE
 
 make_save:                              ; CODE XREF: sub_13A123+39↑p
                                         ; sub_13B4A0+2↑p ...
-                LDA     CurrentPlayer.PureSave.GameNumber
+                LDA     CurrentGame + GAME_SAVE::PureSave.GameNumber
                 JSR     get_dist_save_addr ; Input: A - destination block number
                                         ; Output: returns the destination address to pDist
                                         ;         returns $7400 - source address to pTileID
@@ -5992,7 +5991,7 @@ get_save_block:                         ; CODE XREF: copy_save+21↓P
                 AND     #$F0
                 CMP     #$B0
                 BNE     @exit
-                LDA     CurrentPlayer.PureSave.Active
+                LDA     CurrentGame + GAME_SAVE::PureSave.Active
                 CMP     #$E9
                 BNE     @exit
                 LDA     Pointer
@@ -6063,32 +6062,32 @@ check_sum:                              ; CODE XREF: make_save+6↑p
                 JMP     get_active_save ; returns the address $7400 in pTileID
 ; End of function check_sum
 
-; ---------------------------------------------------------------------------
-                .BYTE $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                .BYTE $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                .BYTE $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                .BYTE $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                .BYTE $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                .BYTE $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                .BYTE $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                .BYTE $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                .BYTE $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                .BYTE $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                .BYTE $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                .BYTE $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                .BYTE $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                .BYTE $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                .BYTE $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                .BYTE $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                .BYTE $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                .BYTE $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                .BYTE $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                .BYTE $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                .BYTE $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                .BYTE $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                .BYTE $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                .BYTE $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                .BYTE $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                .BYTE $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                .BYTE $FF, $FF, $FF
-; end of 'BANK13'
+; ; ---------------------------------------------------------------------------
+                ; .BYTE $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+                ; .BYTE $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+                ; .BYTE $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+                ; .BYTE $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+                ; .BYTE $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+                ; .BYTE $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+                ; .BYTE $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+                ; .BYTE $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+                ; .BYTE $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+                ; .BYTE $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+                ; .BYTE $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+                ; .BYTE $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+                ; .BYTE $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+                ; .BYTE $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+                ; .BYTE $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+                ; .BYTE $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+                ; .BYTE $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+                ; .BYTE $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+                ; .BYTE $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+                ; .BYTE $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+                ; .BYTE $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+                ; .BYTE $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+                ; .BYTE $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+                ; .BYTE $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+                ; .BYTE $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+                ; .BYTE $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+                ; .BYTE $FF, $FF, $FF
+; ; end of 'BANK13'
