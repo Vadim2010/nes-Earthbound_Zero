@@ -1,16 +1,77 @@
 .segment "DATA_BANK_6"
 
-; ===========================================================================
+;--------------------------------------------------------
+;                    ENEMY_FLAGS
+;--------------------------------------------------------
+NO_RESIST               = $00
+SPRAY_VULNERABLE        = $01
+RESIST_PK_BEAM          = $02
+IMMUNE_SLEEP_DEFDOWN    = $04
+ENEMY_FLAGS_8           = $08
+RESIST_PK_THUNDER       = $10
+RESIST_PK_FREEZE        = $20
+RESIST_PK_FIRE          = $40
+IMMUNE_STATUS_EFFECTS   = $80
 
-; Segment type: Pure code
-;.segment BANK16
-;* =  $8000
+; HP, PP, Offense, Defense maximum possible value of 1023
+;--------------------------------------------------------
+;                       HP fields
+;--------------------------------------------------------
+
+COLOR0                  = $00 << 10
+COLOR1                  = $01 << 10
+COLOR2                  = $02 << 10
+COLOR3                  = $03 << 10
+
+TILE0                   = $00 << 12
+TILE1                   = $01 << 12
+TILE2                   = $02 << 12
+TILE4                   = $04 << 12
+TILE8                   = $08 << 12
+
+;--------------------------------------------------------
+;                       PP fields
+;--------------------------------------------------------
+
+EXTRA0                  = $00 << 10
+EXTRA1                  = $01 << 10
+EXTRA2                  = $02 << 10
+EXTRA4                  = $04 << 10
+EXTRA8                  = $08 << 10
+EXTRA16                 = $10 << 10
+EXTRA32                 = $20 << 10
+
+;--------------------------------------------------------
+;                   Offense fields
+;--------------------------------------------------------
+NONE_ACT                = $00 << 10
+EXPLODE                 = $01 << 10
+BURST                   = $02 << 10
+
+ALTITUDE0               = $00 << 13
+ALTITUDE1               = $01 << 13
+ALTITUDE2               = $02 << 13
+ALTITUDE4               = $04 << 13
+
+;--------------------------------------------------------
+;                   Defense fields
+;--------------------------------------------------------
+
+MSG0                    = $00 << 10
+MSG1                    = $01 << 10
+MSG2                    = $02 << 10
+MSG3                    = $03 << 10
+MSG4                    = $04 << 10
+MSG5                    = $05 << 10
+MSG6                    = $06 << 10
+MSG7                    = $07 << 10
+
 ; ENEMY <0, 0, 0, $12C, $12C, $12C, $12C, $64, $64, $64, $64, $64, 0, EnemyNameList, 0, 0, 0, 0>
     .import EnemyNameList
 
-    .byte 0, 0, 0
-    .word $12C, $12C, $12C, $12C
-    .byte $64, $64, $64, $64, $64
+    .byte 0, 0, NO_RESIST
+    .word 300, 300, 300, 300
+    .byte 100, 100, 100, 100, 100
     .byte 0, 0, 0, 0, 0, 0, 0, 0
     .word EnemyNameList
     .word 0, 0
@@ -21,21 +82,21 @@ BigWoodoh:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte $24               ; Flags
-    .word $1446             ; HP
-    .word $C00              ; PP
-    .word $812              ; Offense
-    .word $832              ; Defense
-    .byte $14               ; Fight
-    .byte $17               ; Speed
-    .byte $3C               ; Wisdom
-    .byte $3C               ; Strength
-    .byte $12               ; Force
-    .byte 1, $34, $41, $41, 1, 1, 1, 1; Attacks
-    .word sBigWoodoh        ; name
-    .word $64               ; Experience
-    .word $8C               ; Money
-    .byte $48               ; Item
+    .byte IMMUNE_SLEEP_DEFDOWN|RESIST_PK_FREEZE ; Flags
+    .word 70|COLOR1|TILE1   ; HP
+    .word EXTRA1|EXTRA2     ; PP
+    .word 18|BURST          ; Offense
+    .word 50|MSG2           ; Defense
+    .byte 20                ; Fight
+    .byte 23                ; Speed
+    .byte 60                ; Wisdom
+    .byte 60                ; Strength
+    .byte 18                ; Force
+    .byte 1, 52, 65, 65, 1, 1, 1, 1; Attacks
+    .word sBigWoodoh        ; Name
+    .word 100               ; Experience
+    .word 140               ; Money
+    .byte 72                ; Item
     .byte $20               ; Tile
 
 Dragon:
@@ -43,20 +104,20 @@ Dragon:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte $FE               ; Flags
-    .word $128A             ; HP
-    .word $C8               ; PP
-    .word $B4               ; Offense
-    .word $4C8              ; Defense
-    .byte $3C               ; Fight
-    .byte $3C               ; Speed
-    .byte $14               ; Wisdom
-    .byte $64               ; Strength
-    .byte $3C               ; Force
-    .byte $6C, $A, $6C, 1, $A, 1, 1, $83; Attacks
-    .word sDragon           ; name
-    .word $1F4              ; Experience
-    .word $4B0              ; Money
+    .byte RESIST_PK_BEAM|IMMUNE_SLEEP_DEFDOWN|ENEMY_FLAGS_8|RESIST_PK_THUNDER|RESIST_PK_FREEZE|RESIST_PK_FIRE|IMMUNE_STATUS_EFFECTS ; Flags
+    .word 650|TILE1         ; HP
+    .word 200               ; PP
+    .word 180               ; Offense
+    .word 200|MSG1          ; Defense
+    .byte 60                ; Fight
+    .byte 60                ; Speed
+    .byte 20                ; Wisdom
+    .byte 100               ; Strength
+    .byte 60                ; Force
+    .byte 108, 10, 108, 1, 10, 1, 1, 131; Attacks
+    .word sDragon           ; Name
+    .word 500               ; Experience
+    .word 1200              ; Money
     .byte 0                 ; Item
     .byte $21               ; Tile
 
@@ -65,20 +126,20 @@ R7038:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte $F6               ; Flags
-    .word $17E8             ; HP
-    .word $1400             ; PP
-    .word $258              ; Offense
-    .word $FE8              ; Defense
-    .byte $28               ; Fight
-    .byte $32               ; Speed
-    .byte $3C               ; Wisdom
-    .byte $64               ; Strength
-    .byte $64               ; Force
+    .byte RESIST_PK_BEAM|IMMUNE_SLEEP_DEFDOWN|RESIST_PK_THUNDER|RESIST_PK_FREEZE|RESIST_PK_FIRE|IMMUNE_STATUS_EFFECTS   ; Flags
+    .word 1000|COLOR1|TILE1 ; HP
+    .word EXTRA4|EXTRA1     ; PP
+    .word 600               ; Offense
+    .word 1000|MSG3         ; Defense
+    .byte 40                ; Fight
+    .byte 50                ; Speed
+    .byte 60                ; Wisdom
+    .byte 100               ; Strength
+    .byte 100               ; Force
     .byte 1, 1, 1, 1, 1, 1, 1, 1; Attacks
-    .word sR7038            ; name
-    .word $1AE              ; Experience
-    .word $65               ; Money
+    .word sR7038            ; Name
+    .word 430               ; Experience
+    .word 101               ; Money
     .byte 0                 ; Item
     .byte $22               ; Tile
 
@@ -87,20 +148,20 @@ Elephant:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte 0                 ; Flags
-    .word $1846             ; HP
+    .byte NO_RESIST         ; Flags
+    .word 70|COLOR2|TILE1   ; HP
     .word 0                 ; PP
-    .word $14               ; Offense
-    .word $422              ; Defense
-    .byte $1E               ; Fight
-    .byte $A                ; Speed
+    .word 20                ; Offense
+    .word 34|MSG1           ; Defense
+    .byte 30                ; Fight
+    .byte 10                ; Speed
     .byte 5                 ; Wisdom
-    .byte $1E               ; Strength
+    .byte 30                ; Strength
     .byte 8                 ; Force
     .byte 5, 5, 5, 1, 1, 1, 1, 1; Attacks
-    .word sElephant         ; name
-    .word $3C               ; Experience
-    .word $63               ; Money
+    .word sElephant         ; Name
+    .word 60                ; Experience
+    .word 99                ; Money
     .byte 0                 ; Item
     .byte $23               ; Tile
 
@@ -109,20 +170,20 @@ Bear:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte 0                 ; Flags
-    .word $2050             ; HP
+    .byte NO_RESIST         ; Flags
+    .word 80|TILE2          ; HP
     .word 0                 ; PP
-    .word $2A               ; Offense
-    .word $440              ; Defense
-    .byte $1E               ; Fight
-    .byte $1C               ; Speed
-    .byte $14               ; Wisdom
-    .byte $28               ; Strength
-    .byte $A                ; Force
-    .byte 1, 1, 1, 4, 5, $4F, 1, 1; Attacks
-    .word sBear             ; name
-    .word $46               ; Experience
-    .word $FA               ; Money
+    .word 42                ; Offense
+    .word 64|MSG1           ; Defense
+    .byte 30                ; Fight
+    .byte 28                ; Speed
+    .byte 20                ; Wisdom
+    .byte 40                ; Strength
+    .byte 10                ; Force
+    .byte 1, 1, 1, 4, 5, 79, 1, 1; Attacks
+    .word sBear             ; Name
+    .word 70                ; Experience
+    .word 250               ; Money
     .byte 0                 ; Item
     .byte $2B               ; Tile
 
@@ -131,20 +192,20 @@ BigFoot:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte $20               ; Flags
-    .word $185A             ; HP
-    .word $32               ; PP
-    .word $32               ; Offense
-    .word $45A              ; Defense
-    .byte $32               ; Fight
-    .byte $26               ; Speed
-    .byte $1E               ; Wisdom
-    .byte $3C               ; Strength
-    .byte $F                ; Force
-    .byte $F, $D, $C, $C, $C, $C, $C, $C; Attacks
-    .word sBigFoot          ; name
-    .word $96               ; Experience
-    .word $30               ; Money
+    .byte RESIST_PK_FREEZE  ; Flags
+    .word 90|COLOR2|TILE1   ; HP
+    .word 50                ; PP
+    .word 50                ; Offense
+    .word 90|MSG1           ; Defense
+    .byte 50                ; Fight
+    .byte 38                ; Speed
+    .byte 30                ; Wisdom
+    .byte 60                ; Strength
+    .byte 15                ; Force
+    .byte 15, 13, 12, 12, 12, 12, 12, 12; Attacks
+    .word sBigFoot          ; Name
+    .word 150               ; Experience
+    .word 48                ; Money
     .byte 0                 ; Item
     .byte $25               ; Tile
 
@@ -153,20 +214,20 @@ MadTruck:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte $84               ; Flags
-    .word $203C             ; HP
+    .byte IMMUNE_SLEEP_DEFDOWN|IMMUNE_STATUS_EFFECTS    ; Flags
+    .word 60|TILE2          ; HP
     .word 0                 ; PP
-    .word $16               ; Offense
-    .word $1828             ; Defense
-    .byte $26               ; Fight
-    .byte $23               ; Speed
-    .byte $23               ; Wisdom
-    .byte $64               ; Strength
-    .byte $64               ; Force
-    .byte 6, 6, 6, 6, 6, 6, $32, $32; Attacks
-    .word sMadTruck         ; name
-    .word $39               ; Experience
-    .word $1E               ; Money
+    .word 22                ; Offense
+    .word 40|MSG6           ; Defense
+    .byte 38                ; Fight
+    .byte 35                ; Speed
+    .byte 35                ; Wisdom
+    .byte 100               ; Strength
+    .byte 100               ; Force
+    .byte 6, 6, 6, 6, 6, 6, 50, 50 ; Attacks
+    .word sMadTruck         ; Name
+    .word 57                ; Experience
+    .word 30                ; Money
     .byte 0                 ; Item
     .byte $26               ; Tile
 
@@ -175,20 +236,20 @@ OldRobot:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte $84               ; Flags
-    .word $283C             ; HP
-    .word $1E               ; PP
-    .word $30               ; Offense
-    .word $C48              ; Defense
-    .byte $19               ; Fight
-    .byte $14               ; Speed
-    .byte $14               ; Wisdom
-    .byte $64               ; Strength
-    .byte $64               ; Force
-    .byte 1, $12, $12, $53, 1, 1, 1, 1; Attacks
-    .word sOldRobot         ; name
-    .word $36               ; Experience
-    .word $26               ; Money
+    .byte IMMUNE_SLEEP_DEFDOWN|IMMUNE_STATUS_EFFECTS    ; Flags
+    .word 60|COLOR2|TILE2   ; HP
+    .word 30                ; PP
+    .word 48                ; Offense
+    .word 72|MSG3           ; Defense
+    .byte 25                ; Fight
+    .byte 20                ; Speed
+    .byte 20                ; Wisdom
+    .byte 100               ; Strength
+    .byte 100               ; Force
+    .byte 1, 18, 18, 83, 1, 1, 1, 1; Attacks
+    .word sOldRobot         ; Name
+    .word 54                ; Experience
+    .word 38                ; Money
     .byte 0                 ; Item
     .byte $27               ; Tile
 
@@ -197,20 +258,20 @@ Megaborg:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte $FE               ; Flags
-    .word $20A0             ; HP
-    .word $3C               ; PP
-    .word $50               ; Offense
-    .word $CAA              ; Defense
-    .byte $3C               ; Fight
-    .byte $32               ; Speed
-    .byte $3C               ; Wisdom
-    .byte $64               ; Strength
-    .byte $64               ; Force
-    .byte $12, $13, $12, $12, $12, $12, $12, 1; Attacks
-    .word sMegaborg         ; name
-    .word $C5               ; Experience
-    .word $6D               ; Money
+    .byte RESIST_PK_BEAM|IMMUNE_SLEEP_DEFDOWN|ENEMY_FLAGS_8|RESIST_PK_THUNDER|RESIST_PK_FREEZE|RESIST_PK_FIRE|IMMUNE_STATUS_EFFECTS ; Flags
+    .word 160|TILE2         ; HP
+    .word 60                ; PP
+    .word 80                ; Offense
+    .word 170|MSG3          ; Defense
+    .byte 60                ; Fight
+    .byte 50                ; Speed
+    .byte 60                ; Wisdom
+    .byte 100               ; Strength
+    .byte 100               ; Force
+    .byte 18, 19, 18, 18, 18, 18, 18, 1; Attacks
+    .word sMegaborg         ; Name
+    .word 197               ; Experience
+    .word 109               ; Money
     .byte 0                 ; Item
     .byte $28               ; Tile
 
@@ -219,20 +280,20 @@ Gargoyle:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte 4                 ; Flags
-    .word $30B4             ; HP
-    .word $3C               ; PP
-    .word $405A             ; Offense
-    .word $8A0              ; Defense
-    .byte $50               ; Fight
-    .byte $46               ; Speed
-    .byte $46               ; Wisdom
-    .byte $64               ; Strength
-    .byte $64               ; Force
-    .byte $A, 1, $B, $A, 1, $B, 1, $3E; Attacks
-    .word sGargoyle         ; name
-    .word $6E               ; Experience
-    .word $56               ; Money
+    .byte IMMUNE_SLEEP_DEFDOWN  ; Flags
+    .word 180|TILE2|TILE1   ; HP
+    .word 60                ; PP
+    .word 90|ALTITUDE2      ; Offense
+    .word 160|MSG2          ; Defense
+    .byte 80                ; Fight
+    .byte 70                ; Speed
+    .byte 70                ; Wisdom
+    .byte 100               ; Strength
+    .byte 100               ; Force
+    .byte 10, 1, 11, 10, 1, 11, 1, 62; Attacks
+    .word sGargoyle         ; Name
+    .word 110               ; Experience
+    .word 86                ; Money
     .byte 0                 ; Item
     .byte $29               ; Tile
 
@@ -241,20 +302,20 @@ Gabilan:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte 0                 ; Flags
-    .word $2064             ; HP
+    .byte NO_RESIST         ; Flags
+    .word 100|TILE2         ; HP
     .word 0                 ; PP
-    .word $3E               ; Offense
-    .word $864              ; Defense
-    .byte $32               ; Fight
-    .byte $44               ; Speed
-    .byte $46               ; Wisdom
-    .byte $F                ; Strength
-    .byte $F                ; Force
-    .byte 1, $3F, $3F, 1, 2, 1, 1, $34; Attacks
-    .word sGabilan          ; name
-    .word $46               ; Experience
-    .word $2B               ; Money
+    .word 62                ; Offense
+    .word 100|MSG2          ; Defense
+    .byte 50                ; Fight
+    .byte 68                ; Speed
+    .byte 70                ; Wisdom
+    .byte 15                ; Strength
+    .byte 15                ; Force
+    .byte 1, 63, 63, 1, 2, 1, 1, 52; Attacks
+    .word sGabilan          ; Name
+    .word 70                ; Experience
+    .word 43                ; Money
     .byte 0                 ; Item
     .byte $2A               ; Tile
 
@@ -263,20 +324,20 @@ Gorilla:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte 0                 ; Flags
-    .word $4828             ; HP
+    .byte NO_RESIST         ; Flags
+    .word 40|COLOR2|TILE4   ; HP
     .word 0                 ; PP
-    .word $14               ; Offense
-    .word $41A              ; Defense
-    .byte $23               ; Fight
-    .byte $F                ; Speed
+    .word 20                ; Offense
+    .word 26|MSG1           ; Defense
+    .byte 35                ; Fight
+    .byte 15                ; Speed
     .byte 5                 ; Wisdom
-    .byte $A                ; Strength
-    .byte $14               ; Force
-    .byte $4B, 1, 1, $28, 1, 1, 1, 1; Attacks
-    .word sGorilla          ; name
-    .word $17               ; Experience
-    .word $34               ; Money
+    .byte 10                ; Strength
+    .byte 20                ; Force
+    .byte 75, 1, 1, 40, 1, 1, 1, 1; Attacks
+    .word sGorilla          ; Name
+    .word 23                ; Experience
+    .word 52                ; Money
     .byte 0                 ; Item
     .byte $32               ; Tile
 
@@ -285,20 +346,20 @@ Bison:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte 0                 ; Flags
-    .word $30A0             ; HP
+    .byte NO_RESIST         ; Flags
+    .word 160|TILE2|TILE1   ; HP
     .word 0                 ; PP
-    .word $46               ; Offense
-    .word $4A0              ; Defense
-    .byte $32               ; Fight
-    .byte $32               ; Speed
-    .byte $50               ; Wisdom
-    .byte $50               ; Strength
-    .byte $50               ; Force
+    .word 70                ; Offense
+    .word 160|MSG1          ; Defense
+    .byte 50                ; Fight
+    .byte 50                ; Speed
+    .byte 80                ; Wisdom
+    .byte 80                ; Strength
+    .byte 80                ; Force
     .byte 1, 1, 1, 1, 1, 1, 1, 2; Attacks
-    .word sBison            ; name
-    .word $BA               ; Experience
-    .word $53               ; Money
+    .word sBison            ; Name
+    .word 186               ; Experience
+    .word 83                ; Money
     .byte 0                 ; Item
     .byte $2C               ; Tile
 
@@ -307,20 +368,20 @@ Tiger:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte 0                 ; Flags
-    .word $2823             ; HP
+    .byte NO_RESIST         ; Flags
+    .word 35|COLOR2|TILE2   ; HP
     .word 0                 ; PP
-    .word $1A               ; Offense
-    .word $418              ; Defense
-    .byte $28               ; Fight
-    .byte $14               ; Speed
+    .word 26                ; Offense
+    .word 24|MSG1           ; Defense
+    .byte 40                ; Fight
+    .byte 20                ; Speed
     .byte 5                 ; Wisdom
-    .byte $A                ; Strength
-    .byte $14               ; Force
+    .byte 10                ; Strength
+    .byte 20                ; Force
     .byte 3, 2, 2, 3, 3, 3, 3, 2; Attacks
-    .word sTiger            ; name
-    .word $18               ; Experience
-    .word $2F               ; Money
+    .word sTiger            ; Name
+    .word 24                ; Experience
+    .word 47                ; Money
     .byte 0                 ; Item
     .byte $2D               ; Tile
 
@@ -329,20 +390,20 @@ MadCar:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte $84               ; Flags
-    .word $4028             ; HP
+    .byte IMMUNE_SLEEP_DEFDOWN|IMMUNE_STATUS_EFFECTS    ; Flags
+    .word 40|TILE4          ; HP
     .word 0                 ; PP
-    .word $14               ; Offense
-    .word $1826             ; Defense
-    .byte $2D               ; Fight
-    .byte $28               ; Speed
-    .byte $23               ; Wisdom
-    .byte $64               ; Strength
-    .byte $64               ; Force
-    .byte 6, 6, 6, 6, 6, 6, 6, $32; Attacks
-    .word sMadCar           ; name
-    .word $37               ; Experience
-    .word $20               ; Money
+    .word 20                ; Offense
+    .word 38|MSG6           ; Defense
+    .byte 45                ; Fight
+    .byte 40                ; Speed
+    .byte 35                ; Wisdom
+    .byte 100               ; Strength
+    .byte 100               ; Force
+    .byte 6, 6, 6, 6, 6, 6, 6, 50; Attacks
+    .word sMadCar           ; Name
+    .word 55                ; Experience
+    .word 32                ; Money
     .byte 0                 ; Item
     .byte $2E               ; Tile
 
@@ -351,20 +412,20 @@ RaebYddet:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte 0                 ; Flags
-    .word $4828             ; HP
+    .byte NO_RESIST         ; Flags
+    .word 40|COLOR2|TILE4   ; HP
     .word 0                 ; PP
-    .word $16               ; Offense
-    .word $826              ; Defense
-    .byte $19               ; Fight
-    .byte $19               ; Speed
-    .byte $12               ; Wisdom
-    .byte $19               ; Strength
-    .byte $12               ; Force
-    .byte $49, $49, 1, 1, 1, 1, 1, 1; Attacks
-    .word sRaebYddet        ; name
-    .word $19               ; Experience
-    .word $1B               ; Money
+    .word 22                ; Offense
+    .word 38|MSG2           ; Defense
+    .byte 25                ; Fight
+    .byte 25                ; Speed
+    .byte 18                ; Wisdom
+    .byte 25                ; Strength
+    .byte 18                ; Force
+    .byte 73, 73, 1, 1, 1, 1, 1, 1; Attacks
+    .word sRaebYddet        ; Name
+    .word 25                ; Experience
+    .word 27                ; Money
     .byte 0                 ; Item
     .byte $2F               ; Tile
 
@@ -373,20 +434,20 @@ MagicSnail:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte 8                 ; Flags
-    .word $4432             ; HP
+    .byte ENEMY_FLAGS_8     ; Flags
+    .word 50|COLOR1|TILE4   ; HP
     .word 0                 ; PP
-    .word $14               ; Offense
-    .word $85A              ; Defense
-    .byte $14               ; Fight
-    .byte $12               ; Speed
-    .byte $12               ; Wisdom
-    .byte $28               ; Strength
-    .byte $12               ; Force
-    .byte 1, $5D, 1, 1, 1, 1, 1, 1; Attacks
-    .word sMagicSnail       ; name
-    .word $2A               ; Experience
-    .word $1C               ; Money
+    .word 20                ; Offense
+    .word 90|MSG2           ; Defense
+    .byte 20                ; Fight
+    .byte 18                ; Speed
+    .byte 18                ; Wisdom
+    .byte 40                ; Strength
+    .byte 18                ; Force
+    .byte 1, 93, 1, 1, 1, 1, 1, 1; Attacks
+    .word sMagicSnail       ; Name
+    .word 42                ; Experience
+    .word 28                ; Money
     .byte 0                 ; Item
     .byte $30               ; Tile
 
@@ -395,20 +456,20 @@ Titanees:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte $C                ; Flags
-    .word $4882             ; HP
-    .word $28               ; PP
-    .word $36               ; Offense
-    .word $8C8              ; Defense
-    .byte $1E               ; Fight
-    .byte $3A               ; Speed
-    .byte $50               ; Wisdom
-    .byte $3C               ; Strength
-    .byte $A                ; Force
-    .byte $44, $44, $44, 1, 1, 1, 1, 1; Attacks
-    .word sTitanees         ; name
-    .word $4E               ; Experience
-    .word $32               ; Money
+    .byte IMMUNE_SLEEP_DEFDOWN|ENEMY_FLAGS_8    ; Flags
+    .word 130|COLOR2|TILE4  ; HP
+    .word 40                ; PP
+    .word 54                ; Offense
+    .word 200|MSG2          ; Defense
+    .byte 30                ; Fight
+    .byte 58                ; Speed
+    .byte 80                ; Wisdom
+    .byte 60                ; Strength
+    .byte 10                ; Force
+    .byte 68, 68, 68, 1, 1, 1, 1, 1; Attacks
+    .word sTitanees         ; Name
+    .word 78                ; Experience
+    .word 50                ; Money
     .byte 0                 ; Item
     .byte $33               ; Tile
 
@@ -417,18 +478,18 @@ Giegue:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte $FE               ; Flags
-    .word $1C23             ; HP
-    .word $3C00             ; PP
-    .word $F                ; Offense
-    .word $814              ; Defense
-    .byte $14               ; Fight
-    .byte $64               ; Speed
-    .byte $E                ; Wisdom
-    .byte $A                ; Strength
-    .byte $17               ; Force
+    .byte RESIST_PK_BEAM|IMMUNE_SLEEP_DEFDOWN|ENEMY_FLAGS_8|RESIST_PK_THUNDER|RESIST_PK_FREEZE|RESIST_PK_FIRE|IMMUNE_STATUS_EFFECTS ; Flags
+    .word 35|COLOR3|TILE1   ; HP
+    .word EXTRA8|EXTRA4|EXTRA2|EXTRA1 ; PP
+    .word 15                ; Offense
+    .word 20|MSG2           ; Defense
+    .byte 20                ; Fight
+    .byte 100               ; Speed
+    .byte 14                ; Wisdom
+    .byte 10                ; Strength
+    .byte 23                ; Force
     .byte 8, 8, 8, 8, 8, 8, 8, 8; Attacks
-    .word sGiegue           ; name
+    .word sGiegue           ; Name
     .word 0                 ; Experience
     .word 0                 ; Money
     .byte 0                 ; Item
@@ -439,20 +500,20 @@ Eagle:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte 0                 ; Flags
-    .word $4C2D             ; HP
+    .byte NO_RESIST         ; Flags
+    .word 45|COLOR3|TILE4   ; HP
     .word 0                 ; PP
-    .word $4020             ; Offense
-    .word $42C              ; Defense
-    .byte $14               ; Fight
-    .byte $3C               ; Speed
-    .byte $1E               ; Wisdom
-    .byte $14               ; Strength
-    .byte $28               ; Force
+    .word 32|ALTITUDE2      ; Offense
+    .word 44|MSG1           ; Defense
+    .byte 20                ; Fight
+    .byte 60                ; Speed
+    .byte 30                ; Wisdom
+    .byte 20                ; Strength
+    .byte 40                ; Force
     .byte 1, 1, 1, 1, 1, 1, 1, 1; Attacks
-    .word sEagle            ; name
-    .word $24               ; Experience
-    .word $1E               ; Money
+    .word sEagle            ; Name
+    .word 36                ; Experience
+    .word 30                ; Money
     .byte 0                 ; Item
     .byte $35               ; Tile
 
@@ -461,20 +522,20 @@ Wolf:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte 0                 ; Flags
-    .word $4432             ; HP
+    .byte NO_RESIST         ; Flags
+    .word 50|COLOR1|TILE4   ; HP
     .word 0                 ; PP
-    .word $1E               ; Offense
-    .word $42E              ; Defense
-    .byte $19               ; Fight
-    .byte $1E               ; Speed
-    .byte $1E               ; Wisdom
-    .byte $1E               ; Strength
-    .byte $1E               ; Force
+    .word 30                ; Offense
+    .word 46|MSG1           ; Defense
+    .byte 25                ; Fight
+    .byte 30                ; Speed
+    .byte 30                ; Wisdom
+    .byte 30                ; Strength
+    .byte 30                ; Force
     .byte 3, 3, 3, 3, 3, 3, 3, 3; Attacks
-    .word sWolf             ; name
-    .word $22               ; Experience
-    .word $1F               ; Money
+    .word sWolf             ; Name
+    .word 34                ; Experience
+    .word 31                ; Money
     .byte 0                 ; Item
     .byte $36               ; Tile
 
@@ -483,20 +544,20 @@ Seagull:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte 0                 ; Flags
-    .word $4C5A             ; HP
+    .byte NO_RESIST         ; Flags
+    .word 90|COLOR3|TILE4   ; HP
     .word 0                 ; PP
-    .word $2044             ; Offense
-    .word $45A              ; Defense
-    .byte $32               ; Fight
-    .byte $46               ; Speed
-    .byte $28               ; Wisdom
-    .byte $14               ; Strength
-    .byte $14               ; Force
-    .byte $4B, $4C, 1, $53, 1, 1, 1, 1; Attacks
-    .word sSeagull          ; name
-    .word $64               ; Experience
-    .word $2C               ; Money
+    .word 68|ALTITUDE1      ; Offense
+    .word 90|MSG1           ; Defense
+    .byte 50                ; Fight
+    .byte 70                ; Speed
+    .byte 40                ; Wisdom
+    .byte 20                ; Strength
+    .byte 20                ; Force
+    .byte 75, 76, 1, 83, 1, 1, 1, 1; Attacks
+    .word sSeagull          ; Name
+    .word 100               ; Experience
+    .word 44                ; Money
     .byte 0                 ; Item
     .byte $37               ; Tile
 
@@ -505,20 +566,20 @@ Alligator:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte 0                 ; Flags
-    .word $401E             ; HP
+    .byte NO_RESIST         ; Flags
+    .word 30|TILE4          ; HP
     .word 0                 ; PP
-    .word $12               ; Offense
-    .word $416              ; Defense
-    .byte $A                ; Fight
-    .byte $F                ; Speed
-    .byte $A                ; Wisdom
-    .byte $F                ; Strength
+    .word 18                ; Offense
+    .word 22|MSG1           ; Defense
+    .byte 10                ; Fight
+    .byte 15                ; Speed
+    .byte 10                ; Wisdom
+    .byte 15                ; Strength
     .byte 5                 ; Force
-    .byte $5D, $5D, 1, 1, 1, 1, 1, 1; Attacks
-    .word sAlligator        ; name
-    .word $15               ; Experience
-    .word $12               ; Money
+    .byte 93, 93, 1, 1, 1, 1, 1, 1; Attacks
+    .word sAlligator        ; Name
+    .word 21                ; Experience
+    .word 18                ; Money
     .byte 0                 ; Item
     .byte $31               ; Tile
 
@@ -527,20 +588,20 @@ EnergyRobot:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte $84               ; Flags
-    .word $A050             ; HP
+    .byte IMMUNE_SLEEP_DEFDOWN|IMMUNE_STATUS_EFFECTS    ; Flags
+    .word 80|TILE8|TILE2    ; HP
     .word 0                 ; PP
-    .word $43C              ; Offense
-    .word $C5A              ; Defense
-    .byte $14               ; Fight
-    .byte $14               ; Speed
-    .byte $28               ; Wisdom
-    .byte $64               ; Strength
-    .byte $64               ; Force
-    .byte $53, $2E, $2E, $2E, $2E, 1, 1, 1; Attacks
-    .word sEnergyRobot      ; name
-    .word $CA               ; Experience
-    .word $46               ; Money
+    .word 60|EXPLODE        ; Offense
+    .word 90|MSG3           ; Defense
+    .byte 20                ; Fight
+    .byte 20                ; Speed
+    .byte 40                ; Wisdom
+    .byte 100               ; Strength
+    .byte 100               ; Force
+    .byte 83, 46, 46, 46, 46, 1, 1, 1; Attacks
+    .word sEnergyRobot      ; Name
+    .word 202               ; Experience
+    .word 70                ; Money
     .byte 0                 ; Item
     .byte $2C               ; Tile
 
@@ -549,20 +610,20 @@ TheFish:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte $62               ; Flags
-    .word $5841             ; HP
+    .byte RESIST_PK_BEAM|RESIST_PK_FREEZE|RESIST_PK_FIRE    ; Flags
+    .word 65|COLOR2|TILE4|TILE1   ; HP
     .word 0                 ; PP
-    .word $26               ; Offense
-    .word $83C              ; Defense
-    .byte $2D               ; Fight
-    .byte $1E               ; Speed
-    .byte $14               ; Wisdom
-    .byte $28               ; Strength
-    .byte $28               ; Force
+    .word 38                ; Offense
+    .word 60|MSG2           ; Defense
+    .byte 45                ; Fight
+    .byte 30                ; Speed
+    .byte 20                ; Wisdom
+    .byte 40                ; Strength
+    .byte 40                ; Force
     .byte 2, 2, 2, 2, 2, 2, 2, 2; Attacks
-    .word sTheFish          ; name
-    .word $8C               ; Experience
-    .word $B4               ; Money
+    .word sTheFish          ; Name
+    .word 140               ; Experience
+    .word 180               ; Money
     .byte 0                 ; Item
     .byte $2E               ; Tile
 
@@ -571,20 +632,20 @@ Fugitive:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte 0                 ; Flags
-    .word $543C             ; HP
+    .byte NO_RESIST         ; Flags
+    .word 60|COLOR1|TILE4|TILE1   ; HP
     .word 0                 ; PP
-    .word $20               ; Offense
-    .word $2D               ; Defense
-    .byte $14               ; Fight
-    .byte $16               ; Speed
+    .word 32                ; Offense
+    .word 45                ; Defense
+    .byte 20                ; Fight
+    .byte 22                ; Speed
     .byte 6                 ; Wisdom
-    .byte $12               ; Strength
+    .byte 18                ; Strength
     .byte 8                 ; Force
     .byte 1, 1, 1, 1, 1, 1, 1, 1; Attacks
-    .word sFugitive         ; name
-    .word $3C               ; Experience
-    .word $15E              ; Money
+    .word sFugitive         ; Name
+    .word 60                ; Experience
+    .word 350               ; Money
     .byte 0                 ; Item
     .byte $35               ; Tile
 
@@ -593,18 +654,18 @@ BBsBoss:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte 0                 ; Flags
-    .word $586C             ; HP
+    .byte NO_RESIST         ; Flags
+    .word 108|COLOR2|TILE4|TILE1  ; HP
     .word 0                 ; PP
-    .word $39               ; Offense
-    .word $33               ; Defense
-    .byte $32               ; Fight
-    .byte $51               ; Speed
-    .byte $12               ; Wisdom
-    .byte $36               ; Strength
-    .byte $24               ; Force
+    .word 57                ; Offense
+    .word 51                ; Defense
+    .byte 50                ; Fight
+    .byte 81                ; Speed
+    .byte 18                ; Wisdom
+    .byte 54                ; Strength
+    .byte 36                ; Force
     .byte 1, 1, 1, 1, 1, 1, 1, 1; Attacks
-    .word sBBsBoss          ; name
+    .word sBBsBoss          ; Name
     .word 0                 ; Experience
     .word 0                 ; Money
     .byte 0                 ; Item
@@ -615,20 +676,20 @@ Barbot:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte $D6               ; Flags
-    .word $503C             ; HP
-    .word $28               ; PP
-    .word $18               ; Offense
-    .word $C24              ; Defense
-    .byte $1E               ; Fight
-    .byte $23               ; Speed
-    .byte $23               ; Wisdom
-    .byte $64               ; Strength
-    .byte $64               ; Force
-    .byte 1, 1, 1, $15, 1, 1, 1, 1; Attacks
-    .word sBarbot           ; name
-    .word $20               ; Experience
-    .word $2D               ; Money
+    .byte RESIST_PK_BEAM|IMMUNE_SLEEP_DEFDOWN|RESIST_PK_THUNDER|RESIST_PK_FIRE|IMMUNE_STATUS_EFFECTS    ; Flags
+    .word 60|TILE4|TILE1          ; HP
+    .word 40                ; PP
+    .word 24                ; Offense
+    .word 36|MSG3           ; Defense
+    .byte 30                ; Fight
+    .byte 35                ; Speed
+    .byte 35                ; Wisdom
+    .byte 100               ; Strength
+    .byte 100               ; Force
+    .byte 1, 1, 1, 21, 1, 1, 1, 1; Attacks
+    .word sBarbot           ; Name
+    .word 32                ; Experience
+    .word 45                ; Money
     .byte 0                 ; Item
     .byte $31               ; Tile
 
@@ -637,20 +698,20 @@ Nancy:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte $B4               ; Flags
-    .word $5078             ; HP
-    .word $3C               ; PP
-    .word $3E               ; Offense
-    .word $CAA              ; Defense
-    .byte $32               ; Fight
-    .byte $48               ; Speed
-    .byte $3C               ; Wisdom
-    .byte $64               ; Strength
-    .byte $64               ; Force
-    .byte $6B, 1, $36, $F, $6B, 1, 1, 1; Attacks
-    .word sNancy            ; name
-    .word $44               ; Experience
-    .word $32               ; Money
+    .byte IMMUNE_SLEEP_DEFDOWN|RESIST_PK_THUNDER|RESIST_PK_FREEZE|IMMUNE_STATUS_EFFECTS ; Flags
+    .word 120|TILE4|TILE1         ; HP
+    .word 60                ; PP
+    .word 62                ; Offense
+    .word 170|MSG3          ; Defense
+    .byte 50                ; Fight
+    .byte 72                ; Speed
+    .byte 60                ; Wisdom
+    .byte 100               ; Strength
+    .byte 100               ; Force
+    .byte 107, 1, 54, 15, 107, 1, 1, 1; Attacks
+    .word sNancy            ; Name
+    .word 68                ; Experience
+    .word 50                ; Money
     .byte 0                 ; Item
     .byte $32               ; Tile
 
@@ -659,21 +720,21 @@ Starman:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte 0                 ; Flags
-    .word $5050             ; HP
-    .word $32               ; PP
-    .word $2D               ; Offense
-    .word $850              ; Defense
-    .byte $1E               ; Fight
-    .byte $28               ; Speed
-    .byte $3C               ; Wisdom
-    .byte $28               ; Strength
-    .byte $23               ; Force
-    .byte $12, $12, $38, 1, 1, $53, $53, $15; Attacks
-    .word sStarman          ; name
-    .word $A5               ; Experience
-    .word $44               ; Money
-    .byte $49               ; Item
+    .byte NO_RESIST         ; Flags
+    .word 80|TILE4|TILE1          ; HP
+    .word 50                ; PP
+    .word 45                ; Offense
+    .word 80|MSG2           ; Defense
+    .byte 30                ; Fight
+    .byte 40                ; Speed
+    .byte 60                ; Wisdom
+    .byte 40                ; Strength
+    .byte 35                ; Force
+    .byte 18, 18, 56, 1, 1, 83, 83, 21; Attacks
+    .word sStarman          ; Name
+    .word 165               ; Experience
+    .word 68                ; Money
+    .byte 73                ; Item
     .byte $33               ; Tile
 
 Ullrich:
@@ -681,20 +742,20 @@ Ullrich:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte $10               ; Flags
-    .word $5828             ; HP
-    .word $3C               ; PP
-    .word $2012             ; Offense
-    .word $828              ; Defense
-    .byte $28               ; Fight
-    .byte $1E               ; Speed
-    .byte $1E               ; Wisdom
-    .byte $A                ; Strength
-    .byte $14               ; Force
-    .byte $17, $17, $17, $17, $17, $17, $17, $17; Attacks
-    .word sUllrich          ; name
-    .word $41               ; Experience
-    .word $32               ; Money
+    .byte RESIST_PK_THUNDER ; Flags
+    .word 40|COLOR2|TILE4|TILE1   ; HP
+    .word 60                ; PP
+    .word 18|ALTITUDE1      ; Offense
+    .word 40|MSG2           ; Defense
+    .byte 40                ; Fight
+    .byte 30                ; Speed
+    .byte 30                ; Wisdom
+    .byte 10                ; Strength
+    .byte 20                ; Force
+    .byte 23, 23, 23, 23, 23, 23, 23, 23; Attacks
+    .word sUllrich          ; Name
+    .word 65                ; Experience
+    .word 50                ; Money
     .byte 0                 ; Item
     .byte $36               ; Tile
 
@@ -703,20 +764,20 @@ Cerebrum:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte $FE               ; Flags
-    .word $54C8             ; HP
-    .word $B4               ; PP
-    .word $3C               ; Offense
-    .word $918              ; Defense
-    .byte $78               ; Fight
-    .byte $78               ; Speed
-    .byte $50               ; Wisdom
-    .byte $64               ; Strength
-    .byte $64               ; Force
-    .byte $12, $13, $82, $A, $36, $30, $38, $18; Attacks
-    .word sCerebrum         ; name
-    .word $59               ; Experience
-    .word $50               ; Money
+    .byte RESIST_PK_BEAM|IMMUNE_SLEEP_DEFDOWN|ENEMY_FLAGS_8|RESIST_PK_THUNDER|RESIST_PK_FREEZE|RESIST_PK_FIRE|IMMUNE_STATUS_EFFECTS ; Flags
+    .word 200|COLOR1|TILE4|TILE1  ; HP
+    .word 180               ; PP
+    .word 60                ; Offense
+    .word 280|MSG2          ; Defense
+    .byte 120               ; Fight
+    .byte 120               ; Speed
+    .byte 80                ; Wisdom
+    .byte 100               ; Strength
+    .byte 100               ; Force
+    .byte 18, 19, 130, 10, 54, 48, 56, 24; Attacks
+    .word sCerebrum         ; Name
+    .word 89                ; Experience
+    .word 80                ; Money
     .byte 0                 ; Item
     .byte $38               ; Tile
 
@@ -725,20 +786,20 @@ Mook:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte 4                 ; Flags
-    .word $5055             ; HP
-    .word $50               ; PP
-    .word $32               ; Offense
-    .word $86E              ; Defense
-    .byte $32               ; Fight
-    .byte $28               ; Speed
-    .byte $64               ; Wisdom
-    .byte $1E               ; Strength
-    .byte $1E               ; Force
-    .byte $C, $D, $42, $29, $1D, $31, $44, $45; Attacks
-    .word sMook             ; name
-    .word $A6               ; Experience
-    .word $2A               ; Money
+    .byte IMMUNE_SLEEP_DEFDOWN  ; Flags
+    .word 85|TILE4|TILE1    ; HP
+    .word 80                ; PP
+    .word 50                ; Offense
+    .word 110|MSG2          ; Defense
+    .byte 50                ; Fight
+    .byte 40                ; Speed
+    .byte 100               ; Wisdom
+    .byte 30                ; Strength
+    .byte 30                ; Force
+    .byte 12, 13, 66, 41, 29, 49, 68, 69; Attacks
+    .word sMook             ; Name
+    .word 166               ; Experience
+    .word 42                ; Money
     .byte 0                 ; Item
     .byte $34               ; Tile
 
@@ -747,20 +808,20 @@ Armor:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte $FE               ; Flags
-    .word $5078             ; HP
-    .word $2864             ; PP
-    .word $1044             ; Offense
-    .word $896              ; Defense
-    .byte $32               ; Fight
-    .byte $3C               ; Speed
-    .byte $32               ; Wisdom
-    .byte $64               ; Strength
-    .byte $64               ; Force
-    .byte 1, $18, 1, 1, 1, 1, 1, 1; Attacks
-    .word sArmor            ; name
-    .word $C8               ; Experience
-    .word $12C              ; Money
+    .byte RESIST_PK_BEAM|IMMUNE_SLEEP_DEFDOWN|ENEMY_FLAGS_8|RESIST_PK_THUNDER|RESIST_PK_FREEZE|RESIST_PK_FIRE|IMMUNE_STATUS_EFFECTS ; Flags
+    .word 120|TILE4|TILE1   ; HP
+    .word 100|EXTRA8|EXTRA2 ; PP
+    .word 68|4096           ; Offense
+    .word 150|MSG2          ; Defense
+    .byte 50                ; Fight
+    .byte 60                ; Speed
+    .byte 50                ; Wisdom
+    .byte 100               ; Strength
+    .byte 100               ; Force
+    .byte 1, 24, 1, 1, 1, 1, 1, 1; Attacks
+    .word sArmor            ; Name
+    .word 200               ; Experience
+    .word 300               ; Money
     .byte 0                 ; Item
     .byte $2F               ; Tile
 
@@ -769,20 +830,20 @@ Woodoh:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte $24               ; Flags
-    .word $5028             ; HP
+    .byte IMMUNE_SLEEP_DEFDOWN|RESIST_PK_FREEZE ; Flags
+    .word 40|TILE4|TILE1          ; HP
     .word 0                 ; PP
-    .word $14               ; Offense
-    .word $826              ; Defense
-    .byte $19               ; Fight
-    .byte $19               ; Speed
-    .byte $1E               ; Wisdom
-    .byte $28               ; Strength
-    .byte $14               ; Force
-    .byte $4A, $4A, $4A, $62, 1, 1, 1, 1; Attacks
-    .word sWoodoh           ; name
-    .word $28               ; Experience
-    .word $26               ; Money
+    .word 20                ; Offense
+    .word 38|MSG2           ; Defense
+    .byte 25                ; Fight
+    .byte 25                ; Speed
+    .byte 30                ; Wisdom
+    .byte 40                ; Strength
+    .byte 20                ; Force
+    .byte 74, 74, 74, 98, 1, 1, 1, 1; Attacks
+    .word sWoodoh           ; Name
+    .word 40                ; Experience
+    .word 38                ; Money
     .byte 0                 ; Item
     .byte $30               ; Tile
 
@@ -791,20 +852,20 @@ Wally:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte 0                 ; Flags
-    .word $8814             ; HP
+    .byte NO_RESIST         ; Flags
+    .word 20|COLOR2|TILE8   ; HP
     .word 0                 ; PP
     .word 8                 ; Offense
-    .word $C                ; Defense
+    .word 12                ; Defense
     .byte 6                 ; Fight
     .byte 4                 ; Speed
     .byte 1                 ; Wisdom
     .byte 1                 ; Strength
     .byte 2                 ; Force
-    .byte $28, 1, 1, 1, 1, 1, 1, 1; Attacks
-    .word sWally            ; name
+    .byte 40, 1, 1, 1, 1, 1, 1, 1; Attacks
+    .word sWally            ; Name
     .word 5                 ; Experience
-    .word $14               ; Money
+    .word 20                ; Money
     .byte 0                 ; Item
     .byte $39               ; Tile
 
@@ -813,20 +874,20 @@ TheHippie:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte 0                 ; Flags
-    .word $7019             ; HP
+    .byte NO_RESIST         ; Flags
+    .word 25|TILE4|TILE2|TILE1          ; HP
     .word 0                 ; PP
     .word 8                 ; Offense
-    .word $E                ; Defense
+    .word 14                ; Defense
     .byte 3                 ; Fight
     .byte 6                 ; Speed
     .byte 1                 ; Wisdom
     .byte 1                 ; Strength
     .byte 3                 ; Force
-    .byte $3C, $50, $28, 1, 1, 1, 1, 1; Attacks
-    .word sTheHippie        ; name
+    .byte 60, 80, 40, 1, 1, 1, 1, 1; Attacks
+    .word sTheHippie        ; Name
     .word 6                 ; Experience
-    .word $23               ; Money
+    .word 35                ; Money
     .byte 0                 ; Item
     .byte $39               ; Tile
 
@@ -835,21 +896,21 @@ BagLady:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte 0                 ; Flags
-    .word $745A             ; HP
+    .byte NO_RESIST         ; Flags
+    .word 90|COLOR1|TILE4|TILE2|TILE1   ; HP
     .word 0                 ; PP
-    .word $C                ; Offense
-    .word $26               ; Defense
-    .byte $14               ; Fight
-    .byte $28               ; Speed
-    .byte $1E               ; Wisdom
-    .byte $1E               ; Strength
-    .byte $A                ; Force
-    .byte 2, 2, 2, $22, 1, 1, 1, 1; Attacks
-    .word sBagLady          ; name
-    .word $3F               ; Experience
-    .word $96               ; Money
-    .byte $3F               ; Item
+    .word 12                ; Offense
+    .word 38                ; Defense
+    .byte 20                ; Fight
+    .byte 40                ; Speed
+    .byte 30                ; Wisdom
+    .byte 30                ; Strength
+    .byte 10                ; Force
+    .byte 2, 2, 2, 34, 1, 1, 1, 1; Attacks
+    .word sBagLady          ; Name
+    .word 63                ; Experience
+    .word 150               ; Money
+    .byte 63                ; Item
     .byte $3A               ; Tile
 
 BBGang:
@@ -857,21 +918,21 @@ BBGang:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte 0                 ; Flags
-    .word $8C50             ; HP
+    .byte NO_RESIST         ; Flags
+    .word 80|COLOR3|TILE8   ; HP
     .word 0                 ; PP
-    .word $3C               ; Offense
-    .word $7D               ; Defense
-    .byte $28               ; Fight
-    .byte $28               ; Speed
-    .byte $14               ; Wisdom
-    .byte $14               ; Strength
-    .byte $14               ; Force
-    .byte $23, $23, 2, 2, 1, 1, 1, 1; Attacks
-    .word sBBGang           ; name
-    .word $48               ; Experience
-    .word $3C               ; Money
-    .byte $22               ; Item
+    .word 60                ; Offense
+    .word 125               ; Defense
+    .byte 40                ; Fight
+    .byte 40                ; Speed
+    .byte 20                ; Wisdom
+    .byte 20                ; Strength
+    .byte 20                ; Force
+    .byte 35, 35, 2, 2, 1, 1, 1, 1; Attacks
+    .word sBBGang           ; Name
+    .word 72                ; Experience
+    .word 60                ; Money
+    .byte 34                ; Item
     .byte $3B               ; Tile
 
 DrDistorto:
@@ -879,20 +940,20 @@ DrDistorto:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte 0                 ; Flags
-    .word $743C             ; HP
+    .byte NO_RESIST         ; Flags
+    .word 60|COLOR1|TILE4|TILE2|TILE1   ; HP
     .word 0                 ; PP
-    .word $26               ; Offense
-    .word $30               ; Defense
-    .byte $19               ; Fight
-    .byte $2D               ; Speed
-    .byte $1E               ; Wisdom
-    .byte $1E               ; Strength
-    .byte $1E               ; Force
-    .byte $48, $28, 1, 1, 1, 1, 1, 1; Attacks
-    .word sDrDistorto       ; name
-    .word $2D               ; Experience
-    .word $28               ; Money
+    .word 38                ; Offense
+    .word 48                ; Defense
+    .byte 25                ; Fight
+    .byte 45                ; Speed
+    .byte 30                ; Wisdom
+    .byte 30                ; Strength
+    .byte 30                ; Force
+    .byte 72, 40, 1, 1, 1, 1, 1, 1; Attacks
+    .word sDrDistorto       ; Name
+    .word 45                ; Experience
+    .word 40                ; Money
     .byte 0                 ; Item
     .byte $3F               ; Tile
 
@@ -901,18 +962,18 @@ GangZombie1:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte 0                 ; Flags
-    .word $840C             ; HP
-    .word $6A               ; PP
-    .word $D                ; Offense
-    .word $D                ; Defense
+    .byte NO_RESIST         ; Flags
+    .word 12|COLOR1|TILE8   ; HP
+    .word 106               ; PP
+    .word 13                ; Offense
+    .word 13                ; Defense
     .byte 9                 ; Fight
     .byte 9                 ; Speed
     .byte 2                 ; Wisdom
     .byte 6                 ; Strength
     .byte 4                 ; Force
     .byte 1, 1, 1, 1, 1, 1, 1, 1; Attacks
-    .word sGangZombie       ; name
+    .word sGangZombie       ; Name
     .word 0                 ; Experience
     .word 0                 ; Money
     .byte 0                 ; Item
@@ -923,20 +984,20 @@ GangZombie2:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte $80               ; Flags
-    .word $7422             ; HP
+    .byte IMMUNE_STATUS_EFFECTS ; Flags
+    .word 34|COLOR1|TILE4|TILE2|TILE1   ; HP
     .word 0                 ; PP
-    .word $12               ; Offense
-    .word $1014             ; Defense
+    .word 18                ; Offense
+    .word 20|MSG4           ; Defense
     .byte 8                 ; Fight
     .byte 8                 ; Speed
     .byte 5                 ; Wisdom
-    .byte $28               ; Strength
+    .byte 40                ; Strength
     .byte 5                 ; Force
     .byte 1, 1, 1, 1, 1, 1, 1, 1; Attacks
-    .word sGangZombie       ; name
-    .word $C                ; Experience
-    .word $20               ; Money
+    .word sGangZombie       ; Name
+    .word 12                ; Experience
+    .word 32                ; Money
     .byte 0                 ; Item
     .byte $3C               ; Tile
 
@@ -945,20 +1006,20 @@ PseudoZombi:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte $80               ; Flags
-    .word $841E             ; HP
+    .byte IMMUNE_STATUS_EFFECTS ; Flags
+    .word 30|COLOR1|TILE8   ; HP
     .word 0                 ; PP
-    .word $10               ; Offense
-    .word $1010             ; Defense
-    .byte $A                ; Fight
-    .byte $C                ; Speed
+    .word 16                ; Offense
+    .word 16|MSG4           ; Defense
+    .byte 10                ; Fight
+    .byte 12                ; Speed
     .byte 5                 ; Wisdom
-    .byte $28               ; Strength
+    .byte 40                ; Strength
     .byte 7                 ; Force
     .byte 4, 3, 5, 4, 3, 5, 4, 3; Attacks
-    .word sPseudoZombi      ; name
+    .word sPseudoZombi      ; Name
     .word 8                 ; Experience
-    .word $C                ; Money
+    .word 12                ; Money
     .byte 0                 ; Item
     .byte $3C               ; Tile
 
@@ -967,18 +1028,18 @@ Crow:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte 0                 ; Flags
-    .word $8816             ; HP
+    .byte NO_RESIST         ; Flags
+    .word 22|COLOR2|TILE8   ; HP
     .word 0                 ; PP
-    .word $2008             ; Offense
-    .word $40C              ; Defense
+    .word 8|ALTITUDE1       ; Offense
+    .word 12|MSG1           ; Defense
     .byte 8                 ; Fight
-    .byte $C                ; Speed
+    .byte 12                ; Speed
     .byte 1                 ; Wisdom
     .byte 5                 ; Strength
-    .byte $A                ; Force
-    .byte $4B, $4C, $4C, 1, 1, 1, 1, 1; Attacks
-    .word sCrow             ; name
+    .byte 10                ; Force
+    .byte 75, 76, 76, 1, 1, 1, 1, 1; Attacks
+    .word sCrow             ; Name
     .word 3                 ; Experience
     .word 4                 ; Money
     .byte 0                 ; Item
@@ -989,21 +1050,21 @@ Snake:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte 0                 ; Flags
-    .word $8412             ; HP
+    .byte NO_RESIST         ; Flags
+    .word 18|COLOR1|TILE8   ; HP
     .word 0                 ; PP
     .word 6                 ; Offense
-    .word $408              ; Defense
+    .word 8|MSG1            ; Defense
     .byte 5                 ; Fight
-    .byte $A                ; Speed
+    .byte 10                ; Speed
     .byte 1                 ; Wisdom
-    .byte $A                ; Strength
+    .byte 10                ; Strength
     .byte 1                 ; Force
     .byte 1, 1, 1, 1, 1, 1, 1, 1; Attacks
-    .word sSnake            ; name
+    .word sSnake            ; Name
     .word 2                 ; Experience
     .word 8                 ; Money
-    .byte $3E               ; Item
+    .byte 62                ; Item
     .byte $3D               ; Tile
 
 Hyena:
@@ -1011,20 +1072,20 @@ Hyena:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte 0                 ; Flags
-    .word $901E             ; HP
+    .byte NO_RESIST         ; Flags
+    .word 30|TILE8|TILE1    ; HP
     .word 0                 ; PP
-    .word $A                ; Offense
-    .word $410              ; Defense
-    .byte $A                ; Fight
-    .byte $16               ; Speed
-    .byte $12               ; Wisdom
-    .byte $A                ; Strength
+    .word 10                ; Offense
+    .word 16|MSG1           ; Defense
+    .byte 10                ; Fight
+    .byte 22                ; Speed
+    .byte 18                ; Wisdom
+    .byte 10                ; Strength
     .byte 5                 ; Force
-    .byte $4F, $4F, $4F, $48, 3, 3, 3, 3; Attacks
-    .word sHyena            ; name
-    .word $C                ; Experience
-    .word $14               ; Money
+    .byte 79, 79, 79, 72, 3, 3, 3, 3; Attacks
+    .word sHyena            ; Name
+    .word 12                ; Experience
+    .word 20                ; Money
     .byte 0                 ; Item
     .byte $3E               ; Tile
 
@@ -1033,20 +1094,20 @@ Cougar:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte 0                 ; Flags
-    .word $9C2A             ; HP
+    .byte NO_RESIST         ; Flags
+    .word 42|COLOR3|TILE8|TILE1   ; HP
     .word 0                 ; PP
-    .word $1C               ; Offense
-    .word $428              ; Defense
-    .byte $23               ; Fight
-    .byte $4E               ; Speed
-    .byte $1E               ; Wisdom
-    .byte $14               ; Strength
-    .byte $14               ; Force
+    .word 28                ; Offense
+    .word 40|MSG1           ; Defense
+    .byte 35                ; Fight
+    .byte 78                ; Speed
+    .byte 30                ; Wisdom
+    .byte 20                ; Strength
+    .byte 20                ; Force
     .byte 4, 4, 4, 4, 4, 4, 4, 4; Attacks
-    .word sCougar           ; name
-    .word $20               ; Experience
-    .word $19               ; Money
+    .word sCougar           ; Name
+    .word 32                ; Experience
+    .word 25                ; Money
     .byte 0                 ; Item
     .byte $3D               ; Tile
 
@@ -1055,18 +1116,18 @@ Centipede:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte 1                 ; Flags
-    .word $840C             ; HP
-    .word $2400             ; PP
+    .byte SPRAY_VULNERABLE  ; Flags
+    .word 12|COLOR1|TILE8   ; HP
+    .word EXTRA8|EXTRA1     ; PP
     .word 4                 ; Offense
-    .word $40C              ; Defense
+    .word 12|MSG1           ; Defense
     .byte 3                 ; Fight
-    .byte $11               ; Speed
-    .byte $28               ; Wisdom
-    .byte $14               ; Strength
+    .byte 17                ; Speed
+    .byte 40                ; Wisdom
+    .byte 20                ; Strength
     .byte 1                 ; Force
     .byte 1, 1, 1, 1, 1, 1, 1, 1; Attacks
-    .word sCentipede        ; name
+    .word sCentipede        ; Name
     .word 1                 ; Experience
     .word 1                 ; Money
     .byte 0                 ; Item
@@ -1077,20 +1138,20 @@ DustBall:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte $80               ; Flags
-    .word $944E             ; HP
+    .byte IMMUNE_STATUS_EFFECTS ; Flags
+    .word 78|COLOR1|TILE8|TILE1   ; HP
     .word 0                 ; PP
-    .word $828              ; Offense
-    .word $1C78             ; Defense
-    .byte $1E               ; Fight
-    .byte $32               ; Speed
-    .byte $32               ; Wisdom
-    .byte $3C               ; Strength
-    .byte $14               ; Force
-    .byte $4F, $4F, $4F, $4F, $4F, $4F, $4F, $4F; Attacks
-    .word sDustBall         ; name
-    .word $50               ; Experience
-    .word $64               ; Money
+    .word 40|BURST          ; Offense
+    .word 120|MSG7          ; Defense
+    .byte 30                ; Fight
+    .byte 50                ; Speed
+    .byte 50                ; Wisdom
+    .byte 60                ; Strength
+    .byte 20                ; Force
+    .byte 79, 79, 79, 79, 79, 79, 79, 79; Attacks
+    .word sDustBall         ; Name
+    .word 80                ; Experience
+    .word 100               ; Money
     .byte 0                 ; Item
     .byte $3B               ; Tile
 
@@ -1099,18 +1160,18 @@ Fly:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte 1                 ; Flags
-    .word $A00A             ; HP
+    .byte SPRAY_VULNERABLE  ; Flags
+    .word 10|TILE8|TILE2          ; HP
     .word 0                 ; PP
-    .word $8001             ; Offense
-    .word $428              ; Defense
-    .byte $20               ; Fight
-    .byte $28               ; Speed
-    .byte $A                ; Wisdom
+    .word 1|ALTITUDE4       ; Offense
+    .word 40|MSG1           ; Defense
+    .byte 32                ; Fight
+    .byte 40                ; Speed
+    .byte 10                ; Wisdom
     .byte 1                 ; Strength
-    .byte $28               ; Force
-    .byte $49, $49, $49, 1, $48, 1, 1, 1; Attacks
-    .word sFly              ; name
+    .byte 40                ; Force
+    .byte 73, 73, 73, 1, 72, 1, 1, 1; Attacks
+    .word sFly              ; Name
     .word 1                 ; Experience
     .word 1                 ; Money
     .byte 0                 ; Item
@@ -1121,20 +1182,20 @@ Spider:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte 1                 ; Flags
-    .word $A850             ; HP
+    .byte SPRAY_VULNERABLE  ; Flags
+    .word 80|COLOR2|TILE8|TILE2   ; HP
     .word 0                 ; PP
-    .word $2D               ; Offense
-    .word $45F              ; Defense
-    .byte $3C               ; Fight
-    .byte $50               ; Speed
-    .byte $50               ; Wisdom
-    .byte $3C               ; Strength
-    .byte $F                ; Force
-    .byte $49, $3D, $3D, $49, $49, 1, 1, $23; Attacks
-    .word sSpider           ; name
-    .word $30               ; Experience
-    .word $28               ; Money
+    .word 45                ; Offense
+    .word 95|MSG1           ; Defense
+    .byte 60                ; Fight
+    .byte 80                ; Speed
+    .byte 80                ; Wisdom
+    .byte 60                ; Strength
+    .byte 15                ; Force
+    .byte 73, 61, 61, 73, 73, 1, 1, 35; Attacks
+    .word sSpider           ; Name
+    .word 48                ; Experience
+    .word 40                ; Money
     .byte 0                 ; Item
     .byte $2A               ; Tile
 
@@ -1143,20 +1204,20 @@ Scorpion:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte 1                 ; Flags
-    .word $A44B             ; HP
+    .byte SPRAY_VULNERABLE  ; Flags
+    .word 75|COLOR1|TILE8|TILE2   ; HP
     .word 0                 ; PP
-    .word $3C               ; Offense
-    .word $450              ; Defense
-    .byte $28               ; Fight
-    .byte $3C               ; Speed
-    .byte $50               ; Wisdom
-    .byte $3C               ; Strength
-    .byte $F                ; Force
-    .byte $3D, $3D, $3D, 3, 3, 3, 3, 3; Attacks
-    .word sScorpion         ; name
-    .word $32               ; Experience
-    .word $24               ; Money
+    .word 60                ; Offense
+    .word 80|MSG1           ; Defense
+    .byte 40                ; Fight
+    .byte 60                ; Speed
+    .byte 80                ; Wisdom
+    .byte 60                ; Strength
+    .byte 15                ; Force
+    .byte 61, 61, 61, 3, 3, 3, 3, 3; Attacks
+    .word sScorpion         ; Name
+    .word 50                ; Experience
+    .word 36                ; Money
     .byte 0                 ; Item
     .byte $3D               ; Tile
 
@@ -1165,21 +1226,21 @@ Rope:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte 0                 ; Flags
-    .word $AC50             ; HP
+    .byte NO_RESIST         ; Flags
+    .word 80|COLOR3|TILE8|TILE2   ; HP
     .word 0                 ; PP
-    .word $23               ; Offense
-    .word $1432             ; Defense
-    .byte $32               ; Fight
-    .byte $1E               ; Speed
+    .word 35                ; Offense
+    .word 50|MSG5           ; Defense
+    .byte 50                ; Fight
+    .byte 30                ; Speed
     .byte 5                 ; Wisdom
-    .byte $50               ; Strength
-    .byte $50               ; Force
-    .byte $47, $47, 1, 1, 1, 1, 1, 1; Attacks
-    .word sRope             ; name
-    .word $30               ; Experience
-    .word $50               ; Money
-    .byte $28               ; Item
+    .byte 80                ; Strength
+    .byte 80                ; Force
+    .byte 71, 71, 1, 1, 1, 1, 1, 1; Attacks
+    .word sRope             ; Name
+    .word 48                ; Experience
+    .word 80                ; Money
+    .byte 40                ; Item
     .byte $3F               ; Tile
 
 FireBall:
@@ -1187,20 +1248,20 @@ FireBall:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte $C0               ; Flags
-    .word $AC3A             ; HP
-    .word $2032             ; PP
-    .word $4018             ; Offense
-    .word $83A              ; Defense
-    .byte $23               ; Fight
-    .byte $28               ; Speed
-    .byte $1E               ; Wisdom
-    .byte $32               ; Strength
-    .byte $1E               ; Force
+    .byte RESIST_PK_FIRE|IMMUNE_STATUS_EFFECTS  ; Flags
+    .word 58|COLOR3|TILE8|TILE2   ; HP
+    .word EXTRA8|50         ; PP
+    .word 24|ALTITUDE2      ; Offense
+    .word 58|MSG2           ; Defense
+    .byte 35                ; Fight
+    .byte 40                ; Speed
+    .byte 30                ; Wisdom
+    .byte 50                ; Strength
+    .byte 30                ; Force
     .byte 9, 9, 9, 9, 9, 9, 9, 9; Attacks
-    .word sFireBall         ; name
-    .word $3D               ; Experience
-    .word $23               ; Money
+    .word sFireBall         ; Name
+    .word 61                ; Experience
+    .word 35                ; Money
     .byte 0                 ; Item
     .byte $39               ; Tile
 
@@ -1209,20 +1270,20 @@ Watcher:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte 0                 ; Flags
-    .word $E41E             ; HP
+    .byte NO_RESIST         ; Flags
+    .word 30|COLOR1|TILE8|TILE4|TILE2   ; HP
     .word 0                 ; PP
-    .word $10               ; Offense
-    .word $818              ; Defense
-    .byte $19               ; Fight
-    .byte $1E               ; Speed
-    .byte $14               ; Wisdom
-    .byte $14               ; Strength
-    .byte $14               ; Force
+    .word 16                ; Offense
+    .word 24|MSG2           ; Defense
+    .byte 25                ; Fight
+    .byte 30                ; Speed
+    .byte 20                ; Wisdom
+    .byte 20                ; Strength
+    .byte 20                ; Force
     .byte 1, 1, 1, 1, 1, 1, 1, 1; Attacks
-    .word sWatcher          ; name
-    .word $1E               ; Experience
-    .word $14               ; Money
+    .word sWatcher          ; Name
+    .word 30                ; Experience
+    .word 20                ; Money
     .byte 0                 ; Item
     .byte $27               ; Tile
 
@@ -1231,20 +1292,20 @@ Groucho:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte 0                 ; Flags
-    .word $A423             ; HP
+    .byte NO_RESIST         ; Flags
+    .word 35|COLOR1|TILE8|TILE2   ; HP
     .word 0                 ; PP
-    .word $400C             ; Offense
-    .word $828              ; Defense
-    .byte $14               ; Fight
-    .byte $14               ; Speed
-    .byte $14               ; Wisdom
-    .byte $14               ; Strength
-    .byte $14               ; Force
-    .byte $51, $51, $51, $51, 1, 1, 1, 1; Attacks
-    .word sGroucho          ; name
+    .word 12|ALTITUDE2      ; Offense
+    .word 40|MSG2           ; Defense
+    .byte 20                ; Fight
+    .byte 20                ; Speed
+    .byte 20                ; Wisdom
+    .byte 20                ; Strength
+    .byte 20                ; Force
+    .byte 81, 81, 81, 81, 1, 1, 1, 1; Attacks
+    .word sGroucho          ; Name
     .word 3                 ; Experience
-    .word $C                ; Money
+    .word 12                ; Money
     .byte 0                 ; Item
     .byte $26               ; Tile
 
@@ -1253,20 +1314,20 @@ Ghost:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte $80               ; Flags
-    .word $A414             ; HP
+    .byte IMMUNE_STATUS_EFFECTS ; Flags
+    .word 20|COLOR1|TILE8|TILE2   ; HP
     .word 0                 ; PP
-    .word $400C             ; Offense
-    .word $1C18             ; Defense
+    .word 12|ALTITUDE2      ; Offense
+    .word 24|MSG7           ; Defense
     .byte 6                 ; Fight
-    .byte $16               ; Speed
+    .byte 22                ; Speed
     .byte 5                 ; Wisdom
-    .byte $28               ; Strength
-    .byte $F                ; Force
-    .byte $48, $48, 1, 1, 1, 1, 1, 1; Attacks
-    .word sGhost            ; name
+    .byte 40                ; Strength
+    .byte 15                ; Force
+    .byte 72, 72, 1, 1, 1, 1, 1, 1; Attacks
+    .word sGhost            ; Name
     .word 5                 ; Experience
-    .word $A                ; Money
+    .word 10                ; Money
     .byte 0                 ; Item
     .byte $3A               ; Tile
 
@@ -1275,20 +1336,20 @@ LilSaucer:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte $D6               ; Flags
-    .word $A420             ; HP
-    .word $14               ; PP
-    .word $8014             ; Offense
-    .word $C1E              ; Defense
-    .byte $F                ; Fight
-    .byte $14               ; Speed
-    .byte $12               ; Wisdom
-    .byte $64               ; Strength
-    .byte $64               ; Force
-    .byte 1, $36, 1, 1, $38, 1, 1, 1; Attacks
-    .word sLilSaucer        ; name
-    .word $1E               ; Experience
-    .word $16               ; Money
+    .byte RESIST_PK_BEAM|IMMUNE_SLEEP_DEFDOWN|RESIST_PK_THUNDER|RESIST_PK_FIRE|IMMUNE_STATUS_EFFECTS  ; Flags
+    .word 32|COLOR1|TILE8|TILE2   ; HP
+    .word 20                ; PP
+    .word 20|ALTITUDE4      ; Offense
+    .word 30|MSG3           ; Defense
+    .byte 15                ; Fight
+    .byte 20                ; Speed
+    .byte 18                ; Wisdom
+    .byte 100               ; Strength
+    .byte 100               ; Force
+    .byte 1, 54, 1, 1, 56, 1, 1, 1; Attacks
+    .word sLilSaucer        ; Name
+    .word 30                ; Experience
+    .word 22                ; Money
     .byte 0                 ; Item
     .byte $28               ; Tile
 
@@ -1297,18 +1358,18 @@ MrBat:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte 0                 ; Flags
-    .word $AC14             ; HP
+    .byte NO_RESIST         ; Flags
+    .word 20|COLOR3|TILE8|TILE2   ; HP
     .word 0                 ; PP
-    .word $8008             ; Offense
-    .word $40A              ; Defense
+    .word 8|ALTITUDE4       ; Offense
+    .word 10|MSG1           ; Defense
     .byte 8                 ; Fight
     .byte 5                 ; Speed
     .byte 5                 ; Wisdom
     .byte 4                 ; Strength
     .byte 8                 ; Force
-    .byte $54, $54, $54, 1, 1, 1, 1, 1; Attacks
-    .word sMrBat            ; name
+    .byte 84, 84, 84, 1, 1, 1, 1, 1; Attacks
+    .word sMrBat            ; Name
     .word 4                 ; Experience
     .word 7                 ; Money
     .byte 0                 ; Item
@@ -1319,19 +1380,19 @@ StarmanJr:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte $F6               ; Flags
-    .word $A034             ; HP
-    .word $10               ; PP
-    .word $4020             ; Offense
-    .word $834              ; Defense
-    .byte $23               ; Fight
-    .byte $14               ; Speed
-    .byte $12               ; Wisdom
-    .byte $1E               ; Strength
-    .byte $1E               ; Force
-    .byte $12, $12, $15, 1, 1, 1, 1, $53; Attacks
-    .word sStarmanJr        ; name
-    .word $1E               ; Experience
+    .byte RESIST_PK_BEAM|IMMUNE_SLEEP_DEFDOWN|RESIST_PK_THUNDER|RESIST_PK_FREEZE|RESIST_PK_FIRE|IMMUNE_STATUS_EFFECTS  ; Flags
+    .word 52|TILE8|TILE2          ; HP
+    .word 16                ; PP
+    .word 32|ALTITUDE2      ; Offense
+    .word 52|MSG2           ; Defense
+    .byte 35                ; Fight
+    .byte 20                ; Speed
+    .byte 18                ; Wisdom
+    .byte 30                ; Strength
+    .byte 30                ; Force
+    .byte 18, 18, 21, 1, 1, 1, 1, 83; Attacks
+    .word sStarmanJr        ; Name
+    .word 30                ; Experience
     .word 5                 ; Money
     .byte 0                 ; Item
     .byte $3C               ; Tile
@@ -1341,20 +1402,20 @@ Skunk:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte 0                 ; Flags
-    .word $A828             ; HP
+    .byte NO_RESIST         ; Flags
+    .word 40|COLOR2|TILE8|TILE2   ; HP
     .word 0                 ; PP
-    .word $1A               ; Offense
-    .word $430              ; Defense
-    .byte $34               ; Fight
-    .byte $1E               ; Speed
-    .byte $1E               ; Wisdom
-    .byte $14               ; Strength
-    .byte $14               ; Force
-    .byte 1, 1, 1, 1, $46, 1, 1, 1; Attacks
-    .word sSkunk            ; name
-    .word $20               ; Experience
-    .word $20               ; Money
+    .word 26                ; Offense
+    .word 48|MSG1           ; Defense
+    .byte 52                ; Fight
+    .byte 30                ; Speed
+    .byte 30                ; Wisdom
+    .byte 20                ; Strength
+    .byte 20                ; Force
+    .byte 1, 1, 1, 1, 70, 1, 1, 1; Attacks
+    .word sSkunk            ; Name
+    .word 32                ; Experience
+    .word 32                ; Money
     .byte 0                 ; Item
     .byte $2D               ; Tile
 
@@ -1363,20 +1424,20 @@ Shroudley:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte $80               ; Flags
-    .word $485A             ; HP
+    .byte IMMUNE_STATUS_EFFECTS ; Flags
+    .word 90|COLOR2|TILE4   ; HP
     .word 0                 ; PP
-    .word $2A               ; Offense
-    .word $1080             ; Defense
-    .byte $19               ; Fight
-    .byte $23               ; Speed
-    .byte $37               ; Wisdom
-    .byte $46               ; Strength
-    .byte $A                ; Force
-    .byte $34, $34, 7, 1, 1, 1, 1, 1; Attacks
-    .word sShroudley        ; name
-    .word $3A               ; Experience
-    .word $22               ; Money
+    .word 42                ; Offense
+    .word 128|MSG4          ; Defense
+    .byte 25                ; Fight
+    .byte 35                ; Speed
+    .byte 55                ; Wisdom
+    .byte 70                ; Strength
+    .byte 10                ; Force
+    .byte 52, 52, 7, 1, 1, 1, 1, 1; Attacks
+    .word sShroudley        ; Name
+    .word 58                ; Experience
+    .word 34                ; Money
     .byte 0                 ; Item
     .byte $34               ; Tile
 
@@ -1385,18 +1446,18 @@ Rat:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte 0                 ; Flags
-    .word $A80A             ; HP
+    .byte NO_RESIST         ; Flags
+    .word 10|COLOR2|TILE8|TILE2   ; HP
     .word 0                 ; PP
     .word 4                 ; Offense
-    .word $408              ; Defense
+    .word 8|MSG1            ; Defense
     .byte 6                 ; Fight
     .byte 5                 ; Speed
     .byte 1                 ; Wisdom
     .byte 3                 ; Strength
     .byte 7                 ; Force
-    .byte $23, $23, $23, 3, 3, 3, 3, 3; Attacks
-    .word sRat              ; name
+    .byte 35, 35, 35, 3, 3, 3, 3, 3; Attacks
+    .word sRat              ; Name
     .word 3                 ; Experience
     .word 2                 ; Money
     .byte 0                 ; Item
@@ -1407,21 +1468,21 @@ Bomber:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte $C4               ; Flags
-    .word $A43C             ; HP
+    .byte IMMUNE_SLEEP_DEFDOWN|RESIST_PK_FIRE|IMMUNE_STATUS_EFFECTS  ; Flags
+    .word 60|COLOR1|TILE8|TILE2   ; HP
     .word 0                 ; PP
-    .word $A                ; Offense
-    .word $C40              ; Defense
-    .byte $14               ; Fight
-    .byte $23               ; Speed
-    .byte $1E               ; Wisdom
-    .byte $64               ; Strength
-    .byte $64               ; Force
-    .byte $46, $46, $46, $10, $10, 1, 1, 1; Attacks
-    .word sBomber           ; name
-    .word $38               ; Experience
-    .word $20               ; Money
-    .byte $23               ; Item
+    .word 10                ; Offense
+    .word 64|MSG3           ; Defense
+    .byte 20                ; Fight
+    .byte 35                ; Speed
+    .byte 30                ; Wisdom
+    .byte 100               ; Strength
+    .byte 100               ; Force
+    .byte 70, 70, 70, 16, 16, 1, 1, 1; Attacks
+    .word sBomber           ; Name
+    .word 56                ; Experience
+    .word 32                ; Money
+    .byte 35                ; Item
     .byte $3B               ; Tile
 
 Doll1:
@@ -1429,18 +1490,18 @@ Doll1:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte 0                 ; Flags
-    .word $B004             ; HP
+    .byte NO_RESIST         ; Flags
+    .word 4|TILE8|TILE2|TILE1 ; HP
     .word 0                 ; PP
     .word 3                 ; Offense
-    .word $1405             ; Defense
+    .word 5|MSG5            ; Defense
     .byte 1                 ; Fight
     .byte 5                 ; Speed
     .byte 3                 ; Wisdom
     .byte 3                 ; Strength
     .byte 3                 ; Force
     .byte 1, 1, 1, 1, 1, 1, 1, 1; Attacks
-    .word sDoll             ; name
+    .word sDoll             ; Name
     .word 1                 ; Experience
     .word 0                 ; Money
     .byte 0                 ; Item
@@ -1451,20 +1512,20 @@ Doll2:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte $84               ; Flags
-    .word $C40C             ; HP
+    .byte IMMUNE_SLEEP_DEFDOWN|IMMUNE_STATUS_EFFECTS  ; Flags
+    .word 12|COLOR1|TILE8|TILE4   ; HP
     .word 0                 ; PP
-    .word $4004             ; Offense
-    .word $1405             ; Defense
+    .word 4|ALTITUDE2       ; Offense
+    .word 5|MSG5            ; Defense
     .byte 3                 ; Fight
     .byte 5                 ; Speed
     .byte 1                 ; Wisdom
     .byte 1                 ; Strength
     .byte 1                 ; Force
     .byte 1, 1, 1, 1, 1, 1, 1, 1; Attacks
-    .word sDoll             ; name
-    .word $A                ; Experience
-    .word $32               ; Money
+    .word sDoll             ; Name
+    .word 10                ; Experience
+    .word 50                ; Money
     .byte 0                 ; Item
     .byte $38               ; Tile
 
@@ -1473,18 +1534,18 @@ Lamp:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte $84               ; Flags
-    .word $D406             ; HP
+    .byte IMMUNE_SLEEP_DEFDOWN|IMMUNE_STATUS_EFFECTS  ; Flags
+    .word 6|COLOR1|TILE8|TILE4|TILE1    ; HP
     .word 0                 ; PP
-    .word $4003             ; Offense
-    .word $1405             ; Defense
+    .word 3|ALTITUDE2       ; Offense
+    .word 5|MSG5            ; Defense
     .byte 1                 ; Fight
     .byte 5                 ; Speed
     .byte 3                 ; Wisdom
     .byte 3                 ; Strength
     .byte 3                 ; Force
     .byte 1, 1, 1, 1, 1, 1, 1, 1; Attacks
-    .word sLamp             ; name
+    .word sLamp             ; Name
     .word 1                 ; Experience
     .word 0                 ; Money
     .byte 0                 ; Item
@@ -1495,18 +1556,18 @@ BionicCenti1:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte 0                 ; Flags
-    .word $B4               ; HP
-    .word $78               ; PP
-    .word $23               ; Offense
-    .word $14               ; Defense
-    .byte $32               ; Fight
+    .byte NO_RESIST         ; Flags
+    .word 180               ; HP
+    .word 120               ; PP
+    .word 35                ; Offense
+    .word 20                ; Defense
+    .byte 50                ; Fight
     .byte 5                 ; Speed
     .byte 5                 ; Wisdom
-    .byte $2D               ; Strength
-    .byte $1E               ; Force
+    .byte 45                ; Strength
+    .byte 30                ; Force
     .byte 1, 1, 1, 1, 1, 1, 1, 1; Attacks
-    .word sBionicCenti      ; name
+    .word sBionicCenti      ; Name
     .word 0                 ; Experience
     .word 0                 ; Money
     .byte 0                 ; Item
@@ -1517,18 +1578,18 @@ BionicCenti2:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte 0                 ; Flags
-    .word $B4               ; HP
-    .word $78               ; PP
-    .word $23               ; Offense
-    .word $14               ; Defense
-    .byte $32               ; Fight
+    .byte NO_RESIST         ; Flags
+    .word 180               ; HP
+    .word 120               ; PP
+    .word 35                ; Offense
+    .word 20                ; Defense
+    .byte 50                ; Fight
     .byte 5                 ; Speed
     .byte 5                 ; Wisdom
-    .byte $2D               ; Strength
-    .byte $1E               ; Force
+    .byte 45                ; Strength
+    .byte 30                ; Force
     .byte 1, 1, 1, 1, 1, 1, 1, 1; Attacks
-    .word sBionicCenti      ; name
+    .word sBionicCenti      ; Name
     .word 0                 ; Experience
     .word 0                 ; Money
     .byte 0                 ; Item
@@ -1539,20 +1600,20 @@ BionicCenti3:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte 1                 ; Flags
-    .word $8823             ; HP
-    .word $2400             ; PP
-    .word $10               ; Offense
-    .word $420              ; Defense
-    .byte $F                ; Fight
-    .byte $1C               ; Speed
-    .byte $3C               ; Wisdom
-    .byte $1E               ; Strength
-    .byte $1E               ; Force
-    .byte 1, $3D, $3D, 1, 1, 1, 1, 1; Attacks
-    .word sBionicCenti      ; name
-    .word $12               ; Experience
-    .word $E                ; Money
+    .byte SPRAY_VULNERABLE  ; Flags
+    .word 35|COLOR2|TILE8   ; HP
+    .word EXTRA8|EXTRA1     ; PP
+    .word 16                ; Offense
+    .word 32|MSG1           ; Defense
+    .byte 15                ; Fight
+    .byte 28                ; Speed
+    .byte 60                ; Wisdom
+    .byte 30                ; Strength
+    .byte 30                ; Force
+    .byte 1, 61, 61, 1, 1, 1, 1, 1; Attacks
+    .word sBionicCenti      ; Name
+    .word 18                ; Experience
+    .word 14                ; Money
     .byte 0                 ; Item
     .byte $3A               ; Tile
 
@@ -1561,20 +1622,20 @@ BionicScorp:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte 1                 ; Flags
-    .word $A864             ; HP
+    .byte SPRAY_VULNERABLE  ; Flags
+    .word 100|COLOR2|TILE8|TILE2  ; HP
     .word 0                 ; PP
-    .word $3C               ; Offense
-    .word $496              ; Defense
-    .byte $28               ; Fight
-    .byte $46               ; Speed
-    .byte $50               ; Wisdom
-    .byte $3C               ; Strength
-    .byte $3C               ; Force
-    .byte $3D, $3E, $3D, $3E, 1, 1, 1, 1; Attacks
-    .word sBionicScorp      ; name
-    .word $3D               ; Experience
-    .word $38               ; Money
+    .word 60                ; Offense
+    .word 150|MSG1          ; Defense
+    .byte 40                ; Fight
+    .byte 70                ; Speed
+    .byte 80                ; Wisdom
+    .byte 60                ; Strength
+    .byte 60                ; Force
+    .byte 61, 62, 61, 62, 1, 1, 1, 1; Attacks
+    .word sBionicScorp      ; Name
+    .word 61                ; Experience
+    .word 56                ; Money
     .byte 0                 ; Item
     .byte $3D               ; Tile
 
@@ -1583,18 +1644,18 @@ RedSnake1:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte 0                 ; Flags
-    .word $B4               ; HP
-    .word $78               ; PP
-    .word $23               ; Offense
-    .word $14               ; Defense
-    .byte $32               ; Fight
+    .byte NO_RESIST         ; Flags
+    .word 180               ; HP
+    .word 120               ; PP
+    .word 35                ; Offense
+    .word 20                ; Defense
+    .byte 50                ; Fight
     .byte 5                 ; Speed
     .byte 5                 ; Wisdom
-    .byte $2D               ; Strength
-    .byte $1E               ; Force
+    .byte 45                ; Strength
+    .byte 30                ; Force
     .byte 1, 1, 1, 1, 1, 1, 1, 1; Attacks
-    .word sRedSnake         ; name
+    .word sRedSnake         ; Name
     .word 0                 ; Experience
     .word 0                 ; Money
     .byte 0                 ; Item
@@ -1604,18 +1665,18 @@ RedSnake2:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte 0                 ; Flags
-    .word $B4               ; HP
-    .word $78               ; PP
-    .word $23               ; Offense
-    .word $14               ; Defense
-    .byte $32               ; Fight
+    .byte NO_RESIST         ; Flags
+    .word 180               ; HP
+    .word 120               ; PP
+    .word 35                ; Offense
+    .word 20                ; Defense
+    .byte 50                ; Fight
     .byte 5                 ; Speed
     .byte 5                 ; Wisdom
-    .byte $2D               ; Strength
-    .byte $1E               ; Force
+    .byte 45                ; Strength
+    .byte 30                ; Force
     .byte 1, 1, 1, 1, 1, 1, 1, 1; Attacks
-    .word sRedSnake         ; name
+    .word sRedSnake         ; Name
     .word 0                 ; Experience
     .word 0                 ; Money
     .byte 0                 ; Item
@@ -1625,21 +1686,21 @@ RedSnake3:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte 0                 ; Flags
-    .word $8496             ; HP
+    .byte NO_RESIST         ; Flags
+    .word 150|COLOR1|TILE8  ; HP
     .word 0                 ; PP
-    .word $32               ; Offense
-    .word $4A0              ; Defense
-    .byte $5A               ; Fight
-    .byte $64               ; Speed
-    .byte $3C               ; Wisdom
-    .byte $3C               ; Strength
-    .byte $28               ; Force
-    .byte $48, $48, $48, $48, $48, $48, 1, 1; Attacks
-    .word sRedSnake         ; name
-    .word $1F4              ; Experience
-    .word $14A              ; Money
-    .byte $2F               ; Item
+    .word 50                ; Offense
+    .word 160|MSG1          ; Defense
+    .byte 90                ; Fight
+    .byte 100               ; Speed
+    .byte 60                ; Wisdom
+    .byte 60                ; Strength
+    .byte 40                ; Force
+    .byte 72, 72, 72, 72, 72, 72, 1, 1; Attacks
+    .word sRedSnake         ; Name
+    .word 500               ; Experience
+    .word 330               ; Money
+    .byte 47                ; Item
     .byte $3D               ; Tile
 
 LoneWolf:
@@ -1647,20 +1708,20 @@ LoneWolf:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte $20               ; Flags
-    .word $4850             ; HP
+    .byte RESIST_PK_FREEZE  ; Flags
+    .word 80|COLOR2|TILE4   ; HP
     .word 0                 ; PP
-    .word $3C               ; Offense
-    .word $496              ; Defense
-    .byte $32               ; Fight
-    .byte $3C               ; Speed
-    .byte $1E               ; Wisdom
-    .byte $1E               ; Strength
-    .byte $3C               ; Force
+    .word 60                ; Offense
+    .word 150|MSG1          ; Defense
+    .byte 50                ; Fight
+    .byte 60                ; Speed
+    .byte 30                ; Wisdom
+    .byte 30                ; Strength
+    .byte 60                ; Force
     .byte 3, 3, 3, 3, 3, 3, 3, 3; Attacks
-    .word sLoneWolf         ; name
-    .word $64               ; Experience
-    .word $29               ; Money
+    .word sLoneWolf         ; Name
+    .word 100               ; Experience
+    .word 41                ; Money
     .byte 0                 ; Item
     .byte $36               ; Tile
 
@@ -1669,20 +1730,20 @@ PolarBear:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte $20               ; Flags
-    .word $2464             ; HP
+    .byte RESIST_PK_FREEZE  ; Flags
+    .word 100|COLOR1|TILE2  ; HP
     .word 0                 ; PP
-    .word $34               ; Offense
-    .word $4B4              ; Defense
-    .byte $1E               ; Fight
-    .byte $28               ; Speed
-    .byte $1E               ; Wisdom
-    .byte $28               ; Strength
-    .byte $1E               ; Force
-    .byte 1, 1, 1, 4, 5, $4F, 1, 1; Attacks
-    .word sPolarBear        ; name
-    .word $A0               ; Experience
-    .word $32               ; Money
+    .word 52                ; Offense
+    .word 180|MSG1          ; Defense
+    .byte 30                ; Fight
+    .byte 40                ; Speed
+    .byte 30                ; Wisdom
+    .byte 40                ; Strength
+    .byte 30                ; Force
+    .byte 1, 1, 1, 4, 5, 79, 1, 1; Attacks
+    .word sPolarBear        ; Name
+    .word 160               ; Experience
+    .word 50                ; Money
     .byte 0                 ; Item
     .byte $2B               ; Tile
 
@@ -1691,20 +1752,20 @@ Rattlesnake1:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte 0                 ; Flags
-    .word $A046             ; HP
-    .word $64               ; PP
-    .word $41               ; Offense
-    .word $43C              ; Defense
-    .byte $37               ; Fight
-    .byte $2D               ; Speed
-    .byte $1E               ; Wisdom
-    .byte $1E               ; Strength
-    .byte $2D               ; Force
+    .byte NO_RESIST         ; Flags
+    .word 70|TILE8|TILE2          ; HP
+    .word 100               ; PP
+    .word 65                ; Offense
+    .word 60|MSG1           ; Defense
+    .byte 55                ; Fight
+    .byte 45                ; Speed
+    .byte 30                ; Wisdom
+    .byte 30                ; Strength
+    .byte 45                ; Force
     .byte 1, 1, 1, 1, 1, 1, 1, 1; Attacks
-    .word sRattlesnake      ; name
-    .word $60               ; Experience
-    .word $25               ; Money
+    .word sRattlesnake      ; Name
+    .word 96                ; Experience
+    .word 37                ; Money
     .byte 0                 ; Item
     .byte $3C               ; Tile
 
@@ -1712,20 +1773,20 @@ Rattlesnake2:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte 0                 ; Flags
-    .word $A046             ; HP
-    .word $64               ; PP
-    .word $3C               ; Offense
-    .word $437              ; Defense
-    .byte $28               ; Fight
-    .byte $37               ; Speed
-    .byte $28               ; Wisdom
-    .byte $28               ; Strength
-    .byte $3C               ; Force
+    .byte NO_RESIST         ; Flags
+    .word 70|TILE8|TILE2          ; HP
+    .word 100               ; PP
+    .word 60                ; Offense
+    .word 55|MSG1           ; Defense
+    .byte 40                ; Fight
+    .byte 55                ; Speed
+    .byte 40                ; Wisdom
+    .byte 40                ; Strength
+    .byte 60                ; Force
     .byte 1, 1, 1, 1, 1, 1, 1, 1; Attacks
-    .word sRattlesnake      ; name
-    .word $62               ; Experience
-    .word $22               ; Money
+    .word sRattlesnake      ; Name
+    .word 98                ; Experience
+    .word 34                ; Money
     .byte 0                 ; Item
     .byte $2C               ; Tile
 
@@ -1733,18 +1794,18 @@ Rattlesnake3:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte 0                 ; Flags
-    .word $5F               ; HP
-    .word $64               ; PP
-    .word $46               ; Offense
-    .word $5A               ; Defense
-    .byte $32               ; Fight
-    .byte $32               ; Speed
-    .byte $1E               ; Wisdom
-    .byte $1E               ; Strength
-    .byte $28               ; Force
-    .byte $37, $3D, $3D, 1, 1, 1, 1, 1; Attacks
-    .word sRattlesnake      ; name
+    .byte NO_RESIST         ; Flags
+    .word 95                ; HP
+    .word 100               ; PP
+    .word 70                ; Offense
+    .word 90                ; Defense
+    .byte 50                ; Fight
+    .byte 50                ; Speed
+    .byte 30                ; Wisdom
+    .byte 30                ; Strength
+    .byte 40                ; Force
+    .byte 55, 61, 61, 1, 1, 1, 1, 1; Attacks
+    .word sRattlesnake      ; Name
     .word 0                 ; Experience
     .word 0                 ; Money
     .byte 0                 ; Item
@@ -1754,18 +1815,18 @@ Rattlesnake4:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte 0                 ; Flags
-    .word $B4               ; HP
-    .word $78               ; PP
-    .word $23               ; Offense
-    .word $14               ; Defense
-    .byte $32               ; Fight
+    .byte NO_RESIST         ; Flags
+    .word 180               ; HP
+    .word 120               ; PP
+    .word 35                ; Offense
+    .word 20                ; Defense
+    .byte 50                ; Fight
     .byte 5                 ; Speed
     .byte 5                 ; Wisdom
-    .byte $2D               ; Strength
-    .byte $1E               ; Force
+    .byte 45                ; Strength
+    .byte 30                ; Force
     .byte 1, 1, 1, 1, 1, 1, 1, 1; Attacks
-    .word sRattlesnake      ; name
+    .word sRattlesnake      ; Name
     .word 0                 ; Experience
     .word 0                 ; Money
     .byte 0                 ; Item
@@ -1775,20 +1836,20 @@ Rattlesnake5:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte 8                 ; Flags
-    .word $8864             ; HP
-    .word $2C00             ; PP
-    .word $41               ; Offense
-    .word $480              ; Defense
-    .byte $3C               ; Fight
-    .byte $50               ; Speed
-    .byte $50               ; Wisdom
-    .byte $3C               ; Strength
-    .byte $14               ; Force
-    .byte $5D, $5D, $5D, 7, 1, 1, 1, 1; Attacks
-    .word sRattlesnake      ; name
-    .word $39               ; Experience
-    .word $36               ; Money
+    .byte ENEMY_FLAGS_8     ; Flags
+    .word 100|COLOR2|TILE8  ; HP
+    .word EXTRA8|EXTRA2|EXTRA1 ; PP
+    .word 65                ; Offense
+    .word 128|MSG1          ; Defense
+    .byte 60                ; Fight
+    .byte 80                ; Speed
+    .byte 80                ; Wisdom
+    .byte 60                ; Strength
+    .byte 20                ; Force
+    .byte 93, 93, 93, 7, 1, 1, 1, 1; Attacks
+    .word sRattlesnake      ; Name
+    .word 57                ; Experience
+    .word 54                ; Money
     .byte 0                 ; Item
     .byte $3D               ; Tile
 
@@ -1797,20 +1858,20 @@ Tarantula:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte 1                 ; Flags
-    .word $A478             ; HP
+    .byte SPRAY_VULNERABLE  ; Flags
+    .word 120|COLOR1|TILE8|TILE2  ; HP
     .word 0                 ; PP
-    .word $54               ; Offense
-    .word $4A0              ; Defense
-    .byte $46               ; Fight
-    .byte $50               ; Speed
-    .byte $50               ; Wisdom
-    .byte $3C               ; Strength
-    .byte $F                ; Force
-    .byte $49, $49, $3D, $3D, $3D, $3D, 1, 1; Attacks
-    .word sTarantula        ; name
-    .word $CD               ; Experience
-    .word $55               ; Money
+    .word 84                ; Offense
+    .word 160|MSG1          ; Defense
+    .byte 70                ; Fight
+    .byte 80                ; Speed
+    .byte 80                ; Wisdom
+    .byte 60                ; Strength
+    .byte 15                ; Force
+    .byte 73, 73, 61, 61, 61, 61, 1, 1; Attacks
+    .word sTarantula        ; Name
+    .word 205               ; Experience
+    .word 85                ; Money
     .byte 0                 ; Item
     .byte $2A               ; Tile
 
@@ -1819,20 +1880,20 @@ Crocodile:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte 0                 ; Flags
-    .word $4478             ; HP
+    .byte NO_RESIST         ; Flags
+    .word 120|COLOR1|TILE4  ; HP
     .word 0                 ; PP
-    .word $50               ; Offense
-    .word $496              ; Defense
-    .byte $28               ; Fight
-    .byte $1E               ; Speed
-    .byte $28               ; Wisdom
-    .byte $50               ; Strength
-    .byte $14               ; Force
-    .byte $5D, $5D, 1, 1, 1, 1, 1, 1; Attacks
-    .word sCrocodile        ; name
-    .word $AC               ; Experience
-    .word $58               ; Money
+    .word 80                ; Offense
+    .word 150|MSG1          ; Defense
+    .byte 40                ; Fight
+    .byte 30                ; Speed
+    .byte 40                ; Wisdom
+    .byte 80                ; Strength
+    .byte 20                ; Force
+    .byte 93, 93, 1, 1, 1, 1, 1, 1; Attacks
+    .word sCrocodile        ; Name
+    .word 172               ; Experience
+    .word 88                ; Money
     .byte 0                 ; Item
     .byte $31               ; Tile
 
@@ -1841,20 +1902,20 @@ Buffalo1:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte 0                 ; Flags
-    .word $A05A             ; HP
-    .word $64               ; PP
-    .word $46               ; Offense
-    .word $43C              ; Defense
-    .byte $3C               ; Fight
-    .byte $50               ; Speed
-    .byte $50               ; Wisdom
-    .byte $50               ; Strength
-    .byte $50               ; Force
+    .byte NO_RESIST         ; Flags
+    .word 90|TILE8|TILE2          ; HP
+    .word 100               ; PP
+    .word 70                ; Offense
+    .word 60|MSG1           ; Defense
+    .byte 60                ; Fight
+    .byte 80                ; Speed
+    .byte 80                ; Wisdom
+    .byte 80                ; Strength
+    .byte 80                ; Force
     .byte 1, 1, 1, 1, 1, 1, 1, 1; Attacks
-    .word sBuffalo          ; name
-    .word $4E               ; Experience
-    .word $24               ; Money
+    .word sBuffalo          ; Name
+    .word 78                ; Experience
+    .word 36                ; Money
     .byte 0                 ; Item
     .byte $2C               ; Tile
 
@@ -1862,20 +1923,20 @@ Buffalo2:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte 0                 ; Flags
-    .word $3096             ; HP
+    .byte NO_RESIST         ; Flags
+    .word 150|TILE2|TILE1   ; HP
     .word 0                 ; PP
-    .word $44               ; Offense
-    .word $496              ; Defense
-    .byte $3C               ; Fight
-    .byte $2B               ; Speed
-    .byte $28               ; Wisdom
-    .byte $28               ; Strength
-    .byte $14               ; Force
+    .word 68                ; Offense
+    .word 150|MSG1          ; Defense
+    .byte 60                ; Fight
+    .byte 43                ; Speed
+    .byte 40                ; Wisdom
+    .byte 40                ; Strength
+    .byte 20                ; Force
     .byte 1, 1, 1, 1, 1, 1, 1, 1; Attacks
-    .word sBuffalo          ; name
-    .word $67               ; Experience
-    .word $5F               ; Money
+    .word sBuffalo          ; Name
+    .word 103               ; Experience
+    .word 95                ; Money
     .byte 0                 ; Item
     .byte $2C               ; Tile
 
@@ -1884,18 +1945,18 @@ BionicBat1:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte 0                 ; Flags
-    .word $B4               ; HP
-    .word $78               ; PP
-    .word $23               ; Offense
-    .word $14               ; Defense
-    .byte $32               ; Fight
+    .byte NO_RESIST         ; Flags
+    .word 180               ; HP
+    .word 120               ; PP
+    .word 35                ; Offense
+    .word 20                ; Defense
+    .byte 50                ; Fight
     .byte 5                 ; Speed
     .byte 5                 ; Wisdom
-    .byte $2D               ; Strength
-    .byte $1E               ; Force
+    .byte 45                ; Strength
+    .byte 30                ; Force
     .byte 1, 1, 1, 1, 1, 1, 1, 1; Attacks
-    .word sBionicBat        ; name
+    .word sBionicBat        ; Name
     .word 0                 ; Experience
     .word 0                 ; Money
     .byte 0                 ; Item
@@ -1905,20 +1966,20 @@ BionicBat2:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte 0                 ; Flags
-    .word $A032             ; HP
+    .byte NO_RESIST         ; Flags
+    .word 50|TILE8|TILE2          ; HP
     .word 0                 ; PP
-    .word $8022             ; Offense
-    .word $440              ; Defense
-    .byte $14               ; Fight
-    .byte $23               ; Speed
-    .byte $32               ; Wisdom
-    .byte $3C               ; Strength
-    .byte $1E               ; Force
-    .byte $49, $49, $54, $54, 1, 1, 1, $3E; Attacks
-    .word sBionicBat        ; name
-    .word $28               ; Experience
-    .word $22               ; Money
+    .word 34|ALTITUDE4      ; Offense
+    .word 64|MSG1           ; Defense
+    .byte 20                ; Fight
+    .byte 35                ; Speed
+    .byte 50                ; Wisdom
+    .byte 60                ; Strength
+    .byte 30                ; Force
+    .byte 73, 73, 84, 84, 1, 1, 1, 62; Attacks
+    .word sBionicBat        ; Name
+    .word 40                ; Experience
+    .word 34                ; Money
     .byte 0                 ; Item
     .byte $29               ; Tile
 
@@ -1927,21 +1988,21 @@ StrayDog:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte 0                 ; Flags
-    .word $4C10             ; HP
-    .word $3000             ; PP
+    .byte NO_RESIST         ; Flags
+    .word 16|COLOR3|TILE4   ; HP
+    .word EXTRA8|EXTRA4     ; PP
     .word 8                 ; Offense
-    .word $40A              ; Defense
+    .word 10|MSG1           ; Defense
     .byte 8                 ; Fight
-    .byte $C                ; Speed
+    .byte 12                ; Speed
     .byte 2                 ; Wisdom
     .byte 5                 ; Strength
     .byte 8                 ; Force
     .byte 3, 3, 3, 3, 3, 3, 3, 3; Attacks
-    .word sStrayDog         ; name
+    .word sStrayDog         ; Name
     .word 4                 ; Experience
-    .word $A                ; Money
-    .byte $1B               ; Item
+    .word 10                ; Money
+    .byte 27                ; Item
     .byte $36               ; Tile
 
 PsychoCar:
@@ -1949,20 +2010,20 @@ PsychoCar:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte $84               ; Flags
-    .word $4428             ; HP
+    .byte IMMUNE_SLEEP_DEFDOWN|IMMUNE_STATUS_EFFECTS  ; Flags
+    .word 40|COLOR1|TILE4   ; HP
     .word 0                 ; PP
-    .word $12               ; Offense
-    .word $1828             ; Defense
-    .byte $2D               ; Fight
-    .byte $28               ; Speed
-    .byte $23               ; Wisdom
-    .byte $64               ; Strength
-    .byte $64               ; Force
-    .byte 6, $32, 6, 6, 6, 6, 6, 6; Attacks
-    .word sPsychoCar        ; name
-    .word $3D               ; Experience
-    .word $2D               ; Money
+    .word 18                ; Offense
+    .word 40|MSG6           ; Defense
+    .byte 45                ; Fight
+    .byte 40                ; Speed
+    .byte 35                ; Wisdom
+    .byte 100               ; Strength
+    .byte 100               ; Force
+    .byte 6, 50, 6, 6, 6, 6, 6, 6; Attacks
+    .word sPsychoCar        ; Name
+    .word 61                ; Experience
+    .word 45                ; Money
     .byte 0                 ; Item
     .byte $2E               ; Tile
 
@@ -1971,20 +2032,20 @@ PsychoTruck:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte $84               ; Flags
-    .word $243A             ; HP
+    .byte IMMUNE_SLEEP_DEFDOWN|IMMUNE_STATUS_EFFECTS  ; Flags
+    .word 58|COLOR1|TILE2   ; HP
     .word 0                 ; PP
-    .word $14               ; Offense
-    .word $1828             ; Defense
-    .byte $1E               ; Fight
-    .byte $20               ; Speed
-    .byte $23               ; Wisdom
-    .byte $64               ; Strength
-    .byte $64               ; Force
-    .byte 6, 6, $32, $32, 6, 6, 6, $32; Attacks
-    .word sPsychoTruck      ; name
-    .word $22               ; Experience
-    .word $1B               ; Money
+    .word 20                ; Offense
+    .word 40|MSG6           ; Defense
+    .byte 30                ; Fight
+    .byte 32                ; Speed
+    .byte 35                ; Wisdom
+    .byte 100               ; Strength
+    .byte 100               ; Force
+    .byte 6, 6, 50, 50, 6, 6, 6, 50; Attacks
+    .word sPsychoTruck      ; Name
+    .word 34                ; Experience
+    .word 27                ; Money
     .byte 0                 ; Item
     .byte $26               ; Tile
 
@@ -1993,20 +2054,20 @@ ManiacTruck:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte $84               ; Flags
-    .word $2C50             ; HP
+    .byte IMMUNE_SLEEP_DEFDOWN|IMMUNE_STATUS_EFFECTS  ; Flags
+    .word 80|COLOR3|TILE2   ; HP
     .word 0                 ; PP
-    .word $22               ; Offense
-    .word $1830             ; Defense
-    .byte $2D               ; Fight
-    .byte $23               ; Speed
-    .byte $23               ; Wisdom
-    .byte $64               ; Strength
-    .byte $64               ; Force
-    .byte $32, $32, 6, 6, $32, 6, 6, $32; Attacks
-    .word sManiacTruck      ; name
-    .word $4B               ; Experience
-    .word $3A               ; Money
+    .word 34                ; Offense
+    .word 48|MSG6           ; Defense
+    .byte 45                ; Fight
+    .byte 35                ; Speed
+    .byte 35                ; Wisdom
+    .byte 100               ; Strength
+    .byte 100               ; Force
+    .byte 50, 50, 6, 6, 50, 6, 6, 50; Attacks
+    .word sManiacTruck      ; Name
+    .word 75                ; Experience
+    .word 58                ; Money
     .byte 0                 ; Item
     .byte $26               ; Tile
 
@@ -2015,20 +2076,20 @@ AlarmGhost:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte $80               ; Flags
-    .word $AC64             ; HP
+    .byte IMMUNE_STATUS_EFFECTS ; Flags
+    .word 100|COLOR3|TILE8|TILE2  ; HP
     .word 0                 ; PP
-    .word $401E             ; Offense
-    .word $1CA0             ; Defense
-    .byte $32               ; Fight
-    .byte $5A               ; Speed
-    .byte $32               ; Wisdom
-    .byte $3C               ; Strength
-    .byte $1E               ; Force
-    .byte $49, $49, $49, $49, 1, 1, 1, 1; Attacks
-    .word sAlarmGhost       ; name
-    .word $50               ; Experience
-    .word $1B               ; Money
+    .word 30|ALTITUDE2      ; Offense
+    .word 160|MSG7          ; Defense
+    .byte 50                ; Fight
+    .byte 90                ; Speed
+    .byte 50                ; Wisdom
+    .byte 60                ; Strength
+    .byte 30                ; Force
+    .byte 73, 73, 73, 73, 1, 1, 1, 1; Attacks
+    .word sAlarmGhost       ; Name
+    .word 80                ; Experience
+    .word 27                ; Money
     .byte 0                 ; Item
     .byte $3A               ; Tile
 
@@ -2037,18 +2098,18 @@ Foureyes1:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte 0                 ; Flags
-    .word $B4               ; HP
-    .word $78               ; PP
-    .word $23               ; Offense
-    .word $14               ; Defense
-    .byte $32               ; Fight
+    .byte NO_RESIST         ; Flags
+    .word 180               ; HP
+    .word 120               ; PP
+    .word 35                ; Offense
+    .word 20                ; Defense
+    .byte 50                ; Fight
     .byte 5                 ; Speed
     .byte 5                 ; Wisdom
-    .byte $2D               ; Strength
-    .byte $1E               ; Force
+    .byte 45                ; Strength
+    .byte 30                ; Force
     .byte 1, 1, 1, 1, 1, 1, 1, 1; Attacks
-    .word sFoureyes         ; name
+    .word sFoureyes         ; Name
     .word 0                 ; Experience
     .word 0                 ; Money
     .byte 0                 ; Item
@@ -2058,20 +2119,20 @@ Foureyes2:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte 0                 ; Flags
-    .word $F428             ; HP
+    .byte NO_RESIST         ; Flags
+    .word 40|COLOR1|TILE8|TILE4|TILE2|TILE1   ; HP
     .word 0                 ; PP
-    .word $2016             ; Offense
-    .word $820              ; Defense
-    .byte $14               ; Fight
-    .byte $28               ; Speed
-    .byte $14               ; Wisdom
-    .byte $14               ; Strength
-    .byte $14               ; Force
-    .byte $5D, $5D, $5D, 1, 1, 1, 1, 1; Attacks
-    .word sFoureyes         ; name
-    .word $20               ; Experience
-    .word $1A               ; Money
+    .word 22|ALTITUDE1      ; Offense
+    .word 32|MSG2           ; Defense
+    .byte 20                ; Fight
+    .byte 40                ; Speed
+    .byte 20                ; Wisdom
+    .byte 20                ; Strength
+    .byte 20                ; Force
+    .byte 93, 93, 93, 1, 1, 1, 1, 1; Attacks
+    .word sFoureyes         ; Name
+    .word 32                ; Experience
+    .word 26                ; Money
     .byte 0                 ; Item
     .byte $27               ; Tile
 
@@ -2080,20 +2141,20 @@ Dadseyes:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte 0                 ; Flags
-    .word $E428             ; HP
-    .word $400              ; PP
-    .word $2014             ; Offense
-    .word $820              ; Defense
-    .byte $14               ; Fight
-    .byte $14               ; Speed
-    .byte $14               ; Wisdom
-    .byte $14               ; Strength
-    .byte $14               ; Force
-    .byte $28, $28, $28, 1, 1, 1, 1, 1; Attacks
-    .word sDadseyes         ; name
-    .word $23               ; Experience
-    .word $35               ; Money
+    .byte NO_RESIST         ; Flags
+    .word 40|COLOR1|TILE8|TILE4|TILE2   ; HP
+    .word EXTRA1            ; PP
+    .word 20|ALTITUDE1      ; Offense
+    .word 32|MSG2           ; Defense
+    .byte 20                ; Fight
+    .byte 20                ; Speed
+    .byte 20                ; Wisdom
+    .byte 20                ; Strength
+    .byte 20                ; Force
+    .byte 40, 40, 40, 1, 1, 1, 1, 1; Attacks
+    .word sDadseyes         ; Name
+    .word 35                ; Experience
+    .word 53                ; Money
     .byte 0                 ; Item
     .byte $27               ; Tile
 
@@ -2102,20 +2163,20 @@ Momseyes:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte 0                 ; Flags
-    .word $E428             ; HP
-    .word $800              ; PP
-    .word $4018             ; Offense
-    .word $814              ; Defense
-    .byte $32               ; Fight
-    .byte $32               ; Speed
-    .byte $14               ; Wisdom
-    .byte $14               ; Strength
-    .byte $14               ; Force
+    .byte NO_RESIST         ; Flags
+    .word 40|COLOR1|TILE8|TILE4|TILE2   ; HP
+    .word EXTRA2            ; PP
+    .word 24|ALTITUDE2      ; Offense
+    .word 20|MSG2           ; Defense
+    .byte 50                ; Fight
+    .byte 50                ; Speed
+    .byte 20                ; Wisdom
+    .byte 20                ; Strength
+    .byte 20                ; Force
     .byte 2, 2, 2, 2, 2, 2, 2, 2; Attacks
-    .word sMomseyes         ; name
-    .word $23               ; Experience
-    .word $22               ; Money
+    .word sMomseyes         ; Name
+    .word 35                ; Experience
+    .word 34                ; Money
     .byte 0                 ; Item
     .byte $27               ; Tile
 
@@ -2124,18 +2185,18 @@ SkyYddet1:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte 0                 ; Flags
-    .word $48B4             ; HP
-    .word $78               ; PP
-    .word $23               ; Offense
-    .word $14               ; Defense
-    .byte $32               ; Fight
+    .byte NO_RESIST         ; Flags
+    .word 180|COLOR2|TILE4  ; HP
+    .word 120               ; PP
+    .word 35                ; Offense
+    .word 20                ; Defense
+    .byte 50                ; Fight
     .byte 5                 ; Speed
     .byte 5                 ; Wisdom
-    .byte $2D               ; Strength
-    .byte $1E               ; Force
+    .byte 45                ; Strength
+    .byte 30                ; Force
     .byte 1, 1, 1, 1, 1, 1, 1, 1; Attacks
-    .word sSkyYddet         ; name
+    .word sSkyYddet         ; Name
     .word 0                 ; Experience
     .word 0                 ; Money
     .byte 0                 ; Item
@@ -2145,18 +2206,18 @@ SkyYddet2:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte 0                 ; Flags
-    .word $4CB4             ; HP
-    .word $78               ; PP
-    .word $23               ; Offense
-    .word $14               ; Defense
-    .byte $32               ; Fight
+    .byte NO_RESIST         ; Flags
+    .word 180|COLOR3|TILE4  ; HP
+    .word 120               ; PP
+    .word 35                ; Offense
+    .word 20                ; Defense
+    .byte 50                ; Fight
     .byte 5                 ; Speed
     .byte 5                 ; Wisdom
-    .byte $2D               ; Strength
-    .byte $1E               ; Force
+    .byte 45                ; Strength
+    .byte 30                ; Force
     .byte 1, 1, 1, 1, 1, 1, 1, 1; Attacks
-    .word sSkyYddet         ; name
+    .word sSkyYddet         ; Name
     .word 0                 ; Experience
     .word 0                 ; Money
     .byte 0                 ; Item
@@ -2166,21 +2227,21 @@ SkyYddet3:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte 0                 ; Flags
-    .word $4C4A             ; HP
-    .word $4000             ; PP
-    .word $4018             ; Offense
-    .word $832              ; Defense
-    .byte $14               ; Fight
-    .byte $1E               ; Speed
-    .byte $14               ; Wisdom
-    .byte $32               ; Strength
-    .byte $14               ; Force
-    .byte $4F, $4F, $4F, $4F, $4F, $4F, 7, 7; Attacks
-    .word sSkyYddet         ; name
-    .word $28               ; Experience
-    .word $17               ; Money
-    .byte $49               ; Item
+    .byte NO_RESIST         ; Flags
+    .word 74|COLOR3|TILE4   ; HP
+    .word EXTRA16           ; PP
+    .word 24|ALTITUDE2      ; Offense
+    .word 50|MSG2           ; Defense
+    .byte 20                ; Fight
+    .byte 30                ; Speed
+    .byte 20                ; Wisdom
+    .byte 50                ; Strength
+    .byte 20                ; Force
+    .byte 79, 79, 79, 79, 79, 79, 7, 7; Attacks
+    .word sSkyYddet         ; Name
+    .word 40                ; Experience
+    .word 23                ; Money
+    .byte 73                ; Item
     .byte $2F               ; Tile
 
 GigaBorg1:
@@ -2188,18 +2249,18 @@ GigaBorg1:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte 0                 ; Flags
-    .word $2CB4             ; HP
-    .word $78               ; PP
-    .word $23               ; Offense
-    .word $14               ; Defense
-    .byte $32               ; Fight
+    .byte NO_RESIST         ; Flags
+    .word 180|COLOR3|TILE2  ; HP
+    .word 120               ; PP
+    .word 35                ; Offense
+    .word 20                ; Defense
+    .byte 50                ; Fight
     .byte 5                 ; Speed
     .byte 5                 ; Wisdom
-    .byte $2D               ; Strength
-    .byte $1E               ; Force
+    .byte 45                ; Strength
+    .byte 30                ; Force
     .byte 1, 1, 1, 1, 1, 1, 1, 1; Attacks
-    .word sGigaBorg         ; name
+    .word sGigaBorg         ; Name
     .word 0                 ; Experience
     .word 0                 ; Money
     .byte 0                 ; Item
@@ -2209,21 +2270,21 @@ GigaBorg2:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte $FE               ; Flags
-    .word $2CB4             ; HP
-    .word $50               ; PP
-    .word $64               ; Offense
-    .word $CB4              ; Defense
-    .byte $50               ; Fight
-    .byte $3C               ; Speed
-    .byte $50               ; Wisdom
-    .byte $64               ; Strength
-    .byte $64               ; Force
-    .byte $12, $15, $12, $12, $13, $12, $12, $12; Attacks
-    .word sGigaBorg         ; name
-    .word $62               ; Experience
-    .word $8F               ; Money
-    .byte $25               ; Item
+    .byte RESIST_PK_BEAM|IMMUNE_SLEEP_DEFDOWN|ENEMY_FLAGS_8|RESIST_PK_THUNDER|RESIST_PK_FREEZE|RESIST_PK_FIRE|IMMUNE_STATUS_EFFECTS ; Flags
+    .word 180|COLOR3|TILE2  ; HP
+    .word 80                ; PP
+    .word 100               ; Offense
+    .word 180|MSG3          ; Defense
+    .byte 80                ; Fight
+    .byte 60                ; Speed
+    .byte 80                ; Wisdom
+    .byte 100               ; Strength
+    .byte 100               ; Force
+    .byte 18, 21, 18, 18, 19, 18, 18, 18; Attacks
+    .word sGigaBorg         ; Name
+    .word 98                ; Experience
+    .word 143               ; Money
+    .byte 37                ; Item
     .byte $28               ; Tile
 
 OmegaBorg:
@@ -2231,20 +2292,20 @@ OmegaBorg:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte $FE               ; Flags
-    .word $28E6             ; HP
-    .word $96               ; PP
-    .word $96               ; Offense
-    .word $CC8              ; Defense
-    .byte $C8               ; Fight
-    .byte $64               ; Speed
-    .byte $5A               ; Wisdom
-    .byte $64               ; Strength
-    .byte $64               ; Force
-    .byte $15, $13, $13, $A, $A, $83, 1, $E; Attacks
-    .word sOmegaBorg        ; name
-    .word $B4               ; Experience
-    .word $CD               ; Money
+    .byte RESIST_PK_BEAM|IMMUNE_SLEEP_DEFDOWN|ENEMY_FLAGS_8|RESIST_PK_THUNDER|RESIST_PK_FREEZE|RESIST_PK_FIRE|IMMUNE_STATUS_EFFECTS ; Flags
+    .word 230|COLOR2|TILE2  ; HP
+    .word 150               ; PP
+    .word 150               ; Offense
+    .word 200|MSG3          ; Defense
+    .byte 200               ; Fight
+    .byte 100               ; Speed
+    .byte 90                ; Wisdom
+    .byte 100               ; Strength
+    .byte 100               ; Force
+    .byte 21, 19, 19, 10, 10, 131, 1, 14; Attacks
+    .word sOmegaBorg        ; Name
+    .word 180               ; Experience
+    .word 205               ; Money
     .byte 0                 ; Item
     .byte $28               ; Tile
 
@@ -2253,21 +2314,21 @@ Scrapper:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte $86               ; Flags
-    .word $2046             ; HP
-    .word $1C1E             ; PP
-    .word $1A               ; Offense
-    .word $C4C              ; Defense
-    .byte $19               ; Fight
-    .byte $14               ; Speed
-    .byte $14               ; Wisdom
-    .byte $64               ; Strength
-    .byte $64               ; Force
-    .byte $53, $53, 1, 1, 1, $12, $12, $12; Attacks
-    .word sScrapper         ; name
-    .word $41               ; Experience
-    .word $26               ; Money
-    .byte $25               ; Item
+    .byte RESIST_PK_BEAM|IMMUNE_SLEEP_DEFDOWN|IMMUNE_STATUS_EFFECTS ; Flags
+    .word 70|TILE2          ; HP
+    .word 30|EXTRA4|EXTRA2|EXTRA1 ; PP
+    .word 26                ; Offense
+    .word 76|MSG3           ; Defense
+    .byte 25                ; Fight
+    .byte 20                ; Speed
+    .byte 20                ; Wisdom
+    .byte 100               ; Strength
+    .byte 100               ; Force
+    .byte 83, 83, 1, 1, 1, 18, 18, 18; Attacks
+    .word sScrapper         ; Name
+    .word 65                ; Experience
+    .word 38                ; Money
+    .byte 37                ; Item
     .byte $27               ; Tile
 
 UltraBarbot:
@@ -2275,21 +2336,21 @@ UltraBarbot:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte $D4               ; Flags
-    .word $5850             ; HP
-    .word $32               ; PP
-    .word $36               ; Offense
-    .word $C50              ; Defense
-    .byte $1E               ; Fight
-    .byte $32               ; Speed
-    .byte $28               ; Wisdom
-    .byte $64               ; Strength
-    .byte $64               ; Force
-    .byte 1, $15, 1, 1, 1, 1, 1, 1; Attacks
-    .word sUltraBarbot      ; name
-    .word $DC               ; Experience
-    .word $57               ; Money
-    .byte $26               ; Item
+    .byte IMMUNE_SLEEP_DEFDOWN|RESIST_PK_THUNDER|RESIST_PK_FIRE|IMMUNE_STATUS_EFFECTS ; Flags
+    .word 80|COLOR2|TILE4|TILE1   ; HP
+    .word 50                ; PP
+    .word 54                ; Offense
+    .word 80|MSG3           ; Defense
+    .byte 30                ; Fight
+    .byte 50                ; Speed
+    .byte 40                ; Wisdom
+    .byte 100               ; Strength
+    .byte 100               ; Force
+    .byte 1, 21, 1, 1, 1, 1, 1, 1; Attacks
+    .word sUltraBarbot      ; Name
+    .word 220               ; Experience
+    .word 87                ; Money
+    .byte 38                ; Item
     .byte $31               ; Tile
 
 OmegaSaucer:
@@ -2297,20 +2358,20 @@ OmegaSaucer:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte $84               ; Flags
-    .word $A441             ; HP
-    .word $32               ; PP
-    .word $8C2A             ; Offense
-    .word $C32              ; Defense
-    .byte $14               ; Fight
-    .byte $3C               ; Speed
-    .byte $28               ; Wisdom
-    .byte $64               ; Strength
-    .byte $64               ; Force
-    .byte $12, 1, $38, 1, 1, 1, 1, 1; Attacks
-    .word sOmegaSaucer      ; name
-    .word $52               ; Experience
-    .word $39               ; Money
+    .byte IMMUNE_SLEEP_DEFDOWN|IMMUNE_STATUS_EFFECTS  ; Flags
+    .word 65|COLOR1|TILE8|TILE2   ; HP
+    .word 50                ; PP
+    .word 42|3072|ALTITUDE4 ; Offense
+    .word 50|MSG3           ; Defense
+    .byte 20                ; Fight
+    .byte 60                ; Speed
+    .byte 40                ; Wisdom
+    .byte 100               ; Strength
+    .byte 100               ; Force
+    .byte 18, 1, 56, 1, 1, 1, 1, 1; Attacks
+    .word sOmegaSaucer      ; Name
+    .word 82                ; Experience
+    .word 57                ; Money
     .byte 0                 ; Item
     .byte $28               ; Tile
 
@@ -2319,20 +2380,20 @@ Kelly:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte $86               ; Flags
-    .word $5878             ; HP
-    .word $3450             ; PP
-    .word $50               ; Offense
-    .word $C96              ; Defense
-    .byte $32               ; Fight
-    .byte $46               ; Speed
-    .byte $3C               ; Wisdom
-    .byte $64               ; Strength
-    .byte $64               ; Force
-    .byte $6B, $62, $31, 1, $6B, 1, 1, 1; Attacks
-    .word sKelly            ; name
-    .word $66               ; Experience
-    .word $58               ; Money
+    .byte RESIST_PK_BEAM|IMMUNE_SLEEP_DEFDOWN|IMMUNE_STATUS_EFFECTS ; Flags
+    .word 120|COLOR2|TILE4|TILE1  ; HP
+    .word 80|EXTRA8|EXTRA4|EXTRA1 ; PP
+    .word 80                ; Offense
+    .word 150|MSG3          ; Defense
+    .byte 50                ; Fight
+    .byte 70                ; Speed
+    .byte 60                ; Wisdom
+    .byte 100               ; Strength
+    .byte 100               ; Force
+    .byte 107, 98, 49, 1, 107, 1, 1, 1; Attacks
+    .word sKelly            ; Name
+    .word 102               ; Experience
+    .word 88                ; Money
     .byte 0                 ; Item
     .byte $32               ; Tile
 
@@ -2341,21 +2402,21 @@ StarMiner:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte $84               ; Flags
-    .word $A0C8             ; HP
+    .byte IMMUNE_SLEEP_DEFDOWN|IMMUNE_STATUS_EFFECTS  ; Flags
+    .word 200|TILE8|TILE2         ; HP
     .word 0                 ; PP
-    .word $8C               ; Offense
-    .word $CC8              ; Defense
-    .byte $64               ; Fight
-    .byte $64               ; Speed
-    .byte $3C               ; Wisdom
-    .byte $64               ; Strength
-    .byte $64               ; Force
-    .byte $46, $10, $46, $10, $10, $10, $10, 1; Attacks
-    .word sStarMiner        ; name
-    .word $D1               ; Experience
-    .word $8A               ; Money
-    .byte $24               ; Item
+    .word 140               ; Offense
+    .word 200|MSG3          ; Defense
+    .byte 100               ; Fight
+    .byte 100               ; Speed
+    .byte 60                ; Wisdom
+    .byte 100               ; Strength
+    .byte 100               ; Force
+    .byte 70, 16, 70, 16, 16, 16, 16, 1; Attacks
+    .word sStarMiner        ; Name
+    .word 209               ; Experience
+    .word 138               ; Money
+    .byte 36                ; Item
     .byte $3B               ; Tile
 
 SuperEnergy:
@@ -2363,20 +2424,20 @@ SuperEnergy:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte $84               ; Flags
-    .word $A878             ; HP
+    .byte IMMUNE_SLEEP_DEFDOWN|IMMUNE_STATUS_EFFECTS  ; Flags
+    .word 120|COLOR2|TILE8|TILE2  ; HP
     .word 0                 ; PP
-    .word $432              ; Offense
-    .word $C78              ; Defense
-    .byte $1E               ; Fight
-    .byte $23               ; Speed
-    .byte $3C               ; Wisdom
-    .byte $64               ; Strength
-    .byte $64               ; Force
-    .byte $2E, $2E, $2E, $2E, 1, 1, 1, 1; Attacks
-    .word sSuperEnergy      ; name
-    .word $E6               ; Experience
-    .word $104              ; Money
+    .word 50|EXPLODE        ; Offense
+    .word 120|MSG3          ; Defense
+    .byte 30                ; Fight
+    .byte 35                ; Speed
+    .byte 60                ; Wisdom
+    .byte 100               ; Strength
+    .byte 100               ; Force
+    .byte 46, 46, 46, 46, 1, 1, 1, 1; Attacks
+    .word sSuperEnergy      ; Name
+    .word 230               ; Experience
+    .word 260               ; Money
     .byte 0                 ; Item
     .byte $2C               ; Tile
 
@@ -2385,21 +2446,21 @@ Juana:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte $FE               ; Flags
-    .word $5D2C             ; HP
-    .word $38C8             ; PP
-    .word $C8               ; Offense
-    .word $CFA              ; Defense
-    .byte $C8               ; Fight
-    .byte $78               ; Speed
-    .byte $64               ; Wisdom
-    .byte $64               ; Strength
-    .byte $64               ; Force
-    .byte $18, $83, $A, $6B, $B, $15, 1, 1; Attacks
-    .word sJuana            ; name
-    .word $10E              ; Experience
-    .word $16A              ; Money
-    .byte $49               ; Item
+    .byte RESIST_PK_BEAM|IMMUNE_SLEEP_DEFDOWN|ENEMY_FLAGS_8|RESIST_PK_THUNDER|RESIST_PK_FREEZE|RESIST_PK_FIRE|IMMUNE_STATUS_EFFECTS ; Flags
+    .word 300|COLOR3|TILE4|TILE1  ; HP
+    .word 200|EXTRA8|EXTRA4|EXTRA2 ; PP
+    .word 200               ; Offense
+    .word 250|MSG3          ; Defense
+    .byte 200               ; Fight
+    .byte 120               ; Speed
+    .byte 100               ; Wisdom
+    .byte 100               ; Strength
+    .byte 100               ; Force
+    .byte 24, 131, 10, 107, 11, 21, 1, 1; Attacks
+    .word sJuana            ; Name
+    .word 270               ; Experience
+    .word 362               ; Money
+    .byte 73                ; Item
     .byte $32               ; Tile
 
 BlueStarman:
@@ -2407,20 +2468,20 @@ BlueStarman:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte 0                 ; Flags
-    .word $5864             ; HP
-    .word $50               ; PP
-    .word $4A               ; Offense
-    .word $878              ; Defense
-    .byte $28               ; Fight
-    .byte $2A               ; Speed
-    .byte $3C               ; Wisdom
-    .byte $32               ; Strength
-    .byte $2D               ; Force
-    .byte $12, $13, $38, $53, $53, $15, 1, 1; Attacks
-    .word sBlueStarman      ; name
-    .word $96               ; Experience
-    .word $5B               ; Money
+    .byte NO_RESIST         ; Flags
+    .word 100|COLOR2|TILE4|TILE1  ; HP
+    .word 80                ; PP
+    .word 74                ; Offense
+    .word 120|MSG2          ; Defense
+    .byte 40                ; Fight
+    .byte 42                ; Speed
+    .byte 60                ; Wisdom
+    .byte 50                ; Strength
+    .byte 45                ; Force
+    .byte 18, 19, 56, 83, 83, 21, 1, 1; Attacks
+    .word sBlueStarman      ; Name
+    .word 150               ; Experience
+    .word 91                ; Money
     .byte 0                 ; Item
     .byte $33               ; Tile
 
@@ -2429,20 +2490,20 @@ Rockoyle:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte 4                 ; Flags
-    .word $3478             ; HP
-    .word $3C               ; PP
-    .word $4046             ; Offense
-    .word $896              ; Defense
-    .byte $3C               ; Fight
-    .byte $41               ; Speed
-    .byte $78               ; Wisdom
-    .byte $1E               ; Strength
-    .byte $64               ; Force
-    .byte $D, $40, $E, $F, 1, 1, 1, 1; Attacks
-    .word sRockoyle         ; name
-    .word $A2               ; Experience
-    .word $5D               ; Money
+    .byte IMMUNE_SLEEP_DEFDOWN ; Flags
+    .word 120|COLOR1|TILE2|TILE1 ; HP
+    .word 60                ; PP
+    .word 70|ALTITUDE2      ; Offense
+    .word 150|MSG2          ; Defense
+    .byte 60                ; Fight
+    .byte 65                ; Speed
+    .byte 120               ; Wisdom
+    .byte 30                ; Strength
+    .byte 100               ; Force
+    .byte 13, 64, 14, 15, 1, 1, 1, 1; Attacks
+    .word sRockoyle         ; Name
+    .word 162               ; Experience
+    .word 93                ; Money
     .byte 0                 ; Item
     .byte $29               ; Tile
 
@@ -2451,20 +2512,20 @@ Titanian:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte $C                ; Flags
-    .word $4D40             ; HP
+    .byte IMMUNE_SLEEP_DEFDOWN|ENEMY_FLAGS_8 ; Flags
+    .word 320|COLOR3|TILE4  ; HP
     .word 0                 ; PP
-    .word $64               ; Offense
-    .word $9A4              ; Defense
-    .byte $3C               ; Fight
-    .byte $46               ; Speed
-    .byte $C8               ; Wisdom
-    .byte $50               ; Strength
-    .byte $19               ; Force
-    .byte $62, $62, $62, 1, 1, 1, 1, $3E; Attacks
-    .word sTitanian         ; name
-    .word $B4               ; Experience
-    .word $82               ; Money
+    .word 100               ; Offense
+    .word 420|MSG2          ; Defense
+    .byte 60                ; Fight
+    .byte 70                ; Speed
+    .byte 200               ; Wisdom
+    .byte 80                ; Strength
+    .byte 25                ; Force
+    .byte 98, 98, 98, 1, 1, 1, 1, 62; Attacks
+    .word sTitanian         ; Name
+    .word 180               ; Experience
+    .word 130               ; Money
     .byte 0                 ; Item
     .byte $33               ; Tile
 
@@ -2473,20 +2534,20 @@ OhMook:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte $24               ; Flags
-    .word $54A0             ; HP
-    .word $FA               ; PP
-    .word $3C               ; Offense
-    .word $88C              ; Defense
-    .byte $64               ; Fight
-    .byte $41               ; Speed
-    .byte $FA               ; Wisdom
-    .byte $64               ; Strength
-    .byte $64               ; Force
-    .byte $A, $D, $42, $4B, $2B, $1D, $31, $36; Attacks
-    .word sOhMook           ; name
-    .word $AF               ; Experience
-    .word $6E               ; Money
+    .byte IMMUNE_SLEEP_DEFDOWN|RESIST_PK_FREEZE ; Flags
+    .word 160|COLOR1|TILE4|TILE1  ; HP
+    .word 250               ; PP
+    .word 60                ; Offense
+    .word 140|MSG2          ; Defense
+    .byte 100               ; Fight
+    .byte 65                ; Speed
+    .byte 250               ; Wisdom
+    .byte 100               ; Strength
+    .byte 100               ; Force
+    .byte 10, 13, 66, 75, 43, 29, 49, 54; Attacks
+    .word sOhMook           ; Name
+    .word 175               ; Experience
+    .word 110               ; Money
     .byte 0                 ; Item
     .byte $34               ; Tile
 
@@ -2495,18 +2556,18 @@ Zombie1:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte 0                 ; Flags
-    .word $B4               ; HP
-    .word $78               ; PP
-    .word $23               ; Offense
-    .word $14               ; Defense
-    .byte $32               ; Fight
+    .byte NO_RESIST         ; Flags
+    .word 180               ; HP
+    .word 120               ; PP
+    .word 35                ; Offense
+    .word 20                ; Defense
+    .byte 50                ; Fight
     .byte 5                 ; Speed
     .byte 5                 ; Wisdom
-    .byte $2D               ; Strength
-    .byte $1E               ; Force
+    .byte 45                ; Strength
+    .byte 30                ; Force
     .byte 1, 1, 1, 1, 1, 1, 1, 1; Attacks
-    .word sZombie           ; name
+    .word sZombie           ; Name
     .word 0                 ; Experience
     .word 0                 ; Money
     .byte 0                 ; Item
@@ -2516,20 +2577,20 @@ Zombie2:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte $80               ; Flags
-    .word $8846             ; HP
-    .word $32               ; PP
-    .word $32               ; Offense
-    .word $1050             ; Defense
-    .byte $2D               ; Fight
-    .byte $30               ; Speed
-    .byte $50               ; Wisdom
-    .byte $3C               ; Strength
-    .byte $F                ; Force
-    .byte $42, $42, $42, $4C, $4C, $4C, $4C, 1; Attacks
-    .word sZombie           ; name
-    .word $30               ; Experience
-    .word $2B               ; Money
+    .byte IMMUNE_STATUS_EFFECTS ; Flags
+    .word 70|COLOR2|TILE8   ; HP
+    .word 50                ; PP
+    .word 50                ; Offense
+    .word 80|MSG4           ; Defense
+    .byte 45                ; Fight
+    .byte 48                ; Speed
+    .byte 80                ; Wisdom
+    .byte 60                ; Strength
+    .byte 15                ; Force
+    .byte 66, 66, 66, 76, 76, 76, 76, 1; Attacks
+    .word sZombie           ; Name
+    .word 48                ; Experience
+    .word 43                ; Money
     .byte 0                 ; Item
     .byte $3C               ; Tile
 
@@ -2538,20 +2599,20 @@ NastyZombie:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte $80               ; Flags
-    .word $785A             ; HP
+    .byte IMMUNE_STATUS_EFFECTS ; Flags
+    .word 90|COLOR2|TILE4|TILE2|TILE1   ; HP
     .word 0                 ; PP
-    .word $3E               ; Offense
-    .word $105A             ; Defense
-    .byte $1E               ; Fight
-    .byte $1E               ; Speed
-    .byte $32               ; Wisdom
-    .byte $3C               ; Strength
-    .byte $14               ; Force
+    .word 62                ; Offense
+    .word 90|MSG4           ; Defense
+    .byte 30                ; Fight
+    .byte 30                ; Speed
+    .byte 50                ; Wisdom
+    .byte 60                ; Strength
+    .byte 20                ; Force
     .byte 1, 1, 1, 1, 1, 1, 1, 1; Attacks
-    .word sNastyZombie      ; name
-    .word $36               ; Experience
-    .word $3A               ; Money
+    .word sNastyZombie      ; Name
+    .word 54                ; Experience
+    .word 58                ; Money
     .byte 0                 ; Item
     .byte $3C               ; Tile
 
@@ -2560,20 +2621,20 @@ SilverWolf:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte $20               ; Flags
-    .word $4850             ; HP
+    .byte RESIST_PK_FREEZE  ; Flags
+    .word 80|COLOR2|TILE4   ; HP
     .word 0                 ; PP
-    .word $2C               ; Offense
-    .word $44C              ; Defense
-    .byte $28               ; Fight
-    .byte $2A               ; Speed
-    .byte $1E               ; Wisdom
-    .byte $1E               ; Strength
-    .byte $19               ; Force
+    .word 44                ; Offense
+    .word 76|MSG1           ; Defense
+    .byte 40                ; Fight
+    .byte 42                ; Speed
+    .byte 30                ; Wisdom
+    .byte 30                ; Strength
+    .byte 25                ; Force
     .byte 3, 3, 3, 3, 3, 3, 3, 3; Attacks
-    .word sSilverWolf       ; name
-    .word $42               ; Experience
-    .word $2B               ; Money
+    .word sSilverWolf       ; Name
+    .word 66                ; Experience
+    .word 43                ; Money
     .byte 0                 ; Item
     .byte $36               ; Tile
 
@@ -2582,20 +2643,20 @@ R7037:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte $FE               ; Flags
-    .word $13E8             ; HP
-    .word $1000             ; PP
-    .word $12C              ; Offense
-    .word $E58              ; Defense
-    .byte $64               ; Fight
-    .byte $64               ; Speed
-    .byte $28               ; Wisdom
-    .byte $64               ; Strength
-    .byte $64               ; Force
+    .byte RESIST_PK_BEAM|IMMUNE_SLEEP_DEFDOWN|ENEMY_FLAGS_8|RESIST_PK_THUNDER|RESIST_PK_FREEZE|RESIST_PK_FIRE|IMMUNE_STATUS_EFFECTS ; Flags
+    .word 1000|TILE1        ; HP
+    .word EXTRA4            ; PP
+    .word 300               ; Offense
+    .word 600|MSG3          ; Defense
+    .byte 100               ; Fight
+    .byte 100               ; Speed
+    .byte 40                ; Wisdom
+    .byte 100               ; Strength
+    .byte 100               ; Force
     .byte 1, 1, 1, 1, 1, 1, 1, 1; Attacks
-    .word sR7037            ; name
-    .word $CD               ; Experience
-    .word $47               ; Money
+    .word sR7037            ; Name
+    .word 205               ; Experience
+    .word 71                ; Money
     .byte 0                 ; Item
     .byte $22               ; Tile
 
@@ -2604,20 +2665,20 @@ GrizzlyBear:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte 0                 ; Flags
-    .word $2954             ; HP
+    .byte NO_RESIST         ; Flags
+    .word 340|COLOR2|TILE2  ; HP
     .word 0                 ; PP
-    .word $A0               ; Offense
-    .word $554              ; Defense
-    .byte $64               ; Fight
-    .byte $64               ; Speed
-    .byte $3C               ; Wisdom
-    .byte $64               ; Strength
-    .byte $19               ; Force
+    .word 160               ; Offense
+    .word 340|MSG1          ; Defense
+    .byte 100               ; Fight
+    .byte 100               ; Speed
+    .byte 60                ; Wisdom
+    .byte 100               ; Strength
+    .byte 25                ; Force
     .byte 2, 2, 2, 4, 5, 2, 2, 7; Attacks
-    .word sGrizzlyBear      ; name
-    .word $FA               ; Experience
-    .word $41               ; Money
+    .word sGrizzlyBear      ; Name
+    .word 250               ; Experience
+    .word 65                ; Money
     .byte 0                 ; Item
     .byte $2B               ; Tile
 
@@ -2626,20 +2687,20 @@ R7038XX:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte $F6               ; Flags
-    .word $1FE8             ; HP
-    .word $1800             ; PP
-    .word $384              ; Offense
-    .word $FE8              ; Defense
-    .byte $3C               ; Fight
-    .byte $3C               ; Speed
-    .byte $3C               ; Wisdom
-    .byte $64               ; Strength
-    .byte $64               ; Force
+    .byte RESIST_PK_BEAM|IMMUNE_SLEEP_DEFDOWN|RESIST_PK_THUNDER|RESIST_PK_FREEZE|RESIST_PK_FIRE|IMMUNE_STATUS_EFFECTS  ; Flags
+    .word 1000|COLOR3|TILE1 ; HP
+    .word EXTRA4|EXTRA2     ; PP
+    .word 900               ; Offense
+    .word 1000|MSG3         ; Defense
+    .byte 60                ; Fight
+    .byte 60                ; Speed
+    .byte 60                ; Wisdom
+    .byte 100               ; Strength
+    .byte 100               ; Force
     .byte 1, 1, 1, 1, 1, 1, 1, 1; Attacks
-    .word sR7038XX          ; name
-    .word $226              ; Experience
-    .word $B4               ; Money
+    .word sR7038XX          ; Name
+    .word 550               ; Experience
+    .word 180               ; Money
     .byte 0                 ; Item
     .byte $22               ; Tile
 
@@ -2648,21 +2709,21 @@ LastStarman:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
-    .byte 0                 ; Flags
-    .word $5878             ; HP
-    .word $64               ; PP
-    .word $5A               ; Offense
-    .word $88C              ; Defense
-    .byte $46               ; Fight
-    .byte $3C               ; Speed
-    .byte $3C               ; Wisdom
-    .byte $50               ; Strength
-    .byte $32               ; Force
-    .byte $13, $13, $38, $15, 1, 1, $53, $53; Attacks
-    .word sLastStarman      ; name
-    .word $14A              ; Experience
-    .word $185              ; Money
-    .byte $49               ; Item
+    .byte NO_RESIST         ; Flags
+    .word 120|COLOR2|TILE4|TILE1  ; HP
+    .word 100               ; PP
+    .word 90                ; Offense
+    .word 140|MSG2          ; Defense
+    .byte 70                ; Fight
+    .byte 60                ; Speed
+    .byte 60                ; Wisdom
+    .byte 80                ; Strength
+    .byte 50                ; Force
+    .byte 19, 19, 56, 21, 1, 1, 83, 83; Attacks
+    .word sLastStarman      ; Name
+    .word 330               ; Experience
+    .word 389               ; Money
+    .byte 73                ; Item
     .byte $33               ; Tile
 
 .export byte_168F40
