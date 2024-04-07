@@ -27,6 +27,7 @@
 .charmap '9', $B9
 ; special simbols
 
+.charmap '@', $C0
 .charmap 'A', $C1
 .charmap 'B', $C2
 .charmap 'C', $C3
