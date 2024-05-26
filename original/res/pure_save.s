@@ -1,3 +1,5 @@
+.include "sram.inc"
+
 .segment "PURE_SAVE"
 
 PureSave:       .byte 0                 ; field_0
@@ -38,8 +40,7 @@ PureSave:       .byte 0                 ; field_0
                 .byte 0                 ; Characters.field_15
                 .byte 8                 ; Characters.PP
                 .byte 0                 ; Characters.field_17
-                .byte $78               ; Characters.field_18
-                .byte $74               ; Characters.field_19
+                .word Boy1Name             ; Characters.NameOffset
                 .byte 0                 ; Characters.field_1A
                 .byte 0                 ; Characters.field_1B
                 .byte 8                 ; Characters.field_1C
@@ -61,8 +62,7 @@ PureSave:       .byte 0                 ; field_0
                 .byte 0                 ; Characters.field_15
                 .byte $C                ; Characters.PP
                 .byte 0                 ; Characters.field_17
-                .byte $B8               ; Characters.field_18
-                .byte $74               ; Characters.field_19
+                .word GirlName             ; Characters.NameOffset
                 .byte 0                 ; Characters.field_1A
                 .byte 0                 ; Characters.field_1B
                 .byte 8                 ; Characters.field_1C
@@ -84,8 +84,7 @@ PureSave:       .byte 0                 ; field_0
                 .byte 0                 ; Characters.field_15
                 .byte 0                 ; Characters.PP
                 .byte 0                 ; Characters.field_17
-                .byte $F8               ; Characters.field_18
-                .byte $74               ; Characters.field_19
+                .word Boy2Name             ; Characters.NameOffset
                 .byte 0                 ; Characters.field_1A
                 .byte 0                 ; Characters.field_1B
                 .byte 8                 ; Characters.field_1C
@@ -108,8 +107,7 @@ PureSave:       .byte 0                 ; field_0
                 .byte 0                 ; Characters.field_15
                 .byte 0                 ; Characters.PP
                 .byte 0                 ; Characters.field_17
-                .byte $38               ; Characters.field_18
-                .byte $75               ; Characters.field_19
+                .word Boy3Name          ; Characters.NameOffset
                 .byte 0                 ; Characters.field_1A
                 .byte 0                 ; Characters.field_1B
                 .byte 8                 ; Characters.field_1C

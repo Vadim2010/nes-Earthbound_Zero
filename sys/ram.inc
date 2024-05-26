@@ -104,11 +104,14 @@ PulseCounter1       = $0781
 
 PulseTimer2         = $0784
 PulseCounter2       = $0785
+
 apu_786             = $0786
 
 PulseChannels       = $078A
+
 apu_78B             = $078B
-apu_78C             = $078C
+
+CurrentMusic             = $078C
 
 byte_790            = $0790
 byte_791            = $0791
@@ -140,6 +143,7 @@ byte_7B8            = $07B8
 byte_7BC            = $07BC
 
 PulseSweep1         = $07C0
+
 byte_7C1            = $07C1
 
 byte_7C3            = $07C3
@@ -179,10 +183,12 @@ byte_7F1            = $07F1
 
 byte_7F3            = $07F3
 byte_7F4            = $07F4
-apu_7F5             = $07F5
+
+NewMusic             = $07F5
 
 DMCflag             = $07F7
 Noise               = $07F8
+
 byte_7F9            = $07F9
 byte_7FA            = $07FA
 byte_7FB            = $07FB

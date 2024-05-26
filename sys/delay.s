@@ -1,15 +1,16 @@
+.include "ram.inc"
+
 .segment "WAIT"
 
 ; FD28
-.proc sub_FD28
-    .export sub_FD28
-    ;.import apu_78C, byte_7F5
+.proc wait_change_music
+    .export wait_change_music
 
-    CMP $78C                ; apu_78C
-    BEQ loc_FD30
-    STA $7F5                ; byte_7F5
+    CMP CurrentMusic        ; $78C
+    BEQ @wait
+    STA NewMusic            ; $7F5
 
-loc_FD30:
+@wait:
     JMP wait_nmi
 .endproc
 

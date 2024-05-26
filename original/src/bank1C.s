@@ -407,7 +407,7 @@ sub_1C82A8:
                 STA     apu_7C8
                 STA     apu_7C9
                 STA     apu_7CA
-                STA     apu_78C
+                STA     CurrentMusic
                 STA     PulseChannels
                 TAY
 
@@ -1198,7 +1198,7 @@ loc_1C8648:
                 LDA     #0
                 STA     apu_78B
                 LDA     #$25
-                STA     apu_7F5
+                STA     NewMusic
 
 loc_1C8657:
                 JMP     loc_1C8688
@@ -1732,7 +1732,7 @@ loc_1C88FE:
 sub_1C8903:
                 JSR     sub_1C8248
                 LDA     #1
-                STA     apu_78C
+                STA     CurrentMusic
                 JMP     loc_1C8946
 ; ---------------------------------------------------------------------------
 
@@ -1741,7 +1741,7 @@ loc_1C890E:
 ; ---------------------------------------------------------------------------
 
 loc_1C8911:
-                LDA     apu_7F5
+                LDA     NewMusic
                 TAY
                 CMP     #$3F ; '?'
                 BCS     loc_1C890E
@@ -1749,7 +1749,7 @@ loc_1C8911:
                 BEQ     sub_1C8903
                 TYA
                 BEQ     loc_1C895C
-                STA     apu_78C
+                STA     CurrentMusic
                 CMP     #$19
                 BEQ     loc_1C892B
                 CMP     #$19

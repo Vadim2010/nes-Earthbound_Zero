@@ -1,4 +1,5 @@
 .include "ram.inc"
+.include "..\res\sram.inc"
 
 .segment "PRG_BANK_7"
 
@@ -13,11 +14,11 @@
 
 battle:
     .export battle
-    .import get_enemy_pointer, bank0, preload_palettes, bank16, statistical_frame, wait_nmi_processed, delay, save_jmp_instr
-    .import sub_F4CE, shift_down_window, sub_F760, sub_F765, shift_up_window, clear_jmp_instr
+    .import get_enemy_group, bank0, preload_palettes, bank16, statistical_frame, wait_nmi_processed, delay, save_jmp_instr
+    .import frame, shift_down_window, sub_F760, sub_F765, shift_up_window, clear_jmp_instr
     .importzp Gamepad0Buttons, Gamepad1Buttons, pCharacter, Pointer, NMIFlags, OffsetNMI_Data, NamePos
-    .importzp byte_23, byte_47, byte_48, byte_49, byte_4A, byte_4B, byte_4C, byte_4D
-    .importzp byte_52, byte_53, byte_56, byte_59, byte_5A, byte_5B
+    .importzp byte_23, byte_47, EnemyGroup, byte_49, byte_4A, byte_4B, byte_4C, byte_4D
+    .importzp byte_52, CharacterOffset, Encounter, byte_59, EnemyPos, byte_5B
 
                 LDA     #0
                 STA     Gamepad0Buttons
@@ -42,34 +43,34 @@ battle:
                 DEX
                 BPL     @clear2
                 LDA     #0
-                STA     byte_53
+                STA     CharacterOffset
                 LDX     #0
 
-loc_17A029:
+next_character:
                 TXA
                 PHA
                 LDA     $7408,X             ;CurrentGame.PureSave.CharactersNum,X
                 BEQ     loc_17A03A
-                JSR     sub_17A1DD
+                JSR     copy_character
                 CLC
-                LDA     byte_53
+                LDA     CharacterOffset
                 ADC     #$20
-                STA     byte_53
+                STA     CharacterOffset
 
 loc_17A03A:
                 PLA
                 TAX
                 INX
                 CPX     #4
-                BNE     loc_17A029
-                JSR     get_enemy_pointer ; Input: byte_48 - ID enemy ?
+                BNE     next_character
+                JSR     get_enemy_group ; Input: EnemyGroup - ID enemy ?
                                         ; Output: pCharacter - pointer to struct
                                         ;         Pointer - offset for struct, offset zero page
                 LDA     #$80
-                STA     byte_53
+                STA     CharacterOffset
                 LDY     #0
 
-loc_17A04A:
+@next_enemy:
                 LDA     (pCharacter),Y  ; BANK16:95D8
                 STA     Pointer
                 INY
@@ -80,18 +81,18 @@ loc_17A04A:
                 PHA
                 LDA     Pointer
                 CMP     #$FF
-                BEQ     loc_17A05F
-                JSR     sub_17A22D
+                BEQ     @no_enemy
+                JSR     copy_enemy
 
-loc_17A05F:
+@no_enemy:
                 CLC
-                LDA     byte_53
+                LDA     CharacterOffset
                 ADC     #$20
-                STA     byte_53
+                STA     CharacterOffset
                 PLA
                 TAY
                 CPY     #8
-                BNE     loc_17A04A
+                BNE     @next_enemy
                 LDA     (pCharacter),Y
                 AND     #$E0
                 LDX     #5
@@ -100,10 +101,10 @@ loc_17A072:
                 LSR     A
                 DEX
                 BNE     loc_17A072
-                STA     byte_56
+                STA     Encounter
                 LDA     (pCharacter),Y  ; BANK16:95E0, BANK16:8FF0
                 AND     #$1F
-                STA     byte_5A
+                STA     EnemyPos
                 INY
                 LDA     (pCharacter),Y
                 AND     #$F
@@ -118,7 +119,7 @@ loc_17A089:
                 BNE     loc_17A089
                 STA     Pointer+1
                 CLC
-                LDA     #$81
+                LDA     #$81            ; BattlePalette
                 ADC     Pointer
                 STA     Pointer
                 LDA     #$8E
@@ -137,10 +138,10 @@ loc_17A089:
                 LDA     #0
                 STA     byte_5B
                 LDA     #$80
-                STA     byte_53
+                STA     CharacterOffset
 
 loc_17A0C0:
-                LDX     byte_53
+                LDX     CharacterOffset
                 LDA     byte_600,X
                 BEQ     loc_17A0CA
                 JSR     enemy_draw
@@ -148,9 +149,9 @@ loc_17A0C0:
 loc_17A0CA:
                 INC     byte_5B
                 CLC
-                LDA     byte_53
+                LDA     CharacterOffset
                 ADC     #$20
-                STA     byte_53
+                STA     CharacterOffset
                 BCC     loc_17A0C0
                 LDY     #0
                 LDX     #0
@@ -206,7 +207,7 @@ loc_17A110:
                 STA     OffsetNMI_Data
                 LDA     #0
                 STA     byte_47
-                STA     byte_48
+                STA     EnemyGroup
                 LDX     #$80
 
 loc_17A13E:
@@ -228,7 +229,7 @@ loc_17A142:
                 TAX
                 BNE     loc_17A13E
                 LDX     #0
-                LDA     byte_56
+                LDA     Encounter
                 CMP     #1
                 BNE     loc_17A173
                 LDX     #4
@@ -245,7 +246,7 @@ loc_17A173:
                 LDA     byte_23
                 BEQ     loc_17A18C
                 LDY     #0
-                STY     byte_56
+                STY     Encounter
 
 loc_17A17D:
                 LDA     byte_61E,Y
@@ -258,7 +259,7 @@ loc_17A17D:
                 BPL     loc_17A17D
 
 loc_17A18C:
-                LDA     byte_56
+                LDA     Encounter
                 CMP     #5
                 BNE     loc_17A19C
                 LDA     #$96
@@ -273,7 +274,7 @@ loc_17A19C:
 
 @battle_loop:
                 LDA     #0
-                JSR     sub_F4CE        ; start draw window
+                JSR     frame
                 JSR     sub_17AC6A      ; draw battle window without menu
                                         ; print messages
                                         ; damage animation
@@ -281,7 +282,7 @@ loc_17A19C:
                 LDX     #$14
                 JSR     delay
                 LDA     #7
-                JSR     sub_F4CE        ; start draw window
+                JSR     frame
                 LDA     #0
                 STA     byte_52
                 JSR     shift_up_window ; shift up window
@@ -290,7 +291,7 @@ loc_17A19C:
                 JSR     sub_17A50A      ; battle menu, wait command
                 JSR     sub_F760        ; return if select action, set value $5A = 1
                 LDA     #3
-                JSR     sub_F4CE
+                JSR     frame
                 JSR     shift_down_window
                 JMP     @battle_loop
 ; ---------------------------------------------------------------------------
@@ -307,20 +308,20 @@ loc_17A19C:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17A1DD:
+copy_character:
     .importzp AddrForJmp
 
                 STA     AddrForJmp
                 TAX
-                LDA     #0
+                LDA     #<(CurrentGame)         ; #0
                 STA     Pointer
-                LDA     #$74
+                LDA     #>(CurrentGame)         ; #$74
                 STA     Pointer+1
 
 loc_17A1E8:
                 CLC
                 LDA     Pointer
-                ADC     #$40
+                ADC     #$40                    ; offset Charachter field into PureSave
                 STA     Pointer
                 LDA     Pointer+1
                 ADC     #0
@@ -328,7 +329,7 @@ loc_17A1E8:
                 DEX
                 BNE     loc_17A1E8
                 LDY     #1
-                LDX     byte_53
+                LDX     CharacterOffset
 
 loc_17A1FC:
                 LDA     (Pointer),Y
@@ -338,7 +339,7 @@ loc_17A1FC:
                 CPY     #$10
                 BNE     loc_17A1FC
                 LDY     #$14
-                LDX     byte_53
+                LDX     CharacterOffset
 
 loc_17A20B:
                 LDA     (Pointer),Y
@@ -347,7 +348,7 @@ loc_17A20B:
                 INY
                 CPY     #$18
                 BNE     loc_17A20B
-                LDX     byte_53
+                LDX     CharacterOffset
                 LDA     #$FF
                 STA     byte_600,X
                 LDA     AddrForJmp
@@ -357,14 +358,14 @@ loc_17A20B:
                 LDA     Pointer+1
                 STA     pPPUTab+1,X
                 RTS
-; End of function sub_17A1DD
+; End of function copy_character
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17A22D:
-                LDX     byte_53
+copy_enemy:
+                LDX     CharacterOffset
                 LDA     Pointer+1
                 ASL     A
                 ASL     A
@@ -388,7 +389,7 @@ loc_17A23E:
                 ADC     AddrForJmp+1
                 STA     AddrForJmp+1
                 LDY     #1
-                LDX     byte_53
+                LDX     CharacterOffset
 
 loc_17A257:
                 LDA     (AddrForJmp),Y  ; BANK16:8860, BANK16:8481
@@ -397,8 +398,8 @@ loc_17A257:
                 INX
                 CPY     #$18
                 BNE     loc_17A257
-                LDX     byte_53
-                LDY     byte_48
+                LDX     CharacterOffset
+                LDY     EnemyGroup
                 INY
                 TYA
                 STA     byte_600,X
@@ -418,7 +419,7 @@ loc_17A285:
                 TYA
                 STA     byte_61D,X
                 RTS
-; End of function sub_17A22D
+; End of function copy_enemy
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -476,7 +477,7 @@ loc_17A2D2:
                 DEY
                 BNE     loc_17A2D2
                 STA     pTileID
-                LDA     byte_5A
+                LDA     EnemyPos
                 ASL     A
                 ASL     A
                 ADC     byte_5B
@@ -577,7 +578,7 @@ loc_17A32F:
                 STA     NMIFlags
                 DEC     AddrForJmp
                 BNE     @next_row
-                LDX     byte_53
+                LDX     CharacterOffset
                 LDA     byte_606,X
                 AND     #$FC
                 BEQ     locret_17A3D1
@@ -789,7 +790,7 @@ sub_17A4BB:
                 STA     AddrForJmp
                 LDA     #5
                 STA     AddrForJmp+1
-                LDX     byte_53
+                LDX     CharacterOffset
                 JSR     loc_17A4DA
                 LDA     #$88
                 STA     AddrForJmp
@@ -836,10 +837,10 @@ loc_17A505:
 
 sub_17A50A:
                 LDA     #0
-                STA     byte_53
+                STA     CharacterOffset
 
 loc_17A50E:
-                LDY     byte_53
+                LDY     CharacterOffset
                 LDA     #0
                 STA     byte_61D,Y
                 LDA     byte_61E,Y
@@ -858,9 +859,9 @@ loc_17A50E:
 
 loc_17A535:
                 CLC
-                LDA     byte_53
+                LDA     CharacterOffset
                 ADC     #$20
-                STA     byte_53
+                STA     CharacterOffset
                 BNE     loc_17A50E
                 RTS
 ; End of function sub_17A50A
@@ -872,7 +873,7 @@ loc_17A535:
 sub_17A53F:
                 LDA     byte_59
                 BNE     loc_17A559
-                LDY     byte_53
+                LDY     CharacterOffset
                 BMI     loc_17A559
                 LDA     byte_611,Y
                 AND     #6
@@ -887,7 +888,7 @@ loc_17A559:
                 JSR     sub_17A573
 
 loc_17A55C:
-                LDY     byte_53
+                LDY     CharacterOffset
                 LDA     byte_61D,Y
                 CMP     #$53
                 BEQ     loc_17A569
@@ -914,7 +915,7 @@ sub_17A573:
     .import sub_F673, sub_F1ED, sub_F2D5
     .importzp byte_4E, byte_4F
 
-                LDA     byte_53
+                LDA     CharacterOffset
                 BMI     loc_17A57A
                 JMP     loc_17A57D
 ; ---------------------------------------------------------------------------
@@ -1051,7 +1052,7 @@ loc_17A623:
                 LDA     #8
                 JSR     loc_17A6C2
                 BCC     loc_17A651
-                LDY     byte_53
+                LDY     CharacterOffset
                 JSR     sub_17BFAA
                 BCS     loc_17A5E9
                 CPX     #$7C ; '|'
@@ -1059,14 +1060,14 @@ loc_17A623:
                 CPX     #$84
                 BEQ     loc_17A5E9
                 TYA
-                LDY     byte_53
+                LDY     CharacterOffset
                 STA     byte_610,Y
                 TXA
                 STA     byte_61D,Y
 
 loc_17A651:
                 LDA     byte_54
-                LDY     byte_53
+                LDY     CharacterOffset
                 STA     byte_61C,Y
                 RTS
 ; ---------------------------------------------------------------------------
@@ -1107,13 +1108,13 @@ loc_17A685:
 
 loc_17A688:
                 LDA     byte_54
-                LDY     byte_53
+                LDY     CharacterOffset
                 STA     byte_61C,Y
                 RTS
 ; ---------------------------------------------------------------------------
 
 loc_17A690:
-                LDY     byte_53
+                LDY     CharacterOffset
                 LDA     #1
                 STA     byte_61D,Y
 
@@ -1127,7 +1128,7 @@ loc_17A697:
                 LDA     byte_601,Y
                 BMI     loc_17A697
                 TYA
-                LDY     byte_53
+                LDY     CharacterOffset
                 STA     byte_61C,Y
                 RTS
 ; ---------------------------------------------------------------------------
@@ -1140,7 +1141,7 @@ loc_17A6B0:
 ; ---------------------------------------------------------------------------
 
 loc_17A6BA:
-                LDY     byte_53
+                LDY     CharacterOffset
                 LDA     byte_54
                 STA     byte_61C,Y
                 RTS
@@ -1187,7 +1188,7 @@ loc_17A6D6:
                 JSR     bank0           ; set memory bank 0 at $8000
                 LDY     #5
                 LDA     (Pointer),Y
-                LDY     byte_53
+                LDY     CharacterOffset
                 STA     byte_61D,Y
                 LDY     #7
                 LDA     (Pointer),Y
@@ -1212,10 +1213,10 @@ loc_17A723:
                 JSR     sub_F1ED
                 AND     #7
                 CLC
-                ADC     byte_53
+                ADC     CharacterOffset
                 TAY
                 LDA     byte_610,Y
-                LDY     byte_53
+                LDY     CharacterOffset
                 STA     byte_61D,Y
                 JSR     sub_17AC23
                 JSR     sub_F2D5        ; trap function with no return
@@ -1239,9 +1240,9 @@ sub_17A740:
 
 
 sub_17A74A:
-                LDA     byte_53
+                LDA     CharacterOffset
                 BPL     loc_17A796
-                LDA     byte_56
+                LDA     Encounter
                 CMP     #3
                 BNE     loc_17A760
                 LDX     #3
@@ -1254,7 +1255,7 @@ loc_17A756:
                 BPL     loc_17A756
 
 loc_17A760:
-                LDA     byte_56
+                LDA     Encounter
                 CMP     #4
                 BNE     loc_17A78A
                 LDX     #3
@@ -1309,7 +1310,7 @@ loc_17A7A0:
 
 sub_17A7A3:
                 LDA     byte_54
-                LDY     byte_53
+                LDY     CharacterOffset
                 STA     byte_61C,Y
                 RTS
 ; End of function sub_17A7A3
@@ -1374,8 +1375,8 @@ loc_17A7DD:
                 LDA     #$13
 
 loc_17A7E6:
-                JSR     sub_F4CE
-                JSR     sub_17A90D
+                JSR     frame
+                JSR     battle_menu
                 JSR     sub_F2D5        ; trap function with no return
 ; End of function sub_17A7DA            ; transfers control to a function whose address is selected from the table located after the call of this function
                                         ; Input: A - number of function in the table
@@ -1391,7 +1392,7 @@ nullsub_6:
 
 sub_17A802:
                 LDA     #1
-                LDY     byte_53
+                LDY     CharacterOffset
                 STA     byte_61D,Y
                 JSR     sub_17A962
                 BCC     loc_17A811
@@ -1466,7 +1467,7 @@ loc_17A868:
 
 
 sub_17A86B:
-                LDY     byte_53
+                LDY     CharacterOffset
                 CLC
                 LDA     pPPUTab,Y
                 ADC     #$30
@@ -1485,7 +1486,7 @@ sub_17A87D:
                 LDA     #$59
 
 loc_17A87F:
-                LDY     byte_53
+                LDY     CharacterOffset
                 STA     byte_61D,Y
                 CLC
                 JMP     nullsub_6
@@ -1496,7 +1497,7 @@ loc_17A87F:
 
 
 sub_17A888:
-                LDY     byte_53
+                LDY     CharacterOffset
                 CLC
                 LDA     pPPUTab,Y
                 ADC     #$20
@@ -1555,7 +1556,7 @@ sub_17A8BF:
                 DEX
                 TXA
                 STA     byte_54
-                LDY     byte_53
+                LDY     CharacterOffset
                 STA     byte_61C,Y
                 LDA     #$6F
                 STA     byte_61D,Y
@@ -1581,10 +1582,10 @@ sub_17A8E2:
 
 sub_17A8E7:
                 SEC
-                LDA     byte_53
+                LDA     CharacterOffset
                 BEQ     loc_17A909
                 SBC     #$20
-                STA     byte_53
+                STA     CharacterOffset
                 TAY
                 LDA     byte_600,Y
                 BEQ     sub_17A8E7
@@ -1606,13 +1607,13 @@ loc_17A909:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17A90D:
+battle_menu:
     .import short_cursor_update
     .importzp pStr, pCursor, Buttons
 
                 LDX     #$73
                 LDY     #$9F
-                LDA     byte_56
+                LDA     Encounter
                 CMP     #1
                 BNE     loc_17A91E
                 LDX     #$83
@@ -1645,7 +1646,7 @@ loc_17A927:
 loc_17A942:
                 LDA     #8
                 RTS
-; End of function sub_17A90D
+; End of function battle_menu
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -1669,7 +1670,7 @@ sub_17A945:
 
 loc_17A95D:
                 LDA     #$D
-                JMP     sub_F4CE
+                JMP     frame
 ; End of function sub_17A945
 
 
@@ -1686,7 +1687,7 @@ sub_17A962:
 
 loc_17A96F:
                 STX     Pointer
-                LDA     byte_53
+                LDA     CharacterOffset
                 AND     #$80
                 EOR     Pointer
                 STA     byte_54
@@ -1698,7 +1699,7 @@ loc_17A96F:
                 DEX
                 TXA
                 STA     byte_54
-                LDY     byte_53
+                LDY     CharacterOffset
                 STA     byte_61C,Y
 
 loc_17A98D:
@@ -1719,7 +1720,7 @@ sub_17A991:
     .import cursor_update
 
                 LDA     #$B
-                JSR     sub_F4CE
+                JSR     frame
                 JSR     sub_17A9B3
                 LDA     #$8B
                 STA     pCursor
@@ -1783,7 +1784,7 @@ loc_17A9E4:
                 PHA
                 JSR     sub_17A4BB
                 LDA     #$C
-                JSR     sub_F4CE
+                JSR     frame
                 INC     Row
                 PLA
                 TAX
@@ -1810,17 +1811,17 @@ sub_17AA08:
     .import wait_A_B
 
                 LDA     #$E
-                JSR     sub_F4CE
+                JSR     frame
                 JSR     sub_17AA67
                 JSR     sub_17AAE9
                 BCS     loc_17AA65
-                LDY     byte_53
+                LDY     CharacterOffset
                 LDA     CurrentFieldPosition
                 STA     byte_610,Y
                 LDY     CurrentFieldPosition
                 LDA     (pCharacter),Y
                 JSR     sub_17AAA4
-                LDY     byte_53
+                LDY     CharacterOffset
                 JSR     sub_17AC49
                 BCS     loc_17AA43
                 JSR     bank0           ; set memory bank 0 at $8000
@@ -1829,7 +1830,7 @@ sub_17AA08:
                 JSR     bank16          ; set memory bank $16 at $8000
                 CMP     #0
                 BEQ     loc_17AA4C
-                LDY     byte_53
+                LDY     CharacterOffset
                 STA     byte_61D,Y
                 JSR     sub_17A962
                 BCS     loc_17AA65
@@ -1837,7 +1838,7 @@ sub_17AA08:
 ; ---------------------------------------------------------------------------
 
 loc_17AA43:
-                LDX     byte_53
+                LDX     CharacterOffset
                 JSR     sub_17A4BB
                 LDX     #$14
                 BNE     loc_17AA5E
@@ -1854,7 +1855,7 @@ loc_17AA4C:
 
 loc_17AA5E:
                 TXA
-                JSR     sub_F4CE
+                JSR     frame
                 JSR     wait_A_B
 
 loc_17AA65:
@@ -1896,7 +1897,7 @@ loc_17AA69:
                 LDA     (AddrForJmp),Y
                 STA     unk_58A
                 LDA     #$F
-                JSR     sub_F4CE
+                JSR     frame
 
 loc_17AA9C:
                 PLA
@@ -2012,9 +2013,9 @@ loc_17AB12:
                 TYA
                 PHA
                 LDA     #$E
-                JSR     sub_F4CE
+                JSR     frame
                 LDA     #$12
-                JSR     sub_F4CE
+                JSR     frame
                 JSR     sub_17AB61
                 JSR     sub_17ABC2
                 PLA
@@ -2038,7 +2039,7 @@ loc_17AB39:
                 LDY     #5
                 LDA     (AddrForJmp),Y
                 BEQ     loc_17AB57
-                LDY     byte_53
+                LDY     CharacterOffset
                 STA     byte_61D,Y
                 PHA
                 JSR     bank16          ; set memory bank $16 at $8000
@@ -2048,7 +2049,7 @@ loc_17AB39:
 
 loc_17AB57:
                 LDA     #$10
-                JSR     sub_F4CE
+                JSR     frame
                 JSR     wait_A_B
 
 loc_17AB5F:
@@ -2111,7 +2112,7 @@ loc_17AB86:
                 LDA     (AddrForJmp),Y
                 STA     unk_58A
                 LDA     #$F
-                JSR     sub_F4CE
+                JSR     frame
 
 loc_17ABBA:
                 PLA
@@ -2183,17 +2184,17 @@ loc_17AC03:
 
 
 sub_17AC06:
-    .import loc_C6DB
+    .import loc_C6DB, fNameStr
 
                 LDA     #$A
-                JSR     sub_F4CE
+                JSR     frame
                 JSR     sub_17A4BB
                 JSR     bank0           ; set memory bank 0 at $8000
                 LDA     #0
                 STA     byte_70
-                LDA     #$7A
+                LDA     #<(fNameStr)    ; #$7A
                 STA     PointerTilePack
-                LDA     #$8E
+                LDA     #>(fNameStr)    ; #$8E
                 STA     PointerTilePack+1
                 JSR     loc_C6DB
                 JMP     bank16          ; set memory bank $16 at $8000
@@ -2285,7 +2286,7 @@ loc_17AC71:
                 JSR     sub_17ACA5
                 JSR     sub_17ACD6      ; out message, animation
                 LDA     #$FF
-                LDY     byte_53
+                LDY     CharacterOffset
                 STA     byte_61D,Y
                 JSR     sub_17B75A      ; check win, lose, out message
                 BCS     loc_17AC90
@@ -2308,7 +2309,7 @@ loc_17AC91:
 ; ---------------------------------------------------------------------------
 
 loc_17AC93:
-                LDA     byte_56
+                LDA     Encounter
                 CMP     #1
                 BEQ     loc_17ACA3
                 LDX     #$64
@@ -2356,7 +2357,7 @@ loc_17ACC8:
                 LDY     AddrForJmp
 
 loc_17ACD3:
-                STY     byte_53
+                STY     CharacterOffset
                 RTS
 ; End of function sub_17ACA5
 
@@ -2367,7 +2368,7 @@ loc_17ACD3:
 sub_17ACD6:
     .importzp word_5E
 
-                LDY     byte_53
+                LDY     CharacterOffset
                 LDA     byte_600,Y
                 BNE     loc_17ACE2
                 LDA     #0
@@ -2465,7 +2466,7 @@ loc_17AD6A:
                 JSR     sub_17A3F8
 
 loc_17AD76:
-                LDY     byte_53
+                LDY     CharacterOffset
                 LDA     byte_61D,Y
 
 loc_17AD7B:
@@ -2620,7 +2621,7 @@ sub_17AE5D:
                 LDA     (word_5E),Y
                 JSR     sub_17AAA4
                 JSR     sub_17AACC
-                LDY     byte_53
+                LDY     CharacterOffset
                 BMI     loc_17AE7B
                 JSR     sram_write_enable
                 LDY     #0
@@ -2650,7 +2651,7 @@ sub_17AE8E:
                 LDA     (word_5E),Y
                 JSR     sub_17AAA4
                 JSR     sub_17AACC
-                LDY     byte_53
+                LDY     CharacterOffset
                 BMI     loc_17AEE5
                 LDY     #0
                 LDA     (word_5E),Y
@@ -2934,7 +2935,7 @@ sub_17AFE1:
 
 
 sub_17AFED:
-                LDY     byte_53
+                LDY     CharacterOffset
                 JMP     sub_17B513
 ; End of function sub_17AFED
 
@@ -3102,7 +3103,7 @@ sub_17B069:
                 LDY     #$80
 
 loc_17B06B:
-                CPY     byte_53
+                CPY     CharacterOffset
                 BEQ     loc_17B076
                 LDA     byte_61E,Y
                 AND     #1
@@ -3127,7 +3128,7 @@ loc_17B07F:
                 STA     byte_61E,Y
                 LDA     #0
                 STA     byte_61D,Y
-                LDY     byte_53
+                LDY     CharacterOffset
                 LDA     byte_600,Y
                 LDY     byte_54
                 STA     byte_600,Y
@@ -3158,7 +3159,7 @@ sub_17B0A4:
 
 
 sub_17B0B0:
-                LDY     byte_53
+                LDY     CharacterOffset
                 LDA     byte_600,Y
                 BEQ     loc_17B0CA
                 LDA     byte_601,Y
@@ -3194,7 +3195,7 @@ sub_17B0CC:
                 BMI     loc_17B0F3
                 LDA     byte_60B,Y
                 STA     Pointer
-                LDY     byte_53
+                LDY     CharacterOffset
                 LDA     byte_60B,Y
                 STA     AddrForJmp
                 JSR     sub_17B1A2
@@ -3219,7 +3220,7 @@ loc_17B0F5:
 sub_17B0F7:
                 JSR     sub_17BFE2
                 BCS     locret_17B111
-                LDY     byte_53
+                LDY     CharacterOffset
                 LDA     byte_60B,Y
                 STA     Pointer
                 LDY     byte_54
@@ -3238,7 +3239,7 @@ locret_17B111:
 
 
 sub_17B112:
-                LDY     byte_53
+                LDY     CharacterOffset
                 LDA     byte_61E,Y
                 AND     #$80
                 EOR     #$80
@@ -3257,7 +3258,7 @@ locret_17B124:
 
 
 sub_17B125:
-                LDA     byte_53
+                LDA     CharacterOffset
                 BMI     loc_17B12F
                 LDA     byte_23
                 BEQ     loc_17B12F
@@ -3396,7 +3397,7 @@ sub_17B188:
 
 
 sub_17B194:
-                LDA     byte_56
+                LDA     Encounter
                 CMP     #5
                 BEQ     loc_17B1A0
                 CMP     #6
@@ -3443,7 +3444,7 @@ loc_17B1BD:
 
 
 sub_17B1C5:
-                LDY     byte_53
+                LDY     CharacterOffset
                 LDA     byte_61E,Y
                 AND     #$40
                 EOR     #$40
@@ -3456,7 +3457,7 @@ sub_17B1C5:
 
 
 sub_17B1D1:
-                LDY     byte_53
+                LDY     CharacterOffset
                 SEC
                 LDA     byte_605,Y
                 SBC     byte_4E
@@ -3472,7 +3473,7 @@ nullsub_4:
 
 
 sub_17B1E0:
-                LDY     byte_53
+                LDY     CharacterOffset
                 LDA     byte_601,Y
                 AND     #8
                 BNE     loc_17B1EF
@@ -3498,7 +3499,7 @@ loc_17B1EF:
 
 
 sub_17B202:
-                LDY     byte_53
+                LDY     CharacterOffset
                 LDA     byte_601,Y
                 AND     #8
                 BEQ     loc_17B212
@@ -3508,7 +3509,7 @@ sub_17B202:
 
 loc_17B212:
                 LDX     #$80
-                LDA     byte_53
+                LDA     CharacterOffset
                 BPL     loc_17B21A
                 LDX     #0
 
@@ -3522,7 +3523,7 @@ loc_17B21A:
 
 
 sub_17B21D:
-                LDY     byte_53
+                LDY     CharacterOffset
                 LDA     byte_601,Y
                 AND     #8
                 BEQ     loc_17B22D
@@ -3532,7 +3533,7 @@ sub_17B21D:
 
 loc_17B22D:
                 LDX     #0
-                LDY     byte_53
+                LDY     CharacterOffset
                 BPL     loc_17B235
                 LDX     #$80
 
@@ -3546,7 +3547,7 @@ loc_17B235:
 
 
 sub_17B238:
-                LDA     byte_53
+                LDA     CharacterOffset
                 STA     byte_54
                 RTS
 ; End of function sub_17B238
@@ -3557,7 +3558,7 @@ sub_17B238:
 
 sub_17B23D:
                 LDX     #0
-                LDY     byte_53
+                LDY     CharacterOffset
                 BPL     loc_17B245
                 LDX     #$80
 
@@ -3589,7 +3590,7 @@ sub_17B250:
                 LDA     byte_60A,Y
                 STA     pTileID+1
                 SEC
-                LDY     byte_53
+                LDY     CharacterOffset
                 LDA     byte_607,Y
                 STA     TilepackMode
                 STA     pDist
@@ -3610,7 +3611,7 @@ sub_17B250:
                 STA     Pointer+1
 
 loc_17B284:
-                LDA     byte_56
+                LDA     Encounter
                 CMP     #1
                 BNE     loc_17B297
                 JSR     sub_F1ED
@@ -3669,12 +3670,12 @@ loc_17B2CE:
 
 
 sub_17B2D9:
-                LDY     byte_53
+                LDY     CharacterOffset
                 LDA     byte_607,Y
                 STA     byte_4E
                 LDA     byte_608,Y
                 STA     byte_4F
-                LDA     byte_56
+                LDA     Encounter
                 CMP     #1
                 BNE     locret_17B2F8
                 JSR     sub_F1ED
@@ -3705,7 +3706,7 @@ sub_17B2F9:
 
 
 sub_17B302:
-                LDA     byte_56
+                LDA     Encounter
                 CMP     #5
                 BNE     locret_17B318
                 LDA     NamePos
@@ -3714,7 +3715,7 @@ sub_17B302:
                 INX
                 CPX     #$9E
                 BNE     loc_17B316
-                INC     byte_56
+                INC     Encounter
 
 loc_17B316:
                 STX     NamePos
@@ -3743,7 +3744,7 @@ sub_17B319:
 sub_17B320:
                 LDA     #$6A
                 JSR     sub_17A3F8
-                LDA     byte_56
+                LDA     Encounter
                 CMP     #2
                 BNE     loc_17B330
                 LDA     #$95
@@ -3856,7 +3857,7 @@ sub_17B3BD:
 
 sub_17B3C2:
                 LDX     #$F
-                LDA     byte_53
+                LDA     CharacterOffset
                 BMI     loc_17B3CA
                 LDX     #1
 
@@ -3904,7 +3905,7 @@ sub_17B3DD:
                 CMP     #6
                 BNE     loc_17B3F0
                 LDA     #0
-                STA     byte_56
+                STA     Encounter
                 LDX     #$88
                 JMP     loc_17B40B
 ; ---------------------------------------------------------------------------
@@ -3932,13 +3933,13 @@ loc_17B405:
 loc_17B40B:
                 LDA     byte_54
                 PHA
-                LDA     byte_53
+                LDA     CharacterOffset
                 PHA
                 LDA     word_5E+1
                 PHA
                 LDA     word_5E
                 PHA
-                STY     byte_53
+                STY     CharacterOffset
                 TXA
                 JSR     loc_17AD7B
                 PLA
@@ -3946,7 +3947,7 @@ loc_17B40B:
                 PLA
                 STA     word_5E+1
                 PLA
-                STA     byte_53
+                STA     CharacterOffset
                 PLA
                 STA     byte_54
                 TAY
@@ -3999,7 +4000,7 @@ sub_17B42D:
                 LDY     #$1E
                 LDA     (Pointer),Y
                 BEQ     loc_17B47E
-                STA     byte_48
+                STA     EnemyGroup
 
 loc_17B47E:
                 LDA     #6
@@ -4038,7 +4039,7 @@ sub_17B496:
 ; ---------------------------------------------------------------------------
 
 loc_17B4A9:
-                LDA     byte_56
+                LDA     Encounter
                 CMP     #6
                 BEQ     loc_17B4C7
                 LDA     pPPUTab,Y
@@ -4088,7 +4089,7 @@ sub_17B4CA:
 
 
 sub_17B4E5:
-                LDY     byte_53
+                LDY     CharacterOffset
                 CLC
                 LDA     pPPUTab,Y
                 ADC     #$20
@@ -4096,7 +4097,7 @@ sub_17B4E5:
                 LDA     pPPUTab+1,Y
                 ADC     #0
                 STA     Pointer+1
-                LDY     byte_53
+                LDY     CharacterOffset
                 LDA     byte_610,Y
                 TAY
 
@@ -4592,7 +4593,7 @@ loc_17B733:
 
 
 sub_17B75A:
-    .import sub_F255
+    .import CheckMusic
 
                 LDA     byte_47
                 CMP     #1
@@ -4623,7 +4624,7 @@ loc_17B77B:
                 STA     byte_621
                 STA     byte_641
                 STA     byte_661
-                LDA     byte_56
+                LDA     Encounter
                 CMP     #4
                 BNE     loc_17B7A7
                 LDA     #3
@@ -4637,7 +4638,7 @@ loc_17B77B:
 
 loc_17B7A7:
                 LDA     #0
-                STA     byte_53
+                STA     CharacterOffset
                 LDA     #$E
                 JSR     sub_17A3F8
 
@@ -4658,7 +4659,7 @@ loc_17B7B2:
                 JSR     sub_17A3F8
 
 loc_17B7C9:
-                LDA     byte_56
+                LDA     Encounter
                 CMP     #6
                 BNE     loc_17B7E7
                 LDA     #0
@@ -4675,7 +4676,7 @@ loc_17B7C9:
 
 loc_17B7E7:
                 LDA     #5
-                JSR     sub_F255
+                JSR     CheckMusic
                 LDA     #$D
                 JSR     sub_17A3F8
 
@@ -4685,7 +4686,7 @@ loc_17B7F1:
 ; ---------------------------------------------------------------------------
 
 loc_17B7F3:
-                LDA     byte_56
+                LDA     Encounter
                 CMP     #1
                 BNE     loc_17B802
                 LDY     #0
@@ -4792,7 +4793,7 @@ sub_17B899:
 
 
 sub_17B8AA:
-                LDY     byte_53
+                LDY     CharacterOffset
                 JMP     sub_17B42D
 ; End of function sub_17B8AA
 
@@ -4859,7 +4860,7 @@ sub_17B8D4:
 
 sub_17B8F2:
                 JSR     sub_17BDDD
-                LDY     byte_53
+                LDY     CharacterOffset
                 SEC
                 LDA     byte_603,Y
                 SBC     Pointer
@@ -4882,7 +4883,7 @@ loc_17B912:
 
 
 sub_17B915:
-                LDA     byte_56
+                LDA     Encounter
                 CMP     #5
                 BEQ     loc_17B93E
                 CMP     #6
@@ -4892,7 +4893,7 @@ sub_17B915:
 
 loc_17B924:
                 LDX     #3
-                LDY     byte_53
+                LDY     CharacterOffset
                 LDA     byte_611,Y
                 CMP     #6
                 BNE     loc_17B931
@@ -4924,7 +4925,7 @@ loc_17B93E:
                 STA     Pointer
                 PLA
                 STA     Pointer+1
-                LDY     byte_53
+                LDY     CharacterOffset
                 STY     byte_54
 
 loc_17B962:
@@ -4961,7 +4962,7 @@ loc_17B983:
                 STA     Pointer+1
                 PLA
                 STA     Pointer
-                LDA     byte_56
+                LDA     Encounter
                 CMP     #3
                 BEQ     loc_17B9A5
                 JSR     sub_17BFEF
@@ -5129,7 +5130,7 @@ sub_17BA7A:
 
 sub_17BA86:
                 JSR     sub_17BDDD
-                LDX     byte_53
+                LDX     CharacterOffset
                 LDY     #7
                 JSR     sub_17BDE8
                 LDA     #$5C
@@ -5517,12 +5518,12 @@ loc_17BC5A:
 sub_17BC5D:
     .import sub_F26B
 
-                LDX     byte_56
+                LDX     Encounter
                 CPX     #6
                 BEQ     loc_17BC85
                 LDA     #$19
-                JSR     sub_F255
-                LDA     apu_78C
+                JSR     CheckMusic
+                LDA     CurrentMusic
                 PHA
                 LDX     #0
                 JSR     sub_F26B
@@ -5531,9 +5532,9 @@ sub_17BC5D:
                 LDX     #$38
                 JSR     delay
                 PLA
-                CMP     apu_78C
+                CMP     CurrentMusic
                 BEQ     locret_17BC84
-                STA     apu_7F5
+                STA     NewMusic
 
 locret_17BC84:
                 RTS
@@ -5541,7 +5542,7 @@ locret_17BC84:
 
 loc_17BC85:
                 LDA     #$19
-                JSR     sub_F255
+                JSR     CheckMusic
                 SEC
                 LDA     NamePos
                 SBC     #$9E
@@ -5553,7 +5554,7 @@ loc_17BC85:
                 LDA     NamePos
                 JSR     sub_17A3F8
                 LDA     #$2C
-                JSR     sub_F255
+                JSR     CheckMusic
                 LDX     NamePos
                 INX
                 CPX     #$A9
@@ -5565,7 +5566,7 @@ loc_17BC85:
 loc_17BCAF:
                 JSR     sub_17B5FD
                 LDA     #$FF
-                JSR     sub_F255
+                JSR     CheckMusic
                 LDX     #$C8
                 JSR     delay
                 LDX     #$A9
@@ -5618,10 +5619,10 @@ loc_17BCEC:
                 STA     Pointer
                 LDA     byte_591
                 STA     Pointer+1
-                LDX     byte_53
+                LDX     CharacterOffset
                 LDY     #5
                 JSR     sub_17BEF2
-                LDA     byte_53
+                LDA     CharacterOffset
                 STA     byte_54
                 LDX     #$A
                 LDA     #$3D
@@ -6064,7 +6065,7 @@ loc_17BF4F:
 
 
 sub_17BF58:
-                LDY     byte_53
+                LDY     CharacterOffset
                 LDA     byte_60D,Y
                 TAX
                 LDY     byte_54
@@ -6077,7 +6078,7 @@ sub_17BF58:
 
 
 sub_17BF66:
-                LDY     byte_53
+                LDY     CharacterOffset
                 LDA     byte_60D,Y
                 TAX
                 LDY     byte_54
@@ -6195,7 +6196,7 @@ sub_17BFE2:
                 BPL     loc_17BFEB
 
 loc_17BFE6:
-                LDA     byte_56
+                LDA     Encounter
                 LSR     A
                 BNE     loc_17BFED
 

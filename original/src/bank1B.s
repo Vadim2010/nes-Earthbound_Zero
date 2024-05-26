@@ -183,11 +183,11 @@ loc_1B806C:
 
 
 sub_1B807E:
-                LDA     apu_7F5
+                LDA     NewMusic
                 CMP     #$25
                 BNE     locret_1B8090
                 JSR     sub_1B80AA
-                STA     apu_7F5
+                STA     NewMusic
                 LDA     #$11
                 STA     byte_7F1
 
@@ -254,7 +254,7 @@ sub_1B80B9:
                 STA     apu_7C8
                 STA     apu_7C9
                 STA     apu_7CA
-                STA     apu_78C
+                STA     CurrentMusic
                 STA     PulseChannels
                 TAY
 
@@ -437,13 +437,13 @@ sub_1B81A0:
 
 
 sub_1B81A3:
-                LDA     apu_7F5
+                LDA     NewMusic
                 TAY
                 CMP     #$3F
                 BCS     sub_1B81A0
                 TYA
                 BEQ     loc_1B81EA
-                STA     apu_78C
+                STA     CurrentMusic
                 CMP     #$19
                 BEQ     loc_1B81B9
                 CMP     #$19

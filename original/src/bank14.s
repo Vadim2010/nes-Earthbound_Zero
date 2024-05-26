@@ -1,5 +1,5 @@
 .include "ram.inc"
-.include "mmc3/sram.inc"
+.include "..\res\sram.inc"
 .include "palette.inc"
 
 .segment "PRG_BANK_4"
@@ -753,9 +753,9 @@ game_menu:                              ; CODE XREF: game_intro+34↑p
 sub_149516:
     .export sub_149516
     .import get_save_field, sub_F1ED
-    .importzp byte_20, byte_21, byte_22, byte_23, byte_24, byte_25, byte_48, byte_A0, MsgNumber
+    .importzp byte_20, byte_21, byte_22, byte_23, byte_24, byte_25, EnemyGroup, byte_A0, MsgNumber
 
-                LDA     byte_48
+                LDA     EnemyGroup
                 ORA     byte_20
                 ORA     byte_21
                 ORA     byte_22
@@ -774,7 +774,7 @@ loc_149530:
 
 loc_149534:
                 LDA     #0
-                STA     byte_48
+                STA     EnemyGroup
 
 locret_149538:
                 RTS
@@ -830,7 +830,7 @@ loc_149573:
                 TAY
                 LDA     (pDist),Y
                 BEQ     loc_149573
-                STA     byte_48
+                STA     EnemyGroup
                 LDA     #$19
                 LDX     #$A6
                 LDY     #$A4            ; BANK19:A4A7
@@ -926,16 +926,16 @@ loc_14962A:
 
 sub_149630:
     .export sub_149630, loc_149641
-    .import sub_FDC0
+    .import update_animation
     .importzp AddrForJmp, OffsetNMI_Data, NMIFlags
 
-                LDA     byte_48
+                LDA     EnemyGroup
                 CMP     #$A2
                 BEQ     locret_149684
                 LDA     #WHITE
                 JSR     one_color_palettes_save
                 JSR     back_palettes
-                JSR     sub_FDC0
+                JSR     update_animation
 
 loc_149641:
                 LDA     #7
@@ -944,7 +944,7 @@ loc_149641:
                 STA     NMI_Data + NMI_DATA::NumOfChr ; NMITable
                 STA     Pointer
 
-loc_14964D:
+loc_14964D:                         ; cycle of animated disappearance of the location before the battle
                 LDX     Pointer
                 LDA     byte_1496F1,X
                 CMP     #$FF
@@ -1072,7 +1072,7 @@ byte_1496F1:    .byte 0, $FE, $10, $FD, $EE, $11, $FB, $FC, $ED, $20, $21
 
 sub_149779:
     .export sub_149779
-    .import one_color_lighten_palette, sub_FD28, wait_frames, sub_D674
+    .import one_color_lighten_palette, wait_change_music, wait_frames, sub_D674
     .importzp IRQCount
 
                 LDA     #LIGHTEST_YELLOW
@@ -1083,7 +1083,7 @@ sub_149779:
                 LDX     #$99            ; 99C2
                 JSR     sub_1497D6
                 LDA     #$FF
-                JSR     sub_FD28
+                JSR     wait_change_music
                 LDX     #$B4
                 JSR     wait_frames     ; wait for a few frames
                                         ; input: X - number of frames
@@ -1109,7 +1109,7 @@ sub_1497A3:
                 LDX     #$99            ; 99D5
                 JSR     sub_1497D6
                 LDA     #$FF
-                JSR     sub_FD28
+                JSR     wait_change_music
                 LDA     #$E0
                 LDX     #$99            ; 99E0
                 JSR     sub_1497D6
@@ -1399,7 +1399,7 @@ sub_149920:
 
                 STA     FieldPosition
                 LDA     #$B
-                JSR     sub_FD28
+                JSR     wait_change_music
                 JSR     sub_1499A3
                 JSR     set_camera
                 JSR     clear_oam_sprite
@@ -1569,13 +1569,13 @@ stru_149A3D:    .byte $86, 0, $F4, $76, 0, 0
 
 new_game:
     .import delay
-    .importzp byte_56
+    .importzp Encounter
 
                 JSR     draw_start_game_menu
 
 @character1:
                 LDA     #6
-                STA     byte_56
+                STA     Encounter
                 LDA     #$CA            ; SRAM19:62CA
                 LDX     #$62
                 JSR     enter_name
@@ -1583,7 +1583,7 @@ new_game:
 
 @character2:
                 LDA     #6
-                STA     byte_56
+                STA     Encounter
                 LDA     #$D0            ; SRAM19:62D0
                 LDX     #$62
                 JSR     enter_name
@@ -1591,7 +1591,7 @@ new_game:
 
 @character3:
                 LDA     #6
-                STA     byte_56
+                STA     Encounter
                 LDA     #$D6            ; SRAM19:62D6
                 LDX     #$62
                 JSR     enter_name
@@ -1599,13 +1599,13 @@ new_game:
 
 @character4:
                 LDA     #6
-                STA     byte_56
+                STA     Encounter
                 LDA     #$DC            ; SRAM19:62DC
                 LDX     #$62
                 JSR     enter_name
                 BCS     @character3
                 LDA     #$A
-                STA     byte_56
+                STA     Encounter
                 LDA     #$E2            ; SRAM19:62E2
                 LDX     #$62
                 JSR     enter_name
@@ -1631,7 +1631,7 @@ new_game:
                 LDY     #$64
                 JSR     print_story
                 LDA     #$FF
-                STA     apu_7F5
+                STA     NewMusic
                 JSR     lighten_palette ; increase the brightness of colors in the palette
                 LDA     #6
                 STA     Column
@@ -1837,7 +1837,7 @@ enter_name:
                                         ;        Y = 2 pointer at TilePack (Ask)
                                         ;        Y = 4 pointer at Name
                                         ; Output: Pointer - result
-                LDY     byte_56
+                LDY     Encounter
                 LDA     #0
                 STA     byte_70
                 STA     $581,Y          ; byte_581,Y
@@ -1861,7 +1861,7 @@ loc_149BBD:
                                         ;        Y = 4 pointer at Name
                                         ; Output: Pointer - result
                 JSR     sram_write_enable
-                LDY     byte_56
+                LDY     Encounter
 
 @prev_char:
                 LDA     $580,Y          ; byte_580,Y
@@ -1938,7 +1938,7 @@ loc_149C14:
 
 
 input_name:
-    .import short_cursor_update, loc_EF7C, long_delay
+    .import short_cursor_update, loc_EF7C, long_delay, AlphabeticalList, Names
 
                 JSR     oam_sprite
                 LDA     #$E8            ; SRAM19:62E8
@@ -1982,7 +1982,7 @@ command_button:
                 BEQ     previous
                 LDX     NamePos
                 STA     $580,X          ; byte_580,X
-                CPX     byte_56
+                CPX     Encounter
                 BEQ     loc_149C6B
                 INX
                 STX     NamePos
@@ -1999,7 +1999,7 @@ previous:
 back:
                 LDA     #$A2
                 LDX     NamePos
-                CPX     byte_56
+                CPX     Encounter
                 BNE     loc_149C7D
                 CMP     $580,X          ; byte_580,X
                 BNE     loc_149C85
@@ -2034,7 +2034,7 @@ end:
                 BPL     @get_letter
 
 @letter:
-                CPY     byte_56
+                CPY     Encounter
                 BEQ     loc_149CA5
                 INY
 
@@ -2117,7 +2117,7 @@ oam_sprite:
                 JSR     wait_nmi        ; wait for NMI interrupt processing to complete
                 SEC
                 LDA     #0
-                SBC     byte_56
+                SBC     Encounter
                 SEC
                 ROR     A
                 CLC
@@ -2194,9 +2194,9 @@ intro:
                 JSR     preload_palettes
                 JSR     darken_palette
                 LDA     #$16
-                CMP     apu_78C
+                CMP     CurrentMusic
                 BEQ     loc_149D93
-                STA     apu_7F5
+                STA     NewMusic
 
 loc_149D93:
                 LDX     #$AF            ; $9EAF

@@ -1,9 +1,11 @@
 .include "nes.inc"
 .include "ram.inc"
-.include "mmc3/bank.inc"
-.include "mmc3/mmc3.inc"
-.include "mmc3/sram.inc"
+.include "mmc3\bank.inc"
+.include "mmc3\mmc3.inc"
+.include "..\res\sram.inc"
 .include "palette.inc"
+.include "..\res\charmap.inc"
+.include "..\res\framecomm.inc"
 
 .segment "PRG_FIXED"
 
@@ -74,7 +76,7 @@ sub_C200:
                 STA     Stack
                 LDA     #3
                 ORA     BankMode
-                STA     $8000
+                STA     BANK_SELECT
                 LDX     #9
                 LDY     #2
 
@@ -90,7 +92,7 @@ loc_C210:
 
 
 sub_C218:
-                STA     $C000
+                STA     IRQ_LATCH
                 LDA     #2
                 ORA     BankMode
                 TAX
@@ -277,59 +279,68 @@ bank0_0:
 ; End of function bank0_0               ; A - bank number
                                         ; X - mode
 ; ---------------------------------------------------------------------------
-TilePack:       .byte $20, 1, $17 ; command to set the initial position of tile output
-                .byte $21
-                .word $924B ; InfoFrame ; command to load packed tiles at the specified offset
-                .byte 1                 ; end row
+.import InfoFrame
+
+TilePack:
+    tile_position 1, $17
+    tile_pointer InfoFrame
+    end_row
+
                 .byte $25, $16          ; low byte irq handler, offset to InterruptTable
-                .byte $21
-                .word $6710 ; InfoCharacter ; command to load packed tiles at the specified offset
-                .byte 0                 ; end tilepack mark
+    tile_pointer InfoCharacter
+    end_frame
+
                 .byte $25, $18          ; low byte irq handler - 1, offset to InterruptTable
-                .byte $FB               ; \
-                .byte $22, $FC, $1C ; command to fill with a single repeating tile
-                .byte $FD               ; /
-EndTileMark:    .byte 0                 ; end tilepack mark
-stru_C33E:      .byte $20, 1, $15 ; command to set the initial position of tile output
-                .byte $21
-                .word $924B ; InfoFrame ; command to load packed tiles at the specified offset
-                .byte 1                 ; end row
+    .byte FRAME_BOTTOM_LEFT
+    fill FRAME_BOTTOM, $1C
+    .byte FRAME_BOTTOM_RIGHT
+
+EndTileMark:
+    end_frame
+
+stru_C33E:
+    tile_position 1, $15
+    tile_pointer InfoFrame
+    end_row
+
                 .byte $25, $14          ; low byte irq handler, offset to InterruptTable
-                .byte $21
-                .word $6710 ; InfoCharacter ; command to load packed tiles at the specified offset
-                .byte 1                 ; end row
+    tile_pointer InfoCharacter
+    end_row
                 .byte $25, $16          ; low byte irq handler, offset to InterruptTable
-                .byte $21
-                .word $672E ; command to load packed tiles at the specified offset
-                .byte 0                 ; end tilepack mark
+    tile_pointer $672E ; command to load packed tiles at the specified offset
+    end_frame
+
                 .byte $25, $18          ; low byte irq handler - 1, offset to InterruptTable
-                .byte $FB               ; \
-                .byte $22, $FC, $1C ; command to fill with a single repeating tile
-                .byte $FD               ; /
-                .byte 0                 ; end tilepack mark
-stru_C359:      .byte $20, 1, $13 ; DATA XREF: ROM:off_C616↓o
-                                        ; command to set the initial position of tile output
-                .byte $21
-                .word $924B ; InfoFrame ; command to load packed tiles at the specified offset
-                .byte 1                 ; end row
+    .byte FRAME_BOTTOM_LEFT
+    fill FRAME_BOTTOM, $1C
+    .byte FRAME_BOTTOM_RIGHT
+    end_frame
+
+stru_C359:
+    tile_position 1, $13
+    tile_pointer InfoFrame
+    end_row
+
                 .byte $25, $12          ; low byte irq handler, offset to InterruptTable
-                .byte $21
-                .word $6710 ; InfoCharacter ; command to load packed tiles at the specified offset
-                .byte 1                 ; end row
+    tile_pointer InfoCharacter
+    end_row
+
                 .byte $25, $14          ; low byte irq handler, offset to InterruptTable
-                .byte $21
-                .word $672E ; command to load packed tiles at the specified offset
-                .byte 1                 ; end row
+    tile_pointer $672E ; command to load packed tiles at the specified offset
+    end_row
+
                 .byte $25, $16          ; low byte irq handler, offset to InterruptTable
-                .byte $21
-                .word $674C ; command to load packed tiles at the specified offset
-                .byte 0                 ; end tilepack mark
+    tile_pointer $674C ; command to load packed tiles at the specified offset
+    end_frame
+
                 .byte $25, $18          ; low byte irq handler - 1, offset to InterruptTable
-                .byte $FB               ; \
-                .byte $22, $FC, $1C ; command to fill with a single repeating tile
-                .byte $FD               ; /
-                .byte 0                 ; end tilepack mark
-CharacterInfo:  .byte $24, $A0          ; copy_tilepack↓r ...
+    .byte FRAME_BOTTOM_LEFT
+    fill FRAME_BOTTOM, $1C
+    .byte FRAME_BOTTOM_RIGHT
+    end_frame
+
+CharacterInfo:
+    .byte $24, $A0          ; copy_tilepack↓r ...
                                         ; low byte irq handler - 1, offset to InterruptTable
 stru_C37C:      .byte $23
                 .word $38
@@ -353,7 +364,9 @@ byte_C398:      .byte 1
                 .byte 4
                 .word $A0A0 ; command to load packed tiles at the specified offset
                 .byte $21 ; !           ; command to load packed tiles at the specified offset
-ExclamationMark:.byte $A0, $A1, 0       ;  !
+ExclamationMark:
+    .byte " !"
+    end_frame
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -491,13 +504,13 @@ setup:
 
 sub_C3F4:
     .export sub_C3F4
-    .import sub_FDC0
+    .import update_animation
 
                 PHP
 
 loc_C3F5:
                 JSR     draw_screen
-                JSR     sub_FDC0
+                JSR     update_animation
                 LDA     #1
                 STA     NMIFlags
                 LDA     #0
@@ -511,7 +524,7 @@ loc_C3F5:
 
 
 draw_statistical_frame:
-    .import sram_write_enable, sram_read_enable
+    .import sram_write_enable, sram_read_enable, FrameOff
     .importzp Pointer, BankTable
 
                 LDA     #$FF
@@ -556,9 +569,9 @@ loc_C43F:
                 LDA     BankTable + BANK_TABLE::CPU_8K_8000
                 PHA
                 JSR     bank0_0
-                LDA     #$48
-                LDX     #$92
-                STA     PointerTilePack ; 9248
+                LDA     #<(FrameOff)    ; #$48
+                LDX     #>(FrameOff)    ; #$92
+                STA     PointerTilePack ; FrameOff
                 STX     PointerTilePack+1
                 JSR     sub_C6D2
                 BNE     loc_C458
@@ -848,17 +861,20 @@ loc_C5EE:
                 STA     $670B
                 LDA     $6714
                 STA     $670C
-                LDA     #$9D
+                LDA     #<(ExclamationMark)     ; #$9D
                 STA     $670E
-                LDA     #$C3
+                LDA     #>(ExclamationMark)     ; #$C3
                 STA     $670F     ; C39D
                 JMP     sram_read_enable
 ; End of function load_character_data
 
 ; ---------------------------------------------------------------------------
-off_C616:       .word EndTileMark, TilePack, stru_C33E, stru_C359
-Condition:      .word $8629, $8622, $861B, $8614, $860D, $8606, $85FF, $85F8
-                ; .word sCold, sPoison, sPuzzld, sConfsd, sAsleep, sParlzd, sStone, sFaintd
+off_C616:
+    .word EndTileMark, TilePack, stru_C33E, stru_C359
+
+.import sCold, sPoison, sPuzzld, sConfsd, sAsleep, sParlzd, sStone, sFaintd
+Condition:
+    .word sCold, sPoison, sPuzzld, sConfsd, sAsleep, sParlzd, sStone, sFaintd
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -1302,9 +1318,9 @@ tiled_area:
                                         ; A - tile ID or function ID (0 - 9)
                                         ; TypeTable
                 BCS     @tile
-                LDY     #$4F ; 'O'
+                LDY     #<(@next_byte)  ; #$4F ; 'O'
                 STY     LoopAddr        ; ROM:C84F, ROM:C881
-                LDY     #$C8
+                LDY     #>(@next_byte)  ; #$C8
                 STY     LoopAddr+1      ; ROM:C84F, ROM:C881
                 JMP     jmp_handler     ; UnpackTable
 ; ---------------------------------------------------------------------------
@@ -1952,12 +1968,12 @@ get_tile_pointer:
 
 main:
     .export main
-    .import game_intro, routine_selector, clear_oam_sprite, sub_FD28
+    .import game_intro, routine_selector, clear_oam_sprite, wait_change_music
     .import sub_13A1C6, sub_13A123, sub_13A82F, sub_13A000, sub_13A178, sub_13AB53
     .import sub_149516, sub_149779, sub_1497A3
     .importzp ButtonPressed0, Gamepad0Buttons
     .importzp byte_D, byte_1F, byte_20, byte_21, byte_22, byte_23, byte_24, byte_25
-    .importzp byte_48
+    .importzp EnemyGroup
 
                 JSR     sram_read_enable
                 LDA     #SRAM_WRITE_DISABLE|SRAM_ENABLE
@@ -2054,17 +2070,17 @@ loc_CBE5:
                 JSR     sub_149516
 
 loc_CBEB:
-                LDA     byte_48
-                BEQ     loc_CC17
+                LDA     EnemyGroup
+                BEQ     no_enemy
                 CMP     #$A2
                 BEQ     loc_CC1A
                 JSR     wait_nmi_processed
-                LDA     apu_78C
+                LDA     CurrentMusic
                 PHA
                 JSR     start_battle
                 PLA
                 BCS     loc_CC14
-                JSR     sub_FD28
+                JSR     wait_change_music
                 LDA     byte_21
                 BEQ     loc_CC11
                 JSR     bank13_A000
@@ -2080,7 +2096,7 @@ loc_CC14:
                 JMP     loc_CB5D
 ; ---------------------------------------------------------------------------
 
-loc_CC17:
+no_enemy:
                 JMP     loc_CB76
 ; ---------------------------------------------------------------------------
 
@@ -2195,7 +2211,7 @@ sub_CCB1:
     .importzp MaskPPU
 
                 LDA     #$FF
-                JSR     sub_FD28
+                JSR     wait_change_music
                 JSR     sub_DA16
                 LDA     #2
                 STA     apu_7F0
@@ -2220,11 +2236,11 @@ sub_CCD8:
     .import sub_13BBD4
     .importzp byte_F, byte_A0, ButtonPressed0, byte_22, byte_25
 
-    LDA $78C            ; apu_78C
+    LDA $78C            ; CurrentMusic
     PHA
     LDA #$FF
     STA byte_F
-    JSR sub_FD28
+    JSR wait_change_music
     JSR sub_C3F4
     LDA #1
     STA $7F4            ; byte_7F4
@@ -2313,7 +2329,7 @@ loc_CD79:
                 STX     byte_F
                 JSR     sub_CDAF
                 PLA
-                JSR     sub_FD28
+                JSR     wait_change_music
                 JMP     loc_CB76
 ; End of function sub_CCB1
 
@@ -2375,24 +2391,24 @@ sub_CDE4:
     .export sub_CDE4
 
                 PHA
-                LDA     apu_78C
+                LDA     CurrentMusic
                 TAX
                 PLA
-                JSR     sub_FD28
+                JSR     wait_change_music
                 LDA     #0
                 STA     Gamepad0Buttons
 
 loc_CDF1:
                 BIT     Gamepad0Buttons
                 BVS     loc_CDFA
-                LDA     apu_78C
+                LDA     CurrentMusic
                 BNE     loc_CDF1
 
 loc_CDFA:
                 LDA     #0
                 STA     Gamepad0Buttons
                 TXA
-                JMP     sub_FD28
+                JMP     wait_change_music
 ; End of function sub_CDE4
 
 
@@ -3940,7 +3956,7 @@ loc_D704:
                 LDA     $7404           ; CurrentGame + GAME_SAVE::PureSave.GlobalX
                 AND     #$3F ; '?'
                 BEQ     loc_D70E
-                JSR     sub_FD28
+                JSR     wait_change_music
 
 loc_D70E:
                 LDA     #0
@@ -4527,7 +4543,7 @@ loc_DA10:
 
 sub_DA16:
                 JSR     wait_nmi_processed
-                JSR     sub_FDC0
+                JSR     update_animation
                 LDX     #0
 
 loc_DA1E:
@@ -4561,7 +4577,7 @@ loc_DA3C:
 
 sub_DA48:
     .import sub_13BBC3, sub_13BB8C, sub_13A979, sub_17A3F8
-    .importzp byte_28, byte_29, word_2A, byte_49, byte_4A, byte_4B, byte_53
+    .importzp byte_28, byte_29, word_2A, byte_49, byte_4A, byte_4B, CharacterOffset
 
                 LDA     ItemCount
                 STA     pTileID
@@ -4598,7 +4614,7 @@ loc_DA77:
                 ROR     A
                 ROR     A
                 ROR     A
-                STA     byte_53
+                STA     CharacterOffset
                 TXA
                 PHA
                 JSR     sub_D8BA
@@ -4667,7 +4683,7 @@ loc_DADD:
                 JSR     sub_DC11
                 LDX     #$15
                 JSR     sub_DC11
-                LDA     byte_48
+                LDA     EnemyGroup
                 BEQ     loc_DB30
                 STA     byte_29
                 JSR     bank13_A000
@@ -4766,9 +4782,9 @@ loc_DB75:
                 JSR     loc_C43F
                 JSR     sram_write_enable
                 LDA     #$FF
-                JSR     sub_FD28
+                JSR     wait_change_music
                 LDA     #$1F
-                JSR     sub_FD28
+                JSR     wait_change_music
                 LDA     #$82
                 JSR     sub_17A3F8
                 JSR     sub_DCDF
@@ -5107,7 +5123,7 @@ loc_DD2B:
                 BNE     loc_DD54
                 LDA     LowGlobalXC0
                 AND     #$C0
-                ORA     apu_78C
+                ORA     CurrentMusic
                 LDX     HighGlobalX
                 STA     $7404           ; CurrentPlayer.PureSave.GlobalX
                 STX     $7405           ; CurrentPlayer.PureSave.GlobalX+1
@@ -7936,7 +7952,7 @@ sub_EC65:
                                         ; |   $0C00    |        5        |  1K  |
                                         ; ---------------------------------------
                 LDA     #1
-                STA     $A000           ; horizontal mirroring
+                STA     MIRROR           ; horizontal mirroring
                 LDA     #$80
                 STA     ModeSRAM
                 LDA     #$7C ; '|'
@@ -7998,11 +8014,11 @@ loc_ECC6:
                                         ; A - bank number
                                         ; X - mode
                 LDA     #0
-                STA     $A000
+                STA     MIRROR
                 STA     IRQCount
                 STA     byte_70
                 STA     byte_71
-                STA     byte_48
+                STA     EnemyGroup
                 STA     ModeSRAM
                 STA     JmpInstr
                 PLP
@@ -8072,32 +8088,32 @@ loc_ED2E:
                 LDA     #$7C
 
 loc_ED34:
-                STX     $8000
-                STA     $8001
+                STX     BANK_SELECT
+                STA     BANK_DATA
                 INX
                 LDA     BankPPU_X400
                 BPL     loc_ED41
                 LDA     #$7C
 
 loc_ED41:
-                STX     $8000
-                STA     $8001
+                STX     BANK_SELECT
+                STA     BANK_DATA
                 INX
                 LDA     BankPPU_X800
                 BPL     loc_ED4E
                 LDA     #$7C
 
 loc_ED4E:
-                STX     $8000
-                STA     $8001
+                STX     BANK_SELECT
+                STA     BANK_DATA
                 INX
                 LDA     BankPPU_XC00
                 BPL     loc_ED5B
                 LDA     #$7C
 
 loc_ED5B:
-                STX     $8000
-                STA     $8001
+                STX     BANK_SELECT
+                STA     BANK_DATA
                 RTS
 ; ---------------------------------------------------------------------------
 
@@ -8113,23 +8129,23 @@ loc_ED62:
 loc_ED6F:
                 LDA     BankPPU_X000
                 AND     #$7F
-                STX     $8000
-                STA     $8001
+                STX     BANK_SELECT
+                STA     BANK_DATA
                 INX
                 LDA     BankPPU_X400
                 AND     #$7F
-                STX     $8000
-                STA     $8001
+                STX     BANK_SELECT
+                STA     BANK_DATA
                 INX
                 LDA     BankPPU_X800
                 AND     #$7F
-                STX     $8000
-                STA     $8001
+                STX     BANK_SELECT
+                STA     BANK_DATA
                 INX
                 LDA     BankPPU_XC00
                 AND     #$7F
-                STX     $8000
-                STA     $8001
+                STX     BANK_SELECT
+                STA     BANK_DATA
                 RTS
 ; End of function sub_ED22
 
@@ -8145,22 +8161,22 @@ load_fonts:
                 STA     byte_46
                 LDA     #$C8
                 JSR     sub_C218
-                STA     $E000           ; Disable MMC3 interrupts and acknowledge any pending interrupts
+                STA     IRQ_DISABLE           ; Disable MMC3 interrupts and acknowledge any pending interrupts
                 LDA     BankTable + BANK_TABLE::PPU_1K_0000
-                STX     $8000
-                STA     $8001
+                STX     BANK_SELECT
+                STA     BANK_DATA
                 INX
                 LDA     BankTable + BANK_TABLE::PPU_1K_0400
-                STX     $8000
-                STA     $8001
+                STX     BANK_SELECT
+                STA     BANK_DATA
                 INX
                 LDA     BankTable + BANK_TABLE::PPU_1K_0800
-                STX     $8000
-                STA     $8001
+                STX     BANK_SELECT
+                STA     BANK_DATA
                 INX
                 LDA     BankTable + BANK_TABLE::PPU_1K_0C00
-                STX     $8000
-                STA     $8001
+                STX     BANK_SELECT
+                STA     BANK_DATA
 
 locret_EDCA:
                 RTS
@@ -9085,7 +9101,7 @@ start_battle:
 
                 JSR     bank17_A000
                 JSR     bank16          ; set memory bank $16 at $8000
-                JSR     get_enemy_pointer ; Input: byte_48 - ID enemy ?
+                JSR     get_enemy_group ; Input: EnemyGroup - ID enemy ?
                                         ; Output: pCharacter - pointer to struct
                                         ;         Pointer - offset for struct, offset zero page
                 LDX     #$2C
@@ -9102,7 +9118,7 @@ start_battle:
 
 loc_F21C:
                 TXA
-                JSR     sub_F255
+                JSR     CheckMusic
                 JSR     bank14_8000
                 JSR     sub_149630      ; animation
                 JSR     bank16          ; set memory bank $16 at $8000
@@ -9162,16 +9178,16 @@ bank0:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_F255:
-    .export sub_F255
+CheckMusic:
+    .export CheckMusic
 
-                CMP     apu_78C
+                CMP     CurrentMusic
                 BEQ     @exit
-                STA     apu_7F5
+                STA     NewMusic
 
 @exit:
                 RTS
-; End of function sub_F255
+; End of function CheckMusic
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -9577,31 +9593,32 @@ long_delay:
 
 ; =============== S U B R O U T I N E =======================================
 
-; Input: byte_48 - ID enemy ?
-; Output: pCharacter - pointer to struct
-;         Pointer - offset for struct, offset zero page
+; Input: EnemyGroup
+; Output: pCharacter - pointer to structure
+;         Pointer - offset in the array of structures
 
-get_enemy_pointer:
-    .export get_enemy_pointer
+get_enemy_group:
+    .export get_enemy_group
+    .import EnemyGroups
 
-                LDA     byte_48         ; A0
-                STA     Pointer
-                LDA     #0
-                STA     Pointer+1
-                LDA     #$A
-                STA     pTileID
-                JSR     get_offset      ; Input: Pointer - first multiplier
-                                        ;        pTileID - second multiplier
-                                        ; Output: AddrForJmp, Pointer - result Pointer * pTileID
-                CLC
-                LDA     #$98            ; BANK16:8F98
-                ADC     Pointer
-                STA     pCharacter      ; BANK16:95D8
-                LDA     #$8F
-                ADC     Pointer+1
-                STA     pCharacter+1    ; BANK16:8FE8
-                RTS
-; End of function get_enemy_pointer
+    LDA EnemyGroup
+    STA Pointer
+    LDA #0
+    STA Pointer+1
+    LDA #$A
+    STA pTileID
+    JSR get_offset      ; Input: Pointer - first multiplier
+                        ;        pTileID - second multiplier
+                        ; Output: AddrForJmp, Pointer - result Pointer * pTileID
+    CLC
+    LDA #<(EnemyGroups)    ; #$98            ; BANK16:8F98
+    ADC Pointer
+    STA pCharacter
+    LDA #>(EnemyGroups)    ; #$8F
+    ADC Pointer+1
+    STA pCharacter+1
+    RTS
+; End of function get_enemy_group
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -9661,8 +9678,9 @@ loc_F4B8:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_F4CE:
-    .export sub_F4CE
+frame:
+    .import FramesList
+    .export frame
 
                 ASL     A
                 STA     Pointer
@@ -9672,9 +9690,9 @@ sub_F4CE:
                 PHA
                 JSR     bank0           ; set memory bank 0 at $8000
                 LDY     Pointer
-                LDA     $8C00,Y
+                LDA     FramesList,Y
                 STA     Pointer
-                LDA     $8C00+1,Y
+                LDA     FramesList+1,Y
                 STA     Pointer+1
                 LDY     #0
                 LDA     (Pointer),Y
@@ -9728,7 +9746,7 @@ loc_F526:
                 PLA
                 TAX
                 RTS
-; End of function sub_F4CE
+; End of function frame
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -9849,9 +9867,9 @@ loc_F5AC:
 
 sub_F5C2:
     .export sub_F5C2
-    .importzp byte_5A
+    .importzp EnemyPos
 
-                LDA     byte_5A
+                LDA     EnemyPos
                 PHA
                 JSR     sub_F765
                 LDA     #$DF
@@ -9864,7 +9882,7 @@ sub_F5C2:
                 STA     pCursor+1
                 JSR     loc_EF4B
                 PLA
-                STA     byte_5A
+                STA     EnemyPos
                 RTS
 ; End of function sub_F5C2
 
@@ -10035,27 +10053,28 @@ sub_F6AA:
                                         ; transfers control to a function whose address is selected from the table located after the call of this function;
                                         ; after the function execution is completed, the first function from the table is executed.
                                         ; Input: A - number of function in the table
-                TSX
-                INC     apu_BF,X
-                INC     TileX,X
-                INC     BankTable,X
-                INC     byte_A9,X       ; trap F6BA: LDA #$01
-                                        ;            STA NMIFlags
-                                        ;            RTS
-                ORA     (pStr+1,X)
-                SBC     Pointer
-                LDA     #0
-                LDX     #$C
-                LDY     #$97
-                JMP     loc_F6F9
-; ---------------------------------------------------------------------------
+
+    .word sub_F6BA,sub_F6BF,sub_F6C8,sub_F6F0
+
+sub_F6BA:
+    LDA     #1
+    STA     NMIFlags
+    RTS
+
+sub_F6BF:
+    LDA     #0
+    LDX     #$C
+    LDY     #$97
+    JMP     sub_F6F9
+
+sub_F6C8:
                 LDX     pDist
                 LDA     SpriteTable,X
                 PHA
                 LDA     #3
                 LDX     #$C
                 LDY     #$97
-                JSR     loc_F6F9
+                JSR     sub_F6F9
                 PLA
                 CMP     #3
                 BEQ     locret_F6EF
@@ -10076,13 +10095,14 @@ loc_F6DE:
 locret_F6EF:
                 RTS
 ; ---------------------------------------------------------------------------
+sub_F6F0:
                 LDA     #3
                 LDX     #$10
                 LDY     #$97
-                JMP     loc_F6F9
+                JMP     sub_F6F9
 ; ---------------------------------------------------------------------------
 
-loc_F6F9:
+sub_F6F9:
                 STX     Pointer
                 STY     Pointer+1
                 LDX     pDist
@@ -10180,7 +10200,7 @@ sub_F760:
     .export sub_F760
 
                 LDA     #1
-                STA     byte_5A
+                STA     EnemyPos
                 RTS
 ; End of function sub_F760
 
@@ -10192,7 +10212,7 @@ sub_F765:
     .export sub_F765
 
                 LDA     #0
-                STA     byte_5A
+                STA     EnemyPos
                 RTS
 ; End of function sub_F765
 
@@ -10201,7 +10221,7 @@ sub_F765:
 
 
 sub_F76A:
-                LDA     byte_5A
+                LDA     EnemyPos
                 BEQ     locret_F771
                 JSR     sub_F772
 

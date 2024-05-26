@@ -249,29 +249,29 @@ sTelepathy:
 sTeleport:
     .byte "Teleport", 0
 sLifeUpAlpha:
-    .byte "LifeUp ", $BB, 0 ; alpha
+    .byte "LifeUp ", ALPHA, 0
 sLifeUpBeta:
-    .byte "LifeUp ", $BC, 0 ; beta
+    .byte "LifeUp ", BETTA, 0
 sLifeUpGamma:
-    .byte "LifeUp ", $BD, 0 ; gamma
+    .byte "LifeUp ", GAMMA, 0
 sLifeUpPi:
-    .byte "LifeUp ", $BE, 0 ; pi
+    .byte "LifeUp ", PI, 0
 sLifeUpOmega:
-    .byte "LifeUp ", $BF, 0 ; omega
+    .byte "LifeUp ", OMEGA, 0
 sHealingAlpha:
-    .byte "Healing ", $BB, 0 ; alpha
+    .byte "Healing ", ALPHA, 0
 sHealingBeta:
-    .byte "Healing ", $BC, 0 ; beta
+    .byte "Healing ", BETTA, 0
 sHealingGamma:
-    .byte "Healing ", $BD, 0 ; gamma
+    .byte "Healing ", GAMMA, 0
 sHealingPi:
-    .byte "Healing ", $BE, 0 ; pi
+    .byte "Healing ", PI, 0
 sSuprHealing:
     .byte "SuprHealing", 0
 sPSIShieldAlpha:
-    .byte "PSIShield ", $BB, 0 ; alpha
+    .byte "PSIShield ", ALPHA, 0
 sPSIShieldBeta:
-    .byte "PSIShield ", $BC, 0 ; beta
+    .byte "PSIShield ", BETTA, 0
 sPowerShield:
     .byte "PowerShield", 0
 sBrainShock:
@@ -293,47 +293,47 @@ sPSIBlock:
 sOffenseUp:
     .byte "OffenseUp", 0
 sDefenseUpAlpha:
-    .byte "DefenseUp ", $BB, 0 ; alpha
+    .byte "DefenseUp ", ALPHA, 0
 sDefenseUpBeta:
-    .byte "DefenseUp ", $BC, 0 ; beta
+    .byte "DefenseUp ", BETTA, 0
 sQuickUp:
     .byte "QuickUp", 0
 sDefenseDownAlpha:
-    .byte "Def.Down ", $BB , 0 ; alpha
+    .byte "Def.Down ", ALPHA , 0
 sDefenseDownBeta:
-    .byte "Def.Down ", $BC , 0 ; beta
+    .byte "Def.Down ", BETTA , 0
 s4thDSlip:
     .byte "4th-D Slip", 0
 sPKFreezeAlpha:
-    .byte "PK Freeze ", $BB, 0 ; alpha
+    .byte "PK Freeze ", ALPHA, 0
 sPKFreezeBeta:
-    .byte "PK Freeze ", $BC, 0 ; beta
+    .byte "PK Freeze ", BETTA, 0
 sPKFreezeGamma:
-    .byte "PK Freeze ", $BD, 0 ; gamma
+    .byte "PK Freeze ", GAMMA, 0
 sPKFreezeOmega:
-    .byte "PK Freeze ", $BF, 0 ; omega
+    .byte "PK Freeze ", OMEGA, 0
 sPKFireAlpha:
-    .byte "PK Fire ", $BB, 0 ; alpha
+    .byte "PK Fire ", ALPHA, 0
 sPKFireBeta:
-    .byte "PK Fire ", $BC, 0 ; beta
+    .byte "PK Fire ", BETTA, 0
 sPKFireGamma:
-    .byte "PK Fire ", $BD, 0 ; gamma
+    .byte "PK Fire ", GAMMA, 0
 sPKFireOmega:
-    .byte "PK Fire ", $BF, 0 ; omega
+    .byte "PK Fire ", OMEGA, 0
 sPKBeamAlpha:
-    .byte "PK Beam ", $BB, 0 ; alpha
+    .byte "PK Beam ", ALPHA, 0
 sPKBeamBeta:
-    .byte "PK Beam ", $BC, 0 ; beta
+    .byte "PK Beam ", BETTA, 0
 sPKBeamGamma:
-    .byte "PK Beam ", $BD, 0 ; gamma
+    .byte "PK Beam ", GAMMA, 0
 sPKBeamOmega:
-    .byte "PK Beam ", $BF, 0 ; omega
+    .byte "PK Beam ", OMEGA, 0
 sPKThunderAlpha:
-    .byte "PK Thunder", $BB, 0 ; alpha
+    .byte "PK Thunder", ALPHA, 0
 sPKThunderBeta:
-    .byte "PK Thunder", $BC, 0 ; beta
+    .byte "PK Thunder", BETTA, 0
 sPKThunderGamma:
-    .byte "PK Thunder", $BD, 0 ; gamma
+    .byte "PK Thunder", GAMMA, 0
 sFaintd:
     .byte "Faintd", 0
 sStone:

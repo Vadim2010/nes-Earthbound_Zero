@@ -1,261 +1,28 @@
 .include "charmap.inc"
-.include "framecomm.inc"
-.include "sram.inc"
 
-.segment "DATA_BANK_8"
+.segment "CHR1"
+.incbin "textures1.chr"
 
-    .faraddr sSysError, sLampAlive, sFallingHouse, sBoohoo, sJuice, sSpooky, sScaredToDeath, sSysError
-    .faraddr sMimmieNotMinnie, sHouseEmergency, sSonBravery, sWounded, sNextLevel, sReturnOffer, sPoltergeist
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSlam, sYourDad, sTransfer, sRest, sSave, sCrisis
-    .faraddr sSysError, sSysError, sSleepSave, sSeeYouLater, sAdviceToRest, sSaveOffer, sSysError, sSysError
-    .faraddr sGoodLuck, sSysError, sThanks, sCemetery, sTerrific, sZombieAsk, sZombiePanic, sHuman, sCame
-    .faraddr sYouSee, sWetPants, sDreadful, sPanic, sTransformation, sDeadControl, sPraise, sZombieAnywhere
-    .faraddr sChick, sHum, sChickVoice, sGentleman, sBraveMan, sLittleGirl, sToCemetery, sSensibleChild
-    .faraddr sEmergency, sSuper, sSysError, sPoltergeistDamage, sMadAnimals, sMarkTrail, sTownHelp, sHelp
-    .faraddr sSaveHer, sPrize, sSysError, sSysError, sZoo, sGetKey, sGetZooKey, sHero, sRunKid, sWonderGirl
-    .faraddr sZooKeys, sEscaped, sBuyChick, sChickPrice, sFreeCountry, sTakeCare, sFree, sHowChick, sAnimalControl
-    .faraddr sCutePets, sHmmm, sStupid, sReturn, sMindVoice, sGood, sShopping, sNoCard, sSysError, sFineWeather
-    .faraddr sReturnBaby, sImportant, sLaura, sMelody, sNoGood, sSongPower, sFoundPippi, sSwellHeaded, sHopeMeet
-    .faraddr sGift, sSomeoneSpecial, sSeeYouAgain, sSysError, sCutie, sEEEEEEEK, sLostTail, sStrangeClothes
-    .faraddr sSysError, sBothered, sStayHome, sTrouble, sNickname, sCoolNick, sTooBad, sHelloNick, sPhilosophy
-    .faraddr sGoodNick, sNotMet, sCannotPart, sSameThink, sMeetHim, sFountain, sFountainSearch, sEarring
-    .faraddr sMysteriousSound, sWest, sSysError, sSpoon, sFixedSpoon, sWithoutEffort, sStrangePerson, sThatsGood
-    .faraddr sKindness, sEnjoyMeal, sSuspicious, sFavoriteFood, sSysError, sSysError, sNoOcarina, sIsThatSo
-    .faraddr sBedReady
-
-    .faraddr sUseBed, sNotHere, sOcarinaOfHope, sSysError, sDude, sGoAhead, sHeyKid, sNoExit, sOutside
-    .faraddr sEmbarrassed, sKeeper, sMimicker, sAnotherWorld, sSysError, sSysError, sIntoMagicHerb
-    .faraddr sGiveBigBag, sBorrowCard, sHoldMagicHerbs, sPromiseToReturn, sDontTrust, sReturnCard
-    .faraddr sQueenFeeling, sSolveRiddle, sNoRiddle, sBye, sSysError, sSingAgain, sRealSecret, sSysError
-    .faraddr sLonesome, sHappy, sLullaby, sHermit, sForgetful, sHealer, sIThoughtSo, sCaution, sMonkey
-    .faraddr sRidiculous, sLikeQueen, sRailsFixed, sSeeQueen, sNightmares, sForGirls, sZzzz, sSysError
-    .faraddr sLiar, sWarpBack, sPromise, sLearnMelody, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sPause, sSingMelody, sRightSong, sOhGiegue, sSysError, sBadDream, sSysError
-    .faraddr sGuess, sRibbon, sOnlyGirls, sCandy, sNotHelpless, sUseCandy, sSysError, sHowCandy, sOldMan
-    .faraddr sSysError, sStoneIntoHat, sDidYouCallMe, sIsThatRight, sYouNeedMoney, sHelpful, sWithdraw
-    .faraddr sTakeIt, sLessMoney, sIgnoreMe, sManNotExist, sMonologue, sLuckyUnlucky, sForgotten
-    .faraddr sGarbage, sLeaveMe, sThatsRight, sTooMore, sWeirdThings, sCrazyStuff, sBestDoctor, sSysError
-    .faraddr sSysError, sBill, sSysError, sCured, sDieOwn, sCurfew, sSchool, sDuncansFactory, sFactoryPass
-    .faraddr sPassExpired, sSysError, sAwfulCreature, sSysError, sCurfewLifted, sSysError, sSysError
-    .faraddr sWeakling, sHeysWeakling, sPickingWeakling, sJustTeasing, sStealExplosives, sYourGlasses
-    .faraddr sIAmSuzy, sYouLookCute, sYouAreUgly, sRoofLocked, sYouDontTalk
-
-    .faraddr sPushUps, sSchoolyard, sBeStudying, sSysError, sTerribleWife, sRealLife, sScram, sSomeTea, sSysError
-    .faraddr sFollowMe, sRespect, sDangerous, sPleaseTea, sDontRun, sStranger, sJustDontRun, sShowMe, sSysError
-    .faraddr sWhoAreYou, sExplosives, sImComingOut, sRocketsDream, sBeTired, sSysError, sComeToLab, sFire, sStayHere
-    .faraddr sInvention, sSysError, sPriceList, sSomeMoney, sSysError, sNewInvention, sOldList, sProtect, sSysError
-    .faraddr sBuyTicket, sNoWeapon, sSysError, sSysError, sSysError, sThenIts, sSysError, sSysError, sHatReward
-    .faraddr sLongLife, sWithoutTrain, sFunGame, sSysError, sHereItIs, sSlickMustache, sParkingViolations, sSwindler
-    .faraddr sHoldMoney, sDontRunAway, sJustDo, sIncognito, sBigBelly, sSpeeders, sWithoutPaying, sOhImSoFull
-    .faraddr sDangerousTown, sAreYouReady, sMySong, sFineBeThatWay, sItsTime, sSysError, sDragonsLullaby, sGhostHouse
-    .faraddr sSysError, sGiveMe, sBarter, sGiveYou, sGoingGiveMe, sTakeFleaBag, sFlu, sHighMountains, sMmhm, sCantUnderstand
-    .faraddr sGargle, sSysError, sMouthwashBuy, sColdDied, sSpookaneGhostHouse, sVacantHouse, sDontKnow, sAhhHa
-    .faraddr sNobodysHere, sWorstNightmare, sTURNBACK, sAagghh, sYoullNeverMake, sJustMouse, sOwners, sSmallRoom
-    .faraddr sAssistant, sSysError, sColorMeGone, sHints, sClown, sNotJollyGuy, sPessimist, sLifeOutdoors, sYourRocket
-    .faraddr sSysError, sMotherShip, sOrbit, sHouseKey, sRosemary, sMyBoy, sRenamed, sSnowmanTerminal, sDisappeared
-    .faraddr sMomLeft, sBeenGhostHouse, sHorrorStories, sMustGo, sDontCatchCold, sSysError, sLifeIsGame, sDontLate
-    .faraddr sConcerned, sSysError, sNotEnoughMoney, sRunningNose, sPlayingPerson, sTalkAbout, sCooperation
-    .faraddr sUrgentThings, sAreYou, sSilly
-
-    .faraddr sMomSearch, sLikeDream, sStayWithMe, sPleaseStay, sDance, sIsntTime, sDoYouLoveMe, sWhatsMatter
-    .faraddr sDragonSleeps, sDragonAwoke, sSysError, sMyDaughter, sPeacefulSleep, sPassFound, sClimbedRocket, sMyGrandfather
-    .faraddr sPileBones, sSignpost, sCorpse, sCamelBones, sMoveFoot, sLikeTell, sDesert, sCharterFlights, sMines
-    .faraddr sRidePlane, sBuyFlight, sExpensive, sStubs, sBrokeTank, sSysError, sThankYou, sAngry, sSysError
-    .faraddr sParents, sHalt, sSuspiciousGuys, sSomething, sStudy, sMom, sDad, sBigShip, sWithoutAdult, sPleaseHoldMe
-    .faraddr sHoldMeToo, sHoldMe, sBegYou, sMyName, sMysticPower, sSysError, sGoogaa, sTeleportation, sSysError, sSysError
-    .faraddr sSysError, sSysError, sFromMountains, sCantCarry, sWiser, sWatchOutAround, sTheBBGang, sBlaBla, sNotBlaBla
-    .faraddr sBlackClouds, sHeyYouTwo, sLoveAndPeace, sLoveBurn, sLiveShowTicket, sDontGoStore, sStingyKids, sSecret
-    .faraddr sBlaBlaBoss, sRegrets, sBackRoom, sSysError, sDrink, sCops, sNoDrinks, sBadThing, sGoHome, sAnotherNight
-    .faraddr sBuy, sNoMoney, sParentsKilled, sHeWas, sWantSing, sThenGoAhead, sYoureShy, sSysError, sSawName, sCuteGirl
-    .faraddr sNiceSong, sIllSmashYou, sIKnowYouDidIt, sVengeance, sSysError, sAcceptHelp, sUsedPhoneCard, sGoodTeam
-    .faraddr sSysError, sSysError, sGreatHelp, sPushA, sBorrowGoods, sSysError, sBeatThem, sHurryUp, sDressingRoom
-    .faraddr sToldName, sLookAfter, sRegister, sHarbor, sStrawBerry, sBuyForMe, sNoWayToBuy, sStrawBerryTofu
-    .faraddr sSysError, sSysError, sGetHurt, sSysError, sFightTime, sComeOn, sEVE, sSysError, sSysError, sSysError, sSysError
-    .faraddr sHeavyBags, sWorn, sFighting, sRealized, sToWhom, sTooHeavy, sRestGoods, sCantGiveGoods, sWeaklingAway
-    .faraddr sWelcomePodunk, sCityZoo, sOceanView, sNoOneHere, sPlaced, sSuchMan, sBigHelp, sTriangle, sLostDentures
-    .faraddr sBadFeel, sPleaseComeToLab
-
-    .faraddr sSysError, sPhenomenStopped, sSwitch, sIllCook, sSysError, sSysError, sSysError, sPippiGone, sWhichOne
-    .faraddr sIllGiveYou, sCosmosShip, sSysError, sSysError, sLying, sTrio, sWhichKeep, sSysError, sDragonDeepSleep
-    .faraddr sSysError, sWhatCanIDo, sSysError, sKeep, sBrotherTakeCare, sTakeWithYou, sRockSlide, sYouMean
-    .faraddr sCantCarryMore, sSysError, sSeemLessMoney, sTooMuchCarry, sNeedMoreMoney, sBeCareful, sSysError
-    .faraddr sAnythingMore, sMedicine, sHopeSleepWell, sSysError, sHowMuchWithdraw, sDeposit, sGoBack, sCantCarryAll
-    .faraddr sShame, sOtherTime, sSysError, sWhichFlightplan, sSysError, sSysError, sWithoutDentures, sNotEnough
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sToughTime, sWish, sTeach, sJustFine
-    .faraddr sSysError, sMakeMad, sPickedUpPass, sHmm, sLoadTooHeavy, sTaste, sFantasticRobot, sBakerTaste, sTakeWords
-    .faraddr sLifeUpSleep, sLoadHeavy, sGetGift, sGiveGift, sHorrible, sFainted, sGratitude, sIAmLaura, sSysError
-    .faraddr sSysError, sSysError, sStopAndRest, sNoForGirl, sSysError, sHello, sGoodMorning, sComeAgain, sMorning
-    .faraddr sMonkeys, sLikeMonkey, sRaccoon, sEyesight, sCoolDown, sTakeRest, sJustGame, sCaughtMe, sDirection
-    .faraddr sQuietHere, sWalkStraight, sLady, sMan, sSysError, sLala, sHowLong, sGoodStory, sNice, sAmbitions
-    .faraddr sInside, sLiars, sRetreat, sNewFriend, sQuietMonkey, sDish, sAllLiars, sMonkeyBoss, sBigMistake, sHelpMe
-    .faraddr sTelephone, sAbbott, sShareSecret, sStayNight, sTraveller, sHauntingMelody, sSysError, sBeFound, sHeadquarters
-    .faraddr sSysError, sSysError, sLandmine, sDogCrap, sCertificate, sNiceTrip, sPatient, sNoPatient, sBadFlu, sDontCold
-    .faraddr sInn, sHi, sRestaurant, sLoveMusic, sDelicious, sHotel, sRoomRate, sBigRocks, sCheckMe, sDontHaveMoney, sMenu
-    .faraddr sFoodToGo, sSysError, sSysError, sHeNotCome, sHopeEnjoy, sWaiter, sIWantToTry, sSysError, sSysError
-    .faraddr sStopZombies, sItsMePippi, sMy, sItsCash, sAppetite, sSysError, sTrackRuined, sDontStop, sThinkAbout
-    .faraddr sAdventures, sCanaryVillage
-
-    .faraddr sReceptionist, sAsthma, sRules, sLookHappy, sDuncanEnterprises, sDoctor, sSurvey, sGetToSchool, sElection
-    .faraddr sHugeRockets, sOrdinaryMan, sBlownUp, sImportantMan, sLittleFactory, sScaryMonsters, sLaala, sJanitor
-    .faraddr sTheOldMan, sTunnel, sResidential, sFoodOut, sArchitecture, sBicycle, sBegFood, sDresses, sPsychicPowers
-    .faraddr sSmallMan, sLoveTown, sDonation, sGoodMedicine, sPostman, sNewAddress, sRosemaryGirl, sMonsters
-    .faraddr sWhatDoYouWant, sClairvoyant, sMansion, sChateau, sCrazyKids, sCamelsBones, sSmallWounds, sGrowUp, sLibrary
-    .faraddr sFisherman, sWay, sHey, sLowHP, sLoser, sStrongMan, sPinkie, sDidYouRead, sCactus, sTalkFisherman, sCartwheel
-    .faraddr sTelescopes, sSmoke, sICantDo, sSubtraction, sTasteStrawBerry, sHungry, sFavoriteWords, sYouAreLate, sStrangeMan
-    .faraddr sMario, sSell, sOutStock, sDontNeed, sVisit, sAreYouSure, sGladToSeeYou, sDeathbed, sTreat, sTreatment, sFine
-    .faraddr sFineAgain, sSysError, sIAmHealer, sOKDoWhatYou, sGive, sCareStay, sSorryHearThat, sSleepTight, sGreetings
-    .faraddr sInjuries, sWhoAreYouHere, sSysError, sPlaceStay, sLonelyHere, sSpendNight, sTicketsPlease, sHowever, sSysError
-    .faraddr sLeaveTakeout, sYouHaveNothing, sLeftAnything, sJustMoment, sCanIHelpYou, sBalance, sSysError, sThereIsnt, sLimit
-    .faraddr sThankYouVeryMuch, sInsideDoll, sAsk, sGratitudes, sWeapons, sSysError, sWon, sWithdrawDeposit, sAccount
-    .faraddr sDoorLocked, sNotFit, sUnlocked, sYesNo, sContinueRest, sGrabbed, sImSorry, sOhNoSir, sSirYouCant, sExpert
-    .faraddr sSorryICant, sReunion, sTune, sThisCanary, sMonkeyStole, sRobot, sPresence, sFor, sDoYouBest, sSysError
-    .faraddr sMysteriousWater, sSysError, sMyLittle, sImBusy, sPoisoned, sSoftened, sNoPoisoned
-
-    .faraddr sTurnedStone, sManufacture, sMyWife, sUnlockedRoof, sConstructing, sCallMeNames, sDawn, sPardon, sDontTalk
-    .faraddr sGameTitle, sSysError, sLadyReindeer, sImportantHint, sCheck, sTheSingingMonkey, sCactusSang, sPiano
-    .faraddr sDragonCrooned, sRobotEve, sOneOfKind, sPadlock, sIMustStayHere, sNotEnoughCash, sGoFirst, sBrokenLock
-    .faraddr sHowAreYou, sLet, sNoICant, sFlyingMan, sStrongAlly, sBenevolent, sSorrow, sHorror, sProclamation, sDeep
-    .faraddr sCanTelepathy, sAreYouGoing, sFoundHat, sWellIhad, sUniqueSong, sExcuseMe, sSysError, sDoYouThink, sUsedBullhorn
-    .faraddr sExchange, sQuestionnaire, sHearing, sPriedUpLid, sTelescope, sBlueSea, sSparkled, sSuddenly, sDaddy, sSysError
-    .faraddr sTalking, sWhat, sNoProblem, sQueenVoice, sSysError, sSysError, sWeaponsShop, sSysError, sSysError, sUsed, sCantUse
-    .faraddr sDontBeSilly, sEquipped, sCantEquip, sThrewAway, sDontThrow, sHanded, sCantHandOver, sCantCarryAnyMore
-    .faraddr sNothingHappened, sOpened, sThereWas, sGot, sSysError, sCantCarryAnything, sSysError, sSysError, sSysError
-    .faraddr sItWasEmpty, sCurePoison, sCityZooSign, sNoHunting, sCityHall, sLookOutTower, sEllayMountSign, sHealersHouse, sSign
-    .faraddr sCityZooWest, sSnowmanChateau, sEllaySwampSign, sTwinkle, sHouse, sWestNorthSign, sWestEastSouth, sWestEastSign
-    .faraddr sSwampEast, sPrivateProperty, sPoliceStation, sCompanyInc, sPride, sServe, sDestiny, sTheCurfew, sOldRustyRocket
-    .faraddr sDidYouCome, sIveGivenYouAll, sIAmMinnie, sRefreshSoften, sLikeBeAlone, sOhShoot, sLovedYou, sLoudNoises, sNoises
-    .faraddr sBoatMotor, sAbleFixIt, sFired, sIllSend, sClaustrophobia, sSweetFactory, sKidnapped, sSpelled, sOddSound, sSysError
-    .faraddr sMostPrized, sCollar, sNoisyMouse, sSysError, sPsychicPower, sILovedHim, sWaggingTail, sPurpose, sInsertCard
-    .faraddr sDontMuchCash, sDataSaved, sYouSaidYes, sBreath, sAnyFriends, sPossession
-
-    .faraddr sLoadTooGreat, sClosetFull, sMirage, sBraveChildren, sCanDash, sGetTrain, sDoYouWant, sMelodyForYou, sCrystal
-    .faraddr sSysError, sEmpty1
-
-    .faraddr sEmpty4, sBagFilled, sCharge, sBreadCrumbs, sStrangeRing, sEmpty5, sEmpty6, sEmpty7, sEmpty8, sEmpty9, sKnife
-    .faraddr sSurvivalKnife, sSwordMaster, sJapaneseSword, sStunGunUse, sStrongWeapon, sPlasticBatUse, sWoodenBatUse, sTougher
-    .faraddr sAutographed, sFryingPanUse, sNonStickPan, sIronSkilletUse, sSlingshotUse, sBoomerangUse, sIrritating, sIndustrial
-    .faraddr sCritters, sWordsLove, sSwear, sStickyMachine, sOpposite, sEmpty10, sEmpty11, sFlameThrower, sDetonate, sBewareBlast
-    .faraddr sSissy, sWeenie, sEmpty12, sEnemyUp, sEmpty13, sEmpty14, sEmpty15, sEmpty16, sPeaceCoinUse, sProtectionCoin
-    .faraddr sMagicCoinUse, sBrassRingUse, sSilverRingUse, sGoldRingUse, sWaterPendant, sFirePendantUse, sEarthPendant
-    .faraddr sSeaPendantUse, sEmpty17, sEmpty18, sEmpty19, sEmpty20, sEmpty21, sVitaminC, sEaten, sMagicHerbUse, sFastFood
-    .faraddr sStrengthen, sLifeUpCreamUse, sAsthmaAttacks, sAntidotePoison, sYouGargle, sStrawBerryEat, sEmpty22, sBreadTrail
-    .faraddr sNobleSeedUse, sPSISolid, sEmpty23, sMagicForce, sMagicCandyEat, sEmpty24, sQuickCapsule, sWisdomCapsule
-    .faraddr sPhysicalCapsule, sForceCapsule, sFightCapsule, sEmpty25, sEmpty26, sBasementKeyUse, sUnlockGate, sGhostHouseKey
-    .faraddr sGreatGrandFathers, sEmployee, sRocknRoll, sEmpty27, sEmpty28, sEmpty29, sEmpty30, sCanaryChickEyes, sEmpty31
-    .faraddr sBottleRocket, sPrettyHat, sBrush, sSaveTen, sEmpty32, sCatchyTune, sEmpty33, sFranklinBadge, sEmpty34, sEmpty35
-    .faraddr sOnyxHookWarp, sLastWeaponAsk, sRulerInches, sCashCardUse, sRedWeedLike, sAmplified, sEmpty36, sEmpty37, sEmpty38
-    .faraddr sEmpty39, sEmpty40, sEmpty41, sEmpty42, sEmpty43, sEmpty44, sEmpty45, sEmpty46, sEmpty47, sEmpty48, sEmpty49, sDbg
-
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError
-
-    .faraddr sEmpty50, sFightRun, sImportantSecret, sDefeat, sDontLetStop, sPorridge, sSurprised, sAsthmatic, sHypnotism
-    .faraddr sSpecialArmor, sAwful, sNotExist, sPrimate, sFace, sWatchThoseEyes, sNoOne, sStrong, sShell, sHhypnotism, sEmpty51
-    .faraddr sQuickness, sPearly, sThief, sInvitation, sFuel, sGuarding, sFBI, sRotten, sMalnourishedRobot, sTricked, sStarsMan
-    .faraddr sNaturally, sEvilLab, sPSIAttack, sArmorOwn, sAnimatedTree, sTemper, sFlowers, sFridge, sBadApple, sTwisted
-    .faraddr sEmpty52, sSmash, sSneak, sWallet, sNotPoison, sLaughsLast, sPetCat, sExterminate, sAHCho, sEffective, sYoullWantTry
-    .faraddr sPoisonous, sDontLetYourself, sComicBook, sDraw, sIdentity, sOrdinaryGhost, sDinnerPlate, sPuzzle, sSpaceman
-    .faraddr sHoldYourNose, sLastStrike, sRatTail, sEgg, sEmpty53, sStares, sHovers, sEmpty54, sEmpty55, sStrongPoison, sBeware
-    .faraddr sEmpty56, sEmpty57, sGoodExperience, sDoesntFriends, sChairBroken, sEmpty58, sEmpty59, sEmpty60, sEmpty61
-    .faraddr sWhereAntidote, sPoisonPoison, sDontSmile, sEmpty62, sHisFace, sEmpty63, sOriginStone, sFleas, sCar, sVehicle, sNext
-    .faraddr sDontAlarm, sEmpty64, sOptometrists, sWatchYourStep, sMomseyesWillSpot, sEmpty65, sEmpty66, sFriends
-
-    .faraddr sEmpty67, sHePKBeam, sStrongOx, sRagged, sTheLatest, sManhole, sBeauty, sCarries, sPlenty, sStrongPSIAttack
-    .faraddr sHisPurpose, sFreeze, sBeatIt, sUsingPSI, sEmpty68, sCareful, sBareHands, sCoat, sHuge, sMustSleep, sImproved
-    .faraddr sTheStrongest, sSysError, sSysError, sSysError, sSysError, sSysError, sEmpty69
-
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError
-
-    .faraddr sEmpty70, sEmpty70, sPos, sDrewNear, sAttack, sTankGun, sDodged, sContinuousAttack, sBit, sScratched, sCharged
-    .faraddr sSMAAAASH, sSuffered, sYOUWIN, sLose, sDefeated, sHurt, sGone, sNoEffect, sRanOut, sExhausted, sLastBlow
-    .faraddr sForm, sSurrounded, sMotherCall, sTturned, sSpit, sBlinded, sBound, sStrangeCry, sExploded, sBurst, sOFFENSEinc
-    .faraddr sOFFENSEdec, sDEFENSEinc, sSPEEDinc, sOFFENSE, sDEFENSE, sFIGHTdec, sDEFENSEdec, sDarlingSmile, sFIGHTinc, sRage
-    .faraddr sSPEEDdec, sConfused, sCriedOut, sSowed, sEXPinc, sStarted, sTankBroken, sUttered, sDirtyWords, sGrins, sBelieved
-    .faraddr sWasntConvinced, sMadeAngry, sCritical, sSenses, sSoConfused, sPutSleep, sIsAsleep, sRecoverPP, sRecoverHP, sEnergy
-    .faraddr sHoweverNoOne, sSilence, sJoined, sRanAway, sDidntWork, sTripped, sCantMove, sTurned, sSnatched, sCannotMove
-    .faraddr sPuffed, sWasPoisoned, sDehydrated, sBlocked, sWasBound, sShielded, sMiss, sPSIBlocked, sBounced, sBouncedBack
-    .faraddr sNotenoughPPs, sWasNoEffect, sWheeze, sMeditating, sSaid, sReady, sSang, sIsGuarding, sApproached, sDissipated
-    .faraddr sRegained, sItchy, sCanMove, sWakeUp, sBrought, sUSEd, sTtried, sCcantUse, sCircumstances, sSomethingStrange
-    .faraddr sDayDreaming, sDestroyed, sCHECKed, sAgainstFire, sAgainstFreeze, sAgainstThunder, sAgainstBeam, sWeakSprays
-    .faraddr sAsthmaAttackPass, sRecoveredStone, sILoveYou, sIHateYou, sAsthmaAttack, sWasBroken, sWickedSeed, sGas, sTurnedIntoStone
-    .faraddr sRegainedSenses, sQuiet, sBeaten, sWasDestroyed, sDust, sDidntMove, sPileJunk, sVanished, sTookAway, sAdvanced
-    .faraddr sNewPSIPower, sMaximumHPinc, sMaximumPPinc, sFIGHTInc, sSPEEDInc, sWISDOMinc, sSTRENGTHinc, sFORCEinc, sEscapedRope
-    .faraddr sPickedUp, sWasntConfused, sWokeUp, sZAP, sItNoEffect, sBecameEmpty, sLingers, sSingLullaby, sEmpty70, sEmpty70
-    .faraddr sGrateful, sYourGreat, sGeorgeStole, sDescendants, sGoHomeNow, sFoolish, sYouAlone, sFallSleep, sStopSinging
-    .faraddr sSTOPSinging, sSTOP, sSTOPIT, sPuny, sTheSONG, sSTOPIt, sExclamation, sStop, sAcclamation, sPoints, sBeDefeated
-    .faraddr sIWill, sMeetAgain
-
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-
-    .faraddr sEmpty2, sDidntDo, sGave, sPut, sPulled, sThrew, sTook, sSysError, sSysError, sSysError, sSysError, sAte, sDrank
-    .faraddr sRecovered, sIncreased, sHPis, sPPis, sENERGYis, sSPEEDis, sWISDOMis, sSTRENGTHis, sFORCEis, sTookHerb, sDropping
-    .faraddr sYouCantUse, sHeadTrail, sTied, sTrue, sMeasured, sWhenBigBag, sReached, sNeutralized, sRid, sSqueezed, sPSIPower
-    .faraddr sTried, sPowerLeft, sScene, sTheDiary, sBecame, sTheOcarina, sDidYouHearIt, sPlace, sChecked, sStopped, sTheRepelRing
-
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError
-
-    .faraddr sIllegal
-
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-
-    .faraddr sSpaces, sReunited, sHealth, sLonely, sForget, sElementarySchool, sNotHungry, sLetter, sFinally, sHome, stru_20EE56
-    .faraddr sSHIGESATOITOI, sMIYUKIKURE, sAKIOOHMORI, sRITSUOKAMIMURA, sKEIICHISUZUKI, sHIROKAZUTANAKA, sSHINBOMINAMI
-    .faraddr sTATSUYAISHII, sTOTTORI, sKAZUYANAKATANI, sTAKAYUKIONODERA, sMOTOOYASUMA, sMASAYUKIKAMEYAMA, sHIDEOKON
-    .faraddr sKATSUTOMOMAEIWA, sKUNIKOSAKURAI, sMASAHIROTATEMOTO, sTAKASHIKAWAGUCHI, sKEIZOHKATOH, sMOTOHIROISHII, sAKIHITOTODA
-    .faraddr sYUKARISAITOH, sPHILSANDHOP, sTOSHIKOWATSON, sYUKANAKATA, sHIROKOFAULKNER, sTONYHARMAN, sDAYVBROOKS
-    .faraddr sNORIYUKIMINAMI, sBINOHGAWARA, sYOSHIHISAWADA, sHIKONORISUZUKI, sTAKAOSHIMIZU, sSHIGERUMIYAMOTO, sHIROSHIYAMAUCHI
-
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError
-
-    .faraddr sEmpty3
-
-
+.segment "CHR2"
+.incbin "textures2.chr"
 
 .segment "DIALOGS0"
+
+.export sSysError, sLampAlive, sFallingHouse, sBoohoo, sJuice, sSpooky, sScaredToDeath, sMimmieNotMinnie
+.export sHouseEmergency, sSonBravery, sWounded, sNextLevel, sReturnOffer, sPoltergeist, sSlam, sYourDad
+.export sTransfer, sRest, sSave, sCrisis, sSleepSave, sSeeYouLater, sAdviceToRest, sSaveOffer, sGoodLuck
+.export sThanks, sCemetery, sTerrific, sZombieAsk, sZombiePanic, sHuman, sCame, sYouSee, sWetPants
+.export sDreadful, sPanic, sTransformation, sDeadControl, sPraise, sZombieAnywhere, sChick, sHum, sChickVoice
+.export sGentleman, sBraveMan, sLittleGirl, sToCemetery, sSensibleChild, sEmergency, sSuper, sPoltergeistDamage
+.export sMadAnimals, sMarkTrail, sTownHelp, sHelp, sSaveHer, sPrize, sZoo, sGetKey, sGetZooKey, sHero, sRunKid
+.export sWonderGirl, sZooKeys, sEscaped, sBuyChick, sChickPrice, sFreeCountry, sTakeCare, sFree, sHowChick
+.export sAnimalControl, sCutePets, sHmmm, sStupid, sReturn, sMindVoice, sGood, sShopping, sNoCard, sFineWeather
+.export sReturnBaby, sImportant, sLaura, sMelody, sNoGood, sSongPower, sFoundPippi, sSwellHeaded, sHopeMeet
+.export sGift, sSomeoneSpecial, sSeeYouAgain, sCutie, sEEEEEEEK, sLostTail, sStrangeClothes, sBothered
+.export sStayHome, sTrouble, sNickname, sCoolNick, sTooBad, sHelloNick, sPhilosophy, sGoodNick, sNotMet
+.export sCannotPart, sSameThink, sMeetHim, sFountain, sFountainSearch, sEarring, sMysteriousSound, sWest, sSpoon
+.export sFixedSpoon, sWithoutEffort, sStrangePerson, sThatsGood, sKindness, sEnjoyMeal, sSuspicious, sFavoriteFood
+.export sNoOcarina, sIsThatSo, sBedReady
 
 .importzp word_2A
 
@@ -302,7 +69,8 @@ sMimmieNotMinnie:
 
 sHouseEmergency:
     .byte "@"
-    tile_pointer Boy1Name             ; TILEPACK_OFF <$21, Boy1Name> ; command to load packed tiles at the specified offset (char1 name)
+    .byte $21
+    .word $7478             ; TILEPACK_OFF <$21, $7478> ; command to load packed tiles at the specified offset (char1 name)
     .byte ".", 1
     .byte " Are you alright?" , 1, 3
 
@@ -335,7 +103,8 @@ sNextLevel:
 sReturnOffer:
     .byte "@When you want to", 1
     .byte " eat "
-    tile_pointer FoodName             ; TILEPACK_OFF <$21, FoodName> ; command to load packed tiles at the specified offset (favorite food)
+    .byte $21
+    .word $7689             ; TILEPACK_OFF <$21, $7689> ; command to load packed tiles at the specified offset (favorite food)
     .byte 1
     .byte " again, just come", 1
     .byte " back here.", 1, 0
@@ -378,7 +147,8 @@ sPoltergeist:
     .byte " lightly.", 1, 3
 
     .byte "@"
-    tile_pointer Boy1Name             ; TILEPACK_OFF <$21, Boy1Name> ; command to load packed tiles at the specified offset (char1 name)
+    .byte $21
+    .word $7478             ; TILEPACK_OFF <$21, $7478> ; command to load packed tiles at the specified offset (char1 name)
     .byte ", go", 1
     .byte " for it!!", 1, 3
 
@@ -664,7 +434,8 @@ sPrize:
 
     .byte "@Here, I will give", 1
     .byte " "
-    tile_pointer $670A             ; TILEPACK_OFF <$21, $670A> ; command to load packed tiles at the specified offset
+    .byte $21
+    .word $670A             ; TILEPACK_OFF <$21, $670A> ; command to load packed tiles at the specified offset
     .byte " a prize of", 1
     .byte " "
     .byte $23
@@ -704,7 +475,8 @@ sHero:
 sRunKid:
     .byte "@Why if it's not", 1
     .byte " our hero "
-    tile_pointer $670A                 ; TILEPACK_OFF <$21, $670A> ; command to load packed tiles at the specified offset
+    .byte $21
+    .word $670A                 ; TILEPACK_OFF <$21, $670A> ; command to load packed tiles at the specified offset
     .byte ",", 1, 3
 
     .byte "@You have tiger", 1
@@ -787,7 +559,8 @@ sMindVoice:
     .byte "@Wait.. A voice is", 1
     .byte " speaking into", 1
     .byte " "
-    tile_pointer $670A             ; TILEPACK_OFF <$21, $670A> ; command to load packed tiles at the specified offset
+    .byte $21
+    .word $670A             ; TILEPACK_OFF <$21, $670A> ; command to load packed tiles at the specified offset
     .byte "'s mind.", 1, 0
 
 sGood:
@@ -905,7 +678,8 @@ sEEEEEEEK:
 
 sLostTail:
     .byte "@"
-    tile_pointer $670A
+    .byte $21
+    .word $670A
     .byte " felt this", 1
     .byte " question enter ", 1
     .byte " his mind.", 1, 3
@@ -967,7 +741,8 @@ sHelloNick:
     .byte "@Hello, there!", 1
     .byte " Noodlenoggin", 1
     .byte " "
-    tile_pointer $670A
+    .byte $21
+    .word $670A
     .byte ".", 1, 0
 
 sPhilosophy:
@@ -1059,7 +834,8 @@ sFixedSpoon:
     .byte " right away.", 1, 3
 
     .byte "@("
-    tile_pointer Boy1Name
+    .byte $21
+    .word $7478
     .byte " fixed", 1
     .byte " the spoon with", 1
     .byte " PSI-Power.)", 1, 3
@@ -1108,12 +884,14 @@ sSuspicious:
 sFavoriteFood:
     .byte "@Yes, it's ", 1
     .byte " "
-    tile_pointer FoodName
+    .byte $21
+    .word $7689
     .byte ".", 1, 3
 
     .byte "@I knew you liked", 1
     .byte " "
-    tile_pointer FoodName
+    .byte $21
+    .word $7689
     .byte ". Do you", 1
     .byte " want some?", 1, 0
 
@@ -1136,9 +914,21 @@ sBedReady:
     .byte " is ready. Please", 1
     .byte " sleep well.", 1, 0
 
-
-
 .segment "DIALOGS1"
+
+    .export sUseBed, sNotHere, sOcarinaOfHope, sDude, sGoAhead, sHeyKid, sNoExit, sOutside, sEmbarrassed
+    .export sKeeper, sMimicker, sAnotherWorld, sIntoMagicHerb, sGiveBigBag, sBorrowCard, sHoldMagicHerbs
+    .export sPromiseToReturn, sDontTrust, sReturnCard, sQueenFeeling, sSolveRiddle, sNoRiddle, sBye
+    .export sSingAgain, sRealSecret, sLonesome, sHappy, sLullaby, sHermit, sForgetful, sHealer, sIThoughtSo
+    .export sCaution, sMonkey, sRidiculous, sLikeQueen, sRailsFixed, sSeeQueen, sNightmares, sForGirls
+    .export sZzzz, sLiar, sWarpBack, sPromise, sLearnMelody, sPause, sSingMelody, sRightSong, sOhGiegue
+    .export sBadDream, sGuess, sRibbon, sOnlyGirls, sCandy, sNotHelpless, sUseCandy, sHowCandy, sOldMan
+    .export sStoneIntoHat, sDidYouCallMe, sIsThatRight, sYouNeedMoney, sHelpful, sWithdraw, sTakeIt
+    .export sLessMoney, sIgnoreMe, sManNotExist, sMonologue, sLuckyUnlucky, sForgotten, sGarbage, sLeaveMe
+    .export sThatsRight, sTooMore, sWeirdThings, sCrazyStuff, sBestDoctor, sBill, sCured, sDieOwn, sCurfew
+    .export sSchool, sDuncansFactory, sFactoryPass, sPassExpired, sAwfulCreature, sCurfewLifted, sWeakling
+    .export sHeysWeakling, sPickingWeakling, sJustTeasing, sStealExplosives, sYourGlasses, sIAmSuzy
+    .export sYouLookCute, sYouAreUgly, sRoofLocked, sYouDontTalk
 
 sUseBed:
     .byte "@Please feel free", 1
@@ -1350,7 +1140,8 @@ sLullaby:
     .byte "@Listen to my song!", 1
     .byte " Oh music-loving", 1
     .byte " adventurer "
-    tile_pointer $670A
+    .byte $21
+    .word $670A
     .byte "!", 1, 3
 
     .byte "@Why do you cry,", 1
@@ -1522,12 +1313,14 @@ sPromise:
 
     .byte "@Everyone loves", 1
     .byte " you, "
-    tile_pointer $670A
+    .byte $21
+    .word $670A
     .byte ".", 1, 0
 
 sLearnMelody:
     .byte "@Welcome, "
-    tile_pointer $670A
+    .byte $21
+    .word $670A
     .byte ".", 1, 3
 
     .byte "@Here in Magicant,", 1
@@ -1902,14 +1695,16 @@ sWeakling:
     .byte "@I was picking", 1
     .byte " on that weakling,", 1
     .byte " "
-    tile_pointer Boy2Name
+    .byte $21
+    .word $74F8
     .byte ".", 1, 3
 
     .byte "@But he got away.", 1, 0
 
 sHeysWeakling:
     .byte "@Hey, "
-    tile_pointer Boy2Name
+    .byte $21
+    .word $74F8
     .byte "!", 1
     .byte " You weakling!", 1, 0
 
@@ -1917,7 +1712,8 @@ sPickingWeakling:
     .byte "@We've been picking", 1
     .byte " on that weakling", 1
     .byte " "
-    tile_pointer Boy2Name
+    .byte $21
+    .word $74F8
     .byte ", right?", 1, 0
 
 sJustTeasing:
@@ -1925,7 +1721,8 @@ sJustTeasing:
 
 sStealExplosives:
     .byte "@I saw "
-    tile_pointer Boy2Name
+    .byte $21
+    .word $74F8
     .byte 1
     .byte " steal explosives!!", 1, 3
 
@@ -1968,9 +1765,22 @@ sYouDontTalk:
     .byte "@You don't talk", 1
     .byte " very much, do you?", 1, 0
 
-
-
 .segment "DIALOGS2"
+
+    .export sPushUps, sSchoolyard, sBeStudying, sTerribleWife, sRealLife, sScram, sSomeTea, sFollowMe, sRespect
+    .export sDangerous, sPleaseTea, sDontRun, sStranger, sJustDontRun, sShowMe, sWhoAreYou, sExplosives, sImComingOut
+    .export sRocketsDream, sBeTired, sComeToLab, sFire, sStayHere, sInvention, sPriceList, sSomeMoney, sNewInvention
+    .export sOldList, sProtect, sBuyTicket, sNoWeapon, sThenIts, sHatReward, sLongLife, sWithoutTrain, sFunGame
+    .export sHereItIs, sSlickMustache, sParkingViolations, sSwindler, sHoldMoney, sDontRunAway, sJustDo, sIncognito
+    .export sBigBelly, sSpeeders, sWithoutPaying, sOhImSoFull, sDangerousTown, sAreYouReady, sMySong, sFineBeThatWay
+    .export sItsTime, sDragonsLullaby, sGhostHouse, sGiveMe, sBarter, sGiveYou, sGoingGiveMe, sTakeFleaBag, sFlu
+    .export sHighMountains, sMmhm, sCantUnderstand, sGargle, sMouthwashBuy, sColdDied, sSpookaneGhostHouse
+    .export sVacantHouse, sDontKnow, sAhhHa, sNobodysHere, sWorstNightmare, sTURNBACK, sAagghh, sYoullNeverMake
+    .export sJustMouse, sOwners, sSmallRoom, sAssistant, sColorMeGone, sHints, sClown, sNotJollyGuy, sPessimist
+    .export sLifeOutdoors, sYourRocket, sMotherShip, sOrbit, sHouseKey, sRosemary, sMyBoy, sRenamed, sSnowmanTerminal
+    .export sDisappeared, sMomLeft, sBeenGhostHouse, sHorrorStories, sMustGo, sDontCatchCold, sLifeIsGame, sDontLate
+    .export sConcerned, sNotEnoughMoney, sRunningNose, sPlayingPerson, sTalkAbout, sCooperation, sUrgentThings, sAreYou
+    .export sSilly
 
 sPushUps:
     .byte "@The gym teacher", 1
@@ -2109,7 +1919,8 @@ sImComingOut:
 
 sRocketsDream:
     .byte "@Hi, I am "
-    tile_pointer Boy2Name
+    .byte $21
+    .word $74F8
     .byte ".", 1
     .byte " I wanted to fly", 1
     .byte " the Bottle Rockets", 1, 3
@@ -2137,14 +1948,16 @@ sComeToLab:
 
 sFire:
     .byte "@("
-    tile_pointer Boy2Name
+    .byte $21
+    .word $74F8
     .byte ") Aim on", 1
     .byte " the rock...", 1
     .byte " OK! 1-2-3 Fire!!", 1, 0
 
 sStayHere:
     .byte "@("
-    tile_pointer Boy2Name
+    .byte $21
+    .word $74F8
     .byte ") Now it is", 1
     .byte " the weakling's turn.", 1, 3
 
@@ -2206,7 +2019,8 @@ sBuyTicket:
 
 sNoWeapon:
     .byte "@("
-    tile_pointer $670A
+    .byte $21
+    .word $670A
     .byte "'s weapon", 1
     .byte " was confiscated.)", 1, 0
 
@@ -2226,7 +2040,8 @@ sHatReward:
 
     .byte "@the one that", 1
     .byte " "
-    tile_pointer GirlName
+    .byte $21
+    .word $74B8
     .byte " of Snowman", 1
     .byte " lost.", 1, 3
 
@@ -2317,7 +2132,8 @@ sSpeeders:
 sWithoutPaying:
     .byte "@She ate", 1
     .byte " 5 "
-    tile_pointer FoodName
+    .byte $21
+    .word $7689
     .byte "s,", 1, 3
 
     .byte "@then ran away", 1
@@ -2607,7 +2423,8 @@ sLifeOutdoors:
 
 sYourRocket:
     .byte "@("
-    tile_pointer Boy2Name
+    .byte $21
+    .word $74F8
     .byte ") Your", 1
     .byte " Bottle Rocket and", 1
     .byte " my...", 1, 3
@@ -2629,7 +2446,8 @@ sMotherShip:
     .byte " girl from Snowman?", 1, 3
 
     .byte "@"
-    tile_pointer GirlName
+    .byte $21
+    .word $74B8
     .byte ", I believe", 1
     .byte " it was...", 1, 3
 
@@ -2670,7 +2488,8 @@ sHouseKey:
 sRosemary:
     .byte "@Hi there, my name", 1
     .byte " is "
-    tile_pointer Boy1Name
+    .byte $21
+    .word $7478
     .byte ".", 1, 3
 
     .byte "@It used to be", 1
@@ -2679,7 +2498,8 @@ sRosemary:
 
 sMyBoy:
     .byte "@"
-    tile_pointer Boy1Name
+    .byte $21
+    .word $7478
     .byte "!", 1
     .byte " Get your grubby", 1
     .byte " little...", 1, 3
@@ -2696,7 +2516,8 @@ sRenamed:
 
     .byte "@I've renamed my", 1
     .byte " son "
-    tile_pointer Boy1Name
+    .byte $21
+    .word $7478
     .byte ",", 1
     .byte " after you.", 1, 0
 
@@ -2758,7 +2579,8 @@ sLifeIsGame:
 
 sDontLate:
     .byte "@"
-    tile_pointer GirlName
+    .byte $21
+    .word $74B8
     .byte " hasn't been", 1
     .byte " to school lately,", 1
     .byte " I'm so worried.", 1, 0
@@ -2766,7 +2588,8 @@ sDontLate:
 sConcerned:
     .byte "@I'm concerned", 1
     .byte " about "
-    tile_pointer GirlName
+    .byte $21
+    .word $74B8
     .byte ".", 1, 3
 
     .byte "@I am so worried I", 1
@@ -2796,7 +2619,8 @@ sCooperation:
     .byte "@I appreciate your", 1
     .byte " kindness to", 1
     .byte " "
-    tile_pointer Boy1Name
+    .byte $21
+    .word $7478
     .byte ".", 1, 3
 
     .byte "@I am the boy's", 1
@@ -2820,16 +2644,31 @@ sUrgentThings:
 
 sAreYou:
     .byte "@Are you "
-    tile_pointer $670A
+    .byte $21
+    .word $670A
     .byte "?", 1, 0
 
 sSilly:
     .byte "@Don't get silly on", 1
     .byte " me now.", 1, 0
 
-
-
 .segment "DIALOGS3"
+
+    .export sMomSearch, sLikeDream, sStayWithMe, sPleaseStay, sDance, sIsntTime, sDoYouLoveMe, sWhatsMatter
+    .export sDragonSleeps, sDragonAwoke, sMyDaughter, sPeacefulSleep, sPassFound, sClimbedRocket, sMyGrandfather
+    .export sPileBones, sSignpost, sCorpse, sCamelBones, sMoveFoot, sLikeTell, sDesert, sCharterFlights, sMines
+    .export sRidePlane, sBuyFlight, sExpensive, sStubs, sBrokeTank, sThankYou, sAngry, sParents, sHalt, sSuspiciousGuys
+    .export sSomething, sStudy, sMom, sDad, sBigShip, sWithoutAdult, sPleaseHoldMe, sHoldMeToo, sHoldMe, sBegYou
+    .export sMyName, sMysticPower, sGoogaa, sTeleportation, sFromMountains, sCantCarry, sWiser, sWatchOutAround
+    .export sTheBBGang, sBlaBla, sNotBlaBla, sBlackClouds, sHeyYouTwo, sLoveAndPeace, sLoveBurn, sLiveShowTicket
+    .export sDontGoStore, sStingyKids, sSecret, sBlaBlaBoss, sRegrets, sBackRoom, sDrink, sCops, sNoDrinks, sBadThing
+    .export sGoHome, sAnotherNight, sBuy, sNoMoney, sParentsKilled, sHeWas, sWantSing, sThenGoAhead, sYoureShy
+    .export sSawName, sCuteGirl, sNiceSong, sIllSmashYou, sIKnowYouDidIt, sVengeance, sAcceptHelp, sUsedPhoneCard
+    .export sGoodTeam, sGreatHelp, sPushA, sBorrowGoods, sBeatThem, sHurryUp, sDressingRoom, sToldName, sLookAfter
+    .export sRegister, sHarbor, sStrawBerry, sBuyForMe, sNoWayToBuy, sStrawBerryTofu, sGetHurt, sFightTime, sComeOn
+    .export sEVE, sHeavyBags, sWorn, sFighting, sRealized, sToWhom, sTooHeavy, sRestGoods, sCantGiveGoods, sWeaklingAway
+    .export sWelcomePodunk, sCityZoo, sOceanView, sNoOneHere, sPlaced, sSuchMan, sBigHelp, sTriangle, sLostDentures
+    .export sBadFeel, sPleaseComeToLab
 
 sMomSearch:
     .byte "@I must go on a", 1
@@ -2842,7 +2681,8 @@ sMomSearch:
     .byte "@So I've been", 1
     .byte " waiting for you,", 1
     .byte " "
-    tile_pointer $670A
+    .byte $21
+    .word $670A
     .byte ".", 1, 3
 
     .byte "@First let's go see", 1
@@ -2860,7 +2700,8 @@ sLikeDream:
 
 sStayWithMe:
     .byte "@"
-    tile_pointer Boy1Name
+    .byte $21
+    .word $7478
     .byte "....", 1
     .byte " Please stay with", 1
     .byte " me.", 1, 0
@@ -2883,28 +2724,32 @@ sIsntTime:
 
 sDoYouLoveMe:
     .byte "@"
-    tile_pointer Boy1Name
+    .byte $21
+    .word $7478
     .byte "?...", 1
     .byte " Do you love me?", 1, 0
 
 sWhatsMatter:
     .byte "@What's the matter,", 1
     .byte " "
-    tile_pointer Boy2Name
+    .byte $21
+    .word $74F8
     .byte "?", 1, 0
 
 sDragonSleeps:
     .byte "@The Dragon sleeps.", 1, 3
 
     .byte "@"
-    tile_pointer $670A
+    .byte $21
+    .word $670A
     .byte "'s Psychic", 1
     .byte " Power is short of", 1
     .byte " waking the Dragon.", 1, 0
 
 sDragonAwoke:
     .byte "@Feeling "
-    tile_pointer $670A
+    .byte $21
+    .word $670A
     .byte "'s", 1
     .byte " presence, the", 1
     .byte " Dragon awoke.", 1, 3
@@ -2916,7 +2761,8 @@ sDragonAwoke:
 sMyDaughter:
     .byte "@My daughter,", 1
     .byte " "
-    tile_pointer GirlName
+    .byte $21
+    .word $74B8
     .byte " has never", 1
     .byte " been a brave girl,", 1, 3
 
@@ -2938,7 +2784,8 @@ sPeacefulSleep:
 
 sPassFound:
     .byte "@"
-    tile_pointer $670A
+    .byte $21
+    .word $670A
     .byte " found a", 1
     .byte " Pass that someone", 1
     .byte " had left behind.", 1, 0
@@ -3292,12 +3139,14 @@ sSecret:
 sBlaBlaBoss:
     .byte "@The Bla-Bla Boss,", 1
     .byte " "
-    tile_pointer Boy3Name
+    .byte $21
+    .word $7538
     .byte "'s real name", 1
     .byte " is...", 1, 3
 
     .byte " "
-    tile_pointer Boy3Name
+    .byte $21
+    .word $7538
     .byte " Junior, the", 1
     .byte " 3rd.", 1
     .byte " Ha.", 1, 3
@@ -3351,7 +3200,8 @@ sBuy:
     .byte "@Hee hee hee...", 1
     .byte " I finally got a", 1
     .byte " "
-    tile_pointer $6D04
+    .byte $21
+    .word $6D04
     .byte "!", 1, 3
 
     .byte "@Wanna buy it for", 1
@@ -3368,7 +3218,8 @@ sNoMoney:
 
 sParentsKilled:
     .byte "@"
-    tile_pointer Boy3Name
+    .byte $21
+    .word $7538
     .byte "'s parents", 1
     .byte " were killed by", 1
     .byte " mountain creatures.", 1, 3
@@ -3378,7 +3229,8 @@ sParentsKilled:
 
 sHeWas:
     .byte "@I wish "
-    tile_pointer Boy3Name
+    .byte $21
+    .word $7538
     .byte 1
     .byte " would go back to", 1
     .byte " the way he was.", 1, 0
@@ -3396,7 +3248,8 @@ sYoureShy:
 
 sSawName:
     .byte "@"
-    tile_pointer GirlName
+    .byte $21
+    .word $74B8
     .byte " girl!!", 1
     .byte " Well, I saw your", 1
     .byte " name on your hat.", 1, 0
@@ -3426,7 +3279,8 @@ sVengeance:
 
     .byte "@Your name is", 1
     .byte " "
-    tile_pointer Boy1Name
+    .byte $21
+    .word $7478
     .byte "?", 1, 3
 
     .byte "@Let's call it a", 1
@@ -3439,13 +3293,15 @@ sVengeance:
 
 sAcceptHelp:
     .byte "@"
-    tile_pointer Boy1Name
+    .byte $21
+    .word $7478
     .byte ", please", 1
     .byte " accept my help.", 1, 0
 
 sUsedPhoneCard:
     .byte "@"
-    tile_pointer $670A
+    .byte $21
+    .word $670A
     .byte " USEd the", 1
     .byte " Telephone Card.", 1, 0
 
@@ -3499,7 +3355,8 @@ sBeatThem:
 
 sHurryUp:
     .byte "@("
-    tile_pointer Boy3Name
+    .byte $21
+    .word $7538
     .byte ")", 1
     .byte " Why are you two", 1
     .byte " blushing?", 1, 3
@@ -3515,12 +3372,14 @@ sDressingRoom:
 
 sToldName:
     .byte "@I am "
-    tile_pointer Boy2Name
+    .byte $21
+    .word $74F8
     .byte "'s", 1
     .byte " father.", 1, 3
 
     .byte "@I think "
-    tile_pointer Boy1Name
+    .byte $21
+    .word $7478
     .byte "'s", 1
     .byte " Dad asked,", 1, 3
 
@@ -3532,7 +3391,8 @@ sLookAfter:
 
     .byte "@Please look after", 1
     .byte " "
-    tile_pointer Boy2Name
+    .byte $21
+    .word $74F8
     .byte ". He is a", 1
     .byte " real weakling...", 1, 0
 
@@ -3585,7 +3445,8 @@ sGetHurt:
 
 sFightTime:
     .byte "@Hey! "
-    tile_pointer Boy2Name
+    .byte $21
+    .word $74F8
     .byte "!...", 1, 3
 
     .byte "@Now is the time", 1
@@ -3630,9 +3491,11 @@ sHeavyBags:
 
 sWorn:
     .byte "@"
-    tile_pointer Boy1Name
+    .byte $21
+    .word $7478
     .byte "! "
-    tile_pointer Boy1Name
+    .byte $21
+    .word $7478
     .byte "!..", 1, 3
 
     .byte "@You seem to be worn", 1
@@ -3644,26 +3507,30 @@ sFighting:
     .byte " regained...", 1, 3
 
     .byte "@"
-    tile_pointer Boy1Name
+    .byte $21
+    .word $7478
     .byte " returned", 1
     .byte " once more to the", 1
     .byte " fighting scene.", 1, 3
 
     .byte "@Do your best,", 1
     .byte " "
-    tile_pointer Boy1Name
+    .byte $21
+    .word $7478
     .byte "!", 1, 0
 
 sRealized:
     .byte "@"
-    tile_pointer Boy1Name
+    .byte $21
+    .word $7478
     .byte " realized", 1
     .byte " that it had only", 1
     .byte " been a bad dream.", 1, 3
 
     .byte "@Do your best,", 1
     .byte " "
-    tile_pointer Boy1Name
+    .byte $21
+    .word $7478
     .byte "!", 1, 0
 
 sToWhom:
@@ -3681,20 +3548,23 @@ sRestGoods:
 
 sCantGiveGoods:
     .byte "@Are you "
-    tile_pointer Boy1Name
+    .byte $21
+    .word $7478
     .byte "'s", 1
     .byte " friend?", 1, 3
 
     .byte "@I see...", 1
     .byte " But I can't give", 1
     .byte " you "
-    tile_pointer Boy1Name
+    .byte $21
+    .word $7478
     .byte "'s Goods.", 1, 0
 
 sWeaklingAway:
     .byte "@Did that weakling", 1
     .byte " "
-    tile_pointer Boy2Name
+    .byte $21
+    .word $74F8
     .byte " run away", 1
     .byte " from you?", 1, 0
 
@@ -3730,7 +3600,8 @@ sSuchMan:
 
 sBigHelp:
     .byte "@This is "
-    tile_pointer $6D04
+    .byte $21
+    .word $6D04
     .byte ",", 1
     .byte " right? Thank you.", 1
     .byte " It's a big help.", 1, 0
@@ -3754,9 +3625,23 @@ sPleaseComeToLab:
     .byte "@Please come to", 1
     .byte " my lab.", 1, 0
 
-
-
 .segment "DIALOGS4"
+
+    .export sPhenomenStopped, sSwitch, sIllCook, sPippiGone, sWhichOne, sIllGiveYou, sCosmosShip, sLying, sTrio
+    .export sWhichKeep, sDragonDeepSleep, sWhatCanIDo, sKeep, sBrotherTakeCare, sTakeWithYou, sRockSlide, sYouMean
+    .export sCantCarryMore, sSeemLessMoney, sTooMuchCarry, sNeedMoreMoney, sBeCareful, sAnythingMore, sMedicine
+    .export sHopeSleepWell, sHowMuchWithdraw, sDeposit, sGoBack, sCantCarryAll, sShame, sOtherTime, sWhichFlightplan
+    .export sWithoutDentures, sNotEnough, sToughTime, sWish, sTeach, sJustFine, sMakeMad, sPickedUpPass, sHmm
+    .export sLoadTooHeavy, sTaste, sFantasticRobot, sBakerTaste, sTakeWords, sLifeUpSleep, sLoadHeavy, sGetGift
+    .export sGiveGift, sHorrible, sFainted, sGratitude, sIAmLaura, sStopAndRest, sNoForGirl, sHello, sGoodMorning
+    .export sComeAgain, sMorning, sMonkeys, sLikeMonkey, sRaccoon, sEyesight, sCoolDown, sTakeRest, sJustGame
+    .export sCaughtMe, sDirection, sQuietHere, sWalkStraight, sLady, sMan, sLala, sHowLong, sGoodStory, sNice
+    .export sAmbitions, sInside, sLiars, sRetreat, sNewFriend, sQuietMonkey, sDish, sAllLiars, sMonkeyBoss, sBigMistake
+    .export sHelpMe, sTelephone, sAbbott, sShareSecret, sStayNight, sTraveller, sHauntingMelody, sBeFound, sHeadquarters
+    .export sLandmine, sDogCrap, sCertificate, sNiceTrip, sPatient, sNoPatient, sBadFlu, sDontCold, sInn, sHi
+    .export sRestaurant, sLoveMusic, sDelicious, sHotel, sRoomRate, sBigRocks, sCheckMe, sDontHaveMoney, sMenu
+    .export sFoodToGo, sHeNotCome, sHopeEnjoy, sWaiter, sIWantToTry, sStopZombies, sItsMePippi, sMy, sItsCash
+    .export sAppetite, sTrackRuined, sDontStop, sThinkAbout, sAdventures, sCanaryVillage
 
 sPhenomenStopped:
     .byte "@The phenomenon has", 1
@@ -3775,7 +3660,8 @@ sSwitch:
 sIllCook:
     .byte "@I'll cook", 1
     .byte " "
-    tile_pointer FoodName
+    .byte $21
+    .word $7689
     .byte ".", 1, 3
 
     .byte "@Eat your dinner,", 1
@@ -3814,7 +3700,8 @@ sIllGiveYou:
     .byte $02, $00
     .byte " for", 1
     .byte " "
-    tile_pointer $6D04
+    .byte $21
+    .word $6D04
     .byte ".", 1, 3
 
     .byte "@Is that alright?", 1, 0
@@ -3825,7 +3712,8 @@ sCosmosShip:
     .byte " Father's Diary,", 1, 3
 
     .byte "@"
-    tile_pointer $670A
+    .byte $21
+    .word $670A
     .byte " read out", 1
     .byte " loud...", 1, 3
 
@@ -3867,7 +3755,8 @@ sWhatCanIDo:
 sKeep:
     .byte "@Yes, I will keep", 1
     .byte " "
-    tile_pointer $6D04
+    .byte $21
+    .word $6D04
     .byte " with", 1
     .byte " utmost care.", 1, 3
 
@@ -3882,7 +3771,8 @@ sBrotherTakeCare:
 sTakeWithYou:
     .byte "@You want to take", 1
     .byte " "
-    tile_pointer $6D04
+    .byte $21
+    .word $6D04
     .byte "?", 1, 3
 
     .byte "@OK! Anything else", 1
@@ -3901,7 +3791,8 @@ sRockSlide:
 sYouMean:
     .byte "@You mean", 1
     .byte " "
-    tile_pointer $6D04
+    .byte $21
+    .word $6D04
     .byte "?", 1, 0
 
 sCantCarryMore:
@@ -4004,7 +3895,8 @@ sMakeMad:
 
 sPickedUpPass:
     .byte "@"
-    tile_pointer $670A
+    .byte $21
+    .word $670A
     .byte " picked up", 1
     .byte " the Pass.", 1, 0
 
@@ -4098,7 +3990,8 @@ sHorrible:
 sFainted:
     .byte "@Oh! no!", 1
     .byte " "
-    tile_pointer GirlName
+    .byte $21
+    .word $74B8
     .byte " has fainted!", 1, 0
 
 sGratitude:
@@ -4115,7 +4008,8 @@ sIAmLaura:
 sStopAndRest:
     .byte "@What a surprise!", 1
     .byte " Our hero "
-    tile_pointer Boy1Name
+    .byte $21
+    .word $7478
     .byte 1
     .byte " returning alone!", 1, 3
 
@@ -4129,7 +4023,8 @@ sNoForGirl:
 
 sHello:
     .byte "@Hello, "
-    tile_pointer $670A
+    .byte $21
+    .word $670A
     .byte "!", 1
     .byte " How are you doing?", 1, 0
 
@@ -4282,7 +4177,8 @@ sQuietMonkey:
 
 sDish:
     .byte "@Oh "
-    tile_pointer GirlName
+    .byte $21
+    .word $74B8
     .byte " baby,", 1
     .byte " Hubba hubba,", 1
     .byte " what a dish.", 1, 0
@@ -4318,7 +4214,8 @@ sHelpMe:
 sTelephone:
     .byte "@Telephone!", 1
     .byte " "
-    tile_pointer Boy1Name
+    .byte $21
+    .word $7478
     .byte ", please get", 1
     .byte " it!", 1, 0
 
@@ -4356,7 +4253,8 @@ sHauntingMelody:
 sBeFound:
     .byte "@I believe that", 1
     .byte " "
-    tile_pointer GirlName
+    .byte $21
+    .word $74B8
     .byte " may still", 1
     .byte " be found somewhere.", 1, 0
 
@@ -4391,7 +4289,8 @@ sCertificate:
     .byte "@", $A6, "Certificate", $A6, 1, 3
 
     .byte "@"
-    tile_pointer $7420
+    .byte $21
+    .word $7420
     .byte 1, 3
 
     .byte "@We acknowledge the", 1
@@ -4444,7 +4343,8 @@ sInn:
 
 sHi:
     .byte "@Hi "
-    tile_pointer $670A
+    .byte $21
+    .word $670A
     .byte ", I'll", 1
     .byte " catch you later,", 1, 3
 
@@ -4466,7 +4366,8 @@ sLoveMusic:
 
 sDelicious:
     .byte "@I think "
-    tile_pointer FoodName
+    .byte $21
+    .word $7689
     .byte 1
     .byte " is delicious, too.", 1, 0
 
@@ -4516,7 +4417,8 @@ sMenu:
 sFoodToGo:
     .byte "@Thank you very much.", 1
     .byte " One "
-    tile_pointer $6D04
+    .byte $21
+    .word $6D04
     .byte 1
     .byte " to go, please!", 1, 0
 
@@ -4536,7 +4438,8 @@ sWaiter:
 sIWantToTry:
     .byte "@I want to try", 1
     .byte " "
-    tile_pointer FoodName
+    .byte $21
+    .word $7689
     .byte ".", 1, 0
 
 sStopZombies:
@@ -4556,7 +4459,8 @@ sItsMePippi:
     .byte "@It's me Pippi!", 1
     .byte " We meet once more", 1
     .byte " "
-    tile_pointer $670A
+    .byte $21
+    .word $670A
     .byte "!", 1, 3
 
     .byte "@Don't say anything,", 1
@@ -4567,7 +4471,8 @@ sMy:
     .byte "@My!", 1
     .byte " You are that", 1
     .byte " snot-nosed "
-    tile_pointer $670A
+    .byte $21
+    .word $670A
     .byte 1, 3
 
     .byte "@who sat next", 1
@@ -4629,9 +4534,22 @@ sCanaryVillage:
     .byte " to visit and", 1
     .byte " admission is free!", 1, 0
 
-
-
 .segment "DIALOGS5"
+
+    .export sReceptionist, sAsthma, sRules, sLookHappy, sDuncanEnterprises, sDoctor, sSurvey, sGetToSchool, sElection
+    .export sHugeRockets, sOrdinaryMan, sBlownUp, sImportantMan, sLittleFactory, sScaryMonsters, sLaala, sJanitor
+    .export sTheOldMan, sTunnel, sResidential, sFoodOut, sArchitecture, sBicycle, sBegFood, sDresses, sPsychicPowers
+    .export sSmallMan, sLoveTown, sDonation, sGoodMedicine, sPostman, sNewAddress, sRosemaryGirl, sMonsters
+    .export sWhatDoYouWant, sClairvoyant, sMansion, sChateau, sCrazyKids, sCamelsBones, sSmallWounds, sGrowUp, sLibrary
+    .export sFisherman, sWay, sHey, sLowHP, sLoser, sStrongMan, sPinkie, sDidYouRead, sCactus, sTalkFisherman, sCartwheel
+    .export sTelescopes, sSmoke, sICantDo, sSubtraction, sTasteStrawBerry, sHungry, sFavoriteWords, sYouAreLate, sStrangeMan
+    .export sMario, sSell, sOutStock, sDontNeed, sVisit, sAreYouSure, sGladToSeeYou, sDeathbed, sTreat, sTreatment, sFine
+    .export sFineAgain, sIAmHealer, sOKDoWhatYou, sGive, sCareStay, sSorryHearThat, sSleepTight, sGreetings, sInjuries
+    .export sWhoAreYouHere, sPlaceStay, sLonelyHere, sSpendNight, sTicketsPlease, sHowever, sLeaveTakeout, sYouHaveNothing
+    .export sLeftAnything, sJustMoment, sCanIHelpYou, sBalance, sThereIsnt, sLimit, sThankYouVeryMuch, sInsideDoll, sAsk
+    .export sGratitudes, sWeapons, sWon, sWithdrawDeposit, sAccount, sDoorLocked, sNotFit, sUnlocked, sYesNo, sContinueRest
+    .export sGrabbed, sImSorry, sOhNoSir, sSirYouCant, sExpert, sSorryICant, sReunion, sTune, sThisCanary, sMonkeyStole
+    .export sRobot, sPresence, sFor, sDoYouBest, sMysteriousWater, sMyLittle, sImBusy, sPoisoned, sSoftened, sNoPoisoned
 
 sReceptionist:
     .byte "@The receptionist at", 1
@@ -4640,7 +4558,8 @@ sReceptionist:
 
 sAsthma:
     .byte "@Hey "
-    tile_pointer Boy1Name
+    .byte $21
+    .word $7478
     .byte ", how's", 1
     .byte " your asthma?", 1, 3
 
@@ -4917,7 +4836,8 @@ sClairvoyant:
 
 sMansion:
     .byte "@"
-    tile_pointer GirlName
+    .byte $21
+    .word $74B8
     .byte "'s house is", 1
     .byte " a chateau, not a", 1
     .byte " mansion.", 1, 3
@@ -4959,7 +4879,8 @@ sSmallWounds:
 
 sGrowUp:
     .byte "@I think "
-    tile_pointer Boy2Name
+    .byte $21
+    .word $74F8
     .byte 1
     .byte " will grow up and", 1
     .byte " be a computer", 1
@@ -5011,7 +4932,8 @@ sStrongMan:
 sPinkie:
     .byte "@You are no match", 1
     .byte " for "
-    tile_pointer Boy3Name
+    .byte $21
+    .word $7538
     .byte ".", 1, 3
 
     .byte "@He could beat you up", 1
@@ -5137,7 +5059,8 @@ sAreYouSure:
 
 sGladToSeeYou:
     .byte "@"
-    tile_pointer $6D00
+    .byte $21
+    .word $6D00
     .byte ", glad to", 1
     .byte " see you are fine", 1
     .byte " now. See us again!", 1, 0
@@ -5214,7 +5137,8 @@ sGreetings:
 sInjuries:
     .byte "@They just brought", 1
     .byte " "
-    tile_pointer $6D00
+    .byte $21
+    .word $6D00
     .byte " here,", 1
     .byte " still unconscious.", 1, 3
 
@@ -5310,7 +5234,8 @@ sThankYouVeryMuch:
 sInsideDoll:
     .byte "@Inside the doll,", 1
     .byte " "
-    tile_pointer $670A
+    .byte $21
+    .word $670A
     .byte " spotted an", 1
     .byte " old music box.", 1, 3
 
@@ -5339,7 +5264,8 @@ sWeapons:
 
 sWon:
     .byte "@"
-    tile_pointer $670A
+    .byte $21
+    .word $670A
     .byte " won the", 1
     .byte " battle.", 1, 0
 
@@ -5364,7 +5290,8 @@ sNotFit:
 
 sUnlocked:
     .byte "@"
-    tile_pointer $670A
+    .byte $21
+    .word $670A
     .byte " unlocked", 1
     .byte " the door and went", 1
     .byte " inside.", 1, 0
@@ -5377,7 +5304,8 @@ sContinueRest:
 
 sGrabbed:
     .byte "@"
-    tile_pointer $670A
+    .byte $21
+    .word $670A
     .byte " grabbed the", 1
     .byte " telephone.", 1, 0
 
@@ -5407,7 +5335,8 @@ sExpert:
 sSorryICant:
     .byte "@Sorry, but I can't", 1
     .byte " buy "
-    tile_pointer $6D04
+    .byte $21
+    .word $6D04
     .byte " from", 1
     .byte " you.", 1, 0
 
@@ -5418,7 +5347,8 @@ sReunion:
 
 sTune:
     .byte "@"
-    tile_pointer $670A
+    .byte $21
+    .word $670A
     .byte " remembered", 1
     .byte " the tune.", 1, 0
 
@@ -5436,7 +5366,8 @@ sRobot:
 
 sPresence:
     .byte "@Feeling "
-    tile_pointer Boy1Name
+    .byte $21
+    .word $7478
     .byte "'s", 1
     .byte " presence, the robot", 1
     .byte " came back to life.", 1, 0
@@ -5448,7 +5379,8 @@ sFor:
     .byte $02, $00
     .byte " for", 1
     .byte " "
-    tile_pointer $6D00
+    .byte $21
+    .word $6D00
     .byte ".", 1, 0
 
 sDoYouBest:
@@ -5469,7 +5401,8 @@ sMyLittle:
     .byte "@Thank you for", 1
     .byte " finding her,", 1
     .byte " "
-    tile_pointer Boy1Name
+    .byte $21
+    .word $7478
     .byte "!", 1, 3
 
     .byte "@By the way, the", 1
@@ -5478,7 +5411,8 @@ sMyLittle:
 
     .byte "@Pippi, go with", 1
     .byte " "
-    tile_pointer Boy1Name
+    .byte $21
+    .word $7478
     .byte ", and help", 1
     .byte " straighten this out.", 1, 0
 
@@ -5502,9 +5436,24 @@ sNoPoisoned:
     .byte "@You haven't been", 1
     .byte " poisoned!", 1, 0
 
-
-
 .segment "DIALOGS6"
+
+    .export sTurnedStone, sManufacture, sMyWife, sUnlockedRoof, sConstructing, sCallMeNames, sDawn, sPardon, sDontTalk
+    .export sGameTitle, sLadyReindeer, sImportantHint, sCheck, sTheSingingMonkey, sCactusSang, sPiano, sDragonCrooned
+    .export sRobotEve, sOneOfKind, sPadlock, sIMustStayHere, sNotEnoughCash, sGoFirst, sBrokenLock, sHowAreYou, sLet
+    .export sNoICant, sFlyingMan, sStrongAlly, sBenevolent, sSorrow, sHorror, sProclamation, sDeep, sCanTelepathy
+    .export sAreYouGoing, sFoundHat, sWellIhad, sUniqueSong, sExcuseMe, sDoYouThink, sUsedBullhorn, sExchange
+    .export sQuestionnaire, sHearing, sPriedUpLid, sTelescope, sBlueSea, sSparkled, sSuddenly, sDaddy, sTalking, sWhat
+    .export sNoProblem, sQueenVoice, sWeaponsShop, sUsed, sCantUse, sDontBeSilly, sEquipped, sCantEquip, sThrewAway
+    .export sDontThrow, sHanded, sCantHandOver, sCantCarryAnyMore, sNothingHappened, sOpened, sThereWas, sGot
+    .export sCantCarryAnything, sItWasEmpty, sCurePoison, sCityZooSign, sNoHunting, sCityHall, sLookOutTower
+    .export sEllayMountSign, sHealersHouse, sSign, sCityZooWest, sSnowmanChateau, sEllaySwampSign, sTwinkle, sHouse
+    .export sWestNorthSign, sWestEastSouth, sWestEastSign, sSwampEast, sPrivateProperty, sPoliceStation, sCompanyInc
+    .export sPride, sServe, sDestiny, sTheCurfew, sOldRustyRocket, sDidYouCome, sIveGivenYouAll, sIAmMinnie, sRefreshSoften
+    .export sLikeBeAlone, sOhShoot, sLovedYou, sLoudNoises, sNoises, sBoatMotor, sAbleFixIt, sFired, sIllSend
+    .export sClaustrophobia, sSweetFactory, sKidnapped, sSpelled, sOddSound, sMostPrized, sCollar, sNoisyMouse, sPsychicPower
+    .export sILovedHim, sWaggingTail, sPurpose, sInsertCard, sDontMuchCash, sDataSaved, sYouSaidYes, sBreath, sAnyFriends
+    .export sPossession
 
 sTurnedStone:
     .byte "@You have not been", 1
@@ -5670,7 +5619,8 @@ sNotEnoughCash:
 
 sGoFirst:
     .byte "@"
-    tile_pointer Boy1Name
+    .byte $21
+    .word $7478
     .byte ", please go", 1
     .byte " first. I am so", 1
     .byte " afraid.", 1, 0
@@ -5678,26 +5628,30 @@ sGoFirst:
 sBrokenLock:
     .byte "@The lock was", 1
     .byte " broken. "
-    tile_pointer $670A
+    .byte $21
+    .word $670A
     .byte 1
     .byte " opened the door.", 1, 0
 
 sHowAreYou:
     .byte "@Hi! "
-    tile_pointer Boy3Name
+    .byte $21
+    .word $7538
     .byte "!", 1
     .byte " How are you doin'?", 1, 0
 
 sLet:
     .byte "@Let "
-    tile_pointer Boy3Name
+    .byte $21
+    .word $7538
     .byte " come", 1
     .byte " back fast!", 1, 0
 
 sNoICant:
     .byte "@No, no. I can't", 1
     .byte " keep "
-    tile_pointer $6D04
+    .byte $21
+    .word $6D04
     .byte 1
     .byte " with me.", 1, 3
 
@@ -5707,7 +5661,8 @@ sNoICant:
 
 sFlyingMan:
     .byte "@"
-    tile_pointer Boy1Name
+    .byte $21
+    .word $7478
     .byte "'s faithful", 1
     .byte " and loyal servant,", 1, 3
 
@@ -5717,7 +5672,8 @@ sFlyingMan:
 
 sStrongAlly:
     .byte "@"
-    tile_pointer Boy1Name
+    .byte $21
+    .word $7478
     .byte "'s strong", 1
     .byte " and powerful ally,", 1, 3
 
@@ -5727,7 +5683,8 @@ sStrongAlly:
 
 sBenevolent:
     .byte "@"
-    tile_pointer Boy1Name
+    .byte $21
+    .word $7478
     .byte "'s", 1
     .byte " benevolent buddy,", 1, 3
 
@@ -5737,7 +5694,8 @@ sBenevolent:
 
 sSorrow:
     .byte "@To "
-    tile_pointer Boy1Name
+    .byte $21
+    .word $7478
     .byte "'s great", 1
     .byte " sorrow,", 1, 3
 
@@ -5747,7 +5705,8 @@ sSorrow:
 
 sHorror:
     .byte "@To "
-    tile_pointer Boy1Name
+    .byte $21
+    .word $7478
     .byte "'s horror", 1
     .byte " and dismay,", 1, 3
 
@@ -5818,7 +5777,8 @@ sUniqueSong:
     .byte " unique song.", 1, 3
 
     .byte "@"
-    tile_pointer $670A
+    .byte $21
+    .word $670A
     .byte " did not", 1
     .byte " want to remember", 1
     .byte " this strange melody.", 1, 0
@@ -5862,14 +5822,16 @@ sHearing:
 
 sPriedUpLid:
     .byte "@"
-    tile_pointer $670A
+    .byte $21
+    .word $670A
     .byte " pried up", 1
     .byte " the lid. Out from", 1
     .byte " the casket...!!", 1, 0
 
 sTelescope:
     .byte "@"
-    tile_pointer $670A
+    .byte $21
+    .word $670A
     .byte " looked", 1
     .byte " into the telescope.", 1, 0
 
@@ -5890,7 +5852,8 @@ sSuddenly:
 
 sDaddy:
     .byte "@("
-    tile_pointer GirlName
+    .byte $21
+    .word $74B8
     .byte ")", 1
     .byte " Daddy...", 1
     .byte " Good-bye...", 1, 3
@@ -5920,7 +5883,8 @@ sQueenVoice:
     .byte " Maria.", 1, 3
 
     .byte "@"
-    tile_pointer Boy1Name
+    .byte $21
+    .word $7478
     .byte ", use my", 1
     .byte " last power!", 1, 3
 
@@ -5941,18 +5905,22 @@ sWeaponsShop:
 
 sUsed:
     .byte "@"
-    tile_pointer $6D20
+    .byte $21
+    .word $6D20
     .byte " USEd", 1
     .byte " "
-    tile_pointer $6D24
+    .byte $21
+    .word $6D24
     .byte ".", 1, 0
 
 sCantUse:
     .byte "@"
-    tile_pointer $6D20
+    .byte $21
+    .word $6D20
     .byte " can't", 1
     .byte " USE "
-    tile_pointer $6D24
+    .byte $21
+    .word $6D24
     .byte ".", 1, 0
 
 sDontBeSilly:
@@ -5961,54 +5929,66 @@ sDontBeSilly:
 
 sEquipped:
     .byte "@"
-    tile_pointer $6D20
+    .byte $21
+    .word $6D20
     .byte " equipped", 1
     .byte " "
-    tile_pointer $6D24
+    .byte $21
+    .word $6D24
     .byte ".", 1, 0
 
 sCantEquip:
     .byte "@"
-    tile_pointer $6D20
+    .byte $21
+    .word $6D20
     .byte " can't", 1
     .byte " equip "
-    tile_pointer $6D24
+    .byte $21
+    .word $6D24
     .byte ".", 1, 0
 
 sThrewAway:
     .byte "@"
-    tile_pointer $6D20
+    .byte $21
+    .word $6D20
     .byte " threw", 1
     .byte " away "
-    tile_pointer $6D24
+    .byte $21
+    .word $6D24
     .byte ".", 1, 0
 
 sDontThrow:
     .byte "@Don't throw", 1
     .byte " away "
-    tile_pointer $6D24
+    .byte $21
+    .word $6D24
     .byte ".", 1, 0
 
 sHanded:
     .byte "@"
-    tile_pointer $6D20
+    .byte $21
+    .word $6D20
     .byte " handed", 1
     .byte " "
-    tile_pointer $6D24
+    .byte $21
+    .word $6D24
     .byte " to", 1
     .byte " "
-    tile_pointer $6D00
+    .byte $21
+    .word $6D00
     .byte ".", 1, 0
 
 sCantHandOver:
     .byte "@Can't hand over", 1
     .byte " "
-    tile_pointer $6D24
+    .byte $21
+    .word $6D24
     .byte ".", 1, 0
 
 sCantCarryAnyMore:
     .byte "@"
-    tile_pointer $6D00
+    .byte $21
+    .word $6D00
     .byte " can't", 1
     .byte " carry any more.", 1, 0
 
@@ -6017,22 +5997,26 @@ sNothingHappened:
 
 sOpened:
     .byte "@"
-    tile_pointer $670A
+    .byte $21
+    .word $670A
     .byte " opened", 1
     .byte " the present.", 1, 0
 
 sThereWas:
     .byte "@There was", 1
     .byte " "
-    tile_pointer $6D04
+    .byte $21
+    .word $6D04
     .byte ".", 1, 0
 
 sGot:
     .byte "@"
-    tile_pointer $670A
+    .byte $21
+    .word $670A
     .byte " got", 1
     .byte " "
-    tile_pointer $6D04
+    .byte $21
+    .word $6D04
     .byte ".", 1, 0
 
 sCantCarryAnything:
@@ -6115,7 +6099,8 @@ sTwinkle:
 
 sHouse:
     .byte "@"
-    tile_pointer Boy1Name
+    .byte $21
+    .word $7478
     .byte "'s house", 1, 0
 
 sWestNorthSign:
@@ -6220,7 +6205,8 @@ sRefreshSoften:
 
 sLikeBeAlone:
     .byte "@("
-    tile_pointer Boy3Name
+    .byte $21
+    .word $7538
     .byte ") I'm", 1
     .byte " sure you two would", 1
     .byte " like to be alone.", 1, 3
@@ -6235,7 +6221,8 @@ sOhShoot:
 
 sLovedYou:
     .byte "@Oh "
-    tile_pointer Boy1Name
+    .byte $21
+    .word $7478
     .byte ", I've", 1
     .byte " loved you for such", 1
     .byte " a long time.", 1, 3
@@ -6246,7 +6233,8 @@ sLovedYou:
 
 sLoudNoises:
     .byte "@("
-    tile_pointer Boy3Name
+    .byte $21
+    .word $7538
     .byte ")", 1
     .byte " Sorry to bother", 1
     .byte " you two...", 1, 3
@@ -6256,7 +6244,8 @@ sLoudNoises:
 
 sNoises:
     .byte "@("
-    tile_pointer Boy3Name
+    .byte $21
+    .word $7538
     .byte ")", 1
     .byte " Those noises", 1
     .byte " coming from outside,", 1, 3
@@ -6270,24 +6259,28 @@ sBoatMotor:
 
 sAbleFixIt:
     .byte "@"
-    tile_pointer $670A
+    .byte $21
+    .word $670A
     .byte " just does", 1
     .byte " not seem to be", 1
     .byte " able to fix it.", 1, 0
 
 sFired:
     .byte "@But "
-    tile_pointer Boy2Name
+    .byte $21
+    .word $74F8
     .byte " fired", 1
     .byte " it right up.", 1, 0
 
 sIllSend:
     .byte "@I'll send this", 1
     .byte " "
-    tile_pointer $6D04
+    .byte $21
+    .word $6D04
     .byte " to", 1
     .byte " "
-    tile_pointer Boy1Name
+    .byte $21
+    .word $7478
     .byte "'s house.", 1, 3
 
     .byte "@Is there anything", 1
@@ -6404,7 +6397,8 @@ sYouSaidYes:
 
 sBreath:
     .byte "@"
-    tile_pointer Boy3Name
+    .byte $21
+    .word $7538
     .byte " seems to be", 1
     .byte " out of breath.", 1, 0
 
@@ -6415,7 +6409,8 @@ sAnyFriends:
 
 sPossession:
     .byte "@The "
-    tile_pointer $6D04
+    .byte $21
+    .word $6D04
     .byte " is", 1
     .byte " once more in", 1
     .byte " your possession.", 1, 3
@@ -6424,9 +6419,20 @@ sPossession:
     .byte " else you'd like", 1
     .byte " to take?", 1, 0
 
-
-
 .segment "DIALOGS7"
+
+    .export sLoadTooGreat, sClosetFull, sMirage, sBraveChildren, sCanDash, sGetTrain, sDoYouWant, sMelodyForYou, sCrystal
+    .export sEmpty1, sEmpty2, sDidntDo, sGave, sPut, sPulled, sThrew, sTook, sAte, sDrank, sRecovered, sIncreased, sHPis
+    .export sPPis, sENERGYis, sSPEEDis, sWISDOMis, sSTRENGTHis, sFORCEis, sTookHerb, sDropping, sYouCantUse, sHeadTrail
+    .export sTied, sTrue, sMeasured, sWhenBigBag, sReached, sNeutralized, sRid, sSqueezed, sPSIPower, sTried, sPowerLeft
+    .export sScene, sTheDiary, sBecame, sTheOcarina, sDidYouHearIt, sPlace, sChecked, sStopped, sTheRepelRing, sIllegal
+    .export sSpaces, sReunited, sHealth, sLonely, sForget, sElementarySchool, sNotHungry, sLetter, sFinally, sHome, stru_20EE56
+    .export sSHIGESATOITOI, sMIYUKIKURE, sAKIOOHMORI, sRITSUOKAMIMURA, sKEIICHISUZUKI, sHIROKAZUTANAKA, sSHINBOMINAMI
+    .export sTATSUYAISHII, sTOTTORI, sKAZUYANAKATANI, sTAKAYUKIONODERA, sMOTOOYASUMA, sMASAYUKIKAMEYAMA, sHIDEOKON
+    .export sKATSUTOMOMAEIWA, sKUNIKOSAKURAI, sMASAHIROTATEMOTO, sTAKASHIKAWAGUCHI, sKEIZOHKATOH, sMOTOHIROISHII, sAKIHITOTODA
+    .export sYUKARISAITOH, sPHILSANDHOP, sTOSHIKOWATSON, sYUKANAKATA, sHIROKOFAULKNER, sTONYHARMAN, sDAYVBROOKS
+    .export sNORIYUKIMINAMI, sBINOHGAWARA, sYOSHIHISAWADA, sHIKONORISUZUKI, sTAKAOSHIMIZU, sSHIGERUMIYAMOTO, sHIROSHIYAMAUCHI
+    .export sEmpty3
 
 sLoadTooGreat:
     .byte "@Can't someone else", 1
@@ -6440,7 +6446,8 @@ sClosetFull:
 sMirage:
     .byte "@After telling the", 1
     .byte " story to "
-    tile_pointer Boy1Name
+    .byte $21
+    .word $7478
     .byte ",", 1, 3
 
     .byte "@with a rush of", 1
@@ -6462,15 +6469,19 @@ sBraveChildren:
     .byte " has called you.", 1, 3
 
     .byte "@"
-    tile_pointer Boy1Name
+    .byte $21
+    .word $7478
     .byte ", "
-    tile_pointer GirlName
+    .byte $21
+    .word $74B8
     .byte ",", 1
     .byte " "
-    tile_pointer Boy2Name
+    .byte $21
+    .word $74F8
     .byte ", and", 1
     .byte " "
-    tile_pointer Boy3Name
+    .byte $21
+    .word $7538
     .byte "!", 1, 3
 
     .byte "@All of the brave", 1
@@ -6503,7 +6514,8 @@ sDoYouWant:
 
 sMelodyForYou:
     .byte "@"
-    tile_pointer $670A
+    .byte $21
+    .word $670A
     .byte ",", 1
     .byte " Welcome...", 1, 3
 
@@ -6538,84 +6550,105 @@ sEmpty2:
 
 sDidntDo:
     .byte "@"
-    tile_pointer $6D20
+    .byte $21
+    .word $6D20
     .byte " didn't do", 1
     .byte " anything.", 1, 0
 
 sGave:
     .byte "@"
-    tile_pointer $6D20
+    .byte $21
+    .word $6D20
     .byte " gave", 1
     .byte " "
-    tile_pointer $6D24
+    .byte $21
+    .word $6D24
     .byte " to", 1
     .byte " "
-    tile_pointer $6D00
+    .byte $21
+    .word $6D00
     .byte ".", 1, 0
 
 sPut:
     .byte "@"
-    tile_pointer $6D20
+    .byte $21
+    .word $6D20
     .byte " put", 1
     .byte " "
-    tile_pointer $6D24
+    .byte $21
+    .word $6D24
     .byte " in", 1
     .byte " "
-    tile_pointer $6D00
+    .byte $21
+    .word $6D00
     .byte "'s bag.", 1, 0
 
 sPulled:
     .byte "@"
-    tile_pointer $6D00
+    .byte $21
+    .word $6D00
     .byte " pulled", 1
     .byte " "
-    tile_pointer $6D24
+    .byte $21
+    .word $6D24
     .byte " from", 1
     .byte " "
-    tile_pointer $6D20
+    .byte $21
+    .word $6D20
     .byte "'s bag.", 1, 0
 
 sThrew:
     .byte "@"
-    tile_pointer $670A
+    .byte $21
+    .word $670A
     .byte " threw", 1
     .byte " "
-    tile_pointer $6D24
+    .byte $21
+    .word $6D24
     .byte " out of", 1
     .byte " "
-    tile_pointer $6D20
+    .byte $21
+    .word $6D20
     .byte "'s bag.", 1, 0
 
 sTook:
     .byte "@"
-    tile_pointer $670A
+    .byte $21
+    .word $670A
     .byte " took", 1
     .byte " "
-    tile_pointer $6D24
+    .byte $21
+    .word $6D24
     .byte " from", 1
     .byte " "
-    tile_pointer $6D20
+    .byte $21
+    .word $6D20
     .byte "'s bag ", 1, 3
 
     .byte "@and placed it in", 1
     .byte " "
-    tile_pointer $6D00
+    .byte $21
+    .word $6D00
     .byte "'s bag.", 1, 0
 
 sAte:
     .byte "@"
-    tile_pointer $6D20
+    .byte $21
+    .word $6D20
     .byte " ate", 1
     .byte " "
-    tile_pointer $6D24
+    .byte $21
+    .word $6D24
     .byte ".", 1, 0
 
 sDrank:
     .byte "@"
-    tile_pointer $6D20
+    .byte $21
+    .word $6D20
     .byte " drank", 1
     .byte " "
-    tile_pointer $6D24
+    .byte $21
+    .word $6D24
     .byte ".", 1, 0
 
 sRecovered:
@@ -6636,49 +6669,58 @@ sIncreased:
 
 sHPis:
     .byte "@"
-    tile_pointer $6D20
+    .byte $21
+    .word $6D20
     .byte "'s HP is", 1, 0
 
 sPPis:
     .byte "@"
-    tile_pointer $6D20
+    .byte $21
+    .word $6D20
     .byte "'s PP is", 1, 0
 
 sENERGYis:
     .byte "@"
-    tile_pointer $6D20
+    .byte $21
+    .word $6D20
     .byte "'s ENERGY is", 1, 0
 
 sSPEEDis:
     .byte "@"
-    tile_pointer $6D20
+    .byte $21
+    .word $6D20
     .byte "'s SPEED is", 1, 0
 
 sWISDOMis:
     .byte "@"
-    tile_pointer $6D20
+    .byte $21
+    .word $6D20
     .byte "'s WISDOM is", 1, 0
 
 sSTRENGTHis:
     .byte "@"
-    tile_pointer $6D20
+    .byte $21
+    .word $6D20
     .byte "'s STRENGTH is", 1, 0
 
 sFORCEis:
     .byte "@"
-    tile_pointer $6D20
+    .byte $21
+    .word $6D20
     .byte "'s FORCE is", 1, 0
 
 sTookHerb:
     .byte "@"
-    tile_pointer $6D20
+    .byte $21
+    .word $6D20
     .byte " took out a", 1
     .byte " Magic Herb from the", 1
     .byte " Big Bag and USEd it.", 1, 0
 
 sDropping:
     .byte "@"
-    tile_pointer $6D20
+    .byte $21
+    .word $6D20
     .byte " started ", 1
     .byte " dropping the", 1
     .byte " Crumbs.", 1, 0
@@ -6690,7 +6732,8 @@ sYouCantUse:
 
 sHeadTrail:
     .byte "@"
-    tile_pointer $670A
+    .byte $21
+    .word $670A
     .byte " returned", 1
     .byte " to the head of the", 1
     .byte " trail...", 1, 3
@@ -6701,7 +6744,8 @@ sHeadTrail:
 
 sTied:
     .byte "@"
-    tile_pointer $6D20
+    .byte $21
+    .word $6D20
     .byte " tied the", 1
     .byte " Ribbon into", 1
     .byte " her hair.", 1, 0
@@ -6715,7 +6759,8 @@ sTrue:
 
 sMeasured:
     .byte "@"
-    tile_pointer $6D20
+    .byte $21
+    .word $6D20
     .byte " measured the", 1
     .byte " lengths of many", 1
     .byte " things.", 1, 0
@@ -6736,18 +6781,21 @@ sNeutralized:
     .byte "@The poison was", 1
     .byte " neutralized from", 1
     .byte " "
-    tile_pointer $6D20
+    .byte $21
+    .word $6D20
     .byte "'s body.", 1, 0
 
 sRid:
     .byte "@"
-    tile_pointer $6D20
+    .byte $21
+    .word $6D20
     .byte " was rid", 1
     .byte " of the cold.", 1, 0
 
 sSqueezed:
     .byte "@"
-    tile_pointer $6D20
+    .byte $21
+    .word $6D20
     .byte " squeezed", 1
     .byte " the PSI-Power", 1
     .byte " Stone.", 1, 0
@@ -6759,10 +6807,12 @@ sPSIPower:
 
 sTried:
     .byte "@"
-    tile_pointer $6D20
+    .byte $21
+    .word $6D20
     .byte " tried", 1
     .byte " "
-    tile_pointer $6D24
+    .byte $21
+    .word $6D24
     .byte ".", 1, 0
 
 sPowerLeft:
@@ -6772,7 +6822,8 @@ sPowerLeft:
 
 sScene:
     .byte "@"
-    tile_pointer $6D20
+    .byte $21
+    .word $6D20
     .byte " has", 1
     .byte " returned to the", 1
     .byte " scene.", 1, 0
@@ -6793,7 +6844,8 @@ sTheDiary:
 
 sBecame:
     .byte "@"
-    tile_pointer $6D00
+    .byte $21
+    .word $6D00
     .byte " became", 1
     .byte " softened.", 1, 0
 
@@ -6810,7 +6862,8 @@ sPlace:
 
 sChecked:
     .byte "@"
-    tile_pointer $670A
+    .byte $21
+    .word $670A
     .byte " checked", 1
     .byte " the map.", 1, 0
 
@@ -6845,14 +6898,16 @@ sSpaces:
 
 sReunited:
     .byte "At the summit of Mt. Itoi,", 1
-    tile_pointer GirlName
+    .byte $21
+    .word $74B8
     .byte " is reunited with her", 1
     .byte "mom as the rest of the freed", 1
     .byte "Earth people exit the cave.", 1, 0
 
 sHealth:
     .byte " "
-    tile_pointer Boy3Name
+    .byte $21
+    .word $7538
     .byte ", his health fully", 1
     .byte " recovered, now sings daily", 1
     .byte " at The Live Show.", 1, 0
@@ -6864,7 +6919,8 @@ sLonely:
 
 sForget:
     .byte "("
-    tile_pointer GirlName
+    .byte $21
+    .word $74B8
     .byte ")", 1
     .byte "I promise I won't forget you", 1
     .byte "so I will not say Good-Bye,", 1
@@ -6872,7 +6928,8 @@ sForget:
 
 sElementarySchool:
     .byte " "
-    tile_pointer Boy2Name
+    .byte $21
+    .word $74F8
     .byte " returns to a hero's", 1
     .byte " welcome at Twinkle", 1
     .byte " Elementary School.", 1, 0
@@ -6885,7 +6942,8 @@ sNotHungry:
 
 sLetter:
     .byte " A letter from "
-    tile_pointer Boy1Name
+    .byte $21
+    .word $7478
     .byte ",", 1
     .byte " I miss him so much. I hope", 1
     .byte " we can get together again", 1
@@ -6904,7 +6962,8 @@ sHome:
     .byte " come up and...", 1, 0
 
 stru_20EE56:
-    tile_pointer $7420
+    .byte $21
+    .word $7420
     .byte 0
 
 sSHIGESATOITOI:
@@ -7015,9 +7074,32 @@ sHIROSHIYAMAUCHI:
 sEmpty3:
     .byte 0
 
-
-
 .segment "DIALOGS8"
+
+    .export sEmpty4, sBagFilled, sCharge, sBreadCrumbs, sStrangeRing, sEmpty5, sEmpty6, sEmpty7, sEmpty8, sEmpty9, sKnife
+    .export sSurvivalKnife, sSwordMaster, sJapaneseSword, sStunGunUse, sStrongWeapon, sPlasticBatUse, sWoodenBatUse, sTougher
+    .export sAutographed, sFryingPanUse, sNonStickPan, sIronSkilletUse, sSlingshotUse, sBoomerangUse, sIrritating, sIndustrial
+    .export sCritters, sWordsLove, sSwear, sStickyMachine, sOpposite, sEmpty10, sEmpty11, sFlameThrower, sDetonate, sBewareBlast
+    .export sSissy, sWeenie, sEmpty12, sEnemyUp, sEmpty13, sEmpty14, sEmpty15, sEmpty16, sPeaceCoinUse, sProtectionCoin
+    .export sMagicCoinUse, sBrassRingUse, sSilverRingUse, sGoldRingUse, sWaterPendant, sFirePendantUse, sEarthPendant
+    .export sSeaPendantUse, sEmpty17, sEmpty18, sEmpty19, sEmpty20, sEmpty21, sVitaminC, sEaten, sMagicHerbUse, sFastFood
+    .export sStrengthen, sLifeUpCreamUse, sAsthmaAttacks, sAntidotePoison, sYouGargle, sStrawBerryEat, sEmpty22, sBreadTrail
+    .export sNobleSeedUse, sPSISolid, sEmpty23, sMagicForce, sMagicCandyEat, sEmpty24, sQuickCapsule, sWisdomCapsule
+    .export sPhysicalCapsule, sForceCapsule, sFightCapsule, sEmpty25, sEmpty26, sBasementKeyUse, sUnlockGate, sGhostHouseKey
+    .export sGreatGrandFathers, sEmployee, sRocknRoll, sEmpty27, sEmpty28, sEmpty29, sEmpty30, sCanaryChickEyes, sEmpty31
+    .export sBottleRocket, sPrettyHat, sBrush, sSaveTen, sEmpty32, sCatchyTune, sEmpty33, sFranklinBadge, sEmpty34, sEmpty35
+    .export sOnyxHookWarp, sLastWeaponAsk, sRulerInches, sCashCardUse, sRedWeedLike, sAmplified, sEmpty36, sEmpty37, sEmpty38
+    .export sEmpty39, sEmpty40, sEmpty41, sEmpty42, sEmpty43, sEmpty44, sEmpty45, sEmpty46, sEmpty47, sEmpty48, sEmpty49, sDbg
+    .export sEmpty50, sFightRun, sImportantSecret, sDefeat, sDontLetStop, sPorridge, sSurprised, sAsthmatic, sHypnotism
+    .export sSpecialArmor, sAwful, sNotExist, sPrimate, sFace, sWatchThoseEyes, sNoOne, sStrong, sShell, sHhypnotism, sEmpty51
+    .export sQuickness, sPearly, sThief, sInvitation, sFuel, sGuarding, sFBI, sRotten, sMalnourishedRobot, sTricked, sStarsMan
+    .export sNaturally, sEvilLab, sPSIAttack, sArmorOwn, sAnimatedTree, sTemper, sFlowers, sFridge, sBadApple, sTwisted
+    .export sEmpty52, sSmash, sSneak, sWallet, sNotPoison, sLaughsLast, sPetCat, sExterminate, sAHCho, sEffective, sYoullWantTry
+    .export sPoisonous, sDontLetYourself, sComicBook, sDraw, sIdentity, sOrdinaryGhost, sDinnerPlate, sPuzzle, sSpaceman
+    .export sHoldYourNose, sLastStrike, sRatTail, sEgg, sEmpty53, sStares, sHovers, sEmpty54, sEmpty55, sStrongPoison, sBeware
+    .export sEmpty56, sEmpty57, sGoodExperience, sDoesntFriends, sChairBroken, sEmpty58, sEmpty59, sEmpty60, sEmpty61
+    .export sWhereAntidote, sPoisonPoison, sDontSmile, sEmpty62, sHisFace, sEmpty63, sOriginStone, sFleas, sCar, sVehicle, sNext
+    .export sDontAlarm, sEmpty64, sOptometrists, sWatchYourStep, sMomseyesWillSpot, sEmpty65, sEmpty66, sFriends
 
 sEmpty4:
     .byte 0
@@ -7067,14 +7149,16 @@ sEmpty9:
 sKnife:
     .byte $A6, "Butter Knife", $A6, 1
     .byte "@"
-    tile_pointer Boy3Name
+    .byte $21
+    .word $7538
     .byte " can master", 1
     .byte " it.", 1, 0
 
 sSurvivalKnife:
     .byte $A6, "Survival Knife", $A6, 1
     .byte "@Hey "
-    tile_pointer Boy3Name
+    .byte $21
+    .word $7538
     .byte ", this is", 1
     .byte " stronger than an", 1
     .byte " ordinary Knife.", 1, 0
@@ -7088,14 +7172,16 @@ sJapaneseSword:
     .byte $A6, "Katana", $A6, 1
     .byte "@This Japanese sword", 1
     .byte " is the best "
-    tile_pointer Boy3Name
+    .byte $21
+    .word $7538
     .byte 1
     .byte " has seen yet.", 1, 0
 
 sStunGunUse:
     .byte $A6, "Stun Gun", $A6, 1
     .byte "@"
-    tile_pointer Boy2Name
+    .byte $21
+    .word $74F8
     .byte 1
     .byte " seems to be able to", 1
     .byte " USE it.", 1, 0
@@ -7105,7 +7191,8 @@ sStrongWeapon:
     .byte "@A strong weapon,", 1, 3
 
     .byte "@but only "
-    tile_pointer Boy2Name
+    .byte $21
+    .word $74F8
     .byte 1
     .byte " seems to be able to", 1
     .byte " USE it.", 1, 0
@@ -7114,13 +7201,15 @@ sPlasticBatUse:
     .byte $A6, "Plastic Bat", $A6, 1
     .byte "@This weapon is OK", 1
     .byte " for "
-    tile_pointer Boy1Name
+    .byte $21
+    .word $7478
     .byte ". USE it!", 1, 0
 
 sWoodenBatUse:
     .byte $A6, "Wooden Bat", $A6, 1
     .byte "@"
-    tile_pointer Boy1Name
+    .byte $21
+    .word $7478
     .byte ", USE this", 1
     .byte " weapon to fight", 1
     .byte " with weak enemies.", 1, 0
@@ -7130,7 +7219,8 @@ sTougher:
     .byte "@With this weapon", 1, 3
 
     .byte "@"
-    tile_pointer Boy1Name
+    .byte $21
+    .word $7478
     .byte " can easily", 1
     .byte " fight tougher", 1
     .byte " enemies.", 1, 0
@@ -7144,7 +7234,8 @@ sAutographed:
 sFryingPanUse:
     .byte $A6, "Frying Pan", $A6, 1
     .byte "@"
-    tile_pointer GirlName
+    .byte $21
+    .word $74B8
     .byte " can USE", 1
     .byte " this weapon best.", 1, 0
 
@@ -7152,14 +7243,16 @@ sNonStickPan:
     .byte $A6, "Non-stick Pan", $A6, 1
     .byte "@A good weapon for", 1
     .byte " "
-    tile_pointer GirlName
+    .byte $21
+    .word $74B8
     .byte ", with no", 1
     .byte " messy clean up.", 1, 0
 
 sIronSkilletUse:
     .byte $A6, "Iron Skillet", $A6, 1
     .byte "@"
-    tile_pointer GirlName
+    .byte $21
+    .word $74B8
     .byte " can USE this", 1
     .byte " heavy metal pan to", 1
     .byte " rock strong enemies.", 1, 0
@@ -7225,14 +7318,16 @@ sFlameThrower:
     .byte $A6, "Flame Thrower", $A6, 1
     .byte "@Toasts the enemy,", 1
     .byte " but only "
-    tile_pointer Boy2Name
+    .byte $21
+    .word $74F8
     .byte 1
     .byte " can use it.", 1, 0
 
 sDetonate:
     .byte $A6, "Bomb", $A6, 1
     .byte "@Maybe only "
-    tile_pointer Boy2Name
+    .byte $21
+    .word $74F8
     .byte 1
     .byte " can detonate it.", 1, 0
 
@@ -7242,7 +7337,8 @@ sBewareBlast:
     .byte " ", $A6, "Beware of blast", $A6, ",", 1, 3
 
     .byte "@only "
-    tile_pointer Boy2Name
+    .byte $21
+    .word $74F8
     .byte " can", 1
     .byte " use it.", 1, 0
 
@@ -7250,14 +7346,16 @@ sSissy:
     .byte $A6, "Laser Beam", $A6, 1
     .byte "@It helps that sissy", 1
     .byte " "
-    tile_pointer Boy2Name
+    .byte $21
+    .word $74F8
     .byte ".", 1, 0
 
 sWeenie:
     .byte $A6, "Plasma Beam", $A6, 1
     .byte "@It helps that weenie", 1
     .byte " "
-    tile_pointer Boy2Name
+    .byte $21
+    .word $74F8
     .byte " quite a lot.", 1, 0
 
 sEmpty12:
@@ -7389,7 +7487,8 @@ sLifeUpCreamUse:
 sAsthmaAttacks:
     .byte $A6, "Asthma Spray", $A6, 1
     .byte "@When "
-    tile_pointer Boy1Name
+    .byte $21
+    .word $7478
     .byte "'s", 1
     .byte " asthma attacks,", 1
     .byte " spray this.", 1, 0
@@ -7543,7 +7642,8 @@ sEmpty31:
 sBottleRocket:
     .byte $A6, "Bottle Rocket", $A6, 1
     .byte "@"
-    tile_pointer Boy2Name
+    .byte $21
+    .word $74F8
     .byte " seems to", 1
     .byte " know how to use it.", 1, 0
 
@@ -7552,7 +7652,8 @@ sPrettyHat:
     .byte "@A pretty hat", 1
     .byte " embroidered with", 1
     .byte " the name "
-    tile_pointer GirlName
+    .byte $21
+    .word $74B8
     .byte ".", 1, 0
 
 sBrush:
@@ -7615,7 +7716,8 @@ sRulerInches:
 
 sCashCardUse:
     .byte $A6, ""
-    tile_pointer Boy1Name
+    .byte $21
+    .word $7478
     .byte "'s Cash Card", $A6, 1
     .byte "@Use it for all your", 1
     .byte " banking needs.", 1, 0
@@ -8075,9 +8177,27 @@ sEmpty66:
 sFriends:
     .byte "It has friends!", 0
 
-
-
 .segment "DIALOGS9"
+
+    .export sEmpty67, sHePKBeam, sStrongOx, sRagged, sTheLatest, sManhole, sBeauty, sCarries, sPlenty, sStrongPSIAttack
+    .export sHisPurpose, sFreeze, sBeatIt, sUsingPSI, sEmpty68, sCareful, sBareHands, sCoat, sHuge, sMustSleep, sImproved
+    .export sTheStrongest, sEmpty69, sPos, sFill, sDrewNear, sAttack, sTankGun, sBit, sScratched, sCharged, sRanOut, sLastBlow
+    .export sForm, sSpit, sBound, sStrangeCry, sDarlingSmile, sRage, sConfused, sCriedOut, sSowed, sStarted, sUttered, sDirtyWords
+    .export sGrins, sSoConfused, sIsAsleep, sEnergy, sRanAway, sDidntWork, sTripped, sCantMove, sTurned, sPuffed, sWheeze
+    .export sMeditating, sSaid, sReady, sSang, sIsGuarding, sApproached, sUSEd, sTtried, sCcantUse, sCircumstances, sSomethingStrange
+    .export sDayDreaming, sCHECKed, sWickedSeed, sGas, sTookAway, sEscapedRope, sWokeUp, sZAP, sContinuousAttack, sYOUWIN, sLose
+    .export sLingers, sTankBroken, sAgainstFire, sAgainstFreeze, sAgainstThunder, sAgainstBeam, sWeakSprays, sOFFENSE, sDEFENSE
+    .export sGrateful, sYourGreat, sGeorgeStole, sDescendants, sGoHomeNow, sFoolish, sYouAlone, sFallSleep, sStopSinging
+    .export sSTOPSinging, sSTOP, sSTOPIT, sPuny, sTheSONG, sSTOPIt, sExclamation, sStop, sAcclamation, sPoints, sBeDefeated
+    .export sIWill, sMeetAgain, sDodged, sSMAAAASH, sSuffered, sDefeated, sHurt, sGone, sNoEffect, sExhausted, sSurrounded
+    .export sMotherCall, sTturned, sBlinded, sExploded, sBurst, sOFFENSEinc, sOFFENSEdec, sDEFENSEinc, sSPEEDinc, sFIGHTdec
+    .export sDEFENSEdec, sFIGHTinc, sSPEEDdec, sEXPinc, sBelieved, sWasntConvinced, sMadeAngry, sCritical, sSenses, sPutSleep
+    .export sRecoverPP, sRecoverHP, sHoweverNoOne, sSilence, sJoined, sSnatched, sCannotMove, sWasPoisoned, sDehydrated, sBlocked
+    .export sWasBound, sShielded, sMiss, sPSIBlocked, sBounced, sBouncedBack, sNotenoughPPs, sWasNoEffect, sDissipated
+    .export sRegained, sItchy, sCanMove, sWakeUp, sBrought, sDestroyed, sAsthmaAttackPass, sRecoveredStone, sILoveYou, sIHateYou
+    .export sAsthmaAttack, sRegainedSenses, sQuiet, sBeaten, sWasDestroyed, sDust, sDidntMove, sPileJunk, sVanished, sWasntConfused
+    .export sItNoEffect, sWasBroken, sTurnedIntoStone, sBecameEmpty, sAdvanced, sMaximumHPinc, sMaximumPPinc, sFIGHTInc, sSPEEDInc
+    .export sWISDOMinc, sSTRENGTHinc, sFORCEinc, sNewPSIPower, sPickedUp, sSingLullaby, sEmpty70
 
 sEmpty67:
     .byte 0
@@ -8181,134 +8301,164 @@ sFill:
     .byte 0
 
 sDrewNear:
-    tile_pointer $0580
+    .byte $21
+    .word $0580
     .byte 1
     .byte " drew near!", 0
 
 sAttack:
-    tile_pointer $0580
+    .byte $21
+    .word $0580
     .byte "'s attack!", 0
 
 sTankGun:
-    tile_pointer $0580
+    .byte $21
+    .word $0580
     .byte " fired the", 1
     .byte "tank gun!", 0
 
 sBit:
-    tile_pointer $0580
+    .byte $21
+    .word $0580
     .byte " bit", 1
-    tile_pointer $0588
+    .byte $21
+    .word $0588
     .byte "!", 0
 
 sScratched:
-    tile_pointer $0580
+    .byte $21
+    .word $0580
     .byte " scratched", 1
-    tile_pointer $0588
+    .byte $21
+    .word $0588
     .byte "!", 0
 
 sCharged:
-    tile_pointer $0580
+    .byte $21
+    .word $0580
     .byte " charged", 1
     .byte "at "
-    tile_pointer $0588
+    .byte $21
+    .word $0588
     .byte "!", 0
 
 sRanOut:
-    tile_pointer $0580
+    .byte $21
+    .word $0580
     .byte " ran out", 1
     .byte "of control!", 0
 
 sLastBlow:
-    tile_pointer $0580
+    .byte $21
+    .word $0580
     .byte "'s", 1
     .byte "last blow!!!", 0
 
 sForm:
     .byte "The form of", 1
-    tile_pointer $0580
+    .byte $21
+    .word $0580
     .byte "'s attack", 1
     .byte "was inexplicable!", 0
 
 sSpit:
-    tile_pointer $0580
+    .byte $21
+    .word $0580
     .byte " spit a", 1
     .byte "sticky substance!", 0
 
 sBound:
-    tile_pointer $0580
+    .byte $21
+    .word $0580
     .byte " is bound", 1
     .byte "tightly.", 0
 
 sStrangeCry:
-    tile_pointer $0580
+    .byte $21
+    .word $0580
     .byte " let out", 1
     .byte "a strange cry!", 0
 
 sDarlingSmile:
-    tile_pointer $0580
+    .byte $21
+    .word $0580
     .byte " smiled", 1
     .byte "a darling smile.", 0
 
 sRage:
-    tile_pointer $0580
+    .byte $21
+    .word $0580
     .byte " flew into", 1
     .byte "a rage!", 0
 
 sConfused:
-    tile_pointer $0580
+    .byte $21
+    .word $0580
     .byte " made", 1
-    tile_pointer $0588
+    .byte $21
+    .word $0588
     .byte " confused!", 0
 
 sCriedOut:
-    tile_pointer $0580
+    .byte $21
+    .word $0580
     .byte " cried out", 1
     .byte "for help!", 0
 
 sSowed:
-    tile_pointer $0580
+    .byte $21
+    .word $0580
     .byte " sowed", 1
     .byte "its seed!", 0
 
 sStarted:
-    tile_pointer $0580
+    .byte $21
+    .word $0580
     .byte " started", 1
     .byte "laughing!", 0
 
 sUttered:
-    tile_pointer $0580
+    .byte $21
+    .word $0580
     .byte " uttered", 1
     .byte "threatening words!", 0
 
 sDirtyWords:
-    tile_pointer $0580
+    .byte $21
+    .word $0580
     .byte " uttered", 1
     .byte "dirty words!", 0
 
 sGrins:
-    tile_pointer $0580
+    .byte $21
+    .word $0580
     .byte " just", 1
     .byte "grins, and bears it.", 0
 
 sSoConfused:
-    tile_pointer $0580
+    .byte $21
+    .word $0580
     .byte " is so", 1
     .byte "confused.", 0
 
 sIsAsleep:
-    tile_pointer $0580
+    .byte $21
+    .word $0580
     .byte " is", 1
     .byte "asleep.", 0
 
 sEnergy:
-    tile_pointer $0580
+    .byte $21
+    .word $0580
     .byte "'s energy", 1
     .byte "has flowed into", 1
-    tile_pointer $0588
+    .byte $21
+    .word $0588
     .byte "!", 0
 
 sRanAway:
-    tile_pointer $0580
+    .byte $21
+    .word $0580
     .byte " ran away!", 0
 
 sDidntWork:
@@ -8316,127 +8466,156 @@ sDidntWork:
     .byte "out.", 0
 
 sTripped:
-    tile_pointer $0580
+    .byte $21
+    .word $0580
     .byte 1
     .byte "tripped and fell.", 0
 
 sCantMove:
-    tile_pointer $0580
+    .byte $21
+    .word $0580
     .byte " can't", 1
     .byte "move.", 0
 
 sTurned:
-    tile_pointer $0580
+    .byte $21
+    .word $0580
     .byte " turned", 1
     .byte "into a stone.", 0
 
 sPuffed:
-    tile_pointer $0580
+    .byte $21
+    .word $0580
     .byte " puffed a", 1
     .byte "cloud of exhaust gas!", 0
 
 sWheeze:
-    tile_pointer $0580
+    .byte $21
+    .word $0580
     .byte " had an", 1
     .byte "asthma attack.", 1
     .byte "Wheeze...", 0
 
 sMeditating:
-    tile_pointer $0580
+    .byte $21
+    .word $0580
     .byte " is", 1
     .byte "meditating.", 0
 
 sSaid:
-    tile_pointer $0580
+    .byte $21
+    .word $0580
     .byte " said", 1
     .byte $A6, "Hello", $A6, ", then just", 1
     .byte "walked away.", 0
 
 sReady:
-    tile_pointer $0580
+    .byte $21
+    .word $0580
     .byte " is ready", 1
     .byte "for an attack.", 0
 
 sSang:
-    tile_pointer $0580
+    .byte $21
+    .word $0580
     .byte " sang the", 1
     .byte "song!", 0
 
 sIsGuarding:
-    tile_pointer $0580
+    .byte $21
+    .word $0580
     .byte " is", 1
     .byte "guarding.", 0
 
 sApproached:
-    tile_pointer $0580
+    .byte $21
+    .word $0580
     .byte 1
     .byte "approached slowly!", 0
 
 sUSEd:
-    tile_pointer $0580
+    .byte $21
+    .word $0580
     .byte " USEd", 1
-    tile_pointer $0590
+    .byte $21
+    .word $0590
     .byte "!", 0
 
 sTtried:
-    tile_pointer $0580
+    .byte $21
+    .word $0580
     .byte " tried", 1
-    tile_pointer $0590
+    .byte $21
+    .word $0590
     .byte "!", 0
 
 sCcantUse:
-    tile_pointer $0580
+    .byte $21
+    .word $0580
     .byte " can't USE", 1
-    tile_pointer $0590
+    .byte $21
+    .word $0590
     .byte "!", 0
 
 sCircumstances:
-    tile_pointer $0580
+    .byte $21
+    .word $0580
     .byte " is", 1
     .byte "thinking about the", 1
     .byte "circumstances.", 0
 
 sSomethingStrange:
-    tile_pointer $0580
+    .byte $21
+    .word $0580
     .byte " did", 1
     .byte "something strange.", 0
 
 sDayDreaming:
-    tile_pointer $0580
+    .byte $21
+    .word $0580
     .byte " is", 1
     .byte "day-dreaming.", 0
 
 sCHECKed:
-    tile_pointer $0580
+    .byte $21
+    .word $0580
     .byte " CHECKed", 1
-    tile_pointer $0588
+    .byte $21
+    .word $0588
     .byte ".", 0
 
 sWickedSeed:
-    tile_pointer $0580
+    .byte $21
+    .word $0580
     .byte " used", 1
     .byte "the Wicked Seed!", 0
 
 sGas:
-    tile_pointer $0580
+    .byte $21
+    .word $0580
     .byte " used a", 1
     .byte "paralizing gas!", 0
 
 sTookAway:
-    tile_pointer $0580
+    .byte $21
+    .word $0580
     .byte " took away", 1
-    tile_pointer $0588
+    .byte $21
+    .word $0588
     .byte "'s", 1
-    tile_pointer $0590
+    .byte $21
+    .word $0590
     .byte "!", 0
 
 sEscapedRope:
-    tile_pointer $0580
+    .byte $21
+    .word $0580
     .byte " escaped", 1
     .byte "from the Rope.", 0
 
 sWokeUp:
-    tile_pointer $0580
+    .byte $21
+    .word $0580
     .byte " woke up.", 0
 
 sZAP:
@@ -8461,34 +8640,34 @@ sTankBroken:
     .byte "The tank is broken.", 0
 
 sAgainstFire:
-    .byte CURSOR, " Strong against", 1
+    .byte $FF, " Strong against", 1
     .byte "  PK Fire.", 0
 
 sAgainstFreeze:
-    .byte CURSOR, " Strong against", 1
+    .byte $FF, " Strong against", 1
     .byte "  PK Freeze.", 0
 
 sAgainstThunder:
-    .byte CURSOR, " Strong against", 1
+    .byte $FF, " Strong against", 1
     .byte "  PK Thunder.", 0
 
 sAgainstBeam:
-    .byte CURSOR, " Strong against", 1
+    .byte $FF, " Strong against", 1
     .byte "  PK Beam.", 0
 
 sWeakSprays:
-    .byte CURSOR, " Weak against", 1
+    .byte $FF, " Weak against", 1
     .byte "  Sprays.", 0
 
 sOFFENSE:
-    .byte CURSOR, " OFFENSE "
+    .byte $FF, " OFFENSE "
     .byte $23
     .word $0590
     .byte $02, $00
     .byte ".", 0
 
 sDEFENSE:
-    .byte CURSOR, " DEFENSE "
+    .byte $FF, " DEFENSE "
     .byte $23
     .word $0592
     .byte $02, $00
@@ -8496,7 +8675,8 @@ sDEFENSE:
 
 sGrateful:
     .byte " "
-    tile_pointer Boy1Name
+    .byte $21
+    .word $7478
     .byte "!", 1, 3
 
     .byte " I am grateful to", 1
@@ -8533,7 +8713,8 @@ sDescendants:
     .byte " stopped!!", 1, 3
 
     .byte " "
-    tile_pointer Boy1Name
+    .byte $21
+    .word $7478
     .byte "!", 1
     .byte " I am talking about", 1
     .byte " you!", 1, 3
@@ -8561,7 +8742,8 @@ sFoolish:
 
 sYouAlone:
     .byte " "
-    tile_pointer Boy1Name
+    .byte $21
+    .word $7478
     .byte "!", 1
     .byte " You alone,", 1, 3
 
@@ -8636,23 +8818,26 @@ sIWill:
 
 sMeetAgain:
     .byte " "
-    tile_pointer Boy1Name
+    .byte $21
+    .word $7478
     .byte "!", 1
     .byte " We SHALL meet again!", 1, 3
     .byte 2
 
 sDodged:
     .byte " "
-    tile_pointer $0588
+    .byte $21
+    .word $0588
     .byte " dodged", 1
     .byte " swiftly.", 0
 
 sSMAAAASH:
-    .byte "  ", SMASH1, SMASH2, SMASH3, SMASH4, SMASH5, SMASH6, SMASH7, SMASH8, SMASH9, 0 ;   SMAAAASH!
+    .byte "  ", $97, $98, $99, $9A, $9B, $9C, $9D, $9E, $9F, 0 ;   SMAAAASH!
 
 sSuffered:
     .byte " "
-    tile_pointer $0588
+    .byte $21
+    .word $0588
     .byte " suffered", 1
     .byte " "
     .byte $23
@@ -8663,36 +8848,42 @@ sSuffered:
 sDefeated:
     .byte " Defeated", 1
     .byte " "
-    tile_pointer $0588
+    .byte $21
+    .word $0588
     .byte "!", 0
 
 sHurt:
     .byte " "
-    tile_pointer $0588
+    .byte $21
+    .word $0588
     .byte " was", 1
     .byte " hurt and beaten.", 0
 
 sGone:
     .byte " "
-    tile_pointer $0588
+    .byte $21
+    .word $0588
     .byte 1
     .byte " was already gone.", 0
 
 sNoEffect:
     .byte " There was no effect", 1
     .byte " on "
-    tile_pointer $0588
+    .byte $21
+    .word $0588
     .byte ".", 0
 
 sExhausted:
     .byte " "
-    tile_pointer $0580
+    .byte $21
+    .word $0580
     .byte " was", 1
     .byte " totally exhausted.", 0
 
 sSurrounded:
     .byte " "
-    tile_pointer $0588
+    .byte $21
+    .word $0588
     .byte " was", 1
     .byte " surrounded by a", 1
     .byte " barrier.", 0
@@ -8703,31 +8894,36 @@ sMotherCall:
 
 sTturned:
     .byte " "
-    tile_pointer $0588
+    .byte $21
+    .word $0588
     .byte " turned", 1
     .byte " into a stone.", 0
 
 sBlinded:
     .byte " "
-    tile_pointer $0588
+    .byte $21
+    .word $0588
     .byte " was", 1
     .byte " blinded!", 0
 
 sExploded:
     .byte " "
-    tile_pointer $0580
+    .byte $21
+    .word $0580
     .byte 1
     .byte " exploded!", 0
 
 sBurst:
     .byte " "
-    tile_pointer $0580
+    .byte $21
+    .word $0580
     .byte " burst", 1
     .byte " into flames!", 0
 
 sOFFENSEinc:
     .byte " "
-    tile_pointer $0588
+    .byte $21
+    .word $0588
     .byte "'s", 1
     .byte " OFFENSE increased", 1
     .byte " by "
@@ -8738,7 +8934,8 @@ sOFFENSEinc:
 
 sOFFENSEdec:
     .byte " "
-    tile_pointer $0588
+    .byte $21
+    .word $0588
     .byte "'s", 1
     .byte " OFFENSE decreased", 1
     .byte " by "
@@ -8749,7 +8946,8 @@ sOFFENSEdec:
 
 sDEFENSEinc:
     .byte " "
-    tile_pointer $0588
+    .byte $21
+    .word $0588
     .byte "'s", 1
     .byte " DEFENSE increased", 1
     .byte " by "
@@ -8760,7 +8958,8 @@ sDEFENSEinc:
 
 sSPEEDinc:
     .byte " "
-    tile_pointer $0588
+    .byte $21
+    .word $0588
     .byte "'s SPEED", 1
     .byte " increased by "
     .byte $23
@@ -8770,7 +8969,8 @@ sSPEEDinc:
 
 sFIGHTdec:
     .byte " "
-    tile_pointer $0588
+    .byte $21
+    .word $0588
     .byte "'s FIGHT", 1
     .byte " decreased by "
     .byte $23
@@ -8780,7 +8980,8 @@ sFIGHTdec:
 
 sDEFENSEdec:
     .byte " "
-    tile_pointer $0588
+    .byte $21
+    .word $0588
     .byte "'s", 1
     .byte " DEFENSE decreased", 1
     .byte " by "
@@ -8791,7 +8992,8 @@ sDEFENSEdec:
 
 sFIGHTinc:
     .byte " "
-    tile_pointer $0588
+    .byte $21
+    .word $0588
     .byte "'s FIGHT", 1
     .byte " increased by "
     .byte $23
@@ -8801,7 +9003,8 @@ sFIGHTinc:
 
 sSPEEDdec:
     .byte " "
-    tile_pointer $0588
+    .byte $21
+    .word $0588
     .byte "'s SPEED", 1
     .byte " decreased by "
     .byte $23
@@ -8812,19 +9015,22 @@ sSPEEDdec:
 sEXPinc:
     .byte " Don't know why, but", 1
     .byte " "
-    tile_pointer $0588
+    .byte $21
+    .word $0588
     .byte "'s EXP", 1
     .byte " increased.", 0
 
 sBelieved:
     .byte " and "
-    tile_pointer $0588
+    .byte $21
+    .word $0588
     .byte 1
     .byte " believed it!", 0
 
 sWasntConvinced:
     .byte " but "
-    tile_pointer $0588
+    .byte $21
+    .word $0588
     .byte 1
     .byte " wasn't convinced", 1
     .byte " at all.", 0
@@ -8832,31 +9038,36 @@ sWasntConvinced:
 sMadeAngry:
     .byte " This made", 1
     .byte " "
-    tile_pointer $0588
+    .byte $21
+    .word $0588
     .byte " angry.", 0
 
 sCritical:
     .byte " "
-    tile_pointer $0588
+    .byte $21
+    .word $0588
     .byte "'s", 1
     .byte " situation became", 1
     .byte " critical.", 0
 
 sSenses:
     .byte " "
-    tile_pointer $0588
+    .byte $21
+    .word $0588
     .byte " lost", 1
     .byte " all senses.", 0
 
 sPutSleep:
     .byte " "
-    tile_pointer $0588
+    .byte $21
+    .word $0588
     .byte " was", 1
     .byte " put to sleep.", 0
 
 sRecoverPP:
     .byte " "
-    tile_pointer $0588
+    .byte $21
+    .word $0588
     .byte 1
     .byte " recovered "
     .byte $23
@@ -8866,7 +9077,8 @@ sRecoverPP:
 
 sRecoverHP:
     .byte " "
-    tile_pointer $0588
+    .byte $21
+    .word $0588
     .byte 1
     .byte " recovered "
     .byte $23
@@ -8883,7 +9095,8 @@ sSilence:
 
 sJoined:
     .byte " "
-    tile_pointer $0588
+    .byte $21
+    .word $0588
     .byte " joined", 1
     .byte " in the battle!", 0
 
@@ -8895,42 +9108,49 @@ sSnatched:
     .byte " PP's were", 1
     .byte " snatched from", 1
     .byte " "
-    tile_pointer $0588
+    .byte $21
+    .word $0588
     .byte ".", 0
 
 sCannotMove:
     .byte " "
-    tile_pointer $0588
+    .byte $21
+    .word $0588
     .byte " can not", 1
     .byte " move.", 0
 
 sWasPoisoned:
     .byte " "
-    tile_pointer $0588
+    .byte $21
+    .word $0588
     .byte " was", 1
     .byte " poisoned.", 0
 
 sDehydrated:
     .byte " "
-    tile_pointer $0588
+    .byte $21
+    .word $0588
     .byte " was", 1
     .byte " dehydrated.", 0
 
 sBlocked:
     .byte " "
-    tile_pointer $0588
+    .byte $21
+    .word $0588
     .byte "'s PSI", 1
     .byte " was blocked.", 0
 
 sWasBound:
     .byte " "
-    tile_pointer $0588
+    .byte $21
+    .word $0588
     .byte " was", 1
     .byte " bound with Rope.", 0
 
 sShielded:
     .byte " "
-    tile_pointer $0588
+    .byte $21
+    .word $0588
     .byte " was", 1
     .byte " shielded.", 0
 
@@ -8943,14 +9163,16 @@ sPSIBlocked:
 
 sBounced:
     .byte " But, "
-    tile_pointer $0588
+    .byte $21
+    .word $0588
     .byte "'s", 1
     .byte " FranklinBadge bounced", 1
     .byte " back the Beam!", 0
 
 sBouncedBack:
     .byte " "
-    tile_pointer $0588
+    .byte $21
+    .word $0588
     .byte " bounced", 1
     .byte " back the attack!", 0
 
@@ -8960,62 +9182,72 @@ sNotenoughPPs:
 sWasNoEffect:
     .byte " There was no effect", 1
     .byte " on "
-    tile_pointer $0588
+    .byte $21
+    .word $0588
     .byte ".", 0
 
 sDissipated:
     .byte " Poison has dissipated", 1
     .byte " from "
-    tile_pointer $0588
+    .byte $21
+    .word $0588
     .byte "'s", 1
     .byte " body.", 0
 
 sRegained:
     .byte " "
-    tile_pointer $0588
+    .byte $21
+    .word $0588
     .byte " senses", 1
     .byte " were regained.", 0
 
 sItchy:
     .byte " "
-    tile_pointer $0588
+    .byte $21
+    .word $0588
     .byte 1
     .byte " became itchy", 1
     .byte " all over.", 0
 
 sCanMove:
     .byte " "
-    tile_pointer $0588
+    .byte $21
+    .word $0588
     .byte " can", 1
     .byte " move now.", 0
 
 sWakeUp:
     .byte " "
-    tile_pointer $0588
+    .byte $21
+    .word $0588
     .byte " woke up.", 0
 
 sBrought:
     .byte " Brought "
-    tile_pointer $0588
+    .byte $21
+    .word $0588
     .byte 1
     .byte " back!!!", 0
 
 sDestroyed:
     .byte " Destroyed", 1
     .byte " "
-    tile_pointer $0588
+    .byte $21
+    .word $0588
     .byte "'s", 1
     .byte " shield.", 0
 
 sAsthmaAttackPass:
     .byte " "
-    tile_pointer $0588
+    .byte $21
+    .word $0588
     .byte "'s asthma", 1
     .byte " attack has passed.", 0
 
 sRecoveredStone:
     .byte " "
-    tile_pointer $0588
+    .byte $21
+    .word $0588
     .byte 1
     .byte " recovered from", 1
     .byte " being a stone.", 0
@@ -9028,61 +9260,71 @@ sIHateYou:
 
 sAsthmaAttack:
     .byte " "
-    tile_pointer $0588
+    .byte $21
+    .word $0588
     .byte " had an", 1
     .byte " asthma attack.", 0
 
 sRegainedSenses:
     .byte " "
-    tile_pointer $0588
+    .byte $21
+    .word $0588
     .byte " regained", 1
     .byte " all senses!", 0
 
 sQuiet:
     .byte " "
-    tile_pointer $0588
+    .byte $21
+    .word $0588
     .byte " became", 1
     .byte " quiet!", 0
 
 sBeaten:
     .byte " "
-    tile_pointer $0588
+    .byte $21
+    .word $0588
     .byte " was", 1
     .byte " beaten!", 0
 
 sWasDestroyed:
     .byte " "
-    tile_pointer $0588
+    .byte $21
+    .word $0588
     .byte " was", 1
     .byte " destroyed!", 0
 
 sDust:
     .byte " "
-    tile_pointer $0588
+    .byte $21
+    .word $0588
     .byte " has", 1
     .byte " returned to dust!", 0
 
 sDidntMove:
     .byte " "
-    tile_pointer $0588
+    .byte $21
+    .word $0588
     .byte " didn't ", 1
     .byte " move anymore!", 0
 
 sPileJunk:
     .byte " "
-    tile_pointer $0588
+    .byte $21
+    .word $0588
     .byte " became", 1
     .byte " a pile of junk!", 0
 
 sVanished:
     .byte " "
-    tile_pointer $0588
+    .byte $21
+    .word $0588
     .byte 1
     .byte " vanished!", 0
 
 sWasntConfused:
     .byte " "
-    tile_pointer $0588
+    .byte $21
+    .word $0588
     .byte " wasn't", 1
     .byte " confused anymore!", 0
 
@@ -9092,24 +9334,28 @@ sItNoEffect:
 
 sWasBroken:
     .byte " "
-    tile_pointer $0590
+    .byte $21
+    .word $0590
     .byte " was", 1
     .byte " broken.", 0
 
 sTurnedIntoStone:
     .byte " "
-    tile_pointer $0590
+    .byte $21
+    .word $0590
     .byte " turned", 1
     .byte " into a stone.", 0
 
 sBecameEmpty:
     .byte " "
-    tile_pointer $0590
+    .byte $21
+    .word $0590
     .byte 1
     .byte " became empty.", 0
 
 sAdvanced:
-    tile_pointer $0580
+    .byte $21
+    .word $0580
     .byte " advanced", 1
     .byte "to the next Level!", 1, 3
     .byte 2
@@ -9178,7 +9424,8 @@ sFORCEinc:
     .byte 2
 
 sNewPSIPower:
-    tile_pointer $0580
+    .byte $21
+    .word $0580
     .byte " learned", 1
     .byte "a new PSI-Power", 1
     .byte "through battle!", 1, 3
@@ -9186,13 +9433,15 @@ sNewPSIPower:
 
 sPickedUp:
     .byte "Picked up "
-    tile_pointer $6D04
+    .byte $21
+    .word $6D04
     .byte "!", 1, 3
     .byte 2
 
 sSingLullaby:
     .byte "("
-    tile_pointer $670A
+    .byte $21
+    .word $670A
     .byte " hears the", 1
     .byte "voice of Queen Mary)", 1, 3
 

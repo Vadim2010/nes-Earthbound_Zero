@@ -1,5 +1,6 @@
 .include "ram.inc"
 .include "palette.inc"
+.include "mmc3\mmc3.inc"
 
 .segment "PRG_BANK_A"
 
@@ -14,7 +15,7 @@
 
 sub_1AA000:
     .export sub_1AA000
-    .import wait_frames, wait_nmi_processed, wait_nmi, sub_FD28
+    .import wait_frames, wait_nmi_processed, wait_nmi, wait_change_music
     .importzp IRQCount, ShiftX, ShiftY, CameraX, CameraY, CntrlPPU, BankNum
     .importzp BankPPU_X000, BankPPU_X400, byte_E7
 
@@ -24,7 +25,7 @@ sub_1AA000:
                 JSR     sub_1AA0B1
                 JSR     wait_nmi_processed
                 LDA     #0
-                STA     $A000
+                STA     MIRROR
                 LDA     #0
                 STA     IRQCount
                 LDA     byte_E7
@@ -41,7 +42,7 @@ sub_1AA000:
                 STX     CameraX
                 STY     CameraY
                 LDA     #$FF
-                JSR     sub_FD28
+                JSR     wait_change_music
                 LDA     #$1B
                 STA     BankNum
                 JSR     wait_nmi        ; wait for NMI interrupt processing to complete
@@ -87,7 +88,7 @@ sub_1AA05D:
 off_1AA068:     .word loc_1AA05A-1, sub_1AA090-1, sub_1AA0A0-1, sub_1AA0B1-1
                 .word loc_1AA0CD-1, loc_1AA0F3-1, sub_1AA0EF-1, sub_1AA152-1
                 .word loc_1AA206-1, sub_1AA18A-1, sub_1AA1C4-1, sub_1AA1F0-1
-                .word loc_1AA0E5-1, sub_1AA0BD-1, sub_1AA1F8-1, sub_1AA1FF-1
+                .word loc_1AA0E5-1, set_chr_banks-1, sub_1AA1F8-1, sub_1AA1FF-1
                 .word sub_1AA215-1, sub_1AA226-1, sub_1AA29A-1, sub_1AA2BD-1
 
 ; =============== S U B R O U T I N E =======================================
@@ -149,52 +150,40 @@ sub_1AA0B1:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_1AA0BD:
+set_chr_banks:
     .import mmc3_bank_set
 
                 INY
                 LDA     (BankPPU_X000),Y
                 LDX     #4
-                JSR     mmc3_bank_set   ; Set memory bank
-                                        ; A - bank number
-                                        ; X - mode
+                JSR     mmc3_bank_set   ; 1 KB CHR bank at PPU $1800-$1BFF
                 INY
                 LDA     (BankPPU_X000),Y
                 LDX     #5
-                JSR     mmc3_bank_set   ; Set memory bank
-                                        ; A - bank number
-                                        ; X - mode
+                JSR     mmc3_bank_set   ; 1 KB CHR bank at PPU $1C00-$1FFF
 
 loc_1AA0CD:
                 INY
                 LDA     (BankPPU_X000),Y
                 LDX     #2
-                JSR     mmc3_bank_set   ; Set memory bank
-                                        ; A - bank number
-                                        ; X - mode
+                JSR     mmc3_bank_set   ; 1 KB CHR bank at PPU $1000-$13FF
                 INY
                 LDA     (BankPPU_X000),Y
                 LDX     #3
-                JSR     mmc3_bank_set   ; Set memory bank
-                                        ; A - bank number
-                                        ; X - mode
+                JSR     mmc3_bank_set   ; 1 KB CHR bank at PPU $1400-$17FF
                 INY
                 LDA     (BankPPU_X000),Y
                 LDX     #0
-                JSR     mmc3_bank_set   ; Set memory bank
-                                        ; A - bank number
-                                        ; X - mode
+                JSR     mmc3_bank_set   ; 2 KB CHR bank at PPU $0000-$07FF
 
 loc_1AA0E5:
                 INY
                 LDA     (BankPPU_X000),Y
                 LDX     #1
-                JSR     mmc3_bank_set   ; Set memory bank
-                                        ; A - bank number
-                                        ; X - mode
+                JSR     mmc3_bank_set   ; 2 KB CHR bank at PPU $0800-$0FFF
                 INY
                 RTS
-; End of function sub_1AA0BD
+; End of function set_chr_banks
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -372,7 +361,7 @@ sub_1AA1C4:
 sub_1AA1F0:
                 INY
                 LDA     (BankPPU_X000),Y
-                JSR     sub_FD28
+                JSR     wait_change_music
                 INY
                 RTS
 ; End of function sub_1AA1F0

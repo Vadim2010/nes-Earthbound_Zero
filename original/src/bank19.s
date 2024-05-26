@@ -1,6 +1,6 @@
 .include "ram.inc"
 .include "mmc3\bank.inc"
-.include "mmc3\sram.inc"
+.include "..\res\sram.inc"
 .include "palette.inc"
 
 .segment "PRG_BANK_9"
@@ -195,12 +195,12 @@ NintendoTiles:
 
 
 copyright_violation:
-    .import darken_palette, sub_FDC0, clear_oam_sprite, clear_nametables, sub_FD28, mmc3_bank_set
+    .import darken_palette, update_animation, clear_oam_sprite, clear_nametables, wait_change_music, mmc3_bank_set
     .import text2stack, loc_C6DB
     .importzp IRQCount, PointerTilePack, Row, Column, byte_70, byte_71, byte_73
 
                 JSR     darken_palette
-                JSR     sub_FDC0
+                JSR     update_animation
                 JSR     clear_oam_sprite
                 JSR     clear_nametables
 
@@ -211,7 +211,7 @@ loc_19A204:
                 STA     CameraX
                 STA     CameraY
                 LDA     #$FF
-                JSR     sub_FD28
+                JSR     wait_change_music
 
 loc_19A214:
                 LDA     #$7E
@@ -562,19 +562,22 @@ loc_19A3EF:
 ; End of function sub_19A3CD
 
 ; ---------------------------------------------------------------------------
-                ; CURSOR <8, 4, 4, 4, $C0, $3A, 4, $D, byte_19A408>
-                .byte 8, 4, 4, 4, $C0, $3A, 4, $D
-                .word byte_19A408
-byte_19A404:    .byte $A8, $A8, $A8, $F8
-byte_19A408:    .byte $80, 0, $20, 0
-                .byte 8, 0, 0, 0
-                .byte $80, 0, $20, 0
-                .byte 8, 0, 0, 0
-                .byte $80, 0, $20, 0
-                .byte 8, 0, 0, 0
-                .byte $80, $40, $20, $10
-                .byte 8, 0, 0, 0
-byte_19A428:    .byte $41, $31, $21, $11, 1
+    ; CURSOR <8, 4, 4, 4, $C0, $3A, 4, $D, byte_19A408>
+    .byte 8, 4, 4, 4, $C0, $3A, 4, $D
+    .word byte_19A408
+byte_19A404:
+    .byte $A8, $A8, $A8, $F8
+byte_19A408:
+    .byte $80, 0, $20, 0
+    .byte 8, 0, 0, 0
+    .byte $80, 0, $20, 0
+    .byte 8, 0, 0, 0
+    .byte $80, 0, $20, 0
+    .byte 8, 0, 0, 0
+    .byte $80, $40, $20, $10
+    .byte 8, 0, 0, 0
+byte_19A428:
+    .byte $41, $31, $21, $11, 1
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -645,36 +648,37 @@ loc_19A47A:
 
 sub_19A480:
                 JSR     darken_palette
-                JSR     sub_FDC0
+                JSR     update_animation
                 JSR     clear_oam_sprite
                 JSR     clear_nametables
                 JMP     loc_19A204
 ; End of function sub_19A480
 
 ; ---------------------------------------------------------------------------
-byte_19A48F:    .byte $13, $2C, $95, $14, $B, $82, $17, $ED, $EB, $19
-                .byte $C7, $A8, $1C, $AC, $D5, $1E, $1C, $CF, $1F, $36
-                .byte $FA, $FF, $57, $38
+byte_19A48F:
+    .byte $13, $2C, $95, $14, $B, $82, $17, $ED, $EB, $19
+    .byte $C7, $A8, $1C, $AC, $D5, $1E, $1C, $CF, $1F, $36
+    .byte $FA, $FF, $57, $38
 
 ; =============== S U B R O U T I N E =======================================
 
 
 sub_19A4A7:
     .import bank_A000_a, bank14_8000
-    .importzp byte_48
+    .importzp EnemyGroup
 
                 LDA     $7419           ; CurrentPlayer.PureSave.field_19
                 BEQ     locret_19A4CB
-                LDY     byte_48
+                LDY     EnemyGroup
                 LDX     byte_19A504,Y
                 LDA     byte_19A4F2,X
-                CMP     $7450           ; CurrentPlayer.PureSave.Characters.Level
+                CMP     Boy1Lvl           ; CurrentPlayer.PureSave.Characters.Level
                 BCS     locret_19A4CB
                 JSR     sram_write_enable
                 DEC     $7419           ; CurrentPlayer.PureSave.field_19
                 JSR     sram_read_enable
                 LDA     #0
-                STA     byte_48
+                STA     EnemyGroup
                 LDA     $7419           ; CurrentPlayer.PureSave.field_19
                 BEQ     loc_19A4CC
 
@@ -709,24 +713,26 @@ loc_19A4CC:
 ; End of function sub_19A4A7
 
 ; ---------------------------------------------------------------------------
-byte_19A4F2:    .byte 0, 3, 5, 7, $A, $C, $10, $12, $13, $15, $17, $1A
-                .byte $1C, $1E, $23, $24, $25, $FF
-byte_19A504:    .byte 0, 1, 3, 1, 3, 1, 3, 3, 1, 3, 1, 1, 7, 1, 1, 2, $11
-                .byte $11, $11, $11, 2, 2, 3, 3, $11, 3, 3, 3, 3, 3, 3
-                .byte $11, 3, $11, 3, 3, $11, 3, 6, $11, 6, 6, $11, 8
-                .byte 4, $11, $11, $11, 4, 4, 4, 4, 5, 5, 5, 4, 5, 5, 4
-                .byte 4, 4, 5, 5, $11, $11, $11, $11, $11, $11, $11, $11
-                .byte $11, 6, 8, 8, $11, $11, $11, 7, 7, 7, 7, 7, $11
-                .byte 6, 6, $11, $11, 6, $11, 2, 9, $11, $11, $11, 9, 9
-                .byte $11, 9, 9, $11, $11, 9, $A, $A, $A, $A, $A, $A, $A
-                .byte $A, $11, $11, $11, $B, $B, $B, $B, $B, $D, $D, $B
-                .byte $B, $B, $B, $B, $11, $11, $11, $B, $11, $11, $11
-                .byte $11, $11, $11, $11, $B, $B, $C, $C, $C, $C, $C, $11
-                .byte $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
-                .byte $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
-                .byte $E, $E, $E, $E, $E, $F, $F, $F, $F, $10, $10, $10
-                .byte $10, $10, $10, $10, $10, $10, $10, $10, 0, 0, 0
-                .byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+byte_19A4F2:
+    .byte 0, 3, 5, 7, $A, $C, $10, $12, $13, $15, $17, $1A
+    .byte $1C, $1E, $23, $24, $25, $FF
+byte_19A504:
+    .byte 0, 1, 3, 1, 3, 1, 3, 3, 1, 3, 1, 1, 7, 1, 1, 2, $11
+    .byte $11, $11, $11, 2, 2, 3, 3, $11, 3, 3, 3, 3, 3, 3
+    .byte $11, 3, $11, 3, 3, $11, 3, 6, $11, 6, 6, $11, 8
+    .byte 4, $11, $11, $11, 4, 4, 4, 4, 5, 5, 5, 4, 5, 5, 4
+    .byte 4, 4, 5, 5, $11, $11, $11, $11, $11, $11, $11, $11
+    .byte $11, 6, 8, 8, $11, $11, $11, 7, 7, 7, 7, 7, $11
+    .byte 6, 6, $11, $11, 6, $11, 2, 9, $11, $11, $11, 9, 9
+    .byte $11, 9, 9, $11, $11, 9, $A, $A, $A, $A, $A, $A, $A
+    .byte $A, $11, $11, $11, $B, $B, $B, $B, $B, $D, $D, $B
+    .byte $B, $B, $B, $B, $11, $11, $11, $B, $11, $11, $11
+    .byte $11, $11, $11, $11, $B, $B, $C, $C, $C, $C, $C, $11
+    .byte $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
+    .byte $11, $11, $11, $11, $11, $11, $11, $11, $11, $11
+    .byte $E, $E, $E, $E, $E, $F, $F, $F, $F, $10, $10, $10
+    .byte $10, $10, $10, $10, $10, $10, $10, $10, 0, 0, 0
+    .byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -860,14 +866,14 @@ nullsub_7:
 
 sub_19A6C2:
                 JSR     sub_19A42D
-                JSR     sub_FDC0
+                JSR     update_animation
                 LDA     #$FF
-                JSR     sub_FD28
+                JSR     wait_change_music
                 LDX     #$3C
                 JSR     wait_frames     ; wait for a few frames
                                         ; input: X - number of frames
                 LDA     #$23
-                STA     apu_7F5
+                STA     NewMusic
                 LDA     #$F8
                 LDX     #$FF
                 JSR     sub_19A75E
@@ -944,9 +950,10 @@ loc_19A72D:
 ; End of function sub_19A72B
 
 ; ---------------------------------------------------------------------------
-byte_19A73E:    .byte 1, 0, $FF, 0, 1, 0, $FF, 0, 1, $FF, $FF, 0, 1, 1
-                .byte $FF, 0, 0, $FF, 0, $FF, 0, $FF, 0, $FF, 1, 1, $FF
-                .byte 1, 1, 1, $FF, 1
+byte_19A73E:
+    .byte 1, 0, $FF, 0, 1, 0, $FF, 0, 1, $FF, $FF, 0, 1, 1
+    .byte $FF, 0, 0, $FF, 0, $FF, 0, $FF, 0, $FF, 1, 1, $FF
+    .byte 1, 1, 1, $FF, 1
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -1081,9 +1088,9 @@ loc_19A7EF:
 
 
 sub_19A7FC:
-    .importzp byte_4E, byte_4F, byte_53
+    .importzp byte_4E, byte_4F, CharacterOffset
 
-                LDY     byte_53
+                LDY     CharacterOffset
                 SEC
                 LDA     byte_605,Y
                 SBC     byte_4E
@@ -1168,7 +1175,7 @@ loc_19A867:
 
 sub_19A86D:
                 JSR     darken_palette
-                JSR     sub_FDC0
+                JSR     update_animation
                 JSR     clear_oam_sprite
                 JSR     clear_nametables
                 JSR     wait_nmi_processed
@@ -1177,565 +1184,12 @@ sub_19A86D:
                 STA     CameraX
                 STA     CameraY
                 LDA     #$FF
-                JSR     sub_FD28
+                JSR     wait_change_music
                 JMP     loc_19A214
 ; End of function sub_19A86D
 
 ; ---------------------------------------------------------------------------
-byte_19A88C:    .byte $13, $2C, $95, $14, $B, $82, $17, $ED, $EB, $19
-                .byte $C7, $A8, $1C, $AC, $D5, $1E, $1C, $CF, $1F, $36
-                .byte $FA, $FF, $57, $38
-
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-                ; .byte $FF, $FF
-
-; ; B800
-                ; .byte $A8, $F0, 2, $A0, 4, $B9, $22, $62, $9D, $84, 5
-                ; .byte $B9, $23, $62, $9D, $85, 5, $B9, $24, $62, $9D, $86
-                ; .byte 5, $B9, $25, $62, $9D, $87, 5, $60, $BD, $73, $60
-                ; .byte $85, $74, $BD, $74, $60, $85, $75, $60, $BD, $85
-                ; .byte $60, $85, $80, $BD, $86, $60, $85, $81, $60, $A9
-                ; .byte $FF, $85, $D6, $A2, 6, $A0, 5, $86, $76, $84, $77
-                ; .byte $60, $48, $A9, 0, $A2, $74, $85, $30, $86, $31, $A9
-                ; .byte 0, $A2, $BE, $85, $32, $86, $33, $A2, 2, $A0, 0
-                ; .byte $B1, $32, $91, $30, $C8, $D0, $F9, $E6, $31, $E6
-                ; .byte $33, $CA, $D0, $F2, $A9, 0, $91, $30, $C8, $D0, $FB
-                ; .byte $68, $D, 2, $74, $8D, 2, $74, $60, $1A, $61, $92
-                ; .byte $61, $38, $61, $AA, $61, $56, $61, $C2, $61, $95
-                ; .byte $60, $AC, $60, $FA, $60, $F0, $61, $F0, $61, $F0
-                ; .byte $61, $FA, $61, $F0, $61, 4, $62, $E, $62, $18, $62
-                ; .byte $20, 4, $14, $22, $A0, $18, 1, $22, $A0, $18, 1
-                ; .byte $22, $A0, $18, 1, $22, $A0, $18, 0, $22, $A0, $18
-                ; .byte 0, $20, 6, $14, $DB, $22, $DC, $12, $DD, 1, $24
-                ; .byte $A0, $A6, $23, $78, $74, 0, 8, $CC, $F6, $EC, $23
-                ; .byte $50, $74, 1, 2, $A6, $A0, $A0, $25, 1, $24, $A0
-                ; .byte $F7, $E9, $EC, $EC, $A0, $F6, $E1, $EE, $E9, $F3
-                ; .byte $E8, $AE, $A0, $CF, $CB, $A2, $A0, $25, 1, $24, $A0
-                ; .byte $A0, $A0, $A0, $A0, $D9, $E5, $F3, $A0, $A0, $CE
-                ; .byte $EF, $A0, $A0, $A0, $A0, $A0, $A0, $25, 0, $FB, $22
-                ; .byte $FC, $12, $FD, 0, $20, 8, $15, $DB, $22, $DC, $E
-                ; .byte $DD, 1, $24, $A0, $A0, $A0, $D4, $EF, $A0, $F7, $E8
-                ; .byte $E9, $E3, $E8, $A2, $A0, $A0, $25, 0, $FB, $22, $FC
-                ; .byte $E, $FD, 0, $20, 3, 1, $A0, 1, $A0, $DB, $DC, $FE
-                ; .byte $23, $78, $77, 0, 8, $CC, $F6, $EC, $23, $50, $77
-                ; .byte 1, 2, $22, $DC, 7, $DD, 1, 4, $71, $61, $20, 3, 7
-                ; .byte $A0, 1, $A0, $DB, $DC, $FE, $23, $78, $7A, 0, 8
-                ; .byte $CC, $F6, $EC, $23, $50, $7A, 1, 2, $22, $DC, 7
-                ; .byte $DD, 1, 4, $71, $61, $20, 3, $D, $A0, 1, $A0, $DB
-                ; .byte $DC, $FE, $23, $78, $7D, 0, 8, $CC, $F6, $EC, $23
-                ; .byte $50, $7D, 1, 2, $22, $DC, 7, $DD, 1, $A0, $24, $A0
-                ; .byte $C3, $EF, $EE, $F4, $E9, $EE, $F5, $E5, $A0, $A0
-                ; .byte $C3, $EF, $F0, $F9, $A0, $C5, $F2, $E1, $F3, $E5
-                ; .byte $A0, $25, 0, $A0, $FB, $22, $FC, $16, $FD, 0, $20
-                ; .byte 3, 1, $A0, 1, $A0, $DB, $DC, $FE, $C7, $C1, $CD
-                ; .byte $C5, $A8, $B1, $A9, $22, $DC, $D, $DD, 1, 4, $D7
-                ; .byte $61, $20, 3, 7, $A0, 1, $A0, $DB, $DC, $FE, $C7
-                ; .byte $C1, $CD, $C5, $A8, $B2, $A9, $22, $DC, $D, $DD
-                ; .byte 1, 4, $D7, $61, $20, 3, $D, $A0, 1, $A0, $DB, $DC
-                ; .byte $FE, $C7, $C1, $CD, $C5, $A8, $B3, $A9, $22, $DC
-                ; .byte $D, $DD, 1, $A0, $24, $22, $A0, 6, $D3, $F4, $E1
-                ; .byte $F2, $F4, $A0, $F5, $F0, $22, $A0, 8, $25, 0, $A0
-                ; .byte $FB, $22, $FC, $16, $FD, 0, 1, 3, 0, 6, $C0, $3A
-                ; .byte 3, 4, $2C, $62, 1, 3, 0, 6, $C0, $3A, 3, 4, $2F
-                ; .byte $62, 1, 3, 0, 6, $C0, $3A, 3, 4, $32, $62, 4, 3
-                ; .byte 5, 6, $80, $3A, 5, 5, $84, 5, 2, 1, 5, 0, $80, $3A
-                ; .byte $B, $1A, $2A, $62, $80, 0, $81, $82, 0, $83, 0, 0
-                ; .byte 1, 2, 0, 3, 5, 1, 0, 5, 1, 3, 0, $60, 0, $7C, $7D
-                ; .byte $7E, $7F, $F, $F, $30, $30, $F, $3A, $10, $20, $F
-                ; .byte $3A, $25, $1A, $F, $3A, $30, $12, $F, $F, 0, $30
-                ; .byte $F, $F, $16, $37, $F, $F, $24, $37, $F, $F, $12
-                ; .byte $37, $A9, 4, $99, 0, 3, $A5, $64, $99, 1, 3, $A5
-                ; .byte $62, $99, 2, 3, $A5, $63, $99, 3, 3, $A9, 0, $99
-                ; .byte 4, 3, $99, 5, 3, $A5, $60, $99, 6, 3, $A5, $61, $99
-                ; .byte 7, 3, $A9, 1, $85, $E5, $60, $A9, $50, $85, $62
-                ; .byte $A9, 8, $85, $63, $A9, 0, $85, $64, $A9, $10, $85
-                ; .byte $60, $A9, $80, $85, $61, $60, $18, $A5, $60, $69
-                ; .byte $20, $85, $60, $A5, $61, $69, 0, $85, $61, $18, $A5
-                ; .byte $63, $69, $18, $85, $63, $18, $98, $69, 8, $A8, $60
-                ; .byte $18, $A5, $64, $69, $10, $85, $64, $A5, $65, $69
-                ; .byte 0, $85, $65, $18, $A5, $63, $69, 2, $85, $63, $60
-                ; .byte $10, $80, 3, $63, $78, $74, $30, $80, $1C, $63, $B8
-                ; .byte $74, $50, $80, $36, $63, $F8, $74, $70, $80, $4D
-                ; .byte $63, $38, $75, 0, 0, $63, $63, $89, $76, $10, 6
-                ; .byte 1, 2, $D0, 1, 8, $E, 2, 1, 4, 0, $80, $3A, $C, $18
-                ; .byte $FA, $62, 1, 1, 1, 8, $40, $23, $C0, $FF, 0, $D7
-                ; .byte $E8, $E1, $F4, $A0, $E9, $F3, $A0, $F4, $E8, $E9
-                ; .byte $F3, 1, $E2, $EF, $F9, $A7, $F3, $A0, $EE, $E1, $ED
-                ; .byte $E5, $A2, 0, $D7, $E8, $E1, $F4, $A0, $E9, $F3, $A0
-                ; .byte $F4, $E8, $E9, $F3, 1, $E7, $E9, $F2, $EC, $A7, $F3
-                ; .byte $A0, $EE, $E1, $ED, $E5, $A2, 0, $D4, $E8, $E9, $F3
-                ; .byte $A0, $EF, $F4, $E8, $E5, $F2, 1, $E2, $EF, $F9, $A7
-                ; .byte $F3, $A0, $EE, $E1, $ED, $E5, $A2, 0, $D4, $E8, $E9
-                ; .byte $F3, $A0, $EC, $E1, $F3, $F4, 1, $E2, $EF, $F9, $A7
-                ; .byte $F3, $A0, $EE, $E1, $ED, $E5, $A2, 0, $D7, $E8, $E1
-                ; .byte $F4, $A0, $E9, $F3, $A0, $F9, $EF, $F5, $F2, 1, $E6
-                ; .byte $E1, $F6, $EF, $F2, $E9, $F4, $E5, $A0, $E6, $EF
-                ; .byte $EF, $E4, $A2, 0, $D0, $EC, $E5, $E1, $F3, $E5, $A0
-                ; .byte $E3, $E8, $E1, $EE, $E7, $E5, 1, $F4, $E8, $E9, $F3
-                ; .byte $A0, $EE, $E1, $ED, $E5, $AE, 0, $C1, $A0, $E3, $E8
-                ; .byte $E1, $F2, $E1, $E3, $F4, $E5, $F2, $A0, $E9, $EE
-                ; .byte $A0, 1, $F4, $E8, $E9, $F3, $A0, $E7, $E1, $ED, $E5
-                ; .byte $A0, $E8, $E1, $F3, $A0, $A0, 1, $F4, $E8, $E1, $F4
-                ; .byte $A0, $EE, $E1, $ED, $E5, $AE, $A0, $D4, $F2, $F9
-                ; .byte $A0, 1, $E1, $E7, $E1, $E9, $EE, $AC, $A0, $E1, $EE
-                ; .byte $E4, $A0, $F5, $F3, $E5, $A0, 1, $EF, $EE, $EC, $F9
-                ; .byte $A0, $E3, $E1, $F0, $E9, $F4, $E1, $EC, $A0, $A0
-                ; .byte $A0, 1, $EC, $E5, $F4, $F4, $E5, $F2, $F3, $AE, $A0
-                ; .byte $A0, $A0, $A0, $A0, $A0, $A0, 0, $CD, $E1, $F2, $F9
-                ; .byte $A2, 1, $D3, $F5, $FA, $F9, $A2, 1, $C7, $E5, $EF
-                ; .byte $F2, $E7, $E5, $A2, 1, $CD, $E1, $F2, $E9, $E1, $A2
-                ; .byte 1, $CD, $E9, $ED, $ED, $E9, $E5, $A2, 1, $CD, $E9
-                ; .byte $EE, $EE, $E9, $E5, $A2, 1, $D0, $E9, $F0, $F0, $E9
-                ; .byte $A2, 1, $C4, $F5, $EE, $E3, $E1, $EE, $A2, 1, $CC
-                ; .byte $E1, $F5, $F2, $E1, $A2, 1, $C7, $E9, $E5, $E7, $F5
-                ; .byte $E5, $A2, 1, $C1, $E2, $E2, $EF, $F4, $F4, $A2, 1
-                ; .byte $CE, $E1, $EE, $E3, $F9, $A2, 1, $D5, $EC, $EC, $F2
-                ; .byte $E9, $E3, $E8, 1, $D7, $E1, $EC, $EC, $F9, $A2, 1
-                ; .byte $CB, $E5, $EC, $EC, $F9, $A2, 1, $CA, $F5, $E1, $EE
-                ; .byte $E1, $A2, 1, $A0, 1, 0, $C1, $C2, $C3, $C4, $C5
-                ; .byte $C6, $C7, $A0, $C8, $C9, $CA, $CB, $CC, $CD, $CE
-                ; .byte 0, $CF, $D0, $D1, $D2, $D3, $D4, $D5, $A0, $D6, $D7
-                ; .byte $D8, $D9, $DA, $AE, $A7, 0, $E1, $E2, $E3, $E4, $E5
-                ; .byte $E6, $E7, $A0, $E8, $E9, $EA, $EB, $EC, $ED, $EE
-                ; .byte 0, $EF, $F0, $F1, $F2, $F3, $F4, $F5, $A0, $F6, $F7
-                ; .byte $F8, $F9, $FA, $AD, $AA, 0, 0, 0, $A1, 0, 0, 0, 0
-                ; .byte 0, 0, $A2, 0, 0, 0, 0, 0, 0, 0, 0, 0, $A3, 0, 0
-                ; .byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, $C9, $EE, $A0, $F4
-                ; .byte $E8, $E5, $A0, $E5, $E1, $F2, $EC, $F9, $A0, $B1
-                ; .byte $B9, $B0, $B0, $A7, $F3, $AC, $A0, $E1, $A0, $E4
-                ; .byte $E1, $F2, $EB, 1, $F3, $E8, $E1, $E4, $EF, $F7, $A0
-                ; .byte $E3, $EF, $F6, $E5, $F2, $E5, $E4, $A0, $E1, $A0
-                ; .byte $F3, $ED, $E1, $EC, $EC, 1, $E3, $EF, $F5, $EE, $F4
-                ; .byte $F2, $F9, $A0, $F4, $EF, $F7, $EE, $A0, $E9, $EE
-                ; .byte $A0, $F2, $F5, $F2, $E1, $EC, 1, $C1, $ED, $E5, $F2
-                ; .byte $E9, $E3, $E1, $AE, $A0, $A0, $C1, $F4, $A0, $F4
-                ; .byte $E8, $E1, $F4, $A0, $F4, $E9, $ED, $E5, $AC, $A0
-                ; .byte $E1, 1, $F9, $EF, $F5, $EE, $E7, $A0, $ED, $E1, $F2
-                ; .byte $F2, $E9, $E5, $E4, $A0, $E3, $EF, $F5, $F0, $EC
-                ; .byte $E5, 1, $F6, $E1, $EE, $E9, $F3, $E8, $E5, $E4, $A0
-                ; .byte $ED, $F9, $F3, $F4, $E5, $F2, $E9, $EF, $F5, $F3
-                ; .byte $EC, $F9, $A0, $E6, $F2, $EF, $ED, 1, $F4, $E8, $E5
-                ; .byte $E9, $F2, $A0, $E8, $EF, $ED, $E5, $AE, 1, $A0, 1
-                ; .byte $D4, $E8, $E5, $A0, $ED, $E1, $EE, $A7, $F3, $A0
-                ; .byte $EE, $E1, $ED, $E5, $A0, $F7, $E1, $F3, $A0, $C7
-                ; .byte $E5, $EF, $F2, $E7, $E5, $AC, 1, $F4, $E8, $E5, $A0
-                ; .byte $F7, $EF, $ED, $E1, $EE, $A7, $F3, $A0, $EE, $E1
-                ; .byte $ED, $E5, $A0, $F7, $E1, $F3, $A0, $CD, $E1, $F2
-                ; .byte $E9, $E1, $AE, 1, $A0, 1, $D4, $F7, $EF, $A0, $F9
-                ; .byte $E5, $E1, $F2, $F3, $A0, $EC, $E1, $F4, $E5, $F2
-                ; .byte $AC, $A0, $E1, $F3, $A0, $F3, $F5, $E4, $E4, $E5
-                ; .byte $EE, $EC, $F9, 1, $E1, $F3, $A0, $E8, $E5, $A0, $EC
-                ; .byte $E5, $E6, $F4, $AC, $A0, $C7, $E5, $EF, $F2, $E7
-                ; .byte $E5, $A0, $F2, $E5, $F4, $F5, $F2, $EE, $E5, $E4
-                ; .byte $AE, 1, $C8, $E5, $A0, $EE, $E5, $F6, $E5, $F2, $A0
-                ; .byte $F4, $EF, $EC, $E4, $A0, $E1, $EE, $F9, $EF, $EE
-                ; .byte $E5, $A0, $F7, $E8, $E5, $F2, $E5, 1, $E8, $E5, $A0
-                ; .byte $E8, $E1, $E4, $A0, $E2, $E5, $E5, $EE, $A0, $EF
-                ; .byte $F2, $A0, $F7, $E8, $E1, $F4, $A0, $E8, $E5, $A0
-                ; .byte $E8, $E1, $E4, 1, $E4, $EF, $EE, $E5, $AE, $A0, $A0
-                ; .byte $C2, $F5, $F4, $AC, $A0, $E8, $E5, $A0, $E2, $E5
-                ; .byte $E7, $E1, $EE, $A0, $E1, $EE, $A0, $EF, $E4, $E4
-                ; .byte 1, $F3, $F4, $F5, $E4, $F9, $AC, $A0, $E1, $EC, $EC
-                ; .byte $A0, $E2, $F9, $A0, $E8, $E9, $ED, $F3, $E5, $EC
-                ; .byte $E6, $AE, 1, $A0, 1, $C1, $F3, $A0, $E6, $EF, $F2
-                ; .byte $A0, $CD, $E1, $F2, $E9, $E1, $AC, $A0, $E8, $E9
-                ; .byte $F3, $A0, $F7, $E9, $E6, $E5, $AE, $AE, $AE, 1, $D3
-                ; .byte $E8, $E5, $A0, $EE, $E5, $F6, $E5, $F2, $A0, $F2
-                ; .byte $E5, $F4, $F5, $F2, $EE, $E5, $E4, $AE, 0, $B8, $B0
-                ; .byte $A0, $F9, $E5, $E1, $F2, $F3, $A0, $E8, $E1, $F6
-                ; .byte $E5, $A0, $F0, $E1, $F3, $F3, $E5, $E4, 1, $A0, 1
-                ; .byte $F3, $E9, $EE, $E3, $E5, $A0, $F4, $E8, $E5, $EE
-                ; .byte $AE, 0
-; end of 'BANK19'
+byte_19A88C:
+    .byte $13, $2C, $95, $14, $B, $82, $17, $ED, $EB, $19
+    .byte $C7, $A8, $1C, $AC, $D5, $1E, $1C, $CF, $1F, $36
+    .byte $FA, $FF, $57, $38

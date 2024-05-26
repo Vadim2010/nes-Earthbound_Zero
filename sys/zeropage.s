@@ -13,8 +13,8 @@
 .exportzp FuncID, Dist, Row, Column
 .exportzp byte_C, byte_D, byte_F, byte_1F, byte_20, byte_21, byte_22, byte_23, byte_24, byte_25, byte_26, byte_27, byte_28, byte_29, byte_2C, byte_2D
 .exportzp byte_34, byte_35, byte_3A, byte_3B, byte_3C, byte_3D, byte_3F, byte_A0, byte_A9, byte_AE, byte_AF
-.exportzp byte_44, byte_45, byte_46, byte_47, byte_48, byte_49, byte_4A, byte_4B, byte_4C, byte_4D, byte_4E, byte_4F
-.exportzp byte_50, byte_51, byte_52, byte_53, byte_54, byte_56, byte_57, byte_58, byte_59, byte_5A, byte_5B, word_5E
+.exportzp byte_44, byte_45, byte_46, byte_47, EnemyGroup, byte_49, byte_4A, byte_4B, byte_4C, byte_4D, byte_4E, byte_4F
+.exportzp byte_50, byte_51, byte_52, CharacterOffset, byte_54, Encounter, byte_57, byte_58, byte_59, EnemyPos, byte_5B, word_5E
 .exportzp byte_6C, byte_6D, byte_6E, byte_70, byte_71, byte_73
 .exportzp Pointer, CurrentFieldPosition
 .exportzp byte_0, word_2A
@@ -104,7 +104,9 @@ byte_44:            .res 1
 byte_45:            .res 1
 byte_46:            .res 1
 byte_47:            .res 1
-byte_48:            .res 1
+
+EnemyGroup:         .res 1
+
 byte_49:            .res 1
 byte_4A:            .res 1
 byte_4B:            .res 1
@@ -115,16 +117,20 @@ byte_4F:            .res 1
 byte_50:            .res 1
 byte_51:            .res 1
 byte_52:            .res 1
-byte_53:            .res 1
+
+CharacterOffset:    .res 1
+
 byte_54:            .res 1
 
 NamePos:            .res 1
+Encounter:          .res 1
 
-byte_56:            .res 1
 byte_57:            .res 1
 byte_58:            .res 1
 byte_59:            .res 1
-byte_5A:            .res 1
+
+EnemyPos:           .res 1
+
 byte_5B:            .res 1
 
 pCharacter:         .res 2

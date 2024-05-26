@@ -760,7 +760,7 @@ loc_FCE7:
     ROR FlagClearOAM300
     LDX #0
 
-loc_FD66:
+@clear:
     LDA #0
     STA $300,X
     LDA #$F0
@@ -774,7 +774,7 @@ loc_FD66:
     INX
     INX
     INX
-    BNE loc_FD66
+    BNE @clear
     ASL FlagClearOAM300
     RTS
 .endproc
@@ -818,8 +818,8 @@ loc_FD66:
 .endproc
 
 ; FDC0
-.proc sub_FDC0
-    .export sub_FDC0
+.proc update_animation
+    .export update_animation
     .import wait_nmi_processed
     .importzp ShiftX, ShiftY, byte_E7
 
@@ -832,7 +832,7 @@ loc_FD66:
     STA ShiftY
     CLC
 
-loc_FDD0:
+@next_field:
     TAX
     LDA $301,X
     AND #$BF
@@ -842,6 +842,6 @@ loc_FDD0:
     STA $305,X
     TXA 
     ADC #8
-    BCC loc_FDD0
+    BCC @next_field
     RTS
 .endproc

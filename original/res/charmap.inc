@@ -1,3 +1,51 @@
+; ---------------------------------
+;     special characters $94-BF
+; ---------------------------------
+UNCHECK     = $94
+CHECK       = $95
+NOTE        = $96
+SMASH1      = $97
+SMASH2      = $98
+SMASH3      = $99
+SMASH4      = $9A
+SMASH5      = $9B
+SMASH6      = $9C
+SMASH7      = $9D
+SMASH8      = $9E
+SMASH9      = $9F
+
+; ---------------------------------
+;     special characters $BA-BF
+; ---------------------------------
+ZEROS       = $BA
+ALPHA       = $BB
+BETTA       = $BC
+GAMMA       = $BD
+PI          = $BE
+OMEGA       = $BF
+
+; ---------------------------------
+; frame fields $DB-DF and arrow $E0
+; ---------------------------------
+FRAME_TOP_LEFT      = $DB
+FRAME_TOP           = $DC
+FRAME_TOP_RIGHT     = $DD
+FRAME_LEFT          = $DE
+FRAME_RIGHT         = $DF
+ARROW               = $E0
+
+; ---------------------------------
+;        frame fields $FB-FF
+; ---------------------------------
+FRAME_BOTTOM_LEFT   = $FB
+FRAME_BOTTOM        = $FC
+FRAME_BOTTOM_RIGHT  = $FD
+FRAME_TOP_SHORT     = $FE
+CURSOR              = $FF
+
+; ---------------------------------
+;      basic character set
+; ---------------------------------
 .charmap ' ', $A0
 .charmap '!', $A1
 .charmap '?', $A2
@@ -25,7 +73,6 @@
 .charmap '7', $B7
 .charmap '8', $B8
 .charmap '9', $B9
-; special simbols
 
 .charmap '@', $C0
 .charmap 'A', $C1
@@ -55,8 +102,6 @@
 .charmap 'Y', $D9
 .charmap 'Z', $DA
 
-; frame fields $DB-DF and arrow $E0
-
 .charmap 'a', $E1
 .charmap 'b', $E2
 .charmap 'c', $E3
@@ -83,5 +128,3 @@
 .charmap 'x', $F8
 .charmap 'y', $F9
 .charmap 'z', $FA
-
-; frame fields $FB-FF

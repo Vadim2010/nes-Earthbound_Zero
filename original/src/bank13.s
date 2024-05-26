@@ -1,5 +1,5 @@
 .include "ram.inc"
-.include "mmc3/sram.inc"
+.include "..\res\sram.inc"
 .include "palette.inc"
 
 ; ===========================================================================
@@ -4350,11 +4350,11 @@ loc_13B41B:
 
 
 .proc sub_13B472
-    .importzp Source, byte_21, byte_35, byte_48
+    .importzp Source, byte_21, byte_35, EnemyGroup
 
     INY
     LDA (Source),Y      ; byte_109EAB, byte_109EB3
-    STA byte_48
+    STA EnemyGroup
     JSR sub_13B2C3
     STA byte_21
     INY
@@ -4835,12 +4835,12 @@ loc_13B681:
 
 
 .proc sub_13B695
-    .import sram_write_enable, sram_read_enable, sub_FD28
+    .import sram_write_enable, sram_read_enable, wait_change_music
     .importzp Source
 
     INY
     LDA (Source),Y      ; byte_109EAB, byte_109EB3
-    JSR sub_FD28
+    JSR wait_change_music
     JSR sram_write_enable
     LDA $7404           ; CurrentGame + GAME_SAVE::PureSave.GlobalX
     AND #$C0
@@ -6325,13 +6325,13 @@ loc_13BDAE:
 
 
 .proc sub_13BDD9
-    .import sub_EE0E,sub_FDC0, bank14_8000, loc_149641, one_color_palettes_save, wait_frames
+    .import sub_EE0E,update_animation, bank14_8000, loc_149641, one_color_palettes_save, wait_frames
 
     LDA #$11
     JSR sub_EE0E
     LDA #3
     STA $7F0             ; apu_7F0
-    JSR sub_FDC0
+    JSR update_animation
     LDX #8
     LDY #7
 
@@ -6360,11 +6360,11 @@ loc_13BDEA:
 
 
 .proc sub_13BE0F
-    .import sub_FD28, wait_frames
+    .import wait_change_music, wait_frames
 
     JSR loc_13BD34
     LDA #$FF
-    JSR sub_FD28
+    JSR wait_change_music
     LDX #$5A
     JSR wait_frames     ; wait for a few frames
                         ; input: X - number of frames
