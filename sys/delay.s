@@ -1,17 +1,16 @@
-.include "ram.inc"
-
 .segment "WAIT"
 
 ; FD28
 .proc wait_change_music
     .export wait_change_music
+    .import CurrentMusic, NewMusic
 
-    CMP CurrentMusic        ; $78C
-    BEQ @wait
-    STA NewMusic            ; $7F5
+    cmp CurrentMusic        ; $78C
+    beq @wait
+    sta NewMusic            ; $7F5
 
 @wait:
-    JMP wait_nmi
+    jmp wait_nmi
 .endproc
 
 
@@ -21,10 +20,10 @@
     .export wait_nmi_processed
     .importzp NMIFlags, OtherNMIFlags
 
-    LDA NMIFlags
-    ORA OtherNMIFlags
-    BNE wait_nmi_processed
-    RTS
+    lda NMIFlags
+    ora OtherNMIFlags
+    bne wait_nmi_processed
+    rts
 .endproc
 
 ; FD3A
@@ -33,10 +32,10 @@
 .proc wait_frames
     .export wait_frames
 
-    JSR wait_nmi
-    DEX
-    BNE wait_frames
-    RTS
+    jsr wait_nmi
+    dex
+    bne wait_frames
+    rts
 .endproc
 
 ; FD41
@@ -45,13 +44,13 @@
     .export wait_nmi
     .importzp NMIReady
 
-    LDA #1
-    STA NMIReady
+    lda #1
+    sta NMIReady
 
 @wait:
-    LDA NMIReady
-    BNE @wait
-    RTS
+    lda NMIReady
+    bne @wait
+    rts
 .endproc
 
 ; FD4A
@@ -59,9 +58,9 @@
     .export wait_nmi_flags_reset
     .importzp NMIFlags
 
-    LDA NMIFlags
-    BNE wait_nmi_flags_reset
-    RTS
+    lda NMIFlags
+    bne wait_nmi_flags_reset
+    rts
 .endproc
 
 ; FD4F
@@ -69,15 +68,15 @@
     .export wait_press_button
     .importzp Gamepad0Buttons
 
-    LDA #0
-    STA Gamepad0Buttons
+    lda #0
+    sta Gamepad0Buttons
 
 @wait_button:
-    LDA Gamepad0Buttons
-    BEQ @wait_button
-    PHA 
-    LDA #0
-    STA Gamepad0Buttons
-    PLA
-    RTS
+    lda Gamepad0Buttons
+    beq @wait_button
+    pha 
+    lda #0
+    sta Gamepad0Buttons
+    pla
+    rts
 .endproc

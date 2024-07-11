@@ -1,6 +1,5 @@
 .include "macros.inc"
 .include "nes.inc"
-.include "ram.inc"
 .include "mmc3/mmc3.inc"
 
 .segment "IRQ"
@@ -8,14 +7,10 @@
 ; FE13
 .proc irq
     .export irq
+    .import InterruptTable
     .importzp IRQLatch, BankRegister, BankMode, InterruptOffset
 
     save_registers              ; store registers onto the stack
-    ; pha                         ; Save accumulator (A) on the stack
-    ; txa                         ; Transfer index X to accumulator (A)
-    ; pha                         ; Save index X on the stack
-    ; tya                         ; Transfer index Y to accumulator (A)
-    ; pha                         ; Save index Y on the stack
 
     lda BankRegister
     pha                         ; store bank table offset (bank memory register)
@@ -34,17 +29,13 @@
 
 @no_irq_disable:
     restore_registers           ; restore registers from the stack
-    ; pla                         ; Restore index Y from the stack
-    ; tay                         ; Transfer accumulator (A) to index Y
-    ; pla                         ; Restore index X from the stack
-    ; tax                         ; Transfer accumulator (A) to index X
-    ; pla                         ; Restore accumulator (A) from the stack
 
     rti
 .endproc
 
 ; FE3A
 .proc interrupt_handler
+    .import InterruptTable
     .importzp InterruptOffset
 
     sta IRQ_DISABLE             ; disable MMC3 interrupts and acknowledge any pending interrupts

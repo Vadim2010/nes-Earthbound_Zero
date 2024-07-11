@@ -34,7 +34,7 @@
     lsr A
     rol Attribute
     dey 
-    bne @read_pad_data     ; loop until all 8 bits are read
+    bne @read_pad_data          ; loop until all 8 bits are read
     lda TileCount
     ora Attribute
     plp                         ; pull the original processor status register
@@ -45,7 +45,7 @@
 
 @handle_pad2:
     cmp Gamepad0Status,X        ; compare the data with the previously stored data
-    beq @skip_pad_update   ; if equal, skip the controller update
+    beq @skip_pad_update        ; if equal, skip the controller update
     lda ButtonPressed0,X
 
 @skip_pad_update:
@@ -65,25 +65,25 @@
     .export handle_game_logic
     .importzp Gamepad0Status, byte_D0, byte_D1, byte_D2, byte_D3
 
-    LDA Gamepad0Status
-    BNE @check_next_state
-    LDA byte_D3
-    CMP #$2A
-    BCC @next_state
-    RTS
+    lda Gamepad0Status
+    bne @check_next_state
+    lda byte_D3
+    cmp #$2A
+    bcc @next_state
+    rts
 
 @check_next_state:
-    LDA #0
-    STA byte_D3
+    lda #0
+    sta byte_D3
 
 @next_state:
-    INC byte_D0
-    BNE @exit
-    INC byte_D3
-    INC byte_D1
-    BNE @exit
-    INC byte_D2
+    inc byte_D0
+    bne @exit
+    inc byte_D3
+    inc byte_D1
+    bne @exit
+    inc byte_D2
 
 @exit:
-    RTS
+    rts
 .endproc

@@ -1,9 +1,10 @@
 .include "nes.inc"
-.include "ram.inc"
+.include "nmi.inc"
+.include "macros.inc"
 .include "mmc3\bank.inc"
 .include "mmc3\mmc3.inc"
-.include "..\res\sram.inc"
 .include "palette.inc"
+.include "..\res\structures.inc"
 .include "..\res\charmap.inc"
 .include "..\res\framecomm.inc"
 
@@ -22,6 +23,7 @@ Samples:
     .byte $49, $2A, 9, $95, $A2, $54, $49, $53, $B5, $44, $6A
     .byte $D5, $6A, $AD, $D6, $44, 0, $AB, $6A, $D5, $44, $44
     .byte $AD, $44, $44, $44, $54, $44, $95, $44, $52, 0, 0
+
 byte_C080:
     .byte $FF, $B7, $20, $B, 0, 0, 0, 0, $C0, $FF, $FF, $FF
     .byte $FF, $FF, $FF, $FF, $FF, 0, 0, 0, 0, 0, 0, $C0, $B
@@ -50,6 +52,7 @@ byte_C080:
     .byte $6D, $2B, $37, $B6, $45, $A5, $A9, $C5, $A4, $42
     .byte $34, $26, $54, $44, $44, 4, $44, 0, $4A, $44, 0
     .byte 0, 0, 0
+
 byte_C180:
     .byte 0, $ED, $BA, $98, $76, $78, $97, $AB, $CD, $A7, $47
     .byte $76, $48, $45, $66, $77, $89, $FC, $97, $64, $FC
@@ -118,32 +121,27 @@ sub_C226:
 
 ; ---------------------------------------------------------------------------
 TypeTable:
-    .byte 0, 1, 2, 3, 8, 9, $96, $97, $98, $99, $9A, $9B, $9C
-    .byte $9D, $9E, $9F, $A0, $A1, $A2, $A3, $A4, $2A, $2B
-    .byte $2C, $2D, $2E, $AA, $AB, $AC, $AD, $AE, $93, 4, 5
-    .byte 6, 7, $E, $F, $D6, $D7, $D8, $D9, $DA, $DB, $DC
-    .byte $DD, $DE, $DF, $E0, $E1, $E2, $E3, $E4, $6A, $6B
-    .byte $6C, $6D, $6E, $EA, $EB, $EC, $ED, $EE, $D3
+    .byte   0,   1,   2,   3,   8,   9, $96, $97, $98, $99, $9A, $9B, $9C, $9D, $9E, $9F
+    .byte $A0, $A1, $A2, $A3, $A4, $2A, $2B, $2C, $2D, $2E, $AA, $AB, $AC, $AD, $AE, $93
+    .byte   4,   5,   6,   7,  $E,  $F, $D6, $D7, $D8, $D9, $DA, $DB, $DC, $DD, $DE, $DF
+    .byte $E0, $E1, $E2, $E3, $E4, $6A, $6B, $6C, $6D, $6E, $EA, $EB, $EC, $ED, $EE, $D3
 
 ; =============== S U B R O U T I N E =======================================
 
 
 sub_C26C:
     .export sub_C26C
-    .import wait_nmi_processed, bank_A000_a, wait_nmi
+    .import wait_nmi_processed, bank_A000_a, wait_nmi, sub_19A2B3, CommandMenu, DMCflag, InterruptTable
     .importzp PointerTilePack, IRQCount, OffsetNMI_Data, Row, UnpackID
 
-                LDA     #$D9
-                LDX     #$91            ; 91D9
-                STA     PointerTilePack
-                STX     PointerTilePack+1
+                ldxa #CommandMenu
+                stxa PointerTilePack
 
 loc_C274:
                 JSR     load_character_data ; Copies the characteristics of the characters
                 JSR     wait_nmi_processed
                 LDA     #$19
-                LDX     #$B2
-                LDY     #$A2            ; BANK19:A2B3
+                ldyx #(sub_19A2B3-1)
                 JSR     bank_A000_a     ; changes the memory bank $A000, transfers the execution of the code after completion of which returns the original memory bank
                                         ; input: A - bank number, YX - (subroutine address - 1)
                                         ; Y - high byte, X - low byte
@@ -172,10 +170,10 @@ loc_C274:
                 LDX     #0
 
 @next_irq_handler:
-                LDA     #$25
+                LDA     #<(sub_C226-1)      ; #$25
                 STA     InterruptTable,X ; C226-1 for irq
                 INX
-                LDA     #$C2
+                LDA     #>(sub_C226-1)      ; #$C2
                 STA     InterruptTable,X
                 INX
                 CPX     #$1A
@@ -245,19 +243,18 @@ next_tilepack:
 
 
 sub_C306:
-    .import wait_nmi_flags_reset
+    .import wait_nmi_flags_reset, sub_19A31E, NMI_Data
     .importzp NMIFlags
 
                 STY     OffsetNMI_Data
                 JSR     prepare_attributes
                 LDA     #0
-                STA     NMI_Data,X        ; NMITable
+                STA     NMI_Data,X
                 STA     OffsetNMI_Data
                 LDA     #$80
                 STA     NMIFlags
                 LDA     #$19
-                LDX     #$1D
-                LDY     #$A3            ; BANK19:A31E
+                ldyx #(sub_19A31E-1)
                 JSR     bank_A000_a     ; changes the memory bank $A000, transfers the execution of the code after completion of which returns the original memory bank
                                         ; input: A - bank number, YX - (subroutine address - 1)
                                         ; Y - high byte, X - low byte
@@ -273,16 +270,15 @@ loc_C31F:
 bank0_0:
     .import mmc3_bank_set
 
-                LDA     #0
-                LDX     #6
-                JMP     mmc3_bank_set   ; Set memory bank
-; End of function bank0_0               ; A - bank number
-                                        ; X - mode
+    LDA #0
+    LDX #6
+    JMP mmc3_bank_set   ; Set memory BANK0 $8000
+; End of function bank0_0
 ; ---------------------------------------------------------------------------
 .import InfoFrame
 
 TilePack:
-    tile_position 1, $17
+    tile_position 1, 23
     tile_pointer InfoFrame
     end_row
 
@@ -299,7 +295,7 @@ EndTileMark:
     end_frame
 
 stru_C33E:
-    tile_position 1, $15
+    tile_position 1, 21
     tile_pointer InfoFrame
     end_row
 
@@ -317,7 +313,7 @@ stru_C33E:
     end_frame
 
 stru_C359:
-    tile_position 1, $13
+    tile_position 1, 19
     tile_pointer InfoFrame
     end_row
 
@@ -340,26 +336,18 @@ stru_C359:
     end_frame
 
 CharacterInfo:
-    .byte $24, $A0          ; copy_tilepack↓r ...
-                                        ; low byte irq handler - 1, offset to InterruptTable
-stru_C37C:      .byte $23
-                .word $38
-                .byte 0, 7 ; character name base addr (7440, 7480, 74C0, 7500) + $38
-                .byte $23
-                .word $10
-                .byte 1, 3 ; character level base addr (7440, 7480, 74C0, 7500) + $10
-                .byte $23
-                .word $14
-                .byte 2, 4 ; character health base addr (7440, 7480, 74C0, 7500) + $14
-                .byte $23
-                .word $16
-                .byte 2, 4 ; character PP base addr (7440, 7480, 74C0, 7500) + $16
-                .byte $23
-                .word $11
-                .byte 3, 8 ; character experience base addr (7440, 7480, 74C0, 7500) + $11
-                .byte $A0               ;
-                .byte $25               ; |
-                .byte 0
+    left
+    .byte " "
+
+    convert $38, 0, 7       ; character name base addr (7440, 7480, 74C0, 7500) + $38
+    convert $10, 1, 3       ; character level base addr (7440, 7480, 74C0, 7500) + $10
+    convert $14, 2, 4       ; character health base addr (7440, 7480, 74C0, 7500) + $14
+    convert $16, 2, 4       ; character PP base addr (7440, 7480, 74C0, 7500) + $16
+    convert $11, 3, 8       ; character experience base addr (7440, 7480, 74C0, 7500) + $11
+    .byte " "
+    right
+    end_frame
+
 byte_C398:      .byte 1
                 .byte 4
                 .word $A0A0 ; command to load packed tiles at the specified offset
@@ -373,20 +361,19 @@ ExclamationMark:
 
 out_msg_frame:
     .export out_msg_frame
+    .import MsgFrame
 
-                LDA     #$6A            ; low byte irq handler - 1, offset to InterruptTable
-                LDX     #$92
+    ldxa #MsgFrame
 
-loc_C3A4:
-                STA     PointerTilePack
-                STX     PointerTilePack+1
-                LDA     IRQCount
-                BEQ     loc_C3AF
-                JMP     next_tilepack
+out_frame:
+    stxa PointerTilePack
+    lda IRQCount
+    beq loc_C3AF
+    jmp next_tilepack
 ; ---------------------------------------------------------------------------
 
 loc_C3AF:
-                JMP     loc_C274
+    jmp loc_C274
 ; End of function out_msg_frame
 
 
@@ -395,10 +382,10 @@ loc_C3AF:
 
 goods_psi:
     .export goods_psi
+    .import stru_929B
 
-                LDA     #$9B            ; 929B
-                LDX     #$92
-                JMP     loc_C3A4
+    ldxa #stru_929B
+    jmp out_frame
 ; End of function goods_psi
 
 
@@ -407,10 +394,10 @@ goods_psi:
 
 sub_C3B9:
     .export sub_C3B9
+    .import stru_92CF
 
-                LDA     #$CF            ; 92CF
-                LDX     #$92
-                JMP     loc_C3A4
+    ldxa #stru_92CF
+    jmp out_frame
 ; End of function sub_C3B9
 
 
@@ -419,10 +406,10 @@ sub_C3B9:
 
 sub_C3C0:
     .export sub_C3C0
+    .import byte_9300
 
-                LDA     #0              ; 9300
-                LDX     #$93
-                JMP     loc_C3A4
+    ldxa #byte_9300
+    jmp out_frame
 ; End of function sub_C3C0
 
 
@@ -431,10 +418,10 @@ sub_C3C0:
 
 sub_C3C7:
     .export sub_C3C7
+    .import stru_9317
 
-                LDA     #$17            ; 9317
-                LDX     #$93
-                JMP     loc_C3A4
+    ldxa #stru_9317
+    jmp out_frame
 ; End of function sub_C3C7
 
 
@@ -443,10 +430,10 @@ sub_C3C7:
 
 sub_C3CE:
     .export sub_C3CE
+    .import byte_935F
 
-                LDA     #$5F ; '_'      ; 935F
-                LDX     #$93
-                JMP     loc_C3A4
+    ldxa #byte_935F
+    jmp out_frame
 ; End of function sub_C3CE
 
 
@@ -456,10 +443,9 @@ sub_C3CE:
 sub_C3D5:
     .export sub_C3D5
 
-                JSR     load_character_data ; Copies the characteristics of the characters
-                LDA     #$48 ; 'H'      ; 9248
-                LDX     #$92
-                JMP     loc_C3A4
+    jsr load_character_data ; Copies the characteristics of the characters
+    ldxa #FrameOff
+    jmp out_frame
 ; End of function sub_C3D5
 
 
@@ -468,10 +454,10 @@ sub_C3D5:
 
 sub_C3DF:
     .export sub_C3DF
+    .import stru_936A
 
-                LDA     #$6A ; 'j'      ; 936A
-                LDX     #$93
-                JMP     loc_C3A4
+    ldxa #stru_936A
+    jmp out_frame
 ; End of function sub_C3DF
 
 
@@ -480,10 +466,10 @@ sub_C3DF:
 
 state:
     .export state
+    .import StateFrame
 
-                LDA     #$8D            ; 938D
-                LDX     #$93
-                JMP     loc_C3A4
+    ldxa #StateFrame
+    jmp out_frame
 ; End of function state
 
 
@@ -492,10 +478,10 @@ state:
 
 setup:
     .export setup
+    .import Setup
 
-                LDA     #$1E            ; 951E
-                LDX     #$95
-                JMP     loc_C3A4
+    ldxa #Setup
+    jmp out_frame
 ; End of function setup
 
 
@@ -524,7 +510,7 @@ loc_C3F5:
 
 
 draw_statistical_frame:
-    .import sram_write_enable, sram_read_enable, FrameOff
+    .import sram_write_enable, sram_read_enable, FrameOff, Character
     .importzp Pointer, BankTable
 
                 LDA     #$FF
@@ -537,20 +523,20 @@ loc_C408:
 loc_C40F:
                 PHA
                 TAX
-                LDA     $600,X
+                LDA     Character,X
                 BEQ     loc_C436
-                LDA     pPPUTab,X
+                LDA     Character + CHARACTER::NameOffset,X
                 STA     PointerTilePack
-                LDA     pPPUTab+1,X
+                LDA     Character + CHARACTER::NameOffset+1,X
                 STA     PointerTilePack+1
                 LDY     #1
-                LDA     $601,X
+                LDA     Character + CHARACTER::field_1,X
                 AND     Pointer
                 STA     (PointerTilePack),Y
                 LDY     #$14
 
 loc_C42B:
-                LDA     $603,X
+                LDA     Character + CHARACTER::MaxHealth,X
                 STA     (PointerTilePack),Y
                 INX
                 INY
@@ -569,15 +555,13 @@ loc_C43F:
                 LDA     BankTable + BANK_TABLE::CPU_8K_8000
                 PHA
                 JSR     bank0_0
-                LDA     #<(FrameOff)    ; #$48
-                LDX     #>(FrameOff)    ; #$92
-                STA     PointerTilePack ; FrameOff
-                STX     PointerTilePack+1
-                JSR     sub_C6D2
+                ldxa #FrameOff
+                stxa PointerTilePack
+                JSR     draw_tilepack
                 BNE     loc_C458
 
 loc_C455:
-                JSR     loc_C6DB
+                JSR     draw_tilepack_clear
 
 loc_C458:
                 LDA     #2
@@ -586,12 +570,11 @@ loc_C458:
                 CMP     #0
                 BNE     loc_C455
                 INC     Row
-                JSR     sub_C6D2
+                JSR     draw_tilepack
                 PLA
                 LDX     #6
-                JMP     mmc3_bank_set   ; Set memory bank
-; End of function draw_statistical_frame ; A - bank number
-                                        ; X - mode
+                JMP     mmc3_bank_set   ; Set memory bank A - bank number, X - mode
+; End of function draw_statistical_frame
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -624,8 +607,8 @@ prepare_attributes:
                 DEX
                 BNE     @next_byte
                 JSR     sram_read_enable
-                LDX     NMI_Data + NMI_DATA::PPU_Addr ; NMITable
-                LDY     NMI_Data + NMI_DATA::PPU_Addr+1 ; NMITable
+                LDX     NMI_Data + NMI_DATA::PPU_Addr
+                LDY     NMI_Data + NMI_DATA::PPU_Addr+1
                 TYA
                 CLC
                 AND     #3
@@ -655,7 +638,7 @@ prepare_attributes:
                 ORA     #3
                 STA     NTAddr
                 TYA
-                AND     #$42 ; 'B'
+                AND     #$42
                 LSR     A
                 LSR     A
                 ADC     #0
@@ -665,19 +648,19 @@ prepare_attributes:
                 ADC     BlockIndex
                 TAY
                 LDX     OffsetNMI_Data
-                LDA     #7              ; write_ppu_chars
-                STA     NMI_Data,X        ; NMITable
+                LDA     #WRITE_CHAR     ; #7  write_ppu_chars
+                STA     NMI_Data,X
                 INX
                 LDA     LoopAddr        ; ROM:C84F, ROM:C881
-                STA     NMI_Data,X        ; NMITable
+                STA     NMI_Data,X
                 INX
 
 @next_attr:
                 LDA     NTAddr
-                STA     NMI_Data,X        ; NMITable
+                STA     NMI_Data,X
                 INX
                 LDA     NTAddr+1
-                STA     NMI_Data,X        ; NMITable
+                STA     NMI_Data,X
                 INX
                 LDA     AttributeCopy,Y
                 AND     #3              ; left top attribute
@@ -692,14 +675,14 @@ prepare_attributes:
                 ADC     #$F             ; get offset left bottom attribute
                 TAY
                 LDA     AttributeCopy,Y
-                AND     #$30 ; '0'      ; left bottom attribute
+                AND     #$30            ; left bottom attribute
                 ORA     BlockIndex
                 STA     BlockIndex
                 INY
                 LDA     AttributeCopy,Y
                 AND     #$C0            ; right bottom attribute
                 ORA     BlockIndex
-                STA     NMI_Data,X        ; NMITable
+                STA     NMI_Data,X
                 INX
                 TYA
                 SEC
@@ -735,137 +718,136 @@ prepare_attributes:
 ; Copies the characteristics of the characters
 
 load_character_data:
-                JSR     sram_write_enable
-                LDX     #$10
-                LDY     #0
-                STY     Counter
+
+    jsr sram_write_enable
+    ldx #$10
+    ldy #0
+    sty Counter
 
 next_character:
-                JSR     get_characters_num
-                BCS     no_character
-                INC     Counter
-                JSR     get_sram_pointer ; Input: A -
-                                        ; Output: Pointer (word) = High $74 Low $40 * A
-                TYA
-                PHA
-                LDY     #0
+    jsr get_characters_num
+    bcs no_character
+    inc Counter
+    jsr get_sram_pointer ; Input: A - charachter number, Output: Pointer (word) = High $74 Low $40 * A
+    tya
+    pha
+    ldy #0
 
 @next_tilepack:
-                JSR     copy_tilepack   ; Copies a tilepack in blocks of 5 bytes with offset correction by the value stored in Pointer
-                                        ; Input: X - index for SRAM19:6700 (destination),
-                                        ;        Y - index for C37A (source)
-                CPY     #$14            ; Name, level, health, PP
-                BNE     @next_tilepack
-                TYA
-                PHA                     ; store index $14 into the stack
-                LDY     #1
-                LDA     (Pointer),Y     ; SRAM19:7441
-                LDY     #$E
+    jsr copy_tilepack   ; Copies a tilepack in blocks of 5 bytes with offset correction by the value stored in Pointer
+                        ; Input: X - index for SRAM19:6700 (destination),
+                        ;        Y - index for C37A (source)
+    cpy #$14            ; Name, level, health, PP
+    bne @next_tilepack
+    tya
+    pha                 ; store index $14 into the stack
+    ldy #1
+    lda (Pointer),Y     ; SRAM19:7441
+    ldy #$E
 
 loc_C56A:
-                ASL     A
-                BCC     loc_C592
-                PLA
-                TYA
-                PHA
-                LDY     #0
+    asl A
+    bcc loc_C592
+    pla
+    tya
+    pha
+    ldy #0
 
 loc_C572:
-                LDA     byte_C398,Y
-                STA     $6700,X
-                INX
-                INY
-                CPY     #5
-                BNE     loc_C572
-                PLA
-                TAY
-                LDA     Condition,Y
-                STA     $6700,X
-                INX
-                LDA     Condition+1,Y
-                STA     $6700,X
-                INX
-                LDY     #$1B
-                BNE     next_byte
+    lda byte_C398,Y
+    sta Frames,X        ; $6700,X
+    inx
+    iny
+    cpy #5
+    bne loc_C572
+    pla
+    tay
+    lda Condition,Y
+    sta Frames,X        ; $6700,X
+    inx
+    lda Condition+1,Y
+    sta Frames,X        ; $6700,X
+    inx
+    ldy #$1B
+    bne next_byte
 
 loc_C592:
-                DEY
-                DEY
-                BPL     loc_C56A
-                PLA
-                TAY                     ; restore index $14 from the stack and copy Exp
-                JSR     copy_tilepack   ; Copies a tilepack in blocks of 5 bytes with offset correction by the value stored in Pointer
-                                        ; Input: X - index for SRAM19:6700 (destination),
-                                        ;        Y - index for C37A (source)
+    dey
+    dey
+    bpl loc_C56A
+    pla
+    tay                 ; restore index $14 from the stack and copy Exp
+    jsr copy_tilepack   ; Copies a tilepack in blocks of 5 bytes with offset correction by the value stored in Pointer
+                        ; Input: X - index for SRAM19:6700 (destination), Y - index for C37A (source)
 
 next_byte:
-                LDA     CharacterInfo,Y
-                STA     $6700,X
-                INX
-                INY
-                CPY     #$1E
-                BNE     next_byte
-                PLA
-                TAY
-                LDA     Counter
-                CMP     #3
-                BCS     loc_C5B5
+    lda CharacterInfo,Y
+    sta Frames,X
+    inx
+    iny
+    cpy #$1E
+    bne next_byte
+    pla
+    tay
+    lda Counter
+    cmp #3
+    bcs loc_C5B5
 
 no_character:
-                INY
-                CPY     #4
-                BCC     next_character
+    iny
+    cpy #4
+    bcc next_character
 
 loc_C5B5:
-                LDA     #0
-                STA     $6704
-                STA     $6705
-                STA     $6706
-                SEC
-                LDA     #3
-                SBC     Counter
-                TAX
-                LDY     #0
+    lda #0
+    sta $6704
+    sta $6705
+    sta $6706
+    sec
+    lda #3
+    sbc Counter
+    tax
+    ldy #0
 
 loc_C5C9:
-                JSR     get_characters_num
-                BCS     loc_C5D6
-                STA     $6704,X
-                INX
-                CPX     #3
-                BCS     loc_C5DB
+    jsr get_characters_num
+    bcs loc_C5D6
+    sta $6704,X
+    inx
+    cpx #3
+    bcs loc_C5DB
 
 loc_C5D6:
-                INY
-                CPY     #4
-                BCC     loc_C5C9
+    iny
+    cpy #4
+    bcc loc_C5C9
 
 loc_C5DB:
-                LDA     Counter
-                ASL     A
-                TAX
-                LDA     #4
-                STA     $6700
-                STA     $670A
-                CPX     #4
-                BCS     loc_C5EE
-                LDA     #0
+    lda Counter
+    asl A
+    tax
+    lda #4          ; frame_offset
+    sta Frames      ; $6700
+    sta $670A
+    cpx #4
+    bcs loc_C5EE
+    lda #0
 
 loc_C5EE:
-                STA     $670D
-                LDA     off_C616,X
-                STA     $6701
-                LDA     off_C616+1,X
-                STA     $6702
-                LDA     $6713
-                STA     $670B
-                LDA     $6714
-                STA     $670C
-                LDA     #<(ExclamationMark)     ; #$9D
-                STA     $670E
-                LDA     #>(ExclamationMark)     ; #$C3
-                STA     $670F     ; C39D
-                JMP     sram_read_enable
+    sta $670D
+    lda off_C616,X
+    sta $6701
+    lda off_C616+1,X
+    sta $6702
+    lda $6713
+    sta $670B
+    lda $6714
+    sta $670C
+    lda #<(ExclamationMark)     ; #$9D
+    sta $670E
+    lda #>(ExclamationMark)     ; #$C3
+    sta $670F     ; C39D
+    jmp sram_read_enable
 ; End of function load_character_data
 
 ; ---------------------------------------------------------------------------
@@ -880,13 +862,15 @@ Condition:
 
 
 get_characters_num:
-                SEC
-                LDA     $7408,Y         ; CurrentPlayer.PureSave.CharactersNum,Y
-                BEQ     @exit
-                CMP     #6
+    .import CurrentGame
+
+    sec
+    lda CurrentGame + PURE_SAVE::CharactersNum,Y    ; $7408,Y
+    beq @exit
+    cmp #6
 
 @exit:
-                RTS
+    rts
 ; End of function get_characters_num
 
 
@@ -897,53 +881,53 @@ get_characters_num:
 ;        Y - index for C37A (source)
 
 copy_tilepack:
-                LDA     CharacterInfo,Y
-                STA     $6700,X
-                INX
-                INY
-                LDA     CharacterInfo,Y
-                STA     $6700,X
-                INX
-                INY
-                LDA     CharacterInfo,Y
-                STA     $6700,X
-                INX
-                INY
-                CLC
-                LDA     CharacterInfo,Y
-                ADC     Pointer
-                STA     $6700,X
-                INX
-                INY
-                LDA     CharacterInfo,Y
-                ADC     Pointer+1
-                STA     $6700,X
-                INX
-                INY
-                RTS
+    lda CharacterInfo,Y
+    sta Frames,X        ; $6700,X
+    inx
+    iny
+    lda CharacterInfo,Y
+    sta Frames,X        ; $6700,X
+    inx
+    iny
+    lda CharacterInfo,Y
+    sta Frames,X        ; $6700,X
+    inx
+    iny
+    clc
+    lda CharacterInfo,Y
+    adc Pointer
+    sta Frames,X        ; $6700,X
+    inx
+    iny
+    lda CharacterInfo,Y
+    adc Pointer+1
+    sta Frames,X        ; $6700,X
+    inx
+    iny
+    rts
 ; End of function copy_tilepack
 
 
 ; =============== S U B R O U T I N E =======================================
 
-; Input: A -
+; Input: A - Character number
 ; Output: Pointer (word) = High $74 Low $40 * A
 
 get_sram_pointer:
     .export get_sram_pointer
 
-                STA     Pointer+1
-                LDA     #0
-                LSR     Pointer+1
-                ROR     A
-                LSR     Pointer+1
-                ROR     A
-                ADC     #0
-                STA     Pointer
-                LDA     Pointer+1
-                ADC     #$74 ; 't'
-                STA     Pointer+1
-                RTS
+    sta Pointer+1
+    lda #0
+    lsr Pointer+1
+    ror A
+    lsr Pointer+1
+    ror A
+    adc #<CurrentGame
+    sta Pointer
+    lda Pointer+1
+    adc #>CurrentGame
+    sta Pointer+1
+    rts
 ; End of function get_sram_pointer
 
 
@@ -953,48 +937,47 @@ get_sram_pointer:
 write_tiles:
     .export write_tiles
 
-                JSR     sub_C6D2
-                BNE     loc_C682
+    jsr draw_tilepack
+    bne loc_C682
 
 loc_C67F:
-                JSR     loc_C6DB
+    jsr draw_tilepack_clear
 
 loc_C682:
-                CMP     #0
-                BNE     loc_C67F
-                INC     Row
-                JMP     sub_C6D2
+    cmp #0
+    bne loc_C67F
+    inc Row
+    jmp draw_tilepack
 ; End of function write_tiles
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_C68B:
-    .export sub_C68B
+draw_symbol:
+    .export draw_symbol
 
-                PHA
-                JSR     wait_nmi_processed
-                JSR     nt_calc         ; Calculate Name table address
-                                        ; Input: CameraX, CameraY, Column, Row
-                                        ; Output: NTAddr address for screen tile position (Column, Row + 1)
-                LDA     #5              ; write_horizontal
-                STA     NMI_Data + NMI_DATA::NMI_ID   ; NMITable
-                LDA     #1
-                STA     NMI_Data + NMI_DATA::NumOfChr ; NMITable
-                LDA     NTAddr
-                STA     NMI_Data + NMI_DATA::PPU_Addr ; NMITable
-                LDA     NTAddr+1
-                STA     NMI_Data + NMI_DATA::PPU_Addr+1 ; NMITable
-                PLA
-                STA     NMI_Data + NMI_DATA::Chr      ; NMITable
-                LDA     #0
-                STA     NMI_Data + NMI_DATA::Next     ; NMITable
-                STA     OffsetNMI_Data
-                LDA     #$80
-                STA     NMIFlags
-                RTS
-; End of function sub_C68B
+    pha
+    jsr wait_nmi_processed
+    jsr nt_calc         ; Calculate Name table address Input: CameraX, CameraY, Column, Row
+                        ; Output: NTAddr address for screen tile position (Column, Row + 1)
+    lda #WRITE_ROW      ; #5              ; write_horizontal
+    sta NMI_Data + NMI_DATA::NMI_ID
+    lda #1
+    sta NMI_Data + NMI_DATA::NumOfChr
+    lda NTAddr
+    sta NMI_Data + NMI_DATA::PPU_Addr
+    lda NTAddr+1
+    sta NMI_Data + NMI_DATA::PPU_Addr+1
+    pla
+    sta NMI_Data + NMI_DATA::Chr
+    lda #0
+    sta NMI_Data + NMI_DATA::Next
+    sta OffsetNMI_Data
+    lda #$80
+    sta NMIFlags
+    rts
+; End of function draw_symbol
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -1003,67 +986,67 @@ sub_C68B:
 add_spaces:
     .importzp byte_70
 
-                LDA     byte_70
-                CLC
-                SBC     ChrCount
-                BCC     loc_C6CF
-                TAY
+    lda byte_70
+    clc
+    sbc ChrCount
+    bcc loc_C6CF
+    tay
 
 @next_space:
-                LDA     #$A0
-                JSR     add_tile
-                DEY
-                BPL     @next_space
-                LDY     OffsetNMI_Data
-                LDA     NMI_Data + NMI_DATA::NumOfChr,Y ; NMITable
-                BEQ     loc_C6CF
-                TXA
-                TAY
+    lda #$A0
+    jsr add_tile
+    dey
+    bpl @next_space
+    ldy OffsetNMI_Data
+    lda NMI_Data + NMI_DATA::NumOfChr,Y
+    beq loc_C6CF
+    txa
+    tay
 
 loc_C6CF:
-                STY     OffsetNMI_Data
-                RTS
+    sty OffsetNMI_Data
+    rts
 ; End of function add_spaces
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_C6D2:
-    .export sub_C6D2, loc_C6DB
+draw_tilepack:
+    .export draw_tilepack, draw_tilepack_clear
 
-                JSR     wait_nmi_processed
-                LDX     #0
-                STX     OffsetNMI_Data
-                BEQ     loc_C6E8
+    jsr wait_nmi_processed
+    ldx #0
+    stx OffsetNMI_Data
+    beq tiles2nmi
 
-loc_C6DB:
-                JSR     wait_nmi_processed
-                LDX     #0
-                STX     OffsetNMI_Data
-                JSR     clear_area
-                JSR     add_spaces
+draw_tilepack_clear:
+    jsr wait_nmi_processed
+    ldx #0
+    stx OffsetNMI_Data
+    jsr clear_area
+    jsr add_spaces
 
-loc_C6E8:
-                JSR     tiled_area
-                JSR     add_spaces
-                LDA     #0
-                STA     NMI_Data,Y        ; save marker end of block
-                STA     OffsetNMI_Data
-                LDA     #$80
-                STA     NMIFlags
+tiles2nmi:
+    jsr tiled_area
+    jsr add_spaces
+    lda #0
+    sta NMI_Data,Y        ; save marker end of block
+    sta OffsetNMI_Data
+    lda #$80
+    sta NMIFlags
 
-loc_C6F9:
-                JSR     get_text_row_pointer
-                LDA     UnpackID        ; UnpackTable
-                CMP     #1
-                BNE     @end_block
-                INC     Row
-                INC     Row
+check_last_row:
+    jsr get_text_row_pointer
+    lda UnpackID
+    cmp #1
+    bne @end_block
+    inc Row
+    inc Row
 
 @end_block:
-                RTS
-; End of function sub_C6D2
+    rts
+; End of function draw_tilepack
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -1071,97 +1054,96 @@ loc_C6F9:
 
 print_string:
     .export print_string
-    .import wait_frames
+    .import wait_frames, ModeSRAM, byte_7F1
 
-                JSR     wait_nmi_processed
-                LDA     #$33
-                STA     OffsetNMI_Data
-                PHA
-                JSR     tiled_area
-                JSR     add_spaces
-                STY     AttributeOffset
-                PLA
-                TAX
-                LDA     #5
-                STA     NMI_Data + NMI_DATA::NMI_ID   ; NMITable
-                LDA     #1
-                STA     NMI_Data + NMI_DATA::NumOfChr ; NMITable
+    jsr wait_nmi_processed
+    lda #$33
+    sta OffsetNMI_Data
+    pha
+    jsr tiled_area
+    jsr add_spaces
+    sty AttributeOffset
+    pla
+    tax
+    lda #WRITE_ROW      ; #5
+    sta NMI_Data + NMI_DATA::NMI_ID
+    lda #1
+    sta NMI_Data + NMI_DATA::NumOfChr
 
 loc_C723:
-                LDA     #0
-                STA     NMI_Data,Y        ; NMITable
-                CPX     AttributeOffset
-                BCS     loc_C6F9
-                LDA     #8
-                STA     NMI_Data,Y        ; NMITable
-                LDA     NMI_Data + NMI_DATA::NumOfChr,X ; NMITable
-                STA     ChrCount
-                STA     NMI_Data + NMI_DATA::NumOfChr,Y ; NMITable
-                LDA     #$A0
-                STA     NMI_Data + NMI_DATA::Chr,Y    ; NMITable
-                CLC
-                LDA     NMI_Data + NMI_DATA::PPU_Addr+1,X ; NMITable
-                STA     NMI_Data + NMI_DATA::PPU_Addr+1 ; NMITable
-                ADC     #$20 ; ' '
-                STA     NMI_Data + NMI_DATA::PPU_Addr+1,Y ; NMITable
-                LDA     NMI_Data + NMI_DATA::PPU_Addr,X ; NMITable
-                STA     NMI_Data + NMI_DATA::PPU_Addr ; NMITable
-                ADC     #0
-                STA     NMI_Data + NMI_DATA::PPU_Addr,Y ; NMITable
-                TXA
-                CLC
-                ADC     #4
-                TAX
-                TYA
-                CLC
-                ADC     #5
-                TAY
+    lda #0
+    sta NMI_Data,Y
+    cpx AttributeOffset
+    bcs check_last_row
+    lda #8
+    sta NMI_Data,Y
+    lda NMI_Data + NMI_DATA::NumOfChr,X
+    sta ChrCount
+    sta NMI_Data + NMI_DATA::NumOfChr,Y
+    lda #$A0
+    sta NMI_Data + NMI_DATA::Chr,Y
+    clc
+    lda NMI_Data + NMI_DATA::PPU_Addr+1,X
+    sta NMI_Data + NMI_DATA::PPU_Addr+1
+    adc #$20
+    sta NMI_Data + NMI_DATA::PPU_Addr+1,Y
+    lda NMI_Data + NMI_DATA::PPU_Addr,X
+    sta NMI_Data + NMI_DATA::PPU_Addr
+    adc #0
+    sta NMI_Data + NMI_DATA::PPU_Addr,Y
+    txa
+    clc
+    adc #4
+    tax
+    tya
+    clc
+    adc #5
+    tay
 
 next_char:
-                LDA     NMI_Data,X        ; copy symol from NMI records to field char
-                STA     NMI_Data + NMI_DATA::Chr      ; NMITable
-                CMP     #$A0
-                BEQ     @print_char
-                LDA     ModeSRAM
-                BMI     @print_char
-                EOR     #1
-                STA     ModeSRAM
-                LSR     A
-                BCC     @print_char
-                LDA     #$E
-                STA     $7F1
+    lda NMI_Data,X        ; copy symol from NMI records to field char
+    sta NMI_Data + NMI_DATA::Chr
+    cmp #$A0
+    beq @print_char
+    lda ModeSRAM
+    bmi @print_char
+    eor #1
+    sta ModeSRAM
+    lsr A
+    bcc @print_char
+    lda #$E
+    sta byte_7F1
 
 @print_char:
-                LDA     #0
-                STA     NMI_Data + NMI_DATA::Next     ; NMITable
-                STA     OffsetNMI_Data
-                LDA     #$80
-                STA     NMIFlags
-                JSR     wait_nmi_processed ; print one symbol
-                BIT     ModeSRAM
-                BVC     next_nt_addr
-                TXA
-                PHA
-                LDA     NMI_Data + NMI_DATA::Chr      ; NMITable
-                LDX     #$28 ; '('
-                CMP     #$AE
-                BEQ     loc_C79F
-                CMP     #$AC
-                BEQ     loc_C79F
-                LDX     #3
+    lda #0
+    sta NMI_Data + NMI_DATA::Next
+    sta OffsetNMI_Data
+    lda #$80
+    sta NMIFlags
+    jsr wait_nmi_processed ; print one symbol
+    bit ModeSRAM
+    bvc next_nt_addr
+    txa
+    pha
+    lda NMI_Data + NMI_DATA::Chr
+    ldx #$28
+    cmp #$AE
+    beq loc_C79F
+    cmp #$AC
+    beq loc_C79F
+    ldx #3
 
 loc_C79F:
-                JSR     wait_frames     ; wait for a few frames
-                                        ; input: X - number of frames
-                PLA
-                TAX
+    jsr wait_frames     ; wait for a few frames input: X - number of frames
+    pla
+    tax
 
 next_nt_addr:
-                INC     NMI_Data + NMI_DATA::PPU_Addr+1 ; NMITable
-                INX
-                DEC     ChrCount
-                BNE     next_char
-                JMP     loc_C723
+    inc NMI_Data + NMI_DATA::PPU_Addr+1
+    inx
+    dec ChrCount
+    bne next_char
+    jmp loc_C723
 ; End of function print_string
 
 
@@ -1172,20 +1154,20 @@ next_nt_addr:
 move_chars:
     .export move_chars
 
-                CMP     #1
-                BNE     @exit
-                PHA
-                LDX     #$A4
+    cmp #1
+    bne @exit
+    pha
+    ldx #$A4
 
 @next_char:
-                LDA     $432,X
-                STA     $45B,X
-                DEX
-                BNE     @next_char
-                PLA
+    lda $432,X
+    sta $45B,X
+    dex
+    bne @next_char
+    pla
 
 @exit:
-                RTS
+    rts
 ; End of function move_chars
 
 
@@ -1221,7 +1203,7 @@ sub_C7D4:
                 STX     OffsetNMI_Data
 
 loc_C7D9:
-                LDA     NMI_Data,X        ; NMITable
+                LDA     NMI_Data,X
                 BEQ     loc_C7FD
                 EOR     #5
                 BNE     loc_C7F3
@@ -1233,7 +1215,7 @@ loc_C7E9:
                 TXA
                 CLC
                 ADC     #4
-                ADC     NMI_Data + NMI_DATA::NumOfChr,X ; NMITable
+                ADC     NMI_Data + NMI_DATA::NumOfChr,X
                 TAX
                 BCC     loc_C7D9
 
@@ -1249,11 +1231,11 @@ loc_C7FD:
                 STA     ByteCount
                 SEC
                 LDA     OffsetNMI_Data
-                SBC     #$29 ; ')'
+                SBC     #$29
                 TAX
                 LDA     #$80
                 STA     NMIFlags
-                CPX     #$5C ; '\'
+                CPX     #$5C
                 BCS     sub_C7D4
                 RTS
 ; End of function sub_C7D4
@@ -1264,25 +1246,25 @@ loc_C7FD:
 
 sub_C80E:
                 SEC
-                LDA     NMI_Data + NMI_DATA::PPU_Addr+1,X ; NMITable
-                SBC     #$20 ; ' '
-                STA     NMI_Data + NMI_DATA::PPU_Addr+1,X ; NMITable
-                LDA     NMI_Data + NMI_DATA::PPU_Addr,X ; NMITable
+                LDA     NMI_Data + NMI_DATA::PPU_Addr+1,X
+                SBC     #$20
+                STA     NMI_Data + NMI_DATA::PPU_Addr+1,X
+                LDA     NMI_Data + NMI_DATA::PPU_Addr,X
                 STA     AttributeOffset
                 SBC     #0
-                STA     NMI_Data + NMI_DATA::PPU_Addr,X ; NMITable
+                STA     NMI_Data + NMI_DATA::PPU_Addr,X
                 EOR     AttributeOffset
                 AND     #4
                 BEQ     locret_C83C
                 SEC
-                LDA     NMI_Data + NMI_DATA::PPU_Addr+1,X ; NMITable
-                SBC     #$40 ; '@'
-                STA     NMI_Data + NMI_DATA::PPU_Addr+1,X ; NMITable
-                LDA     NMI_Data + NMI_DATA::PPU_Addr,X ; NMITable
+                LDA     NMI_Data + NMI_DATA::PPU_Addr+1,X
+                SBC     #$40
+                STA     NMI_Data + NMI_DATA::PPU_Addr+1,X
+                LDA     NMI_Data + NMI_DATA::PPU_Addr,X
                 SBC     #4
                 AND     #$F
-                ORA     #$20 ; ' '
-                STA     NMI_Data + NMI_DATA::PPU_Addr,X ; NMITable
+                ORA     #$20
+                STA     NMI_Data + NMI_DATA::PPU_Addr,X
 
 locret_C83C:
                 RTS
@@ -1295,42 +1277,34 @@ locret_C83C:
 tiled_area:
     .importzp byte_71
 
-                JSR     nt_calc         ; Calculate Name table address
-                                        ; Input: CameraX, CameraY, Column, Row
-                                        ; Output: NTAddr address for screen tile position (Column, Row + 1)
-                LDA     byte_71
-                STA     ByteCount
-                LDX     OffsetNMI_Data
-                LDY     #0
-                STY     ChrCount
-                TYA
-                PHA
-                JSR     write_rows_header
+    jsr nt_calc         ; Calculate Name table address
+                        ; Input: CameraX, CameraY, Column, Row
+                        ; Output: NTAddr address for screen tile position (Column, Row + 1)
+    lda byte_71
+    sta ByteCount
+    ldx OffsetNMI_Data
+    ldy #0
+    sty ChrCount
+    tya
+    pha
+    jsr write_rows_header
 
 @next_byte:
-                DEC     ByteCount
-                BPL     @black_tile
-                LDA     (PointerTilePack),Y ; 0x149EC4 + Y = 0, 4 = $20, $C8
-                                        ; SRAM19:6095, 91D9
-                JSR     get_type        ; returns a tile or function ID:
-                                        ; input: A - byte, Y - current block index
-                                        ; output: BlockIndex - next block index
-                                        ; A - tile ID or function ID (0 - 9)
-                                        ; TypeTable
-                BCS     @tile
-                LDY     #<(@next_byte)  ; #$4F ; 'O'
-                STY     LoopAddr        ; ROM:C84F, ROM:C881
-                LDY     #>(@next_byte)  ; #$C8
-                STY     LoopAddr+1      ; ROM:C84F, ROM:C881
-                JMP     jmp_handler     ; UnpackTable
+    dec ByteCount
+    bpl @black_tile
+    lda (PointerTilePack),Y
+    jsr get_type
+    bcs @tile
+    storey #@next_byte, LoopAddr
+    jmp jmp_handler
 ; ---------------------------------------------------------------------------
 
-@black_tile:                            ; CODE XREF: tiled_area+14↑j
-                LDA     #$A0
+@black_tile:
+    lda #$A0
 
-@tile:                                  ; CODE XREF: tiled_area+1B↑j
-                JSR     add_tile
-                JMP     @next_byte
+@tile:
+    jsr add_tile
+    jmp @next_byte
 ; End of function tiled_area
 
 
@@ -1338,76 +1312,72 @@ tiled_area:
 
 
 clear_area:
-                DEC     Row
-                JSR     nt_calc         ; Calculate Name table address
-                                        ; Input: CameraX, CameraY, Column, Row
-                                        ; Output: NTAddr address for screen tile position (Column, Row + 1)
-                LDA     byte_71
-                STA     ByteCount
-                LDX     OffsetNMI_Data
-                LDY     #0
-                STY     ChrCount
-                TYA
-                PHA
-                JSR     write_rows_header
+    dec Row
+    jsr nt_calc
+    lda byte_71
+    sta ByteCount
+    ldx OffsetNMI_Data
+    ldy #0
+    sty ChrCount
+    tya
+    pha
+    jsr write_rows_header
 
 next_byte1:
-                DEC     ByteCount
-                BPL     @black_tile
-                LDA     (PointerTilePack),Y
-                JSR     get_type_ex     ; returns a tile or function ID:
-                                        ; input: A - byte, Y - current block index
-                                        ; output: BlockIndex - next block index
-                                        ; A - tile ID or function ID (0 - 9)
-                BCS     @save_tile
-                ORA     #$80
-                LDY     #$81
-                STY     LoopAddr        ; ROM:C84F, ROM:C881
-                LDY     #$C8
-                STY     LoopAddr+1      ; ROM:C84F, ROM:C881
-                JMP     jmp_handler     ; UnpackTable
+    dec ByteCount
+    bpl @black_tile
+    lda (PointerTilePack),Y
+    jsr get_type_ex     ; returns a tile or function ID:
+                        ; input: A - byte, Y - current block index
+                        ; output: BlockIndex - next block index
+                        ; A - tile ID or function ID (0 - 9)
+    bcs @save_tile
+    ora #$80
+    storey #next_byte1, LoopAddr
+    jmp jmp_handler     ; UnpackTable
 ; ---------------------------------------------------------------------------
 
 @black_tile:
-                LDA     #$A0
+    lda #$A0
 
 @save_tile:
-                JSR     add_tile
-                JMP     next_byte1
+    jsr add_tile
+    jmp next_byte1
 ; ---------------------------------------------------------------------------
 
 jmp_handler:
-                STA     UnpackID        ; UnpackTable
-                ASL     A
-                TAY
-                LDA     UnpackTable+1,Y
-                PHA
-                LDA     UnpackTable,Y
-                PHA
-                RTS
+    sta UnpackID
+    asl A
+    tay
+    lda UnpackTable+1,Y
+    pha
+    lda UnpackTable,Y
+    pha
+    rts
 ; End of function clear_area
 
 ; ---------------------------------------------------------------------------
-UnpackTable:    .word restore_pointer-1, restore_pointer-1, restore_pointer-1
-                .word restore_pointer-1, set_tile_pos-1, check_pointer-1
-                .word fill_tile-1, sub_C950-1, set_pointer-1, get_block_index-1
+UnpackTable:
+    .word restore_pointer-1, restore_pointer-1, restore_pointer-1
+    .word restore_pointer-1, set_tile_pos-1, check_pointer-1
+    .word fill_tile-1, sub_C950-1, set_pointer-1, get_block_index-1
 
 ; =============== S U B R O U T I N E =======================================
 
 
 set_pointer:
-                LDY     BlockIndex
+    ldy BlockIndex
 
 set_new_pointer:
-                LDA     (PointerTilePack),Y
-                PHA
-                INY
-                LDA     (PointerTilePack),Y
-                STA     PointerTilePack+1
-                PLA
-                STA     PointerTilePack
-                LDY     #0
-                JMP     (LoopAddr)      ; ROM:C84F, ROM:C881
+    lda (PointerTilePack),Y
+    pha
+    iny
+    lda (PointerTilePack),Y
+    sta PointerTilePack+1
+    pla
+    sta PointerTilePack
+    ldy #0
+    jmp (LoopAddr)
 ; End of function set_pointer
 
 
@@ -1415,48 +1385,48 @@ set_new_pointer:
 
 
 check_pointer:
-                LDY     BlockIndex
-                BEQ     restore_pointer
-                LDA     PointerTilePack
-                PHA
-                LDA     PointerTilePack+1
-                PHA
-                TYA
-                PHA
-                BNE     set_new_pointer
+    ldy BlockIndex
+    beq restore_pointer
+    lda PointerTilePack
+    pha
+    lda PointerTilePack+1
+    pha
+    tya
+    pha
+    bne set_new_pointer
 
 restore_pointer:
-                PLA
-                BEQ     @end_tile_pack
-                TAY
-                INY
-                INY
-                PLA
-                STA     PointerTilePack+1
-                PLA
-                STA     PointerTilePack
-                JMP     (LoopAddr)      ; ROM:C84F, ROM:C881
+    pla
+    beq @end_tile_pack
+    tay
+    iny
+    iny
+    pla
+    sta PointerTilePack+1
+    pla
+    sta PointerTilePack
+    jmp (LoopAddr)
 ; ---------------------------------------------------------------------------
 
 @end_tile_pack:
-                LDY     OffsetNMI_Data
-                LDA     NMI_Data + NMI_DATA::NumOfChr,Y ; NMITable
-                BEQ     @first
-                TXA
-                TAY
+    ldy OffsetNMI_Data
+    lda NMI_Data + NMI_DATA::NumOfChr,Y
+    beq @first
+    txa
+    tay
 
 @first:
-                LDA     UnpackID        ; UnpackTable
-                BPL     @no_tile
-                INC     Row
-                RTS
+    lda UnpackID
+    bpl @no_tile
+    inc Row
+    rts
 ; ---------------------------------------------------------------------------
 
 @no_tile:
-                LDA     BlockIndex
-                JSR     get_tile_pointer
-                LDA     UnpackID        ; UnpackTable
-                RTS
+    lda BlockIndex
+    jsr get_tile_pointer
+    lda UnpackID
+    rts
 ; End of function check_pointer
 
 
@@ -1464,30 +1434,30 @@ restore_pointer:
 
 
 set_tile_pos:
-                LDY     BlockIndex
-                LDA     (PointerTilePack),Y ; word74 = 0x149EC4 + Y = 1 = $D
-                STA     Column
-                INY
-                LDA     (PointerTilePack),Y ; word74 = 0x149EC4 + Y = 2 = $B
-                STA     Row
-                INY
-                STY     BlockIndex      ; Y = 3
-                BCC     loc_C91B
-                DEC     Row
+    ldy BlockIndex
+    lda (PointerTilePack),Y
+    sta Column
+    iny
+    lda (PointerTilePack),Y
+    sta Row
+    iny
+    sty BlockIndex
+    bcc @less_buf_size
+    dec Row
 
-loc_C91B:
-                LDY     OffsetNMI_Data
-                LDA     NMI_Data + NMI_DATA::NumOfChr,Y ; NMITable
-                BNE     loc_C924
-                LDX     OffsetNMI_Data
+@less_buf_size:
+    ldy OffsetNMI_Data
+    lda NMI_Data + NMI_DATA::NumOfChr,Y
+    bne @write_header
+    ldx OffsetNMI_Data
 
-loc_C924:
-                JSR     nt_calc         ; Calculate Name table address
-                                        ; Input: CameraX, CameraY, Column, Row
-                                        ; Output: NTAddr address for screen tile position (Column, Row + 1)
-                JSR     write_rows_header
-                LDY     BlockIndex
-                JMP     (LoopAddr)      ; ROM:C84F, ROM:C881
+@write_header:
+    jsr nt_calc         ; Calculate Name table address
+                        ; Input: CameraX, CameraY, Column, Row
+                        ; Output: NTAddr address for screen tile position (Column, Row + 1)
+    jsr write_rows_header
+    ldy BlockIndex
+    jmp (LoopAddr)
 ; End of function set_tile_pos
 
 
@@ -1495,30 +1465,30 @@ loc_C924:
 
 
 fill_tile:
-                LDY     BlockIndex
-                LDA     (PointerTilePack),Y
-                BCC     @save_tile_id
-                LDA     #$A0
+    ldy BlockIndex
+    lda (PointerTilePack),Y
+    bcc @save_tile_id
+    lda #$A0
 
 @save_tile_id:
-                STA     UnpackID        ; UnpackTable
-                INY
-                LDA     (PointerTilePack),Y
-                INY
-                STY     BlockIndex
-                TAY
+    sta UnpackID
+    iny
+    lda (PointerTilePack),Y
+    iny
+    sty BlockIndex
+    tay
 
 @next_tile:
-                DEY
-                BMI     @end
-                LDA     UnpackID        ; UnpackTable
-                JSR     add_tile
-                JMP     @next_tile
+    dey
+    bmi @end
+    lda UnpackID
+    jsr add_tile
+    jmp @next_tile
 ; ---------------------------------------------------------------------------
 
 @end:
-                LDY     BlockIndex
-                JMP     (LoopAddr)      ; ROM:C84F, ROM:C881
+    ldy BlockIndex
+    jmp (LoopAddr)
 ; End of function fill_tile
 
 
@@ -1528,105 +1498,104 @@ fill_tile:
 sub_C950:
     .importzp pTileID, TilepackMode, TilesCount, AddrForJmp
 
-                LDY     BlockIndex
-                LDA     (PointerTilePack),Y
-                STA     pTileID
-                INY
-                LDA     (PointerTilePack),Y
-                STA     pTileID+1
-                INY
-                LDA     (PointerTilePack),Y
-                STA     TilepackMode
-                INY
-                LDA     (PointerTilePack),Y
-                STA     TilesCount
-                INY
-                TYA
-                PHA
-                LDY     TilepackMode
-                BEQ     @mode0
-                LDA     #0
-                STA     Pointer
-                STA     Pointer+1
-                STA     AddrForJmp
-                DEY
+    ldy BlockIndex
+    lda (PointerTilePack),Y
+    sta pTileID
+    iny
+    lda (PointerTilePack),Y
+    sta pTileID+1
+    iny
+    lda (PointerTilePack),Y
+    sta TilepackMode
+    iny
+    lda (PointerTilePack),Y
+    sta TilesCount
+    iny
+    tya
+    pha
+    ldy TilepackMode
+    beq @mode0
+    lda #0
+    sta Pointer
+    sta Pointer+1
+    sta AddrForJmp
+    dey
 
 @next_byte:
-                LDA     (pTileID),Y
-                STA     Pointer,Y
-                DEY
-                BPL     @next_byte
-                TXA
-                PHA
-                JSR     num2str         ; convert number to string (tile)
-                                        ; Input: AddrForJmp Pointer+1 Pointer - bytes of number
-                                        ; Output: $68-6F - string
-                PLA
-                TAX
-                LDA     TilesCount
-                BNE     @string_size
-                SEC
-                LDA     #8
-                SBC     AddrForJmp+1
-                STA     TilesCount
-                LDA     AddrForJmp+1
-                BPL     @tile_offset
+    lda (pTileID),Y
+    sta Pointer,Y
+    dey
+    bpl @next_byte
+    txa
+    pha
+    jsr num2str         ; convert number to string (tile)
+                        ; Input: AddrForJmp Pointer+1 Pointer - bytes of number
+                        ; Output: $68-6F - string
+    pla
+    tax
+    lda TilesCount
+    bne @string_size
+    sec
+    lda #8
+    sbc AddrForJmp+1
+    sta TilesCount
+    lda AddrForJmp+1
+    bpl @tile_offset
 
 @string_size:
-                SEC
-                LDA     #8
-                SBC     TilesCount
+    sec
+    lda #8
+    sbc TilesCount
 
 @tile_offset:
-                CLC
-                ADC     #$68
-                STA     pTileID
-                LDA     #0
-                ADC     #0
-                STA     pTileID+1
+    clc
+    adc #$68
+    sta pTileID
+    lda #0
+    adc #0
+    sta pTileID+1
 
 @mode0:
-                LDY     #0
+    ldy #0
 
-loc_C9A5:
-                LDA     UnpackID        ; UnpackTable
-                BMI     loc_C9B2
-                LDA     (pTileID),Y
-                JSR     get_type        ; returns a tile or function ID:
-                                        ; input: A - byte, Y - current block index
-                                        ; output: BlockIndex - next block index
-                                        ; A - tile ID or function ID (0 - 9)
-                                        ; TypeTable
-                BCS     tile
-                BCC     loc_C9C0
+next_tile:
+    lda UnpackID        ; UnpackTable
+    bmi loc_C9B2
+    lda (pTileID),Y
+    jsr get_type        ; returns a tile or function ID:
+                        ; input: A - byte, Y - current block index
+                        ; output: BlockIndex - next block index
+                        ; A - tile ID or function ID (0 - 9) TypeTable
+    bcs tile
+    bcc loc_C9C0
 
 loc_C9B2:
-                LDA     (pTileID),Y
-                JSR     get_type_ex     ; returns a tile or function ID:
-                                        ; input: A - byte, Y - current block index
-                                        ; output: BlockIndex - next block index
-                                        ; A - tile ID or function ID (0 - 9)
-                BCS     tile
-                BCC     loc_C9C0
+    lda (pTileID),Y
+    jsr get_type_ex     ; returns a tile or function ID:
+                        ; input: A - byte, Y - current block index
+                        ; output: BlockIndex - next block index
+                        ; A - tile ID or function ID (0 - 9)
+    bcs tile
+    bcc loc_C9C0
 
 loc_C9BB:
-                LDA     #$A0
-                JSR     add_tile
+    lda #$A0
+    jsr add_tile
 
 loc_C9C0:
-                DEC     TilesCount
-                BPL     loc_C9BB
-                BMI     loc_C9CD
+    dec TilesCount
+    bpl loc_C9BB
+    bmi loc_C9CD
 
 tile:
-                JSR     add_tile
-                DEC     TilesCount
-                BNE     loc_C9A5
+    jsr add_tile
+    dec TilesCount
+    bne next_tile
 
 loc_C9CD:
-                PLA
-                TAY
-                JMP     (LoopAddr)      ; ROM:C84F, ROM:C881
+    pla
+    tay
+    jmp (LoopAddr)
 ; End of function sub_C950
 
 
@@ -1634,8 +1603,8 @@ loc_C9CD:
 
 
 get_block_index:
-                LDY     BlockIndex
-                JMP     (LoopAddr)      ; ROM:C84F, ROM:C881
+    ldy BlockIndex
+    jmp (LoopAddr)
 ; End of function get_block_index
 
 
@@ -1649,60 +1618,56 @@ nt_calc:
     .export nt_calc
     .importzp CntrlPPU, CameraX, CameraY
 
-                LDA     CntrlPPU        ; PPU_CTRL
-                LSR     A
-                LSR     A               ; check work with Nametables $2000,$2400 or $2800, $2C00
-                LDA     CameraY
-                ROR     A
-                CLC
-                ADC     #8
-                STA     NTAddr+1
-                LDA     Row
-                ADC     #1
-                ASL     A
-                ASL     A
-                CLC
-                ADC     NTAddr+1
-                BVS     loc_C9F1
-                SEC
-                SBC     #8
+    lda CntrlPPU
+    lsr A
+    lsr A               ; check work with Nametables $2000,$2400 or $2800, $2C00
+    lda CameraY
+    ror A
+    clc
+    adc #8
+    sta NTAddr+1
+    lda Row
+    adc #1
+    asl A
+    asl A
+    clc
+    adc NTAddr+1
+    bvs loc_C9F1
+    sec
+    sbc #8
 
 loc_C9F1:
-                ASL     A
-                AND     #$F8
-                STA     NTAddr+1
-                LDA     #2
-                ROL     A
-                ASL     A
-                ASL     NTAddr+1
-                ROL     A
-                ASL     NTAddr+1
-                ROL     A
-                STA     NTAddr
-                LDA     CntrlPPU        ; PPU_CTRL
-                LSR     A
-                LDA     CameraX
-                ROR     A
-                LSR     A
-                LSR     A
-                CLC
-                ADC     Column
-
-loc_CA0D:
-                TAY
-                AND     #$20 ; ' '
-                LSR     A
-                LSR     A
-                LSR     A
-                ADC     NTAddr
-                STA     NTAddr
-                TYA
-
-loc_CA18:
-                AND     #$1F
-                ADC     NTAddr+1
-                STA     NTAddr+1
-                RTS
+    asl A
+    and #$F8
+    sta NTAddr+1
+    lda #2
+    rol A
+    asl A
+    asl NTAddr+1
+    rol A
+    asl NTAddr+1
+    rol A
+    sta NTAddr
+    lda CntrlPPU
+    lsr A
+    lda CameraX
+    ror A
+    lsr A
+    lsr A
+    clc
+    adc Column
+    tay
+    and #$20
+    lsr A
+    lsr A
+    lsr A
+    adc NTAddr
+    sta NTAddr
+    tya
+    and #$1F
+    adc NTAddr+1
+    sta NTAddr+1
+    rts
 ; End of function nt_calc
 
 
@@ -1710,27 +1675,25 @@ loc_CA18:
 
 
 add_tile:
-                STA     NMI_Data,X        ; NMITable
-                INX
-                TXA
-
-loc_CA24:
-                LDX     OffsetNMI_Data
-                INC     NMI_Data + NMI_DATA::NumOfChr,X ; NMITable
-                TAX
-                INC     ChrCount
-                INC     AttributeOffset
-                BEQ     loc_CA31
-                RTS
+    sta NMI_Data,X
+    inx
+    txa
+    ldx OffsetNMI_Data
+    inc NMI_Data + NMI_DATA::NumOfChr,X
+    tax
+    inc ChrCount
+    inc AttributeOffset
+    beq loc_CA31
+    rts
 ; ---------------------------------------------------------------------------
 
 loc_CA31:
-                LDA     NTAddr+1
-                AND     #$E0
-                STA     NTAddr+1
-                LDA     NTAddr
-                EOR     #4
-                STA     NTAddr
+    lda NTAddr+1
+    and #$E0
+    sta NTAddr+1
+    lda NTAddr
+    eor #4
+    sta NTAddr
 ; End of function add_tile
 
 
@@ -1738,24 +1701,22 @@ loc_CA31:
 
 
 write_rows_header:
-                STX     OffsetNMI_Data
-                LDA     #5              ; write_horizontal F916 function ID
-
-loc_CA41:                               ; NMITable
-                STA     NMI_Data,X
-                INX
-                LDA     #0
-                STA     NMI_Data,X        ; NMITable
-                INX
-                LDA     NTAddr
-                STA     NMI_Data,X        ; NMITable
-                INX
-                LDA     NTAddr+1
-                STA     NMI_Data,X        ; NMITable
-                INX
-                ORA     #$E0
-                STA     AttributeOffset
-                RTS
+    stx OffsetNMI_Data
+    lda #WRITE_ROW      ; #5 write_horizontal function ID
+    sta NMI_Data,X
+    inx
+    lda #0
+    sta NMI_Data,X
+    inx
+    lda NTAddr
+    sta NMI_Data,X
+    inx
+    lda NTAddr+1
+    sta NMI_Data,X
+    inx
+    ora #$E0
+    sta AttributeOffset
+    rts
 ; End of function write_rows_header
 
 
@@ -1768,32 +1729,32 @@ loc_CA41:                               ; NMITable
 ; TypeTable
 
 get_type:
-                INY
-                STY     BlockIndex      ; index = 0, 4, 5, 6, 7, ..., B
-                CMP     #$40
-                BCS     exit
-                TAY
-                LDA     TypeTable,Y
-                LDY     BlockIndex
-                CMP     #$80
-                BCS     exit
-                CMP     #$20 
-                BCS     loc_CA79
-                CMP     #$A
-                BCS     @no_procedure
-                RTS
+    iny
+    sty BlockIndex      ; index = 0, 4, 5, 6, 7, ..., B
+    cmp #$40
+    bcs exit
+    tay
+    lda TypeTable,Y
+    ldy BlockIndex
+    cmp #$80
+    bcs exit
+    cmp #$20 
+    bcs loc_CA79
+    cmp #$A
+    bcs @no_procedure
+    rts
 ; ---------------------------------------------------------------------------
 
 @no_procedure:
-                ORA     #$D0
-                RTS
+    ora #$D0
+    rts
 ; ---------------------------------------------------------------------------
 
 loc_CA79:
-                ORA     #$80
+    ora #$80
 
 exit:
-                RTS
+    rts
 ; End of function get_type
 
 
@@ -1805,40 +1766,40 @@ exit:
 ; A - tile ID or function ID (0 - 9)
 
 get_type_ex:
-                INY
-                STY     BlockIndex
-                CMP     #$40
-                BCS     @black_tile
-                TAY
-                LDA     TypeTable,Y
-                LDY     BlockIndex
-                CMP     #$80
-                BCS     @line
-                CMP     #$20
-                BCS     @arrow
-                CMP     #$A
-                BCS     @frame
-                RTS
+    iny
+    sty BlockIndex
+    cmp #$40
+    bcs @black_tile
+    tay
+    lda TypeTable,Y
+    ldy BlockIndex
+    cmp #$80
+    bcs @line
+    cmp #$20
+    bcs @arrow
+    cmp #$A
+    bcs @frame
+    rts
 ; ---------------------------------------------------------------------------
 
 @frame:
-                ORA     #$D0
-                RTS
+    ora #$D0
+    rts
 ; ---------------------------------------------------------------------------
 
 @arrow:
-                LDA     #$FF
-                RTS
+    lda #$FF
+    rts
 ; ---------------------------------------------------------------------------
 
 @line:
-                LDA     #$FE
-                RTS
+    lda #$FE
+    rts
 ; ---------------------------------------------------------------------------
 
 @black_tile:
-                LDA     #$A0
-                RTS
+    lda #$A0
+    rts
 ; End of function get_type_ex
 
 
@@ -1849,76 +1810,72 @@ text2stack:
     .export text2stack
     .importzp byte_73, CHRText
 
-                LDA     byte_73
-                BPL     loc_CAA9
-                STA     PointerTilePack+1
-                RTS
+    lda byte_73
+    bpl loc_CAA9
+    sta PointerTilePack+1
+    rts
 ; ---------------------------------------------------------------------------
 
 loc_CAA9:
-                CMP     #$7F
-                BCS     loc_CAE1
-                TAX
-                LDA     PointerTilePack
-                ASL     PointerTilePack
-                ROL     byte_73
-                ADC     PointerTilePack
-                STA     PointerTilePack
-                TXA
-                ADC     byte_73
-                ADC     #$80
-                STA     PointerTilePack+1
-                LDA     #$7F
-                STA     byte_73
-                LDA     BankTable + BANK_TABLE::CPU_8K_8000
-                PHA
-                LDA     #$18
-                LDX     #6
-                JSR     mmc3_bank_set   ; Set memory bank
-                                        ; A - bank number
-                                        ; X - mode
-                LDY     #0
-                LDA     (PointerTilePack),Y
-                STA     CHRText + CHR_TXT_OFFSET::PPU_LOW
-                INY
-                LDA     (PointerTilePack),Y
-                STA     CHRText + CHR_TXT_OFFSET::BANK_PPU_HIGH
-                INY
-                LDA     (PointerTilePack),Y
-                STA     CHRText + CHR_TXT_OFFSET::BANK_PPU_HIGH+1
-                PLA
-                JSR     mmc3_bank_set   ; Set memory bank
-                                        ; A - bank number
-                                        ; X - mode
+    cmp #$7F
+    bcs loc_CAE1
+    tax
+    lda PointerTilePack
+    asl PointerTilePack
+    rol byte_73
+    adc PointerTilePack
+    sta PointerTilePack
+    txa
+    adc byte_73
+    adc #$80
+    sta PointerTilePack+1
+    lda #$7F
+    sta byte_73
+    lda BankTable + BANK_TABLE::CPU_8K_8000
+    pha
+    lda #$18
+    ldx #6
+    jsr mmc3_bank_set   ; Set memory bank A - bank number, X - mode
+    ldy #0
+    lda (PointerTilePack),Y
+    sta CHRText + CHR_TXT_OFFSET::PPU_LOW
+    iny
+    lda (PointerTilePack),Y
+    sta CHRText + CHR_TXT_OFFSET::BANK_PPU_HIGH
+    iny
+    lda (PointerTilePack),Y
+    sta CHRText + CHR_TXT_OFFSET::BANK_PPU_HIGH+1
+    pla
+    jsr mmc3_bank_set   ; Set memory bank A - bank number, X - mode
 
 loc_CAE1:
-                JSR     wait_nmi_processed
-                LDA     #$A             ; chr_text2stack
-                STA     NMI_Data + NMI_DATA::NMI_ID   ; NMITable
-                LDA     CHRText + CHR_TXT_OFFSET::BANK_PPU_HIGH+1
-                LSR     A
-                LDA     CHRText + CHR_TXT_OFFSET::BANK_PPU_HIGH
-                ROR     A
-                SEC
-                ROR     A
-                STA     NMI_Data + NMI_DATA::NumOfChr ; NMITable
-                LDA     CHRText + CHR_TXT_OFFSET::BANK_PPU_HIGH
-                AND     #3
-                ORA     #8
-                STA     NMI_Data + NMI_DATA::PPU_Addr ; NMITable
-                LDA     CHRText + CHR_TXT_OFFSET::PPU_LOW
-                STA     NMI_Data + NMI_DATA::PPU_Addr+1 ; NMITable
-                LDA     #0
-                STA     NMI_Data + NMI_DATA::Chr      ; NMITable
-                LDA     #0
-                STA     OffsetNMI_Data
-                LDA     #$80
-                STA     NMIFlags
-                LDA     #$10
-                STA     PointerTilePack ; stack $110
-                LDA     #1
-                STA     PointerTilePack+1
-                JMP     wait_nmi_processed
+    jsr wait_nmi_processed
+    lda #$A             ; chr_text2stack
+    sta NMI_Data + NMI_DATA::NMI_ID
+    lda CHRText + CHR_TXT_OFFSET::BANK_PPU_HIGH+1
+    lsr A
+    lda CHRText + CHR_TXT_OFFSET::BANK_PPU_HIGH
+    ror A
+    sec
+    ror A
+    sta NMI_Data + NMI_DATA::NumOfChr
+    lda CHRText + CHR_TXT_OFFSET::BANK_PPU_HIGH
+    and #3
+    ora #8
+    sta NMI_Data + NMI_DATA::PPU_Addr
+    lda CHRText + CHR_TXT_OFFSET::PPU_LOW
+    sta NMI_Data + NMI_DATA::PPU_Addr+1
+    lda #0
+    sta NMI_Data + NMI_DATA::Chr
+    lda #0
+    sta OffsetNMI_Data
+    lda #$80
+    sta NMIFlags
+    lda #$10
+    sta PointerTilePack ; stack $110
+    lda #1
+    sta PointerTilePack+1
+    jmp wait_nmi_processed
 ; End of function text2stack
 
 
@@ -1926,26 +1883,26 @@ loc_CAE1:
 
 
 get_text_row_pointer:
-                LDA     PointerTilePack+1
-                BPL     loc_CB21
-                STA     byte_73
-                RTS
+    lda PointerTilePack+1
+    bpl loc_CB21
+    sta byte_73
+    rts
 ; ---------------------------------------------------------------------------
 
 loc_CB21:
-                SEC
-                LDA     PointerTilePack
-                SBC     #$10
-                CLC
-                ADC     CHRText + CHR_TXT_OFFSET::PPU_LOW
-                STA     CHRText + CHR_TXT_OFFSET::PPU_LOW
-                LDA     #0
-                ADC     CHRText + CHR_TXT_OFFSET::BANK_PPU_HIGH
-                STA     CHRText + CHR_TXT_OFFSET::BANK_PPU_HIGH
-                LDA     #0
-                ADC     CHRText + CHR_TXT_OFFSET::BANK_PPU_HIGH+1
-                STA     CHRText + CHR_TXT_OFFSET::BANK_PPU_HIGH+1
-                RTS
+    sec
+    lda PointerTilePack
+    sbc #$10
+    clc
+    adc CHRText + CHR_TXT_OFFSET::PPU_LOW
+    sta CHRText + CHR_TXT_OFFSET::PPU_LOW
+    lda #0
+    adc CHRText + CHR_TXT_OFFSET::BANK_PPU_HIGH
+    sta CHRText + CHR_TXT_OFFSET::BANK_PPU_HIGH
+    lda #0
+    adc CHRText + CHR_TXT_OFFSET::BANK_PPU_HIGH+1
+    sta CHRText + CHR_TXT_OFFSET::BANK_PPU_HIGH+1
+    rts
 ; End of function get_text_row_pointer
 
 
@@ -1953,13 +1910,13 @@ loc_CB21:
 
 
 get_tile_pointer:
-                CLC
-                ADC     PointerTilePack
-                STA     PointerTilePack
-                LDA     #0
-                ADC     PointerTilePack+1
-                STA     PointerTilePack+1
-                RTS
+    clc
+    adc PointerTilePack
+    sta PointerTilePack
+    lda #0
+    adc PointerTilePack+1
+    sta PointerTilePack+1
+    rts
 ; End of function get_tile_pointer
 
 
@@ -1970,143 +1927,143 @@ main:
     .export main
     .import game_intro, routine_selector, clear_oam_sprite, wait_change_music
     .import sub_13A1C6, sub_13A123, sub_13A82F, sub_13A000, sub_13A178, sub_13AB53
-    .import sub_149516, sub_149779, sub_1497A3
+    .import sub_149516, sub_149779, sub_1497A3, CurrentMusic
     .importzp ButtonPressed0, Gamepad0Buttons
     .importzp byte_D, byte_1F, byte_20, byte_21, byte_22, byte_23, byte_24, byte_25
     .importzp EnemyGroup
 
-                JSR     sram_read_enable
-                LDA     #SRAM_WRITE_DISABLE|SRAM_ENABLE
-                STA     ModeSRAM
-                JSR     bank14_8000
-                JSR     game_intro
-                LDA     #SRAM_WRITE_ENABLE|SRAM_DISABLE
-                STA     ModeSRAM
+    jsr sram_read_enable
+    lda #SRAM_WRITE_DISABLE|SRAM_ENABLE
+    sta ModeSRAM
+    jsr bank14_8000
+    jsr game_intro
+    lda #SRAM_WRITE_ENABLE|SRAM_DISABLE
+    sta ModeSRAM
 
 new_place:
-                JSR     bank13_A000
-                JSR     routine_selector ; execute a function from the table BANK13:BCFD
+    jsr bank13_A000
+    jsr routine_selector ; execute a function from the table BANK13:BCFD
 
 loc_CB5D:
-                JSR     load_character_data ; Copies the characteristics of the characters
-                JSR     sub_CEFC
-                LDA     #0
-                STA     byte_24
-                LDA     $7406           ; CurrentPlayer.PureSave.GlobalY
-                AND     #$F
-                EOR     #$84
-                STA     byte_D
+    jsr load_character_data ; Copies the characteristics of the characters
+    jsr sub_CEFC
+    lda #0
+    sta byte_24
+    lda CurrentGame + PURE_SAVE::GlobalY    ; $7406
+    and #$F
+    eor #$84
+    sta byte_D
 
 draw:
-                JSR     clear_oam_sprite
-                JSR     draw_screen     ; load room
+    jsr clear_oam_sprite
+    jsr draw_screen     ; load room
 
 loc_CB76:
-                JSR     sub_DE99
-                JSR     sub_EEF0
-                LDA     byte_25
-                BNE     loc_CB91
-                LDA     ButtonPressed0
-                AND     #$70
-                BEQ     loc_CB8F
-                JSR     sub_CC9D
-                AND     #8
-                BEQ     loc_CB8F
-                LDA     #1
+    jsr sub_DE99
+    jsr sub_EEF0
+    lda byte_25
+    bne loc_CB91
+    lda ButtonPressed0
+    and #$70
+    beq loc_CB8F
+    jsr get_command
+    and #8
+    beq loc_CB8F
+    lda #1
 
 loc_CB8F:
-                STA     byte_1F
+                sta     byte_1F
 
 loc_CB91:
-                JSR     wait_nmi_processed
-                LDA     byte_20
-                BNE     new_place
-                JSR     sub_DD01
-                JSR     sub_DFDA
-                JSR     sub_CC2B        ; draw screen
-                LDA     byte_21
-                BEQ     loc_CBAD
-                JSR     bank13_A000
-                JSR     sub_13A1C6
-                BCC     loc_CBEB
+                jsr     wait_nmi_processed
+                lda     byte_20
+                bne     new_place
+                jsr     sub_DD01
+                jsr     sub_DFDA
+                jsr     sub_CC2B        ; draw screen
+                lda     byte_21
+                beq     loc_CBAD
+                jsr     bank13_A000
+                jsr     sub_13A1C6
+                bcc     loc_CBEB
 
 loc_CBAD:
-                JSR     bank13_A000
-                LDA     #0
-                LDY     Gamepad0Buttons
-                STA     Gamepad0Buttons
-                LDA     byte_22
-                ORA     byte_23
-                ORA     byte_21
-                ORA     byte_20
-                BNE     loc_CBEB
-                TYA
-                AND     #$F0
-                BMI     loc_CBE2
-                BNE     loc_CBCD
-                JSR     sub_13A123
-                JMP     loc_CBE5
+                jsr     bank13_A000
+                lda     #0
+                ldy     Gamepad0Buttons
+                sta     Gamepad0Buttons
+                lda     byte_22
+                ora     byte_23
+                ora     byte_21
+                ora     byte_20
+                bne     loc_CBEB
+                tya
+                and     #$F0
+                bmi     loc_CBE2
+                bne     loc_CBCD
+                jsr     sub_13A123
+                jmp     loc_CBE5
 ; ---------------------------------------------------------------------------
 
 loc_CBCD:
-                JSR     sub_CC9D
-                AND     #$A0
-                BEQ     loc_CBE5
-                BMI     loc_CBDC
-                JSR     sub_13A82F
-                JMP     loc_CBE5
+                jsr     get_command
+                and     #$A0
+                beq     loc_CBE5
+                bmi     loc_CBDC
+                jsr     sub_13A82F
+                jmp     loc_CBE5
 ; ---------------------------------------------------------------------------
 
 loc_CBDC:
-                JSR     sub_13A000
-                JMP     loc_CBE5
+                jsr     sub_13A000
+                jmp     loc_CBE5
 ; ---------------------------------------------------------------------------
 
 loc_CBE2:
-                JSR     sub_13A178
+                jsr     sub_13A178
 
 loc_CBE5:
-                JSR     bank14_8000
-                JSR     sub_149516
+                jsr     bank14_8000
+                jsr     sub_149516
 
 loc_CBEB:
-                LDA     EnemyGroup
-                BEQ     no_enemy
-                CMP     #$A2
-                BEQ     loc_CC1A
-                JSR     wait_nmi_processed
-                LDA     CurrentMusic
-                PHA
-                JSR     start_battle
-                PLA
-                BCS     loc_CC14
-                JSR     wait_change_music
-                LDA     byte_21
-                BEQ     loc_CC11
-                JSR     bank13_A000
-                JSR     sub_13AB53
-                LDA     byte_20
-                BNE     loc_CC14
+                lda     EnemyGroup
+                beq     no_enemy
+                cmp     #$A2
+                beq     loc_CC1A
+                jsr     wait_nmi_processed
+                lda     CurrentMusic
+                pha
+                jsr     start_battle
+                pla
+                bcs     loc_CC14
+                jsr     wait_change_music
+                lda     byte_21
+                beq     loc_CC11
+                jsr     bank13_A000
+                jsr     sub_13AB53
+                lda     byte_20
+                bne     loc_CC14
 
 loc_CC11:
-                JMP     draw
+                jmp     draw
 ; ---------------------------------------------------------------------------
 
 loc_CC14:
-                JMP     loc_CB5D
+                jmp     loc_CB5D
 ; ---------------------------------------------------------------------------
 
 no_enemy:
-                JMP     loc_CB76
+                jmp     loc_CB76
 ; ---------------------------------------------------------------------------
 
 loc_CC1A:
-                JSR     bank14_8000
-                JSR     sub_149779
-                JSR     start_battle
-                BCS     loc_CC14
-                JSR     bank14_8000
-                JMP     sub_1497A3
+                jsr     bank14_8000
+                jsr     sub_149779
+                jsr     start_battle
+                bcs     loc_CC14
+                jsr     bank14_8000
+                jmp     sub_1497A3
 ; End of function main
 
 
@@ -2138,7 +2095,7 @@ sub_CC2B:
                 ASL     FlagClearOAM300
                 JSR     sub_D232
                 LDA     #0
-                STA     NMI_Data,X        ; NMITable
+                STA     NMI_Data,X
                 STA     OffsetNMI_Data
                 LDA     #$80
                 STA     NMIFlags
@@ -2149,7 +2106,7 @@ loc_CC5D:
                 JSR     sub_D0B1
                 JSR     sub_D232
                 LDA     #0
-                STA     NMI_Data,X        ; NMITable
+                STA     NMI_Data,X
                 STA     OffsetNMI_Data
                 LDA     #$10
                 STA     NMIFlags
@@ -2171,7 +2128,7 @@ loc_CC83:
                 BCC     loc_CC96
                 JSR     sub_D21C
                 LDA     #0
-                STA     NMI_Data,X        ; NMITable
+                STA     NMI_Data,X
                 STA     OffsetNMI_Data
                 LDA     #$80
                 STA     NMIFlags
@@ -2189,25 +2146,26 @@ locret_CC9C:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_CC9D:
-                LSR     A
-                LSR     A
-                LSR     A
-                LSR     A
-                TAX
-                LDY     byte_CCA9,X
-                LDA     $743C,Y         ; CurrentPlayer.PureSave.field_3C,Y
-                RTS
-; End of function sub_CC9D
+get_command:
+    lsr A
+    lsr A
+    lsr A
+    lsr A
+    tax
+    ldy CmndBtn,X
+    lda CurrentGame + PURE_SAVE::CmndBtn,Y     ; $743C,Y
+    rts
+; End of function get_command
 
 ; ---------------------------------------------------------------------------
-byte_CCA9:      .byte 0, 1, 2, 1, 0, 0, 0, 0
+CmndBtn:
+    .byte 0, 1, 2, 1, 0, 0, 0, 0
 
 ; =============== S U B R O U T I N E =======================================
 
 
 sub_CCB1:
-    .import wait_press_button
+    .import wait_press_button, apu_7F0
     .importzp MaskPPU
 
                 LDA     #$FF
@@ -2233,104 +2191,103 @@ loc_CCC6:
 
 sub_CCD8:
     .export sub_CCD8
-    .import sub_13BBD4
+    .import sub_13BBD4, SpriteTable, byte_7F3, byte_7F4
     .importzp byte_F, byte_A0, ButtonPressed0, byte_22, byte_25
 
-    LDA $78C            ; CurrentMusic
-    PHA
-    LDA #$FF
-    STA byte_F
-    JSR wait_change_music
-    JSR sub_C3F4
-    LDA #1
-    STA $7F4            ; byte_7F4
-    JSR sub_CD9D
-    LDX #5
+    lda CurrentMusic        ; $78C            ; CurrentMusic
+    pha
+    lda #$FF
+    sta byte_F
+    jsr wait_change_music
+    jsr sub_C3F4
+    lda #1
+    sta byte_7F4        ;$7F4            ; byte_7F4
+    jsr sub_CD9D
+    ldx #5
 
 loc_CCF0:
-    JSR sub_CD8B
-    LDA byte_A0
-    BMI sub_CCB1
-    LDA ButtonPressed0
-    AND #$F
-    TAX
-    LDA $EBDD,X         ; byte_EBDD,X
-    BMI loc_CD0C
-    ORA #$40
-    TAX
-    EOR byte_22
-    CMP #4
-    BEQ loc_CD0C
-    STX byte_22
+    jsr sub_CD8B
+    lda byte_A0
+    bmi sub_CCB1
+    lda ButtonPressed0
+    and #$F
+    tax
+    lda $EBDD,X         ; byte_EBDD,X
+    bmi loc_CD0C
+    ora #$40
+    tax
+    eor byte_22
+    cmp #4
+    beq loc_CD0C
+    stx byte_22
 
 loc_CD0C:
-    LDX byte_25
-    INX
-    CPX #$2D
-    BCC loc_CCF0
-    JSR wait_nmi_processed
-    LDA #$20
+    ldx byte_25
+    inx
+    cpx #$2D
+    bcc loc_CCF0
+    jsr wait_nmi_processed
+    lda #$20
 
 loc_CD18:
-    TAX
-    ASL SpriteTable + ANIM_SPRITE::field_4,X
-    ASL SpriteTable + ANIM_SPRITE::field_5,X
-    SEC
-    SBC #8
-    BNE loc_CD18
-    LDA #$A
+    tax
+    asl SpriteTable + ANIM_SPRITE::field_4,X
+    asl SpriteTable + ANIM_SPRITE::field_5,X
+    sec
+    sbc #8
+    bne loc_CD18
+    lda #$A
 
 loc_CD26:
-    PHA
-    JSR     sub_CC2B
-    JSR     wait_nmi_processed
-    PLA
-    SEC
-    SBC     #1
-    BNE     loc_CD26
-    LDA     #1
-    STA     $7F3
-    LDA     #$22 ; '"'
-    JSR     one_color_palettes_save
-    JSR     bank13_A000
-    JSR     sram_write_enable
-    JSR     sub_13BBD4
-    JSR     sub_D9FA
-    PLA
-    LDA     $7404           ; CurrentGame + GAME_SAVE::PureSave.GlobalX
-    TAX
-    AND     #$3F ; '?'
-    PHA
-    TXA
-    AND     #$C0
-    STA     $7404           ; CurrentGame + GAME_SAVE::PureSave.GlobalX
-    JSR     sub_D8C9
-    LDX     #$14
-    JSR     wait_frames     ; wait for a few frames
-                            ; input: X - number of frames
-    JSR     load_character_data ; Copies the characteristics of the characters
-    JSR     sub_CEFC
-    JSR     clear_oam_sprite
-    JSR     draw_screen
-    JSR     sub_CD9D
-    LDX     #$2C ; ','
+    pha
+    jsr sub_CC2B
+    jsr wait_nmi_processed
+    pla
+    sec
+    sbc #1
+    bne loc_CD26
+    lda #1
+    sta byte_7F3        ; $7F3
+    lda #$22
+    jsr one_color_palettes_save
+    jsr bank13_A000
+    jsr sram_write_enable
+    jsr sub_13BBD4
+    jsr sub_D9FA
+    pla
+    lda CurrentGame + PURE_SAVE::GlobalX    ; $7404
+    tax
+    and #$3F
+    pha
+    txa
+    and #$C0
+    sta CurrentGame + PURE_SAVE::GlobalX    ; $7404
+    jsr sub_D8C9
+    ldx #20
+    jsr wait_frames     ; wait for a few frames input: X - number of frames
+    jsr load_character_data ; Copies the characteristics of the characters
+    jsr sub_CEFC
+    jsr clear_oam_sprite
+    jsr draw_screen
+    jsr sub_CD9D
+    ldx #$2C
 
 loc_CD70:
-                JSR     sub_CD8B
-                LDX     byte_25
-                DEX
-                DEX
-                BPL     loc_CD70
+    jsr sub_CD8B
+    ldx byte_25
+    dex
+    dex
+    bpl loc_CD70
 
 loc_CD79:
-                LDX     #0
-                STX     byte_22
-                STX     Gamepad0Buttons
-                STX     byte_F
-                JSR     sub_CDAF
-                PLA
-                JSR     wait_change_music
-                JMP     loc_CB76
+    ldx #0
+    stx byte_22
+    stx Gamepad0Buttons
+    stx byte_F
+    jsr sub_CDAF
+    pla
+    jsr wait_change_music
+    jmp loc_CB76
 ; End of function sub_CCB1
 
 
@@ -2338,12 +2295,12 @@ loc_CD79:
 
 
 sub_CD8B:
-                JSR     sub_CDAF
-                JSR     sub_DE99
-                JSR     wait_nmi_processed
-                JSR     sub_DD01
-                JSR     sub_DFDA
-                JMP     sub_CC2B
+    jsr sub_CDAF
+    jsr sub_DE99
+    jsr wait_nmi_processed
+    jsr sub_DD01
+    jsr sub_DFDA
+    jmp sub_CC2B
 ; End of function sub_CD8B
 
 
@@ -2352,10 +2309,10 @@ sub_CD8B:
 
 sub_CD9D:
                 JSR     sram_write_enable
-                LDA     $7406           ; CurrentGame + GAME_SAVE::PureSave.GlobalY
+                LDA     CurrentGame + PURE_SAVE::GlobalY    ; $7406
                 AND     #$F
                 STA     $6799
-                ORA     #$40 ; '@'
+                ORA     #$40
                 STA     byte_22
                 JMP     sram_read_enable
 ; End of function sub_CD9D
@@ -2414,69 +2371,66 @@ loc_CDFA:
 
 ; =============== S U B R O U T I N E =======================================
 
-; copy chr banks $5E, $5F (wall??) in SRAM $6C00-$73FF
+; copy chr banks $5E, $5F in SRAM $6C00-$73FF
 
 chr_5E_5F_to_sram:
-    .export chr_5E_5F_to_sram, loc_CE08
+    .export chr_5E_5F_to_sram, chr2sram
+    .import __FRAMES_RUN__
 
-                LDY     #$5E
-                LDA     #0
-                LDX     #$6C            ; 6C00
+    ldy #$5E
+    ldxa #__FRAMES_RUN__
 
-loc_CE08:
-                STA     Pointer
-                STX     Pointer+1
-                JSR     wait_nmi_processed
-                TYA
-                LDX     #1
-                JSR     mmc3_bank_set   ; Set memory bank
-                                        ; A - bank number
-                                        ; X - mode
-                LDA     #9              ; read_ppu function ID
-                LDX     #$40 ; '@'      ; record size
-                STA     NMI_Data + NMI_DATA::NMI_ID   ; NMITable
-                STX     NMI_Data + NMI_DATA::NumOfChr ; NMITable
-                LDA     #0
-                LDX     #$18
-                STX     NMI_Data + NMI_DATA::PPU_Addr ; NMITable
-                STA     NMI_Data + NMI_DATA::PPU_Addr+1 ; NMITable
-                LDA     #0
-                STA     $444        ; pNMI_Data ($400) + NMI_Data header size (4) + record size ($40)
-                LDX     #$20 ; ' '
+chr2sram:
+    stxa Pointer
+    jsr wait_nmi_processed
+    tya
+    ldx #1
+    jsr mmc3_bank_set   ; Set memory bank A - bank number, X - mode
+    lda #READ           ; #9 read_ppu function ID
+    ldx #$40            ; record size
+    sta NMI_Data + NMI_DATA::NMI_ID
+    stx NMI_Data + NMI_DATA::NumOfChr
+    lda #0
+    ldx #$18
+    stx NMI_Data + NMI_DATA::PPU_Addr
+    sta NMI_Data + NMI_DATA::PPU_Addr+1
+    lda #0
+    sta $444            ; pNMI_Data ($400) + NMI_Data header size (4) + record size ($40)
+    ldx #$20            ; number of blocks
 
 @next_block:
-                LDA     #0
-                STA     OffsetNMI_Data
-                LDA     #$80
-                STA     NMIFlags
-                JSR     wait_nmi_processed
-                JSR     sram_write_enable
-                LDY     #0
+    lda #0
+    sta OffsetNMI_Data
+    lda #$80
+    sta NMIFlags
+    jsr wait_nmi_processed
+    jsr sram_write_enable
+    ldy #0
 
 @next_chr:
-                LDA     NMI_Data + NMI_DATA::Chr,Y    ; NMITable
-                STA     (Pointer),Y
-                INY
-                CPY     #$40 ; '@'
-                BCC     @next_chr
-                JSR     sram_read_enable
-                CLC
-                TYA
-                ADC     Pointer
-                STA     Pointer
-                LDA     #0
-                ADC     Pointer+1
-                STA     Pointer+1
-                CLC
-                TYA
-                ADC     NMI_Data + NMI_DATA::PPU_Addr+1 ; NMITable
-                STA     NMI_Data + NMI_DATA::PPU_Addr+1 ; NMITable
-                LDA     #0
-                ADC     NMI_Data + NMI_DATA::PPU_Addr ; NMITable
-                STA     NMI_Data + NMI_DATA::PPU_Addr ; NMITable
-                DEX
-                BNE     @next_block
-                RTS
+    lda NMI_Data + NMI_DATA::Chr,Y
+    sta (Pointer),Y
+    iny
+    cpy #$40
+    bcc @next_chr
+    jsr sram_read_enable
+    clc
+    tya
+    adc Pointer
+    sta Pointer
+    lda #0
+    adc Pointer+1
+    sta Pointer+1
+    clc
+    tya
+    adc NMI_Data + NMI_DATA::PPU_Addr+1
+    sta NMI_Data + NMI_DATA::PPU_Addr+1
+    lda #0
+    adc NMI_Data + NMI_DATA::PPU_Addr
+    sta NMI_Data + NMI_DATA::PPU_Addr
+    dex
+    bne @next_block
+    rts
 ; End of function chr_5E_5F_to_sram
 
 
@@ -2510,14 +2464,14 @@ loc_CE81:
                 JSR     sub_CEB2        ; Input: XA - PPU address (X - high byte, A - low byte)
                                         ;         Y - NMI Function ID
                 CLC
-                LDA     #$40 ; '@'
+                LDA     #$40
                 ADC     Pointer
                 STA     Pointer
                 LDA     #0
                 ADC     Pointer+1
                 STA     Pointer+1
                 CLC
-                LDA     #$40 ; '@'
+                LDA     #$40
                 ADC     pTileID
                 STA     pTileID
                 LDA     #0
@@ -2535,21 +2489,21 @@ loc_CE81:
 ;         Y - NMI Function ID
 
 sub_CEB2:
-                PHA
-                JSR     wait_nmi_processed
-                PLA
-                STA     NMI_Data + NMI_DATA::PPU_Addr+1 ; NMITable
-                STX     NMI_Data + NMI_DATA::PPU_Addr ; NMITable
-                STY     NMI_Data + NMI_DATA::NMI_ID   ; NMITable
-                LDA     #$40 ; '@'
-                STA     NMI_Data + NMI_DATA::NumOfChr ; NMITable
-                LDA     #0
-                STA     $444
-                LDA     #0
-                STA     OffsetNMI_Data
-                LDA     #$80
-                STA     NMIFlags
-                RTS
+    pha
+    jsr wait_nmi_processed
+    pla
+    sta NMI_Data + NMI_DATA::PPU_Addr+1
+    stx NMI_Data + NMI_DATA::PPU_Addr
+    sty NMI_Data + NMI_DATA::NMI_ID
+    lda #$40
+    sta NMI_Data + NMI_DATA::NumOfChr
+    lda #0
+    sta $444
+    lda #0
+    sta OffsetNMI_Data
+    lda #$80
+    sta NMIFlags
+    rts
 ; End of function sub_CEB2
 
 
@@ -2559,21 +2513,19 @@ sub_CEB2:
 bank13_A000:
     .export bank13_A000
 
-                LDA     #$13
-                LDX     #7
-                JMP     mmc3_bank_set   ; Set memory bank
-; End of function bank13_A000           ; A - bank number
-                                        ; X - mode
+    lda #$13
+    ldx #7
+    jmp mmc3_bank_set   ; Set memory bank
+; End of function bank13_A000
 
 ; =============== S U B R O U T I N E =======================================
 
 
 bank17_A000:
-                LDA     #$17
-                LDX     #7
-                JMP     mmc3_bank_set   ; Set memory bank
-; End of function bank17_A000           ; A - bank number
-                                        ; X - mode
+    lda #$17
+    ldx #7
+    jmp mmc3_bank_set   ; Set memory bank
+; End of function bank17_A000
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -2581,16 +2533,15 @@ bank17_A000:
 bank14_8000:
     .export bank14_8000
 
-                LDA     #$14
-                LDX     #6
-                JMP     mmc3_bank_set   ; Set memory bank
-; End of function bank14_8000           ; A - bank number
-                                        ; X - mode
+    lda #$14
+    ldx #6
+    jmp mmc3_bank_set   ; Set memory bank
+; End of function bank14_8000
 
 ; =============== S U B R O U T I N E =======================================
 
 ; set 6 memory banks for PPU
-; pPPUTable = XA address (X - high and A - low byte)
+; Character + CHARACTER::NameOffsetle = XA address (X - high and A - low byte)
 ;
 ; |PPU address | PPUTable offset | Size |
 ; |-------------------------------------|
@@ -2610,24 +2561,21 @@ bank14_8000:
 set_ppu_banks:
     .export set_ppu_banks
 
-                STA     Pointer
-                STX     Pointer+1
-                LDX     #CHR_1K_XC00    ; Select 1K CHR ROM page at 0C00h, 0800h, 0400h, 0000h,
-                                        ; and 2K CHR ROM page at 1800h, 1000h in PPU space
-                LDY     #5
+    stxa Pointer
+    ldx #CHR_1K_XC00    ; Select 1K CHR ROM page at 0C00h, 0800h, 0400h, 0000h,
+                        ; and 2K CHR ROM page at 1800h, 1000h in PPU space
+    ldy #5
 
 @next_chr_bank:
-                LDA     (Pointer),Y
-                BEQ     @no_chr_bank
-                JSR     mmc3_bank_set   ; Set memory bank
-                                        ; A - bank number
-                                        ; X - mode
+    lda (Pointer),Y
+    beq @no_chr_bank
+    jsr mmc3_bank_set   ; Set memory bank A - bank number, X - mode
 
 @no_chr_bank:
-                DEX
-                DEY
-                BPL     @next_chr_bank
-                RTS
+    dex
+    dey
+    bpl @next_chr_bank
+    rts
 ; End of function set_ppu_banks
 
 
@@ -2635,217 +2583,211 @@ set_ppu_banks:
 
 
 sub_CEFC:
-    .importzp p4TileID, MapSectorID, chr_bank_color_0C, color_0E, BlockCount
+    .import PalNMIBG, PalNMISpr
+    .importzp p4TileID, MapSectorID, Color_0C, Color_0E, BlockCount
     .importzp HighGlobalY, HighGlobalY_plus1_carry, LowGlobalYC0, MaskORA
     .importzp HighGlobalX, HighGlobalX_plus2, LowGlobalXC0, LowGlobalXC0_0
     .importzp Tile4Count, ShiftCameraY
     .importzp byte_AE, byte_AF
 
-                JSR     sub_D674
-                LDA     #$14            ; BANK14:8000
-                LDX     #6
-                JSR     mmc3_bank_set   ; Set memory bank
-                                        ; A - bank number
-                                        ; X - mode
-                LDA     #0
-                STA     p4TileID+1
-                LDA     MapSectorID
-                ASL     A
-                ASL     A
-                ASL     A
-                ROL     p4TileID+1
-                ASL     A
-                ROL     p4TileID+1
-                ADC     #0
-                STA     p4TileID
-                LDA     p4TileID+1
-                ADC     #$90
-                STA     p4TileID+1
-                JSR     wait_nmi_processed
-                LDY     #$F
+    jsr sub_D674
+    lda #$14            ; BANK14:8000
+    ldx #6
+    jsr mmc3_bank_set   ; Set memory bank A - bank number, X - mode
+    lda #0
+    sta p4TileID+1
+    lda MapSectorID
+    asl A
+    asl A
+    asl A
+    rol p4TileID+1
+    asl A
+    rol p4TileID+1
+    adc #0
+    sta p4TileID
+    lda p4TileID+1
+    adc #$90
+    sta p4TileID+1
+    jsr wait_nmi_processed
+    ldy #$F
 
-loc_CF23:
-                LDA     (p4TileID),Y    ; BANK14:91EF
-                BPL     loc_CF2A
-                JSR     get_save_field
+@get_bg_color:
+    lda (p4TileID),Y
+    bpl @save_bg_color
+    jsr get_save_field
 
-loc_CF2A:
-                STA     PalNMIBG,Y
-                DEY
-                BPL     loc_CF23
-                LDY     #$F
+@save_bg_color:
+    sta PalNMIBG,Y
+    dey
+    bpl @get_bg_color
+    ldy #$F
 
 @next_color:
-                LDA     SpritePallete,Y
-                STA     PalNMISpr,Y
-                DEY
-                BPL     @next_color
-                LDX     PalNMIBG+$C
-                LDY     PalNMIBG+$E
-                STX     chr_bank_color_0C ; $1A
-                STY     color_0E        ; $40
-                LDX     #BLACK
-                LDY     #WHITE
-
-loc_CF49:
-                STX     PalNMIBG+$C
-                STY     PalNMIBG+$E
-                JSR     load_map_tile
-                LDA     LowGlobalYC0
-                AND     #$C0
-                STA     MaskORA
-                LDA     HighGlobalY
-                STA     HighGlobalY_plus1_carry
-                LDA     #$40
-                STA     byte_AE
-                LDA     #0
-                STA     byte_AF
-                LDA     #$10
-                STA     BlockCount
+    lda SpritePallete,Y
+    sta PalNMISpr,Y
+    dey
+    bpl @next_color
+    ldx PalNMIBG+$C
+    ldy PalNMIBG+$E
+    stx Color_0C
+    sty Color_0E
+    ldx #BLACK
+    ldy #WHITE
+    stx PalNMIBG+$C
+    sty PalNMIBG+$E
+    jsr load_map_tile
+    lda LowGlobalYC0
+    and #$C0
+    sta MaskORA
+    lda HighGlobalY
+    sta HighGlobalY_plus1_carry
+    lda #$40
+    sta byte_AE
+    lda #0
+    sta byte_AF
+    lda #$10
+    sta BlockCount
 
 @next_block:
-                SEC
-                LDA     LowGlobalXC0
-                AND     #$C0
-                SBC     #$40
-                STA     LowGlobalXC0_0
-                LDA     HighGlobalX
-                SBC     #0
-                STA     HighGlobalX_plus2
-                LDA     #$13
-                STA     Tile4Count
-                JSR     load_map
-                DEC     BlockCount
-                BEQ     @last_block
-                CLC
-                LDA     MaskORA
-                ADC     #$40
-                STA     MaskORA
-                LDA     HighGlobalY_plus1_carry
-                ADC     #0
-                STA     HighGlobalY_plus1_carry
-                JMP     @next_block
+    sec
+    lda LowGlobalXC0
+    and #$C0
+    sbc #$40
+    sta LowGlobalXC0_0
+    lda HighGlobalX
+    sbc #0
+    sta HighGlobalX_plus2
+    lda #$13
+    sta Tile4Count
+    jsr load_map
+    dec BlockCount
+    beq @last_block
+    clc
+    lda MaskORA
+    adc #$40
+    sta MaskORA
+    lda HighGlobalY_plus1_carry
+    adc #0
+    sta HighGlobalY_plus1_carry
+    jmp @next_block
 ; ---------------------------------------------------------------------------
 
 @last_block:
-                JSR     get_shift_camerax ; ShiftCameraX = ((field_5 & 7)(field4_bits7_6 & C0)) >> 2
-                LDY     #0
-                STY     ShiftCameraY
-                JMP     sub_DD72
+    jsr get_shift_camerax ; ShiftCameraX = ((field_5 & 7)(field4_bits7_6 & C0)) >> 2
+    ldy #0
+    sty ShiftCameraY
+    jmp sub_DD72
 ; End of function sub_CEFC
 
 ; ---------------------------------------------------------------------------
-SpritePallete:  .byte BLACK, BLACK, DARK_GRAY, WHITE; PALETTE0
-                .byte BLACK, BLACK, MEDIUM_RED, LIGHTEST_ORANGE; PALETTE1
-                .byte BLACK, BLACK, LIGHT_PURPLE, LIGHTEST_ORANGE; PALETTE2
-                .byte BLACK, BLACK, MEDIUM_INDIGO, LIGHTEST_ORANGE; PALETTE3
+SpritePallete:
+    .byte BLACK, BLACK, DARK_GRAY, WHITE                ; PALETTE0
+    .byte BLACK, BLACK, MEDIUM_RED, LIGHTEST_ORANGE     ; PALETTE1
+    .byte BLACK, BLACK, LIGHT_PURPLE, LIGHTEST_ORANGE   ; PALETTE2
+    .byte BLACK, BLACK, MEDIUM_INDIGO, LIGHTEST_ORANGE  ; PALETTE3
 
 ; =============== S U B R O U T I N E =======================================
 
 
 draw_screen:
     .export draw_screen
+    .import PalSpr
     .importzp ShiftCameraX, MaskCntrlPPU, ScreenY, Add_Off_pAttr
 
-                JSR     wait_nmi_processed
-                CLC
-                LDA     ShiftCameraX    ; start X - for the game screen
-                ORA     #8
-                TAX
-                LDY     ShiftCameraY
-                LDA     CntrlPPU        ; PPU_CTRL
-                AND     #$FC
-                ORA     MaskCntrlPPU
-                STA     CntrlPPU        ; PPU_CTRL
-                STX     CameraX         ; $18
-                STY     CameraY
-                STY     ScreenY
-                CLC
-                LDA     LowGlobalYC0
-                AND     #$C0
-                ADC     #$80
-                STA     MaskORA
-                LDA     HighGlobalY
-                ADC     #3
-                STA     HighGlobalY_plus1_carry
-                LDA     #$F
-                STA     BlockCount
+    jsr wait_nmi_processed
+    clc
+    lda ShiftCameraX    ; start X - for the game screen
+    ora #8
+    tax
+    ldy ShiftCameraY
+    lda CntrlPPU        ; PPU_CTRL
+    and #$FC
+    ora MaskCntrlPPU
+    sta CntrlPPU        ; PPU_CTRL
+    stx CameraX         ; $18
+    sty CameraY
+    sty ScreenY
+    clc
+    lda LowGlobalYC0
+    and #$C0
+    adc #$80
+    sta MaskORA
+    lda HighGlobalY
+    adc #3
+    sta HighGlobalY_plus1_carry
+    lda #$F
+    sta BlockCount
 
 next_block:
-                CLC
-                LDA     ScreenY
-                ADC     #$F0
-                BCS     loc_CFE1
-                ADC     #$F0
+    clc
+    lda ScreenY
+    adc #$F0
+    bcs loc_CFE1
+    adc #$F0
 
 loc_CFE1:
-                STA     ScreenY
-                LDA     LowGlobalXC0
-                AND     #$C0
-                STA     LowGlobalXC0_0
-                LDA     HighGlobalX
-                STA     HighGlobalX_plus2
-                LDX     BlockCount
-                LDA     locret_D04E,X   ; get value from the table D04F
-                EOR     ScreenY
-                AND     #$10
-                BNE     loc_CFFB
-                LDA     locret_D04E,X
+    sta ScreenY
+    lda LowGlobalXC0
+    and #$C0
+    sta LowGlobalXC0_0
+    lda HighGlobalX
+    sta HighGlobalX_plus2
+    ldx BlockCount
+    lda locret_D04E,X   ; get value from the table D04F
+    eor ScreenY
+    and #$10
+    bne loc_CFFB
+    lda locret_D04E,X
 
 loc_CFFB:
-                STA     Add_Off_pAttr
-                JSR     wait_nmi_processed
-                JSR     write_tile_attr
-                LDA     #0
-                STA     NMI_Data,X        ; NMITable
-                STA     OffsetNMI_Data
-                LDA     #$80
-                STA     NMIFlags
-                DEC     BlockCount
-                BEQ     last_block
-                LDA     BlockCount
-                ASL     A
-                TAX
-                JSR     wait_nmi_flags_reset
-                LDA     #LIGHT_REDVIOLET
-                STA     PalSpr+$E,X
-                SEC
-                LDA     MaskORA
-
-loc_D021:
-                SBC     #$40
-                STA     MaskORA
-                LDA     HighGlobalY_plus1_carry
-                SBC     #0
-                STA     HighGlobalY_plus1_carry
-                JMP     next_block
+    sta Add_Off_pAttr
+    jsr wait_nmi_processed
+    jsr write_tile_attr
+    lda #0
+    sta NMI_Data,X
+    sta OffsetNMI_Data
+    lda #$80
+    sta NMIFlags
+    dec BlockCount
+    beq last_block
+    lda BlockCount
+    asl A
+    tax
+    jsr wait_nmi_flags_reset
+    lda #LIGHT_REDVIOLET
+    sta PalSpr+$E,X
+    sec
+    lda MaskORA
+    sbc #$40
+    sta MaskORA
+    lda HighGlobalY_plus1_carry
+    sbc #0
+    sta HighGlobalY_plus1_carry
+    jmp next_block
 ; ---------------------------------------------------------------------------
 
 last_block:
-                JSR     wait_nmi_processed
-                JSR     load_map_tile
-                LDA     #4              ; load_palettes ID
-                STA     NMI_Data + NMI_DATA::NMI_ID   ; NMITable
-
-loc_D039:
-                LDA     #0
-                STA     NMI_Data + NMI_DATA::NumOfChr ; NMITable
-                STA     OffsetNMI_Data
-                LDA     #$80
-                STA     NMIFlags
-                LDA     #$88
-                STA     byte_A0
-                LDA     #0
-                STA     IRQCount
-                STA     Gamepad0Buttons
+    jsr wait_nmi_processed
+    jsr load_map_tile
+    lda #LOAD_PALETTES      ; #4 load_palettes ID
+    sta NMI_Data + NMI_DATA::NMI_ID
+    lda #0
+    sta NMI_Data + NMI_DATA::NumOfChr
+    sta OffsetNMI_Data
+    lda #$80
+    sta NMIFlags
+    lda #$88
+    sta byte_A0
+    lda #0
+    sta IRQCount
+    sta Gamepad0Buttons
 
 locret_D04E:
-                RTS
+    rts
 ; End of function draw_screen
 
 ; ---------------------------------------------------------------------------
-                .byte $F0, $10, $10, $10, $10, $10, $10, $10, $10, $10
-                .byte $10, $10, $10, $10, $20
+    .byte $F0, $10, $10, $10, $10, $10, $10, $10, $10, $10, $10, $10, $10, $10, $20
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -2898,19 +2840,19 @@ loc_D09C:
 ; ShiftCameraX = ((field_5 & 7)(field4_bits7_6 & C0)) >> 2
 
 get_shift_camerax:
-                LDA     HighGlobalX
-                AND     #7
-                STA     MaskCntrlPPU
-                LDA     LowGlobalXC0
-                AND     #$C0
-                LSR     MaskCntrlPPU
-                ROR     A
-                LSR     MaskCntrlPPU
-                ROR     A
-                STA     ShiftCameraX
+    lda HighGlobalX
+    and #7
+    sta MaskCntrlPPU
+    lda LowGlobalXC0
+    and #$C0
+    lsr MaskCntrlPPU
+    ror A
+    lsr MaskCntrlPPU
+    ror A
+    sta ShiftCameraX
 
 locret_D0B0:
-                RTS
+    rts
 ; End of function get_shift_camerax
 
 
@@ -2981,175 +2923,173 @@ byte_D0FD:      .byte $C0, $FF, 0, 0, $40, 0, $13, 0, $40, 4, 0, 0, 0
     .importzp DataBank, FirstTileID, BankHighOffset, BankNum0Mask3, BankNum1Mask3, p4TileAttr
     .importzp BankNum0, BankNum1, OffScreen, Screen, Attribute_0, AttributeScr0, AttributeScr1
 
-                JSR     get_screen_pointers ; set base address Screen $6000 or $6100
-                                        ; AttributeScr0 $6200 or $6300
-                                        ; AttributeScr1 $6400 or $6500
-                                        ; OffScreen - offset
+    jsr get_screen_pointers ; set base address Screen $6000 or $6100
+                        ; AttributeScr0 $6200 or $6300
+                        ; AttributeScr1 $6400 or $6500
+                        ; OffScreen - offset
 
 next_quadrant:
-                JSR     load_data_bank
-                LDY     #0
-                LDA     (p4TileID),Y    ; BANK03:BC08 BANK03:BB0C
-                AND     #$3F ; '?'
-                CMP     MapSectorID
-                BEQ     @get_map_tile_id
-                LDA     color_0E        ; $40
-                JMP     @get_pointer_quadrant
+    jsr load_data_bank
+    ldy #0
+    lda (p4TileID),Y    ; BANK03:BC08 BANK03:BB0C
+    and #$3F
+    cmp MapSectorID
+    beq @get_map_tile_id
+    lda Color_0E        ; $40
+    jmp @get_pointer_quadrant
 ; ---------------------------------------------------------------------------
 
 @get_map_tile_id:
-                LDA     DataBank
-                LDX     #6
-                JSR     mmc3_bank_set   ; Set memory bank
-                                        ; A - bank number
-                                        ; X - mode
-                CLC
-                LDA     HighGlobalX_plus2
-                STA     p4TileID
-                LDA     HighGlobalY_plus1_carry
-                AND     #$1F
-                ADC     #$80
-                STA     p4TileID+1
-                LDY     #0
-                LDA     (p4TileID),Y    ; BANK02:9008, BANK02:9108, BANK02:9208, BANK02:9308
-                BPL     @get_pointer_quadrant
-                JSR     get_save_field
+    lda DataBank
+    ldx #6
+    jsr mmc3_bank_set   ; Set memory bank A - bank number, X - mode
+    clc
+    lda HighGlobalX_plus2
+    sta p4TileID
+    lda HighGlobalY_plus1_carry
+    and #$1F
+    adc #$80
+    sta p4TileID+1
+    ldy #0
+    lda (p4TileID),Y    ; BANK02:9008, BANK02:9108, BANK02:9208, BANK02:9308
+    bpl @get_pointer_quadrant
+    jsr get_save_field
 
 @get_pointer_quadrant:
-                TAX
-                AND     #$40
-                ASL     A
-                STA     FirstTileID
-                LSR     A
-                LSR     A
-                STA     BankHighOffset
-                BEQ     @low_bank
-                LDA     BankNum1Mask3
+    tax
+    and #$40
+    asl A
+    sta FirstTileID
+    lsr A
+    lsr A
+    sta BankHighOffset
+    beq @low_bank
+    lda BankNum1Mask3
 ; ---------------------------------------------------------------------------
-                .byte $2C
+    .byte $2C
 ; ---------------------------------------------------------------------------
 
 @low_bank:
-                LDA     BankNum0Mask3
-                STA     p4TileID+1
-                TXA
-                ASL     A
-                ASL     A
-                ASL     A
-                ROL     p4TileID+1
-                ASL     A
-                ROL     p4TileID+1
-                STA     p4TileID
-                STA     p4TileAttr
-                LDA     p4TileID+1
-                ADC     #$80
-                ADC     BankHighOffset
-                STA     p4TileID+1
-                ADC     #$10
-                STA     p4TileAttr+1
-                LDA     BankNum0
-                LSR     A
-                ORA     #1
-                LDX     #6
-                JSR     mmc3_bank_set   ; load map BANK0D:8000
-                LDA     BankNum1
-                LSR     A
-                ORA     #1
-                LDX     #7
-                JSR     mmc3_bank_set   ; load map BANK0D:A000
+    lda BankNum0Mask3
+    sta p4TileID+1
+    txa
+    asl A
+    asl A
+    asl A
+    rol p4TileID+1
+    asl A
+    rol p4TileID+1
+    sta p4TileID
+    sta p4TileAttr
+    lda p4TileID+1
+    adc #$80
+    adc BankHighOffset
+    sta p4TileID+1
+    adc #$10
+    sta p4TileAttr+1
+    lda BankNum0
+    lsr A
+    ora #1
+    ldx #6
+    jsr mmc3_bank_set   ; load map BANK0D:8000
+    lda BankNum1
+    lsr A
+    ora #1
+    ldx #7
+    jsr mmc3_bank_set   ; load map BANK0D:A000
 
 next_tile_and_attr:
-                LDA     LowGlobalXC0_0
-                LSR     A
-                LSR     A
-                ORA     MaskORA
-                LSR     A
-                LSR     A
-                LSR     A
-                LSR     A
-                TAX
-                TAY
-                JSR     sram_write_enable
-                LDA     (p4TileID),Y    ; BANK0D:A800 BANK0D:8420 BANK0D:A900 BANK0D:A920 BANK0D:8760
-                EOR     FirstTileID
-                LDY     OffScreen
-                STA     (Screen),Y
-                TXA
-                TAY
-                LDA     (p4TileAttr),Y  ; BANK0D:B800 BANK0D:9420 BANK0D:B900 BANK0D:B920 BANK0D:9760
-                AND     #$C0
-                STA     Attribute_0
-                LSR     A
-                LSR     A
-                ORA     Attribute_0
-                LSR     A
-                LSR     A
-                ORA     Attribute_0
-                LSR     A
-                LSR     A
-                ORA     Attribute_0
-                LDY     OffScreen
-                STA     (AttributeScr0),Y
-                LDA     #0
-                STA     (AttributeScr1),Y
-                JSR     sram_read_enable
-                DEC     Tile4Count
-                BEQ     exit
-                LDA     byte_AE
-                BEQ     loc_D1F9
-                INC     OffScreen
-                CLC
-                ADC     LowGlobalXC0_0
-                STA     LowGlobalXC0_0
-                BCC     jmp_next_tile_and_attr
-                LDA     #0
-                ADC     HighGlobalX_plus2
-                STA     HighGlobalX_plus2
-                AND     #3
-                BNE     jmp_next_quadrant
-                LDA     OffScreen
-                SEC
-                SBC     #$10
-                STA     OffScreen
-                LDA     Screen+1
-                EOR     #1
-                STA     Screen+1
-                CLC
-                ADC     #2
-                STA     AttributeScr0+1
-                ADC     #2
-                STA     AttributeScr1+1
-                JMP     next_quadrant
+    lda LowGlobalXC0_0
+    lsr A
+    lsr A
+    ora MaskORA
+    lsr A
+    lsr A
+    lsr A
+    lsr A
+    tax
+    tay
+    jsr sram_write_enable
+    lda (p4TileID),Y    ; BANK0D:A800 BANK0D:8420 BANK0D:A900 BANK0D:A920 BANK0D:8760
+    eor FirstTileID
+    ldy OffScreen
+    sta (Screen),Y
+    txa
+    tay
+    lda (p4TileAttr),Y  ; BANK0D:B800 BANK0D:9420 BANK0D:B900 BANK0D:B920 BANK0D:9760
+    and #$C0
+    sta Attribute_0
+    lsr A
+    lsr A
+    ora Attribute_0
+    lsr A
+    lsr A
+    ora Attribute_0
+    lsr A
+    lsr A
+    ora Attribute_0
+    ldy OffScreen
+    sta (AttributeScr0),Y
+    lda #0
+    sta (AttributeScr1),Y
+    jsr sram_read_enable
+    dec Tile4Count
+    beq exit
+    lda byte_AE
+    beq loc_D1F9
+    inc OffScreen
+    clc
+    adc LowGlobalXC0_0
+    sta LowGlobalXC0_0
+    bcc jmp_next_tile_and_attr
+    lda #0
+    adc HighGlobalX_plus2
+    sta HighGlobalX_plus2
+    and #3
+    bne jmp_next_quadrant
+    lda OffScreen
+    sec
+    sbc #$10
+    sta OffScreen
+    lda Screen+1
+    eor #1
+    sta Screen+1
+    clc
+    adc #2
+    sta AttributeScr0+1
+    adc #2
+    sta AttributeScr1+1
+    jmp next_quadrant
 ; ---------------------------------------------------------------------------
 
 loc_D1F9:
-                LDX     byte_AF
-                BEQ     exit
-                CLC
-                LDA     OffScreen
-                ADC     #$10
-                STA     OffScreen
-                CLC
-                TXA
-                ADC     MaskORA
-                STA     MaskORA
-                BCC     jmp_next_tile_and_attr
-                LDA     #0
-                ADC     HighGlobalY_plus1_carry
-                STA     HighGlobalY_plus1_carry
-                JMP     next_quadrant
+    ldx byte_AF
+    beq exit
+    clc
+    lda OffScreen
+    adc #$10
+    sta OffScreen
+    clc
+    txa
+    adc MaskORA
+    sta MaskORA
+    bcc jmp_next_tile_and_attr
+    lda #0
+    adc HighGlobalY_plus1_carry
+    sta HighGlobalY_plus1_carry
+    jmp next_quadrant
 ; ---------------------------------------------------------------------------
 
 jmp_next_tile_and_attr:
-                JMP     next_tile_and_attr
+    jmp next_tile_and_attr
 ; ---------------------------------------------------------------------------
 
 jmp_next_quadrant:
-                JMP     next_quadrant
+    jmp next_quadrant
 ; ---------------------------------------------------------------------------
 
 exit:
-                RTS
+    rts
 .endproc            ; End of function load_map
 
 
@@ -3231,14 +3171,15 @@ loc_D281:
 ; End of function sub_D232
 
 ; ---------------------------------------------------------------------------
-byte_D284:      .byte 0, 0,   0, 0, $10, $F0, $10, $88
-                .byte 0, 0,   0, 0, $10, $F0, $10, $10
-                .byte 0, 4,   0, 0, $10,   0, $FF, $88
-                .byte 0, 0, $80, 3, $F0, $20,   0, $10
-                .byte 0, 0, $80, 3, $F0, $20,   0, $88
-                .byte 0, 0, $80, 3, $F0, $20,   0, $30
-                .byte 0, 0,   0, 0, $10,   0, $FF, $88
-                .byte 0, 0,   0, 0, $10, $F0, $10, $30
+byte_D284:
+    .byte 0, 0,   0, 0, $10, $F0, $10, $88
+    .byte 0, 0,   0, 0, $10, $F0, $10, $10
+    .byte 0, 4,   0, 0, $10,   0, $FF, $88
+    .byte 0, 0, $80, 3, $F0, $20,   0, $10
+    .byte 0, 0, $80, 3, $F0, $20,   0, $88
+    .byte 0, 0, $80, 3, $F0, $20,   0, $30
+    .byte 0, 0,   0, 0, $10,   0, $FF, $88
+    .byte 0, 0,   0, 0, $10, $F0, $10, $30
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -3247,125 +3188,125 @@ write_tile_attr:
     .importzp TilesNum, PPUAddr, FirstTileID, OffScreen, Screen, PPUAttribute, Off_pAttr
     .importzp AttributeScr0
 
-                JSR     sub_D4B7
-                LDA     #$11
-                STA     TilesNum
-                LDX     #0
+    jsr sub_D4B7
+    lda #$11
+    sta TilesNum
+    ldx #0
 
-loc_D2CD:
-                LDA     #5              ; write_horizontal ID
-                STA     NMI_Data,X        ; NMITable
-                STA     NMI_Data + NMI_DATA::NMI_ID+$2A,X ; NMITable
-                INX
-                LDA     TilesNum
-                ASL     A
-                STA     NMI_Data,X        ; NMITable
-                STA     NMI_Data + NMI_DATA::NMI_ID+$2A,X ; NMITable
-                INX
-                LDA     PPUAddr+1
-                STA     NMI_Data,X        ; NMITable
-                STA     NMI_Data + NMI_DATA::NMI_ID+$2A,X ; NMITable
-                INX
-                LDA     PPUAddr
-                STA     NMI_Data,X        ; NMITable
-                ORA     #$20
-                STA     NMI_Data + NMI_DATA::NMI_ID+$2A,X ; NMITable
-                INX
+@add_nmi_tiles:
+    lda #WRITE_ROW          ; #5 write_horizontal ID
+    sta NMI_Data,X
+    sta NMI_Data + NMI_DATA::NMI_ID+$2A,X
+    inx
+    lda TilesNum
+    asl A
+    sta NMI_Data,X
+    sta NMI_Data + NMI_DATA::NMI_ID+$2A,X
+    inx
+    lda PPUAddr+1
+    sta NMI_Data,X
+    sta NMI_Data + NMI_DATA::NMI_ID+$2A,X
+    inx
+    lda PPUAddr
+    sta NMI_Data,X
+    ora #$20
+    sta NMI_Data + NMI_DATA::NMI_ID+$2A,X
+    inx
 
 @add_tiles:
-                JSR     get4tileID_pointer ; Gets a pointer to the quadrant of tiles in bank D.
-                                        ; Input: OffScreen - offset to screen area for Screen pointer ($6000, $6100)
-                                        ;        BankNum0Mask3, BankNum1Mask3 - masks
-                                        ; Output: p4TileID - pointer to the quadrant of tiles
-                LDY     #0
-                LDA     (p4TileID),Y    ; BANK0D:9200(BANK0D:B200) BANK0D:B400(BANK0D:9400)
-                AND     #$3F
-                EOR     FirstTileID
-                STA     NMI_Data,X        ; lelft top tile
-                INY
-                LDA     (p4TileID),Y
-                AND     #$3F
-                EOR     FirstTileID
-                STA     NMI_Data + NMI_DATA::NumOfChr,X ; right top tile
-                INY
-                LDA     (p4TileID),Y
-                AND     #$3F
-                EOR     FirstTileID
-                STA     NMI_Data + NMI_DATA::NMI_ID+$2A,X ; left bottom tile
-                INY
-                LDA     (p4TileID),Y
-                AND     #$3F
-                EOR     FirstTileID
-                STA     NMI_Data + NMI_DATA::NumOfChr+$2A,X ; right bottom tile
-                INX
-                INX
-                DEC     TilesNum
-                BEQ     @last_tile
-                INC     OffScreen
-                LDA     OffScreen
-                BIT     EndRow
-                BNE     @add_tiles
-                SEC
-                SBC     #$10
-                STA     OffScreen
-                LDA     Screen+1
-                EOR     #1
-                STA     Screen+1
-                LDA     PPUAddr
-                AND     #$E0
-                STA     PPUAddr
-                LDA     PPUAddr+1
-                EOR     #4
-                STA     PPUAddr+1
-                SEC
-                LDA     #$11
-                SBC     TilesNum
-                ASL     A
-                STA     NMI_Data + NMI_DATA::NumOfChr ; NMITable
-                STA     NMI_Data + NMI_DATA::NumOfChr+$2A ; NMITable
-                JMP     loc_D2CD
+    jsr get4tileID_pointer ; Gets a pointer to the quadrant of tiles in bank D.
+                        ; Input: OffScreen - offset to screen area for Screen pointer ($6000, $6100)
+                        ;        BankNum0Mask3, BankNum1Mask3 - masks
+                        ; Output: p4TileID - pointer to the quadrant of tiles
+    ldy #0
+    lda (p4TileID),Y    ; BANK0D:9200(BANK0D:B200) BANK0D:B400(BANK0D:9400)
+    and #$3F
+    eor FirstTileID
+    sta NMI_Data,X        ; lelft top tile
+    iny
+    lda (p4TileID),Y
+    and #$3F
+    eor FirstTileID
+    sta NMI_Data + NMI_DATA::NumOfChr,X ; right top tile
+    iny
+    lda (p4TileID),Y
+    and #$3F
+    eor FirstTileID
+    sta NMI_Data + NMI_DATA::NMI_ID+$2A,X ; left bottom tile
+    iny
+    lda (p4TileID),Y
+    and #$3F
+    eor FirstTileID
+    sta NMI_Data + NMI_DATA::NumOfChr+$2A,X ; right bottom tile
+    inx
+    inx
+    dec TilesNum
+    beq @last_tile
+    inc OffScreen
+    lda OffScreen
+    bit EndRow
+    bne @add_tiles
+    sec
+    sbc #$10
+    sta OffScreen
+    lda Screen+1
+    eor #1
+    sta Screen+1
+    lda PPUAddr
+    and #$E0
+    sta PPUAddr
+    lda PPUAddr+1
+    eor #4
+    sta PPUAddr+1
+    sec
+    lda #$11
+    sbc TilesNum
+    asl A
+    sta NMI_Data + NMI_DATA::NumOfChr
+    sta NMI_Data + NMI_DATA::NumOfChr+$2A
+    jmp @add_nmi_tiles
 ; ---------------------------------------------------------------------------
 
 @last_tile:
-                LDA     #9
-                STA     TilesNum
-                LDX     #$54 ; 'T'
-                LDA     #7              ; write_ppu_chars
-                STA     NMI_Data,X        ; NMITable
-                INX
-                LDA     TilesNum
-                STA     NMI_Data,X        ; NMITable
-                INX
+    lda #9
+    sta TilesNum
+    ldx #$54
+    lda #WRITE_CHAR         ; #7 write_ppu_chars
+    sta NMI_Data,X
+    inx
+    lda TilesNum
+    sta NMI_Data,X
+    inx
 
 @next_attr:
-                JSR     write_attr
-                DEC     TilesNum
-                BEQ     @exit
-                INC     PPUAttribute
-                CLC
-                LDA     Off_pAttr
-                ADC     #2
-                STA     Off_pAttr
-                BIT     EndRow
-                BNE     @next_attr
-                SEC
-                SBC     #$10
-                STA     Off_pAttr
-                LDA     AttributeScr0+1
-                EOR     #1
-                STA     AttributeScr0+1
-                SEC
-                LDA     PPUAttribute
-                SBC     #8
-                STA     PPUAttribute
-                LDA     PPUAttribute+1
-                EOR     #4
-                STA     PPUAttribute+1
-                JMP     @next_attr
+    jsr write_attr
+    dec TilesNum
+    beq @exit
+    inc PPUAttribute
+    clc
+    lda Off_pAttr
+    adc #2
+    sta Off_pAttr
+    bit EndRow
+    bne @next_attr
+    sec
+    sbc #$10
+    sta Off_pAttr
+    lda AttributeScr0+1
+    eor #1
+    sta AttributeScr0+1
+    sec
+    lda PPUAttribute
+    sbc #8
+    sta PPUAttribute
+    lda PPUAttribute+1
+    eor #4
+    sta PPUAttribute+1
+    jmp @next_attr
 ; ---------------------------------------------------------------------------
 
 @exit:
-                RTS
+    rts
 ; End of function write_tile_attr
 
 
@@ -3383,25 +3324,25 @@ sub_D398:
                 LDA     #$F
                 STA     TilesNum
                 LDX     #0
-                LDA     #6
-                STA     NMI_Data,X        ; NMITable
-                STA     NMI_Data + NMI_DATA::Chr+$1E,X ; NMITable
+                LDA     #WRITE_COLUMN               ; #6
+                STA     NMI_Data,X
+                STA     NMI_Data + NMI_DATA::Chr+$1E,X
                 INX
                 LDA     TilesNum
                 ASL     A
-                STA     NMI_Data,X        ; NMITable
-                STA     NMI_Data + NMI_DATA::Chr+$1E,X ; NMITable
+                STA     NMI_Data,X
+                STA     NMI_Data + NMI_DATA::Chr+$1E,X
                 INX
                 LDA     PPUAddr+1
                 AND     #$FC
-                STA     NMI_Data,X        ; NMITable
-                STA     NMI_Data + NMI_DATA::Chr+$1E,X ; NMITable
+                STA     NMI_Data,X
+                STA     NMI_Data + NMI_DATA::Chr+$1E,X
                 INX
                 LDA     PPUAddr
                 AND     #$1E
-                STA     NMI_Data,X        ; NMITable
+                STA     NMI_Data,X
                 ORA     #1
-                STA     NMI_Data + NMI_DATA::Chr+$1E,X ; NMITable
+                STA     NMI_Data + NMI_DATA::Chr+$1E,X
                 INX
                 LDA     ScreenY
                 STA     PPUAddr
@@ -3423,24 +3364,24 @@ loc_D3E9:
                                         ; Output: p4TileID - pointer to the quadrant of tiles
                 LDY     #0
                 LDA     (p4TileID),Y
-                AND     #$3F ; '?'
+                AND     #$3F
                 EOR     FirstTileID
-                STA     NMI_Data,X        ; NMITable
+                STA     NMI_Data,X
                 INY
                 LDA     (p4TileID),Y
-                AND     #$3F ; '?'
+                AND     #$3F
                 EOR     FirstTileID
-                STA     NMI_Data + NMI_DATA::Chr+$1E,X ; NMITable
+                STA     NMI_Data + NMI_DATA::Chr+$1E,X
                 INY
                 LDA     (p4TileID),Y
-                AND     #$3F ; '?'
+                AND     #$3F
                 EOR     FirstTileID
-                STA     NMI_Data + NMI_DATA::NumOfChr,X ; NMITable
+                STA     NMI_Data + NMI_DATA::NumOfChr,X
                 INY
                 LDA     (p4TileID),Y
-                AND     #$3F ; '?'
+                AND     #$3F
                 EOR     FirstTileID
-                STA     NMI_Data + NMI_DATA::Next+$1E,X ; NMITable
+                STA     NMI_Data + NMI_DATA::Next+$1E,X
                 INX
                 INX
                 DEC     TilesNum
@@ -3455,12 +3396,12 @@ loc_D3E9:
 loc_D425:
                 LDA     #8
                 STA     TilesNum
-                LDX     #$44 ; 'D'
+                LDX     #$44
                 LDA     #7
-                STA     NMI_Data,X        ; NMITable
+                STA     NMI_Data,X
                 INX
                 LDA     TilesNum
-                STA     NMI_Data,X        ; NMITable
+                STA     NMI_Data,X
                 INX
                 LDA     ScreenY
                 AND     #$10
@@ -3470,7 +3411,7 @@ loc_D425:
                 PHA
                 SBC     #$10
                 STA     Off_pAttr
-                LDA     #$20 ; ' '
+                LDA     #$20
                 STA     Add_Off_pAttr
                 JSR     write_attr
                 PLA
@@ -3491,14 +3432,14 @@ loc_D45C:
                 BEQ     locret_D47E
                 CLC
                 LDA     Off_pAttr
-                ADC     #$20 ; ' '
+                ADC     #$20
                 STA     Off_pAttr
                 CLC
                 LDA     PPUAttribute
                 ADC     #8
                 STA     PPUAttribute
                 BCC     loc_D459
-                SBC     #$40 ; '@'
+                SBC     #$40
                 STA     PPUAttribute
                 SEC
                 LDA     Off_pAttr
@@ -3512,7 +3453,8 @@ locret_D47E:
 ; End of function sub_D398
 
 ; ---------------------------------------------------------------------------
-EndRow:         .byte $F
+EndRow:
+    .byte $F
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -3520,36 +3462,36 @@ EndRow:         .byte $F
 write_attr:
     .importzp AttributeScr0, Attribute_0
 
-                LDA     PPUAttribute+1
-                STA     NMI_Data,X        ; NMITable
-                INX
-                LDA     PPUAttribute
-                STA     NMI_Data,X        ; NMITable
-                INX
-                LDY     Off_pAttr
-                LDA     (AttributeScr0),Y
-                AND     #3
-                STA     Attribute_0
-                INY
-                LDA     (AttributeScr0),Y
-                AND     #$C
-                ORA     Attribute_0
-                STA     Attribute_0
-                CLC
-                LDA     Off_pAttr
-                ADC     Add_Off_pAttr
-                TAY
-                LDA     (AttributeScr0),Y
-                AND     #$30 ; '0'
-                ORA     Attribute_0
-                STA     Attribute_0
-                INY
-                LDA     (AttributeScr0),Y
-                AND     #$C0
-                ORA     Attribute_0
-                STA     NMI_Data,X        ; NMITable
-                INX
-                RTS
+    lda PPUAttribute+1
+    sta NMI_Data,X
+    inx
+    lda PPUAttribute
+    sta NMI_Data,X
+    inx
+    ldy Off_pAttr
+    lda (AttributeScr0),Y
+    and #3
+    sta Attribute_0
+    iny
+    lda (AttributeScr0),Y
+    and #$C
+    ora Attribute_0
+    sta Attribute_0
+    clc
+    lda Off_pAttr
+    adc Add_Off_pAttr
+    tay
+    lda (AttributeScr0),Y
+    and #$30
+    ora Attribute_0
+    sta Attribute_0
+    iny
+    lda (AttributeScr0),Y
+    and #$C0
+    ora Attribute_0
+    sta NMI_Data,X
+    inx
+    rts
 ; End of function write_attr
 
 
@@ -3559,90 +3501,84 @@ write_attr:
 sub_D4B7:
     .importzp BankNum0, BankNum1, ScreenX, StartX
 
-                LDA     BankNum0        ; $19 >> 1 || 1 = $D
-                LSR     A
-                ORA     #1
-                LDX     #6
-                JSR     mmc3_bank_set   ; Set memory bank
-                                        ; A - bank number
-                                        ; X - mode
-                LDA     BankNum1        ; $1A >> 1 || 1 = $D
-                LSR     A
-                ORA     #1
-                LDX     #7
-                JSR     mmc3_bank_set   ; Set memory bank
-                                        ; A - bank number
-                                        ; X - mode
-                JSR     get_screen_pointers ; set base address Screen $6000 or $6100
-                                        ; AttributeScr0 $6200 or $6300
-                                        ; AttributeScr1 $6400 or $6500
-                                        ; OffScreen - offset
-                LDA     HighGlobalX_plus2
-                AND     #7
-                STA     ScreenX
-                LDA     LowGlobalXC0_0
-                LSR     ScreenX
-                ROR     A
-                LSR     ScreenX
-                ROR     A
-                STA     StartX
-                LDA     ScreenY
-                EOR     OffScreen
-                AND     #$10
-                BNE     loc_D4ED
-                LDA     OffScreen
-                AND     #$EE
-                JMP     loc_D4F6
+    lda BankNum0        ; $19 >> 1 || 1 = $D
+    lsr A
+    ora #1
+    ldx #6
+    jsr mmc3_bank_set   ; Set memory bank A - bank number, X - mode
+    lda BankNum1        ; $1A >> 1 || 1 = $D
+    lsr A
+    ora #1
+    ldx #7
+    jsr mmc3_bank_set   ; Set memory bank A - bank number, X - mode
+    jsr get_screen_pointers ; set base address Screen $6000 or $6100, AttributeScr0 $6200 or $6300
+                        ; AttributeScr1 $6400 or $6500, OffScreen - offset
+    lda HighGlobalX_plus2
+    and #7
+    sta ScreenX
+    lda LowGlobalXC0_0
+    lsr ScreenX
+    ror A
+    lsr ScreenX
+    ror A
+    sta StartX
+    lda ScreenY
+    eor OffScreen
+    and #$10
+    bne loc_D4ED
+    lda OffScreen
+    and #$EE
+    jmp loc_D4F6
 ; ---------------------------------------------------------------------------
 
 loc_D4ED:
-                SEC
-                LDA     OffScreen
-                SBC     #$10
-                ORA     #$10
-                AND     #$FE
+    sec
+    lda OffScreen
+    sbc #$10
+    ora #$10
+    and #$FE
 
 loc_D4F6:
-                BIT     Add_Off_pAttr
-                BPL     loc_D501
-                LDX     #$20 ; ' '
-                STX     Add_Off_pAttr
-                SEC
-                SBC     #$10
+    bit Add_Off_pAttr
+    bpl loc_D501
+    ldx #$20
+    stx Add_Off_pAttr
+    sec
+    sbc #$10
 
 loc_D501:
-                STA     Off_pAttr
-                LDA     ScreenY
-                AND     #$F0
-                STA     PPUAddr
-                LDA     ScreenX
-                ASL     PPUAddr
-                ROL     A
-                ASL     PPUAddr
-                ROL     A
-                ORA     #$20 ; ' '
-                STA     PPUAddr+1
-                ORA     #3
-                STA     PPUAttribute+1
-                LDA     StartX
-                AND     #$F0
-                LSR     A
-                LSR     A
-                LSR     A
-                ORA     PPUAddr
-                STA     PPUAddr
-                LSR     A
-                LSR     A
-                AND     #7
-                STA     PPUAttribute
-                LDA     ScreenY
-                LSR     A
-                LSR     A
-                AND     #$38 ; '8'
-                ORA     #$C0
-                ORA     PPUAttribute
-                STA     PPUAttribute
-                RTS
+    sta Off_pAttr
+    lda ScreenY
+    and #$F0
+    sta PPUAddr
+    lda ScreenX
+    asl PPUAddr
+    rol A
+    asl PPUAddr
+    rol A
+    ora #$20
+    sta PPUAddr+1
+    ora #3
+    sta PPUAttribute+1
+    lda StartX
+    and #$F0
+    lsr A
+    lsr A
+    lsr A
+    ora PPUAddr
+    sta PPUAddr
+    lsr A
+    lsr A
+    and #7
+    sta PPUAttribute
+    lda ScreenY
+    lsr A
+    lsr A
+    and #$38
+    ora #$C0
+    ora PPUAttribute
+    sta PPUAttribute
+    rts
 ; End of function sub_D4B7
 
 
@@ -3656,32 +3592,32 @@ loc_D501:
 get4tileID_pointer:
     .importzp BankHighOffset, BankNum0Mask3, BankNum1Mask3
 
-                LDY     OffScreen
-                LDA     (Screen),Y
-                AND     #$80
-                LSR     A
-                STA     FirstTileID
-                LSR     A
-                STA     BankHighOffset
-                BEQ     loc_D548
-                LDA     BankNum1Mask3
+    ldy OffScreen
+    lda (Screen),Y
+    and #$80
+    lsr A
+    sta FirstTileID
+    lsr A
+    sta BankHighOffset
+    beq loc_D548
+    lda BankNum1Mask3
 ; ---------------------------------------------------------------------------
-                .byte $2C
+    .byte $2C
 ; ---------------------------------------------------------------------------
 
 loc_D548:
-                LDA     BankNum0Mask3
-                STA     p4TileID+1
-                LDA     (Screen),Y
-                ASL     A
-                ASL     A
-                ROL     p4TileID+1
-                STA     p4TileID
-                LDA     p4TileID+1
-                ADC     #$90
-                ADC     BankHighOffset
-                STA     p4TileID+1      ; BANK0D:9200
-                RTS
+    lda BankNum0Mask3
+    sta p4TileID+1
+    lda (Screen),Y
+    asl A
+    asl A
+    rol p4TileID+1
+    sta p4TileID
+    lda p4TileID+1
+    adc #$90
+    adc BankHighOffset
+    sta p4TileID+1      ; BANK0D:9200
+    rts
 ; End of function get4tileID_pointer
 
 
@@ -3696,36 +3632,36 @@ get_screen_pointers:
     .export get_screen_pointers
     .importzp AttributeScr1
 
-                LDA     HighGlobalX_plus2
-                AND     #7
-                STA     Screen+1
-                LDA     LowGlobalXC0_0
-                LSR     Screen+1
-                ROR     A
-                LSR     Screen+1
-                ROR     A
-                LSR     A
-                LSR     A
-                ORA     MaskORA
-                STA     OffScreen
-                LDA     HighGlobalY_plus1_carry
-                LSR     A
-                ROR     OffScreen
-                LSR     A
-                ROR     OffScreen
-                LDA     #0
-                STA     Screen
-                STA     AttributeScr0
-                STA     AttributeScr1
-                LDA     Screen+1
-                CLC
-                ADC     #$60 ; '`'
-                STA     Screen+1
-                ADC     #2
-                STA     AttributeScr0+1
-                ADC     #2
-                STA     AttributeScr1+1
-                RTS
+    lda HighGlobalX_plus2
+    and #7
+    sta Screen+1
+    lda LowGlobalXC0_0
+    lsr Screen+1
+    ror A
+    lsr Screen+1
+    ror A
+    lsr A
+    lsr A
+    ora MaskORA
+    sta OffScreen
+    lda HighGlobalY_plus1_carry
+    lsr A
+    ror OffScreen
+    lsr A
+    ror OffScreen
+    lda #0
+    sta Screen
+    sta AttributeScr0
+    sta AttributeScr1
+    lda Screen+1
+    clc
+    adc #$60
+    sta Screen+1
+    adc #2
+    sta AttributeScr0+1
+    adc #2
+    sta AttributeScr1+1
+    rts
 ; End of function get_screen_pointers
 
 
@@ -3733,12 +3669,12 @@ get_screen_pointers:
 
 
 get_map_sector_id:
-                JSR     load_data_bank  ; load data bank and get p4TileID
-                LDY     #0
-                LDA     (p4TileID),Y    ; BANK03:BC08
-                AND     #$3F ; '?'
-                STA     MapSectorID
-                RTS
+    jsr load_data_bank  ; load data bank and get p4TileID
+    ldy #0
+    lda (p4TileID),Y    ; BANK03:BC08
+    and #$3F
+    sta MapSectorID
+    rts
 ; End of function get_map_sector_id
 
 
@@ -3748,32 +3684,29 @@ get_map_sector_id:
 load_data_bank:
     .importzp DataBank
 
-                LDA     HighGlobalY_plus1_carry
-                LSR     A
-                LSR     A
-                LSR     A
-                LSR     A
-                AND     #$E
-                STA     DataBank
-                ORA     #1
-                LDX     #7
-                JSR     mmc3_bank_set   ; Set memory bank
-                                        ; A - bank number
-                                        ; X - mode
-                LDA     HighGlobalY_plus1_carry
-                LSR     A
-                LSR     A
-                AND     #7
-                STA     p4TileID+1
-                LDA     HighGlobalX_plus2
-                AND     #$FC
-                CLC
-                STA     p4TileID
-                LDA     p4TileID+1
-                ADC     #$B8
-                STA     p4TileID+1      ; BANK03:BC08, BANK03:BB08
-                                        ; BANK03:BE08
-                RTS
+    lda HighGlobalY_plus1_carry
+    lsr A
+    lsr A
+    lsr A
+    lsr A
+    and #$E
+    sta DataBank
+    ora #1
+    ldx #7
+    jsr mmc3_bank_set   ; Set memory bank A - bank number, X - mode
+    lda HighGlobalY_plus1_carry
+    lsr A
+    lsr A
+    and #7
+    sta p4TileID+1
+    lda HighGlobalX_plus2
+    and #$FC
+    clc
+    sta p4TileID
+    lda p4TileID+1
+    adc #$B8
+    sta p4TileID+1
+    rts
 ; End of function load_data_bank
 
 
@@ -3783,89 +3716,79 @@ load_data_bank:
 load_map_tile:
     .importzp MsgNumber
 
-                CLC
-                LDA     HighGlobalX
-                ADC     #2
-                STA     HighGlobalX_plus2
-                CLC
-                LDA     LowGlobalYC0
-                ADC     #$C0
-                STA     MaskORA
-                LDA     HighGlobalY
-                ADC     #1
-                STA     HighGlobalY_plus1_carry
-                JSR     load_data_bank
-                LDY     #0
-                LDA     (p4TileID),Y    ; BANK03:BC08
-                                        ; BANK03:BE08
-                AND     #$3F ; '?'
-                CMP     MapSectorID
-                BEQ     loc_D5F3
-                LDA     chr_bank_color_0C ; $1A
-                LDX     #3
-                JSR     mmc3_bank_set   ; Set memory bank
-                                        ; A - bank number
-                                        ; X - mode
-                STA     BankNum1
-                AND     #3
-                STA     BankNum1Mask3
-                RTS
+    clc
+    lda HighGlobalX
+    adc #2
+    sta HighGlobalX_plus2
+    clc
+    lda LowGlobalYC0
+    adc #$C0
+    sta MaskORA
+    lda HighGlobalY
+    adc #1
+    sta HighGlobalY_plus1_carry
+    jsr load_data_bank
+    ldy #0
+    lda (p4TileID),Y
+    and #$3F
+    cmp MapSectorID
+    beq loc_D5F3
+    lda Color_0C ; $1A
+    ldx #3
+    jsr mmc3_bank_set   ; Set memory bank A - bank number, X - mode
+    sta BankNum1
+    and #3
+    sta BankNum1Mask3
+    rts
 ; ---------------------------------------------------------------------------
 
 loc_D5F3:
-                LDA     byte_23
-                BEQ     loc_D5FF
-                BPL     set_PPU1800
-                AND     #$7F
-                STA     byte_23
-                BPL     set_PPU0000
+    lda byte_23
+    beq loc_D5FF
+    bpl set_PPU1800
+    and #$7F
+    sta byte_23
+    bpl set_PPU0000
 
 loc_D5FF:
-                LDY     #1
-                LDA     (p4TileID),Y    ; BANK03:BC09
-                AND     #$3F
-                STA     MsgNumber
-                TAX
-                LDA     CHRTable_0,X    ; CHR personage table
-                BEQ     set_PPU0000
+    ldy #1
+    lda (p4TileID),Y    ; BANK03:BC09
+    and #$3F
+    sta MsgNumber
+    tax
+    lda CHRTable_0,X    ; CHR personage table
+    beq set_PPU0000
 
 set_PPU1800:
-                LDX     #1
-                JSR     mmc3_bank_set   ; Set memory bank
-                                        ; A - bank number
-                                        ; X - mode
+    ldx #1
+    jsr mmc3_bank_set   ; Set memory bank A - bank number, X - mode
 
 set_PPU0000:
-                LDY     #2
-                LDA     (p4TileID),Y
-                AND     #$3F ; '?'
-                LDX     #2
-                JSR     mmc3_bank_set   ; Set memory bank
-                                        ; A - bank number
-                                        ; X - mode
-                STA     BankNum0
-                AND     #3
-                STA     BankNum0Mask3
-                INY
-                LDA     (p4TileID),Y
-                AND     #$3F ; '?'
-                LDX     #3
-                JSR     mmc3_bank_set   ; Set memory bank
-                                        ; A - bank number
-                                        ; X - mode
-                STA     BankNum1
-                AND     #3
-                STA     BankNum1Mask3
-                RTS
+    ldy #2
+    lda (p4TileID),Y
+    and #$3F
+    ldx #2
+    jsr mmc3_bank_set   ; Set memory bank A - bank number, X - mode
+    sta BankNum0
+    and #3
+    sta BankNum0Mask3
+    iny
+    lda (p4TileID),Y
+    and #$3F
+    ldx #3
+    jsr mmc3_bank_set   ; Set memory bank A - bank number, X - mode
+    sta BankNum1
+    and #3
+    sta BankNum1Mask3
+    rts
 ; End of function load_map_tile
 
 ; ---------------------------------------------------------------------------
-CHRTable_0:     .byte 0, $68, $62, $62, $62, $62, $64, $62, $74, $64, $6A
-                .byte $62, $66, $6C, $62, 0, 0, 0, 0, 0, $66, 0, $6A, $66 ; CHR personage table
-                .byte $62, $68, $64, $68, $6E, $66, $66, $66, $62, $62
-                .byte $62, $66, $64, $6E, $62, $64, $66, $74, $6C, $66
-                .byte 0, 0, $68, $6C, $72, 0, $66, 0, 0, 0, $6A, 0, $6C
-                .byte $6E, $6C, $6E, $6C, $6E, $6E, 0
+CHRTable_0:
+    .byte   0, $68, $62, $62, $62, $62, $64, $62, $74, $64, $6A, $62, $66, $6C, $62,   0 ; CHR personage table
+    .byte   0,   0,   0,   0, $66,   0, $6A, $66, $62, $68, $64, $68, $6E, $66, $66, $66
+    .byte $62, $62, $62, $66, $64, $6E, $62, $64, $66, $74, $6C, $66,   0,   0, $68, $6C
+    .byte $72,   0, $66,   0,   0,   0, $6A,   0, $6C, $6E, $6C, $6E, $6C, $6E, $6E,   0
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -3874,136 +3797,136 @@ sub_D674:
     .export sub_D674
     .importzp LowGlobalY3F, Dist, MsgOffset
 
-                LDA     byte_20
-                BPL     loc_D697
-                AND     #$F
-                STA     LowGlobalY3F
-                LDA     $6784
-                AND     #$C0
-                STA     LowGlobalXC0_0
-                LDA     $6785
-                STA     HighGlobalX_plus2
-                LDA     $6786
-                AND     #$C0
-                STA     MaskORA
-                LDA     $6787
-                STA     HighGlobalY_plus1_carry
-                JMP     loc_D6CB
+    lda byte_20
+    bpl loc_D697
+    and #$F
+    sta LowGlobalY3F
+    lda $6784
+    and #$C0
+    sta LowGlobalXC0_0
+    lda $6785
+    sta HighGlobalX_plus2
+    lda $6786
+    and #$C0
+    sta MaskORA
+    lda $6787
+    sta HighGlobalY_plus1_carry
+    jmp loc_D6CB
 ; ---------------------------------------------------------------------------
 
 loc_D697:
-                LDA     $7406           ; CurrentPlayer.PureSave.GlobalY
-                AND     #$3F ; '?'
-                STA     LowGlobalY3F
-                CLC
-                LDA     $7404           ; CurrentPlayer.PureSave.GlobalX
-                AND     #$C0
-                STA     LowGlobalXC0
-                ADC     #0
-                STA     LowGlobalXC0_0
-                LDA     $7405           ; CurrentPlayer.PureSave.GlobalX+1
-                STA     HighGlobalX
-                ADC     #2
-                STA     HighGlobalX_plus2
-                CLC
-                LDA     $7406           ; CurrentPlayer.PureSave.GlobalY
-                AND     #$C0
-                STA     LowGlobalYC0
-                ADC     #$C0
-                STA     MaskORA
-                LDA     $7407           ; CurrentPlayer.PureSave.GlobalY+1
-                STA     HighGlobalY
-                ADC     #1
-                STA     HighGlobalY_plus1_carry
-                JSR     get_map_sector_id
+    lda CurrentGame + PURE_SAVE::GlobalY    ; $7406
+    and #$3F
+    sta LowGlobalY3F
+    clc
+    lda CurrentGame + PURE_SAVE::GlobalX    ; $7404
+    and #$C0
+    sta LowGlobalXC0
+    adc #0
+    sta LowGlobalXC0_0
+    lda CurrentGame + PURE_SAVE::GlobalX+1  ; $7405
+    sta HighGlobalX
+    adc #2
+    sta HighGlobalX_plus2
+    clc
+    lda CurrentGame + PURE_SAVE::GlobalY    ; $7406
+    and #$C0
+    sta LowGlobalYC0
+    adc #$C0
+    sta MaskORA
+    lda CurrentGame + PURE_SAVE::GlobalY+1  ; $7407
+    sta HighGlobalY
+    adc #1
+    sta HighGlobalY_plus1_carry
+    jsr get_map_sector_id
 
 loc_D6CB:
-                JSR     get_screen_pointers ; set base address Screen $6000 or $6100
-                                        ; AttributeScr0 $6200 or $6300
-                                        ; AttributeScr1 $6400 or $6500
-                                        ; OffScreen - offset
-                JSR     get_characters_buffer
-                JSR     sram_write_enable
-                LDA     byte_23
-                BNE     loc_D71B
-                LDX     #0
+    jsr get_screen_pointers ; set base address Screen $6000 or $6100
+                        ; AttributeScr0 $6200 or $6300
+                        ; AttributeScr1 $6400 or $6500
+                        ; OffScreen - offset
+    jsr get_characters_buffer
+    jsr sram_write_enable
+    lda byte_23
+    bne loc_D71B
+    ldx #0
 
 loc_D6DA:
-                LDA     $7408,X         ; CurrentPlayer.PureSave.CharactersNum,X
-                BEQ     loc_D6F2
-                JSR     sub_D7DF
-                LDY     #$19
-                LDA     #$88
-                STA     (Dist),Y
-                LDA     #$C
-                CPX     #0
-                BNE     loc_D6F2
-                LDY     #$1C
-                LDA     (MsgOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
+    lda CurrentGame + PURE_SAVE::CharactersNum,X    ; $7408,X
+    beq loc_D6F2
+    jsr sub_D7DF
+    ldy #$19
+    lda #$88
+    sta (Dist),Y
+    lda #$C
+    cpx #0
+    bne loc_D6F2
+    ldy #CHARACTER::field_1C     ; #$1C
+    lda (MsgOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
 
 loc_D6F2:
-                LDY     #0
-                STA     (Dist),Y
-                LDA     byte_20
-                AND     #$C0
-                BEQ     loc_D73B
-                JSR     get_dist_addr
-                INX
-                CPX     #4
-                BCC     loc_D6DA
+    ldy #0
+    sta (Dist),Y
+    lda byte_20
+    and #$C0
+    beq loc_D73B
+    jsr get_dist_addr
+    inx
+    cpx #4
+    bcc loc_D6DA
 
 loc_D704:
-                LDA     $7404           ; CurrentGame + GAME_SAVE::PureSave.GlobalX
-                AND     #$3F ; '?'
-                BEQ     loc_D70E
-                JSR     wait_change_music
+    lda CurrentGame + PURE_SAVE::GlobalX    ; $7404
+    and #$3F
+    beq loc_D70E
+    jsr wait_change_music
 
 loc_D70E:
-                LDA     #0
-                STA     byte_20
-                LDA     byte_22
-                AND     #$CF
-                STA     byte_22
-                JMP     sram_read_enable
+    lda #0
+    sta byte_20
+    lda byte_22
+    and #$CF
+    sta byte_22
+    jmp sram_read_enable
 ; ---------------------------------------------------------------------------
 
 loc_D71B:
-                JSR     loc_D7E2
-                LDY     #0
-                LDA     (Dist),Y
-                AND     #$3F ; '?'
-                CMP     #$D
-                BNE     loc_D738
-                JSR     sub_D884
-                LDY     #$19
-                LDA     LowGlobalY3F
-                STA     (Dist),Y
-                EOR     #4
-                STA     LowGlobalY3F
-                JSR     loc_D7E2
+    jsr loc_D7E2
+    ldy #0
+    lda (Dist),Y
+    and #$3F
+    cmp #$D
+    bne loc_D738
+    jsr sub_D884
+    ldy #$19
+    lda LowGlobalY3F
+    sta (Dist),Y
+    eor #4
+    sta LowGlobalY3F
+    jsr loc_D7E2
 
 loc_D738:
-                JMP     loc_D704
+    jmp loc_D704
 ; ---------------------------------------------------------------------------
 
 loc_D73B:
-                LDA     $7409,X         ; CurrentPlayer.PureSave.CharactersNum+1,X
-                BEQ     loc_D745
-                JSR     sub_D768
-                BCC     loc_D751
+    lda CurrentGame + PURE_SAVE::CharactersNum+1,X  ; $7409,X
+    beq loc_D745
+    jsr sub_D768
+    bcc loc_D751
 
 loc_D745:
-                JSR     get_dist_addr
-                JSR     sram_write_enable
-                LDY     #0
-                LDA     #0
-                STA     (Dist),Y
+    jsr get_dist_addr
+    jsr sram_write_enable
+    ldy #0
+    lda #0
+    sta (Dist),Y
 
 loc_D751:
-                INX
-                CPX     #3
-                BCC     loc_D73B
-                JMP     loc_D704
+    inx
+    cpx #3
+    bcc loc_D73B
+    jmp loc_D704
 ; End of function sub_D674
 
 
@@ -4017,7 +3940,7 @@ sub_D759:
                 LDX     #0
 
 loc_D75C:
-                LDA     $7409,X
+                LDA     CurrentGame + PURE_SAVE::CharactersNum+1,X  ; $7409,X
                 BEQ     loc_D769
                 INX
                 CPX     #3
@@ -4042,7 +3965,7 @@ loc_D769:
                 PLA
                 TAX
                 PLA
-                STA     $7409,X         ; CurrentPlayer.PureSave.CharactersNum+1,X
+                STA     CurrentGame + PURE_SAVE::CharactersNum+1,X  ; $7409,X
                 JSR     sub_D7DF
                 LDY     #$19
                 LDA     LowGlobalY3F
@@ -4064,7 +3987,7 @@ sub_D78D:
                 LDX     #0
 
 loc_D78F:
-                CMP     $7408,X
+                CMP     CurrentGame + PURE_SAVE::CharactersNum,X    ; $7408,X
                 BEQ     loc_D79A
                 INX
                 CPX     #4
@@ -4078,9 +4001,9 @@ loc_D79A:
 loc_D79D:
                 CPX     #3
                 BCS     loc_D7AC
-                LDA     $7409,X
+                LDA     CurrentGame + PURE_SAVE::CharactersNum+1,X  ; $7409,X
                 BEQ     loc_D7AE
-                STA     $7408,X
+                STA     CurrentGame + PURE_SAVE::CharactersNum,X    ; $7408,X
                 INX
                 BCC     loc_D79D
 
@@ -4088,7 +4011,7 @@ loc_D7AC:
                 LDA     #0
 
 loc_D7AE:
-                STA     $7408,X
+                STA     CurrentGame + PURE_SAVE::CharactersNum,X    ; $7408,X
                 TXA
                 JSR     sub_D86C
                 JSR     sub_DFBF
@@ -4096,7 +4019,7 @@ loc_D7AE:
                 LDX     #0
 
 loc_D7BD:
-                LDA     $7408,X
+                LDA     CurrentGame + PURE_SAVE::CharactersNum,X    ; $7408,X
                 BEQ     loc_D7CF
                 JSR     sub_D813
                 LDA     #$C
@@ -4121,36 +4044,36 @@ loc_D7CF:
 
 
 sub_D7DF:
-                JSR     sub_D813
+    jsr sub_D813
 
 loc_D7E2:
-                LDY     #4
-                LDA     LowGlobalXC0_0
-                STA     (Dist),Y
-                INY
-                LDA     HighGlobalX_plus2
-                STA     (Dist),Y
-                LDY     #6
-                LDA     MaskORA
-                STA     (Dist),Y
-                INY
-                LDA     HighGlobalY_plus1_carry
-                STA     (Dist),Y
-                LDY     #$11
-                LDA     OffScreen
-                STA     (Dist),Y
-                INY
-                LDA     AttributeScr1
-                STA     (Dist),Y
-                INY
-                LDA     AttributeScr1+1
-                STA     (Dist),Y
-                LDA     LowGlobalY3F
-                LDY     #$15
-                STA     (Dist),Y
-                LDY     #$1D
-                STA     (Dist),Y
-                RTS
+    ldy #4
+    lda LowGlobalXC0_0
+    sta (Dist),Y
+    iny
+    lda HighGlobalX_plus2
+    sta (Dist),Y
+    ldy #6
+    lda MaskORA
+    sta (Dist),Y
+    iny
+    lda HighGlobalY_plus1_carry
+    sta (Dist),Y
+    ldy #$11
+    lda OffScreen
+    sta (Dist),Y
+    iny
+    lda AttributeScr1
+    sta (Dist),Y
+    iny
+    lda AttributeScr1+1
+    sta (Dist),Y
+    lda LowGlobalY3F
+    ldy #$15
+    sta (Dist),Y
+    ldy #$1D
+    sta (Dist),Y
+    rts
 ; End of function sub_D7DF
 
 
@@ -4158,59 +4081,59 @@ loc_D7E2:
 
 
 sub_D813:
-                LDY     #2
-                AND     #7
-                STA     MsgOffset+1     ; BANK10:8000, BANK11:8000, BANK12:8000
-                LDA     #0
-                LSR     MsgOffset+1     ; BANK10:8000, BANK11:8000, BANK12:8000
-                ROR     A
-                LSR     MsgOffset+1     ; BANK10:8000, BANK11:8000, BANK12:8000
-                ROR     A
-                STA     MsgOffset       ; BANK10:8000, BANK11:8000, BANK12:8000
-                STA     (Dist),Y
-                INY
-                LDA     MsgOffset+1     ; BANK10:8000, BANK11:8000, BANK12:8000
-                ADC     #$74 ; 't'
-                STA     MsgOffset+1     ; BANK10:8000, BANK11:8000, BANK12:8000
-                STA     (Dist),Y
-                LDY     #$1D
-                LDA     (MsgOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
-                LDY     #$14
-                PHA
-                AND     #$F0
-                STA     (Dist),Y
-                LDY     #8
-                PLA
-                AND     #$F
-                STA     (Dist),Y
+    ldy #2
+    and #7
+    sta MsgOffset+1     ; BANK10:8000, BANK11:8000, BANK12:8000
+    lda #<CurrentGame   ; #0
+    lsr MsgOffset+1     ; BANK10:8000, BANK11:8000, BANK12:8000
+    ror A
+    lsr MsgOffset+1     ; BANK10:8000, BANK11:8000, BANK12:8000
+    ror A
+    sta MsgOffset       ; BANK10:8000, BANK11:8000, BANK12:8000
+    sta (Dist),Y
+    iny
+    lda MsgOffset+1     ; BANK10:8000, BANK11:8000, BANK12:8000
+    adc #>CurrentGame   ; #$74
+    sta MsgOffset+1     ; BANK10:8000, BANK11:8000, BANK12:8000
+    sta (Dist),Y
+    ldy #CHARACTER::field_1D    ; #$1D
+    lda (MsgOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
+    ldy #$14
+    pha
+    and #$F0
+    sta (Dist),Y
+    ldy #8
+    pla
+    and #$F
+    sta (Dist),Y
 
 loc_D840:
-                LDY     #$1E
-                LDA     (MsgOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
-                LDY     #$16
-                STA     (Dist),Y
-                LDY     #$1F
-                LDA     (MsgOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
-                LDY     #$17
-                STA     (Dist),Y
-                CLC
-                LDY     #1
-                LDA     (MsgOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
-                BPL     locret_D86B
-                AND     #$80
-                STA     (MsgOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
-                LDY     #$16
-                LDA     (Dist),Y
-                ADC     #$A0
-                STA     (Dist),Y
-                INY
-                LDA     (Dist),Y
-                ADC     #0
-                STA     (Dist),Y
-                SEC
+    ldy #CHARACTER::field_1E    ; #$1E
+    lda (MsgOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
+    ldy #$16
+    sta (Dist),Y
+    ldy #CHARACTER::field_1E+1  ; #$1F
+    lda (MsgOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
+    ldy #$17
+    sta (Dist),Y
+    clc
+    ldy #CHARACTER::field_1    ; #1
+    lda (MsgOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
+    bpl locret_D86B
+    and #$80
+    sta (MsgOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
+    ldy #$16
+    lda (Dist),Y
+    adc #$A0
+    sta (Dist),Y
+    iny
+    lda (Dist),Y
+    adc #0
+    sta (Dist),Y
+    sec
 
 locret_D86B:
-                RTS
+    rts
 ; End of function sub_D813
 
 
@@ -4312,13 +4235,13 @@ sub_D8D3:
     .export sub_D8D3
     .importzp ItemCount, SaveNum, byte_47
 
-                LDA     $7581           ; CurrentGame + GAME_SAVE::PureSave.field_178+9
+                LDA     CurrentGame + PURE_SAVE::field_181      ; $7581
                 BPL     loc_D8DD
                 LDA     #6
                 JSR     sub_D78D
 
 loc_D8DD:
-                LDA     $75C1           ; CurrentGame + GAME_SAVE::PureSave.field_178+$49
+                LDA     CurrentGame + PURE_SAVE::field_1C1      ; $75C1
                 BPL     loc_D8E7
                 LDA     #7
                 JSR     sub_D78D
@@ -4328,7 +4251,7 @@ loc_D8E7:
                 STX     ItemCount
 
 loc_D8EB:
-                JSR     sub_D9F1
+                JSR     get_character_num
                 BCS     loc_D906
                 TXA
                 JSR     sub_D8BA
@@ -4355,21 +4278,21 @@ loc_D90E:
                 JSR     sub_D8C9
                 JSR     sram_write_enable
                 LDA     #0
-                STA     $7441           ; CurrentGame + GAME_SAVE::PureSave.Characters.msg_list
-                STA     $7456           ; CurrentGame + GAME_SAVE::PureSave.Characters.PP
-                STA     $7457           ; CurrentGame + GAME_SAVE::PureSave.Characters.field_17
-                LDA     $7443           ; CurrentGame + GAME_SAVE::PureSave.Characters.msg_list+2
-                STA     $7454           ; CurrentGame + GAME_SAVE::PureSave.Characters.Health
-                LDA     $7444           ; CurrentGame + GAME_SAVE::PureSave.Characters.msg_list+3
-                STA     $7455           ; CurrentGame + GAME_SAVE::PureSave.Characters.field_15
-                LDA     $7410           ; CurrentGame + GAME_SAVE::PureSave.cash
-                LSR     $7411           ; CurrentGame + GAME_SAVE::PureSave.cash+1
+                STA     CurrentGame + PURE_SAVE::Boy1 + CHARACTER::field_1      ; $7441
+                STA     CurrentGame + PURE_SAVE::Boy1 + CHARACTER::PP           ; $7456
+                STA     CurrentGame + PURE_SAVE::Boy1 + CHARACTER::PP+1         ; $7457
+                LDA     CurrentGame + PURE_SAVE::Boy1 + CHARACTER::MaxHealth    ; $7443
+                STA     CurrentGame + PURE_SAVE::Boy1 + CHARACTER::Health       ; $7454
+                LDA     CurrentGame + PURE_SAVE::Boy1 + CHARACTER::MaxHealth+1  ; $7444
+                STA     CurrentGame + PURE_SAVE::Boy1 + CHARACTER::Health+1     ; $7455
+                LDA     CurrentGame + PURE_SAVE::Cash                           ; $7410
+                LSR     CurrentGame + PURE_SAVE::Cash + 1                       ; $7411
                 ROR     A
                 ADC     #0
-                STA     $7410           ; CurrentGame + GAME_SAVE::PureSave.cash
-                LDA     $7411           ; CurrentGame + GAME_SAVE::PureSave.cash+1
+                STA     CurrentGame + PURE_SAVE::Cash                           ; $7410
+                LDA     CurrentGame + PURE_SAVE::Cash + 1                       ; $7411
                 ADC     #0
-                STA     $7411           ; CurrentGame + GAME_SAVE::PureSave.cash+1
+                STA     CurrentGame + PURE_SAVE::Cash + 1                       ; $7411
                 LDA     #1
                 STA     ItemCount
                 LDA     #0
@@ -4381,11 +4304,11 @@ loc_D90E:
 
 loc_D950:
                 LDA     byte_D96F,Y
-                STA     $7404,X
+                STA     CurrentGame + PURE_SAVE::GlobalX,X  ; $7404,X
                 DEY
                 DEX
                 BPL     loc_D950
-                LDA     $7406           ; CurrentGame + GAME_SAVE::PureSave.GlobalY
+                LDA     CurrentGame + PURE_SAVE::GlobalY    ; $7406
                 AND     #$F
                 ORA     #$20
                 STA     byte_20
@@ -4410,7 +4333,7 @@ sub_D977:
                 BEQ     locret_D997
 
 loc_D97D:
-                LDA     $7408           ; CurrentGame + GAME_SAVE::PureSave.CharactersNum
+                LDA     CurrentGame + PURE_SAVE::CharactersNum  ; $7408
                 CMP     #1
                 BEQ     loc_D98C
                 JSR     sub_D998
@@ -4440,12 +4363,12 @@ sub_D998:
                 STX     ItemCount
 
 loc_D99F:
-                LDA     $7408,X
+                LDA     CurrentGame + PURE_SAVE::CharactersNum,X    ; $7408,X
                 PHA
-                LDA     $7409,X
-                STA     $7408,X
+                LDA     CurrentGame + PURE_SAVE::CharactersNum+1,X  ; $7409,X
+                STA     CurrentGame + PURE_SAVE::CharactersNum,X    ; $7408,X
                 PLA
-                STA     $7409,X
+                STA     CurrentGame + PURE_SAVE::CharactersNum+1,X  ; $7409,X
                 LDA     #2
                 JSR     sub_D9DE
                 LDA     #3
@@ -4466,7 +4389,7 @@ loc_D9B9:
                 JSR     sub_D9DE
                 CLC
                 LDA     ItemCount
-                ADC     #$20 ; ' '
+                ADC     #$20
                 STA     ItemCount
                 INX
                 CPX     SaveNum
@@ -4495,17 +4418,17 @@ sub_D9DE:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_D9F1:
-    .export sub_D9F1
+get_character_num:
+    .export get_character_num
 
-                SEC
-                LDA     $7408,X         ; CurrentGame + GAME_SAVE::PureSave.CharactersNum,X
-                BEQ     locret_D9F9
-                CMP     #6
+    sec
+    lda CurrentGame + PURE_SAVE::CharactersNum,X    ; $7408,X
+    beq @no_character
+    cmp #6
 
-locret_D9F9:
-                RTS
-; End of function sub_D9F1
+@no_character:
+    rts
+; End of function get_character_num
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -4517,17 +4440,17 @@ sub_D9FA:
                 LDX     #0
 
 loc_D9FC:
-                LDA     $7408,X         ; CurrentGame + GAME_SAVE::PureSave.CharactersNum,X
+                LDA     CurrentGame + PURE_SAVE::CharactersNum,X    ; $7408,X
                 BEQ     loc_DA10
-                JSR     get_sram_pointer ; Input: A -
+                JSR     get_sram_pointer ; Input: A - Character number
                                         ; Output: Pointer (word) = High $74 Low $40 * A
-                LDY     #$2C ; ','
+                LDY     #$2C
 
 loc_DA06:
                 LDA     $73D8,Y
                 STA     (Pointer),Y
                 INY
-                CPY     #$30 ; '0'
+                CPY     #$30
                 BCC     loc_DA06
 
 loc_DA10:
@@ -4547,7 +4470,7 @@ sub_DA16:
                 LDX     #0
 
 loc_DA1E:
-                JSR     sub_D9F1
+                JSR     get_character_num
                 BCS     loc_DA3C
                 TXA
                 JSR     sub_D8BA
@@ -4577,7 +4500,7 @@ loc_DA3C:
 
 sub_DA48:
     .import sub_13BBC3, sub_13BB8C, sub_13A979, sub_17A3F8
-    .importzp byte_28, byte_29, word_2A, byte_49, byte_4A, byte_4B, CharacterOffset
+    .importzp byte_28, byte_29, Price, byte_49, byte_4A, byte_4B, CharacterOffset
 
                 LDA     ItemCount
                 STA     pTileID
@@ -4606,7 +4529,7 @@ loc_DA61:
                 LDX     #0
 
 loc_DA77:
-                JSR     sub_D9F1
+                JSR     get_character_num
                 BCS     loc_DADD
                 STA     byte_28
                 TXA
@@ -4689,22 +4612,22 @@ loc_DADD:
                 JSR     bank13_A000
                 JSR     sub_13BBC3
                 LDA     #$FF
-                STA     word_2A
-                LDA     word_2A+1
+                STA     Price
+                LDA     Price+1
                 ORA     #$1F
 
 loc_DB0A:
-                ASL     word_2A
+                ASL     Price
                 ASL     A
                 BCC     loc_DB0A
                 JSR     sub_F1ED
-                AND     word_2A
+                AND     Price
                 BNE     loc_DB30
                 JSR     sub_13BB8C
                 LDX     #0
 
 loc_DB1B:
-                JSR     sub_D9F1
+                JSR     get_character_num
                 BCS     loc_DB2B
                 STA     byte_28
                 TXA
@@ -4726,7 +4649,7 @@ loc_DB30:
 loc_DB33:
                 JSR     bank17_A000
                 LDA     #6
-                STA     $7F1
+                STA     byte_7F1
                 LDA     #$8C
                 JMP     sub_17A3F8
 ; End of function sub_DA48
@@ -4771,7 +4694,7 @@ sub_DB6C:
 
                 LDY     #$10
                 LDA     (MsgOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
-                CMP     #$63 ; 'c'
+                CMP     #$63
                 BCC     loc_DB75
                 RTS
 ; ---------------------------------------------------------------------------
@@ -4824,7 +4747,7 @@ loc_DBBC:
                 TYA
                 PHA
                 CLC
-                ADC     #$7B ; '{'
+                ADC     #$7B
                 JSR     sub_17A3F8
                 PLA
                 TAY
@@ -4877,24 +4800,24 @@ loc_DC0F:
 sub_DC11:
     .importzp byte_4C, byte_4D
 
-                CLC
-                LDA     byte_4C
-                ADC     $7400,X
-                STA     $7400,X
-                LDA     byte_4D
-                ADC     $7401,X
-                STA     $7401,X
-                LDA     #0
-                ADC     $7402,X
-                STA     $7402,X
-                BCC     locret_DC37
-                LDA     #$FF
-                STA     $7400,X
-                STA     $7401,X
-                STA     $7402,X
+    clc
+    lda byte_4C
+    adc CurrentGame + PURE_SAVE::field_0,X          ; $7400,X
+    sta CurrentGame + PURE_SAVE::field_0,X          ; $7400,X
+    lda byte_4D
+    adc CurrentGame + PURE_SAVE::field_1,X          ; $7401,X
+    sta CurrentGame + PURE_SAVE::field_1,X          ; $7401,X
+    lda #0
+    adc CurrentGame + PURE_SAVE::GameNumber,X       ; $7402,X
+    sta CurrentGame + PURE_SAVE::GameNumber,X       ; $7402,X
+    bcc locret_DC37
+    lda #$FF
+    sta CurrentGame + PURE_SAVE::field_0,X          ; $7400,X
+    sta CurrentGame + PURE_SAVE::field_1,X          ; $7401,X
+    sta CurrentGame + PURE_SAVE::GameNumber,X       ; $7402,X
 
 locret_DC37:
-                RTS
+    rts
 ; End of function sub_DC11
 
 
@@ -4973,8 +4896,7 @@ loc_DC77:
                 LSR     A
                 LSR     A
                 LSR     A
-                JSR     multiply        ; Input: A, X - multipliers
-                                        ; Output: A - result
+                JSR     multiply        ; Input: A, X - multipliers Output: A - result
                 LSR     A
                 LSR     A
                 LSR     A
@@ -5016,7 +4938,7 @@ loc_DC97:
                 ORA     byte_EC5D,X
                 STA     (MsgOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
                 LDA     #9
-                STA     $7F1
+                STA     byte_7F1
                 LDA     #$83
                 JSR     sub_17A3F8
 
@@ -5083,7 +5005,7 @@ loc_DCE8:
                 AND     #7
                 ADC     #$98
                 STA     pDist+1
-                JMP     sub_DE8B
+                JMP     set_bank0_0
 ; End of function sub_DCE6
 
 
@@ -5110,7 +5032,7 @@ loc_DD07:
 loc_DD1D:
                 LDY     #0
                 LDA     (Dist),Y
-                AND     #$3F ; '?'
+                AND     #$3F
                 STA     (Dist),Y
                 JSR     sub_E0F9
                 JSR     sub_DEF9
@@ -5125,14 +5047,12 @@ loc_DD2B:
                 AND     #$C0
                 ORA     CurrentMusic
                 LDX     HighGlobalX
-                STA     $7404           ; CurrentPlayer.PureSave.GlobalX
-                STX     $7405           ; CurrentPlayer.PureSave.GlobalX+1
+                stxa    CurrentGame + PURE_SAVE::GlobalX
                 LDA     LowGlobalYC0
                 AND     #$C0
                 ORA     $6795
                 LDX     HighGlobalY
-                STA     $7406           ; CurrentPlayer.PureSave.GlobalY
-                STX     $7407           ; CurrentPlayer.PureSave.GlobalY+1
+                stxa    CurrentGame + PURE_SAVE::GlobalY
 
 loc_DD54:
                 JMP     sram_read_enable
@@ -5143,13 +5063,11 @@ loc_DD54:
 
 
 get_characters_buffer:
-                LDA     #$80
-                LDX     #$67 ; 'g'      ; SRAM19:6780 6780
-                STA     Dist
-                STX     Dist+1
-                LDX     #$FC
-                STX     SaveNum
-                RTS
+    ldxa #Buffer
+    stxa Dist
+    ldx #$FC
+    stx SaveNum
+    rts
 ; End of function get_characters_buffer
 
 
@@ -5157,14 +5075,14 @@ get_characters_buffer:
 
 
 get_dist_addr:
-                CLC
-                LDA     Dist
-                ADC     #$20 ; ' '
-                STA     Dist
-                LDA     Dist+1
-                ADC     #0
-                STA     Dist+1
-                RTS
+    clc
+    lda Dist
+    adc #$20
+    sta Dist
+    lda Dist+1
+    adc #0
+    sta Dist+1
+    rts
 ; End of function get_dist_addr
 
 
@@ -5172,16 +5090,16 @@ get_dist_addr:
 
 
 sub_DD72:
-                JSR     sub_DE29
-                JSR     sram_write_enable
+    jsr sub_DE29
+    jsr sram_write_enable
 
 @next_record:
-                JSR     get_source
-                JSR     sub_DD88
-                JSR     get_msg_dist_addr
-                DEC     SaveNum
-                BNE     @next_record
-                JMP     sram_read_enable
+    jsr get_source
+    jsr sub_DD88
+    jsr get_msg_dist_addr
+    dec SaveNum
+    bne @next_record
+    jmp sram_read_enable
 ; End of function sub_DD72
 
 
@@ -5191,88 +5109,88 @@ sub_DD72:
 sub_DD88:
     .importzp Source
 
-                LDY     #1
-                LDA     MsgNumber
-                STA     (Dist),Y
-                LDA     ItemCount
-                BNE     @item
+    ldy #1
+    lda MsgNumber
+    sta (Dist),Y
+    lda ItemCount
+    bne @item
 
 @no_msg:
-                LDY     #0
-                STA     (Dist),Y
-                RTS
+    ldy #0
+    sta (Dist),Y
+    rts
 ; ---------------------------------------------------------------------------
 
 @item:
-                LDY     #0
-                LDA     (Source),Y      ; byte_109EAB, byte_109EB3
-                AND     #$3F
-                BEQ     @no_msg
-                JSR     sub_DE13
-                LDY     #2
-                LDA     (Source),Y      ; byte_109EAB, byte_109EB3
-                AND     #$3F
-                LDY     #$15
-                STA     (Dist),Y
-                LDY     #4
-                LDA     (Source),Y      ; byte_109EAB, byte_109EB3
-                LDY     #$16
-                STA     (Dist),Y
-                LDY     #5
-                LDA     (Source),Y      ; byte_109EAB, byte_109EB3
-                LDY     #$17
-                STA     (Dist),Y
-                LDY     #0
-                LDA     (Source),Y      ; byte_109EAB, byte_109EB3
-                AND     #$C0
-                LDY     #4
-                STA     (Dist),Y
-                STA     LowGlobalXC0_0
-                LDY     #1
-                LDA     (Source),Y      ; byte_109EAB, byte_109EB3
-                LDY     #5
-                STA     (Dist),Y
-                STA     HighGlobalX_plus2
-                LDY     #2
-                LDA     (Source),Y      ; byte_109EAB, byte_109EB3
-                AND     #$C0
-                LDY     #6
-                STA     (Dist),Y
-                STA     MaskORA
-                LDY     #3
-                LDA     (Source),Y      ; byte_109EAB, byte_109EB3
-                LDY     #7
-                STA     (Dist),Y
-                STA     HighGlobalY_plus1_carry
-                LDY     #2
-                LDA     Source          ; byte_109EAB, byte_109EB3
-                STA     (Dist),Y
-                INY
-                LDA     Source+1        ; byte_109EAB, byte_109EB3
-                STA     (Dist),Y
-                JSR     get_screen_pointers ; set base address Screen $6000 or $6100
-                                        ; AttributeScr0 $6200 or $6300
-                                        ; AttributeScr1 $6400 or $6500
-                                        ; OffScreen - offset
-                LDY     #$11
-                LDA     OffScreen
-                STA     (Dist),Y
-                INY
-                LDA     AttributeScr1
-                STA     (Dist),Y
-                INY
-                LDA     AttributeScr1+1
-                STA     (Dist),Y
-                LDY     #$18
-                LDX     #8
-                LDA     #0
+    ldy #0
+    lda (Source),Y      ; byte_109EAB, byte_109EB3
+    and #$3F
+    beq @no_msg
+    jsr sub_DE13
+    ldy #2
+    lda (Source),Y      ; byte_109EAB, byte_109EB3
+    and #$3F
+    ldy #$15
+    sta (Dist),Y
+    ldy #4
+    lda (Source),Y      ; byte_109EAB, byte_109EB3
+    ldy #$16
+    sta (Dist),Y
+    ldy #5
+    lda (Source),Y      ; byte_109EAB, byte_109EB3
+    ldy #$17
+    sta (Dist),Y
+    ldy #0
+    lda (Source),Y      ; byte_109EAB, byte_109EB3
+    and #$C0
+    ldy #4
+    sta (Dist),Y
+    sta LowGlobalXC0_0
+    ldy #1
+    lda (Source),Y      ; byte_109EAB, byte_109EB3
+    ldy #5
+    sta (Dist),Y
+    sta HighGlobalX_plus2
+    ldy #2
+    lda (Source),Y      ; byte_109EAB, byte_109EB3
+    and #$C0
+    ldy #6
+    sta (Dist),Y
+    sta MaskORA
+    ldy #3
+    lda (Source),Y      ; byte_109EAB, byte_109EB3
+    ldy #7
+    sta (Dist),Y
+    sta HighGlobalY_plus1_carry
+    ldy #2
+    lda Source          ; byte_109EAB, byte_109EB3
+    sta (Dist),Y
+    iny
+    lda Source+1        ; byte_109EAB, byte_109EB3
+    sta (Dist),Y
+    jsr get_screen_pointers ; set base address Screen $6000 or $6100
+                        ; AttributeScr0 $6200 or $6300
+                        ; AttributeScr1 $6400 or $6500
+                        ; OffScreen - offset
+    ldy #$11
+    lda OffScreen
+    sta (Dist),Y
+    iny
+    lda AttributeScr1
+    sta (Dist),Y
+    iny
+    lda AttributeScr1+1
+    sta (Dist),Y
+    ldy #$18
+    ldx #8
+    lda #0
 
 @clear:
-                STA     (Dist),Y
-                INY
-                DEX
-                BNE     @clear
-                RTS
+    sta (Dist),Y
+    iny
+    dex
+    bne @clear
+    rts
 ; End of function sub_DD88
 
 
@@ -5282,18 +5200,18 @@ sub_DD88:
 sub_DE13:
     .export sub_DE13
 
-                LDY     #0
-                STA     (Dist),Y
-                ASL     A
-                ASL     A
-                TAX
-                LDY     #8
-                LDA     $E107,X             ; stru_E105.value,X
-                STA     (Dist),Y
-                LDY     #$14
-                LDA     $E108,X             ; stru_E105.value+1,X
-                STA     (Dist),Y
-                RTS
+    ldy #0
+    sta (Dist),Y
+    asl A
+    asl A
+    tax
+    ldy #8
+    lda $E107,X             ; stru_E105.value,X
+    sta (Dist),Y
+    ldy #$14
+    lda $E108,X             ; stru_E105.value+1,X
+    sta (Dist),Y
+    rts
 ; End of function sub_DE13
 
 
@@ -5301,25 +5219,25 @@ sub_DE13:
 
 
 sub_DE29:
-                LDA     MsgNumber
-                JSR     set_msg_bank
-                ASL     A
-                TAX
-                LDA     $8000,X    ; BANK10:8000, BANK11:8000, BANK12:8000
-                STA     MsgOffset       ; BANK10:8000, BANK11:8000, BANK12:8000
-                LDA     $8000+1,X  ; 0x1A records
-                STA     MsgOffset+1     ; BANK10:8000, BANK11:8000, BANK12:8000
-                LDA     #2
-                STA     ItemCount
+    lda MsgNumber
+    jsr set_msg_bank
+    asl A
+    tax
+    lda $8000,X     ; BANK10:8000, BANK11:8000, BANK12:8000
+    sta MsgOffset   ; BANK10:8000, BANK11:8000, BANK12:8000
+    lda $8000+1,X   ; 0x1A records
+    sta MsgOffset+1 ; BANK10:8000, BANK11:8000, BANK12:8000
+    lda #2
+    sta ItemCount
 
 loc_DE3E:
-                LDA     #0
-                LDX     #$68 ; 'h'      ; SRAM19:6800
-                STA     Dist
-                STX     Dist+1
-                LDX     #$28 ; '('
-                STX     SaveNum
-                RTS
+    lda #0
+    ldx #$68        ; SRAM19:6800
+    sta Dist
+    stx Dist+1
+    ldx #$28
+    stx SaveNum
+    rts
 ; End of function sub_DE29
 
 
@@ -5327,19 +5245,19 @@ loc_DE3E:
 
 
 get_source:
-                LDY     #1
-                LDA     (MsgOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
-                BEQ     @last_record
-                STA     Source+1        ; byte_109EAB, byte_109EB3
-                DEY
-                LDA     (MsgOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
-                STA     Source          ; byte_109EAB, byte_109EB3
-                RTS
+    ldy #1
+    lda (MsgOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
+    beq @last_record
+    sta Source+1        ; byte_109EAB, byte_109EB3
+    dey
+    lda (MsgOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
+    sta Source          ; byte_109EAB, byte_109EB3
+    rts
 ; ---------------------------------------------------------------------------
 
 @last_record:
-                STA     ItemCount
-                RTS
+    sta ItemCount
+    rts
 ; End of function get_source
 
 
@@ -5347,14 +5265,14 @@ get_source:
 
 
 get_msg_dist_addr:
-                CLC
-                LDA     MsgOffset       ; BANK10:8000, BANK11:8000, BANK12:8000
-                ADC     ItemCount
-                STA     MsgOffset       ; BANK10:8000, BANK11:8000, BANK12:8000
-                LDA     MsgOffset+1     ; BANK10:8000, BANK11:8000, BANK12:8000
-                ADC     #0
-                STA     MsgOffset+1     ; BANK10:8000, BANK11:8000, BANK12:8000
-                JMP     get_dist_addr
+    clc
+    lda MsgOffset       ; BANK10:8000, BANK11:8000, BANK12:8000
+    adc ItemCount
+    sta MsgOffset       ; BANK10:8000, BANK11:8000, BANK12:8000
+    lda MsgOffset+1     ; BANK10:8000, BANK11:8000, BANK12:8000
+    adc #0
+    sta MsgOffset+1     ; BANK10:8000, BANK11:8000, BANK12:8000
+    jmp get_dist_addr
 ; End of function get_msg_dist_addr
 
 
@@ -5364,118 +5282,113 @@ get_msg_dist_addr:
 set_msg_bank:
     .export set_msg_bank
 
-                CMP     #$2B
-                BCC     @bank11         ; A < 2B; C = 0
-                LDX     #$12            ; BANK12:8000
-                SBC     #$2B            ; A -= 2B + C
-                                        ; get the index of the text in the memory bank
-                BCS     @set_bank       ; A > 2B
+    cmp #$2B
+    bcc @bank11         ; A < 2B; C = 0
+    ldx #$12            ; BANK12:8000
+    sbc #$2B            ; A -= 2B + C get the index of the text in the memory bank
+    bcs @set_bank       ; A > 2B
 
 @bank11:
-                CMP     #$1A
-                BCC     @bank10         ; A < 1A; C = 0
-                LDX     #$11            ; BANK $11 $8000
-                SBC     #$1A            ; get the index of the text in the memory bank
-                BCS     @set_bank
+    cmp #$1A
+    bcc @bank10         ; A < 1A; C = 0
+    ldx #$11            ; BANK $11 $8000
+    sbc #$1A            ; get the index of the text in the memory bank
+    bcs @set_bank
 
 @bank10:
-                LDX     #$10            ; BANK10:8000
+    ldx #$10            ; BANK10:8000
 
-@set_bank:                              ; set_msg_bank+12↑j
-                PHA                     ; save text index into the stack
-                TXA
-                LDX     #6
-                JSR     mmc3_bank_set   ; Set memory bank
-                                        ; A - bank number
-                                        ; X - mode
-                PLA
-                RTS
+@set_bank:
+    pha                 ; save text index into the stack
+    txa
+    ldx #6
+    jsr mmc3_bank_set   ; Set memory bank A - bank number, X - mode
+    pla
+    rts
 ; End of function set_msg_bank
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_DE8B:
-    .export sub_DE8B
+set_bank0_0:
+    .export set_bank0_0
 
-                LDX     #6
-                LDA     #0
-                JMP     mmc3_bank_set   ; Set memory bank
-; End of function sub_DE8B              ; A - bank number
-                                        ; X - mode
+    ldx #6
+    lda #0
+    jmp mmc3_bank_set   ; Set memory bank 0
+; End of function set_bank0_0
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_DE92:
-                LDX     #6
-                LDA     #0
-                JMP     mmc3_bank_set   ; Set memory bank
-; End of function sub_DE92              ; A - bank number
-                                        ; X - mode
+set_bank0_1:
+    ldx #6
+    lda #0
+    jmp mmc3_bank_set   ; Set memory bank 0
+; End of function set_bank0_1
 
 ; =============== S U B R O U T I N E =======================================
 
 
 sub_DE99:
-                JSR     sub_DE29
-                JSR     sram_write_enable
+    jsr sub_DE29
+    jsr sram_write_enable
 
 loc_DE9F:
-                JSR     get_source
-                LDY     #1
-                LDA     (Dist),Y
-                CMP     MsgNumber
-                BEQ     loc_DEB9
-                LDY     #0
-                LDA     (Dist),Y
-                ASL     A
-                BEQ     loc_DEB6
-                JSR     sub_E1BE
-                BCS     loc_DECF
+    jsr get_source
+    ldy #1
+    lda (Dist),Y
+    cmp MsgNumber
+    beq loc_DEB9
+    ldy #0
+    lda (Dist),Y
+    asl A
+    beq loc_DEB6
+    jsr sub_E1BE
+    bcs loc_DECF
 
 loc_DEB6:
-                JSR     sub_DD88
+    jsr sub_DD88
 
 loc_DEB9:
-                LDY     #0
-                LDA     (Dist),Y
-                ASL     A
-                BEQ     loc_DED7
-                JSR     sub_E1BE
-                BCS     loc_DECF
-                LDY     #0
-                LDA     (Dist),Y
-                ORA     #$80
-                STA     (Dist),Y
-                BMI     loc_DED7
+    ldy #0
+    lda (Dist),Y
+    asl A
+    beq loc_DED7
+    jsr sub_E1BE
+    bcs loc_DECF
+    ldy #0
+    lda (Dist),Y
+    ora #$80
+    sta (Dist),Y
+    bmi loc_DED7
 
 loc_DECF:
-                LDY     #0
-                LDA     (Dist),Y
-                AND     #$3F ; '?'
-                STA     (Dist),Y
+    ldy #0
+    lda (Dist),Y
+    and #$3F
+    sta (Dist),Y
 
 loc_DED7:
-                JSR     get_msg_dist_addr
-                DEC     SaveNum
-                BNE     loc_DE9F
-                JSR     loc_DE3E
+    jsr get_msg_dist_addr
+    dec SaveNum
+    bne loc_DE9F
+    jsr loc_DE3E
 
 loc_DEE1:
-                LDY     #0
-                LDA     (Dist),Y
-                BEQ     loc_DEEF
-                BMI     loc_DEEF
-                JSR     sub_E0F9
-                JSR     sub_DEF9
+    ldy #0
+    lda (Dist),Y
+    beq loc_DEEF
+    bmi loc_DEEF
+    jsr sub_E0F9
+    jsr sub_DEF9
 
 loc_DEEF:
-                JSR     get_dist_addr
-                DEC     SaveNum
-                BNE     loc_DEE1
-                JMP     sram_read_enable
+    jsr get_dist_addr
+    dec SaveNum
+    bne loc_DEE1
+    jmp sram_read_enable
 ; End of function sub_DE99
 
 
@@ -5485,130 +5398,130 @@ loc_DEEF:
 sub_DEF9:
     .importzp FieldPosition, CursorMode, byte_3A, byte_3B, byte_3C, byte_3D
 
-                LDY     #$11
-                LDA     (Dist),Y
-                STA     pDist+1
-                INY
-                LDA     (Dist),Y
-                STA     FieldPosition
-                INY
-                LDA     (Dist),Y
-                STA     CursorMode
-                LDY     #0
-                LDA     (Dist),Y
-                BPL     loc_DF12
-                JMP     loc_DFAF
+    ldy #$11
+    lda (Dist),Y
+    sta pDist+1
+    iny
+    lda (Dist),Y
+    sta FieldPosition
+    iny
+    lda (Dist),Y
+    sta CursorMode
+    ldy #0
+    lda (Dist),Y
+    bpl loc_DF12
+    jmp loc_DFAF
 ; ---------------------------------------------------------------------------
 
 loc_DF12:
-                CLC
-                LDA     LowGlobalXC0
-                ADC     #$60 ; '`'
-                STA     Pointer
-                LDA     HighGlobalX
-                ADC     #0
-                STA     Pointer+1
-                SEC
-                LDY     #4
-                LDA     (Dist),Y
-                SBC     Pointer
-                STA     Pointer
-                INY
-                LDA     (Dist),Y
-                SBC     Pointer+1
-                STA     Pointer+1
-                CLC
-                LDA     LowGlobalYC0
-                ADC     #$A4
-                STA     pTileID
-                LDA     HighGlobalY
-                ADC     #0
-                STA     pTileID+1
-                SEC
-                LDY     #6
-                LDA     (Dist),Y
-                SBC     pTileID
-                STA     pTileID
-                INY
-                LDA     (Dist),Y
-                SBC     pTileID+1
-                STA     pTileID+1
-                LDY     #8
-                LDA     Pointer+1
-                AND     #4
-                ASL     A
-                ASL     A
-                ASL     A
-                ASL     A
-                ASL     A
-                ORA     (Dist),Y
-                STA     (Dist),Y
-                INY
-                LDA     pTileID+1
-                AND     #4
-                ASL     A
-                ASL     A
-                ASL     A
-                ASL     A
-                ASL     A
-                ORA     (Dist),Y
-                STA     (Dist),Y
-                INY
-                LDA     Pointer
-                LSR     Pointer+1
-                ROR     A
-                LSR     Pointer+1
-                ROR     A
-                STA     (Dist),Y
-                INY
-                LDA     pTileID
-                LSR     pTileID+1
-                ROR     A
-                LSR     pTileID+1
-                ROR     A
-                STA     (Dist),Y
-                LDA     LowGlobalY3F
-                BMI     loc_DFB8
-                LDY     #4
-                LDA     byte_3A
-                STA     (Dist),Y
-                INY
-                LDA     byte_3B
-                STA     (Dist),Y
-                LDY     #6
-                LDA     byte_3C
-                STA     (Dist),Y
-                INY
-                LDA     byte_3D
-                STA     (Dist),Y
-                LDY     #$11
-                LDA     OffScreen
-                STA     (Dist),Y
-                INY
-                LDA     AttributeScr1
-                STA     (Dist),Y
-                INY
-                LDA     AttributeScr1+1
-                STA     (Dist),Y
-                LDY     OffScreen
-                LDA     SaveNum
-                STA     (AttributeScr1),Y
+    clc
+    lda LowGlobalXC0
+    adc #$60
+    sta Pointer
+    lda HighGlobalX
+    adc #0
+    sta Pointer+1
+    sec
+    ldy #4
+    lda (Dist),Y
+    sbc Pointer
+    sta Pointer
+    iny
+    lda (Dist),Y
+    sbc Pointer+1
+    sta Pointer+1
+    clc
+    lda LowGlobalYC0
+    adc #$A4
+    sta pTileID
+    lda HighGlobalY
+    adc #0
+    sta pTileID+1
+    sec
+    ldy #6
+    lda (Dist),Y
+    sbc pTileID
+    sta pTileID
+    iny
+    lda (Dist),Y
+    sbc pTileID+1
+    sta pTileID+1
+    ldy #8
+    lda Pointer+1
+    and #4
+    asl A
+    asl A
+    asl A
+    asl A
+    asl A
+    ora (Dist),Y
+    sta (Dist),Y
+    iny
+    lda pTileID+1
+    and #4
+    asl A
+    asl A
+    asl A
+    asl A
+    asl A
+    ora (Dist),Y
+    sta (Dist),Y
+    iny
+    lda Pointer
+    lsr Pointer+1
+    ror A
+    lsr Pointer+1
+    ror A
+    sta (Dist),Y
+    iny
+    lda pTileID
+    lsr pTileID+1
+    ror A
+    lsr pTileID+1
+    ror A
+    sta (Dist),Y
+    lda LowGlobalY3F
+    bmi loc_DFB8
+    ldy #4
+    lda byte_3A
+    sta (Dist),Y
+    iny
+    lda byte_3B
+    sta (Dist),Y
+    ldy #6
+    lda byte_3C
+    sta (Dist),Y
+    iny
+    lda byte_3D
+    sta (Dist),Y
+    ldy #$11
+    lda OffScreen
+    sta (Dist),Y
+    iny
+    lda AttributeScr1
+    sta (Dist),Y
+    iny
+    lda AttributeScr1+1
+    sta (Dist),Y
+    ldy OffScreen
+    lda SaveNum
+    sta (AttributeScr1),Y
 
 loc_DFAF:
-                LDY     pDist+1
-                LDA     SaveNum
-                EOR     (FieldPosition),Y
-                BEQ     loc_DFBC
-                RTS
+    ldy pDist+1
+    lda SaveNum
+    eor (FieldPosition),Y
+    beq loc_DFBC
+    rts
 ; ---------------------------------------------------------------------------
 
 loc_DFB8:
-                LDY     pDist+1
-                LDA     SaveNum
+    ldy pDist+1
+    lda SaveNum
 
 loc_DFBC:
-                STA     (FieldPosition),Y
-                RTS
+    sta (FieldPosition),Y
+    rts
 ; End of function sub_DEF9
 
 
@@ -5640,7 +5553,7 @@ sub_DFBF:
 sub_DFDA:
     .importzp byte_E3
 
-                LDA     $761F           ; CurrentGame + GAME_SAVE::field_21F
+                LDA     CurrentGame + GAME_SAVE::field_21F      ; $761F
                 LSR     A
                 LDA     #$80
                 LDX     #$67
@@ -5832,10 +5745,10 @@ loc_E0E3:
 get_save_field:
     .export get_save_field
 
-                AND     #$3F
-                TAX
-                LDA     $7400,X
-                RTS
+    and #$3F
+    tax
+    lda CurrentGame,X       ; $7400,X
+    rts
 ; End of function get_save_field
 
 
@@ -5843,14 +5756,14 @@ get_save_field:
 
 
 sub_E0F9:
-                ASL     A
-                ASL     A
-                TAX
-                LDA     $E106,X            ; stru_E105.subroutine+1,X
-                PHA
-                LDA     $E105,X            ;stru_E105,X
-                PHA
-                RTS
+    asl A
+    asl A
+    tax
+    lda $E106,X            ; stru_E105.subroutine+1,X
+    pha
+    lda $E105,X            ;stru_E105,X
+    pha
+    rts
 ; End of function sub_E0F9
 
 ; ---------------------------------------------------------------------------
@@ -5908,54 +5821,54 @@ nullsub_3:
 
 
 sub_E1BE:
-                LDY     #4
-                LDA     (Dist),Y
-                STA     byte_3A
-                INY
-                LDA     (Dist),Y
-                STA     byte_3B
-                LDY     #6
-                LDA     (Dist),Y
-                STA     byte_3C
-                INY
-                LDA     (Dist),Y
-                STA     byte_3D
+    ldy #4
+    lda (Dist),Y
+    sta byte_3A
+    iny
+    lda (Dist),Y
+    sta byte_3B
+    ldy #6
+    lda (Dist),Y
+    sta byte_3C
+    iny
+    lda (Dist),Y
+    sta byte_3D
 
 loc_E1D4:
-                SEC
-                LDA     byte_3C
-                SBC     LowGlobalYC0
-                STA     pTileID
-                LDA     byte_3D
-                SBC     HighGlobalY
-                STA     pTileID+1
-                SEC
-                LDA     #$C0
-                SBC     pTileID
-                LDA     #3
-                SBC     pTileID+1
-                BCC     locret_E20E
-                LDA     LowGlobalXC0
-                SBC     #$40 ; '@'
-                STA     Pointer
-                LDA     HighGlobalX
-                SBC     #0
-                STA     Pointer+1
-                SEC
-                LDA     byte_3A
-                SBC     Pointer
-                STA     Pointer
-                LDA     byte_3B
-                SBC     Pointer+1
-                STA     Pointer+1
-                SEC
-                LDA     #$80
-                SBC     Pointer
-                LDA     #4
-                SBC     Pointer+1
+    sec
+    lda byte_3C
+    sbc LowGlobalYC0
+    sta pTileID
+    lda byte_3D
+    sbc HighGlobalY
+    sta pTileID+1
+    sec
+    lda #$C0
+    sbc pTileID
+    lda #3
+    sbc pTileID+1
+    bcc locret_E20E
+    lda LowGlobalXC0
+    sbc #$40
+    sta Pointer
+    lda HighGlobalX
+    sbc #0
+    sta Pointer+1
+    sec
+    lda byte_3A
+    sbc Pointer
+    sta Pointer
+    lda byte_3B
+    sbc Pointer+1
+    sta Pointer+1
+    sec
+    lda #$80
+    sbc Pointer
+    lda #4
+    sbc Pointer+1
 
 locret_E20E:
-                RTS
+    rts
 ; End of function sub_E1BE
 
 
@@ -6068,7 +5981,7 @@ loc_E286:
                 ADC     #$80
                 STA     Source          ; byte_109EAB, byte_109EB3
                 LDA     Source+1        ; byte_109EAB, byte_109EB3
-                ADC     #$67 ; 'g'
+                ADC     #$67
                 STA     Source+1        ; byte_109EAB, byte_109EB3
                 LDY     #$14
                 LDA     (Source),Y      ; byte_109EAB, byte_109EB3
@@ -6115,9 +6028,7 @@ loc_E2C2:
                 STA     Pointer+1
                 LDA     #$15
                 LDX     #6
-                JSR     mmc3_bank_set   ; Set memory bank
-                                        ; A - bank number
-                                        ; X - mode
+                JSR     mmc3_bank_set   ; Set memory bank A - bank number, X - mode
                 LDY     #$10
                 LDA     (Dist),Y
                 TAY
@@ -6238,9 +6149,7 @@ sub_E376:
                 AND     #$E
                 ORA     #1
                 LDX     #6
-                JSR     mmc3_bank_set   ; Set memory bank
-                                        ; A - bank number
-                                        ; X - mode
+                JSR     mmc3_bank_set   ; Set memory bank A - bank number, X - mode
                 LDA     HighGlobalY_plus1_carry
                 LSR     A
                 LSR     A
@@ -6255,7 +6164,7 @@ sub_E376:
                 STA     pDist+1
                 LDY     #1
                 LDA     (pDist),Y
-                AND     #$3F ; '?'
+                AND     #$3F
                 LDY     #1
                 CMP     (Dist),Y
                 BNE     loc_E3AD
@@ -6279,9 +6188,7 @@ loc_E3AD:
 bank14_8000_ex:
                 LDA     #$14
                 LDX     #6
-                JSR     mmc3_bank_set   ; Set memory bank
-                                        ; A - bank number
-                                        ; X - mode
+                JSR     mmc3_bank_set   ; Set memory bank A - bank number, X - mode
                 LDA     AttributeScr1
                 STA     Screen
                 LDA     LowGlobalY3F
@@ -6317,7 +6224,7 @@ loc_E3EF:
                 LDY     #0
                 JSR     sub_E510
                 TAX
-                AND     #$20 ; ' '
+                AND     #$20
                 BEQ     loc_E425
                 TXA
                 AND     #3
@@ -6584,16 +6491,16 @@ sub_E567:
 loc_E577:
                 LDY     #8
                 LDA     (Dist),Y
-                AND     #$3F ; '?'
-                ORA     #$40 ; '@'
+                AND     #$3F
+                ORA     #$40
                 STA     Pointer
                 LDA     LowGlobalY3F
                 LSR     A
-                AND     #$40 ; '@'
+                AND     #$40
                 EOR     Pointer
                 STA     (Dist),Y
                 LDY     #9
-                LDA     #$38 ; '8'
+                LDA     #$38
                 STA     (Dist),Y
                 LDY     #$15
                 LDA     (Dist),Y
@@ -6849,21 +6756,21 @@ loc_E6A9:
                 SEC
                 LDA     (Pointer),Y
                 SBC     #0
-                STA     $7404           ; CurrentGame + GAME_SAVE::PureSave.GlobalX
+                STA     CurrentGame + PURE_SAVE::GlobalX    ; $7404
                 INY
                 LDA     (Pointer),Y
                 SBC     #2
-                STA     $7405           ; CurrentGame + GAME_SAVE::PureSave.GlobalX+1
+                STA     CurrentGame + PURE_SAVE::GlobalX+1  ; $7405
                 INY
                 SEC
                 LDA     (Pointer),Y
                 SBC     #$C0
-                STA     $7406           ; CurrentGame + GAME_SAVE::PureSave.GlobalY
+                STA     CurrentGame + PURE_SAVE::GlobalY    ; $7406
                 INY
                 LDA     (Pointer),Y
                 SBC     #1
-                STA     $7407           ; CurrentGame + GAME_SAVE::PureSave.GlobalY+1
-                LDA     #$40 ; '@'
+                STA     CurrentGame + PURE_SAVE::GlobalY+1  ; $7407
+                LDA     #$40
                 STA     byte_20
                 RTS
 ; End of function sub_E6A1
@@ -7267,7 +7174,7 @@ loc_E86B:
                 CMP     #$10
                 BCS     loc_E88F
                 SEC
-                LDA     #$28 ; '('
+                LDA     #$28
                 SBC     SaveNum
                 CLC
                 ADC     #$84
@@ -7277,7 +7184,7 @@ loc_E88F:
                 LDY     #$19
                 LDA     (Dist),Y
                 TAX
-                AND     #$20 ; ' '
+                AND     #$20
                 BEQ     loc_E8A2
                 LDY     #$1D
                 LDA     (Dist),Y
@@ -7374,8 +7281,7 @@ loc_E8FB:
 loc_E900:
                 LDX     #1
                 JMP     mmc3_bank_set   ; Set memory bank
-; End of function sub_E8E8              ; A - bank number
-                                        ; X - mode
+; End of function sub_E8E8
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -7425,8 +7331,6 @@ loc_E940:
                 ORA     #$70
                 LDX     #1
                 JMP     mmc3_bank_set   ; Set memory bank
-                                        ; A - bank number
-                                        ; X - mode
 ; ---------------------------------------------------------------------------
 
 loc_E94C:
@@ -7867,8 +7771,6 @@ sub_EB92:
                 LDA     #$14
                 LDX     #6
                 JSR     mmc3_bank_set   ; Set memory bank
-                                        ; A - bank number
-                                        ; X - mode
                 LDA     AttributeScr1
                 STA     Screen
                 JSR     sub_E506
@@ -7928,51 +7830,50 @@ sub_EC65:
     .importzp BankPPU_X000, BankPPU_X400, BankPPU_X800, BankPPU_XC00
     .importzp byte_45, byte_46
 
-                JSR     darken_palette
-                LDX     #0
-                LDY     #8
-                JSR     set_camera
-                LDA     #$EC            ; ECEC
-                LDX     #$EC
-                JSR     set_ppu_banks   ; set 6 memory banks for PPU
-                                        ; pPPUTable = XA address (X - high and A - low byte)
-                                        ;
-                                        ; |PPU address | PPUTable offset | Size |
-                                        ; |-------------------------------------|
-                                        ; |   $1000    |        0        |  2K  |
-                                        ; |-------------------------------------|
-                                        ; |   $1800    |        1        |  2K  |
-                                        ; |-------------------------------------|
-                                        ; |   $0000    |        2        |  1K  |
-                                        ; |-------------------------------------|
-                                        ; |   $0400    |        3        |  1K  |
-                                        ; |-------------------------------------|
-                                        ; |   $0800    |        4        |  1K  |
-                                        ; |-------------------------------------|
-                                        ; |   $0C00    |        5        |  1K  |
-                                        ; ---------------------------------------
-                LDA     #1
-                STA     MIRROR           ; horizontal mirroring
-                LDA     #$80
-                STA     ModeSRAM
-                LDA     #$7C ; '|'
-                STA     BankPPU_X000
-                STA     BankPPU_X400
-                STA     BankPPU_X800
-                STA     BankPPU_XC00
-                LDA     #0
-                STA     byte_46
-                LDA     #0
-                STA     byte_45
-                LDX     #9
+    jsr darken_palette
+    ldx #0
+    ldy #8
+    jsr set_camera
+    ldxa #CHRTable
+    jsr set_ppu_banks   ; set 6 memory banks for PPU
+                        ; Character + CHARACTER::NameOffsetle = XA address (X - high and A - low byte)
+                        ;
+                        ; |PPU address | PPUTable offset | Size |
+                        ; |-------------------------------------|
+                        ; |   $1000    |        0        |  2K  |
+                        ; |-------------------------------------|
+                        ; |   $1800    |        1        |  2K  |
+                        ; |-------------------------------------|
+                        ; |   $0000    |        2        |  1K  |
+                        ; |-------------------------------------|
+                        ; |   $0400    |        3        |  1K  |
+                        ; |-------------------------------------|
+                        ; |   $0800    |        4        |  1K  |
+                        ; |-------------------------------------|
+                        ; |   $0C00    |        5        |  1K  |
+                        ; ---------------------------------------
+    lda #1
+    sta MIRROR           ; horizontal mirroring
+    lda #$80
+    sta ModeSRAM
+    lda #$7C
+    sta BankPPU_X000
+    sta BankPPU_X400
+    sta BankPPU_X800
+    sta BankPPU_XC00
+    lda #0
+    sta byte_46
+    lda #0
+    sta byte_45
+    ldx #9
 
 @next_byte:
-                LDA     IRQTable,X
-                STA     InterruptTable,X
-                DEX
-                BPL     @next_byte
-                JSR     sub_ED1A
-                JMP     wait_nmi        ; wait for NMI interrupt processing to complete
+    lda IRQTable,X
+    sta InterruptTable,X
+    dex
+    bpl @next_byte
+    jsr sub_ED1A
+    jmp wait_nmi        ; wait for NMI interrupt processing to complete
 ; End of function sub_EC65
 
 
@@ -7984,9 +7885,8 @@ sub_ECA3:
 
                 LDA     #$C3
                 JSR     loc_C408
-                LDX     #$1E
-                JSR     wait_frames     ; wait for a few frames
-                                        ; input: X - number of frames
+                LDX     #30
+                JSR     wait_frames     ; wait for a few frames input: X - number of frames
                 JSR     sub_D8D3
                 BCS     loc_ECB6
                 JSR     sub_DA48
@@ -7995,7 +7895,7 @@ sub_ECA3:
 loc_ECB6:
                 PHP
                 JSR     sub_D977
-                LDX     #$3C ; '<'
+                LDX     #$3C
 
 loc_ECBC:
                 JSR     wait_nmi        ; wait for NMI interrupt processing to complete
@@ -8008,11 +7908,9 @@ loc_ECC6:
                 JSR     wait_nmi_processed
                 JSR     darken_color
                 JSR     restore_palettes
-                LDA     #$60 ; '`'
+                LDA     #$60
                 LDX     #0
-                JSR     mmc3_bank_set   ; Set memory bank
-                                        ; A - bank number
-                                        ; X - mode
+                JSR     mmc3_bank_set   ; Set memory bank A - bank number, X - mode
                 LDA     #0
                 STA     MIRROR
                 STA     IRQCount
@@ -8026,8 +7924,11 @@ loc_ECC6:
 ; End of function sub_ECA3
 
 ; ---------------------------------------------------------------------------
-CHRTable:       .byte $78, 0, $7C, $7D, $7E, $7F
-IRQTable:       .word sub_ED22-1, loc_ED62-1, sub_ED22-1, load_fonts-1, 0
+CHRTable:
+    .byte $78, 0, $7C, $7D, $7E, $7F
+
+IRQTable:
+    .word sub_ED22-1, loc_ED62-1, sub_ED22-1, load_fonts-1, 0
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -8035,27 +7936,27 @@ IRQTable:       .word sub_ED22-1, loc_ED62-1, sub_ED22-1, load_fonts-1, 0
 shift_down_window:
     .export shift_down_window, shift_up_window
 
-                LDX     #$FC            ; shift down
+    ldx #$FC            ; shift down
 ; ---------------------------------------------------------------------------
-                .byte $2C               ; mask LDX #4 BIT $04A2 instruction
+    .byte $2C           ; mask LDX #4 BIT $04A2 instruction
 ; ---------------------------------------------------------------------------
 
 shift_up_window:
-                LDX     #4              ; shift up
-                JSR     wait_nmi_processed
-                STX     ShiftY          ; $E9 <- 4 shift up or $FC shift down
-                LDX     #$14
+    ldx #4              ; shift up
+    jsr wait_nmi_processed
+    stx ShiftY          ; $E9 <- 4 shift up or $FC shift down
+    ldx #$14
 
 @next_shift:
-                LDA     #1              ; shift up or down window
-                STA     NMIFlags
-                JSR     wait_nmi_processed
-                JSR     sub_ED1A
-                DEX
-                BNE     @next_shift
-                LDA     #0
-                STA     ShiftY
-                RTS
+    lda #1              ; shift up or down window
+    sta NMIFlags
+    jsr wait_nmi_processed
+    jsr sub_ED1A
+    dex
+    bne @next_shift
+    lda #0
+    sta ShiftY
+    rts
 ; End of function shift_down_window
 
 
@@ -8157,29 +8058,29 @@ load_fonts:
     .export locret_EDCA
     .importzp byte_44
 
-                LDA     byte_44
-                STA     byte_46
-                LDA     #$C8
-                JSR     sub_C218
-                STA     IRQ_DISABLE           ; Disable MMC3 interrupts and acknowledge any pending interrupts
-                LDA     BankTable + BANK_TABLE::PPU_1K_0000
-                STX     BANK_SELECT
-                STA     BANK_DATA
-                INX
-                LDA     BankTable + BANK_TABLE::PPU_1K_0400
-                STX     BANK_SELECT
-                STA     BANK_DATA
-                INX
-                LDA     BankTable + BANK_TABLE::PPU_1K_0800
-                STX     BANK_SELECT
-                STA     BANK_DATA
-                INX
-                LDA     BankTable + BANK_TABLE::PPU_1K_0C00
-                STX     BANK_SELECT
-                STA     BANK_DATA
+    lda byte_44
+    sta byte_46
+    lda #$C8
+    jsr sub_C218
+    sta IRQ_DISABLE           ; Disable MMC3 interrupts and acknowledge any pending interrupts
+    lda BankTable + BANK_TABLE::PPU_1K_0000
+    stx BANK_SELECT
+    sta BANK_DATA
+    inx
+    lda BankTable + BANK_TABLE::PPU_1K_0400
+    stx BANK_SELECT
+    sta BANK_DATA
+    inx
+    lda BankTable + BANK_TABLE::PPU_1K_0800
+    stx BANK_SELECT
+    sta BANK_DATA
+    inx
+    lda BankTable + BANK_TABLE::PPU_1K_0C00
+    stx BANK_SELECT
+    sta BANK_DATA
 
 locret_EDCA:
-                RTS
+    rts
 ; End of function load_fonts
 
 
@@ -8224,32 +8125,32 @@ sub_EDCB:
 darken_palette:
     .export darken_palette, darken_color
 
-                JSR     store_palettes
+    jsr store_palettes
 
 darken_color:
-                LDY     #5
+    ldy #5
 
 @next_reduce:
-                LDX     #$1F
+    ldx #$1F
 
 @next_color:
-                SEC
-                LDA     PalNMIBG,X
-                SBC     #$10            ; reduce color brightness
-                BCS     @save_color
-                LDA     #BLACK          ; color black, if get min value
+    sec
+    lda PalNMIBG,X
+    sbc #$10            ; reduce color brightness
+    bcs @save_color
+    lda #BLACK          ; color black, if get min value
 
 @save_color:
-                STA     PalNMIBG,X
-                DEX
-                BPL     @next_color
-                TYA
-                TAX
-                JSR     wait_palette_to_PPU
-                DEY
-                CPY     #1
-                BNE     @next_reduce
-                RTS
+    sta PalNMIBG,X
+    dex
+    bpl @next_color
+    tya
+    tax
+    jsr wait_palette_to_PPU
+    dey
+    cpy #1
+    bne @next_reduce
+    rts
 ; End of function darken_palette
 
 
@@ -8259,18 +8160,18 @@ darken_color:
 one_color_palettes_save:
     .export one_color_palettes_save, one_color_palettes
 
-                PHA
-                JSR     store_palettes
-                PLA
+    pha
+    jsr store_palettes
+    pla
 
 one_color_palettes:
-                LDX     #$1F
+    ldx #$1F
 
 @next_color:
-                STA     PalNMIBG,X
-                DEX
-                BPL     @next_color
-                JMP     one_frame
+    sta PalNMIBG,X
+    dex
+    bpl @next_color
+    jmp one_frame
 ; End of function one_color_palettes_save
 
 
@@ -8301,17 +8202,18 @@ sub_EE0E:
 
 one_color_lighten_palette:
     .export one_color_lighten_palette
+    .import PalBG
 
-                PHA
-                JSR     wait_nmi_processed
-                PLA
-                LDX     #$1F
+    pha
+    jsr wait_nmi_processed
+    pla
+    ldx #$1F
 
 @next_color:
-                STA     PalBG,X
-                DEX
-                BPL     @next_color
-                BMI     lighten_color
+    sta PalBG,X
+    dex
+    bpl @next_color
+    bmi lighten_color
 ; End of function one_color_lighten_palette
 
 
@@ -8322,60 +8224,60 @@ one_color_lighten_palette:
 lighten_palette:
     .export lighten_palette
 
-                JSR     wait_nmi_processed
+    jsr wait_nmi_processed
 
 lighten_color:
-                LDY     #5
+    ldy #5
 
 @next_increase:
-                LDX     #$1F
+    ldx #$1F
 
 @next_color:
-                SEC
-                LDA     PalNMIBG,X
-                SBC     PalBG,X
-                BEQ     @no_change
-                AND     #$F
-                BNE     @low_tetrad_different
-                BCS     @color_above
-                LDA     PalNMIBG,X
-                ADC     #$10
-                BPL     @save_color
+    sec
+    lda PalNMIBG,X
+    sbc PalBG,X
+    beq @no_change
+    and #$F
+    bne @low_tetrad_different
+    bcs @color_above
+    lda PalNMIBG,X
+    adc #$10
+    bpl @save_color
 
 @low_tetrad_different:
-                LDA     PalBG,X
-                AND     #$F
-                CMP     #$D
-                BCC     @lowE
+    lda PalBG,X
+    and #$F
+    cmp #$D
+    bcc @lowE
 
 @color_above:
-                LDA     PalNMIBG,X
-                SBC     #$10
-                BCS     @save_color
-                LDA     #$F
-                BPL     @save_color
+    lda PalNMIBG,X
+    sbc #$10
+    bcs @save_color
+    lda #$F
+    bpl @save_color
 
 @lowE:
-                PHA
-                LDA     PalNMIBG,X
-                AND     #$30
-                STA     PalNMIBG,X
-                PLA
-                ORA     PalNMIBG,X
+    pha
+    lda PalNMIBG,X
+    and #$30
+    sta PalNMIBG,X
+    pla
+    ora PalNMIBG,X
 
 @save_color:
-                STA     PalNMIBG,X
+    sta PalNMIBG,X
 
 @no_change:
-                DEX
-                BPL     @next_color
-                TYA
-                TAX
-                JSR     wait_palette_to_PPU
-                DEY
-                CPY     #1
-                BNE     @next_increase
-                RTS
+    dex
+    bpl @next_color
+    tya
+    tax
+    jsr wait_palette_to_PPU
+    dey
+    cpy #1
+    bne @next_increase
+    rts
 ; End of function lighten_palette
 
 
@@ -8385,15 +8287,15 @@ lighten_color:
 restore_palettes:
     .export restore_palettes
 
-                JSR     wait_nmi_processed
-                LDX     #$1F
+    jsr wait_nmi_processed
+    ldx #$1F
 
 @next_color:
-                LDA     PalBG,X
-                STA     PalNMIBG,X
-                DEX
-                BPL     @next_color
-                RTS
+    lda PalBG,X
+    sta PalNMIBG,X
+    dex
+    bpl @next_color
+    rts
 ; End of function restore_palettes
 
 
@@ -8403,15 +8305,15 @@ restore_palettes:
 store_palettes:
     .export store_palettes
 
-                JSR     wait_nmi_processed
-                LDX     #$1F
+    jsr wait_nmi_processed
+    ldx #$1F
 
 @next_color:
-                LDA     PalNMIBG,X
-                STA     PalBG,X
-                DEX
-                BPL     @next_color
-                RTS
+    lda PalNMIBG,X
+    sta PalBG,X
+    dex
+    bpl @next_color
+    rts
 ; End of function store_palettes
 
 
@@ -8421,34 +8323,33 @@ store_palettes:
 copy_palettes:
     .export copy_palettes, back_palettes, one_frame
 
-                STA     Pointer
-                STX     Pointer+1
-                JSR     wait_nmi_processed
-                LDY     #$1F
+    stxa Pointer
+    jsr wait_nmi_processed
+    ldy #$1F
 
 @next_color:
-                LDA     (Pointer),Y
-                STA     PalNMIBG,Y
-                DEY
-                BPL     @next_color
-                BMI     one_frame
+    lda (Pointer),Y
+    sta PalNMIBG,Y
+    dey
+    bpl @next_color
+    bmi one_frame
 
 back_palettes:
-                JSR     restore_palettes
+    jsr restore_palettes
 
 one_frame:
-                LDX     #1
+    ldx #1
 
 wait_palette_to_PPU:
-                LDA     #4              ; load_palettes function ID
-                STA     NMI_Data + NMI_DATA::NMI_ID   ; NMITable
-                LDA     #0
-                STA     NMI_Data + NMI_DATA::NumOfChr ; NMITable
-                STA     OffsetNMI_Data
-                LDA     #$80
-                STA     NMIFlags
-                JMP     wait_frames     ; wait for a few frames
-; End of function copy_palettes         ; input: X - number of frames
+    lda #LOAD_PALETTES              ; #4 load_palettes function ID
+    sta NMI_Data + NMI_DATA::NMI_ID
+    lda #0
+    sta NMI_Data + NMI_DATA::NumOfChr
+    sta OffsetNMI_Data
+    lda #$80
+    sta NMIFlags
+    jmp wait_frames     ; wait for a few frames X - number of frames
+; End of function copy_palettes
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -8457,21 +8358,21 @@ wait_palette_to_PPU:
 home_camera:
     .export home_camera, set_camera
 
-                LDX     #0
-                LDY     #0
+    ldx #0
+    ldy #0
 
 set_camera:
-                JSR     wait_nmi_processed
-                LDA     #0
-                STA     ShiftX
-                STA     ShiftY
-                STA     IRQCount
-                LDA     #$FC
-                AND     CntrlPPU        ; PPU_CTRL
-                STA     CntrlPPU        ; PPU_CTRL
-                STX     CameraX
-                STY     CameraY
-                JMP     wait_nmi        ; wait for NMI interrupt processing to complete
+    jsr wait_nmi_processed
+    lda #0
+    sta ShiftX
+    sta ShiftY
+    sta IRQCount
+    lda #$FC
+    and CntrlPPU
+    sta CntrlPPU
+    stx CameraX
+    sty CameraY
+    jmp wait_nmi        ; wait for NMI interrupt processing to complete
 ; End of function home_camera
 
 
@@ -8493,29 +8394,29 @@ sub_EEE4:
 
 
 .proc sub_EEF0
-                LDA     $761F           ; CurrentGame + GAME_SAVE::field_21F
-                AND     #$F0
-                BEQ     exit
-                STA     Pointer
-                ASL     Pointer
-                BCC     exit
-                JSR     sub_F1ED
-                AND     #$C0
-                BNE     exit
-                JSR     store_palettes
-                JSR     bg_blackout
-                LDX     #$A
+    lda CurrentGame + GAME_SAVE::field_21F      ; $761F
+    and #$F0
+    beq exit
+    sta Pointer
+    asl Pointer
+    bcc exit
+    jsr sub_F1ED
+    and #$C0
+    bne exit
+    jsr store_palettes
+    jsr bg_blackout
+    ldx #$A
 
 loc_EF0C:
-                LDA     #7
-                STA     apu_7F0
-                JSR     sub_EEE4
-                DEX
-                BNE     loc_EF0C
-                JSR     back_palettes
+    lda #7
+    sta apu_7F0
+    jsr sub_EEE4
+    dex
+    bne loc_EF0C
+    jsr back_palettes
 
 exit:
-                RTS
+    rts
 .endproc            ; End of function sub_EEF0
 
 
@@ -8551,253 +8452,249 @@ bg_blackout:
 
 cursor_update:
     .export cursor_update, short_cursor_update, loc_EF4B, loc_EF7C
-    .importzp pCursor, pStr, CurrentX, CurrentY, CurrentFieldPosition, Buttons, byte_D6
+    .importzp pCursor, pStr, CurrentX, CurrentY, CursorPosition, Buttons, byte_D6
 
-                LDY     #8
-                LDA     (pCursor),Y
-                STA     pStr
-                INY
-                LDA     (pCursor),Y
-                STA     pStr+1
+    ldy #8
+    lda (pCursor),Y
+    sta pStr
+    iny
+    lda (pCursor),Y
+    sta pStr+1
 
 short_cursor_update:
-                LDY     #6
-                LDA     (pCursor),Y
-                STA     Column
-                LDY     #7
-                LDA     (pCursor),Y
-                STA     Row
+    ldy #6
+    lda (pCursor),Y
+    sta Column
+    ldy #7
+    lda (pCursor),Y
+    sta Row
 
 loc_EF4B:
-                LDY     #0
-                LDA     (pCursor),Y
-                STA     CurrentX
-                TAX
-                LDY     #1
-                LDA     (pCursor),Y
-                JSR     multiply        ; Input: A, X - multipliers
-                                        ; Output: A - result
-                STA     CurrentFieldPosition
-                LDY     #0
-                STY     CurrentY
+    ldy #0
+    lda (pCursor),Y
+    sta CurrentX
+    tax
+    ldy #1
+    lda (pCursor),Y
+    jsr multiply        ; Input: A, X - multipliers Output: A - result
+    sta CursorPosition
+    ldy #0
+    sty CurrentY
 
 loc_EF5F:
-                LDA     (pStr),Y
-                BNE     loc_EF6D
-                INY
-                CPY     CurrentFieldPosition
-                BCC     loc_EF5F
-                STA     CurrentFieldPosition
-                STA     Buttons
-                RTS
+    lda (pStr),Y
+    bne loc_EF6D
+    iny
+    cpy CursorPosition
+    bcc loc_EF5F
+    sta CursorPosition
+    sta Buttons
+    rts
 ; ---------------------------------------------------------------------------
 
 loc_EF6D:
-                STY     CurrentFieldPosition
-                TYA
+    sty CursorPosition
+    tya
 
 loc_EF70:
-                CMP     CurrentX
-                BCC     loc_EF7A
-                SBC     CurrentX
-                INC     CurrentY
-                BCS     loc_EF70
+    cmp CurrentX
+    bcc loc_EF7A
+    sbc CurrentX
+    inc CurrentY
+    bcs loc_EF70
 
 loc_EF7A:
-                STA     CurrentX
+    sta CurrentX
 
 loc_EF7C:
-                JSR     wait_nmi_processed
-                LDY     #$18
-                STY     pTileID+1
-                LDA     #0
-                STA     OAM_Cache + OAM_TILE::Attr
+    jsr wait_nmi_processed
+    ldy #$18
+    sty pTileID+1
+    lda #0
+    sta OAM_Cache + OAM_TILE::Attr
 
 set_cursor_pos:
-                LDY     #5
-                LDA     (pCursor),Y
-                STA     OAM_Cache + OAM_TILE::TileID
-                LDY     #2
-                LDA     (pCursor),Y
-                LDX     CurrentX
-                JSR     multiply        ; Input: A, X - multipliers
-                                        ; Output: A - result
-                CLC
-                ADC     Column
-                ASL     A
-                ASL     A
-                ASL     A
-                STA     OAM_Cache + OAM_TILE::PosX
-                LDY     #3
-                LDA     (pCursor),Y
-                LDX     CurrentY
-                JSR     multiply        ; Input: A, X - multipliers
-                                        ; Output: A - result
-                CLC
-                ADC     Row
-                ASL     A
-                ASL     A
-                ASL     A
-                CLC
-                ADC     #7
-                STA     OAM_Cache + OAM_TILE::PosY
-                LDY     pTileID+1
+    ldy #5
+    lda (pCursor),Y
+    sta OAM_Cache + OAM_TILE::TileID
+    ldy #2
+    lda (pCursor),Y
+    ldx CurrentX
+    jsr multiply        ; Input: A, X - multipliers Output: A - result
+    clc
+    adc Column
+    asl A
+    asl A
+    asl A
+    sta OAM_Cache + OAM_TILE::PosX
+    ldy #3
+    lda (pCursor),Y
+    ldx CurrentY
+    jsr multiply        ; Input: A, X - multipliers Output: A - result
+    clc
+    adc Row
+    asl A
+    asl A
+    asl A
+    clc
+    adc #7
+    sta OAM_Cache + OAM_TILE::PosY
+    ldy pTileID+1
 
 @cursor_flashing:
-                LDX     #0
-                STX     Gamepad0Buttons
+    ldx #0
+    stx Gamepad0Buttons
 
 @loop:
-                JSR     sub_F1ED
-                JSR     wait_nmi        ; wait for NMI interrupt processing to complete
-                LDA     Gamepad0Buttons
-                BNE     @button_pressed
-                DEY
-                BNE     @loop
-                LDY     #5
-                LDA     (pCursor),Y
-                EOR     OAM_Cache + OAM_TILE::TileID      ; switch cursor Tile
-                STA     OAM_Cache + OAM_TILE::TileID
-                LDA     ButtonPressed0
-                BNE     @button_hold
-                LDY     #$18
-                STY     pTileID+1
-                BNE     @cursor_flashing
+    jsr sub_F1ED
+    jsr wait_nmi        ; wait for NMI interrupt processing to complete
+    lda Gamepad0Buttons
+    bne @button_pressed
+    dey 
+    bne @loop
+    ldy #5
+    lda (pCursor),Y
+    eor OAM_Cache + OAM_TILE::TileID
+    sta OAM_Cache + OAM_TILE::TileID
+    lda ButtonPressed0
+    bne @button_hold
+    ldy #$18
+    sty pTileID+1
+    bne @cursor_flashing
 
 @button_hold:
-                LDY     #6
-                STY     pTileID+1
+    ldy #6
+    sty pTileID+1
 
 @button_pressed:
-                LDX     #0
-                STX     Gamepad0Buttons
-                TAX
-                LDY     #4
-                AND     #$F0
-                AND     (pCursor),Y     ; ButtonMask
-                BEQ     arrow_buttons
-                STA     Buttons
-                LDA     #5
-                STA     $7F1
+    ldx #0
+    stx Gamepad0Buttons
+    tax
+    ldy #4
+    and #$F0
+    and (pCursor),Y
+    beq arrow_buttons
+    sta Buttons
+    lda #5
+    sta byte_7F1
 
 off_cursor:
-                LDA     #$F0
-                STA     OAM_Cache + OAM_TILE::PosY
-                RTS
+    lda #$F0
+    sta OAM_Cache + OAM_TILE::PosY
+    rts
 ; ---------------------------------------------------------------------------
 
 arrow_buttons:
-                TXA
-                AND     #$F
-                STA     Buttons
-                TAY
-                LDX     CursorModeTab,Y
-                BMI     set_cursor_pos
-                LDA     CurrentX
-                STA     pDist
-                LDA     CurrentY
-                STA     pDist+1
-                STX     CursorMode
+    txa
+    and #$F
+    sta Buttons
+    tay
+    ldx CursorModeTab,Y
+    bmi set_cursor_pos
+    lda CurrentX
+    sta pDist
+    lda CurrentY
+    sta pDist+1
+    stx CursorMode
 
 cursor_pos:
-                CLC
-                LDA     CursorShiftTab+1,X
-                ADC     pDist+1
-                LDY     #1
-                CMP     (pCursor),Y
-                BCS     out_area
-                STA     pDist+1
-                STA     Pointer
-                CLC
-                LDA     CursorShiftTab,X
-                ADC     pDist           ; get new cursor position X
-                LDY     #0
-                CMP     (pCursor),Y
-                BCS     out_area
-                STA     pDist
-                STA     FieldPosition
-                LDA     (pCursor),Y
-                LDX     Pointer
-                JSR     multiply        ; Input: A, X - multipliers
-                                        ; Output: A - result
-                CLC
-                ADC     FieldPosition
-                STA     FieldPosition
-                TAY
-                LDA     (pStr),Y        ; get a tile ID or mark at this position
-                BEQ     menu_area
-                LDA     pDist
-                STA     CurrentX
-                LDA     pDist+1
-                STA     CurrentY
-                LDA     FieldPosition
-                STA     CurrentFieldPosition
-                LDA     #$D
-                STA     $7F1
+    clc
+    lda CursorShiftTab+1,X
+    adc pDist+1
+    ldy #1
+    cmp (pCursor),Y
+    bcs out_area
+    sta pDist+1
+    sta Pointer
+    clc
+    lda CursorShiftTab,X
+    adc pDist           ; get new cursor position X
+    ldy #0
+    cmp (pCursor),Y
+    bcs out_area
+    sta pDist
+    sta FieldPosition
+    lda (pCursor),Y
+    ldx Pointer
+    jsr multiply        ; Input: A, X - multipliers Output: A - result
+    clc 
+    adc FieldPosition
+    sta FieldPosition
+    tay
+    lda (pStr),Y        ; get a tile ID or mark at this position
+    beq menu_area
+    lda pDist
+    sta CurrentX
+    lda pDist+1
+    sta CurrentY
+    lda FieldPosition
+    sta CursorPosition
+    lda #$D
+    sta byte_7F1
 
 no_command_button:
-                JMP     set_cursor_pos
+    jmp set_cursor_pos
 ; ---------------------------------------------------------------------------
 
 out_area:
-                LDY     #4
-                LDA     Buttons
-                AND     (pCursor),Y
-                BEQ     no_command_button
-                STA     Buttons
-                LDA     #$D
-                STA     $7F1
-                JMP     off_cursor
+    ldy #4
+    lda Buttons
+    and (pCursor),Y
+    beq no_command_button
+    sta Buttons
+    lda #$D
+    sta byte_7F1
+    jmp off_cursor
 ; ---------------------------------------------------------------------------
 
 menu_area:
-                LDX     CursorMode
-                LDY     #1
-                LDA     byte_D6
-                BEQ     loc_F071
-                INX
-                DEY
+    ldx CursorMode
+    ldy #1
+    lda byte_D6
+    beq loc_F071
+    inx
+    dey
 
 loc_F071:
-                LDA     CursorShiftTab,X
-                BEQ     loc_F0AB
+    lda CursorShiftTab,X
+    beq loc_F0AB
 
 loc_F076:
-                STA     FieldPosition
-                SEC
-                LDA     pDist,Y
-                SBC     CurrentX,Y
-                EOR     #$FF
-                BPL     loc_F08E
-                CLC
-                ADC     CurrentX,Y
-                STA     pDist,Y
-                BPL     loc_F0A1
-                BMI     outX
+    sta FieldPosition
+    sec
+    lda pDist,Y
+    sbc CurrentX,Y
+    eor #$FF
+    bpl loc_F08E
+    clc
+    adc CurrentX,Y
+    sta pDist,Y
+    bpl loc_F0A1
+    bmi outX
 
 loc_F08E:
-                SEC
-                ADC     CurrentX,Y
-                STA     pDist,Y
-                CMP     (pCursor),Y
-                BCC     loc_F0A1
+    sec
+    adc CurrentX,Y
+    sta pDist,Y
+    cmp (pCursor),Y
+    bcc loc_F0A1
 
 outX:
-                LDA     #0
-                CMP     FieldPosition
-                BNE     loc_F076
-                BEQ     out_area
+    lda #0
+    cmp FieldPosition
+    bne loc_F076
+    beq out_area
 
 loc_F0A1:
-                TYA
-                EOR     #1
-                TAY
-                LDA     CurrentX,Y
-                STA     pDist,Y
+    tya
+    eor #1
+    tay
+    lda CurrentX,Y
+    sta pDist,Y
 
 loc_F0AB:
-                LDX     CursorMode
-                JMP     cursor_pos
+    ldx CursorMode
+    jmp cursor_pos
 ; End of function cursor_update
 
 
@@ -8810,32 +8707,35 @@ loc_F0AB:
 get_cursor_pos:
     .export get_cursor_pos
 
-                PHA
-                LDY     #2
-                LDA     (pCursor),Y
-                LDX     CurrentX
-                JSR     multiply        ; Input: A, X - multipliers
-                                        ; Output: A - result
-                CLC
-                ADC     Column
-                STA     Column
-                LDY     #3
-                LDA     (pCursor),Y
-                LDX     CurrentY
-                JSR     multiply        ; Input: A, X - multipliers
-                                        ; Output: A - result
-                CLC
-                ADC     Row
-                STA     Row
-                PLA
-                JMP     sub_C68B
+    pha
+    ldy #2
+    lda (pCursor),Y
+    ldx CurrentX
+    jsr multiply        ; Input: A, X - multipliers Output: A - result
+    clc
+    adc Column
+    sta Column
+    ldy #3
+    lda (pCursor),Y
+    ldx CurrentY
+    jsr multiply        ; Input: A, X - multipliers Output: A - result
+    clc
+    adc Row
+    sta Row
+    pla
+    jmp draw_symbol
 ; End of function get_cursor_pos
 
 ; ---------------------------------------------------------------------------
-byte_F0D1:      .byte 1, 2, 3, 4, 5, 6, 7, 8
-CursorModeTab:  .byte $88, 2, 6, $88, 4, $88, $88, $88, 0, $88, $88, $88
-                .byte $88, $88, $88, $88
-CursorShiftTab: .byte 0, $FF, 1, 0, 0, 1, $FF, 0
+.export byte_F0D1
+byte_F0D1:
+    .byte 1, 2, 3, 4, 5, 6, 7, 8
+
+CursorModeTab:
+    .byte $88, 2, 6, $88, 4, $88, $88, $88, 0, $88, $88, $88, $88, $88, $88, $88
+
+CursorShiftTab:
+    .byte 0, $FF, 1, 0, 0, 1, $FF, 0
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -8846,24 +8746,24 @@ CursorShiftTab: .byte 0, $FF, 1, 0, 0, 1, $FF, 0
 get_offset:
     .export get_offset
 
-                LDA     #0
-                LDX     #$10
+    lda #0
+    ldx #$10
 
 loc_F0F5:
-                ROR     Pointer+1
-                ROR     Pointer
-                BCC     loc_F0FE
-                CLC
-                ADC     pTileID
+    ror Pointer+1
+    ror Pointer
+    bcc loc_F0FE
+    clc
+    adc pTileID
 
 loc_F0FE:
-                ROR     A
-                DEX
-                BNE     loc_F0F5
-                STA     AddrForJmp
-                ROR     Pointer+1
-                ROR     Pointer
-                RTS
+    ror A
+    dex
+    bne loc_F0F5
+    sta AddrForJmp
+    ror Pointer+1
+    ror Pointer
+    rts
 ; End of function get_offset
 
 
@@ -8900,25 +8800,25 @@ loc_F118:
 ; Output: A - result
 
 multiply:
-                STA     Pointer
-                STX     pTileID
-                LDA     #0
-                LDX     #8
+    sta Pointer
+    stx pTileID
+    lda #0
+    ldx #8
 
 @loop:
-                ROR     Pointer
-                BCC     @even
-                CLC
-                ADC     pTileID
+    ror Pointer
+    bcc @even
+    clc
+    adc pTileID
 
 @even:
-                ROR     A
-                DEX
-                BNE     @loop
-                TAX
-                LDA     Pointer
-                ROR     A
-                RTS
+    ror A
+    dex
+    bne @loop
+    tax
+    lda Pointer
+    ror A
+    rts
 ; End of function multiply
 
 
@@ -8966,50 +8866,51 @@ loc_F155:
 ; Output: $68-6F - string
 
 num2str:
-                LDY     #8
+    ldy #8
 
 @next_digital:
-                DEY
-                LDA     #0
-                LDX     #$18
-                ROL     Pointer
-                ROL     Pointer+1
-                ROL     AddrForJmp
+    dey
+    lda #0
+    ldx #$18
+    rol Pointer
+    rol Pointer+1
+    rol AddrForJmp
 
 @next_shift:
-                ROL     A
-                CMP     #$A
-                BCC     @decimal
-                SBC     #$A
+    rol A
+    cmp #$A
+    bcc @decimal
+    sbc #$A
 
 @decimal:
-                ROL     Pointer
-                ROL     Pointer+1
-                ROL     AddrForJmp
-                DEX
-                BNE     @next_shift
-                TAX
-                LDA     NumberTiles,X
-                STA     pDist,Y         ; write digital tile
-                LDA     Pointer
-                ORA     Pointer+1
-                ORA     AddrForJmp
-                BNE     @next_digital
-                STY     AddrForJmp+1
-                LDA     #$A0            ; space symbol
-                BNE     @next_space
+    rol Pointer
+    rol Pointer+1
+    rol AddrForJmp
+    dex
+    bne @next_shift
+    tax
+    lda NumberTiles,X
+    sta pDist,Y         ; write digital tile
+    lda Pointer
+    ora Pointer+1
+    ora AddrForJmp
+    bne @next_digital
+    sty AddrForJmp+1
+    lda #$A0            ; space symbol
+    bne @next_space
 
 @write_space:
-                STA     pDist,Y
+    sta pDist,Y
 
 @next_space:
-                DEY
-                BPL     @write_space
-                RTS
+    dey
+    bpl @write_space
+    rts
 ; End of function num2str
 
 ; ---------------------------------------------------------------------------
-NumberTiles:    .byte $B0, $B1, $B2, $B3, $B4, $B5, $B6, $B7, $B8, $B9
+NumberTiles:
+    .byte "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -9050,7 +8951,7 @@ loc_F1C6:
                 BCC     loc_F1D4
                 SBC     #$B0
 ; ---------------------------------------------------------------------------
-                .byte $2C ; ,
+                .byte $2C
 ; ---------------------------------------------------------------------------
 
 loc_F1D4:
@@ -9138,18 +9039,16 @@ loc_F21C:
 bank16:
     .export bank16
 
-                PHA
-                TXA
-                PHA
-                LDA     #$16
-                LDX     #6
-                JSR     mmc3_bank_set   ; Set memory bank
-                                        ; A - bank number
-                                        ; X - mode
-                PLA
-                TAX
-                PLA
-                RTS
+    pha
+    txa
+    pha
+    lda #$16
+    ldx #6
+    jsr mmc3_bank_set   ; Set memory bank A - bank number,  X - mode
+    pla
+    tax
+    pla
+    rts
 ; End of function bank16
 
 
@@ -9160,18 +9059,16 @@ bank16:
 bank0:
     .export bank0
 
-                PHA
-                TXA
-                PHA
-                LDA     #0
-                LDX     #6
-                JSR     mmc3_bank_set   ; Set memory bank
-                                        ; A - bank number
-                                        ; X - mode
-                PLA
-                TAX
-                PLA
-                RTS
+    pha
+    txa
+    pha
+    lda #0
+    ldx #6
+    jsr mmc3_bank_set   ; Set memory bank A - bank number, X - mode
+    pla
+    tax
+    pla
+    rts
 ; End of function bank0
 
 
@@ -9180,13 +9077,14 @@ bank0:
 
 CheckMusic:
     .export CheckMusic
+    .import NewMusic
 
-                CMP     CurrentMusic
-                BEQ     @exit
-                STA     NewMusic
+    cmp CurrentMusic
+    beq @exit
+    sta NewMusic
 
 @exit:
-                RTS
+    rts
 ; End of function CheckMusic
 
 
@@ -9196,17 +9094,17 @@ CheckMusic:
 delay:
     .export delay
 
-                TXA
-                BEQ     locret_F26A
-                PHA
-                JSR     wait_nmi        ; wait for NMI interrupt processing to complete
-                PLA
-                TAX
-                DEX
-                BNE     delay
+    txa
+    beq locret_F26A
+    pha
+    jsr wait_nmi        ; wait for NMI interrupt processing to complete
+    pla
+    tax
+    dex
+    bne delay
 
 locret_F26A:
-                RTS
+    rts
 ; End of function delay
 
 
@@ -9245,8 +9143,8 @@ loc_F27E:
                 TAX
                 LDA     byte_F296,X
                 JSR     loc_F4B8
-                JSR     wait_nmi        ; wait for NMI interrupt processing to complete
-                JSR     wait_nmi        ; wait for NMI interrupt processing to complete
+                JSR     wait_nmi
+                JSR     wait_nmi
                 PLA
                 TAX
                 DEX
@@ -9255,7 +9153,8 @@ loc_F27E:
 ; End of function sub_F27C
 
 ; ---------------------------------------------------------------------------
-byte_F296:      .byte $21, $22, $23, $24, $25, $24, $23, $22
+byte_F296:
+    .byte $21, $22, $23, $24, $25, $24, $23, $22
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -9263,16 +9162,16 @@ byte_F296:      .byte $21, $22, $23, $24, $25, $24, $23, $22
 wait_A_B:
     .export wait_A_B
 
-                LDX     #0
-                STX     Gamepad0Buttons
+    ldx #0
+    stx Gamepad0Buttons
 
 @loop:
-                JSR     wait_nmi        ; wait for NMI interrupt processing to complete
-                LDA     Gamepad0Buttons
-                STX     Gamepad0Buttons
-                AND     #$C0
-                BEQ     @loop
-                RTS
+    jsr wait_nmi        ; wait for NMI interrupt processing to complete
+    lda Gamepad0Buttons
+    stx Gamepad0Buttons
+    and #$C0
+    beq @loop
+    rts
 ; End of function wait_A_B
 
 
@@ -9385,7 +9284,7 @@ loc_F30B:
                 PHA
                 LDA     Pointer
                 PHA
-                LDA     #$64 ; 'd'
+                LDA     #$64
                 STA     pTileID
 
 loc_F320:
@@ -9541,7 +9440,7 @@ loc_F43E:
                 CMP     #1
                 BNE     loc_F44A
                 LDA     pTileID+1
-                STA     $7F1
+                STA     byte_7F1
                 JMP     loc_F45B
 ; ---------------------------------------------------------------------------
 
@@ -9574,20 +9473,20 @@ loc_F463:
 long_delay:
     .export long_delay
 
-                LDX     #$F
+    ldx #$F
 
 @loop:
-                TXA
-                PHA
-                LDA     #5
-                STA     $7F1
-                LDX     #2
-                JSR     delay
-                PLA
-                TAX
-                DEX
-                BNE     @loop
-                RTS
+    txa
+    pha
+    lda #5
+    sta byte_7F1
+    ldx #2
+    jsr delay
+    pla
+    tax
+    dex
+    bne @loop
+    rts
 ; End of function long_delay
 
 
@@ -9601,23 +9500,23 @@ get_enemy_group:
     .export get_enemy_group
     .import EnemyGroups
 
-    LDA EnemyGroup
-    STA Pointer
-    LDA #0
-    STA Pointer+1
-    LDA #$A
-    STA pTileID
-    JSR get_offset      ; Input: Pointer - first multiplier
+    lda EnemyGroup
+    sta Pointer
+    lda #0
+    sta Pointer+1
+    lda #$A
+    sta pTileID
+    jsr get_offset      ; Input: Pointer - first multiplier
                         ;        pTileID - second multiplier
                         ; Output: AddrForJmp, Pointer - result Pointer * pTileID
-    CLC
-    LDA #<(EnemyGroups)    ; #$98            ; BANK16:8F98
-    ADC Pointer
-    STA pCharacter
-    LDA #>(EnemyGroups)    ; #$8F
-    ADC Pointer+1
-    STA pCharacter+1
-    RTS
+    clc
+    lda #<(EnemyGroups)    ; #$98            ; BANK16:8F98
+    adc Pointer
+    sta pCharacter
+    lda #>(EnemyGroups)    ; #$8F
+    adc Pointer+1
+    sta pCharacter+1
+    rts
 ; End of function get_enemy_group
 
 
@@ -9627,25 +9526,25 @@ get_enemy_group:
 preload_palettes:
     .export preload_palettes
 
-                JSR     wait_nmi_processed
-                LDY     #$1F
+    jsr wait_nmi_processed
+    ldy #$1F
 
 @next_color:
-                LDA     (Pointer),Y
-                STA     PalNMIBG,Y
-                DEY
-                BPL     @next_color
+    lda (Pointer),Y
+    sta PalNMIBG,Y
+    dey
+    bpl @next_color
 
 set_nmi_id4:
-                LDA     #4              ; ReturnTable
-                STA     NMI_Data + NMI_DATA::NMI_ID   ; NMITable
-                LDA     #0
-                STA     NMI_Data + NMI_DATA::NumOfChr ; NMITable
-                LDA     #0
-                STA     OffsetNMI_Data
-                LDA     #$80
-                STA     NMIFlags
-                RTS
+    lda #LOAD_PALETTES                  ; #4
+    sta NMI_Data + NMI_DATA::NMI_ID
+    lda #0
+    sta NMI_Data + NMI_DATA::NumOfChr
+    lda #0
+    sta OffsetNMI_Data
+    lda #$80
+    sta NMIFlags
+    rts
 ; End of function preload_palettes
 
 
@@ -9815,7 +9714,7 @@ sub_F562:
                 LDA     AddrForJmp+1
                 STA     Row
                 PHA
-                JSR     sub_C6D2
+                JSR     draw_tilepack
                 PLA
                 STA     AddrForJmp+1
                 JMP     loc_F5AC
@@ -9839,7 +9738,7 @@ loc_F59E:
                 ADC     TilepackMode
                 STA     Row
                 PHA
-                JSR     loc_C6DB
+                JSR     draw_tilepack_clear
                 PLA
                 STA     AddrForJmp+1
 
@@ -9869,25 +9768,20 @@ sub_F5C2:
     .export sub_F5C2
     .importzp EnemyPos
 
-                LDA     EnemyPos
-                PHA
-                JSR     sub_F765
-                LDA     #$DF
-                STA     pStr
-                LDA     #$F5
-                STA     pStr+1
-                LDA     #$DF
-                STA     pCursor
-                LDA     #$F5
-                STA     pCursor+1
-                JSR     loc_EF4B
-                PLA
-                STA     EnemyPos
-                RTS
+    lda EnemyPos
+    pha
+    jsr sub_F765
+    store #byte_F5DF, pStr
+    store #byte_F5DF, pCursor
+    jsr loc_EF4B
+    pla
+    sta EnemyPos
+    rts
 ; End of function sub_F5C2
 
 ; ---------------------------------------------------------------------------
-                .byte 1, 1, 0, 0, $C0, $5D
+byte_F5DF:
+    .byte 1, 1, 0, 0, $C0, $5D
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -9895,20 +9789,20 @@ sub_F5C2:
 statistical_frame:
     .export statistical_frame
 
-                PHA
-                TXA
-                PHA
-                TYA
-                PHA
-                JSR     draw_statistical_frame
-                JSR     sub_F614
-                PLA
-                TAY
-                PLA
-                TAX
-                PLA
-                SEC
-                RTS
+    pha
+    txa
+    pha
+    tya
+    pha
+    jsr draw_statistical_frame
+    jsr sub_F614
+    pla
+    tay
+    pla
+    tax
+    pla
+    sec
+    rts
 ; End of function statistical_frame
 
 
@@ -9918,25 +9812,25 @@ statistical_frame:
 set_jmp_addr:
     .export set_jmp_addr
 
-                STA     AddrForJmp
-                LDA     #0
-                ASL     AddrForJmp
-                ROL     A
-                ASL     AddrForJmp
-                ROL     A
-                ASL     AddrForJmp
-                ROL     A
-                STA     AddrForJmp+1
-                CLC
-                LDA     AddrForJmp
-                ADC     #0
-                STA     AddrForJmp
-                LDA     AddrForJmp+1
+    sta AddrForJmp
+    lda #0
+    asl AddrForJmp
+    rol A
+    asl AddrForJmp
+    rol A
+    asl AddrForJmp
+    rol A
+    sta AddrForJmp+1
+    clc
+    lda AddrForJmp
+    adc #0
+    sta AddrForJmp
+    lda AddrForJmp+1
 
 loc_F60F:
-                ADC     #$9E
-                STA     AddrForJmp+1
-                RTS
+    adc #$9E
+    sta AddrForJmp+1
+    rts
 ; End of function set_jmp_addr
 
 
@@ -9964,14 +9858,14 @@ loc_F622:
 loc_F630:
                 JSR     wait_nmi_processed
                 LDY     TilepackMode
-                LDA     $600,Y
+                LDA     Character,Y
                 BEQ     loc_F660
                 LDA     $611,Y
                 AND     #6
                 EOR     #6
                 BEQ     loc_F660
                 LDX     #2
-                LDA     $601,Y
+                LDA     Character + CHARACTER::field_1,Y
                 AND     #$80
                 BNE     loc_F655
                 LDX     #1
@@ -10010,13 +9904,13 @@ sub_F673:
 
                 TYA
                 PHA
-                LDA     pPPUTab,Y
+                LDA     Character + CHARACTER::NameOffset,Y
                 STA     Pointer
-                LDA     pPPUTab+1,Y
+                LDA     Character + CHARACTER::NameOffset+1,Y
                 STA     Pointer+1
-                LDA     $603,Y
+                LDA     Character + CHARACTER::MaxHealth,Y
                 STA     pTileID
-                LDA     $604,Y
+                LDA     Character + CHARACTER::MaxHealth+1,Y
                 STA     pTileID+1
                 LDY     #3
                 LDA     (Pointer),Y
@@ -10109,7 +10003,7 @@ sub_F6F9:
                 STA     SpriteTable,X
                 LDA     #8
                 STA     SpriteTable + ANIM_SPRITE::TileID,X
-                LDA     #$70 ; 'p'
+                LDA     #$70
                 STA     SpriteTable + ANIM_SPRITE::PosX,X
                 LDA     pDist+1
                 STA     SpriteTable + ANIM_SPRITE::PosY,X
@@ -10144,23 +10038,21 @@ sub_F724:
 copy_packed_tiles:
     .export copy_packed_tiles
 
-                JSR     wait_nmi_processed ; copies 32 bytes of a packed tile map at $400
-                                        ; input YX - pointer to the packed fragment
-                                        ; Y - high byte, X - low byte
-                STX     Pointer
-                STY     Pointer+1
-                LDY     #$1F
+    jsr wait_nmi_processed  ; copies 32 bytes of a packed tile map at $400
+                            ; input YX - pointer to the packed fragment
+    styx Pointer
+    ldy #$1F
 
 @next_byte:
-                LDA     (Pointer),Y
-                STA     NMI_Data,Y        ; NMITable
-                DEY
-                BPL     @next_byte
-                LDA     #$80
-                STA     NMIFlags
-                LDA     #0
-                STA     OffsetNMI_Data
-                RTS
+    lda (Pointer),Y
+    sta NMI_Data,Y
+    dey
+    bpl @next_byte
+    lda #$80
+    sta NMIFlags
+    lda #0
+    sta OffsetNMI_Data
+    rts
 ; End of function copy_packed_tiles
 
 
@@ -10171,13 +10063,9 @@ copy_packed_tiles:
 save_jmp_instr:
     .export save_jmp_instr
 
-                LDA     #$6A
-                STA     JmpInstr+1
-                LDA     #$F7
-                STA     JmpInstr+2
-                LDA     #$4C
-                STA     JmpInstr
-                RTS
+    store #sub_F76A, JmpInstr+1
+    set JmpInstr, #$4C
+    rts
 ; End of function save_jmp_instr
 
 
@@ -10187,9 +10075,9 @@ save_jmp_instr:
 clear_jmp_instr:
     .export clear_jmp_instr
 
-                LDA     #0
-                STA     JmpInstr
-                JMP     wait_nmi        ; wait for NMI interrupt processing to complete
+    lda #0
+    sta JmpInstr
+    jmp wait_nmi        ; wait for NMI interrupt processing to complete
 ; End of function clear_jmp_instr
 
 
@@ -10199,9 +10087,9 @@ clear_jmp_instr:
 sub_F760:
     .export sub_F760
 
-                LDA     #1
-                STA     EnemyPos
-                RTS
+    lda #1
+    sta EnemyPos
+    rts
 ; End of function sub_F760
 
 
@@ -10211,9 +10099,9 @@ sub_F760:
 sub_F765:
     .export sub_F765
 
-                LDA     #0
-                STA     EnemyPos
-                RTS
+    lda #0
+    sta EnemyPos
+    rts
 ; End of function sub_F765
 
 

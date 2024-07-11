@@ -1,8 +1,8 @@
-.include "ram.inc"
 .include "palette.inc"
 .include "mmc3\mmc3.inc"
+.include "..\res\structures.inc"
 
-.segment "PRG_BANK_A"
+.segment "BANK_A"
 
 ; ===========================================================================
 
@@ -190,6 +190,7 @@ loc_1AA0E5:
 
 
 sub_1AA0EF:
+    .import NMI_Data
     .importzp BankPPU_X800, BankPPU_XC00, OffsetNMI_Data
 
                 LDA     #8
@@ -258,6 +259,8 @@ locret_1AA151:
 
 
 sub_1AA152:
+    .import PalNMIBG, PalNMISpr
+
                 JSR     wait_nmi_processed
                 LDY     #$10
                 LDX     #$F
@@ -291,6 +294,8 @@ loc_1AA159:
 
 
 sub_1AA18A:
+    .import SpriteTable
+
                 JSR     wait_nmi_processed
                 INY
                 LDA     (BankPPU_X000),Y
@@ -427,7 +432,7 @@ sub_1AA215:
 
 
 sub_1AA226:
-    .import text2stack, loc_C6DB
+    .import text2stack, draw_tilepack_clear
     .importzp PointerTilePack, Row, Column, byte_70, byte_71, byte_73
 
                 INY
@@ -447,7 +452,7 @@ sub_1AA226:
 
 loc_1AA240:
                 JSR     text2stack
-                JSR     loc_C6DB
+                JSR     draw_tilepack_clear
                 CMP     #0
                 BEQ     loc_1AA252
                 LDY     #0
@@ -515,7 +520,7 @@ sub_1AA29A:
                 STA     byte_70
                 STA     byte_71
                 JSR     text2stack
-                JSR     loc_C6DB
+                JSR     draw_tilepack_clear
                 LDY     #5
                 RTS
 ; End of function sub_1AA29A

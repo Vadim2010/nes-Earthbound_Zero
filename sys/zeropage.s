@@ -16,9 +16,9 @@
 .exportzp byte_44, byte_45, byte_46, byte_47, EnemyGroup, byte_49, byte_4A, byte_4B, byte_4C, byte_4D, byte_4E, byte_4F
 .exportzp byte_50, byte_51, byte_52, CharacterOffset, byte_54, Encounter, byte_57, byte_58, byte_59, EnemyPos, byte_5B, word_5E
 .exportzp byte_6C, byte_6D, byte_6E, byte_70, byte_71, byte_73
-.exportzp Pointer, CurrentFieldPosition
-.exportzp byte_0, word_2A
-.exportzp chr_bank_color_0C, color_0E
+.exportzp Pointer, CursorPosition
+.exportzp byte_0, Price
+.exportzp Color_0C, Color_0E
 .exportzp TilepackMode, TilesCount, TilesNum, UnpackID, Tile4Count, PointerTilePack
 .exportzp apu_BF
 .exportzp PPUAttribute, PPUAddr, Off_pAttr, OffScreen, NTAddr, MsgOffset, MsgNumber, MaskORA, MaskCntrlPPU
@@ -36,7 +36,7 @@ byte_1:             .res 5
 CopyrightViolation: .res 1
 BankNum:            .res 1
 CHRBank:            .res 1
-CHRText:             .tag CHR_TXT_OFFSET
+CHRText:            .tag CHR_TXT_OFFSET
 
 byte_C:             .res 1
 byte_D:             .res 1
@@ -51,8 +51,8 @@ BankNum1:           .res 1
 BankNum1Mask3:      .res 1
 MapSectorID:        .res 1
 MsgNumber:          .res 1
-color_0E:           .res 1
-chr_bank_color_0C:  .res 1
+Color_0E:           .res 1
+Color_0C:           .res 1
 LowGlobalXC0:       .res 1
 HighGlobalX:        .res 1
 LowGlobalYC0:       .res 1
@@ -72,7 +72,7 @@ byte_26:            .res 1
 byte_27:            .res 1
 byte_28:            .res 1
 byte_29:            .res 1
-word_2A:            .res 2
+Price:              .res 2
 byte_2C:            .res 1
 byte_2D:            .res 3
 
@@ -166,7 +166,7 @@ LoopAddr:           .res 2
 ChrCount:           .res 1
 ByteCount:          .res 1
 pCursor:            .res 2
-CurrentFieldPosition: .res 1
+CursorPosition:     .res 1
 Buttons:            .res 1
 pStr:               .res 2
 CurrentX:           .res 1

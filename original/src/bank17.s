@@ -1,7 +1,6 @@
-.include "ram.inc"
-.include "..\res\sram.inc"
+.include "..\res\structures.inc"
 
-.segment "PRG_BANK_7"
+.segment "BANK_7"
 
 ; ===========================================================================
 
@@ -15,7 +14,8 @@
 battle:
     .export battle
     .import get_enemy_group, bank0, preload_palettes, bank16, statistical_frame, wait_nmi_processed, delay, save_jmp_instr
-    .import frame, shift_down_window, sub_F760, sub_F765, shift_up_window, clear_jmp_instr
+    .import frame, shift_down_window, sub_F760, sub_F765, shift_up_window, clear_jmp_instr, Character, CurrentGame, byte_580
+    .import NMI_Data, Item1, byte_640, byte_660
     .importzp Gamepad0Buttons, Gamepad1Buttons, pCharacter, Pointer, NMIFlags, OffsetNMI_Data, NamePos
     .importzp byte_23, byte_47, EnemyGroup, byte_49, byte_4A, byte_4B, byte_4C, byte_4D
     .importzp byte_52, CharacterOffset, Encounter, byte_59, EnemyPos, byte_5B
@@ -33,7 +33,7 @@ battle:
                 TAX
 
 @clear1:
-                STA     byte_600,X
+                STA     Character,X
                 INX
                 BNE     @clear1
                 LDX     #$1F
@@ -49,7 +49,7 @@ battle:
 next_character:
                 TXA
                 PHA
-                LDA     $7408,X             ;CurrentGame.PureSave.CharactersNum,X
+                LDA     CurrentGame + PURE_SAVE::CharactersNum,X    ; $7408,X
                 BEQ     loc_17A03A
                 JSR     copy_character
                 CLC
@@ -142,7 +142,7 @@ loc_17A089:
 
 loc_17A0C0:
                 LDX     CharacterOffset
-                LDA     byte_600,X
+                LDA     Character,X
                 BEQ     loc_17A0CA
                 JSR     enemy_draw
 
@@ -216,9 +216,9 @@ loc_17A13E:
                 LDY     #4
 
 loc_17A142:
-                LDA     byte_604,X
+                LDA     Character + CHARACTER::MaxHealth+1,X
                 AND     #3
-                STA     byte_604,X
+                STA     Character + CHARACTER::MaxHealth+1,X
                 INX
                 INX
                 DEY
@@ -234,10 +234,10 @@ loc_17A142:
                 BNE     loc_17A173
                 LDX     #4
                 LDA     #$FF
-                STA     byte_683
-                STA     byte_684
+                STA     Item1+3
+                STA     Item1+4
                 LDA     #0
-                STA     byte_620
+                STA     Character + CHARACTER::field_20
                 STA     byte_640
                 STA     byte_660
 
@@ -249,9 +249,9 @@ loc_17A173:
                 STY     Encounter
 
 loc_17A17D:
-                LDA     byte_61E,Y
+                LDA     Character + CHARACTER::field_1E,Y
                 ORA     #4
-                STA     byte_61E,Y
+                STA     Character + CHARACTER::field_1E,Y
                 TYA
                 CLC
                 ADC     #$20
@@ -264,8 +264,8 @@ loc_17A18C:
                 BNE     loc_17A19C
                 LDA     #$96
                 STA     NamePos
-                LDA     byte_60C
-                STA     byte_68C
+                LDA     Character + CHARACTER::Speed
+                STA     Item1+$C
 
 loc_17A19C:
                 LDX     #$14
@@ -333,7 +333,7 @@ loc_17A1E8:
 
 loc_17A1FC:
                 LDA     (Pointer),Y
-                STA     byte_601,X
+                STA     Character + CHARACTER::field_1,X
                 INY
                 INX
                 CPY     #$10
@@ -343,20 +343,20 @@ loc_17A1FC:
 
 loc_17A20B:
                 LDA     (Pointer),Y
-                STA     byte_603,X
+                STA     Character + CHARACTER::MaxHealth,X
                 INX
                 INY
                 CPY     #$18
                 BNE     loc_17A20B
                 LDX     CharacterOffset
                 LDA     #$FF
-                STA     byte_600,X
+                STA     Character,X
                 LDA     AddrForJmp
-                STA     byte_611,X
+                STA     Character + CHARACTER::Exp,X
                 LDA     Pointer
-                STA     pPPUTab,X
+                STA     Character + CHARACTER::NameOffset,X
                 LDA     Pointer+1
-                STA     pPPUTab+1,X
+                STA     Character + CHARACTER::NameOffset+1,X
                 RTS
 ; End of function copy_character
 
@@ -369,7 +369,7 @@ copy_enemy:
                 LDA     Pointer+1
                 ASL     A
                 ASL     A
-                STA     byte_61A,X
+                STA     Character + CHARACTER::field_1A,X
                 LDA     Pointer
                 STA     AddrForJmp
                 LDA     #0
@@ -393,7 +393,7 @@ loc_17A23E:
 
 loc_17A257:
                 LDA     (AddrForJmp),Y  ; BANK16:8860, BANK16:8481
-                STA     byte_601,X
+                STA     Character + CHARACTER::field_1,X
                 INY
                 INX
                 CPY     #$18
@@ -402,22 +402,22 @@ loc_17A257:
                 LDY     EnemyGroup
                 INY
                 TYA
-                STA     byte_600,X
+                STA     Character,X
                 LDA     AddrForJmp
-                STA     pPPUTab,X
+                STA     Character + CHARACTER::NameOffset,X
                 LDA     AddrForJmp+1
-                STA     pPPUTab+1,X
+                STA     Character + CHARACTER::NameOffset+1,X
                 LDY     #$5E
                 LDA     Pointer+1
                 BPL     loc_17A285
-                LDA     byte_61E,X
+                LDA     Character + CHARACTER::field_1E,X
                 ORA     #1
-                STA     byte_61E,X
+                STA     Character + CHARACTER::field_1E,X
                 LDY     #0
 
 loc_17A285:
                 TYA
-                STA     byte_61D,X
+                STA     Character + CHARACTER::field_1D,X
                 RTS
 ; End of function copy_enemy
 
@@ -426,20 +426,20 @@ loc_17A285:
 
 
 enemy_draw:
-    .import off_16960A, byte_168F40
+    .import SpriteTable, off_16960A, byte_168F40
     .importzp TilepackMode, pTileID, pDist, TilesCount
 
-                LDA     byte_61E,X
+                LDA     Character + CHARACTER::field_1E,X
                 AND     #1
                 BEQ     loc_17A296
                 LDA     #0
-                STA     byte_600,X
+                STA     Character,X
 
 loc_17A296:
-                LDA     byte_61A,X
+                LDA     Character + CHARACTER::field_1A,X
                 ORA     byte_5B
-                STA     byte_61A,X
-                LDA     byte_604,X
+                STA     Character + CHARACTER::field_1A,X
+                LDA     Character + CHARACTER::MaxHealth+1,X
                 AND     #$F0
                 LSR     A
                 LSR     A
@@ -449,7 +449,7 @@ loc_17A296:
                 STA     Pointer
                 LDA     off_16960A+1,Y
                 STA     Pointer+1
-                LDA     byte_608,X
+                LDA     Character + CHARACTER::Offense+1,X
                 AND     #$E0
                 LSR     A
                 LSR     A
@@ -484,7 +484,7 @@ loc_17A2D2:
                 TAY
                 LDA     byte_168F40,Y
                 STA     pTileID+1
-                LDA     byte_604,X
+                LDA     Character + CHARACTER::MaxHealth+1,X
                 AND     #$C
                 LSR     A
                 LSR     A
@@ -579,7 +579,7 @@ loc_17A32F:
                 DEC     AddrForJmp
                 BNE     @next_row
                 LDX     CharacterOffset
-                LDA     byte_606,X
+                LDA     Character + CHARACTER::MaxPP+1,X
                 AND     #$FC
                 BEQ     locret_17A3D1
                 LSR     A
@@ -595,7 +595,7 @@ loc_17A32F:
                 STA     Pointer+1
                 LDY     #0
                 LDA     (Pointer),Y
-                STA     byte_61C,X
+                STA     Character + CHARACTER::field_1C,X
                 LDA     byte_5B
                 ASL     A
                 ASL     A
@@ -663,10 +663,10 @@ sub_17A3F8:
                 BNE     loc_17A42D
                 SEC
                 LDY     byte_54
-                LDA     pPPUTab,Y
+                LDA     Character + CHARACTER::NameOffset,Y
                 SBC     #0
                 STA     PointerTilePack
-                LDA     pPPUTab+1,Y
+                LDA     Character + CHARACTER::NameOffset+1,Y
                 SBC     #$80
                 ASL     PointerTilePack
                 ROL     A
@@ -723,7 +723,7 @@ loc_17A462:
 
 loc_17A46F:
                 JSR     bank16          ; set memory bank $16 at $8000
-                LDX     $7418           ; CurrentGame.PureSave.field_18
+                LDX     CurrentGame + PURE_SAVE::field_18       ; $7418
                 JSR     delay
 
 locret_17A478:
@@ -783,6 +783,8 @@ locret_17A4BA:
 
 
 sub_17A4BB:
+    .import unk_588
+
                 LDA     #$21
                 STA     byte_580
                 STA     unk_588
@@ -799,9 +801,9 @@ sub_17A4BB:
                 LDX     byte_54
 
 loc_17A4DA:
-                LDA     pPPUTab,X
+                LDA     Character + CHARACTER::NameOffset,X
                 STA     Pointer
-                LDA     pPPUTab+1,X
+                LDA     Character + CHARACTER::NameOffset+1,X
                 STA     Pointer+1
                 LDY     #$18
                 LDA     (Pointer),Y
@@ -815,7 +817,7 @@ loc_17A4DA:
                 STA     (AddrForJmp),Y
                 INY
                 INY
-                LDA     byte_61A,X
+                LDA     Character + CHARACTER::field_1A,X
                 AND     #$1C
                 BEQ     loc_17A505
                 LSR     A
@@ -842,16 +844,16 @@ sub_17A50A:
 loc_17A50E:
                 LDY     CharacterOffset
                 LDA     #0
-                STA     byte_61D,Y
-                LDA     byte_61E,Y
+                STA     Character + CHARACTER::field_1D,Y
+                LDA     Character + CHARACTER::field_1E,Y
                 AND     #$F7
-                STA     byte_61E,Y
-                LDA     byte_600,Y
+                STA     Character + CHARACTER::field_1E,Y
+                LDA     Character,Y
                 BEQ     loc_17A535
-                LDA     byte_601,Y
+                LDA     Character + CHARACTER::field_1,Y
                 AND     #$F4
                 BNE     loc_17A535
-                LDA     byte_61E,Y
+                LDA     Character + CHARACTER::field_1E,Y
                 AND     #$20
                 BNE     loc_17A535
                 JSR     sub_17A53F
@@ -875,7 +877,7 @@ sub_17A53F:
                 BNE     loc_17A559
                 LDY     CharacterOffset
                 BMI     loc_17A559
-                LDA     byte_611,Y
+                LDA     Character + CHARACTER::Exp,Y
                 AND     #6
                 EOR     #6
                 BEQ     loc_17A559
@@ -889,16 +891,16 @@ loc_17A559:
 
 loc_17A55C:
                 LDY     CharacterOffset
-                LDA     byte_61D,Y
+                LDA     Character + CHARACTER::field_1D,Y
                 CMP     #$53
                 BEQ     loc_17A569
                 CMP     #$59
                 BNE     loc_17A571
 
 loc_17A569:
-                LDA     byte_61E,Y
+                LDA     Character + CHARACTER::field_1E,Y
                 ORA     #8
-                STA     byte_61E,Y
+                STA     Character + CHARACTER::field_1E,Y
 
 loc_17A571:
                 CLC
@@ -929,13 +931,13 @@ loc_17A57D:
 
 loc_17A57F:
                 STY     byte_54
-                LDA     byte_600,Y
+                LDA     Character,Y
                 BEQ     loc_17A594
-                LDA     byte_611,Y
+                LDA     Character + CHARACTER::Exp,Y
                 AND     #6
                 EOR     #6
                 BEQ     loc_17A594
-                LDA     byte_601,Y
+                LDA     Character + CHARACTER::field_1,Y
                 BMI     loc_17A59D
 
 loc_17A594:
@@ -955,11 +957,11 @@ loc_17A5A0:
 
 loc_17A5A2:
                 STY     byte_54
-                LDA     byte_600,Y
+                LDA     Character,Y
                 BEQ     loc_17A5BC
-                LDA     byte_601,Y
+                LDA     Character + CHARACTER::field_1,Y
                 BMI     loc_17A5BC
-                LDA     byte_611,Y
+                LDA     Character + CHARACTER::Exp,Y
                 AND     #6
                 EOR     #6
                 BEQ     loc_17A5BC
@@ -979,9 +981,9 @@ loc_17A5C5:
                 LDY     #0
 
 loc_17A5C9:
-                LDA     byte_600,Y
+                LDA     Character,Y
                 BEQ     loc_17A5DB
-                LDA     byte_601,Y
+                LDA     Character + CHARACTER::field_1,Y
                 BMI     loc_17A5DB
                 JSR     sub_F673
                 BCS     loc_17A5DB
@@ -1004,13 +1006,13 @@ loc_17A5E9:
 
 loc_17A5EB:
                 STY     byte_54
-                LDA     byte_600,Y
+                LDA     Character,Y
                 BEQ     loc_17A604
-                LDA     byte_611,Y
+                LDA     Character + CHARACTER::Exp,Y
                 AND     #6
                 EOR     #6
                 BEQ     loc_17A604
-                LDA     byte_601,Y
+                LDA     Character + CHARACTER::field_1,Y
                 BMI     loc_17A604
                 AND     #$70
                 BNE     loc_17A60E
@@ -1055,26 +1057,26 @@ loc_17A623:
                 LDY     CharacterOffset
                 JSR     sub_17BFAA
                 BCS     loc_17A5E9
-                CPX     #$7C ; '|'
+                CPX     #$7C
                 BEQ     loc_17A5E9
                 CPX     #$84
                 BEQ     loc_17A5E9
                 TYA
                 LDY     CharacterOffset
-                STA     byte_610,Y
+                STA     Character + CHARACTER::Level,Y
                 TXA
-                STA     byte_61D,Y
+                STA     Character + CHARACTER::field_1D,Y
 
 loc_17A651:
                 LDA     byte_54
                 LDY     CharacterOffset
-                STA     byte_61C,Y
+                STA     Character + CHARACTER::field_1C,Y
                 RTS
 ; ---------------------------------------------------------------------------
 
 loc_17A659:
                 LDY     byte_54
-                LDA     byte_601,Y
+                LDA     Character + CHARACTER::field_1,Y
                 TAX
                 AND     #$20
                 BNE     loc_17A670
@@ -1109,27 +1111,27 @@ loc_17A685:
 loc_17A688:
                 LDA     byte_54
                 LDY     CharacterOffset
-                STA     byte_61C,Y
+                STA     Character + CHARACTER::field_1C,Y
                 RTS
 ; ---------------------------------------------------------------------------
 
 loc_17A690:
                 LDY     CharacterOffset
                 LDA     #1
-                STA     byte_61D,Y
+                STA     Character + CHARACTER::field_1D,Y
 
 loc_17A697:
                 JSR     sub_F1ED
                 AND     #$E0
                 ORA     #$80
                 TAY
-                LDA     byte_600,Y
+                LDA     Character,Y
                 BEQ     loc_17A697
-                LDA     byte_601,Y
+                LDA     Character + CHARACTER::field_1,Y
                 BMI     loc_17A697
                 TYA
                 LDY     CharacterOffset
-                STA     byte_61C,Y
+                STA     Character + CHARACTER::field_1C,Y
                 RTS
 ; ---------------------------------------------------------------------------
 
@@ -1143,7 +1145,7 @@ loc_17A6B0:
 loc_17A6BA:
                 LDY     CharacterOffset
                 LDA     byte_54
-                STA     byte_61C,Y
+                STA     Character + CHARACTER::field_1C,Y
                 RTS
 ; ---------------------------------------------------------------------------
 
@@ -1189,7 +1191,7 @@ loc_17A6D6:
                 LDY     #5
                 LDA     (Pointer),Y
                 LDY     CharacterOffset
-                STA     byte_61D,Y
+                STA     Character + CHARACTER::field_1D,Y
                 LDY     #7
                 LDA     (Pointer),Y
                 STA     byte_4E
@@ -1215,9 +1217,9 @@ loc_17A723:
                 CLC
                 ADC     CharacterOffset
                 TAY
-                LDA     byte_610,Y
+                LDA     Character + CHARACTER::Level,Y
                 LDY     CharacterOffset
-                STA     byte_61D,Y
+                STA     Character + CHARACTER::field_1D,Y
                 JSR     sub_17AC23
                 JSR     sub_F2D5        ; trap function with no return
 ; End of function sub_17A573            ; transfers control to a function whose address is selected from the table located after the call of this function
@@ -1311,7 +1313,7 @@ loc_17A7A0:
 sub_17A7A3:
                 LDA     byte_54
                 LDY     CharacterOffset
-                STA     byte_61C,Y
+                STA     Character + CHARACTER::field_1C,Y
                 RTS
 ; End of function sub_17A7A3
 
@@ -1325,9 +1327,9 @@ sub_17A7AB:
                 JSR     sub_F1ED
                 AND     #OtherNMIFlags
                 TAY
-                LDA     byte_600,Y
+                LDA     Character,Y
                 BEQ     sub_17A7AB
-                LDA     byte_601,Y
+                LDA     Character + CHARACTER::field_1,Y
                 BMI     sub_17A7AB
                 STY     byte_54
                 RTS
@@ -1338,7 +1340,7 @@ sub_17A7AB:
 
 
 sub_17A7BE:
-                CMP     $7408,X         ; CurrentPlayer.PureSave.CharactersNum,X
+                CMP     CurrentGame + PURE_SAVE::CharactersNum, X   ; $7408,X
                 BNE     loc_17A7D8
                 TXA
                 ASL     A
@@ -1347,9 +1349,9 @@ sub_17A7BE:
                 ASL     A
                 ASL     A
                 TAY
-                LDA     byte_600,Y
+                LDA     Character,Y
                 BEQ     loc_17A7D8
-                LDA     byte_601,Y
+                LDA     Character + CHARACTER::field_1,Y
                 BMI     loc_17A7D8
                 STY     byte_54
                 SEC
@@ -1393,7 +1395,7 @@ nullsub_6:
 sub_17A802:
                 LDA     #1
                 LDY     CharacterOffset
-                STA     byte_61D,Y
+                STA     Character + CHARACTER::field_1D,Y
                 JSR     sub_17A962
                 BCC     loc_17A811
                 JMP     loc_17A7DD
@@ -1469,10 +1471,10 @@ loc_17A868:
 sub_17A86B:
                 LDY     CharacterOffset
                 CLC
-                LDA     pPPUTab,Y
+                LDA     Character + CHARACTER::NameOffset,Y
                 ADC     #$30
                 STA     pCharacter
-                LDA     pPPUTab+1,Y
+                LDA     Character + CHARACTER::NameOffset+1,Y
                 ADC     #0
                 STA     pCharacter+1
                 RTS
@@ -1487,7 +1489,7 @@ sub_17A87D:
 
 loc_17A87F:
                 LDY     CharacterOffset
-                STA     byte_61D,Y
+                STA     Character + CHARACTER::field_1D,Y
                 CLC
                 JMP     nullsub_6
 ; End of function sub_17A87D
@@ -1499,10 +1501,10 @@ loc_17A87F:
 sub_17A888:
                 LDY     CharacterOffset
                 CLC
-                LDA     pPPUTab,Y
+                LDA     Character + CHARACTER::NameOffset,Y
                 ADC     #$20
                 STA     pCharacter
-                LDA     pPPUTab+1,Y
+                LDA     Character + CHARACTER::NameOffset+1,Y
                 ADC     #0
                 STA     pCharacter+1
                 LDA     #0
@@ -1544,22 +1546,23 @@ sub_17A8BA:
 
 
 sub_17A8BF:
-    .importzp CurrentFieldPosition
+    .import byte_591
+    .importzp CursorPosition
 
                 LDA     #$80
                 STA     byte_54
                 JSR     sub_17A991
                 BCS     loc_17A8DF
-                LDX     CurrentFieldPosition
+                LDX     CursorPosition
                 LDA     byte_591,X
                 TAX
                 DEX
                 TXA
                 STA     byte_54
                 LDY     CharacterOffset
-                STA     byte_61C,Y
+                STA     Character + CHARACTER::field_1C,Y
                 LDA     #$6F
-                STA     byte_61D,Y
+                STA     Character + CHARACTER::field_1D,Y
                 JMP     nullsub_6
 ; ---------------------------------------------------------------------------
 
@@ -1587,14 +1590,14 @@ sub_17A8E7:
                 SBC     #$20
                 STA     CharacterOffset
                 TAY
-                LDA     byte_600,Y
+                LDA     Character,Y
                 BEQ     sub_17A8E7
-                LDA     byte_601,Y
+                LDA     Character + CHARACTER::field_1,Y
                 BMI     sub_17A8E7
-                LDA     byte_601,Y
+                LDA     Character + CHARACTER::field_1,Y
                 AND     #$F4
                 BNE     sub_17A8E7
-                LDA     byte_61E,Y
+                LDA     Character + CHARACTER::field_1E,Y
                 AND     #$20
                 BNE     sub_17A8E7
 
@@ -1639,7 +1642,7 @@ loc_17A927:
                 BVS     loc_17A942
                 LDA     #9
                 JSR     sub_17A945
-                LDA     CurrentFieldPosition
+                LDA     CursorPosition
                 RTS
 ; ---------------------------------------------------------------------------
 
@@ -1654,13 +1657,13 @@ loc_17A942:
 
 sub_17A945:
                 STA     Pointer
-                LDA     CurrentFieldPosition
+                LDA     CursorPosition
                 LSR     A
                 ASL     A
                 CLC
                 ADC     Row
                 STA     Row
-                LDA     CurrentFieldPosition
+                LDA     CursorPosition
                 AND     #1
                 BEQ     loc_17A95D
                 CLC
@@ -1693,14 +1696,14 @@ loc_17A96F:
                 STA     byte_54
                 JSR     sub_17A991
                 BCS     loc_17A98F
-                LDX     CurrentFieldPosition
+                LDX     CursorPosition
                 LDA     byte_591,X
                 TAX
                 DEX
                 TXA
                 STA     byte_54
                 LDY     CharacterOffset
-                STA     byte_61C,Y
+                STA     Character + CHARACTER::field_1C,Y
 
 loc_17A98D:
                 CLC
@@ -1734,7 +1737,7 @@ sub_17A991:
 ; ---------------------------------------------------------------------------
 
 loc_17A9AD:
-                LDA     CurrentFieldPosition
+                LDA     CursorPosition
                 CLC
                 RTS
 ; ---------------------------------------------------------------------------
@@ -1749,6 +1752,8 @@ loc_17A9B1:
 
 
 sub_17A9B3:
+    .import byte_590, byte_592, byte_593, unk_594
+
                 LDA     #$12
                 STA     Row
                 LDX     #0
@@ -1766,11 +1771,11 @@ loc_17A9CE:
                 TYA
                 PHA
                 LDY     byte_54
-                LDA     byte_600,Y
+                LDA     Character,Y
                 BEQ     loc_17A9F8
                 LDY     byte_54
                 BMI     loc_17A9E4
-                LDA     byte_611,Y
+                LDA     Character + CHARACTER::Exp,Y
                 AND     #6
                 EOR     #6
                 BEQ     loc_17A9F8
@@ -1816,9 +1821,9 @@ sub_17AA08:
                 JSR     sub_17AAE9
                 BCS     loc_17AA65
                 LDY     CharacterOffset
-                LDA     CurrentFieldPosition
-                STA     byte_610,Y
-                LDY     CurrentFieldPosition
+                LDA     CursorPosition
+                STA     Character + CHARACTER::Level,Y
+                LDY     CursorPosition
                 LDA     (pCharacter),Y
                 JSR     sub_17AAA4
                 LDY     CharacterOffset
@@ -1831,7 +1836,7 @@ sub_17AA08:
                 CMP     #0
                 BEQ     loc_17AA4C
                 LDY     CharacterOffset
-                STA     byte_61D,Y
+                STA     Character + CHARACTER::field_1D,Y
                 JSR     sub_17A962
                 BCS     loc_17AA65
                 RTS
@@ -1868,7 +1873,7 @@ loc_17AA65:
 
 
 sub_17AA67:
-    .import byte_169FB2, byte_169FB4
+    .import byte_169FB2, byte_169FB4, unk_589, unk_58A
 
                 LDY     #0
 
@@ -1937,10 +1942,10 @@ loc_17AAAA:
 
 sub_17AABC:
                 CLC
-                LDA     pPPUTab,Y
+                LDA     Character + CHARACTER::NameOffset,Y
                 ADC     #$20
                 STA     Pointer
-                LDA     pPPUTab+1,Y
+                LDA     Character + CHARACTER::NameOffset+1,Y
                 ADC     #0
                 STA     Pointer+1
                 RTS
@@ -1988,7 +1993,7 @@ sub_17AAE9:
 loc_17AB05:
                 LDA     #$C
                 JSR     sub_17A945
-                LDA     CurrentFieldPosition
+                LDA     CursorPosition
                 CLC
                 RTS
 ; ---------------------------------------------------------------------------
@@ -2032,7 +2037,7 @@ loc_17AB32:
                 BNE     loc_17AB12
 
 loc_17AB39:
-                LDY     CurrentFieldPosition
+                LDY     CursorPosition
                 LDA     byte_580,Y
                 JSR     set_jmp_addr
                 JSR     bank0           ; set memory bank 0 at $8000
@@ -2040,7 +2045,7 @@ loc_17AB39:
                 LDA     (AddrForJmp),Y
                 BEQ     loc_17AB57
                 LDY     CharacterOffset
-                STA     byte_61D,Y
+                STA     Character + CHARACTER::field_1D,Y
                 PHA
                 JSR     bank16          ; set memory bank $16 at $8000
                 PLA
@@ -2184,7 +2189,7 @@ loc_17AC03:
 
 
 sub_17AC06:
-    .import loc_C6DB, fNameStr
+    .import draw_tilepack_clear, fNameStr
 
                 LDA     #$A
                 JSR     frame
@@ -2196,7 +2201,7 @@ sub_17AC06:
                 STA     PointerTilePack
                 LDA     #>(fNameStr)    ; #$8E
                 STA     PointerTilePack+1
-                JSR     loc_C6DB
+                JSR     draw_tilepack_clear
                 JMP     bank16          ; set memory bank $16 at $8000
 ; End of function sub_17AC06
 
@@ -2246,7 +2251,7 @@ loc_17AC46:
 
 sub_17AC49:
                 JSR     bank0           ; set memory bank 0 at $8000
-                LDA     byte_611,Y
+                LDA     Character + CHARACTER::Exp,Y
                 STA     pTileID
                 TAX
                 SEC
@@ -2287,7 +2292,7 @@ loc_17AC71:
                 JSR     sub_17ACD6      ; out message, animation
                 LDA     #$FF
                 LDY     CharacterOffset
-                STA     byte_61D,Y
+                STA     Character + CHARACTER::field_1D,Y
                 JSR     sub_17B75A      ; check win, lose, out message
                 BCS     loc_17AC90
                 PLA
@@ -2335,12 +2340,12 @@ sub_17ACA5:
 
 loc_17ACAB:
                 LDY     Pointer
-                LDA     byte_61D,Y
+                LDA     Character + CHARACTER::field_1D,Y
                 CMP     #$FF
                 BEQ     loc_17ACC8
                 CMP     #$5E ; '^'
                 BEQ     loc_17ACD3
-                LDA     byte_60C,Y
+                LDA     Character + CHARACTER::Speed,Y
                 JSR     sub_F3FD
                 CMP     Pointer+1
                 BCC     loc_17ACC8
@@ -2369,14 +2374,14 @@ sub_17ACD6:
     .importzp word_5E
 
                 LDY     CharacterOffset
-                LDA     byte_600,Y
+                LDA     Character,Y
                 BNE     loc_17ACE2
                 LDA     #0
                 JMP     loc_17ADC1
 ; ---------------------------------------------------------------------------
 
 loc_17ACE2:
-                LDA     byte_601,Y
+                LDA     Character + CHARACTER::field_1,Y
                 AND     #$80
                 BEQ     loc_17ACEE
                 LDA     #0
@@ -2384,7 +2389,7 @@ loc_17ACE2:
 ; ---------------------------------------------------------------------------
 
 loc_17ACEE:
-                LDA     byte_601,Y
+                LDA     Character + CHARACTER::field_1,Y
                 AND     #$40
                 BEQ     loc_17ACFA
                 LDA     #$47
@@ -2392,7 +2397,7 @@ loc_17ACEE:
 ; ---------------------------------------------------------------------------
 
 loc_17ACFA:
-                LDA     byte_601,Y
+                LDA     Character + CHARACTER::field_1,Y
                 AND     #$20
                 BEQ     loc_17AD06
                 LDA     #$46
@@ -2400,15 +2405,15 @@ loc_17ACFA:
 ; ---------------------------------------------------------------------------
 
 loc_17AD06:
-                LDA     byte_601,Y
+                LDA     Character + CHARACTER::field_1,Y
                 AND     #$10
                 BEQ     loc_17AD2B
                 JSR     sub_F1ED
                 AND     #$E0
                 BNE     loc_17AD26
-                LDA     byte_601,Y
+                LDA     Character + CHARACTER::field_1,Y
                 AND     #$EF
-                STA     byte_601,Y
+                STA     Character + CHARACTER::field_1,Y
                 STY     byte_54
                 JSR     statistical_frame
                 LDA     #$8E
@@ -2421,7 +2426,7 @@ loc_17AD26:
 ; ---------------------------------------------------------------------------
 
 loc_17AD2B:
-                LDA     byte_601,Y
+                LDA     Character + CHARACTER::field_1,Y
                 AND     #4
                 BEQ     loc_17AD37
                 LDA     #$68
@@ -2429,10 +2434,10 @@ loc_17AD2B:
 ; ---------------------------------------------------------------------------
 
 loc_17AD37:
-                LDA     byte_61E,Y
+                LDA     Character + CHARACTER::field_1E,Y
                 AND     #2
                 BEQ     loc_17AD4A
-                LDA     byte_61D,Y
+                LDA     Character + CHARACTER::field_1D,Y
                 CMP     #$76
                 BEQ     loc_17AD4A
                 LDA     #$56
@@ -2440,15 +2445,15 @@ loc_17AD37:
 ; ---------------------------------------------------------------------------
 
 loc_17AD4A:
-                LDA     byte_61E,Y
+                LDA     Character + CHARACTER::field_1E,Y
                 AND     #$20
                 BEQ     loc_17AD6A
                 JSR     sub_F1ED
                 AND     #$C0
                 BNE     loc_17AD65
-                LDA     byte_61E,Y
+                LDA     Character + CHARACTER::field_1E,Y
                 AND     #$DF
-                STA     byte_61E,Y
+                STA     Character + CHARACTER::field_1E,Y
                 LDA     #$8B
                 JMP     loc_17ADC1
 ; ---------------------------------------------------------------------------
@@ -2459,7 +2464,7 @@ loc_17AD65:
 ; ---------------------------------------------------------------------------
 
 loc_17AD6A:
-                LDA     byte_601,Y
+                LDA     Character + CHARACTER::field_1,Y
                 AND     #8
                 BEQ     loc_17AD76
                 LDA     #$3A
@@ -2467,7 +2472,7 @@ loc_17AD6A:
 
 loc_17AD76:
                 LDY     CharacterOffset
-                LDA     byte_61D,Y
+                LDA     Character + CHARACTER::field_1D,Y
 
 loc_17AD7B:
                 LDY     #0
@@ -2697,9 +2702,9 @@ sub_17AECF:
     .import sram_read_enable
 
                 JSR     sram_write_enable
-                DEC     $741F           ; CurrentGame.PureSave.field_1F
+                DEC     CurrentGame + PURE_SAVE::field_1F       ; $741F
                 JSR     sram_read_enable
-                LDA     $741F           ; CurrentGame.PureSave.field_1F
+                LDA     CurrentGame + PURE_SAVE::field_1F       ; $741F
                 BNE     loc_17AEE5
                 JSR     sub_17B4E5
                 LDA     #$91
@@ -3105,7 +3110,7 @@ sub_17B069:
 loc_17B06B:
                 CPY     CharacterOffset
                 BEQ     loc_17B076
-                LDA     byte_61E,Y
+                LDA     Character + CHARACTER::field_1E,Y
                 AND     #1
                 BNE     loc_17B07F
 
@@ -3123,15 +3128,15 @@ loc_17B07F:
                 STY     byte_54
                 JSR     sub_17B513
                 LDY     byte_54
-                LDA     byte_61E,Y
+                LDA     Character + CHARACTER::field_1E,Y
                 AND     #$FE
-                STA     byte_61E,Y
+                STA     Character + CHARACTER::field_1E,Y
                 LDA     #0
-                STA     byte_61D,Y
+                STA     Character + CHARACTER::field_1D,Y
                 LDY     CharacterOffset
-                LDA     byte_600,Y
+                LDA     Character,Y
                 LDY     byte_54
-                STA     byte_600,Y
+                STA     Character,Y
                 LDA     #$42
                 JSR     sub_17A3F8
                 SEC
@@ -3160,16 +3165,16 @@ sub_17B0A4:
 
 sub_17B0B0:
                 LDY     CharacterOffset
-                LDA     byte_600,Y
+                LDA     Character,Y
                 BEQ     loc_17B0CA
-                LDA     byte_601,Y
+                LDA     Character + CHARACTER::field_1,Y
                 BMI     loc_17B0CA
 
 loc_17B0BC:
                 LDY     byte_54
-                LDA     byte_600,Y
+                LDA     Character,Y
                 BEQ     loc_17B0CA
-                LDA     byte_601,Y
+                LDA     Character + CHARACTER::field_1,Y
                 BMI     loc_17B0CA
                 CLC
                 RTS
@@ -3188,15 +3193,15 @@ sub_17B0CC:
                 LDA     byte_23
                 BNE     loc_17B0F3
                 LDY     byte_54
-                LDA     byte_601,Y
+                LDA     Character + CHARACTER::field_1,Y
                 AND     #$70
                 BNE     loc_17B0F3
-                LDA     byte_61E,Y
+                LDA     Character + CHARACTER::field_1E,Y
                 BMI     loc_17B0F3
-                LDA     byte_60B,Y
+                LDA     Character + CHARACTER::Fight,Y
                 STA     Pointer
                 LDY     CharacterOffset
-                LDA     byte_60B,Y
+                LDA     Character + CHARACTER::Fight,Y
                 STA     AddrForJmp
                 JSR     sub_17B1A2
                 LDA     Pointer
@@ -3221,10 +3226,10 @@ sub_17B0F7:
                 JSR     sub_17BFE2
                 BCS     locret_17B111
                 LDY     CharacterOffset
-                LDA     byte_60B,Y
+                LDA     Character + CHARACTER::Fight,Y
                 STA     Pointer
                 LDY     byte_54
-                LDA     byte_60B,Y
+                LDA     Character + CHARACTER::Fight,Y
                 STA     AddrForJmp
                 JSR     sub_17B1A2
                 LDA     AddrForJmp
@@ -3240,7 +3245,7 @@ locret_17B111:
 
 sub_17B112:
                 LDY     CharacterOffset
-                LDA     byte_61E,Y
+                LDA     Character + CHARACTER::field_1E,Y
                 AND     #$80
                 EOR     #$80
                 ROL     A
@@ -3278,9 +3283,9 @@ loc_17B12F:
 sub_17B131:
                 LDY     byte_54
                 BMI     loc_17B14C
-                LDA     pPPUTab,Y
+                LDA     Character + CHARACTER::NameOffset,Y
                 STA     Pointer
-                LDA     pPPUTab+1,Y
+                LDA     Character + CHARACTER::NameOffset+1,Y
                 STA     Pointer+1
                 LDY     #$20
 
@@ -3308,10 +3313,10 @@ loc_17B14E:
 
 sub_17B150:
                 LDY     byte_54
-                LDA     unk_602,Y
+                LDA     Character + CHARACTER::field_2,Y
                 AND     #$80
                 BNE     loc_17B160
-                LDA     unk_602,Y
+                LDA     Character + CHARACTER::field_2,Y
                 AND     #1
                 BNE     loc_17B162
 
@@ -3341,7 +3346,7 @@ sub_17B164:
 
 sub_17B169:
                 LDY     byte_54
-                LDA     unk_602,Y
+                LDA     Character + CHARACTER::field_2,Y
                 AND     #$80
                 EOR     #$80
                 ROL     A
@@ -3354,7 +3359,7 @@ sub_17B169:
 
 sub_17B174:
                 LDY     byte_54
-                LDA     unk_602,Y
+                LDA     Character + CHARACTER::field_2,Y
                 AND     #4
                 EOR     #4
                 CMP     #1
@@ -3385,7 +3390,7 @@ loc_17B186:
 
 sub_17B188:
                 LDY     byte_54
-                LDA     byte_611,Y
+                LDA     Character + CHARACTER::Exp,Y
                 AND     #6
                 EOR     #6
                 CMP     #1
@@ -3445,7 +3450,7 @@ loc_17B1BD:
 
 sub_17B1C5:
                 LDY     CharacterOffset
-                LDA     byte_61E,Y
+                LDA     Character + CHARACTER::field_1E,Y
                 AND     #$40
                 EOR     #$40
                 CMP     #1
@@ -3459,9 +3464,9 @@ sub_17B1C5:
 sub_17B1D1:
                 LDY     CharacterOffset
                 SEC
-                LDA     byte_605,Y
+                LDA     Character + CHARACTER::MaxPP,Y
                 SBC     byte_4E
-                LDA     byte_606,Y
+                LDA     Character + CHARACTER::MaxPP+1,Y
                 SBC     byte_4F
                 RTS
 ; End of function sub_17B1D1
@@ -3474,10 +3479,10 @@ nullsub_4:
 
 sub_17B1E0:
                 LDY     CharacterOffset
-                LDA     byte_601,Y
+                LDA     Character + CHARACTER::field_1,Y
                 AND     #8
                 BNE     loc_17B1EF
-                LDA     byte_61C,Y
+                LDA     Character + CHARACTER::field_1C,Y
                 STA     byte_54
                 RTS
 ; ---------------------------------------------------------------------------
@@ -3486,9 +3491,9 @@ loc_17B1EF:
                 JSR     sub_F1ED
                 AND     #$E0
                 TAY
-                LDA     byte_600,Y
+                LDA     Character,Y
                 BEQ     loc_17B1EF
-                LDA     byte_601,Y
+                LDA     Character + CHARACTER::field_1,Y
                 BMI     loc_17B1EF
                 STY     byte_54
                 RTS
@@ -3500,7 +3505,7 @@ loc_17B1EF:
 
 sub_17B202:
                 LDY     CharacterOffset
-                LDA     byte_601,Y
+                LDA     Character + CHARACTER::field_1,Y
                 AND     #8
                 BEQ     loc_17B212
                 JSR     sub_F1ED
@@ -3524,7 +3529,7 @@ loc_17B21A:
 
 sub_17B21D:
                 LDY     CharacterOffset
-                LDA     byte_601,Y
+                LDA     Character + CHARACTER::field_1,Y
                 AND     #8
                 BEQ     loc_17B22D
                 JSR     sub_F1ED
@@ -3585,17 +3590,17 @@ sub_17B248:
 
 sub_17B250:
                 LDY     byte_54
-                LDA     byte_609,Y
+                LDA     Character + CHARACTER::Defense,Y
                 STA     pTileID
-                LDA     byte_60A,Y
+                LDA     Character + CHARACTER::Defense+1,Y
                 STA     pTileID+1
                 SEC
                 LDY     CharacterOffset
-                LDA     byte_607,Y
+                LDA     Character + CHARACTER::Offense,Y
                 STA     TilepackMode
                 STA     pDist
                 SBC     pTileID
-                LDA     byte_608,Y
+                LDA     Character + CHARACTER::Offense+1,Y
                 STA     TilesCount
                 STA     pDist+1
                 SBC     pTileID+1
@@ -3671,9 +3676,9 @@ loc_17B2CE:
 
 sub_17B2D9:
                 LDY     CharacterOffset
-                LDA     byte_607,Y
+                LDA     Character + CHARACTER::Offense,Y
                 STA     byte_4E
-                LDA     byte_608,Y
+                LDA     Character + CHARACTER::Offense+1,Y
                 STA     byte_4F
                 LDA     Encounter
                 CMP     #1
@@ -3788,20 +3793,20 @@ loc_17B354:
 
 loc_17B35D:
                 LDY     byte_54
-                LDA     byte_607,Y
+                LDA     Character + CHARACTER::Offense,Y
                 STA     byte_590
-                LDA     byte_608,Y
+                LDA     Character + CHARACTER::Offense+1,Y
                 STA     byte_591
-                LDA     byte_609,Y
+                LDA     Character + CHARACTER::Defense,Y
                 STA     byte_592
-                LDA     byte_60A,Y
+                LDA     Character + CHARACTER::Defense+1,Y
                 STA     byte_593
                 LDA     #$24
                 JSR     sub_17A3F8
                 LDA     #$25
                 JSR     sub_17A3F8
                 LDY     byte_54
-                LDA     unk_602,Y
+                LDA     Character + CHARACTER::field_2,Y
                 PHA
                 AND     #$40
                 BEQ     loc_17B390
@@ -3901,7 +3906,7 @@ sub_17B3D8:
 sub_17B3DD:
                 TYA
                 BMI     loc_17B3F0
-                LDA     byte_611,Y
+                LDA     Character + CHARACTER::Exp,Y
                 CMP     #6
                 BNE     loc_17B3F0
                 LDA     #0
@@ -3959,20 +3964,22 @@ loc_17B40B:
 
 
 sub_17B42D:
+    .import apu_7F0
+
                 TYA
                 PHA
                 LDA     #0
-                STA     byte_603,Y
-                STA     byte_604,Y
+                STA     Character + CHARACTER::MaxHealth,Y
+                STA     Character + CHARACTER::MaxHealth+1,Y
                 LDA     #$80
-                STA     byte_601,Y
+                STA     Character + CHARACTER::field_1,Y
                 TYA
                 BPL     loc_17B48B
                 LDA     #0
-                STA     byte_600,Y
-                LDA     pPPUTab,Y
+                STA     Character,Y
+                LDA     Character + CHARACTER::NameOffset,Y
                 STA     Pointer
-                LDA     pPPUTab+1,Y
+                LDA     Character + CHARACTER::NameOffset+1,Y
                 STA     Pointer+1
                 TYA
                 PHA
@@ -4030,7 +4037,7 @@ sub_17B496:
                 TYA
                 PHA
                 BMI     loc_17B4A9
-                LDA     byte_611,Y
+                LDA     Character + CHARACTER::Exp,Y
                 CMP     #6
                 BEQ     loc_17B4C7
                 LDA     #$10
@@ -4042,9 +4049,9 @@ loc_17B4A9:
                 LDA     Encounter
                 CMP     #6
                 BEQ     loc_17B4C7
-                LDA     pPPUTab,Y
+                LDA     Character + CHARACTER::NameOffset,Y
                 STA     Pointer
-                LDA     pPPUTab+1,Y
+                LDA     Character + CHARACTER::NameOffset+1,Y
                 STA     Pointer+1
                 LDY     #$A
                 LDA     (Pointer),Y
@@ -4068,9 +4075,9 @@ loc_17B4C7:
 sub_17B4CA:
                 TYA
                 PHA
-                LDA     pPPUTab,Y
+                LDA     Character + CHARACTER::NameOffset,Y
                 STA     Pointer
-                LDA     pPPUTab+1,Y
+                LDA     Character + CHARACTER::NameOffset+1,Y
                 STA     Pointer+1
                 LDY     #8
                 LDA     (Pointer),Y
@@ -4091,14 +4098,14 @@ sub_17B4CA:
 sub_17B4E5:
                 LDY     CharacterOffset
                 CLC
-                LDA     pPPUTab,Y
+                LDA     Character + CHARACTER::NameOffset,Y
                 ADC     #$20
                 STA     Pointer
-                LDA     pPPUTab+1,Y
+                LDA     Character + CHARACTER::NameOffset+1,Y
                 ADC     #0
                 STA     Pointer+1
                 LDY     CharacterOffset
-                LDA     byte_610,Y
+                LDA     Character + CHARACTER::Level,Y
                 TAY
 
 loc_17B4FC:
@@ -4129,9 +4136,9 @@ sub_17B513:
     .importzp byte_45, BankPPU_X000
 
                 JSR     sub_17B5BC
-                LDA     byte_601,Y
+                LDA     Character + CHARACTER::field_1,Y
                 AND     #$7F
-                STA     byte_601,Y
+                STA     Character + CHARACTER::field_1,Y
                 LDA     #$22
                 STA     Pointer
                 LDA     #$FF
@@ -4143,7 +4150,7 @@ sub_17B513:
                 STA     byte_45
                 TYA
                 PHA
-                LDA     byte_61A,Y
+                LDA     Character + CHARACTER::field_1A,Y
                 AND     #3
                 TAX
                 LDY     #$1F
@@ -4151,7 +4158,7 @@ sub_17B513:
                 STA     BankPPU_X000,X
                 PLA
                 TAY
-                LDA     byte_61C,Y
+                LDA     Character + CHARACTER::field_1C,Y
                 LDX     pTileID+1
                 STA     SpriteTable,X
                 LDA     #1
@@ -4177,7 +4184,7 @@ sub_17B555:
                 LDA     #$80
                 STA     NMIFlags
                 LDA     #0
-                STA     byte_600,Y
+                STA     Character,Y
                 LDA     #0
                 STA     Pointer
                 LDA     #$23
@@ -4185,7 +4192,7 @@ sub_17B555:
                 LDA     #1
                 STA     AddrForJmp
                 JSR     sub_17B589
-                LDA     byte_61A,Y
+                LDA     Character + CHARACTER::field_1A,Y
                 AND     #3
                 TAX
                 LDA     #$7C
@@ -4202,7 +4209,7 @@ sub_17B589:
 
                 TYA
                 PHA
-                LDA     byte_61A,Y
+                LDA     Character + CHARACTER::field_1A,Y
                 AND     #3
                 TAX
                 LDY     #$1F
@@ -4239,11 +4246,11 @@ loc_17B5AD:
 
 
 sub_17B5BC:
-                LDA     pPPUTab,Y
+                LDA     Character + CHARACTER::NameOffset,Y
                 STA     pCharacter
-                LDA     pPPUTab+1,Y
+                LDA     Character + CHARACTER::NameOffset+1,Y
                 STA     pCharacter+1
-                LDA     byte_61A,Y
+                LDA     Character + CHARACTER::field_1A,Y
                 AND     #3
                 STA     pTileID
                 ASL     A
@@ -4411,12 +4418,12 @@ sub_17B67C:
                 JSR     sub_F41F
                 JSR     sub_17B5BC
                 LDY     byte_54
-                LDA     byte_61C,Y
+                LDA     Character + CHARACTER::field_1C,Y
                 PHA
                 LDX     pTileID+1
                 LDA     SpriteTable,X
                 LDY     byte_54
-                STA     byte_61C,Y
+                STA     Character + CHARACTER::field_1C,Y
                 LDA     #0
                 LDX     pTileID+1
                 STA     SpriteTable,X
@@ -4429,7 +4436,7 @@ sub_17B67C:
                 JSR     sub_17B513
                 PLA
                 LDY     byte_54
-                STA     byte_61C,Y
+                STA     Character + CHARACTER::field_1C,Y
                 RTS
 ; End of function sub_17B67C
 
@@ -4593,7 +4600,7 @@ loc_17B733:
 
 
 sub_17B75A:
-    .import CheckMusic
+    .import CheckMusic, Item3, byte_6C0, byte_6E0
 
                 LDA     byte_47
                 CMP     #1
@@ -4603,13 +4610,13 @@ sub_17B75A:
                 LDY     #0
 
 loc_17B766:
-                LDA     byte_600,Y
+                LDA     Character,Y
                 BEQ     loc_17B77B
-                LDA     byte_611,Y
+                LDA     Character + CHARACTER::Exp,Y
                 AND     #6
                 EOR     #6
                 BEQ     loc_17B77B
-                LDA     byte_601,Y
+                LDA     Character + CHARACTER::field_1,Y
                 AND     #$E0
                 BEQ     loc_17B7B2
 
@@ -4620,10 +4627,10 @@ loc_17B77B:
                 TAY
                 BPL     loc_17B766
                 LDA     #$80
-                STA     byte_601
-                STA     byte_621
-                STA     byte_641
-                STA     byte_661
+                STA     Character + CHARACTER::field_1
+                STA     Character + CHARACTER::field_20+1
+                STA     byte_640+1
+                STA     byte_660+1
                 LDA     Encounter
                 CMP     #4
                 BNE     loc_17B7A7
@@ -4648,8 +4655,8 @@ loc_17B7B0:
 ; ---------------------------------------------------------------------------
 
 loc_17B7B2:
-                LDA     byte_680
-                ORA     byte_6A0
+                LDA     Item1
+                ORA     Item3
                 ORA     byte_6C0
                 ORA     byte_6E0
                 BNE     loc_17B7F3
@@ -4844,7 +4851,7 @@ sub_17B8D4:
                 STA     byte_4F
                 LDA     #0
                 LDX     byte_54
-                STA     byte_601,X
+                STA     Character + CHARACTER::field_1,X
                 LDY     #3
                 JSR     sub_17BEF2
                 LDX     #$A
@@ -4862,14 +4869,14 @@ sub_17B8F2:
                 JSR     sub_17BDDD
                 LDY     CharacterOffset
                 SEC
-                LDA     byte_603,Y
+                LDA     Character + CHARACTER::MaxHealth,Y
                 SBC     Pointer
-                STA     byte_603,Y
-                LDA     byte_604,Y
+                STA     Character + CHARACTER::MaxHealth,Y
+                LDA     Character + CHARACTER::MaxHealth+1,Y
                 SBC     Pointer+1
-                STA     byte_604,Y
+                STA     Character + CHARACTER::MaxHealth+1,Y
                 BCC     loc_17B912
-                ORA     byte_603,Y
+                ORA     Character + CHARACTER::MaxHealth,Y
                 BEQ     loc_17B912
                 JMP     statistical_frame
 ; ---------------------------------------------------------------------------
@@ -4894,7 +4901,7 @@ sub_17B915:
 loc_17B924:
                 LDX     #3
                 LDY     CharacterOffset
-                LDA     byte_611,Y
+                LDA     Character + CHARACTER::Exp,Y
                 CMP     #6
                 BNE     loc_17B931
                 LDX     #$3F
@@ -4912,7 +4919,7 @@ loc_17B93E:
                 PHA
                 JSR     sub_17BDDD
                 LDY     byte_54
-                LDA     byte_61E,Y
+                LDA     Character + CHARACTER::field_1E,Y
                 AND     #4
                 BEQ     loc_17B962
                 LDA     Pointer+1
@@ -4929,14 +4936,14 @@ loc_17B93E:
                 STY     byte_54
 
 loc_17B962:
-                LDA     byte_61E,Y
+                LDA     Character + CHARACTER::field_1E,Y
                 AND     #$10
                 BEQ     loc_17B96D
                 LSR     Pointer+1
                 ROR     Pointer
 
 loc_17B96D:
-                LDA     byte_61E,Y
+                LDA     Character + CHARACTER::field_1E,Y
                 AND     #8
                 BEQ     loc_17B978
                 LSR     Pointer+1
@@ -4973,39 +4980,39 @@ loc_17B9A5:
                 BCS     loc_17B9C4
                 LDY     byte_54
                 SEC
-                LDA     byte_603,Y
+                LDA     Character + CHARACTER::MaxHealth,Y
                 SBC     Pointer
-                STA     byte_603,Y
-                LDA     byte_604,Y
+                STA     Character + CHARACTER::MaxHealth,Y
+                LDA     Character + CHARACTER::MaxHealth+1,Y
                 SBC     Pointer+1
-                STA     byte_604,Y
+                STA     Character + CHARACTER::MaxHealth+1,Y
                 BCC     loc_17BA00
-                ORA     byte_603,Y
+                ORA     Character + CHARACTER::MaxHealth,Y
                 BEQ     loc_17BA00
 
 loc_17B9C4:
-                LDA     byte_601,Y
+                LDA     Character + CHARACTER::field_1,Y
                 AND     #$C
                 BEQ     loc_17B9DF
                 JSR     sub_F1ED
                 AND     #$C0
                 BNE     loc_17B9DF
-                LDA     byte_601,Y
+                LDA     Character + CHARACTER::field_1,Y
                 AND     #$F3
-                STA     byte_601,Y
+                STA     Character + CHARACTER::field_1,Y
                 LDA     #$8D
                 JSR     sub_17A3F8
 
 loc_17B9DF:
-                LDA     byte_601,Y
+                LDA     Character + CHARACTER::field_1,Y
                 AND     #$10
                 BEQ     loc_17B9FA
                 JSR     sub_F1ED
                 AND     #$C0
                 BNE     loc_17B9FA
-                LDA     byte_601,Y
+                LDA     Character + CHARACTER::field_1,Y
                 AND     #$EF
-                STA     byte_601,Y
+                STA     Character + CHARACTER::field_1,Y
                 LDA     #$61
                 JSR     sub_17A3F8
 
@@ -5083,14 +5090,14 @@ sub_17BA3C:
                 INX
                 TXA
                 SEC
-                SBC     byte_603,Y
+                SBC     Character + CHARACTER::MaxHealth,Y
                 LDA     #0
-                SBC     byte_604,Y
+                SBC     Character + CHARACTER::MaxHealth+1,Y
                 BCS     loc_17BA6B
                 TXA
-                STA     byte_603,Y
+                STA     Character + CHARACTER::MaxHealth,Y
                 LDA     #0
-                STA     byte_604,Y
+                STA     Character + CHARACTER::MaxHealth+1,Y
                 LDX     #0
                 LDA     #$38
                 JMP     sub_17BD5B
@@ -5145,9 +5152,9 @@ sub_17BA95:
                 JSR     sub_17BDDD
                 LDY     byte_54
                 BMI     loc_17BADD
-                LDA     pPPUTab,Y
+                LDA     Character + CHARACTER::NameOffset,Y
                 STA     AddrForJmp
-                LDA     pPPUTab+1,Y
+                LDA     Character + CHARACTER::NameOffset+1,Y
                 STA     AddrForJmp+1
                 LDY     #$11
                 CLC
@@ -5280,9 +5287,9 @@ sub_17BB55:
                 JSR     sub_17BFE2
                 BCS     loc_17BAF7
                 LDY     byte_54
-                LDA     pPPUTab,Y
+                LDA     Character + CHARACTER::NameOffset,Y
                 STA     Pointer
-                LDA     pPPUTab+1,Y
+                LDA     Character + CHARACTER::NameOffset+1,Y
                 STA     Pointer+1
                 LDY     #5
                 LDA     (Pointer),Y
@@ -5301,9 +5308,9 @@ sub_17BB55:
 
 sub_17BB78:
                 LDY     byte_54
-                LDA     byte_61E,Y
+                LDA     Character + CHARACTER::field_1E,Y
                 ORA     #8
-                STA     byte_61E,Y
+                STA     Character + CHARACTER::field_1E,Y
                 RTS
 ; End of function sub_17BB78
 
@@ -5378,15 +5385,15 @@ locret_17BBCC:
 
 sub_17BBCD:
                 LDY     byte_54
-                LDA     byte_611,Y
+                LDA     Character + CHARACTER::Exp,Y
                 CMP     #1
                 BNE     locret_17BBEA
-                LDA     byte_61E,Y
+                LDA     Character + CHARACTER::field_1E,Y
                 AND     #2
                 BNE     locret_17BBEA
-                LDA     byte_61E,Y
+                LDA     Character + CHARACTER::field_1E,Y
                 ORA     #2
-                STA     byte_61E,Y
+                STA     Character + CHARACTER::field_1E,Y
                 LDA     #$74
                 JMP     sub_17A3F8
 ; ---------------------------------------------------------------------------
@@ -5491,11 +5498,11 @@ sub_17BC2F:
 
 sub_17BC38:
                 LDY     byte_54
-                LDA     byte_601,Y
+                LDA     Character + CHARACTER::field_1,Y
                 AND     #$80
                 BEQ     loc_17BC5A
                 LDA     #0
-                STA     byte_601,Y
+                STA     Character + CHARACTER::field_1,Y
                 LDA     #$FF
                 STA     byte_4E
                 STA     byte_4F
@@ -5516,7 +5523,7 @@ loc_17BC5A:
 
 
 sub_17BC5D:
-    .import sub_F26B
+    .import sub_F26B, CurrentMusic, NewMusic
 
                 LDX     Encounter
                 CPX     #6
@@ -5590,14 +5597,14 @@ loc_17BCBE:
 sub_17BCD0:
                 LDX     #$A
                 LDY     byte_54
-                LDA     byte_605,Y
-                ORA     byte_606,Y
+                LDA     Character + CHARACTER::MaxPP,Y
+                ORA     Character + CHARACTER::MaxPP+1,Y
                 BEQ     loc_17BD28
                 SEC
-                LDA     byte_605,Y
+                LDA     Character + CHARACTER::MaxPP,Y
                 TAX
                 SBC     #$A
-                LDA     byte_606,Y
+                LDA     Character + CHARACTER::MaxPP+1,Y
                 SBC     #0
                 BCC     loc_17BCEC
                 LDX     #$A
@@ -5607,12 +5614,12 @@ loc_17BCEC:
                 LDX     #0
                 STX     byte_591
                 SEC
-                LDA     byte_605,Y
+                LDA     Character + CHARACTER::MaxPP,Y
                 SBC     byte_590
-                STA     byte_605,Y
-                LDA     byte_606,Y
+                STA     Character + CHARACTER::MaxPP,Y
+                LDA     Character + CHARACTER::MaxPP+1,Y
                 SBC     byte_591
-                STA     byte_606,Y
+                STA     Character + CHARACTER::MaxPP+1,Y
                 LDA     #$48
                 JSR     sub_17A3F8
                 LDA     byte_590
@@ -5659,12 +5666,12 @@ loc_17BD3F:
 
 sub_17BD44:
                 LDY     byte_54
-                LDA     byte_601,Y
+                LDA     Character + CHARACTER::field_1,Y
                 AND     #8
                 BNE     locret_17BD5A
-                LDA     byte_601,Y
+                LDA     Character + CHARACTER::field_1,Y
                 ORA     #8
-                STA     byte_601,Y
+                STA     Character + CHARACTER::field_1,Y
                 LDA     #$39
                 JSR     sub_17A3F8
 
@@ -5695,48 +5702,48 @@ loc_17BD62:
 sub_17BD69:
                 PHA
                 JSR     sub_17BDCC
-                LDA     byte_601,Y
+                LDA     Character + CHARACTER::field_1,Y
                 AND     Pointer
                 BNE     loc_17BDC6
-                LDA     byte_601,Y
+                LDA     Character + CHARACTER::field_1,Y
                 ORA     Pointer
-                STA     byte_601,Y
+                STA     Character + CHARACTER::field_1,Y
                 JMP     loc_17BDBE
 ; ---------------------------------------------------------------------------
 
 loc_17BD7F:
                 PHA
                 JSR     sub_17BDCC
-                LDA     byte_61E,Y
+                LDA     Character + CHARACTER::field_1E,Y
                 AND     Pointer
                 BNE     loc_17BDC6
-                LDA     byte_61E,Y
+                LDA     Character + CHARACTER::field_1E,Y
                 ORA     Pointer
-                STA     byte_61E,Y
+                STA     Character + CHARACTER::field_1E,Y
                 JMP     loc_17BDBE
 ; ---------------------------------------------------------------------------
 
 loc_17BD95:
                 PHA
                 JSR     sub_17BDCC
-                LDA     byte_601,Y
+                LDA     Character + CHARACTER::field_1,Y
                 AND     Pointer
                 BEQ     loc_17BDC6
-                LDA     byte_601,Y
+                LDA     Character + CHARACTER::field_1,Y
                 AND     Pointer+1
-                STA     byte_601,Y
+                STA     Character + CHARACTER::field_1,Y
                 JMP     loc_17BDBE
 ; ---------------------------------------------------------------------------
 
 loc_17BDAB:
                 PHA
                 JSR     sub_17BDCC
-                LDA     byte_61E,Y
+                LDA     Character + CHARACTER::field_1E,Y
                 AND     Pointer
                 BEQ     loc_17BDC6
-                LDA     byte_61E,Y
+                LDA     Character + CHARACTER::field_1E,Y
                 AND     Pointer+1
-                STA     byte_61E,Y
+                STA     Character + CHARACTER::field_1E,Y
 
 loc_17BDBE:
                 LDX     byte_58
@@ -5804,10 +5811,10 @@ sub_17BDE8:
 
 sub_17BDEB:
                 CLC
-                LDA     byte_600,X
+                LDA     Character,X
                 ADC     Pointer
                 STA     TilepackMode
-                LDA     byte_601,X
+                LDA     Character + CHARACTER::field_1,X
                 ADC     Pointer+1
                 STA     TilesCount
                 BCC     loc_17BE02
@@ -5830,18 +5837,18 @@ loc_17BE02:
 loc_17BE15:
                 SEC
                 LDA     TilepackMode
-                SBC     byte_600,X
+                SBC     Character,X
                 STA     byte_590
                 LDA     TilesCount
-                SBC     byte_601,X
+                SBC     Character + CHARACTER::field_1,X
                 STA     byte_591
                 BCC     loc_17BE38
                 ORA     byte_590
                 BEQ     loc_17BE38
                 LDA     TilepackMode
-                STA     byte_600,X
+                STA     Character,X
                 LDA     TilesCount
-                STA     byte_601,X
+                STA     Character + CHARACTER::field_1,X
                 RTS
 ; ---------------------------------------------------------------------------
 
@@ -5856,7 +5863,7 @@ loc_17BE38:
 sub_17BE3B:
                 JSR     sub_17BF2C
                 CLC
-                LDA     byte_600,X
+                LDA     Character,X
                 ADC     Pointer
                 STA     TilepackMode
                 BCC     loc_17BE4C
@@ -5876,12 +5883,12 @@ loc_17BE57:
                 STA     byte_591
                 SEC
                 LDA     TilepackMode
-                SBC     byte_600,X
+                SBC     Character,X
                 STA     byte_590
                 BCC     loc_17BE6F
                 BEQ     loc_17BE6F
                 LDA     TilepackMode
-                STA     byte_600,X
+                STA     Character,X
                 RTS
 ; ---------------------------------------------------------------------------
 
@@ -5896,10 +5903,10 @@ loc_17BE6F:
 sub_17BE72:
                 JSR     sub_17BF2C
                 SEC
-                LDA     byte_600,X
+                LDA     Character,X
                 SBC     Pointer
                 STA     TilepackMode
-                LDA     byte_601,X
+                LDA     Character + CHARACTER::field_1,X
                 SBC     Pointer+1
                 STA     TilesCount
                 BCS     loc_17BE8C
@@ -5920,19 +5927,19 @@ loc_17BE8C:
 
 loc_17BE9E:
                 SEC
-                LDA     byte_600,X
+                LDA     Character,X
                 SBC     TilepackMode
                 STA     byte_590
-                LDA     byte_601,X
+                LDA     Character + CHARACTER::field_1,X
                 SBC     TilesCount
                 STA     byte_591
                 BCC     loc_17BEC1
                 ORA     byte_590
                 BEQ     loc_17BEC1
                 LDA     TilepackMode
-                STA     byte_600,X
+                STA     Character,X
                 LDA     TilesCount
-                STA     byte_601,X
+                STA     Character + CHARACTER::field_1,X
                 RTS
 ; ---------------------------------------------------------------------------
 
@@ -5947,7 +5954,7 @@ loc_17BEC1:
 sub_17BEC4:
                 JSR     sub_17BF2C
                 SEC
-                LDA     byte_600,X
+                LDA     Character,X
                 SBC     Pointer
                 STA     TilepackMode
                 BEQ     loc_17BED3
@@ -5961,13 +5968,13 @@ loc_17BED7:
                 LDA     #0
                 STA     byte_591
                 SEC
-                LDA     byte_600,X
+                LDA     Character,X
                 SBC     TilepackMode
                 STA     byte_590
                 BEQ     loc_17BEEF
                 BCC     loc_17BEEF
                 LDA     TilepackMode
-                STA     byte_600,X
+                STA     Character,X
                 RTS
 ; ---------------------------------------------------------------------------
 
@@ -6031,9 +6038,9 @@ sub_17BF15:
 
 
 sub_17BF2C:
-                LDA     pPPUTab,X
+                LDA     Character + CHARACTER::NameOffset,X
                 STA     TilepackMode
-                LDA     pPPUTab+1,X
+                LDA     Character + CHARACTER::NameOffset+1,X
                 STA     TilesCount
                 LDA     (TilepackMode),Y
                 STA     AddrForJmp
@@ -6066,10 +6073,10 @@ loc_17BF4F:
 
 sub_17BF58:
                 LDY     CharacterOffset
-                LDA     byte_60D,Y
+                LDA     Character + CHARACTER::Wisdom,Y
                 TAX
                 LDY     byte_54
-                LDA     byte_60E,Y
+                LDA     Character + CHARACTER::Strength,Y
                 JMP     sub_17BF8C
 ; End of function sub_17BF58
 
@@ -6079,10 +6086,10 @@ sub_17BF58:
 
 sub_17BF66:
                 LDY     CharacterOffset
-                LDA     byte_60D,Y
+                LDA     Character + CHARACTER::Wisdom,Y
                 TAX
                 LDY     byte_54
-                LDA     byte_60F,Y
+                LDA     Character + CHARACTER::Force,Y
                 JMP     sub_17BF8C
 ; End of function sub_17BF66
 
@@ -6091,7 +6098,7 @@ sub_17BF66:
 
 
 sub_17BF74:
-                LDA     unk_602,Y
+                LDA     Character + CHARACTER::field_2,Y
                 AND     byte_57
                 BEQ     loc_17BF87
                 LSR     Pointer+1
@@ -6217,7 +6224,7 @@ loc_17BFED:
 sub_17BFEF:
                 LDY     byte_54
                 BMI     loc_17BFFC
-                LDA     byte_611,Y
+                LDA     Character + CHARACTER::Exp,Y
                 CMP     #6
                 BNE     loc_17BFFC
                 SEC

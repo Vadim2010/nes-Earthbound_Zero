@@ -1,9 +1,10 @@
 .include "macros.inc"
 .include "nes.inc"
-.include "ram.inc"
+.include "nmi.inc"
 .include "palette.inc"
-.include "mmc3/bank.inc"
-.include "mmc3/mmc3.inc"
+.include "mmc3\bank.inc"
+.include "mmc3\mmc3.inc"
+.include "..\original\res\structures.inc"
 
 .segment "NMI_PPU"
 
@@ -12,6 +13,7 @@
 ; copies pre-prepared palettes from PalNMIBG to the PPU during NMI processing
 .proc load_palettes
     .export load_palettes
+    .import PalNMIBG, NMI_Data
 
     ;lda PPU_STATUS              ; read PPU status to reset the high/low latch
 
@@ -69,6 +71,7 @@
 ; F916
 .proc write_horizontal
     .export write_horizontal
+    .import NMI_Data
 
     jsr write_nt_block
     lda NMI_Data,Y
@@ -80,6 +83,7 @@
 ; F923
 .proc write_vertical
     .export write_vertical
+    .import NMI_Data
     .importzp CntrlPPU
 
     lda CntrlPPU
@@ -99,6 +103,7 @@
 ; F93C
 .proc write_ppu_chars
     .export write_ppu_chars
+    .import NMI_Data
 
     iny
     ldx NMI_Data,Y                ; get number of characters
@@ -123,6 +128,7 @@
 ; fills the PPU area with the same value during NMI processing
 .proc fill_ppu
     .export fill_ppu
+    .import NMI_Data
 
     iny
     ldx NMI_Data,Y                ; get number of characters
@@ -146,6 +152,7 @@
 ; F97C
 .proc read_ppu
     .export read_ppu
+    .import NMI_Data
 
     iny
     ldx NMI_Data,Y                ; get number of characters
@@ -171,7 +178,7 @@ get_next_char:
 .proc chr_text2stack
     .export chr_text2stack
     .importzp BankRegister, BankTable, BankMode
-    .import mmc3_bank_set
+    .import mmc3_bank_set, NMI_Data
 
     lda BankRegister
     pha                         ; store bank register into stack
@@ -199,7 +206,7 @@ get_next_char:
 
 next_data:
     lda PPU_DATA                ; get PPU data
-    sta $110,X                  ; save the read value into the stack
+    sta Stack+$10,X             ; save the read value into the stack
     inx
     cpx #$40
     bcc next_data              ; repeat for $40 (64) values
@@ -219,6 +226,7 @@ next_data:
 ; F9EF
 .proc write_nt_block
     .export write_nt_block
+    .import NMI_Data
     .importzp Bitfield
 
     iny
@@ -302,7 +310,7 @@ end_block:
 ; FA81
 .proc draw_sprite
     .export draw_sprite, oam_offscreen
-    .import mmc3_bank_set
+    .import mmc3_bank_set, SpriteTable
     .importzp pFrame, byte_C9, byte_CB, byte_CE, byte_CF, byte_E1, byte_E3, byte_E4, byte_E7, ShiftX, ShiftY
     .importzp CameraX, CameraY, FlagClearOAM300, SpriteTabOffset, SpriteTabStep, CntrlPPU
     .importzp TileCount, TileID, TileX, Attribute, TileY, pOAMSprite, pSprite, Bitfield
@@ -543,7 +551,7 @@ next_tile:
     iny
     clc
     adc TileX
-    sta OAM_Cache + OAM_TILE::PosX,X              ; $203
+    sta OAM_Cache + OAM_TILE::PosX,X
     ror A
     eor byte_C9
     bmi loc_FC1F
@@ -632,7 +640,7 @@ loc_FC6E:
 loc_FC79:
     stx byte_E4
     lda FlagClearOAM300
-    and #$20 ; ' '
+    and #$20
     bne loc_FC87
     lda #$F8
     sta SpriteTabOffset
@@ -752,7 +760,7 @@ loc_FCE7:
 ; FD5E
 .proc clear_oam_sprite
     .export clear_oam_sprite
-    .import wait_nmi_processed
+    .import wait_nmi_processed, SpriteTable
     .importzp FlagClearOAM300
 
     JSR wait_nmi_processed
@@ -762,14 +770,14 @@ loc_FCE7:
 
 @clear:
     LDA #0
-    STA $300,X
+    STA SpriteTable,X
     LDA #$F0
-    STA $200,X
+    STA OAM_Cache,X
     INX
     INX
     INX
     INX
-    STA $200,X
+    STA OAM_Cache,X
     INX
     INX
     INX
@@ -782,21 +790,21 @@ loc_FCE7:
 ; FD80
 .proc clear_nametables
     .export clear_nametables
-    .import wait_nmi_processed
+    .import wait_nmi_processed, NMI_Data
     .importzp OffsetNMI_Data, NMIFlags
 
     JSR wait_nmi_processed
-    LDA #8                      ; fill_ppu function ID
+    LDA #FILL                   ; #8 fill_ppu function ID
     LDX #$80                    ; number of char for fill
     STA NMI_Data
-    STX NMI_Data+1                ; num_of_chr
+    STX NMI_Data+1              ; num_of_chr
     LDA #0                      ; PPU address for fill ($2000) - nametable
     LDX #$20
-    STA NMI_Data+3                ; PPU_addr+1
-    STX NMI_Data+2                ; PPU_addr
+    STA NMI_Data+3              ; PPU_addr+1
+    STX NMI_Data+2              ; PPU_addr
     LDA #0
-    STA NMI_Data+4                ; chr ; character for fill = 0
-    STA NMI_Data+5                ; next; next record or end of record - 0
+    STA NMI_Data+4              ; chr ; character for fill = 0
+    STA NMI_Data+5              ; next; next record or end of record - 0
 
 @next_fill:
     LDX #0
@@ -806,12 +814,12 @@ loc_FCE7:
     JSR wait_nmi_processed
 
     CLC                         ; clear carry flag
-    LDA NMI_Data+3                ; PPU_addr+1 ; get next nametable address + $80
+    LDA NMI_Data+3              ; PPU_addr+1 ; get next nametable address + $80
     ADC #$80
-    STA NMI_Data+3                ; PPU_addr+1
-    LDA NMI_Data+2                ; PPU_addr
+    STA NMI_Data+3              ; PPU_addr+1
+    LDA NMI_Data+2              ; PPU_addr
     ADC #0
-    STA NMI_Data+2                ; PPU_addr
+    STA NMI_Data+2              ; PPU_addr
     CMP #$28                    ; address == $2800
     BCC @next_fill
     RTS

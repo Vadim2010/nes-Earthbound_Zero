@@ -1,5 +1,5 @@
 ; BANK $12
-.segment "DATA_BANK_2"
+.segment "BANK_2"
 ; 0x15 records
 off_128000:
     .word off_12802A, off_1283F4, off_1284E6, off_1284E8, off_1285AA

@@ -1,6 +1,7 @@
 .include "..\..\sys\palette.inc"
 .include "charmap.inc"
 .include "framecomm.inc"
+.include "structures.inc"
 
 .segment "DATA1"
 
@@ -26,14 +27,14 @@ fClear1:
     end_mark
 
 fStatistic:
-    down 0, $13
+    down 0, 19
     line fStatisticTop
     lines 3, fStatisticMiddle
     line fStatisticBottom
     end_mark
 
 fBattleMenu1:
-    down $B, $11
+    down 11, 17
     line fBattleMenuTop
     lines 1, fBattleMenuLine1
     next 1, fBattleMenuLine2
@@ -43,7 +44,7 @@ fBattleMenu1:
     end_mark
 
 fBattleMenu2:
-    down $B, $11
+    down 11, 17
     line fBattleMenuTop
     lines 1, fBattleMenuLine1
     next 1, fBattleMenuLine2
@@ -53,12 +54,12 @@ fBattleMenu2:
     end_mark
 
 fClear2:
-    up 0, $1B
+    up 0, 27
     lines 5, fSpaceString
     end_mark
 
 fName:
-    down 1, $11
+    down 1, 17
     line fNameTop
     lines 1, fNameMiddle1
     line fNameBottom
@@ -66,21 +67,21 @@ fName:
     end_mark
 
 fSelectEnemy:
-    down $F, $11
+    down 15, 17
     line fSelectEnemyTop
     lines 4, fSelectEnemyMiddle
     line fSelectEnemyBottom
     end_mark
 
 fSelectGoods:
-    down 5, $11
+    down 5, 17
     line fSelectGoodsTop
     lines 4, fSelectGoodsMiddle
     line fSelectGoodsBottom
     end_mark
 
 stru_8CC0:
-    down 7, $11
+    down 7, 17
     line byte_8E29
     end_mark
 
@@ -95,7 +96,7 @@ stru_8CD0:
     end_mark
 
 fEnemyName:
-    down $11, $FF
+    down 17, $FF
     lines 1, fNamePrint
     end_mark
 
@@ -115,7 +116,7 @@ stru_8CF0:
     end_mark
 
 stru_8CF8:
-    down $B, $17
+    down 11, 23
     line byte_8E36
     lines 1, byte_8E3C
     line byte_8E42
@@ -124,7 +125,7 @@ stru_8CF8:
     end_mark
 
 stru_8D0C:
-    down $B, $17
+    down 11, 23
     line byte_8E36
     lines 1, byte_8E3C
     line byte_8E42
@@ -133,7 +134,7 @@ stru_8D0C:
     end_mark
 
 stru_8D20:
-    down $B, $17
+    down 11, 23
     line byte_8E36
     lines 1, byte_8E3C
     line byte_8E42
@@ -142,17 +143,17 @@ stru_8D20:
     end_mark
 
 fEmptyString:
-    fill 0, $20
+    fill 0, 32
     end_frame
 
 fSpaceString:
-    fill " ", $20
+    fill " ", 32
     end_frame
 
 fBattleLogTop:
     fill " ", 4
     .byte FRAME_TOP_LEFT
-    fill FRAME_TOP, $16
+    fill FRAME_TOP, 22
     .byte FRAME_TOP_RIGHT
     fill " ", 4
     end_frame
@@ -160,7 +161,7 @@ fBattleLogTop:
 fBattleLogMiddle:
     fill " ", 4
     left
-    fill " ", $16
+    fill " ", 22
     right
     fill " ", 4
     end_frame
@@ -168,7 +169,7 @@ fBattleLogMiddle:
 fBattleLogBottom:
     fill " ", 4
     .byte FRAME_BOTTOM_LEFT
-    fill FRAME_BOTTOM, $16
+    fill FRAME_BOTTOM, 22
     .byte FRAME_BOTTOM_RIGHT
     fill " ", 4
     end_frame
@@ -184,20 +185,20 @@ fStatisticTop:
 fStatisticMiddle:
     .byte " "
     left
-    fill " ", $1C
+    fill " ", 28
     right
     .byte " "
     end_frame
 
 fStatisticBottom:
     .byte " ", FRAME_BOTTOM_LEFT
-    fill FRAME_BOTTOM, $1C
+    fill FRAME_BOTTOM, 28
     .byte FRAME_BOTTOM_RIGHT, " "
     end_frame
 
 fBattleMenuTop:
     .byte FRAME_TOP_LEFT
-    fill FRAME_TOP, $12
+    fill FRAME_TOP, 18
     .byte FRAME_TOP_RIGHT
     end_frame
 
@@ -231,13 +232,13 @@ fBattleMenuLine3:
 fBattleMenuLine4:
     left
     .byte " Check"
-    fill " ", $C
+    fill " ", 12
     right
     end_frame
 
 fBattleMenuBottom:
     .byte FRAME_BOTTOM_LEFT
-    fill FRAME_BOTTOM, $12
+    fill FRAME_BOTTOM, 18
     .byte FRAME_BOTTOM_RIGHT
     end_frame
 
@@ -269,42 +270,42 @@ fNameBottom:
     end_frame
 
 fNameMiddle2:
-    fill " ", $A
+    fill " ", 10
     end_frame
 
 fSelectEnemyTop:
     .byte FRAME_TOP_LEFT
-    fill FRAME_TOP, $E
+    fill FRAME_TOP, 14
     .byte FRAME_TOP_RIGHT
     end_frame
 
 fSelectEnemyMiddle:
     left
-    fill " ", $E
+    fill " ", 14
     right
     end_frame
 
 fSelectEnemyBottom:
     .byte FRAME_BOTTOM_LEFT
-    fill FRAME_BOTTOM, $E
+    fill FRAME_BOTTOM, 14
     .byte FRAME_BOTTOM_RIGHT
     end_frame
 
 fSelectGoodsTop:
     .byte FRAME_TOP_LEFT
-    fill FRAME_TOP, $18
+    fill FRAME_TOP, 24
     .byte FRAME_TOP_RIGHT
     end_frame
 
 fSelectGoodsMiddle:
     left
-    fill " ", $18
+    fill " ", 24
     right
     end_frame
 
 fSelectGoodsBottom:
     .byte FRAME_BOTTOM_LEFT
-    fill FRAME_BOTTOM, $18
+    fill FRAME_BOTTOM, 24
     .byte FRAME_BOTTOM_RIGHT
     end_frame
 
@@ -321,48 +322,50 @@ byte_8E30:
     end_frame
 
 stru_8E32:
-    fill " ", $16
+    fill " ", 22
     end_frame
 
 byte_8E36:
     .byte FRAME_TOP_LEFT
-    fill FRAME_TOP, $12
+    fill FRAME_TOP, 18
     .byte FRAME_TOP_RIGHT
     end_frame
 
 byte_8E3C:
     left
-    fill " ", $12
+    fill " ", 18
     right
     end_frame
 
 byte_8E42:
     .byte FRAME_BOTTOM_LEFT
-    fill FRAME_BOTTOM, $12
+    fill FRAME_BOTTOM, 18
     .byte FRAME_BOTTOM_RIGHT
     end_frame
 
 stru_8E48:
-    tile_position $D, $19
+    tile_position 13, 25
     .byte "You can't now."
     end_frame
 
 stru_8E5A:
-    tile_position $D, $19
+    tile_position 13, 25
     .byte "You can't now."
     end_frame
 
 stru_8E6C:
-    tile_position $D, $19
-    tile_pointer $580
+    .import byte_580
+
+    tile_position 13, 25
+    tile_pointer byte_580
     .byte " can't."
     end_frame
 
 fNameStr:
     .export fNameStr
 
-    tile_position 3, $13
-    tile_pointer $580
+    tile_position 3, 19
+    tile_pointer byte_580
     end_frame
 
 BattlePalettes:
@@ -531,7 +534,9 @@ BattlePalettes:
                 .word $67E, $67F, $680, $681, $682, $683, $684, $685, $686
                 .word $687
 
-.export CommandMenu, FrameOff, InfoFrame, MsgFrame
+.export CommandMenu, FrameOff, InfoFrame, MsgFrame, stru_929B, stru_92CF, byte_9300, stru_9317
+.export byte_935F, stru_936A, StateFrame, Setup
+.import CurrentGame, Character
 
 CommandMenu:
     tile_position 1, 1
@@ -564,11 +569,11 @@ CommandMenu:
     .byte $25, 6            ; low byte irq handler, offset to InterruptTable
 
     .byte FRAME_BOTTOM_LEFT
-    fill FRAME_BOTTOM, $C
+    fill FRAME_BOTTOM, 12
     .byte FRAME_BOTTOM_RIGHT
     end_row
 
-    tile_position $15, 1
+    tile_position 21, 1
     .byte FRAME_TOP_LEFT, FRAME_TOP, FRAME_TOP, FRAME_TOP_SHORT, "Cash", FRAME_TOP, FRAME_TOP_RIGHT
     end_row
 
@@ -576,10 +581,8 @@ CommandMenu:
 
     left
     .byte "$"
-    .byte $23
-    .word $7410
-    .byte 2, 5              ; TILEPACK_NUM2STR <$23, CurrentPlayer.PureSave.cash, 2, 5> ; command specifying a new offset for what?
-    .byte $BA, $A0          ; ф
+    convert CurrentGame + PURE_SAVE::Cash, 2, 5
+    .byte ZEROS, " "
     right
     end_frame
 
@@ -591,7 +594,7 @@ CommandMenu:
     end_row
 
 FrameOff:
-    frame_offset $6700
+    frame_offset Frames     ; $6700
 
 InfoFrame:
     .byte FRAME_TOP_LEFT, FRAME_TOP_SHORT, "Name", FRAME_TOP, FRAME_TOP, FRAME_TOP_SHORT, "Lvl", FRAME_TOP
@@ -600,50 +603,51 @@ InfoFrame:
     end_frame
 
 MsgFrame:
-    tile_position 7, $11
+    tile_position 7, 17
     .byte FRAME_TOP_LEFT
-    fill FRAME_TOP, $16
+    fill FRAME_TOP, 22
     .byte FRAME_TOP_RIGHT
     end_row
 
     .byte $25, $10          ; low byte irq handler, offset to InterruptTable
 
     left
-    fill " ", $16
+    fill " ", 22
     right
     end_row
 
     .byte $25, $12          ; low byte irq handler, offset to InterruptTable
 
     left
-    fill " ", $16
+    fill " ", 22
     right
     end_row
 
     .byte $25, $14          ; low byte irq handler, offset to InterruptTable
 
     left
-    fill " ", $16
+    fill " ", 22
     right
     end_row
 
     .byte $25, $16          ; low byte irq handler, offset to InterruptTable
 
     left
-    fill " ", $16
+    fill " ", 22
     right
     end_frame
 
     .byte $25, $18          ; low byte irq handler - 1, offset to InterruptTable
 
     .byte FRAME_BOTTOM_LEFT
-    fill FRAME_BOTTOM, $16
+    fill FRAME_BOTTOM, 22
     .byte FRAME_BOTTOM_RIGHT
     end_frame
 
+stru_929B:
     tile_position 5, 3
     .byte FRAME_TOP_LEFT, FRAME_TOP, " ", ARROW
-    fill FRAME_TOP, $15
+    fill FRAME_TOP, 21
     .byte FRAME_TOP_RIGHT
 
 byte_92A6:
@@ -652,79 +656,81 @@ byte_92A6:
     .byte $25, 2            ; low byte irq handler, offset to InterruptTable
 
     left
-    fill " ", $18
+    fill " ", 24
     right
     end_row
 
     .byte $25, 4            ; low byte irq handler, offset to InterruptTable
 
     left
-    fill " ", $18
+    fill " ", 24
     right
     end_row
 
     .byte $25, 6            ; low byte irq handler, offset to InterruptTable
 
     left
-    fill " ", $18
+    fill " ", 24
     right
     end_row
 
     .byte $25, 8            ; low byte irq handler, offset to InterruptTable
 
     left
-    fill " ", $18
+    fill " ", 24
     right
     end_frame
 
     .byte $25, $A           ; low byte irq handler - 1, offset to InterruptTable
 
     .byte FRAME_BOTTOM_LEFT
-    fill FRAME_BOTTOM, $18
+    fill FRAME_BOTTOM, 24
     .byte FRAME_BOTTOM_RIGHT
     end_frame
 
+stru_92CF:
     tile_position 1, 1
     .byte FRAME_TOP_LEFT
-    fill FRAME_TOP, $14
+    fill FRAME_TOP, 20
     .byte FRAME_TOP_RIGHT
     end_row
 
     .byte $25, 0            ; low byte irq handler, offset to InterruptTable
 
     left
-    fill " ", $14
+    fill " ", 20
     right
     end_row
 
     .byte $25, 2            ; low byte irq handler, offset to InterruptTable
 
     left
-    fill " ", $14
+    fill " ", 20
     right
     end_row
 
     .byte $25, 4            ; low byte irq handler, offset to InterruptTable
 
     left
-    fill " ", $14
+    fill " ", 20
     right
     end_row
 
     .byte $25, 6            ; low byte irq handler, offset to InterruptTable
 
     left
-    fill " ", $14
+    fill " ", 20
     right
     end_frame
 
     .byte $25, 8            ; low byte irq handler - 1, offset to InterruptTable
 
     .byte FRAME_BOTTOM_LEFT
-    fill FRAME_BOTTOM, $14
+    fill FRAME_BOTTOM, 20
     .byte FRAME_BOTTOM_RIGHT
     end_frame
 
+byte_9300:
     .byte FRAME_TOP_LEFT
     fill FRAME_TOP, 4
     .byte FRAME_TOP_RIGHT
@@ -744,7 +750,8 @@ byte_92A6:
     .byte FRAME_BOTTOM_RIGHT
     end_frame
 
-    tile_position $17, 5
+stru_9317:
+    tile_position 23, 5
     .byte FRAME_TOP_LEFT
     fill FRAME_TOP, 6
     .byte FRAME_TOP_RIGHT
@@ -792,16 +799,18 @@ byte_92A6:
     .byte FRAME_BOTTOM_RIGHT
     end_frame
 
+byte_935F:
     .byte $20, 5            ; low byte irq handler - 1, offset to InterruptTable
 
     .byte 3
     .byte FRAME_TOP_LEFT
-    fill FRAME_TOP, $18
+    fill FRAME_TOP, 24
     .byte FRAME_TOP_RIGHT
 
     frame_offset byte_92A6
 
-    tile_position $15, 1
+stru_936A:
+    tile_position 21, 1
     .byte FRAME_TOP_LEFT, FRAME_TOP, FRAME_TOP, FRAME_TOP_SHORT, "Cash", FRAME_TOP, FRAME_TOP_RIGHT
     end_row
 
@@ -809,10 +818,8 @@ byte_92A6:
 
     left
     .byte "$"
-    .byte $23
-    .word $7410
-    .byte 2, 5              ; TILEPACK_NUM2STR <$23, CurrentPlayer.PureSave.cash, 2, 5> ; command converts a number at the specified offset of the specified size to a string of the specified size
-    .byte $BA, $A0          ; ф
+    convert CurrentGame + PURE_SAVE::Cash, 2, 5
+    .byte ZEROS, " "
     right
     end_frame
 
@@ -823,8 +830,10 @@ byte_92A6:
     .byte FRAME_BOTTOM_RIGHT
     end_frame
 
-    .byte $20, 9            ; low byte irq handler - 1, offset to InterruptTable
-    end_row
+StateFrame:
+    .import Item1, Item2, Item3, Item4, byte_6F0
+
+    tile_position 9, 1
 
     .byte FRAME_TOP_LEFT
     fill FRAME_TOP, 8
@@ -838,8 +847,7 @@ byte_92A6:
     right
     end_row
 
-    .byte $20, 1            ; low byte irq handler, offset to InterruptTable
-    .byte 3
+    tile_position 1, 3
     .byte FRAME_TOP_LEFT, FRAME_TOP_SHORT, "State", FRAME_TOP
     left
     fill " ", 8
@@ -856,42 +864,36 @@ byte_92A6:
     .byte FRAME_BOTTOM_LEFT
     fill FRAME_BOTTOM, 8
     .byte FRAME_BOTTOM_RIGHT
-    fill " ", $B
+    fill " ", 11
     right
     end_row
 
     tile_position 1, 5
     left
     .byte " Lvl"
-    .byte $23
-    .word $610
-    .byte 1, 3              ; TILEPACK_NUM2STR <$23, $610, 1, 3> ; command converts a number at the specified offset of the specified size to a string of the specified size
+    convert Character+CHARACTER::Level, 1, 3          ; $610
     fill " ", 7
     right
     left
     .byte " "
-    fill " ", $A
+    fill " ", 10
     .byte " "
     right
     end_row
 
-    .byte $25               ; low byte irq handler, offset to InterruptTable
+    .byte $25, 4               ; low byte irq handler, offset to InterruptTable
 
-    frame_offset $A024      ; TILEPACK_OFF <4, stru_A024> ; command to load packed tiles at the specified offset
-
+    left
+    .byte " "
     .byte "HP"
-    .byte $23
-    .word $614
-    .byte 2, 6              ; TILEPACK_NUM2STR <$23, $614, 2, 6> ; command converts a number at the specified offset of the specified size to a string of the specified size
+    convert Character+CHARACTER::Health, 2, 6       ; $614
     .byte "/"
-    .byte $23
-    .word $603
-    .byte 2, 3              ; TILEPACK_NUM2STR <$23, $603, 2, 3> ; command converts a number at the specified offset of the specified size to a string of the specified size
+    convert Character+CHARACTER::MaxHealth, 2, 3    ; $603
     .byte " "
     right
     left
     .byte " "
-    fill " ", $A      ; TILEPACK_FILL <$22, $A0, $A> ; command to fill with a single repeating tile
+    fill " ", 10      ; TILEPACK_FILL <$22, $A0, $A> ; command to fill with a single repeating tile
     .byte " "
     right
     end_row
@@ -900,18 +902,14 @@ byte_92A6:
 
     left
     .byte " PP"
-    .byte $23
-    .word $616
-    .byte 2, 6              ; TILEPACK_NUM2STR <$23, $616, 2, 6> ; command converts a number at the specified offset of the specified size to a string of the specified size
+    convert Character+CHARACTER::PP, 2, 6           ; $616
     .byte "/"
-    .byte $23
-    .word $605
-    .byte 2, 3              ; TILEPACK_NUM2STR <$23, $605, 2, 3> ; command converts a number at the specified offset of the specified size to a string of the specified size
+    convert Character+CHARACTER::MaxPP, 2, 3        ; $605
     .byte " "
     right
     left
     .byte " "
-    fill " ", $A
+    fill " ", 10
     .byte " "
     right
     end_row
@@ -920,14 +918,12 @@ byte_92A6:
 
     left
     .byte " Offense"
-    .byte $23
-    .word $607
-    .byte 2, 5              ; TILEPACK_NUM2STR <$23, $607, 2, 5> ; command converts a number at the specified offset of the specified size to a string of the specified size
+    convert Character+CHARACTER::Offense, 2, 5      ; $607
     .byte " "
     right
     left
     .byte " "
-    fill " ", $A
+    fill " ", 10
     .byte " "
     right
     end_frame
@@ -936,18 +932,16 @@ byte_9431:
     .byte $25, $A           ; low byte irq handler - 1, offset to InterruptTable
 
     .byte FRAME_LEFT, "  "
-    fill " ", $B
+    fill " ", 11
     .byte " ", FRAME_RIGHT, FRAME_BOTTOM_LEFT
-    fill FRAME_BOTTOM, $C
+    fill FRAME_BOTTOM, 12
     .byte FRAME_BOTTOM_RIGHT
     end_row
 
-    tile_position 1, $D
+    tile_position 1, 13
     left
     .byte " Defense"
-    .byte $23
-    .word $609
-    .byte 2, 5              ;TILEPACK_NUM2STR <$23, $609, 2, 5> ; command converts a number at the specified offset of the specified size to a string of the specified size
+    convert Character+CHARACTER::Defense, 2, 5      ; $609
     .byte " "
     right
     .byte FRAME_TOP_LEFT, FRAME_TOP_SHORT, "Equip"
@@ -959,16 +953,12 @@ byte_9431:
 
     left
     .byte " Fight "
-    .byte $23
-    .word $60B
-    .byte 1, 6              ; TILEPACK_NUM2STR <$23, $60B, 1, 6> ; command converts a number at the specified offset of the specified size to a string of the specified size
+    convert Character+CHARACTER::Fight, 1, 6        ; $60B
     .byte " "
     right
     left
     .byte " "
-    .byte $23
-    .word $680
-    .byte 0, $B             ; TILEPACK_NUM2STR <$23, $680, 0, $B> ; command converts a number at the specified offset of the specified size to a string of the specified size
+    convert Item1, 0, 11            ; $680
     right
     end_row
 
@@ -976,16 +966,12 @@ byte_9431:
 
     left
     .byte " Speed "
-    .byte $23
-    .word $60C
-    .byte 1, 6              ; TILEPACK_NUM2STR <$23, $60C, 1, 6> ; command converts a number at the specified offset of the specified size to a string of the specified size
+    convert Character+CHARACTER::Speed, 1, 6        ; $60C
     .byte " "
     right
     left
     .byte " "
-    .byte $23
-    .word $690
-    .byte 0, $B             ; TILEPACK_NUM2STR <$23, $690, 0, $B> ; command converts a number at the specified offset of the specified size to a string of the specified size
+    convert Item2, 0, 11            ; $690
     right
     end_row
 
@@ -993,16 +979,12 @@ byte_9431:
 
     left
     .byte " Wisdom"
-    .byte $23
-    .word $60D
-    .byte 1, 6              ; TILEPACK_NUM2STR <$23, $60D, 1, 6> ; command converts a number at the specified offset of the specified size to a string of the specified size
+    convert Character+CHARACTER::Wisdom, 1, 6       ; $60D
     .byte " "
     right
     left
     .byte " "
-    .byte $23
-    .word $6A0
-    .byte 0, $B             ; TILEPACK_NUM2STR <$23, $6A0, 0, $B> ; command converts a number at the specified offset of the specified size to a string of the specified size
+    convert Item3, 0, 11            ; $6A0
     right
     end_row
 
@@ -1010,34 +992,28 @@ byte_9431:
 
     left
     .byte " Strength"
-    .byte $23
-    .word $60E
-    .byte 1, 4              ; TILEPACK_NUM2STR <$23, $60E, 1, 4> ; command converts a number at the specified offset of the specified size to a string of the specified size
+    convert Character+CHARACTER::Strength, 1, 4     ; $60E
     .byte " "
     right
     left
     .byte " "
-    .byte $23
-    .word $6B0
-    .byte 0, $B             ; TILEPACK_NUM2STR <$23, $6B0, 0, $B> ; command converts a number at the specified offset of the specified size to a string of the specified size
+    convert Item4, 0, 11            ; $6B0
     right
     end_frame
 
     .byte $25, $14          ; low byte irq handler - 1, offset to InterruptTable
 
     .byte FRAME_LEFT, " "
-    fill " ", $C      ; TILEPACK_FILL <$22, $A0, $C> ; command to fill with a single repeating tile
+    fill " ", 12      ; TILEPACK_FILL <$22, $A0, $C> ; command to fill with a single repeating tile
     .byte " ", FRAME_RIGHT, FRAME_BOTTOM_LEFT
-    fill FRAME_BOTTOM, $C
+    fill FRAME_BOTTOM, 12
     .byte FRAME_BOTTOM_RIGHT
     end_row
 
-    tile_position 1, $17
+    tile_position 1, 23
     left
     .byte " Force "
-    .byte $23
-    .word $60F
-    .byte 1, 6              ; TILEPACK_NUM2STR <$23, $60F, 1, 6> ; command converts a number at the specified offset of the specified size to a string of the specified size
+    convert Character+CHARACTER::Force, 1, 6        ; $60F
     .byte " "
     right
     .byte FRAME_TOP_LEFT, FRAME_TOP_SHORT, "Melody"
@@ -1048,32 +1024,29 @@ byte_9431:
     .byte $25, $16          ; low byte irq handler, offset to InterruptTable
     left
     .byte " Exp "
-    .byte $23
-    .word $611
-    .byte 3, 8              ; TILEPACK_NUM2STR <$23, $611, 3, 8> ; command converts a number at the specified offset of the specified size to a string of the specified size
+    convert Character+CHARACTER::Exp, 3, 8          ; $611
     .byte " "
     right
     left
     .byte "  "
-    .byte $23
-    .word $6F0
-    .byte 0, $A             ; TILEPACK_NUM2STR <$23, $6F0, 0, $A> ; command converts a number at the specified offset of the specified size to a string of the specified size
+    convert byte_6F0, 0, 10         ; $6F0
     right
     end_frame
 
     .byte $25, $18          ; low byte irq handler - 1, offset to InterruptTable
     .byte FRAME_BOTTOM_LEFT
-    fill FRAME_BOTTOM, $E
+    fill FRAME_BOTTOM, 14
     .byte FRAME_BOTTOM_RIGHT, FRAME_BOTTOM_LEFT
 
 stru_9519:
-    fill FRAME_BOTTOM, $C
+    fill FRAME_BOTTOM, 12
     .byte FRAME_BOTTOM_RIGHT
     end_frame
 
+Setup:
     tile_position 1, 1
     .byte FRAME_TOP_LEFT, FRAME_TOP_SHORT, "Setup"
-    fill FRAME_TOP, $16
+    fill FRAME_TOP, 22
     .byte FRAME_TOP_RIGHT
     end_row
 
@@ -1102,7 +1075,7 @@ stru_9519:
     .byte $25, 6            ; low byte irq handler, offset to InterruptTable
 
     left
-    fill " ", $1C
+    fill " ", 28
     right
     end_row
 
@@ -1173,6 +1146,6 @@ stru_9519:
     .byte $25, $18          ; low byte irq handler - 1, offset to InterruptTable
 
     .byte FRAME_BOTTOM_LEFT
-    fill FRAME_BOTTOM, $1C
+    fill FRAME_BOTTOM, 28
     .byte FRAME_BOTTOM_RIGHT
     end_frame

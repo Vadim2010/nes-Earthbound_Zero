@@ -1,56 +1,34 @@
-.include "ram.inc"
-.include "..\res\sram.inc"
+.include "macros.inc"
+.include "palette.inc"
 .include "..\res\charmap.inc"
 .include "..\res\framecomm.inc"
-.include "palette.inc"
+.include "..\res\structures.inc"
 
 .segment "SRAM_CODE"
 
-; ===========================================================================
-
-; Segment type: Pure code
-;.segment SRAM19
-; * =  $6000
-
-; =============== S U B R O U T I N E =======================================
-OFF     = $B800
-SRAM    = $6000
-NEW_OFF = OFF - SRAM
-
-.export sub_196000, get_pointer_tilepak, get_cursor, set_pos_6_5, copy_pure_save
+.export copy_gameslot, get_pointer_tilepak, get_cursor, set_pos_6_5, copy_pure_save
 .export set_anim_sprite, get_anim_sprite, next_anim_sprite, get_next_string
-.export Names, AlphabeticalList
+.export Names, AlphabeticalList, GameStory, Nowadays, TryAgain, SameName
+.export Boy1, Girl, Boy2, Boy3, Food, ScrAttr, Cur_62E8, Cur_62F0, CHRBank_0, Palettes
 
-sub_196000          = sub_196000_copy - NEW_OFF
-get_pointer_tilepak = get_pointer_tilepak_copy - NEW_OFF
-get_cursor          = get_cursor_copy - NEW_OFF
-set_pos_6_5         = set_pos_6_5_copy - NEW_OFF
-copy_pure_save      = copy_pure_save_copy - NEW_OFF
+copy_gameslot:
+    .import GameSlotCopy
 
-set_anim_sprite     = set_anim_sprite_copy - NEW_OFF
-get_anim_sprite     = get_anim_sprite_copy - NEW_OFF
-next_anim_sprite    = next_anim_sprite_copy - NEW_OFF
-get_next_string     = get_next_string_copy - NEW_OFF
+    tay
+    beq @copy
+    ldy #4
 
-Names               = Names_copy - NEW_OFF
-AlphabeticalList    = AlphabeticalList_copy - NEW_OFF
-
-sub_196000_copy:
-    TAY
-    BEQ loc_196005
-    LDY #4
-
-loc_196005:
-    LDA stru_196222 - NEW_OFF,Y
-    STA stru_584,X
-    LDA stru_196222+1 - NEW_OFF,Y
-    STA stru_584+1,X
-    LDA stru_196222+2 - NEW_OFF,Y
-    STA stru_584+2,X
-    LDA stru_196222+3 - NEW_OFF,Y
-    STA stru_584+3,X
-    RTS
-; End of function sub_196000
+@copy:
+    lda GameSlot,Y
+    sta GameSlotCopy,X
+    lda GameSlot+1,Y
+    sta GameSlotCopy+1,X
+    lda GameSlot+2,Y
+    sta GameSlotCopy+2,X
+    lda GameSlot+3,Y
+    sta GameSlotCopy+3,X
+    rts
+; End of function copy_gameslot
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -59,126 +37,121 @@ loc_196005:
 ; Input: X - offset in the TilepackTable table
 ; Output: PointerTilePack - pointer from the TilepackTable table
 
-get_pointer_tilepak_copy:
+get_pointer_tilepak:
     .importzp PointerTilePack
 
-    LDA TilepackTable - NEW_OFF,X
-    STA PointerTilePack
-    LDA TilepackTable+1 - NEW_OFF,X
-    STA PointerTilePack+1
-    RTS
+    lda TilepackTable,X
+    sta PointerTilePack
+    lda TilepackTable+1,X
+    sta PointerTilePack+1
+    rts
 ; End of function get_pointer_tilepak
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-get_cursor_copy:
+get_cursor:
     .importzp pCursor
 
-    LDA Cursors - NEW_OFF,X
-    STA pCursor
-    LDA Cursors+1 - NEW_OFF,X
-    STA pCursor+1
-    RTS
+    lda Cursors,X
+    sta pCursor
+    lda Cursors+1,X
+    sta pCursor+1
+    rts
 ; End of function get_cursor
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-set_pos_6_5_copy:
+set_pos_6_5:
     .importzp Column, Row, byte_D6
 
-    LDA #$FF
-    STA byte_D6
-    LDX #6
-    LDY #5
-    STX Column
-    STY Row
-    RTS
+    lda #$FF
+    sta byte_D6
+    ldx #6
+    ldy #5
+    stx Column
+    sty Row
+    rts
 ; End of function set_pos_6_5
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-copy_pure_save_copy:
+copy_pure_save:
+    .import CurrentGame, PureSave
     .importzp Dist, Source
 
-    PHA                 ; Input: A - game number
-    LDA #0
-    LDX #$74
-    STA Dist
-    STX Dist+1
-    LDA #0
-    LDX #$BE
-    STA Source          ; byte_109EAB, byte_109EB3
-    STX Source+1        ; byte_109EAB, byte_109EB3
-    LDX #2
-    LDY #0
+    pha                 ; Input: A - game number
+    ldxa #CurrentGame
+    stxa Dist
+    ldxa #(PureSave+$2000)
+    stxa Source
+    ldx #2
+    ldy #0
 
 @next_byte:
-    LDA (Source),Y      ; byte_109EAB, byte_109EB3
-    STA (Dist),Y
-    INY
-    BNE @next_byte
-    INC Dist+1
-    INC Source+1        ; byte_109EAB, byte_109EB3
-    DEX
-    BNE @next_byte
-    LDA #0
+    lda (Source),Y
+    sta (Dist),Y
+    iny
+    bne @next_byte
+    inc Dist+1
+    inc Source+1
+    dex
+    bne @next_byte
+    lda #0
 
 @clear:
-    STA (Dist),Y
-    INY
-    BNE @clear
-    PLA
-    ORA $7402           ; CurrentPlayer.PureSave.GameNumber
-    STA $7402           ; CurrentPlayer.PureSave.GameNumber
-    RTS
+    sta (Dist),Y
+    iny
+    bne @clear
+    pla
+    ora CurrentGame + PURE_SAVE::GameNumber     ; $7402
+    sta CurrentGame + PURE_SAVE::GameNumber     ; $7402
+    rts
 ; End of function copy_pure_save
 
 ; ---------------------------------------------------------------------------
 TilepackTable:
-    .word ContinueGame1 - NEW_OFF, NewGame1 - NEW_OFF, ContinueGame2 - NEW_OFF, NewGame2 - NEW_OFF
-    .word ContinueGame3 - NEW_OFF, NewGame3 - NEW_OFF, ClearBottomScreen - NEW_OFF, EraseDialog - NEW_OFF, ToWhich - NEW_OFF
+    .word ContinueGame1, NewGame1, ContinueGame2, NewGame2
+    .word ContinueGame3, NewGame3, ClearBottomScreen, EraseDialog, ToWhich
+
 Cursors:
-    .word stru_1961F0 - NEW_OFF, stru_1961F0 - NEW_OFF, stru_1961F0 - NEW_OFF, stru_1961FA - NEW_OFF
-    .word stru_1961F0 - NEW_OFF, stru_196204 - NEW_OFF, stru_19620E - NEW_OFF, stru_196218 - NEW_OFF
+    .word CopyGame1, CopyGame1, CopyGame1, CopyGame2
+    .word CopyGame1, CopyGame3, GameMenu, Erase
+
 ClearBottomScreen:
-    tile_position 4, $14
-    fill " ", $18
+    tile_position 4, 20
+    fill " ", 24
     end_row
 
-    fill " ", $18
+    fill " ", 24
     end_row
 
-    fill " ", $18
+    fill " ", 24
     end_row
 
-    fill " ", $18
+    fill " ", 24
     end_frame
 
-    fill " ", $18
+    fill " ", 24
     end_frame
 
 EraseDialog:
-    tile_position 6, $14
+    tile_position 6, 20
     .byte FRAME_TOP_LEFT
-    fill FRAME_TOP, $12
+    fill FRAME_TOP, 18
     .byte FRAME_TOP_RIGHT
     end_row
 
     left
     .byte " ", $A6              ; ' "'
-    .byte $23
-    .word Boy1Name              ; Сharacter Name
-    .byte 0, 8                  ; TILEPACK_NUM2STR <$23, CurrentPlayer.PureSave.Characters.Name, 0, 8> ; command specifying a new offset for what?
-    .byte "Lvl"                 ; $CC, $F6, $EC
-    .byte $23
-    .word Boy1Lvl               ; Сharacter Level
-    .byte 1, 2                  ; TILEPACK_NUM2STR <$23, CurrentPlayer.PureSave.Characters.Level, 1, 2> ; command specifying a new offset for what?
+    convert CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name, 0, 8      ; Boy1Name
+    .byte "Lvl"
+    convert CurrentGame+PURE_SAVE::Boy1+CHARACTER::Level, 1, 2       ; Boy1Lvl
     .byte $A6, "  "             ; '"  '
     right
     end_row
@@ -194,14 +167,14 @@ EraseDialog:
     end_frame
 
     .byte FRAME_BOTTOM_LEFT
-    fill FRAME_BOTTOM, $12
+    fill FRAME_BOTTOM, 18
     .byte FRAME_BOTTOM_RIGHT
     end_frame
 
 ToWhich:
-    tile_position 8, $15
+    tile_position 8, 21
     .byte FRAME_TOP_LEFT
-    fill FRAME_TOP, $E
+    fill FRAME_TOP, 14
     .byte FRAME_TOP_RIGHT
     end_row
 
@@ -211,61 +184,55 @@ ToWhich:
     end_frame
 
     .byte FRAME_BOTTOM_LEFT
-    fill FRAME_BOTTOM, $E
+    fill FRAME_BOTTOM, 14
     .byte FRAME_BOTTOM_RIGHT
     end_frame
 
 ContinueGame1:
+    .import Game1
+
     tile_position 3, 1
     .byte " "
     end_row
 
     .byte " ", FRAME_TOP_LEFT, FRAME_TOP, FRAME_TOP_SHORT
-    .byte $23
-    .word Boy1NameSave1         ; Сharacter Name save 1
-    .byte 0, 8                  ; TILEPACK_NUM2STR <$23, Save1.PureSave.Characters.Name, 0, 8> ; command specifying a new offset for what?
-    .byte "Lvl"                 ; $CC, $F6, $EC 
-    .byte $23
-    .word Boy1LvlSave1          ; Сharacter Level save 1
-    .byte 1, 2                  ; TILEPACK_NUM2STR <$23, Save1.PureSave.Characters.Level, 1, 2> ; command specifying a new offset for what?
+    convert Game1+PURE_SAVE::Boy1+CHARACTER::Name, 0, 8         ; Boy1NameSave1
+    .byte "Lvl"
+    convert Game1+PURE_SAVE::Boy1+CHARACTER::Level, 1, 2        ; Boy1LvlSave1
     fill FRAME_TOP, 7
     .byte FRAME_TOP_RIGHT
     end_row
 
-    frame_offset FinalFrame1 - NEW_OFF
+    frame_offset FinalFrame1
 
 ContinueGame2:
+    .import Game2
+
     tile_position 3, 7
     .byte " "
     end_row
 
     .byte " ", FRAME_TOP_LEFT, FRAME_TOP, FRAME_TOP_SHORT
-    .byte $23
-    .word Boy1NameSave2         ; Сharacter Name save 2
-    .byte 0, 8                  ; TILEPACK_NUM2STR <$23, Save2.PureSave.Characters.Name, 0, 8> ; command specifying a new offset for what?
-    .byte "Lvl"                 ; $CC, $F6, $EC
-    .byte $23
-    .word Boy1LvlSave2          ; Сharacter Level save 2
-    .byte 1, 2                  ; TILEPACK_NUM2STR <$23, Save2.PureSave.Characters.Level, 1, 2> ; command specifying a new offset for what?
+    convert Game2+PURE_SAVE::Boy1+CHARACTER::Name, 0, 8  ; Boy1NameSave2
+    .byte "Lvl"
+    convert Game2+PURE_SAVE::Boy1+CHARACTER::Level, 1, 2   ; Boy1LvlSave2
     fill FRAME_TOP, 7
     .byte FRAME_TOP_RIGHT
     end_row
 
-    frame_offset FinalFrame1 - NEW_OFF
+    frame_offset FinalFrame1
 
 ContinueGame3:
-    tile_position 3, $D
+    .import Game3
+
+    tile_position 3, 13
     .byte " "
     end_row
 
     .byte " ", FRAME_TOP_LEFT, FRAME_TOP, FRAME_TOP_SHORT
-    .byte $23
-    .word Boy1NameSave3                 ; Сharacter Name save 3
-    .byte 0, 8                  ; TILEPACK_NUM2STR <$23, Save3.PureSave.Characters.Name, 0, 8> ; command specifying a new offset for what?
-    .byte "Lvl"                 ; $CC, $F6, $EC
-    .byte $23
-    .word Boy1LvlSave3          ; Сharacter Level save 3
-    .byte 1, 2                  ; TILEPACK_NUM2STR <$23, Save3.PureSave.Characters.Level, 1, 2> ; command specifying a new offset for what?
+    convert Game3+PURE_SAVE::Boy1+CHARACTER::Name, 0, 8 ; Boy1NameSave3
+    .byte "Lvl"
+    convert Game3+PURE_SAVE::Boy1+CHARACTER::Level, 1, 2  ; Boy1LvlSave3
     fill FRAME_TOP, 7
     .byte FRAME_TOP_RIGHT
     end_row
@@ -278,7 +245,7 @@ FinalFrame1:
     end_frame
 
     .byte " ", FRAME_BOTTOM_LEFT
-    fill FRAME_BOTTOM, $16
+    fill FRAME_BOTTOM, 22
     .byte FRAME_BOTTOM_RIGHT
     end_frame
 
@@ -288,11 +255,11 @@ NewGame1:
     end_row
 
     .byte " ", FRAME_TOP_LEFT, FRAME_TOP, FRAME_TOP_SHORT, "GAME(1)"
-    fill FRAME_TOP, $D
+    fill FRAME_TOP, 13
     .byte FRAME_TOP_RIGHT
     end_row
 
-    frame_offset StartUp - NEW_OFF
+    frame_offset StartUp
 
 NewGame2:
     tile_position 3, 7
@@ -300,19 +267,19 @@ NewGame2:
     end_row
 
     .byte " ", FRAME_TOP_LEFT, FRAME_TOP, FRAME_TOP_SHORT, "GAME(2)"
-    fill FRAME_TOP, $D
+    fill FRAME_TOP, 13
     .byte FRAME_TOP_RIGHT
     end_row
 
-    frame_offset StartUp - NEW_OFF
+    frame_offset StartUp
 
 NewGame3:
-    tile_position 3, $D
+    tile_position 3, 13
     .byte " "
     end_row
 
     .byte " ", FRAME_TOP_LEFT, FRAME_TOP, FRAME_TOP_SHORT, "GAME(3)"
-    fill FRAME_TOP, $D
+    fill FRAME_TOP, 13
     .byte FRAME_TOP_RIGHT
     end_row
 
@@ -326,44 +293,44 @@ StartUp:
     end_frame
 
     .byte " ", FRAME_BOTTOM_LEFT
-    fill FRAME_BOTTOM, $16
+    fill FRAME_BOTTOM, 22
     .byte FRAME_BOTTOM_RIGHT
     end_frame
 
-stru_1961F0:
+CopyGame1:
     .byte 1, 3, 0, 6, $C0, $3A, 3, 4
-    .word byte_19622C - NEW_OFF ; CURSOR <1, 3, 0, 6, $C0, $3A, 3, 4, byte_19622C>
+    .word CopySlots1 ; CURSOR <1, 3, 0, 6, $C0, $3A, 3, 4, CopySlots1>
 
-stru_1961FA:
+CopyGame2:
     .byte 1, 3, 0, 6, $C0, $3A, 3, 4
-    .word byte_19622F - NEW_OFF ; CURSOR <1, 3, 0, 6, $C0, $3A, 3, 4, byte_19622F>
+    .word CopySlots2 ; CURSOR <1, 3, 0, 6, $C0, $3A, 3, 4, CopySlots2>
 
-stru_196204:
+CopyGame3:
     .byte 1, 3, 0, 6, $C0, $3A, 3, 4
-    .word byte_196232 - NEW_OFF ; CURSOR <1, 3, 0, 6, $C0, $3A, 3, 4, byte_196232>
+    .word CopySlots3 ; CURSOR <1, 3, 0, 6, $C0, $3A, 3, 4, CopySlots3>
 
-stru_19620E:
+GameMenu:
     .byte 4, 3, 5, 6, $80, $3A, 5, 5
-    .word stru_584              ; CURSOR <4, 3, 5, 6, $80, $3A, 5, 5, $584>
+    .word GameSlotCopy              ; CURSOR <4, 3, 5, 6, $80, $3A, 5, 5, $584>
 
-stru_196218:
-    .byte 2, 1, 5, 0, $80, $3A, $B, $1A
-    .word byte_19622A - NEW_OFF ; CURSOR <2, 1, 5, 0, $80, $3A, $B, $1A, byte_19622A>
+Erase:
+    .byte 2, 1, 5, 0, $80, $3A, 11, 26
+    .word ConfirmMenu ; CURSOR <2, 1, 5, 0, $80, $3A, $B, $1A, ConfirmMenu>
 
-stru_196222:
-    .byte $80, 0, $81, $82      ; struc_196222 <$80, 0, $81, $82>
-    .byte 0, $83, 0, 0          ; struc_196222 <0, $83, 0, 0>
+GameSlot:
+    .byte $80, 0, $81, $82      ; busy slot <$80, 0, $81, $82>
+    .byte 0, $83, 0, 0          ; free slot <0, $83, 0, 0>
 
-byte_19622A:
+ConfirmMenu:
     .byte 1, 2
 
-byte_19622C:
+CopySlots1:
     .byte 0, 3, 5
 
-byte_19622F:
+CopySlots2:
     .byte 1, 0, 5
 
-byte_196232:
+CopySlots3:
     .byte 1, 3, 0
 
 CHRBank_0:
@@ -382,106 +349,119 @@ Palettes:
 ; =============== S U B R O U T I N E =======================================
 
 
-set_anim_sprite_copy:
+set_anim_sprite:
+    .import SpriteTable
     .importzp pTileID, AddrForJmp, Pointer, NMIFlags
 
-    LDA #4
-    STA SpriteTable,Y
-    LDA pTileID
-    STA SpriteTable + ANIM_SPRITE::TileID,Y
-    LDA AddrForJmp
-    STA SpriteTable + ANIM_SPRITE::PosX,Y
-    LDA AddrForJmp+1
-    STA SpriteTable + ANIM_SPRITE::PosY,Y
-    LDA #0
-    STA SpriteTable + ANIM_SPRITE::field_4,Y
-    STA SpriteTable + ANIM_SPRITE::field_5,Y
-    LDA Pointer
-    STA SpriteTable + ANIM_SPRITE::pFrame,Y
-    LDA Pointer+1
-    STA SpriteTable + ANIM_SPRITE::pFrame+1,Y
-    LDA #1
-    STA NMIFlags
-    RTS
+    lda #4
+    sta SpriteTable,Y
+    lda pTileID
+    sta SpriteTable + ANIM_SPRITE::TileID,Y
+    lda AddrForJmp
+    sta SpriteTable + ANIM_SPRITE::PosX,Y
+    lda AddrForJmp+1
+    sta SpriteTable + ANIM_SPRITE::PosY,Y
+    lda #0
+    sta SpriteTable + ANIM_SPRITE::field_4,Y
+    sta SpriteTable + ANIM_SPRITE::field_5,Y
+    lda Pointer
+    sta SpriteTable + ANIM_SPRITE::pFrame,Y
+    lda Pointer+1
+    sta SpriteTable + ANIM_SPRITE::pFrame+1,Y
+    lda #1
+    sta NMIFlags
+    rts
 ; End of function set_anim_sprite
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-get_anim_sprite_copy:
-    LDA #$50
-    STA AddrForJmp
-    LDA #8
-    STA AddrForJmp+1
-    LDA #0
-    STA pTileID
-    LDA #$10
-    STA Pointer
-    LDA #$80
-    STA Pointer+1
-    RTS
+get_anim_sprite:
+    lda #$50
+    sta AddrForJmp
+    lda #8
+    sta AddrForJmp+1
+    lda #0
+    sta pTileID
+    lda #$10
+    sta Pointer
+    lda #$80
+    sta Pointer+1
+    rts
 ; End of function get_anim_sprite
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-next_anim_sprite_copy:
-    CLC
-    LDA Pointer
-    ADC #$20
-    STA Pointer
-    LDA Pointer+1
-    ADC #0
-    STA Pointer+1
-    CLC
-    LDA AddrForJmp+1
-    ADC #$18
-    STA AddrForJmp+1
-    CLC
-    TYA
-    ADC #8
-    TAY
-    RTS
+next_anim_sprite:
+    clc
+    lda Pointer
+    adc #$20
+    sta Pointer
+    lda Pointer+1
+    adc #0
+    sta Pointer+1
+    clc
+    lda AddrForJmp+1
+    adc #$18
+    sta AddrForJmp+1
+    clc
+    tya
+    adc #8
+    tay
+    rts
 ; End of function next_anim_sprite
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-get_next_string_copy:
-    CLC
-    LDA pTileID
-    ADC #$10
-    STA pTileID
-    LDA pTileID+1
-    ADC #0
-    STA pTileID+1
-    CLC
-    LDA AddrForJmp+1
-    ADC #2
-    STA AddrForJmp+1
-    RTS
+get_next_string:
+    clc
+    lda pTileID
+    adc #$10
+    sta pTileID
+    lda pTileID+1
+    adc #0
+    sta pTileID+1
+    clc
+    lda AddrForJmp+1
+    adc #2
+    sta AddrForJmp+1
+    rts
 ; End of function get_next_string
 
 ; ---------------------------------------------------------------------------
 .import stru_158010, stru_158030, stru_158050, stru_158070
+
 Boy1:
-    .word stru_158010, AskBoy1Name - NEW_OFF, Boy1Name     ; CHARACTER_ASK <stru_158010, AskBoy1Name, CurrentPlayer.PureSave.Characters.Name>
+    .word stru_158010, AskBoy1Name, CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name     ; Boy1Name
+
 Girl:
-    .word stru_158030, AskGirlName - NEW_OFF, GirlName     ; CHARACTER_ASK <stru_158030, AskGirlName, CurrentPlayer.PureSave.Characters.Name+$40>
+    .word stru_158030, AskGirlName, CurrentGame+PURE_SAVE::Girl+CHARACTER::Name     ; GirlName
+
 Boy2:
-    .word stru_158050, AskBoy2Name - NEW_OFF, Boy2Name     ; CHARACTER_ASK <stru_158050, AskBoy2Name, CurrentPlayer.PureSave.Characters.Name+$80>
+    .word stru_158050, AskBoy2Name, CurrentGame+PURE_SAVE::Boy2+CHARACTER::Name     ; Boy2Name
+
 Boy3:
-    .word stru_158070, AskBoy3Name - NEW_OFF, Boy3Name     ; CHARACTER_ASK <stru_158070, AskBoy3Name, CurrentPlayer.PureSave.Characters.Name+$C0>
+    .word stru_158070, AskBoy3Name, CurrentGame+PURE_SAVE::Boy3+CHARACTER::Name     ; Boy3Name
+
 Food:
-    .word 0, AskFoodName - NEW_OFF, FoodName               ; CHARACTER_ASK <0, AskFoodName, CurrentPlayer.Food>
+    .word 0, AskFoodName, CurrentGame+GAME_SAVE::Food       ;FoodName
+
+Cur_62E8:
     .byte $10, 6, 1, 2, $D0, 1, 8, $E                   ; CURSOR_SHORT <$10, 6, 1, 2, $D0, 1, 8, $E>
+
+Cur_62F0:
     .byte 2, 1, 4, 0, $80, $3A, $C, $18
-    .word byte_1962FA - NEW_OFF                         ; CURSOR <2, 1, 4, 0, $80, $3A, $C, $18, byte_1962FA>
+    .word byte_1962FA                         ; CURSOR <2, 1, 4, 0, $80, $3A, $C, $18, byte_1962FA>
+
 byte_1962FA:
     .byte 1, 1, 1
+
+ScrAttr:
     .byte 8, $40, $23, $C0, $FF, 0
 
 AskBoy1Name:
@@ -504,9 +484,11 @@ AskFoodName:
     .byte "What is your", 1
     .byte "favorite food?", 0
 
+TryAgain:
     .byte "Please change", 1
     .byte "this name.", 0
 
+SameName:
     .byte "A character in ", 1
     .byte "this game has  ", 1
     .byte "that name. Try ", 1
@@ -514,7 +496,7 @@ AskFoodName:
     .byte "only capital   ", 1
     .byte "letters.       ", 0
 
-Names_copy:
+Names:
     .byte "Mary?", 1
     .byte "Suzy?", 1
     .byte "George?", 1
@@ -533,13 +515,13 @@ Names_copy:
     .byte "Juana?", 1
     .byte " ", 1, 0
 
-AlphabeticalList_copy:
+AlphabeticalList:
     .byte "ABCDEFG HIJKLMN", 0
     .byte "OPQRSTU VWXYZ.'", 0
     .byte "abcdefg hijklmn", 0
     .byte "opqrstu vwxyz-:", 0
-    .byte 0, 0, $A1, 0, 0, 0, 0, 0, 0, $A2, 0, 0, 0, 0, 0, 0 ; cursor position Back, End
-    .byte 0, 0, 0, $A3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ; cursor position Previous
+    .byte 0, 0, $A1, 0, 0, 0, 0, 0, 0, $A2, 0, 0, 0, 0, 0, 0    ; cursor position Back, End
+    .byte 0, 0, 0, $A3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0      ; cursor position Previous
 
 GameStory:
     .byte "In the early 1900's, a dark", 1
@@ -562,6 +544,8 @@ GameStory:
     .byte " ", 1
     .byte "As for Maria, his wife...", 1
     .byte "She never returned.", 0
+
+Nowadays:
     .byte "80 years have passed", 1
     .byte " ", 1
     .byte "since then.", 0

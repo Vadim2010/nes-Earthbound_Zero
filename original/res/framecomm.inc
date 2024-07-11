@@ -61,6 +61,12 @@
     .byte $22, Symbol, Number
 .endmacro
 
+.macro convert Offset, Index, Size
+    .byte $23
+    .word Offset
+    .byte Index, Size
+.endmacro
+
 .macro left
     .byte $24
 .endmacro

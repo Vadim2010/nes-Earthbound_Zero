@@ -1,7 +1,7 @@
 .include "nes.inc"
-.include "ram.inc"
+.include "..\res\structures.inc"
 
-.segment "PRG_BANK_C"
+.segment "BANK_C"
 
 ; ===========================================================================
 
@@ -32,7 +32,9 @@ sub_1C8003:
 ; Attributes: thunk
 
 sub_1C8006:
-                JMP     sub_1C8216
+    .export sub_1C8006
+
+    jmp sub_1C8216
 ; End of function sub_1C8006
 
 ; ---------------------------------------------------------------------------
@@ -113,6 +115,7 @@ loc_1C80B1:
 
 
 sub_1C80BC:
+    .import apu_7FF
     .importzp apu_BB, apu_BC
 
                 LDA     apu_BB
@@ -136,6 +139,7 @@ loc_1C80CE:
 
 
 sub_1C80D3:
+    .import byte_7D5, byte_7DA
     .importzp apu_BD
 
                 LDX     apu_BD
@@ -202,6 +206,8 @@ sub_1C81B8:
 
 
 sub_1C81C0:
+    .import byte_7FC
+
                 LDA     byte_7FC
                 BNE     exit_0
                 LDX     #1
@@ -215,6 +221,7 @@ sub_1C81C0:
 
 
 sub_1C81CD:
+    .import apu_7F0, Noise
     .importzp apu_BF
 
                 LDX     #0
@@ -269,6 +276,8 @@ loc_1C820D:
 
 
 sub_1C8216:
+    .import apu_786, apu_78B, apu_76C
+
                 LDA     #$F
                 STA     SND_CHN         ; pAPU Sound/Vertical Clock Signal Register (R)
                                         ;
@@ -314,7 +323,9 @@ off_1C8238:     .word byte_1C935A, byte_1C9365, byte_1C9370, byte_1C937C
 
 
 sub_1C8248:
-                LDA     $761E               ; CurrentGame.field_21E
+    .import CurrentGame
+
+                LDA     CurrentGame + GAME_SAVE::field_21E      ; $761E
                 STA     apu_B0
                 LDY     #0
                 BEQ     loc_1C825D
@@ -350,6 +361,8 @@ locret_1C8276:
 
 
 sub_1C8277:
+    .import ModeSRAM
+
                 LDA     #$C0            ; APU mode 5-step, IRQ disable
                 STA     IO_JOY2         ; Joypad #2/SOFTCLK (RW)
                                         ;
@@ -388,6 +401,8 @@ sub_1C8277:
 
 
 sub_1C8299:
+    .import apu_79C
+
                 JSR     sub_1C82A8
 
 loc_1C829C:
@@ -403,6 +418,8 @@ loc_1C829C:
 
 
 sub_1C82A8:
+    .import CurrentMusic, PulseChannels, apu_7C8, apu_7C9, apu_7CA
+
                 LDA     #0
                 STA     apu_7C8
                 STA     apu_7C9
@@ -442,6 +459,8 @@ sub_1C82C6:
 
 
 sub_1C82DC:
+    .import byte_7C7, byte_7DF, byte_7E3, byte_7E7
+
                 LDX     apu_BD
                 STA     byte_7D5,X
                 TXA
@@ -531,6 +550,8 @@ sub_1C832F:
 
 
 sub_1C8346:
+    .import byte_7F3
+
                 LDA     #4
                 LDY     #$14
                 JSR     sub_1C82DC
@@ -885,6 +906,8 @@ loc_1C84B9:
 
 
 sub_1C84BC:
+    .import byte_7D9, byte_7DE, byte_7F9
+
                 STA     byte_7D9
                 JSR     sub_1C80A1
                 LDA     apu_BF
@@ -924,6 +947,8 @@ loc_1C84EF:
 
 
 sub_1C84F6:
+    .import byte_7E0
+
                 LDY     #$24
                 JSR     sub_1C8095
                 LDA     #$A
@@ -941,6 +966,8 @@ locret_1C8508:
 
 
 sub_1C8509:
+    .import byte_7E4
+
                 JSR     sub_1C80D3
                 BNE     loc_1C8533
                 LDA     byte_7E4
@@ -1148,6 +1175,8 @@ loc_1C8608:
 
 
 sub_1C860D:
+    .import byte_7E8
+
                 INC     apu_78B
 
 loc_1C8610:
@@ -1166,6 +1195,8 @@ loc_1C861A:
 
 
 sub_1C861E:
+    .import NewMusic, byte_7D6
+
                 JSR     sub_1C80D3
                 BNE     loc_1C8661
                 INC     byte_7E4
@@ -1578,6 +1609,8 @@ byte_1C8830:    .byte $A8, $96, $70, $53, $4A, $37, $29, $E1, $A8, $96
 
 
 sub_1C8840:
+    .import byte_7FA
+
                 LDA     #$10
                 STA     PL2_VOL         ; pAPU Pulse #2 Control Register (W)
                 LDA     #0
@@ -1605,6 +1638,8 @@ sub_1C884E:
 
 
 sub_1C885E:
+    .import byte_7E6
+
                 LDA     #4
                 LDY     #$9C
                 JSR     sub_1C82DC
@@ -1621,6 +1656,8 @@ byte_1C886B:    .byte $31, $3A, $42, $4A, $58, $63, $76, $85, $96, $B2
 
 
 sub_1C887E:
+    .import byte_7E2, byte_7FB
+
                 JSR     sub_1C80D3
                 BNE     locret_1C88B3
 
@@ -1730,6 +1767,8 @@ loc_1C88FE:
 
 
 sub_1C8903:
+    .import PulseSweep1, byte_7C1, byte_7CC, byte_7FD
+
                 JSR     sub_1C8248
                 LDA     #1
                 STA     CurrentMusic
@@ -1743,7 +1782,7 @@ loc_1C890E:
 loc_1C8911:
                 LDA     NewMusic
                 TAY
-                CMP     #$3F ; '?'
+                CMP     #$3F
                 BCS     loc_1C890E
                 CMP     #1
                 BEQ     sub_1C8903
@@ -1858,6 +1897,7 @@ stru_1C89A7:    .byte 0, $10, 1         ; APU_NOISE <0, $10, 1>
 
 
 sub_1C89CC:
+    .import PulseTimer1, byte_79A, byte_7C3, byte_7D1
     .importzp APURegisterNum
 
                 LDA     byte_7FD
@@ -2016,6 +2056,8 @@ byte_1C8ABC:    .byte 0, $FF, $FE, $FD, $FC, $FB, $FA, $F9, $F8, $F7, $F6
 
 
 sub_1C8ACC:
+    .import byte_790
+
                 LDA     byte_7CC
                 TAY
                 LDA     byte_1C90F4,Y
@@ -2038,6 +2080,8 @@ loc_1C8AD6:
 
 
 sub_1C8AE4:
+    .import byte_7A0
+
                 LDA     #$FF
                 STA     byte_7A0,X
                 JMP     loc_1C8B65
@@ -2048,6 +2092,7 @@ sub_1C8AE4:
 
 
 sub_1C8AEC:
+    .import byte_792, byte_793, byte_7A1, byte_7A7, byte_7A8, byte_7B4, byte_7B5, byte_7B6, byte_7B7
     .importzp byte_B6, byte_B7, byte_BA
 
                 JSR     loc_1C829C
@@ -2140,6 +2185,8 @@ loc_1C8B65:
 
 
 set_pulse:
+    .import PulseCounter1, PulseTimer2, PulseCounter2
+
                 LDA     PulseChannels
                 BEQ     exit_1
                 CMP     #1
@@ -2170,6 +2217,8 @@ exit_1:
 
 
 sub_1C8BA1:
+    .import byte_791, byte_79D, byte_79F, byte_7AC, byte_7B0, byte_7B8, byte_7BC, byte_7CD
+
                 TXA
                 CMP     #2
                 BCS     exit_1
@@ -2620,6 +2669,8 @@ sub_1C8E26:
 
 
 sub_1C8E3E:
+    .import DMCflag
+
                 TYA
                 AND     #$C0
                 CMP     #$40

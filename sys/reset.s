@@ -12,7 +12,6 @@
 ; Initialize NES hardware and set up PPU
 .proc reset
     .export reset
-    ;.import main
     .import mmc3_bank_set, set_ppu, set_apu, main
     .importzp CntrlPPU
     ; disable NMI, set sprite size = 8x8

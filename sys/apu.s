@@ -6,10 +6,8 @@
 .proc set_apu
     .export set_apu
     .importzp BankNum
-    .import bank_8000_1D_A000
+    .import bank_8000_1D_A000, sub_1C8006
 
-    ;LDA #$1C
-    ;STA BankNum
     set BankNum, #$1C
     lda #0
     ldx #0
@@ -20,5 +18,5 @@
     bne  @clear
 
     jsr bank_8000_1D_A000
-    jmp $8006                   ; bank 1C
+    jmp sub_1C8006              ; bank 1C $8006
 .endproc

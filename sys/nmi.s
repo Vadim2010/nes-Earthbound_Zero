@@ -1,6 +1,5 @@
 .include "macros.inc"
 .include "nes.inc"
-.include "ram.inc"
 .include "mmc3/mmc3.inc"
 .include "mmc3/bank.inc"
 
@@ -12,7 +11,7 @@
     .importzp JmpInstr, Gamepad0Buttons, Gamepad0Status, Gamepad1Buttons, Gamepad1Status, BankMode, BankTable, BankRegister, CHRBank
     .importzp MaskPPU, CntrlPPU, CameraX, CameraY, IRQCount, IRQLatch, NMIFlags, NMIReady, OffsetNMI_Data, OtherNMIFlags, InterruptOffset
     .importzp byte_E7, byte_E1, FlagClearOAM300
-    .import handle_game_logic, gamepad_input, draw_sprite, sub_FC96, bank_8000_1D_A000, mmc3_bank_set
+    .import handle_game_logic, gamepad_input, draw_sprite, sub_FC96, bank_8000_1D_A000, mmc3_bank_set, NMI_Data
 
     bit PPU_STATUS
     bit NMIReady
@@ -21,11 +20,6 @@
 
 @NMIGo:
     save_registers              ; save registers on the stack
-    ; pha                         ; Save accumulator (A) on the stack
-    ; txa                         ; Transfer index X to accumulator (A)
-    ; pha                         ; Save index X on the stack
-    ; tya                         ; Transfer index Y to accumulator (A)
-    ; pha                         ; Save index Y on the stack
 
     ; initialize sprite RAM and transfer data
     ldx #0
@@ -176,15 +170,8 @@ restore_bank:
     jsr JmpInstr
 
 @end_nmi:
-    ; lda #0
-    ; sta NMIReady
     set NMIReady, #0
     restore_registers           ;restore registers from the stack
-    ; pla                         ; Restore index Y from the stack
-    ; tay                         ; Transfer accumulator (A) to index Y
-    ; pla                         ; Restore index X from the stack
-    ; tax                         ; Transfer accumulator (A) to index X
-    ; pla                         ; Restore accumulator (A) from the stack
 
     rti
 .endproc
@@ -207,6 +194,8 @@ NMITable:
 
 ; F8DB
 .proc next_func_by_offset
+    .import NMI_Data
+
     iny
     tya
     sec
@@ -217,6 +206,8 @@ NMITable:
 
 ; F8E5
 .proc next_func_by_absolute
+    .import NMI_Data
+
     iny
     lda NMI_Data,Y
     tay

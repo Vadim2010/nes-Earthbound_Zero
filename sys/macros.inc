@@ -40,6 +40,34 @@
     .endif
 .endmacro
 
+; load 16-bit argument into register pair XA
+; X - high byte, A - low byte
+.macro ldxa arg
+    .if (.match (.left (1, {arg}), #))
+        ; immediate mode
+        lda #<(.right (.tcount ({arg})-1, {arg}))
+        ldx #>(.right (.tcount ({arg})-1, {arg}))
+    .else
+        ; assume absolute or zero page
+        lda arg
+        ldx 1+(arg)
+    .endif
+.endmacro
+
+; store register pair XA into 16-bit argument
+; X - high byte, A - low byte
+.macro stxa arg
+    .if (.match (.left (1, {arg}), #))
+        ; immediate mode
+        sta #<(.right (.tcount ({arg})-1, {arg}))
+        stx #>(.right (.tcount ({arg})-1, {arg}))
+    .else
+        ; assume absolute or zero page
+        sta arg
+        stx 1+(arg)
+    .endif
+.endmacro
+
 ; load 16-bit argument into register pair YX
 ; Y - high byte, X - low byte
 .macro ldyx arg
@@ -54,11 +82,48 @@
     .endif
 .endmacro
 
-; store a 16-bit address in memory
+; store register pair YX into 16-bit argument
+; Y - high byte, X - low byte
+.macro styx arg
+    .if (.match (.left (1, {arg}), #))
+        ; immediate mode
+        stx #<(.right (.tcount ({arg})-1, {arg}))
+        sty #>(.right (.tcount ({arg})-1, {arg}))
+    .else
+        ; assume absolute or zero page
+        stx arg
+        sty 1+(arg)
+    .endif
+.endmacro
+
+; store a 16-bit address in memory using A register
 ; Input: 16-bit address (16-bit value), destination memory location (16-bit value)
 .macro store addr, dest
-    lda #<(addr)
-    sta dest
-    lda #>(addr)
-    sta dest+1
+    .if (.match (.left (1, {addr}), #))
+        lda #<(.mid (1, .tcount ({addr})-1, {addr}))
+        sta dest
+        lda #>(.mid (1, .tcount ({addr})-1, {addr}))
+        sta dest+1
+    .else
+        lda addr
+        sta dest
+        lda addr+1
+        sta dest+1
+    .endif
+.endmacro
+
+; store a 16-bit address in memory using Y register
+; Input: 16-bit address (16-bit value), destination memory location (16-bit value)
+.macro storey addr, dest
+    .if (.match (.left (1, {addr}), #))
+        ldy #<(.mid (1, .tcount ({addr})-1, {addr}))
+        sty dest
+        ldy #>(.mid (1, .tcount ({addr})-1, {addr}))
+        sty dest+1
+    .else
+        ldy addr
+        sty dest
+        ldy addr+1
+        sty dest+1
+    .endif
 .endmacro

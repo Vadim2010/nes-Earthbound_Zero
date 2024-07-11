@@ -1,6 +1,9 @@
-.include "sram.inc"
+.include "structures.inc"
 
 .segment "PURE_SAVE"
+
+.export PureSave
+.import CurrentGame
 
 PureSave:       .byte 0                 ; field_0
                 .byte 0                 ; field_1
@@ -13,8 +16,8 @@ PureSave:       .byte 0                 ; field_0
                 .byte 8                 ; field_D
                 .byte $86               ; field_E
                 .byte $2F               ; field_F
-                .word 0                 ; cash
-                .word 0                 ; field_12
+                .word 0                 ; Cash
+                .word 0                 ; Account
                 .byte 0                 ; field_14
                 .byte 0                 ; field_15
                 .byte 0                 ; field_16
@@ -28,7 +31,7 @@ PureSave:       .byte 0                 ; field_0
                 .byte 0                 ; field_30
                 .byte 0                 ; field_31
                 .byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0; field_32
-                .byte 8, $20, $80       ; field_3C
+                .byte 8, $20, $80       ; CmndBtn
                 .byte $20               ; field_3F
                 .byte 0                 ; Characters.field_0
                 .byte 0, 0, $1E, 0, 8, 0, 5, 0, 5, 0, 5, 5, 5, 5, 5; Characters.msg_list
@@ -40,7 +43,7 @@ PureSave:       .byte 0                 ; field_0
                 .byte 0                 ; Characters.field_15
                 .byte 8                 ; Characters.PP
                 .byte 0                 ; Characters.field_17
-                .word Boy1Name             ; Characters.NameOffset
+                .word CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name     ; Boy1Name
                 .byte 0                 ; Characters.field_1A
                 .byte 0                 ; Characters.field_1B
                 .byte 8                 ; Characters.field_1C
@@ -62,7 +65,7 @@ PureSave:       .byte 0                 ; field_0
                 .byte 0                 ; Characters.field_15
                 .byte $C                ; Characters.PP
                 .byte 0                 ; Characters.field_17
-                .word GirlName             ; Characters.NameOffset
+                .word CurrentGame+PURE_SAVE::Girl+CHARACTER::Name      ; GirlName
                 .byte 0                 ; Characters.field_1A
                 .byte 0                 ; Characters.field_1B
                 .byte 8                 ; Characters.field_1C
@@ -84,7 +87,7 @@ PureSave:       .byte 0                 ; field_0
                 .byte 0                 ; Characters.field_15
                 .byte 0                 ; Characters.PP
                 .byte 0                 ; Characters.field_17
-                .word Boy2Name             ; Characters.NameOffset
+                .word CurrentGame+PURE_SAVE::Boy2+CHARACTER::Name     ; Boy2Name
                 .byte 0                 ; Characters.field_1A
                 .byte 0                 ; Characters.field_1B
                 .byte 8                 ; Characters.field_1C
@@ -107,7 +110,7 @@ PureSave:       .byte 0                 ; field_0
                 .byte 0                 ; Characters.field_15
                 .byte 0                 ; Characters.PP
                 .byte 0                 ; Characters.field_17
-                .word Boy3Name          ; Characters.NameOffset
+                .word CurrentGame+PURE_SAVE::Boy3+CHARACTER::Name     ; Boy3Name
                 .byte 0                 ; Characters.field_1A
                 .byte 0                 ; Characters.field_1B
                 .byte 8                 ; Characters.field_1C

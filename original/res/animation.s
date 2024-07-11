@@ -1,23 +1,9 @@
-.segment "DATA_BANK_5"
+.segment "BANK_5"
 
 ; ===========================================================================
 
-; Segment type: Pure code
 ;.segment BANK15
 ;* =  $8000
-
-; .struct FRAME
-    ; pSprite     .word
-    ; TileID      .byte
-    ; field_3     .byte
-; .endstruct
-
-; .struct TILE
-    ; PosX        .byte
-    ; PosY        .byte
-    ; Attr        .byte
-    ; TileIDStep  .byte
-; .endstruct
 
 ; ATTRIBUTE
 VERTICAL_FLIP       = 1 << 7
@@ -2509,6 +2495,8 @@ stru_1596A0:
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|VERTICAL_FLIP, $85       ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|VERTICAL_FLIP, $85>
     .byte $10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $85     ; TILE <$10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $85>
     .byte $18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $85     ; TILE <$18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $85>
+
+.export EarthAnim
 EarthAnim:
     .word EarthSprite
     .byte 4, 0          ; FRAME <EarthSprite, 4, 0>
@@ -2524,6 +2512,7 @@ EarthAnim:
     .byte $48, 0        ; FRAME <EarthSprite, $48, 0>
     .word EarthSprite
     .byte $4C, 0        ; FRAME <EarthSprite, $4C, 0>
+
 EarthSprite:
     .byte 0, 0, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0       ; TILE <0, 0, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0>
     .byte 8, 0, TRANSPARENT|TILE_OFFSET|FOREGROUND, 1       ; TILE <8, 0, TRANSPARENT|TILE_OFFSET|FOREGROUND, 1>
