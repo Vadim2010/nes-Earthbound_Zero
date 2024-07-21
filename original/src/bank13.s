@@ -15,15 +15,15 @@
 .segment "BANK_3"
 
 .proc sub_13A000
-    .export sub_13A000, loc_13A005
-    .import get_character_num, get_sram_pointer, state, cursor_update, loc_EF7C, sub_C3F4, Character
-    .importzp Pointer, byte_29, pCursor, Buttons, CursorPosition, Column, Row
+    .export sub_13A000, out_state
+    .import get_character_num, get_sram_pointer, state, cursor_update, loc_EF7C, redraw_screen, Character
+    .importzp Pointer, Item, pCursor, Buttons, CursorPosition, Column, Row
 
     lda #5
     sta byte_7F1
 
-loc_13A005:
-    lda CurrentGame + GAME_SAVE::field_21E      ; $761E
+out_state:
+    lda CurrentGame + GAME_SAVE::field_21E
     sta Pointer
     ldy #$F0
 
@@ -63,7 +63,7 @@ loc_13A023:
 
 @next_item:
     lda Character,Y
-    sta byte_29
+    sta Item
     jsr copy_item_name
     iny
     cpy #$2C
@@ -72,7 +72,7 @@ loc_13A023:
     ldxa #stru_13A0F5
     jsr draw_tiles
     lda #$C0
-    sta byte_29
+    sta Item
     jsr sub_13A0B3
     ldxa #stru_13A119
     stxa pCursor
@@ -108,7 +108,7 @@ loc_13A084:
 
 loc_13A08B:
     pla
-    jmp sub_C3F4
+    jmp redraw_screen
 .endproc            ; End of function sub_13A000
 
 
@@ -152,7 +152,7 @@ loc_13A08B:
 
 .proc sub_13A0B3
     .import sub_DCCD, draw_tilepack_clear, Character
-    .importzp pDist, byte_29, PointerTilePack
+    .importzp pDist, Item, PointerTilePack
 
     LDX #$40
 
@@ -165,10 +165,10 @@ loc_13A0B5:
     JSR copy_item_name
 
 loc_13A0C4:
-    INC byte_29
+    INC Item
     BNE loc_13A0E1
     LDA #$C0
-    STA byte_29
+    STA Item
     CPX #$41
     BCS loc_13A0DB
     RTS
@@ -203,9 +203,10 @@ loc_13A0ED:
 .endproc            ; End of function sub_13A0B3
 
 ; ---------------------------------------------------------------------------
+.import Character
 stru_13A0F5:
     tile_position 11, 3
-    convert $638, 0, 7
+    convert Character+CHARACTER::Name, 0, 7       ; $638, 0, 7
     end_frame
 
 stru_13A0FE:
@@ -231,8 +232,8 @@ stru_13A119:
 
 .proc sub_13A123
     .export sub_13A123
-    .import sub_CDE4, sub_C3F4, loc_13A445, loc_13ADC1
-    .importzp byte_D1, byte_D2, byte_D3, byte_2C, Buttons, CursorPosition
+    .import sub_CDE4, redraw_screen, message_button, loc_13ADC1
+    .importzp byte_D1, byte_D2, byte_D3, WaitPressed, Buttons, CursorPosition
 
     LDA #$80
     BIT byte_D3+1
@@ -248,13 +249,13 @@ stru_13A119:
     LDA #$2F
     JSR sub_CDE4
     LDX #$7C
-    JSR loc_13A445
+    JSR message_button
     LDX #$7E
-    JSR loc_13A445
+    JSR message_button
     LDX #$80
-    JSR loc_13A445
+    JSR message_button
     LDA #$37
-    STA byte_2C
+    STA WaitPressed
     JSR loc_13ADC1
     BIT Buttons
     BVS loc_13A168
@@ -262,7 +263,7 @@ stru_13A119:
     BEQ loc_13A168
     JSR make_save
     LDX #$86
-    JSR loc_13A445
+    JSR message_button
     JMP reboot
 ; ---------------------------------------------------------------------------
 
@@ -272,69 +273,68 @@ locret_13A167:
 
 loc_13A168:
     LDX #$82
-    JSR loc_13A445
+    JSR message_button
     LDX #$84
-    JSR loc_13A445
-    JSR loc_13AB30
-    JMP sub_C3F4
+    JSR message_button
+    JSR check_button_pressed
+    JMP redraw_screen
 .endproc            ; End of function sub_13A123
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-.proc sub_13A178
-    .export sub_13A178
-    .import sub_C26C, cursor_update, sub_C3F4, get_cursor_pos
+.proc command_menu
+    .export command_menu
+    .import sub_C26C, cursor_update, redraw_screen, get_cursor_pos
     .importzp pCursor, Buttons, CursorPosition
 
-    LDA #5
-    STA byte_7F1
-    JSR sub_C26C
-    ldxa #stru_13A1B0
+    lda #5
+    sta byte_7F1
+    jsr sub_C26C
+    ldxa #CommandCursor
     stxa pCursor
-    JSR cursor_update
-    BIT Buttons
-    BMI loc_13A192
-    JMP sub_C3F4
+    jsr cursor_update
+    bit Buttons
+    bmi loc_13A192
+    jmp redraw_screen
 ; ---------------------------------------------------------------------------
 
 loc_13A192:
-    LDA #$FF
-    JSR get_cursor_pos  ; get position of cursor and set cursor tile Input: A - tile ID, Output: PosX, PosY
-    LDA CursorPosition
-    ASL A
-    TAX
-    LDA off_13A1A4+1,X
-    PHA
-    LDA off_13A1A4,X
-    PHA
-    RTS
-.endproc            ; End of function sub_13A178
+    lda #$FF
+    jsr get_cursor_pos  ; get position of cursor and set cursor tile Input: A - tile ID, Output: PosX, PosY
+    lda CursorPosition
+    asl A
+    tax
+    lda CommandHandlers+1,X
+    pha
+    lda CommandHandlers,X
+    pha
+    rts
+.endproc            ; End of function command_menu
 
 ; ---------------------------------------------------------------------------
-off_13A1A4:
-    .import loc_13A005
-    .word sub_13A1EA-1, sub_13A20F-1, sub_13A262-1, loc_13A005-1
-    .word sub_13A238-1, sub_13A1BA-1
+CommandHandlers:
+    .import out_state
+    .word talk-1, check-1, goods-1, out_state-1, psi-1, change_setup-1
 
-stru_13A1B0:
+CommandCursor:
     .byte 2, 3, 6, 2, $C0, $3A, 2, 3
     .word byte_F0D1
 
 ; =============== S U B R O U T I N E =======================================
 
 
-.proc sub_13A1BA
-    .import bank_A000_a, sub_C3F4, sub_19A36E
+.proc change_setup
+    .import bank_A000_a, redraw_screen, setup_menu
 
-    LDA #$19
-    ldyx #(sub_19A36E-1)
-    JSR bank_A000_a     ; changes the memory bank $A000, transfers the execution of the code after completion of which returns the original memory bank
+    lda #$19
+    ldyx #(setup_menu-1)
+    jsr bank_A000_a     ; changes the memory bank $A000, transfers the execution of the code after completion of which returns the original memory bank
                         ; input: A - bank number, YX - (subroutine address - 1)
                         ; Y - high byte, X - low byte
-    JMP sub_C3F4
-.endproc            ; End of function sub_13A1BA
+    jmp redraw_screen
+.endproc            ; End of function change_setup
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -342,7 +342,7 @@ stru_13A1B0:
 
 .proc sub_13A1C6
     .export sub_13A1C6
-    .import sub_E266, sub_C3F4
+    .import sub_E266, redraw_screen
     .importzp byte_34
 
     JSR sub_E266
@@ -360,7 +360,7 @@ stru_13A1B0:
     BCS locret_13A1E9
 
 loc_13A1E1:
-    JMP sub_C3F4
+    JMP redraw_screen
 ; ---------------------------------------------------------------------------
 
 loc_13A1E4:
@@ -375,81 +375,81 @@ locret_13A1E9:
 ; =============== S U B R O U T I N E =======================================
 
 
-.proc sub_13A1EA
-    .import sub_E20F, sub_E2A2, loc_13A445, sub_C3F4
+.proc talk
+    .import sub_E20F, sub_E2A2, message_button, redraw_screen
     .importzp byte_34
 
-    JSR sub_E20F
-    ASL A
-    BPL loc_13A200
-    AND #$1E
-    BEQ loc_13A204
-    JSR sub_E2A2
-    LDA #$A
-    STA byte_34
-    JSR sub_13AB0F
-    BCC loc_13A20C
+    jsr sub_E20F
+    asl A
+    bpl nobody
+    and #$1E
+    beq what
+    jsr sub_E2A2
+    lda #$A
+    sta byte_34
+    jsr sub_13AB0F
+    bcc redraw
 
-loc_13A200:
-    LDX #2
-    BNE loc_13A206
+nobody:
+    ldx #2
+    bne out_msg
 
-loc_13A204:
-    LDX #4
+what:
+    ldx #4
 
-loc_13A206:
-    JSR loc_13A445
-    JSR loc_13AB30
+out_msg:
+    jsr message_button
+    jsr check_button_pressed
 
-loc_13A20C:
-    JMP sub_C3F4
-.endproc            ; End of function sub_13A1EA
+redraw:
+    jmp redraw_screen
+.endproc            ; End of function talk
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-.proc sub_13A20F
-    .import sub_E20F, sub_C3F4, loc_13A445
+.proc check
+    .import sub_E20F, redraw_screen, message_button
     .importzp byte_34
 
     JSR sub_E20F
     JSR sub_13A9C7
     BNE loc_13A21D
     JSR sub_13A9D6
-    JMP sub_C3F4
+    JMP redraw_screen
 ; ---------------------------------------------------------------------------
 
 loc_13A21D:
     ASL A
-    BPL loc_13A22D
+    BPL no_problem
     AND #$1E
-    BEQ loc_13A22D
+    BEQ no_problem
     LDA #$B
     STA byte_34
     JSR sub_13AB0F
     BCC loc_13A235
 
-loc_13A22D:
+no_problem:
     LDX #6
-    JSR loc_13A445
-    JSR loc_13AB30
+    JSR message_button
+    JSR check_button_pressed
 
 loc_13A235:
-    JMP sub_C3F4
-.endproc            ; End of function sub_13A20F
+    JMP redraw_screen
+.endproc            ; End of function check
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-.proc sub_13A238
-    .import sub_C3F4, loc_13A90C
+.proc psi
+    .import redraw_screen, press_redraw
     .importzp Pointer, BankPPU_XC00, BankPPU_X000
 
     JSR sub_13B8E6
     BCC loc_13A240
-    JMP sub_C3F4
+    JMP redraw_screen
 ; ---------------------------------------------------------------------------
 
 loc_13A240:
@@ -466,52 +466,52 @@ loc_13A240:
     SBC #0
     BCC loc_13A25D
     JSR sub_13A3BC
-    JMP loc_13A90C
+    JMP press_redraw
 ; ---------------------------------------------------------------------------
 
 loc_13A25D:
     LDX #$10
-    JMP sub_13A909
-.endproc            ; End of function sub_13A238
+    JMP msg_press_redraw
+.endproc            ; End of function psi
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-.proc sub_13A262
-    .export sub_13A262, loc_13A26A
-    .import sub_C3F4, sub_C3C7, short_cursor_update, get_cursor_pos, byte_F0D1
-    .importzp byte_29, pStr, pCursor, Buttons, CursorPosition
+.proc goods
+    .export goods, loc_13A26A
+    .import redraw_screen, draw_goods_menu, short_cursor_update, get_cursor_pos, byte_F0D1
+    .importzp Item, pStr, pCursor, Buttons, CursorPosition
 
-    JSR sub_13B7B6
-    BCC loc_13A26A
-    JMP sub_C3F4
+    jsr sub_13B7B6
+    bcc loc_13A26A
+    jmp redraw_screen
 ; ---------------------------------------------------------------------------
 
 loc_13A26A:
-    JSR sub_C3C7
-    JSR sub_13A964
-    JSR sub_13A972
-    BEQ loc_13A281
-    LDA byte_29
-    CMP #3
-    BEQ loc_13A281
+    jsr draw_goods_menu
+    jsr get_char_pntr
+    jsr sub_13A972
+    beq loc_13A281
+    lda Item
+    cmp #3
+    beq loc_13A281
     ldxa #byte_13A2A2
-    BNE loc_13A285
+    bne loc_13A285
 
 loc_13A281:
     ldxa #byte_F0D1
 
 loc_13A285:
     stxa pStr
-    ldxa #stru_13A29A
+    ldxa #ActionCursor
     stxa pCursor
-    JSR short_cursor_update
-    BIT Buttons
-    BMI loc_13A2A7
-    BPL sub_13A262
+    jsr short_cursor_update
+    bit Buttons
+    bmi loc_13A2A7
+    bpl goods
 ; ---------------------------------------------------------------------------
-stru_13A29A:
+ActionCursor:
     .byte 1, 5, 0, 2, $C0, $3A, $18, 7  ;CURSOR_SHORT <1, 5, 0, 2, $C0, $3A, $18, 7>
 
 byte_13A2A2:
@@ -525,85 +525,85 @@ loc_13A2A7:
     LDA CursorPosition
     ASL A
     TAX
-    LDA off_13A2BC+1,X
+    LDA Actions+1,X
     PHA
-    LDA off_13A2BC,X
+    LDA Actions,X
     PHA
     RTS
-.endproc            ; End of function sub_13A262
+.endproc            ; End of function goods
 
 ; ---------------------------------------------------------------------------
-off_13A2BC:
-    .word sub_13A2C6-1, sub_13A37D-1, sub_13A315-1, sub_13A390-1, sub_13A3A9-1
+Actions:
+    .word use-1, eat-1, give-1, drop-1, look-1
 
 ; =============== S U B R O U T I N E =======================================
 
 
-.proc sub_13A2C6
-    .import loc_13A90C, loc_13A445, byte_7F3
-    .importzp Pointer, AddrForJmp, byte_28
+.proc use
+    .import press_redraw, message_button, byte_7F3
+    .importzp Pointer, AddrForJmp, CharNum
 
-    LDY #3
-    LDA (Pointer),Y
-    BNE loc_13A2F1
-    LDY #2
-    LDA (Pointer),Y
-    AND #$3F
-    BEQ loc_13A2E1
-    LDX byte_28
-    AND byte_13AA74,X
-    BEQ loc_13A2EC
-    JSR sub_13A3BC
-    JMP loc_13A90C
+    ldy #3
+    lda (Pointer),Y
+    bne to_equip
+    ldy #2
+    lda (Pointer),Y
+    and #$3F
+    beq used
+    ldx CharNum
+    and byte_13AA74,X
+    beq cant_use
+    jsr sub_13A3BC
+    jmp press_redraw
 ; ---------------------------------------------------------------------------
 
-loc_13A2E1:
-    LDX #$16
-    JSR loc_13A445
-    JSR sub_13A443
-    JMP loc_13A90C
+used:
+    ldx #$16
+    jsr message_button
+    jsr nothing_happend
+    jmp press_redraw
 ; ---------------------------------------------------------------------------
 
-loc_13A2EC:
-    LDX #$18
-    JMP sub_13A909
+cant_use:
+    ldx #$18
+    jmp msg_press_redraw
 ; ---------------------------------------------------------------------------
 
-loc_13A2F1:
-    STA AddrForJmp
-    LDY #2
-    LDA (Pointer),Y
-    LDX byte_28
-    AND byte_13AA74,X
-    BEQ loc_13A310
-    JSR sub_13BC3A
-    BCS loc_13A310
-    LDX #$1C
-    JSR loc_13A445
-    LDA #4
-    STA byte_7F3            ; byte_7F3
-    JMP loc_13A90C
+to_equip:
+    sta AddrForJmp
+    ldy #2
+    lda (Pointer),Y
+    ldx CharNum
+    and byte_13AA74,X
+    beq cant_equip
+    jsr sub_13BC3A
+    bcs cant_equip
+    ldx #$1C
+    jsr message_button
+    lda #4
+    sta byte_7F3
+    jmp press_redraw
 ; ---------------------------------------------------------------------------
 
-loc_13A310:
-    LDX #$1E
-    JMP sub_13A909
-.endproc            ; End of function sub_13A2C6
+cant_equip:
+    ldx #$1E
+    jmp msg_press_redraw
+.endproc            ; End of function use
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-.proc sub_13A315
+.proc give
     .import loc_13A26A
-    .importzp byte_28, byte_29, BankPPU_X800
+    .importzp CharNum, Item, BankPPU_X800
 
     LDX $6707            ; byte_6707
     DEX
-    BEQ loc_13A375
-    LDA byte_29
+    BEQ no_friends
+    LDA Item
     CMP #3
-    BEQ loc_13A365
+    BEQ cant_hand
     JSR sub_13AA4E
     BCS loc_13A37A
     JSR sub_13A979
@@ -613,123 +613,123 @@ loc_13A310:
     BEQ loc_13A356
     JSR sub_13A972
     BNE loc_13A349
-    JSR sub_13A964
+    JSR get_char_pntr
     JSR sub_13A972
-    BNE loc_13A344
+    BNE wisdom
     LDX #$24
-    JMP sub_13A909
+    JMP msg_press_redraw
 ; ---------------------------------------------------------------------------
 
-loc_13A344:
+wisdom:
     LDX #$4C
-    JMP sub_13A909
+    JMP msg_press_redraw
 ; ---------------------------------------------------------------------------
 
 loc_13A349:
-    JSR sub_13A964
+    JSR get_char_pntr
     JSR sub_13A972
-    BNE loc_13A360
+    BNE use_magic_herb
     LDX #$4E
-    JMP sub_13A909
+    JMP msg_press_redraw
 ; ---------------------------------------------------------------------------
 
 loc_13A356:
     JSR sub_13A972
-    BNE loc_13A360
+    BNE use_magic_herb
     LDX #$50
-    JMP sub_13A909
+    JMP msg_press_redraw
 ; ---------------------------------------------------------------------------
 
-loc_13A360:
+use_magic_herb:
     LDX #$52
-    JMP sub_13A909
+    JMP msg_press_redraw
 ; ---------------------------------------------------------------------------
 
-loc_13A365:
+cant_hand:
     LDX #$26
-    JMP sub_13A909
+    JMP msg_press_redraw
 ; ---------------------------------------------------------------------------
 
 loc_13A36A:
-    LDA byte_28
+    LDA CharNum
     CMP BankPPU_X800
     BEQ loc_13A356
     LDX #$28
-    JMP sub_13A909
+    JMP msg_press_redraw
 ; ---------------------------------------------------------------------------
 
-loc_13A375:
+no_friends:
     LDX #$C
-    JMP sub_13A909
+    JMP msg_press_redraw
 ; ---------------------------------------------------------------------------
 
 loc_13A37A:
     JMP loc_13A26A
-.endproc            ; End of function sub_13A315
+.endproc            ; End of function give
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-.proc sub_13A37D
-    .import loc_13A90C
+.proc eat
+    .import press_redraw
     .importzp Pointer
 
     LDY #2
     LDA (Pointer),Y
     AND #$40
-    BEQ loc_13A38B
+    BEQ cant_do
     JSR sub_13A3BC
-    JMP loc_13A90C
+    JMP press_redraw
 ; ---------------------------------------------------------------------------
 
-loc_13A38B:
+cant_do:
      LDX #$1A
-     JMP sub_13A909
+     JMP msg_press_redraw
 .endproc
-; End of function sub_13A37D
+; End of function eat
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-.proc sub_13A390
+.proc drop
     JSR sub_13A98B
-    BCS loc_13A3A4
+    BCS dont_throw
     JSR sub_13A972
-    BNE loc_13A39F
+    BNE force
     LDX #$20
-    JMP sub_13A909
+    JMP msg_press_redraw
 ; ---------------------------------------------------------------------------
 
-loc_13A39F:
+force:
     LDX #$54
-    JMP sub_13A909
+    JMP msg_press_redraw
 ; ---------------------------------------------------------------------------
 
-loc_13A3A4:
+dont_throw:
     LDX #$22
-    JMP sub_13A909
-.endproc            ; End of function sub_13A390
+    JMP msg_press_redraw
+.endproc            ; End of function drop
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-.proc sub_13A3A9
-    .import loc_13AD1A, loc_13A90C
-    .importzp PointerTilePack, byte_29, byte_73
+.proc look
+    .import out_msg_button, press_redraw
+    .importzp PointerTilePack, Item, DialogPage
 
     CLC
-    LDA byte_29
-    ADC #$E8
+    LDA Item
+    ADC #$E8                ; DIALOGS8 $3E8
     STA PointerTilePack
     LDA #0
     ADC #3
-    STA byte_73
-    JSR loc_13AD1A
-    JMP loc_13A90C
-.endproc            ; End of function sub_13A3A9
+    STA DialogPage
+    JSR out_msg_button
+    JMP press_redraw
+.endproc            ; End of function look
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -742,24 +742,24 @@ loc_13A3A4:
     LDA (Pointer),Y
     ASL A
     TAX
-    LDA off_13A3CB+1,X
+    LDA ActionTable+1,X
     PHA
-    LDA off_13A3CB,X
+    LDA ActionTable,X
     PHA
     RTS
 .endproc
 ; End of function sub_13A3BC
 
 ; ---------------------------------------------------------------------------
-off_13A3CB:
-    .word sub_13A443-1, sub_13A451-1, sub_13A443-1, sub_13A443-1
-    .word sub_13A443-1, sub_13A49A-1, sub_13A4CF-1, sub_13A451-1
-    .word sub_13A465-1, sub_13A443-1, sub_13A4EB-1, sub_13A4F0-1
+ActionTable:
+    .word nothing_happend-1, sub_13A451-1, nothing_happend-1, nothing_happend-1
+    .word nothing_happend-1, sub_13A49A-1, sub_13A4CF-1, sub_13A451-1
+    .word sub_13A465-1, nothing_happend-1, sub_13A4EB-1, sub_13A4F0-1
     .word sub_13A4F5-1, sub_13A4FA-1, sub_13A4FF-1, sub_13A504-1
     .word sub_13A50C-1, sub_13A74D-1, sub_13A756-1, sub_13A75F-1
     .word sub_13A79A-1, sub_13A7A7-1, sub_13A7B4-1, sub_13A7BB-1
     .word sub_13A7C2-1, sub_13A7C9-1, sub_13A7D0-1, sub_13A811-1
-    .word sub_13A443-1, sub_13A443-1, sub_13A7D7-1, sub_13A478-1
+    .word nothing_happend-1, nothing_happend-1, sub_13A7D7-1, sub_13A478-1
     .word sub_13A807-1, sub_13A80C-1, sub_13A825-1, sub_13A816-1
     .word sub_13A43E-1, sub_13A427-1, sub_13A612-1, sub_13A4DB-1
     .word sub_13A4E0-1, sub_13A4E5-1, sub_13A73F-1, sub_13A43E-1
@@ -790,37 +790,37 @@ off_13A3CB:
 
 
 .proc sub_13A43E
-    .import loc_13A445
+    .import message_button
 
     LDX #$E
-    JSR loc_13A445
+    JSR message_button
 .endproc            ; End of function sub_13A43E
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-.proc sub_13A443
-    .export sub_13A443, loc_13A445
-    .import loc_13AD1A
+.proc nothing_happend
+    .export nothing_happend, message_button
+    .import out_msg_button
 
     LDX #$2A
 
-loc_13A445:
-    JSR sub_13AA7C
-    JMP loc_13AD1A
-.endproc            ; End of function sub_13A443
+message_button:
+    JSR get_dialog_id
+    JMP out_msg_button
+.endproc            ; End of function nothing_happend
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-.proc sub_13A44B
-    .import loc_13AD29
+.proc message
+    .import out_msg
 
-    JSR sub_13AA7C
-    JMP loc_13AD29
-.endproc            ; End of function sub_13A44B
+    JSR get_dialog_id
+    JMP out_msg
+.endproc            ; End of function message
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -832,13 +832,13 @@ loc_13A445:
 
     JSR sub_E20F
     ASL A
-    BPL sub_13A443
+    BPL nothing_happend
     AND #$1E
-    BEQ sub_13A443
+    BEQ nothing_happend
     LDA #$D
     STA byte_34
     JSR sub_13AB0F
-    BCS sub_13A443
+    BCS nothing_happend
     RTS
 .endproc            ; End of function sub_13A451
 
@@ -847,7 +847,7 @@ loc_13A445:
 
 
 .proc sub_13A465
-    .import sram_write_enable, sram_read_enable, loc_13A445
+    .import sram_write_enable, sram_read_enable, message_button
 
     jsr sub_13A990
     jsr sram_write_enable
@@ -855,7 +855,7 @@ loc_13A445:
     sta CurrentGame+PURE_SAVE::field_19     ; $7419
     jsr sram_read_enable
     ldx #$16
-    jmp loc_13A445
+    jmp message_button
 .endproc            ; End of function sub_13A465
 
 
@@ -863,7 +863,7 @@ loc_13A445:
 
 
 .proc sub_13A478
-    .import sram_write_enable, sram_read_enable, loc_13A445
+    .import sram_write_enable, sram_read_enable, message_button
     .importzp FuncID, byte_20, BankPPU_X000
 
     JSR sub_13A990
@@ -882,7 +882,7 @@ loc_13A480:
     LDA #1              ; sub_13BD0D
     STA FuncID          ; ID from table BANK13:BCFD (RoutineTable)
     LDX #$48
-    JMP loc_13A445
+    JMP message_button
 .endproc         ; End of function sub_13A478
 
 
@@ -890,15 +890,15 @@ loc_13A480:
 
 
 .proc sub_13A49A
-    .import sram_write_enable, sram_read_enable, loc_13A445, loc_13A542
-    .importzp Pointer, CursorPosition, byte_29, BankPPU_X000
+    .import sram_write_enable, sram_read_enable, message_button, loc_13A542
+    .importzp Pointer, CursorPosition, Item, BankPPU_X000
 
     LDA CursorPosition
     BNE loc_13A4CA
     LDA #3
     JSR sub_13B058
     BCC loc_13A4C5
-    LDA byte_29
+    LDA Item
     JSR sub_13B058
     JSR sram_write_enable
     LDA #3
@@ -913,12 +913,12 @@ loc_13A4B3:
     BCC loc_13A4B3
     JSR sram_read_enable
     LDX #$44
-    JMP loc_13A445
+    JMP message_button
 ; ---------------------------------------------------------------------------
 
 loc_13A4C5:
     LDX #$46
-    JMP loc_13A445
+    JMP message_button
 ; ---------------------------------------------------------------------------
 
 loc_13A4CA:
@@ -1042,18 +1042,18 @@ loc_13A4D6:
 
 
 sub_13A50C:
-    .import loc_13A445, sram_write_enable, sram_read_enable, CurrentGame
+    .import message_button, sram_write_enable, sram_read_enable, CurrentGame
 
     LDA #$1E
     JSR sub_13A912
     JSR sub_13AA4E
     BCS loc_13A56A
-    JSR sub_13A964
+    JSR get_char_pntr
     JSR sub_13A972
     BMI loc_13A56F
     JSR sub_13A92D
     LDX #$42
-    JSR loc_13A445
+    JSR message_button
     JSR sram_write_enable
     DEC CurrentGame + PURE_SAVE::field_1F       ; $741F
     PHP
@@ -1062,7 +1062,7 @@ sub_13A50C:
     BNE loc_13A53B
     JSR sub_13A9A3
     LDX #$56
-    JSR loc_13A445
+    JSR message_button
 
 loc_13A53B:
     JMP loc_13A564
@@ -1074,7 +1074,7 @@ loc_13A53B:
 
 sub_13A53E:
     .export sub_13A53E, loc_13A542, loc_13A54B
-    .import loc_13A26A, loc_13A445
+    .import loc_13A26A, message_button
     .importzp PointerTilePack
 
     LDX #$2E
@@ -1089,14 +1089,14 @@ loc_13A544:
     LDX PointerTilePack
 
 loc_13A54B:
-    JSR sub_13AA7C
+    JSR get_dialog_id
     JSR sub_13AA4E
     BCS loc_13A56A
-    JSR sub_13A964
+    JSR get_char_pntr
     JSR sub_13A972
     BMI loc_13A56F
     JSR sub_13A92D
-    JSR loc_13AD1A
+    JSR out_msg_button
     JSR sub_13A9A3
 
 loc_13A564:
@@ -1113,10 +1113,10 @@ loc_13A56A:
 loc_13A56F:
     JSR sub_13A9A3
     LDX #$58
-    JSR loc_13A445
+    JSR message_button
 
 loc_13A577:
-    JMP sub_13A443
+    JMP nothing_happend
 ; End of function sub_13A53E
 
 
@@ -1124,23 +1124,23 @@ loc_13A577:
 
 
 sub_13A57A:
-    .import sram_write_enable, sram_read_enable, loc_13A445, byte_7F1
+    .import sram_write_enable, sram_read_enable, message_button, byte_7F1
     .importzp Price, BankPPU_X000
 
     STA Price
     STY Price+1
-    JSR sub_13AA7C
+    JSR get_dialog_id
     JSR sub_13AA4E
     BCS loc_13A56A
     LDA Price
     BMI loc_13A592
-    JSR sub_13A964
+    JSR get_char_pntr
     JSR sub_13A972
     BMI loc_13A56F
 
 loc_13A592:
     JSR sub_13A92D
-    JSR loc_13AD1A
+    JSR out_msg_button
     JSR sub_13A9A3
 
 loc_13A59B:
@@ -1163,7 +1163,7 @@ loc_13A5B5:
     LDA #7
     STA byte_7F1            ; byte_7F1
     LDX Price+1
-    JSR loc_13A445
+    JSR message_button
     JMP sub_13BC04
 ; End of function sub_13A57A
 
@@ -1173,18 +1173,18 @@ loc_13A5B5:
 
 sub_13A5C5:
     .export sub_13A5C5, loc_13A5E2
-    .import sram_write_enable, sram_read_enable, loc_13A445
+    .import sram_write_enable, sram_read_enable, message_button
     .importzp Price, BankPPU_X000, pTileID
 
     STY Price
-    JSR sub_13AA7C
+    JSR get_dialog_id
     JSR sub_13AA4E
     BCS loc_13A56A
-    JSR sub_13A964
+    JSR get_char_pntr
     JSR sub_13A972
     BMI loc_13A56F
     JSR sub_13A92D
-    JSR loc_13AD1A
+    JSR out_msg_button
     JSR sub_13A9A3
     LDY Price
 
@@ -1213,9 +1213,9 @@ loc_13A5F7:
     ADC #$11
     ASL A
     TAX
-    JSR loc_13A445
+    JSR message_button
     LDX #$32
-    JMP sub_13A44B
+    JMP message
 ; End of function sub_13A5C5
 
 
@@ -1223,19 +1223,19 @@ loc_13A5F7:
 
 
 sub_13A612:
-    .import loc_13A445, sub_CCD8
+    .import message_button, sub_CCD8
 
     JSR sub_13A62C
     JSR sub_13B98F
     BCS loc_13A659
     JSR sub_13A9B1
     LDX #$E
-    JSR loc_13A445
+    JSR message_button
     PLA
     PLA
     PLA
     PLA
-    JSR loc_13AB30
+    JSR check_button_pressed
     JMP sub_CCD8
 ; End of function sub_13A612
 
@@ -1244,7 +1244,7 @@ sub_13A612:
 
 
 sub_13A62C:
-    .import loc_13A445
+    .import message_button
 
     lda CurrentGame + GAME_SAVE::field_21F      ; $761F
     and #2
@@ -1252,7 +1252,7 @@ sub_13A62C:
     pla
     pla
     ldx #$12
-    jmp loc_13A445
+    jmp message_button
 ; ---------------------------------------------------------------------------
 
 locret_13A63A:
@@ -1265,7 +1265,7 @@ locret_13A63A:
 
 sub_13A63B:
     .export sub_13A63B, loc_13A63E
-    .import loc_13A445
+    .import message_button
 
     JSR sub_13A912
 
@@ -1274,7 +1274,7 @@ loc_13A63E:
     BCS loc_13A659
     JSR sub_13A9B1
     LDX #$E
-    JSR loc_13A445
+    JSR message_button
     JSR sub_13A92D
     JSR sub_13A972
     BMI loc_13A65E
@@ -1285,11 +1285,11 @@ loc_13A63E:
 loc_13A659:
     PLA
     PLA
-    JMP sub_13A238
+    JMP psi
 ; ---------------------------------------------------------------------------
 
 loc_13A65E:
-    JMP sub_13A443
+    JMP nothing_happend
 ; End of function sub_13A63B
 
 
@@ -1297,7 +1297,7 @@ loc_13A65E:
 
 
 sub_13A661:
-    .import loc_13A445
+    .import message_button
     .importzp Price
 
     STA Price
@@ -1306,7 +1306,7 @@ sub_13A661:
     BCS loc_13A659
     JSR sub_13A9B1
     LDX #$E
-    JSR loc_13A445
+    JSR message_button
     JSR sub_13A92D
     LDA Price
     BMI loc_13A67E
@@ -1322,7 +1322,7 @@ loc_13A67E:
 
 
 .proc sub_13A681
-    .import sram_write_enable, sram_read_enable, loc_13A445
+    .import sram_write_enable, sram_read_enable, message_button
 
     LDY #$14
     JSR sub_13A6A5
@@ -1335,9 +1335,9 @@ loc_13A67E:
     LDA #7
     STA byte_7F1            ; byte_7F1
     LDX #$34
-    JSR loc_13A445
+    JSR message_button
     LDX #$30
-    JMP sub_13A44B
+    JMP message
 .endproc            ; End of function sub_13A681
 
 
@@ -1442,9 +1442,7 @@ loc_13A6F0:
     JSR loc_E2BF
     PLA
     LDX #6
-    JSR mmc3_bank_set   ; Set memory bank
-                        ; A - bank number
-                        ; X - mode
+    JSR mmc3_bank_set   ; Set memory bank A - bank number, X - mode
     LDA #$1D
     JSR sub_CDE4
     JSR sub_D977
@@ -1463,9 +1461,9 @@ loc_13A71E:
 
 
 .proc sub_13A728
-    .importzp byte_28
+    .importzp CharNum
 
-    LDA byte_28
+    LDA CharNum
     LDX #0
 
 loc_13A72C:
@@ -1537,12 +1535,12 @@ locret_13A737:
 
 
 .proc sub_13A75F
-    .import loc_13A445, sram_write_enable, sram_read_enable, sub_F1ED
+    .import message_button, sram_write_enable, sram_read_enable, sub_F1ED
 
     LDA #$14
     JSR sub_13A912
     LDX #$5E
-    JSR loc_13A445
+    JSR message_button
     LDY #$16
     JSR sub_13A6A5
     LDY #5
@@ -1552,15 +1550,15 @@ locret_13A737:
     JSR sub_13A6D1
     JSR sram_read_enable
     LDX #$36
-    JSR loc_13A445
+    JSR message_button
     LDX #$30
-    JSR sub_13A44B
+    JSR message
     JSR sub_F1ED
     CMP #$19
     BCS loc_13A797
     JSR sub_13A990
     LDX #$60
-    JSR loc_13A445
+    JSR message_button
 
 loc_13A797:
     JMP sub_13BC04
@@ -1571,10 +1569,10 @@ loc_13A797:
 
 
 .proc sub_13A79A
-    .import loc_13A445, loc_13A5E2
+    .import message_button, loc_13A5E2
 
     LDX #$4A
-    JSR loc_13A445
+    JSR message_button
     JSR sub_13A990
     LDY #$F
     JMP loc_13A5E2
@@ -1585,10 +1583,10 @@ loc_13A797:
 
 
 .proc sub_13A7A7
-    .import loc_13A445, loc_13A5E2
+    .import message_button, loc_13A5E2
 
     LDX #$2C
-    JSR loc_13A445
+    JSR message_button
     JSR sub_13A990
     LDY #$B
     JMP loc_13A5E2
@@ -1649,13 +1647,13 @@ loc_13A797:
 
 
 .proc sub_13A7D7
-    .import sram_write_enable, sub_D9FA, loc_D8CE, loc_13A445
+    .import sram_write_enable, sub_D9FA, loc_D8CE, message_button
     .importzp FuncID, byte_20
 
     JSR sub_13A62C
-    LDA $761C   ; CurrentGame + GAME_SAVE::field_21C
+    LDA CurrentGame + GAME_SAVE::field_21C
     BPL loc_13A7E2
-    JMP sub_13A443
+    JMP nothing_happend
 ; ---------------------------------------------------------------------------
 
 loc_13A7E2:
@@ -1674,7 +1672,7 @@ loc_13A7E7:
     LDA #$40
     STA byte_20
     LDX #$16
-    JMP loc_13A445
+    JMP message_button
 .endproc            ; End of function sub_13A7D7
 
 ; ---------------------------------------------------------------------------
@@ -1685,10 +1683,10 @@ byte_13A803:
 
 
 .proc sub_13A807
-    .import loc_13A445
+    .import message_button
 
     LDX #$62
-    JMP loc_13A445
+    JMP message_button
 .endproc            ; End of function sub_13A807
 
 
@@ -1696,10 +1694,10 @@ byte_13A803:
 
 
 .proc sub_13A80C
-    .import loc_13A445
+    .import message_button
 
     LDX #$64
-    JMP loc_13A445
+    JMP message_button
 .endproc            ; End of function sub_13A80C
 
 
@@ -1707,10 +1705,10 @@ byte_13A803:
 
 
 .proc sub_13A811
-    .import loc_13A445
+    .import message_button
 
     LDX #$74
-    JMP loc_13A445
+    JMP message_button
 .endproc            ; End of function sub_13A811
 
 
@@ -1718,14 +1716,14 @@ byte_13A803:
 
 
 .proc sub_13A816
-    .import loc_13A445, sub_CDE4
+    .import message_button, sub_CDE4
 
     LDX #$70
-    JSR loc_13A445
+    JSR message_button
     LDA #1
     JSR sub_CDE4
     LDX #$72
-    JMP loc_13A445
+    JMP message_button
 .endproc            ; End of function sub_13A816
 
 
@@ -1733,12 +1731,12 @@ byte_13A803:
 
 
 .proc sub_13A825
-    .import loc_13A445, loc_13A834
+    .import message_button, loc_13A834
 
     PLA
     PLA
     LDX #$78
-    JSR loc_13A445
+    JSR message_button
     JMP loc_13A834
 .endproc            ; End of function sub_13A825
 
@@ -1762,11 +1760,11 @@ loc_13A834:
     CMP #2
     BEQ loc_13A843
     LDX #$7A
-    JMP sub_13A909
+    JMP msg_press_redraw
 ; ---------------------------------------------------------------------------
 
 loc_13A843:
-    JSR loc_13AB30
+    JSR check_button_pressed
     JSR darken_palette
     JSR clear_oam_sprite
     LDX #0
@@ -1878,16 +1876,16 @@ Palette:
 ; =============== S U B R O U T I N E =======================================
 
 
-.proc sub_13A909
-    .export sub_13A909, loc_13A90C
-    .import loc_13A445, sub_C3F4
+.proc msg_press_redraw
+    .export msg_press_redraw, press_redraw
+    .import message_button, redraw_screen
 
-    JSR loc_13A445
+    JSR message_button
 
-loc_13A90C:
-    JSR loc_13AB30
-    JMP sub_C3F4
-.endproc            ; End of function sub_13A909
+press_redraw:
+    JSR check_button_pressed
+    JMP redraw_screen
+.endproc            ; End of function msg_press_redraw
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -1928,36 +1926,36 @@ loc_13A90C:
 
 
 .proc sub_13A92D
-    .import sram_write_enable, sram_read_enable
+    .import sram_write_enable, sram_read_enable, NameOffset, CharName, ItemName
     .importzp Pointer, pTileID, BankPPU_X000, BankPPU_X400
 
-    JSR sram_write_enable
-    JSR sub_13A964
-    LDA #4
-    STA $6D20               ; byte_6D20
-    CLC
-    LDA BankPPU_X000
-    ADC #$38
-    STA $6D21               ; byte_6D21
-    LDA BankPPU_X400
-    ADC #0
-    STA $6D22               ; byte_6D22
-    JSR get_item_pointer
-    LDY #0
-    LDA (Pointer),Y
-    STA pTileID
-    INY
-    LDA (Pointer),Y
-    STA pTileID+1
-    LDY #0
+    jsr sram_write_enable
+    jsr get_char_pntr
+    lda #4
+    sta NameOffset
+    clc
+    lda BankPPU_X000
+    adc #CHARACTER::Name     ; #$38
+    sta CharName
+    lda BankPPU_X400
+    adc #0
+    sta CharName+1
+    jsr get_item_pointer
+    ldy #0
+    lda (Pointer),Y
+    sta pTileID
+    iny
+    lda (Pointer),Y
+    sta pTileID+1
+    ldy #0
 
-loc_13A957:
-    LDA (pTileID),Y
-    STA $6D24,Y             ; unk_6D24,Y
-    INY
-    CMP #0
-    BNE loc_13A957
-    JMP sram_read_enable
+@next_char:
+    lda (pTileID),Y
+    sta ItemName,Y
+    iny
+    cmp #0
+    bne @next_char
+    jmp sram_read_enable
 .endproc
 ; End of function sub_13A92D
 
@@ -1965,20 +1963,20 @@ loc_13A957:
 ; =============== S U B R O U T I N E =======================================
 
 
-.proc sub_13A964
+.proc get_char_pntr
     .import get_sram_pointer
-    .importzp Pointer, byte_28, BankPPU_X000, BankPPU_X400
+    .importzp Pointer, CharNum, BankPPU_X000, BankPPU_X400
 
-    LDA byte_28
-    JSR get_sram_pointer ; Input: A - Character number
+    lda CharNum
+    jsr get_sram_pointer ; Input: A - Character number
                         ; Output: Pointer (word) = High $74 Low $40 * A
-    LDA Pointer
-    STA BankPPU_X000
-    LDA Pointer+1
-    STA BankPPU_X400
-    RTS
+    lda Pointer
+    sta BankPPU_X000
+    lda Pointer+1
+    sta BankPPU_X400
+    rts
 .endproc
-; End of function sub_13A964
+; End of function get_char_pntr
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -2000,13 +1998,13 @@ loc_13A957:
 sub_13A979:
     .export sub_13A979
     .import sram_write_enable, sram_read_enable
-    .importzp Pointer, byte_29
+    .importzp Pointer, Item
 
     LDA #0
     JSR sub_13B058
     BCS loc_13A9A1
     JSR sram_write_enable
-    LDA byte_29
+    LDA Item
     STA (Pointer),Y
     CLC
     JMP sram_read_enable
@@ -2027,9 +2025,9 @@ sub_13A98B:
 
 sub_13A990:
     .import sram_write_enable, sram_read_enable
-    .importzp byte_29
+    .importzp Item
 
-    LDA byte_29
+    LDA Item
     JSR sub_13B058
     BCS loc_13A9A1
     JSR sram_write_enable
@@ -2048,15 +2046,15 @@ loc_13A9A1:
 
 
 .proc sub_13A9A3
-    .importzp byte_28, BankPPU_X800
+    .importzp CharNum, BankPPU_X800
 
-    LDA byte_28
+    LDA CharNum
     PHA
     LDA BankPPU_X800
-    STA byte_28
+    STA CharNum
     JSR sub_13A990
     PLA
-    STA byte_28
+    STA CharNum
     RTS
 .endproc            ; End of function sub_13A9A3
 
@@ -2107,8 +2105,8 @@ loc_13A9D3:
 
 
 .proc sub_13A9D6
-    .import sub_E772, byte_EC5D, loc_E2C2, loc_13A445, get_character_num
-    .importzp Source, byte_28, byte_29
+    .import sub_E772, byte_EC5D, loc_E2C2, message_button, get_character_num
+    .importzp Source, CharNum, Item
 
     JSR sub_13AB3E
     JSR sub_E772
@@ -2117,32 +2115,32 @@ loc_13A9D3:
     LDA #4
     JSR loc_E2C2
     LDX #$66
-    JSR loc_13A445
+    JSR message_button
     LDA #$A
     STA byte_7F1
     LDY #6
     LDA (Source),Y      ; byte_109EAB, byte_109EB3
     AND #$7F
-    STA byte_29
+    STA Item
     BNE loc_13AA05
     JSR sub_13AA3F
 
 loc_13A9FD:
     LDX #$76
-    JSR loc_13A445
-    JMP loc_13AB30
+    JSR message_button
+    JMP check_button_pressed
 ; ---------------------------------------------------------------------------
 
 loc_13AA05:
     JSR sub_13BB8C
     LDX #$68
-    JSR loc_13A445
+    JSR message_button
     LDX #0
 
 loc_13AA0F:
     JSR get_character_num
     BCS loc_13AA1F
-    STA byte_28
+    STA CharNum
     TXA
     PHA
     JSR sub_13A979
@@ -2155,18 +2153,18 @@ loc_13AA1F:
     CPX #4
     BCC loc_13AA0F
     LDX #$6E
-    JSR loc_13A445
-    JMP loc_13AB30
+    JSR message_button
+    JMP check_button_pressed
 ; ---------------------------------------------------------------------------
 
 loc_13AA2C:
     JSR sub_13AA3F
     JSR sub_13BB6F
     LDX #$6A
-    JSR loc_13A445
+    JSR message_button
     LDA #6
     STA byte_7F1            ; byte_7F1
-    JMP loc_13AB30
+    JMP check_button_pressed
 .endproc            ; End of function sub_13A9D6
 
 
@@ -2188,20 +2186,20 @@ loc_13AA2C:
 
 
 .proc sub_13AA4E
-    .importzp byte_28, byte_73, BankPPU_X800, PointerTilePack
+    .importzp CharNum, DialogPage, BankPPU_X800, PointerTilePack
 
-    LDA byte_28
+    LDA CharNum
     STA BankPPU_X800
     LDA $6707            ; byte_6707
     CMP #2
     BCC loc_13AA6A
     LDA PointerTilePack
     PHA
-    LDA byte_73
+    LDA DialogPage
     PHA
     JSR sub_13B763
     PLA
-    STA byte_73
+    STA DialogPage
     PLA
     STA PointerTilePack
     BCS loc_13AA6F
@@ -2214,7 +2212,7 @@ loc_13AA6A:
 
 loc_13AA6F:
     LDA BankPPU_X800
-    STA byte_28
+    STA CharNum
     RTS
 .endproc            ; End of function sub_13AA4E
 
@@ -2225,18 +2223,18 @@ byte_13AA74:
 ; =============== S U B R O U T I N E =======================================
 
 
-.proc sub_13AA7C
-    .importzp PointerTilePack, byte_73
+.proc get_dialog_id
+    .importzp PointerTilePack, DialogPage
 
-    LDA word_13AA87,X
-    STA PointerTilePack
-    LDA word_13AA87+1,X
-    STA byte_73
-    RTS
-.endproc            ; End of function sub_13AA7C
+    lda DialogsID,X
+    sta PointerTilePack
+    lda DialogsID+1,X
+    sta DialogPage
+    rts
+.endproc            ; End of function get_dialog_id
 
 ; ---------------------------------------------------------------------------
-word_13AA87:
+DialogsID:
     .word 0, $385, $386, $387, 0, $3D7, $3DB, $6C7, $6C8, $6D0
     .word $6C9, $38E, $38F, $390, $391, $392, $393, $394, $395
     .word $396, $397, $398, $6AF, $6B0, $6B1, $6B2, $6B3, $6B4
@@ -2250,9 +2248,9 @@ word_13AA87:
 
 
 .proc sub_13AB0F
-    .export sub_13AB0F, loc_13AB19, loc_13AB23, loc_13AB30
+    .export sub_13AB0F, loc_13AB19, loc_13AB23, check_button_pressed
     .import sub_E266, wait_press_button
-    .importzp Dist, Source, byte_21, byte_2C, byte_34
+    .importzp Dist, Source, byte_21, WaitPressed, byte_34
 
     JSR sub_13AB3E
     LDY #$14
@@ -2269,22 +2267,22 @@ loc_13AB19:
 
 loc_13AB23:
     LDA byte_21
-    BEQ loc_13AB30
+    BEQ check_button_pressed
     JSR sub_E266
     LDA #$40
     STA byte_34
     BNE sub_13AB0F
 
-loc_13AB30:
-    LDA byte_2C
-    BEQ loc_13AB3C
+check_button_pressed:
+    LDA WaitPressed
+    BEQ @no_wait
     LDA #0
-    STA byte_2C
+    STA WaitPressed
     CLC
     JMP wait_press_button
 ; ---------------------------------------------------------------------------
 
-loc_13AB3C:
+@no_wait:
     SEC
     RTS
 .endproc            ; End of function sub_13AB0F
@@ -2352,11 +2350,11 @@ load_msg_bank:
 
 ; ---------------------------------------------------------------------------
 off_13AB69:
-    .import loc_13AB30, loc_13AFB8
+    .import check_button_pressed, loc_13AFB8
     .import loc_13AFDC, loc_13AFEA, loc_13AFF5, loc_13B00C
     .import loc_13B64A
 
-    .word loc_13AB30-1, loc_13AC88-1, sub_13AC8D-1, return-1
+    .word check_button_pressed-1, loc_13AC88-1, sub_13AC8D-1, return-1
     .word sub_13ACBA-1, sub_13AC54-1, sub_13AC54-1, infinite_loop-1
     .word sub_13AD0D-1, sub_13ADA2-1, loc_13AC71-1, loc_13AC71-1
     .word sub_13AC61-1, sub_13AC6A-1, infinite_loop-1, reboot-1
@@ -2408,9 +2406,9 @@ off_13AB69:
 
 
 .proc reboot
-    .import loc_13AB30, darken_palette, reset
+    .import check_button_pressed, darken_palette, reset
 
-    jsr loc_13AB30
+    jsr check_button_pressed
     jsr darken_palette
     jmp reset
 .endproc            ; End of function reboot
@@ -2462,13 +2460,13 @@ off_13AB69:
 
 sub_13AC6A:
     .export sub_13AC6A, loc_13AC6D
-    .importzp Source, byte_29, byte_34
+    .importzp Source, Item, byte_34
 
     INY
     LDA (Source),Y      ; byte_109EAB, byte_109EB3
 
 loc_13AC6D:
-    CMP byte_29
+    CMP Item
     BNE loc_13AC88
 
 loc_13AC71:
@@ -2562,9 +2560,9 @@ loc_13AC88:
 
 
 .proc return
-    PLA
-    PLA
-    RTS
+    pla
+    pla
+    rts
 .endproc            ; End of function return
 
 
@@ -2603,14 +2601,10 @@ loc_13ACD0:
     BNE loc_13ACD0
     LDA BankNum0
     LDX #2
-    JSR mmc3_bank_set   ; Set memory bank
-                        ; A - bank number
-                        ; X - mode
+    JSR mmc3_bank_set   ; Set memory bank A - bank number, X - mode
     LDA BankNum1
     LDX #3
-    JSR mmc3_bank_set   ; Set memory bank
-                        ; A - bank number
-                        ; X - mode
+    JSR mmc3_bank_set   ; Set memory bank A - bank number, X - mode
     JMP back_palettes
 ; ---------------------------------------------------------------------------
 Colors:
@@ -2631,26 +2625,26 @@ loc_13AD05:
 
 
 sub_13AD0D:
-    .export sub_13AD0D, loc_13AD1A
-    .importzp Source, PointerTilePack, byte_2C, byte_35, byte_73
+    .export sub_13AD0D, out_msg_button
+    .importzp Source, PointerTilePack, WaitPressed, byte_35, DialogPage
 
     INY
     LDA (Source),Y      ; byte_109EAB, byte_109EB3
     STA PointerTilePack
     INY
     LDA (Source),Y      ; byte_109EAB, byte_109EB3
-    STA byte_73
+    STA DialogPage
     INY
     STY byte_35
 
-loc_13AD1A:
-    LDA byte_2C
+out_msg_button:
+    LDA WaitPressed
     BNE loc_13AD21
-    JSR sub_13BC0A
+    JSR draw_msg_frame
 
 loc_13AD21:
     LDA #8
-    CMP byte_2C
+    CMP WaitPressed
     BEQ loc_13AD7B
 ; End of function sub_13AD0D
 
@@ -2659,13 +2653,13 @@ loc_13AD21:
 
 
 sub_13AD27:
-    .export sub_13AD27, loc_13AD29
+    .export sub_13AD27, out_msg
     .import text2stack, print_string, move_chars, load_msg_bank, loc_13ADC5
-    .importzp Row, PointerTilePack, byte_2C, byte_2D, byte_35, byte_70, byte_71, byte_73
+    .importzp Row, PointerTilePack, WaitPressed, byte_2D, byte_35, PrintSize, byte_71, DialogPage
 
-    STA byte_2C
+    STA WaitPressed
 
-loc_13AD29:
+out_msg:
     LDY Row
     CPY #$1B
     BCC loc_13AD36
@@ -2683,7 +2677,7 @@ loc_13AD36:
 loc_13AD40:
     JSR text2stack
     LDA #$16
-    STA byte_70
+    STA PrintSize
     LDA #0
     STA byte_71
     JSR print_string
@@ -2695,12 +2689,12 @@ loc_13AD40:
     CMP #3
     BEQ loc_13AD75
     CMP #0
-    BNE loc_13AD29
+    BNE out_msg
 
 loc_13AD61:
     JSR load_msg_bank
     LDA #0
-    STA byte_70
+    STA PrintSize
     STA byte_71
     LDY byte_35
 
@@ -2716,7 +2710,7 @@ loc_13AD6C:
 loc_13AD75:
     INC PointerTilePack
     BNE loc_13AD7B
-    INC byte_73
+    INC DialogPage
 
 loc_13AD7B:
     LDY Row
@@ -2772,11 +2766,11 @@ byte_13AD91:
 .proc sub_13ADAE
     .export sub_13ADAE, loc_13ADC1, loc_13ADC5
     .import loc_EF4B, byte_F0D1
-    .importzp PointerTilePack, pCursor, pStr, Column, byte_73
+    .importzp PointerTilePack, pCursor, pStr, Column, DialogPage
 
     ldxa #Confirm
     sta PointerTilePack
-    stx byte_73
+    stx DialogPage
     lda #9
     jsr sub_13AD27
     ldxa #byte_13ADEC
@@ -2813,14 +2807,14 @@ byte_13ADF3:
 
 .proc sub_13ADFA
     .import loc_13ADC1
-    .importzp Source, Buttons, CursorPosition, PointerTilePack, byte_35, byte_73
+    .importzp Source, Buttons, CursorPosition, PointerTilePack, byte_35, DialogPage
 
     INY
     LDA (Source),Y      ; byte_109EAB, byte_109EB3
     STA PointerTilePack
     INY
     LDA (Source),Y      ; byte_109EAB, byte_109EB3
-    STA byte_73
+    STA DialogPage
     INY
     STY byte_35
     LDA #$37
@@ -2857,7 +2851,7 @@ loc_13AE20:
     JSR sram_write_enable
     JSR sub_13AE58
     ORA byte_EC5D,X
-    STA $7600,Y       ; CurrentGame + GAME_SAVE::field_200,Y
+    STA CurrentGame + GAME_SAVE::field_200,Y
     LDY byte_35
     INY
     JMP sram_read_enable
@@ -2875,7 +2869,7 @@ loc_13AE20:
     JSR sub_13AE58
     ORA byte_EC5D,X
     EOR byte_EC5D,X
-    STA $7600,Y       ; CurrentGame + GAME_SAVE::field_200,Y
+    STA CurrentGame + GAME_SAVE::field_200,Y
     LDY byte_35
     INY
     JMP sram_read_enable
@@ -2922,7 +2916,7 @@ loc_13AE20:
     TAX
     INY
     JSR sram_write_enable
-    INC $7660,X     ; CurrentGame + GAME_SAVE::field_260,X
+    INC CurrentGame + GAME_SAVE::field_260,X
     JMP sram_read_enable
 .endproc            ; End of function sub_13AE5E
 
@@ -2939,7 +2933,7 @@ loc_13AE20:
     TAX
     INY
     JSR sram_write_enable
-    DEC $7660,X     ; CurrentGame + GAME_SAVE::field_260,X
+    DEC CurrentGame + GAME_SAVE::field_260,X
     JMP sram_read_enable
 .endproc            ; End of function sub_13AE6C
 
@@ -2957,7 +2951,7 @@ loc_13AE20:
     INY
     JSR sram_write_enable
     LDA #0
-    STA $7660,X     ; CurrentGame + GAME_SAVE::field_260,X
+    STA CurrentGame + GAME_SAVE::field_260,X
     JMP sram_read_enable
 .endproc            ; End of function sub_13AE7A
 
@@ -2972,7 +2966,7 @@ loc_13AE20:
     LDA (Source),Y      ; byte_109EAB, byte_109EB3
     TAX
     INY
-    LDA $7660,X         ;CurrentGame + GAME_SAVE::field_260,X
+    LDA CurrentGame + GAME_SAVE::field_260,X
     CMP (Source),Y      ; byte_109EAB, byte_109EB3
     JMP sub_13AC7A
 .endproc            ; End of function sub_13AE8A
@@ -3037,10 +3031,10 @@ loc_13AE20:
 
 
 .proc sub_13AEBD
-    .importzp Source, byte_28
+    .importzp Source, CharNum
 
     INY
-    LDA byte_28
+    LDA CharNum
     CMP (Source),Y      ; byte_109EAB, byte_109EB3
     JMP sub_13AC86
 .endproc            ; End of function sub_13AEBD
@@ -3067,10 +3061,10 @@ loc_13AE20:
 
 
 .proc sub_13AED3
-    .importzp Source, byte_29
+    .importzp Source, Item
 
     INY
-    LDA byte_29
+    LDA Item
     CMP (Source),Y      ; byte_109EAB, byte_109EB3
     JMP sub_13AC86
 .endproc            ; End of function sub_13AED3
@@ -3084,10 +3078,10 @@ sub_13AEDB:
     .importzp Pointer, Price
 
     CLC
-    LDA CurrentGame + PURE_SAVE::Cash       ; $7410
+    LDA CurrentGame + PURE_SAVE::Cash
     ADC Price
     STA Pointer
-    LDA CurrentGame + PURE_SAVE::Cash + 1   ; $7411
+    LDA CurrentGame + PURE_SAVE::Cash + 1
     ADC Price+1
     STA Pointer+1
     BCS loc_13AF12
@@ -3095,10 +3089,10 @@ sub_13AEDB:
 
 loc_13AEEE:
     SEC
-    LDA CurrentGame + PURE_SAVE::Cash       ; $7410
+    LDA CurrentGame + PURE_SAVE::Cash
     SBC Price
     STA Pointer
-    LDA CurrentGame + PURE_SAVE::Cash + 1   ; $7411
+    LDA CurrentGame + PURE_SAVE::Cash + 1
     SBC Price+1
     STA Pointer+1
     BCC loc_13AF12
@@ -3125,13 +3119,13 @@ sub_13AF15:
     .importzp Pointer, AddrForJmp, Price
 
     CLC
-    LDA CurrentGame + PURE_SAVE::Account       ; $7412
+    LDA CurrentGame + PURE_SAVE::Account
     ADC Price
     STA Pointer
-    LDA CurrentGame + PURE_SAVE::Account + 1    ; $7413
+    LDA CurrentGame + PURE_SAVE::Account + 1
     ADC Price+1
     STA Pointer+1
-    LDA CurrentGame + PURE_SAVE::field_14       ; $7414
+    LDA CurrentGame + PURE_SAVE::field_14
     ADC #0
     STA AddrForJmp
     BCS loc_13AF12
@@ -3139,13 +3133,13 @@ sub_13AF15:
 
 loc_13AF2F:
     SEC
-    LDA CurrentGame + PURE_SAVE::Account       ; $7412
+    LDA CurrentGame + PURE_SAVE::Account
     SBC Price
     STA Pointer
-    LDA CurrentGame + PURE_SAVE::Account + 1    ; $7413
+    LDA CurrentGame + PURE_SAVE::Account + 1
     SBC Price+1
     STA Pointer+1
-    LDA CurrentGame + PURE_SAVE::field_14       ; $7414
+    LDA CurrentGame + PURE_SAVE::field_14
     SBC #0
     STA AddrForJmp
     BCC loc_13AF12
@@ -3154,7 +3148,7 @@ loc_13AF47:
     JSR sram_write_enable
     store Pointer, CurrentGame + PURE_SAVE::Account
     LDA AddrForJmp
-    STA CurrentGame + PURE_SAVE::field_14       ; $7414
+    STA CurrentGame + PURE_SAVE::field_14
     INY
     INY
     JMP sram_read_enable
@@ -3179,7 +3173,7 @@ loc_13AF47:
     JSR get_offset      ; Input: Pointer - first multiplier
                         ;        pTileID - second multiplier
                         ; Output: AddrForJmp, Pointer - result Pointer * pTileID
-    LDA #$64 ; 'd'
+    LDA #$64
     STA pTileID
     JSR sub_F13D
     LDY byte_35
@@ -3212,7 +3206,7 @@ loc_13AF47:
 
 .proc sub_13AF8E
     .import get_character_num
-    .importzp byte_28, byte_29
+    .importzp CharNum, Item
 
     JSR sub_13AFC4
     LDX #0
@@ -3220,10 +3214,10 @@ loc_13AF47:
 loc_13AF93:
     JSR get_character_num
     BCS loc_13AFA5
-    STA byte_28
+    STA CharNum
     TXA
     PHA
-    LDA byte_29
+    LDA Item
     JSR sub_13B058
     PLA
     TAX
@@ -3242,17 +3236,17 @@ loc_13AFA5:
 
 .proc sub_13AFAC
     .export sub_13AFAC, loc_13AFB8
-    .importzp byte_29
+    .importzp Item
 
     JSR sub_13AFC4
-    LDA byte_29
+    LDA Item
     JSR sub_13B058
     BCC sub_13B01E
     BCS sub_13B023
 
 loc_13AFB8:
     JSR sub_13AFC4
-    LDA byte_29
+    LDA Item
     JSR sub_13B063
     BCS sub_13B023
     BCC sub_13B01E
@@ -3263,12 +3257,12 @@ loc_13AFB8:
 
 
 .proc sub_13AFC4
-    .importzp Source, byte_29, byte_35
+    .importzp Source, Item, byte_35
 
 
     INY
     LDA (Source),Y      ; byte_109EAB, byte_109EB3
-    STA byte_29
+    STA Item
     STY byte_35
     JSR sub_13BBC3
     JMP sub_13BB8C
@@ -3281,7 +3275,7 @@ loc_13AFB8:
 .proc sub_13AFD1
     .export sub_13AFD1, loc_13AFDC, loc_13AFEA, loc_13AFF5, loc_13B00C
     .import load_msg_bank, sram_write_enable, sram_read_enable, loc_13B07E
-    .importzp Pointer, byte_35, byte_29
+    .importzp Pointer, byte_35, Item
 
     STY byte_35
     LDA #0
@@ -3302,7 +3296,7 @@ loc_13AFEA:
     STY byte_35
 
 loc_13AFEC:
-    LDA byte_29
+    LDA Item
     JSR sub_13B058
     BCS sub_13B023
     BCC loc_13B015
@@ -3315,7 +3309,7 @@ loc_13AFF5:
 
 loc_13AFFE:
     JSR sram_write_enable
-    LDA byte_29
+    LDA Item
     STA (Pointer),Y
     LDY byte_35
     INY
@@ -3325,7 +3319,7 @@ loc_13AFFE:
 
 loc_13B00C:
     STY     byte_35
-    LDA     byte_29
+    LDA     Item
     JSR     sub_13B063
     BCS     sub_13B023
 
@@ -3375,11 +3369,11 @@ loc_13B015:
 
 
 .proc sub_13B032
-    .importzp Source, byte_28, byte_35
+    .importzp Source, CharNum, byte_35
 
     INY
     LDA (Source),Y      ; byte_109EAB, byte_109EB3
-    STA byte_28
+    STA CharNum
     STY byte_35
     JMP sub_13BB6F
 .endproc            ; End of function sub_13B032
@@ -3389,19 +3383,19 @@ loc_13B015:
 
 
 .proc sub_13B03C
-    .importzp Source, byte_35, byte_28, byte_29, Pointer
+    .importzp Source, byte_35, CharNum, Item, Pointer
 
     INY
     LDA (Source),Y      ; byte_109EAB, byte_109EB3
     STY byte_35
     PHA
-    LDA byte_28
+    LDA CharNum
     JSR sub_13B089
     PLA
     TAY
     LDA (Pointer),Y
     BEQ sub_13B023
-    STA byte_29
+    STA Item
     JSR sub_13BBC3
     JSR sub_13BB8C
     JMP sub_13B01E
@@ -3412,10 +3406,10 @@ loc_13B015:
 
 
 sub_13B058:
-    .importzp byte_28
+    .importzp CharNum
 
     PHA
-    LDA byte_28
+    LDA CharNum
     JSR sub_13B089
     PLA
     LDY #8
@@ -3494,11 +3488,8 @@ loc_13B07E:
 .proc sub_13B09A
     .importzp Pointer
 
-    LDX #$B0
-    STX Pointer         ; ROM:76B0
-    LDX #$76
-    STX Pointer+1
-    RTS
+    storex #CurrentGame + GAME_SAVE::field_2B0, Pointer
+    rts
 .endproc            ; End of function sub_13B09A
 
 
@@ -3520,10 +3511,10 @@ loc_13B07E:
 
 
 sub_13B0AD:
-    .importzp Column, Row, byte_2C, byte_35
+    .importzp Column, Row, WaitPressed, byte_35
 
     LDA #$18
-    STA byte_2C
+    STA WaitPressed
     LDA Column
     PHA
     LDA Row
@@ -3554,7 +3545,7 @@ loc_13B0CC:
 
 
 sub_13B0D1:
-    .importzp Source, byte_28, byte_35
+    .importzp Source, CharNum, byte_35
 
     INY
     LDA (Source),Y      ; byte_109EAB, byte_109EB3
@@ -3562,9 +3553,9 @@ sub_13B0D1:
     TAX
     CPX #4
     BCS loc_13B0CC
-    LDA CurrentGame + PURE_SAVE::CharactersNum,X    ; $7408,X
+    LDA CurrentGame + PURE_SAVE::CharactersNum,X
     BEQ loc_13B0CC
-    STA byte_28
+    STA CharNum
     BNE loc_13B0C4
 ; End of function sub_13B0D1
 
@@ -3575,7 +3566,7 @@ sub_13B0D1:
 .proc sub_13B0E4
     .import loc_EF7C, get_cursor_pos, sub_F1A4, loc_13B1A5
     .importzp Pointer, PointerTilePack, byte_35, pDist, pStr, CurrentX, CurrentY, CursorPosition
-    .importzp Column, Buttons, pCursor, byte_6C, Price, byte_73
+    .importzp Column, Buttons, pCursor, byte_6C, Price, DialogPage
 
     STY byte_35
     JSR sub_13BC28
@@ -3588,7 +3579,7 @@ loc_13B0EB:
     BPL loc_13B0EB
     ldxa #stru_13B166
     STA PointerTilePack
-    STX byte_73
+    STX DialogPage
     LDA #$1C
     JSR sub_13AD27
     ldxa #byte_13B16C
@@ -3653,7 +3644,7 @@ byte_13B15E:
     .byte "  $ 0000"        ; .byte $A0, $A0, $A4, $A0, $B0, $B0, $B0, $B0
 
 stru_13B166:
-    convert $68, 0, 8
+    convert pDist, 0, 8     ; $68, 0, 8
     end_frame
 
 byte_13B16C:
@@ -3664,10 +3655,10 @@ byte_13B16C:
 
 .proc sub_13B172
     .import loc_13B1A5
-    .importzp Column, Row, byte_2C, byte_35
+    .importzp Column, Row, WaitPressed, byte_35
 
     LDA #$21
-    STA byte_2C
+    STA WaitPressed
     STY byte_35
     LDA Column
     PHA
@@ -3683,10 +3674,10 @@ byte_13B16C:
 
 .proc sub_13B184
     .import loc_13B1A5
-    .importzp Column, Row, byte_2C, byte_35
+    .importzp Column, Row, WaitPressed, byte_35
 
     LDA #$22
-    STA byte_2C
+    STA WaitPressed
     STY byte_35
     LDA Column
     PHA
@@ -3702,10 +3693,10 @@ byte_13B16C:
 
 sub_13B196:
     .export sub_13B196, loc_13B1A5
-    .importzp Column, Row, byte_2C, byte_35
+    .importzp Column, Row, WaitPressed, byte_35
 
     LDA #$20
-    STA byte_2C
+    STA WaitPressed
     STY byte_35
     LDA Column
     PHA
@@ -3808,16 +3799,16 @@ loc_13B1FB:
 
 
 sub_13B1FD:
-    .import loc_13B5C4, sram_write_enable, load_msg_bank, sram_read_enable
+    .import get_char_pointer, sram_write_enable, load_msg_bank, sram_read_enable
     .importzp Pointer, byte_35, AddrForJmp
 
     STY byte_35
-    JSR loc_13B5C4
+    JSR get_char_pointer
     JSR sram_write_enable
     LDY #$28
     LDA (Pointer),Y
     BEQ loc_13B21B
-    STA CurrentGame + GAME_SAVE::field_280      ; $7680
+    STA CurrentGame + GAME_SAVE::field_280
     STY AddrForJmp
     JSR sub_13BC5A
     JSR load_msg_bank
@@ -3842,11 +3833,11 @@ loc_13B220:
 
 
 sub_13B223:
-    .importzp byte_29, byte_35
+    .importzp Item, byte_35
 
-    LDA CurrentGame + GAME_SAVE::field_280      ; $7680
+    LDA CurrentGame + GAME_SAVE::field_280
     BEQ loc_13B220
-    STA byte_29
+    STA Item
     STY byte_35
     JSR sub_13BBC3
     JSR sub_13BB8C
@@ -3972,7 +3963,7 @@ loc_13B2AA:
     PLA
     PLA
     PLA
-    JMP loc_13AB30
+    JMP check_button_pressed
 .endproc            ; End of function sub_13B29C
 
 
@@ -4099,7 +4090,7 @@ loc_13B2DE:
 
 .proc sub_13B34A
     .import sram_write_enable, sram_read_enable, sub_CDAF
-    .importzp MsgNumber, byte_23, byte_29, byte_35
+    .importzp MsgNumber, byte_23, Item, byte_35
 
     STY byte_35
     LDA #$F0
@@ -4117,7 +4108,7 @@ loc_13B2DE:
     LDY #$20
     JSR sub_13B38B
     SEC
-    LDA byte_29
+    LDA Item
     SBC #$8F
     STA $679E           ; byte_679E
     LDA #0
@@ -4302,14 +4293,14 @@ loc_13B41B:
 
 .proc sub_13B440
     .import sub_D759, loc_13AC7E
-    .importzp Dist, byte_28, byte_35
+    .importzp Dist, CharNum, byte_35
 
     JSR sub_13B032
     LDA Dist
     PHA
     LDA Dist+1
     PHA
-    LDA byte_28
+    LDA CharNum
     JSR sub_D759
     PLA
     STA Dist+1
@@ -4325,14 +4316,14 @@ loc_13B41B:
 
 .proc sub_13B459
     .import sub_D78D, loc_13AC7E
-    .importzp Dist, byte_28, byte_35
+    .importzp Dist, CharNum, byte_35
 
     JSR sub_13B032
     LDA Dist
     PHA
     LDA Dist+1
     PHA
-    LDA byte_28
+    LDA CharNum
     JSR sub_D78D
     PLA
     STA Dist+1
@@ -4358,7 +4349,7 @@ loc_13B41B:
     STY byte_35
     PLA
     PLA
-    JMP loc_13AB30
+    JMP check_button_pressed
 .endproc            ; End of function sub_13B472
 
 
@@ -4414,15 +4405,15 @@ loc_13B41B:
 
 
 .proc sub_13B4A9
-    .import loc_13B5C4, sub_DB40, load_msg_bank, sram_write_enable, sram_read_enable
+    .import get_char_pointer, sub_DB40, load_msg_bank, sram_write_enable, sram_read_enable
     .importzp Pointer, byte_35, Price, pTileID
 
     STY byte_35
-    JSR loc_13B5C4
+    JSR get_char_pointer
     LDY #$10
     LDA (Pointer),Y
     JSR sub_DB40
-    JSR loc_13B5C4
+    JSR get_char_pointer
     LDY #$11
     SEC
     LDA pTileID
@@ -4437,14 +4428,14 @@ loc_13B41B:
     LDX #3
 
 loc_13B4D0:
-    LDA CurrentGame + PURE_SAVE::GlobalX,X      ; $7404,X
-    STA CurrentGame + PURE_SAVE::field_C,X      ; $740C,X
+    LDA CurrentGame + PURE_SAVE::GlobalX,X
+    STA CurrentGame + PURE_SAVE::field_C,X
     DEX
     BPL loc_13B4D0
     LDA #0
-    STA CurrentGame + PURE_SAVE::Transfer       ; $7415
-    STA CurrentGame + PURE_SAVE::Transfer + 1   ; $7416
-    STA CurrentGame + PURE_SAVE::field_17       ; $7417
+    STA CurrentGame + PURE_SAVE::Transfer
+    STA CurrentGame + PURE_SAVE::Transfer + 1
+    STA CurrentGame + PURE_SAVE::field_17
     JSR sram_read_enable
     LDY byte_35
     INY
@@ -4463,8 +4454,8 @@ loc_13B4D0:
     LDX #3
 
 loc_13B4F0:
-    LDA CurrentGame + PURE_SAVE::field_C,X      ; $740C,X
-    STA CurrentGame + PURE_SAVE::GlobalX,X      ; $7404,X
+    LDA CurrentGame + PURE_SAVE::field_C,X
+    STA CurrentGame + PURE_SAVE::GlobalX,X
     DEX
     BPL loc_13B4F0
     LDA #$20
@@ -4482,9 +4473,9 @@ loc_13B4F0:
 .proc sub_13B505
     .import loc_13AC82
 
-    LDA CurrentGame + PURE_SAVE::Transfer       ; $7415
-    ORA CurrentGame + PURE_SAVE::Transfer + 1   ; $7416
-    ORA CurrentGame + PURE_SAVE::field_17       ; $7417
+    LDA CurrentGame + PURE_SAVE::Transfer
+    ORA CurrentGame + PURE_SAVE::Transfer + 1
+    ORA CurrentGame + PURE_SAVE::field_17
     JMP loc_13AC82
 .endproc            ; End of function sub_13B505
 
@@ -4536,16 +4527,16 @@ loc_13B53D:
 
 .proc sub_13B546
     .import wait_frames, lighten_palette
-    .importzp byte_2C, byte_35
+    .importzp WaitPressed, byte_35
 
     STY byte_35
     LDX #60
     JSR wait_frames     ; wait for a few frames input: X - number of frames
     JSR darken_palette
     JSR sub_13B561
-    JSR sub_13BC0A
+    JSR draw_msg_frame
     LDA #$55
-    STA byte_2C
+    STA WaitPressed
     JSR lighten_palette ; increase the brightness of colors in the palette
     LDY byte_35
     INY
@@ -4564,7 +4555,7 @@ loc_13B53D:
     LDX #0
 
 loc_13B566:
-    LDA CurrentGame + PURE_SAVE::CharactersNum,X    ; $7408,X
+    LDA CurrentGame + PURE_SAVE::CharactersNum,X
     BEQ loc_13B57A
     JSR get_sram_pointer ; Input: A - Character number
                         ; Output: Pointer (word) = High $74 Low $40 * A
@@ -4645,15 +4636,15 @@ loc_13B57A:
 
 
 .proc sub_13B5C2
-    .export sub_13B5C2, loc_13B5C4
+    .export sub_13B5C2, get_char_pointer
     .import get_sram_pointer
-    .importzp byte_28, byte_35
+    .importzp CharNum, byte_35
 
-    STY byte_35
+    sty byte_35
 
-loc_13B5C4:
-    LDA byte_28
-    JMP get_sram_pointer ; Input: A - Character number
+get_char_pointer:
+    lda CharNum
+    jmp get_sram_pointer ; Input: A - Character number
 .endproc            ; End of function sub_13B5C2            ; Output: Pointer (word) = High $74 Low $40 * A
 
 
@@ -4838,10 +4829,10 @@ loc_13B681:
     LDA (Source),Y      ; byte_109EAB, byte_109EB3
     JSR wait_change_music
     JSR sram_write_enable
-    LDA CurrentGame + PURE_SAVE::GlobalX    ; $7404
+    LDA CurrentGame + PURE_SAVE::GlobalX
     AND #$C0
     ORA (Source),Y      ; byte_109EAB, byte_109EB3
-    STA CurrentGame + PURE_SAVE::GlobalX    ; $7404
+    STA CurrentGame + PURE_SAVE::GlobalX
     INY
     JMP sram_read_enable
 .endproc            ; End of function sub_13B695
@@ -4899,11 +4890,11 @@ loc_13B681:
 
     JSR sram_write_enable
     LDA #$20
-    ORA CurrentGame + PURE_SAVE::Boy1 + CHARACTER::field_30     ; $7470
-    STA CurrentGame + PURE_SAVE::Boy1 + CHARACTER::field_30     ; $7470
+    ORA CurrentGame + PURE_SAVE::Boy1 + CHARACTER::field_30
+    STA CurrentGame + PURE_SAVE::Boy1 + CHARACTER::field_30
     LDA #$20
-    ORA CurrentGame + PURE_SAVE::Girl + CHARACTER::field_30     ; $74B0
-    STA CurrentGame + PURE_SAVE::Girl + CHARACTER::field_30     ; $74B0
+    ORA CurrentGame + PURE_SAVE::Girl + CHARACTER::field_30
+    STA CurrentGame + PURE_SAVE::Girl + CHARACTER::field_30
     INY
     JMP sram_read_enable
 .endproc            ; End of function sub_13B6C4
@@ -4934,7 +4925,7 @@ loc_13B681:
 .proc sub_13B6EA
     .import sram_write_enable, sram_read_enable
 
-    LDA CurrentGame + GAME_SAVE::field_21E      ; $761E
+    LDA CurrentGame + GAME_SAVE::field_21E
     CMP #$FF
     BEQ loc_13B6F4
     JMP loc_13AC88
@@ -4946,7 +4937,7 @@ loc_13B6F4:
 
 loc_13B6F9:
     LDA byte_13B708,X
-    STA CurrentGame + PURE_SAVE::field_C,X      ; $740C,X
+    STA CurrentGame + PURE_SAVE::field_C,X
     DEX
     BPL loc_13B6F9
     JSR sram_read_enable
@@ -4963,10 +4954,10 @@ byte_13B708:
 
 
 .proc sub_13B70C
-    .importzp Column, Row, byte_2C, byte_35
+    .importzp Column, Row, WaitPressed, byte_35
 
     LDA #$66
-    STA byte_2C
+    STA WaitPressed
     STY byte_35
     LDA Column
     PHA
@@ -5071,7 +5062,7 @@ loc_13B737:
 
 .proc sub_13B763
     .import draw_symbol, sub_C3C0, load_msg_bank, cursor_update, get_cursor_pos
-    .importzp Column, Row, pCursor, Buttons, CursorPosition, byte_28
+    .importzp Column, Row, pCursor, Buttons, CursorPosition, CharNum
 
     LDX #2
     LDY #25
@@ -5080,7 +5071,7 @@ loc_13B737:
     LDX #2
 
 loc_13B76D:
-    LDA $6704,X             ; byte_6704,X
+    LDA $6704,X
     BEQ loc_13B77E
     LDA #$A0
     JSR draw_symbol
@@ -5110,8 +5101,8 @@ loc_13B79E:
     LDA #$FF
     JSR get_cursor_pos  ; get position of cursor and set cursor tile Input: A - tile ID Output: PosX, PosY
     LDX CursorPosition
-    LDA $6704,X             ; byte_6704,X
-    STA byte_28
+    LDA $6704,X
+    STA CharNum
     CLC
     RTS
 .endproc            ; End of function sub_13B763
@@ -5125,84 +5116,82 @@ stru_13B7AC:
 
 
 .proc sub_13B7B6
-    .import goods_psi, get_character_num
-    .importzp ItemCount, Buttons, byte_28
+    .import goods_psi_frame, get_character_num
+    .importzp ItemCount, Buttons, CharNum
 
-    JSR goods_psi
-    LDX #$FF
+    jsr goods_psi_frame
+    ldx #$FF
 
 loc_13B7BB:
-    INX
-    CPX #3
-    BCC loc_13B7C2
-    LDX #0
+    inx
+    cpx #3
+    bcc loc_13B7C2
+    ldx #0
 
 loc_13B7C2:
-    JSR get_character_num
-    BCS loc_13B7BB
-    STA byte_28
-    STX ItemCount
-    JSR sub_13BB21
-    JSR sub_13B803
-    JSR sub_13BB40
-    JSR sub_13BAF9
-    LDX ItemCount
-    LDA #6
-    BIT Buttons
-    BVS loc_13B7F4
-    BMI loc_13B7BB
-    BEQ loc_13B7BB
-    JSR sub_13B803
-    JSR sub_13BB0E
-    BIT Buttons
-    BVS loc_13B7F4
-    BMI sub_13B7F6
-    LDX ItemCount
-    JMP loc_13B7C2
+    jsr get_character_num
+    bcs loc_13B7BB
+    sta CharNum
+    stx ItemCount
+    jsr print_character_name
+    jsr get_goods_pointer
+    jsr print_goods
+    jsr character_menu
+    ldx ItemCount
+    lda #6
+    bit Buttons
+    bvs loc_13B7F4
+    bmi loc_13B7BB
+    beq loc_13B7BB
+    jsr get_goods_pointer
+    jsr goods_select
+    bit Buttons
+    bvs loc_13B7F4
+    bmi get_item
+    ldx ItemCount
+    jmp loc_13B7C2
 ; ---------------------------------------------------------------------------
 
 loc_13B7F4:
-    SEC
-    RTS
+    sec
+    rts
 .endproc            ; End of function sub_13B7B6
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-.proc sub_13B7F6
+.proc get_item
     .import get_cursor_pos
-    .importzp pStr, CursorPosition, byte_29
+    .importzp pStr, CursorPosition, Item
 
-    LDA #$FF
-    JSR get_cursor_pos  ; get position of cursor and set cursor tile
-                        ; Input: A - tile ID
-                        ; Output: PosX, PosY
-    LDY CursorPosition
-    LDA (pStr),Y
-    STA byte_29
-    CLC
-    RTS
-.endproc            ; End of function sub_13B7F6
+    lda #$FF
+    jsr get_cursor_pos
+    ldy CursorPosition
+    lda (pStr),Y
+    sta Item
+    clc
+    rts
+.endproc            ; End of function get_item
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-.proc sub_13B803
-    .import loc_13B5C4
+.proc get_goods_pointer
+    .import get_char_pointer
     .importzp Pointer, pStr
 
-    JSR loc_13B5C4
-    CLC
-    LDA Pointer
-    ADC #$20
-    STA pStr
-    LDA Pointer+1
-    ADC #0
-    STA pStr+1
-    RTS
-.endproc            ; End of function sub_13B803
+    jsr get_char_pointer
+    clc
+    lda Pointer
+    adc #CHARACTER::Goods
+    sta pStr
+    lda Pointer+1
+    adc #0
+    sta pStr+1
+    rts
+.endproc            ; End of function get_goods_pointer
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -5210,7 +5199,7 @@ loc_13B7F4:
 
 .proc sub_13B814
     .import sub_C3B9, load_msg_bank, short_cursor_update
-    .importzp Source, pStr, Row, Column, pCursor, Buttons, byte_29, byte_35, byte_70
+    .importzp Source, pStr, Row, Column, pCursor, Buttons, Item, byte_35, PrintSize
 
     JSR sub_C3B9
     JSR load_msg_bank
@@ -5229,16 +5218,16 @@ loc_13B829:
     INY
     STY byte_35
     LDA (Source),Y      ; byte_109EAB, byte_109EB3
-    STA byte_29
+    STA Item
     BEQ loc_13B853
     LDA #$C
-    STA byte_70
+    STA PrintSize
     LDX #3
     STX Column
-    JSR sub_13BBAF
+    JSR print_item
     JSR sub_13BBC3
     LDA #0
-    STA byte_70
+    STA PrintSize
     LDX #$F
     STX Column
     ldxa #byte_13B86F
@@ -5260,7 +5249,7 @@ loc_13B853:
 ; ---------------------------------------------------------------------------
 
 loc_13B86C:
-    JMP sub_13B7F6
+    JMP get_item
 .endproc            ; End of function sub_13B814
 
 ; ---------------------------------------------------------------------------
@@ -5274,10 +5263,10 @@ stru_13B877:
 
 
 .proc sub_13B87F
-    .import goods_psi
+    .import goods_psi_frame
     .importzp ItemCount, Buttons
 
-    JSR goods_psi
+    JSR goods_psi_frame
     ldxa #stru_13B8D8
     JSR draw_tiles
     LDX #$F8
@@ -5292,15 +5281,15 @@ loc_13B88B:
     LDX #0
 
 loc_13B896:
-    LDA $76B0,X             ; CurrentGame + GAME_SAVE::field_2B0,X
+    LDA CurrentGame + GAME_SAVE::field_2B0,X
     BNE loc_13B89D
     LDX #0
 
 loc_13B89D:
     STX ItemCount
     JSR sub_13B8CA
-    JSR sub_13BB40
-    JSR sub_13BAF9
+    JSR print_goods
+    JSR character_menu
     LDX ItemCount
     LDA #6
     BIT Buttons
@@ -5308,7 +5297,7 @@ loc_13B89D:
     BMI loc_13B88B
     BEQ loc_13B88B
     JSR sub_13B8CA
-    JSR sub_13BB0E
+    JSR goods_select
     BIT Buttons
     BVS loc_13B8C5
     BMI loc_13B8C7
@@ -5322,7 +5311,7 @@ loc_13B8C5:
 ; ---------------------------------------------------------------------------
 
 loc_13B8C7:
-    JMP sub_13B7F6
+    JMP get_item
 .endproc            ; End of function sub_13B87F
 
 
@@ -5334,10 +5323,10 @@ loc_13B8C7:
 
     CLC
     LDA ItemCount
-    ADC #$B0
+    ADC #<(CurrentGame + GAME_SAVE::field_2B0)     ; #$B0
     STA pStr
     LDA #0
-    ADC #$76          ; ROM:76B0
+    ADC #>(CurrentGame + GAME_SAVE::field_2B0)      ; #$76
     STA pStr+1
     RTS
 .endproc            ; End of function sub_13B8CA
@@ -5351,10 +5340,10 @@ stru_13B8D8:
 
 
 .proc sub_13B8E6
-    .import goods_psi
-    .importzp Pointer, byte_28, ItemCount, Buttons
+    .import goods_psi_frame
+    .importzp Pointer, CharNum, ItemCount, Buttons
 
-    JSR goods_psi
+    JSR goods_psi_frame
     LDX #$FF
 
 loc_13B8EB:
@@ -5364,16 +5353,16 @@ loc_13B8EB:
     LDX #0
 
 loc_13B8F2:
-    LDA CurrentGame + PURE_SAVE::CharactersNum,X    ; $7408,X
+    LDA CurrentGame + PURE_SAVE::CharactersNum,X
     BEQ loc_13B8EB
     CMP #3
     BCS loc_13B8EB
-    STA byte_28
+    STA CharNum
     STX ItemCount
-    JSR sub_13BB21
+    JSR print_character_name
     JSR sub_13B935
-    JSR sub_13BB40
-    JSR sub_13BAF9
+    JSR print_goods
+    JSR character_menu
     LDX ItemCount
     LDA #6
     BIT Buttons
@@ -5385,7 +5374,7 @@ loc_13B8F2:
     LDA (Pointer),Y
     AND #$F0
     BNE loc_13B92B
-    JSR sub_13BB0E
+    JSR goods_select
     BIT Buttons
     BVS loc_13B930
     BMI loc_13B932
@@ -5401,7 +5390,7 @@ loc_13B930:
 ; ---------------------------------------------------------------------------
 
 loc_13B932:
-    JMP sub_13B7F6
+    JMP get_item
 .endproc            ; End of function sub_13B8E6
 
 
@@ -5409,10 +5398,10 @@ loc_13B932:
 
 
 .proc sub_13B935
-    .import loc_13B5C4, byte_EC5D
+    .import get_char_pointer, byte_EC5D
     .importzp Pointer, pStr, pTileID
 
-    JSR loc_13B5C4
+    JSR get_char_pointer
     CLC
     LDA Pointer
     ADC #$30
@@ -5474,14 +5463,14 @@ byte_13B98B:
 
 
 .proc sub_13B98F
-    .import goods_psi, loc_13BB12
+    .import goods_psi_frame, loc_13BB12
     .importzp Buttons
 
-    JSR goods_psi
+    JSR goods_psi_frame
     ldxa #stru_13B9D1
     JSR draw_tiles
     JSR sub_13B9AF
-    JSR sub_13BB40
+    JSR print_goods
     ldxa #stru_13B9DC
     JSR loc_13BB12
     BIT Buttons
@@ -5491,7 +5480,7 @@ byte_13B98B:
 ; ---------------------------------------------------------------------------
 
 loc_13B9AC:
-    JMP sub_13B7F6
+    JMP get_item
 .endproc            ; End of function sub_13B98F
 
 
@@ -5501,7 +5490,7 @@ loc_13B9AC:
 .proc sub_13B9AF
     .importzp pTileID, pStr
 
-    LDA CurrentGame + GAME_SAVE::field_21D      ; $761D
+    LDA CurrentGame + GAME_SAVE::field_21D
     STA pTileID+1
     LDX #0
 
@@ -5547,13 +5536,13 @@ stru_13B9DC:
     JSR sub_13BA72
     JSR sram_write_enable
     LDA #0
-    STA CurrentGame + PURE_SAVE::field_31       ; $7431
+    STA CurrentGame + PURE_SAVE::field_31
     STA ItemCount
     LDY #$10
     LDA #$A2
 
 loc_13BA07:
-    STA CurrentGame + PURE_SAVE::field_20,Y     ; $7420,Y
+    STA CurrentGame + PURE_SAVE::field_20,Y
     DEY
     BPL loc_13BA07
     STA byte_D6
@@ -5574,7 +5563,7 @@ loc_13BA1E:
 loc_13BA24:
     LDY ItemCount
     BEQ loc_13BA18
-    LDA CurrentGame + PURE_SAVE::field_20,Y     ; $7420,Y
+    LDA CurrentGame + PURE_SAVE::field_20,Y
     CMP #$A2
     BNE loc_13BA30
     DEY
@@ -5582,7 +5571,7 @@ loc_13BA24:
 loc_13BA30:
     LDA #$A2
     STY ItemCount
-    STA CurrentGame + PURE_SAVE::field_20,Y     ; $7420,Y
+    STA CurrentGame + PURE_SAVE::field_20,Y
     BNE loc_13BA18
 
 loc_13BA39:
@@ -5593,7 +5582,7 @@ loc_13BA39:
     BEQ loc_13BA54
     LDA byte_580,Y
     LDY ItemCount
-    STA CurrentGame + PURE_SAVE::field_20,Y     ; $7420,Y
+    STA CurrentGame + PURE_SAVE::field_20,Y
     CPY #$10
     BCS loc_13BA18
     INY
@@ -5603,14 +5592,14 @@ loc_13BA39:
 loc_13BA54:
     LDY ItemCount
     BEQ loc_13BA18
-    LDA CurrentGame + PURE_SAVE::field_20,Y     ; $7420,Y
+    LDA CurrentGame + PURE_SAVE::field_20,Y
     CMP #$A2
     BEQ loc_13BA60
     INY
 
 loc_13BA60:
     LDA #0
-    STA CurrentGame + PURE_SAVE::field_20,Y     ; $7420,Y
+    STA CurrentGame + PURE_SAVE::field_20,Y
     STA byte_D6
     LDA #$F0
     STA OAM_Cache + OAM_TILE::PosY+4
@@ -5681,7 +5670,7 @@ byte_13BAB9:
 
 byte_13BAE5:
     tile_position 9, 5
-    tile_pointer CurrentGame + PURE_SAVE::field_20      ; $7420
+    tile_pointer CurrentGame + PURE_SAVE::field_20
     tile_position 8, 9
     end_frame
 
@@ -5694,17 +5683,17 @@ stru_13BAEF:
 ; =============== S U B R O U T I N E =======================================
 
 
-.proc sub_13BAF9
+.proc character_menu
     .import cursor_update
     .importzp pCursor
 
-    ldxa #stru_13BB04
+    ldxa #CharacterCursor
     stxa pCursor
-    JMP cursor_update
-.endproc            ; End of function sub_13BAF9
+    jmp cursor_update
+.endproc            ; End of function character_menu
 
 ; ---------------------------------------------------------------------------
-stru_13BB04:
+CharacterCursor:
     .import byte_F0D1
     .byte 1, 1, 0, 0, $C5, $3A, 7, 3        ; CURSOR <1, 1, 0, 0, $C5, $3A, 7, 3, $F0D1> ; ROM:F0D1
     .word byte_F0D1
@@ -5712,103 +5701,102 @@ stru_13BB04:
 ; =============== S U B R O U T I N E =======================================
 
 
-.proc sub_13BB0E
-    .export sub_13BB0E, loc_13BB12
+.proc goods_select
+    .export goods_select, loc_13BB12
     .import short_cursor_update
     .importzp pCursor
 
-    ldxa #stru_13BB19
+    ldxa #GoodsCursor
 
 loc_13BB12:
     stxa pCursor
-    JMP short_cursor_update
-.endproc            ; End of function sub_13BB0E
+    jmp short_cursor_update
+.endproc            ; End of function goods_select
 
 ; ---------------------------------------------------------------------------
-stru_13BB19:
+GoodsCursor:
     .byte 2, 4, $C, 2, $C8, $3A, 6, 5       ; CURSOR_SHORT <2, 4, $C, 2, $C8, $3A, 6, 5>
 
 ; =============== S U B R O U T I N E =======================================
 
 
-.proc sub_13BB21
+.proc print_character_name
     .import get_sram_pointer, draw_tilepack
-    .importzp Pointer, PointerTilePack, byte_70, Column, Row
+    .importzp Pointer, PointerTilePack, PrintSize, Column, Row
 
-    JSR get_sram_pointer ; Input: A - Character number
-                        ; Output: Pointer (word) = High $74 Low $40 * A
-    CLC 
-    LDA Pointer
-    ADC #$38
-    STA PointerTilePack
-    LDA Pointer+1
-    ADC #0
-    STA PointerTilePack+1
-    LDA #7
-    LDX #9
-    LDY #3
-    STA byte_70
-    STX Column
-    STY Row
-    JMP draw_tilepack
-.endproc            ; End of function sub_13BB21
+    jsr get_sram_pointer ; Input: A - Character number Output: Pointer (word) = High $74 Low $40 * A
+    clc 
+    lda Pointer
+    adc #CHARACTER::Name
+    sta PointerTilePack
+    lda Pointer+1
+    adc #0
+    sta PointerTilePack+1
+    lda #7
+    ldx #9
+    ldy #3
+    sta PrintSize
+    stx Column
+    sty Row
+    jmp draw_tilepack
+.endproc            ; End of function print_character_name
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-.proc sub_13BB40
-    .importzp Row, Column, CursorPosition, pStr, byte_29, byte_70
+.proc print_goods
+    .importzp Row, Column, CursorPosition, pStr, Item, PrintSize
 
-    LDA #$B
-    LDX #7
-    LDY #5
-    STA byte_70
-    STY Row
-    LDY #0
+    lda #$B
+    ldx #7
+    ldy #5
+    sta PrintSize
+    sty Row
+    ldy #0
 
-loc_13BB4C:
-    STX Column
-    STY CursorPosition
-    LDA (pStr),Y
-    STA byte_29
-    JSR sub_13BBAF
-    LDX #$13
-    CPX Column
-    BNE loc_13BB63
-    INC Row
-    INC Row
-    LDX #7
+next_item:
+    stx Column
+    sty CursorPosition
+    lda (pStr),Y
+    sta Item
+    jsr print_item
+    ldx #$13
+    cpx Column
+    bne @next_column
+    inc Row
+    inc Row
+    ldx #7
 
-loc_13BB63:
-    LDY CursorPosition
-    INY
-    CPY #8
-    BCC loc_13BB4C
-    LDA #0
-    STA byte_70
-    RTS
-.endproc            ; End of function sub_13BB40
+@next_column:
+    ldy CursorPosition
+    iny
+    cpy #8
+    bcc next_item
+    lda #0
+    sta PrintSize
+    rts
+.endproc            ; End of function print_goods
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
 .proc sub_13BB6F
-    .import loc_13B5C4, sram_write_enable, sram_read_enable
+    .import get_char_pointer, sram_write_enable, sram_read_enable, byte_6D00, word_6D01
     .importzp Pointer
 
-    JSR loc_13B5C4
+    JSR get_char_pointer
     JSR sram_write_enable
     LDA #4
-    STA $6D00               ;byte_6D00
+    STA byte_6D00
     CLC
     LDA Pointer
     ADC #$38
-    STA $6D01               ;byte_6D01
+    STA word_6D01
     LDA Pointer+1
     ADC #0
-    STA $6D02               ;byte_6D02
+    STA word_6D01+1
     JMP sram_read_enable
 .endproc            ; End of function sub_13BB6F
 
@@ -5818,7 +5806,7 @@ loc_13BB63:
 
 .proc sub_13BB8C
     .export sub_13BB8C
-    .import sram_write_enable, sram_read_enable, load_msg_bank
+    .import sram_write_enable, sram_read_enable, load_msg_bank, byte_6D04
     .importzp Pointer, pTileID
 
     JSR get_item_pointer
@@ -5833,7 +5821,7 @@ loc_13BB63:
 
 loc_13BB9F:
     LDA (pTileID),Y
-    STA $6D04,Y             ;unk_6D04,Y
+    STA byte_6D04,Y
     INY
     CMP #0
     BNE loc_13BB9F
@@ -5845,7 +5833,7 @@ loc_13BB9F:
 ; =============== S U B R O U T I N E =======================================
 
 
-.proc sub_13BBAF
+.proc print_item
     .import draw_tilepack, load_msg_bank
     .importzp Pointer, PointerTilePack
 
@@ -5858,7 +5846,7 @@ loc_13BB9F:
     STA PointerTilePack+1
     JSR draw_tilepack
     JMP load_msg_bank
-.endproc            ; End of function sub_13BBAF
+.endproc            ; End of function print_item
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -5922,9 +5910,9 @@ get_item_pntr:
 .proc get_item_offset
     .export get_item_offset, get_off
     .import set_bank0_0
-    .importzp Pointer, byte_29
+    .importzp Pointer, Item
 
-    lda byte_29
+    lda Item
 
 get_off:
     sta Pointer
@@ -5954,27 +5942,27 @@ get_off:
 ; =============== S U B R O U T I N E =======================================
 
 
-.proc sub_13BC0A
+.proc draw_msg_frame
     .import out_msg_frame, load_msg_bank
-    .importzp PointerTilePack, Column, Row, byte_2D, byte_73
+    .importzp PointerTilePack, Column, Row, byte_2D, DialogPage
 
-    LDA PointerTilePack
-    PHA
-    LDA byte_73
-    PHA
-    JSR out_msg_frame
-    PLA
-    STA byte_73
-    PLA
-    STA PointerTilePack
-    LDA #0
-    STA byte_2D
-    LDX #8
-    LDY #19
-    STX Column
-    STY Row
-    JMP load_msg_bank
-.endproc            ; End of function sub_13BC0A
+    lda PointerTilePack
+    pha
+    lda DialogPage
+    pha
+    jsr out_msg_frame
+    pla
+    sta DialogPage
+    pla
+    sta PointerTilePack
+    lda #0
+    sta byte_2D
+    ldx #8
+    ldy #19
+    stx Column
+    sty Row
+    jmp load_msg_bank
+.endproc            ; End of function draw_msg_frame
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -6001,7 +5989,7 @@ get_off:
 
 
 sub_13BC3A:
-    .importzp AddrForJmp, CursorMode, FieldPosition, byte_29
+    .importzp AddrForJmp, CursorMode, FieldPosition, Item
 
     LDA AddrForJmp
     AND #$3F
@@ -6013,7 +6001,7 @@ sub_13BC3A:
     ROL A
     ADC #$28
     STA AddrForJmp
-    LDA byte_29
+    LDA Item
     JSR sub_13B058
     BCS locret_13BC59
     TYA
@@ -6027,14 +6015,14 @@ locret_13BC59:
 ; ---------------------------------------------------------------------------
 
 sub_13BC5A:
-    .import loc_13B5C4, get_off, get_item_pntr, sram_write_enable, sram_read_enable
+    .import get_char_pointer, get_off, get_item_pntr, sram_write_enable, sram_read_enable
     .importzp CursorMode, Pointer, pDist, AddrForJmp, FieldPosition
 
     LDA #0
     STA CursorMode
 
 loc_13BC5E:
-    JSR loc_13B5C4
+    JSR get_char_pointer
     LDA Pointer
     LDX Pointer+1
     STA pDist
@@ -6176,21 +6164,21 @@ RoutineTable:
     .import one_color_lighten_palette, bank_A000_a, wait_frames, copyright_violation
     .importzp CopyrightViolation
 
-    LDA #$10
-    STA byte_7F1            ; byte_7F1
-    LDA #LIGHTEST_PURPLE
-    JSR one_color_lighten_palette
-    LDA CopyrightViolation
-    BEQ @no_violation
-    LDA #$19
+    lda #$10
+    sta byte_7F1
+    lda #LIGHTEST_PURPLE
+    jsr one_color_lighten_palette
+    lda CopyrightViolation
+    beq @no_violation
+    lda #$19
     ldyx #(copyright_violation-1)
-    JSR bank_A000_a     ; changes the memory bank $A000, transfers the execution of the code after completion of which returns the original memory bank
+    jsr bank_A000_a     ; changes the memory bank $A000, transfers the execution of the code after completion of which returns the original memory bank
                         ; input: A - bank number, YX - (subroutine address - 1)
                         ; Y - high byte, X - low byte
 
 @no_violation:
-    LDX #60
-    JMP wait_frames     ; wait for a few frames
+    ldx #60
+    jmp wait_frames     ; wait for a few frames
 .endproc            ; End of function check_copyright       ; input: X - number of frames
 
 
@@ -6218,7 +6206,7 @@ loc_13BD34:
 
     JSR store_palettes
     LDA #2
-    STA apu_7F0             ; apu_7F0
+    STA apu_7F0
     LDA #$14
 
 loc_13BD45:
@@ -6387,7 +6375,7 @@ byte_13BE4F:
     .import sram_write_enable, sram_read_enable
     .importzp pTileID, pDist, Pointer
 
-    lda CurrentGame + PURE_SAVE::GameNumber     ; $7402
+    lda CurrentGame + PURE_SAVE::GameNumber
     jsr get_dist_save_addr ; Input: A - destination block number
                         ; Output: returns the destination address to pDist, returns $7400 - source address to pTileID
     jsr check_sum       ; Output: return check sum to Pointer
@@ -6447,11 +6435,11 @@ byte_13BE4F:
     bne @next_block
     jsr sram_read_enable
     jsr check_sum       ; Output: return check sum to Pointer
-    lda CurrentGame + PURE_SAVE::GameNumber     ; $7402
+    lda CurrentGame + PURE_SAVE::GameNumber
     and #$F0
     cmp #$B0
     bne @exit
-    lda CurrentGame + PURE_SAVE::Active         ; $7403
+    lda CurrentGame + PURE_SAVE::Active
     cmp #$E9
     bne @exit
     lda Pointer
@@ -6477,7 +6465,7 @@ byte_13BE4F:
     sta pDist+1
     asl A
     adc pDist+1
-    adc #>Game1         ; #$77
+    adc #>Game1
     sta pDist+1
     lda #0
     sta pDist

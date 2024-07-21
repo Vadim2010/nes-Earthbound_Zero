@@ -534,7 +534,7 @@ BattlePalettes:
                 .word $67E, $67F, $680, $681, $682, $683, $684, $685, $686
                 .word $687
 
-.export CommandMenu, FrameOff, InfoFrame, MsgFrame, stru_929B, stru_92CF, byte_9300, stru_9317
+.export CommandMenu, FrameOff, InfoFrame, MsgFrame, stru_929B, stru_92CF, byte_9300, GoodsMenu
 .export byte_935F, stru_936A, StateFrame, Setup
 .import CurrentGame, Character
 
@@ -750,7 +750,7 @@ byte_9300:
     .byte FRAME_BOTTOM_RIGHT
     end_frame
 
-stru_9317:
+GoodsMenu:
     tile_position 23, 5
     .byte FRAME_TOP_LEFT
     fill FRAME_TOP, 6
@@ -800,9 +800,7 @@ stru_9317:
     end_frame
 
 byte_935F:
-    .byte $20, 5            ; low byte irq handler - 1, offset to InterruptTable
-
-    .byte 3
+    tile_position 5, 3
     .byte FRAME_TOP_LEFT
     fill FRAME_TOP, 24
     .byte FRAME_TOP_RIGHT
@@ -886,14 +884,14 @@ StateFrame:
     left
     .byte " "
     .byte "HP"
-    convert Character+CHARACTER::Health, 2, 6       ; $614
+    convert Character+CHARACTER::Health, 2, 6
     .byte "/"
-    convert Character+CHARACTER::MaxHealth, 2, 3    ; $603
+    convert Character+CHARACTER::MaxHealth, 2, 3
     .byte " "
     right
     left
     .byte " "
-    fill " ", 10      ; TILEPACK_FILL <$22, $A0, $A> ; command to fill with a single repeating tile
+    fill " ", 10
     .byte " "
     right
     end_row
@@ -902,9 +900,9 @@ StateFrame:
 
     left
     .byte " PP"
-    convert Character+CHARACTER::PP, 2, 6           ; $616
+    convert Character+CHARACTER::PP, 2, 6
     .byte "/"
-    convert Character+CHARACTER::MaxPP, 2, 3        ; $605
+    convert Character+CHARACTER::MaxPP, 2, 3
     .byte " "
     right
     left
@@ -918,7 +916,7 @@ StateFrame:
 
     left
     .byte " Offense"
-    convert Character+CHARACTER::Offense, 2, 5      ; $607
+    convert Character+CHARACTER::Offense, 2, 5
     .byte " "
     right
     left
@@ -941,7 +939,7 @@ byte_9431:
     tile_position 1, 13
     left
     .byte " Defense"
-    convert Character+CHARACTER::Defense, 2, 5      ; $609
+    convert Character+CHARACTER::Defense, 2, 5
     .byte " "
     right
     .byte FRAME_TOP_LEFT, FRAME_TOP_SHORT, "Equip"
@@ -953,12 +951,12 @@ byte_9431:
 
     left
     .byte " Fight "
-    convert Character+CHARACTER::Fight, 1, 6        ; $60B
+    convert Character+CHARACTER::Fight, 1, 6
     .byte " "
     right
     left
     .byte " "
-    convert Item1, 0, 11            ; $680
+    convert Item1, 0, 11
     right
     end_row
 
@@ -966,12 +964,12 @@ byte_9431:
 
     left
     .byte " Speed "
-    convert Character+CHARACTER::Speed, 1, 6        ; $60C
+    convert Character+CHARACTER::Speed, 1, 6
     .byte " "
     right
     left
     .byte " "
-    convert Item2, 0, 11            ; $690
+    convert Item2, 0, 11
     right
     end_row
 
@@ -979,12 +977,12 @@ byte_9431:
 
     left
     .byte " Wisdom"
-    convert Character+CHARACTER::Wisdom, 1, 6       ; $60D
+    convert Character+CHARACTER::Wisdom, 1, 6
     .byte " "
     right
     left
     .byte " "
-    convert Item3, 0, 11            ; $6A0
+    convert Item3, 0, 11
     right
     end_row
 
@@ -992,19 +990,19 @@ byte_9431:
 
     left
     .byte " Strength"
-    convert Character+CHARACTER::Strength, 1, 4     ; $60E
+    convert Character+CHARACTER::Strength, 1, 4
     .byte " "
     right
     left
     .byte " "
-    convert Item4, 0, 11            ; $6B0
+    convert Item4, 0, 11
     right
     end_frame
 
     .byte $25, $14          ; low byte irq handler - 1, offset to InterruptTable
 
     .byte FRAME_LEFT, " "
-    fill " ", 12      ; TILEPACK_FILL <$22, $A0, $C> ; command to fill with a single repeating tile
+    fill " ", 12
     .byte " ", FRAME_RIGHT, FRAME_BOTTOM_LEFT
     fill FRAME_BOTTOM, 12
     .byte FRAME_BOTTOM_RIGHT
@@ -1013,7 +1011,7 @@ byte_9431:
     tile_position 1, 23
     left
     .byte " Force "
-    convert Character+CHARACTER::Force, 1, 6        ; $60F
+    convert Character+CHARACTER::Force, 1, 6
     .byte " "
     right
     .byte FRAME_TOP_LEFT, FRAME_TOP_SHORT, "Melody"
@@ -1024,12 +1022,12 @@ byte_9431:
     .byte $25, $16          ; low byte irq handler, offset to InterruptTable
     left
     .byte " Exp "
-    convert Character+CHARACTER::Exp, 3, 8          ; $611
+    convert Character+CHARACTER::Exp, 3, 8
     .byte " "
     right
     left
     .byte "  "
-    convert byte_6F0, 0, 10         ; $6F0
+    convert byte_6F0, 0, 10
     right
     end_frame
 
@@ -1064,11 +1062,10 @@ Setup:
     right
     end_row
 
-    .byte $25               ; low byte irq handler, offset to InterruptTable
+    .byte $25, 4             ; low byte irq handler, offset to InterruptTable
 
-    frame_offset $A024
-
-    .byte "  press A button to change."
+    left
+    .byte "   press A button to change."
     right
     end_row
 

@@ -237,7 +237,7 @@ loc_17A142:
                 STA     Item1+3
                 STA     Item1+4
                 LDA     #0
-                STA     Character + CHARACTER::field_20
+                STA     Character + CHARACTER::Goods
                 STA     byte_640
                 STA     byte_660
 
@@ -651,7 +651,7 @@ fill_attribute:
 sub_17A3F8:
     .export sub_17A3F8
     .import text2stack, sub_C7C1
-    .importzp byte_50, byte_51, byte_54, byte_73, PointerTilePack, Row, Column
+    .importzp byte_50, byte_51, byte_54, DialogPage, PointerTilePack, Row, Column
 
                 CMP     #0
                 BEQ     locret_17A478
@@ -675,11 +675,11 @@ sub_17A3F8:
                 ASL     PointerTilePack
                 ROL     A
                 CLC
-                ADC     #$14
+                ADC     #$14                ; DIALOGS8 0x514
                 STA     PointerTilePack
                 LDA     #0
                 ADC     #5
-                STA     byte_73
+                STA     DialogPage
                 BCC     loc_17A44A
 
 loc_17A42D:
@@ -698,7 +698,7 @@ loc_17A42D:
                 STA     PointerTilePack
                 INY
                 LDA     (Pointer),Y
-                STA     byte_73
+                STA     DialogPage
 
 loc_17A44A:
                 JSR     text2stack
@@ -723,7 +723,7 @@ loc_17A462:
 
 loc_17A46F:
                 JSR     bank16          ; set memory bank $16 at $8000
-                LDX     CurrentGame + PURE_SAVE::field_18       ; $7418
+                LDX     CurrentGame + PURE_SAVE::FightMsgSpd       ; $7418
                 JSR     delay
 
 locret_17A478:
@@ -736,7 +736,7 @@ locret_17A478:
 
 sub_17A479:
     .import sub_F5C2, print_string, move_chars
-    .importzp byte_70, UnpackID
+    .importzp PrintSize, UnpackID
 
                 LDA     byte_52
                 ASL     A
@@ -761,7 +761,7 @@ loc_17A495:
 
 loc_17A49D:
                 LDA     #$16
-                STA     byte_70
+                STA     PrintSize
                 LDA     #5
                 STA     Column
                 JSR     wait_nmi_processed
@@ -2196,7 +2196,7 @@ sub_17AC06:
                 JSR     sub_17A4BB
                 JSR     bank0           ; set memory bank 0 at $8000
                 LDA     #0
-                STA     byte_70
+                STA     PrintSize
                 LDA     #<(fNameStr)    ; #$7A
                 STA     PointerTilePack
                 LDA     #>(fNameStr)    ; #$8E
@@ -4628,7 +4628,7 @@ loc_17B77B:
                 BPL     loc_17B766
                 LDA     #$80
                 STA     Character + CHARACTER::field_1
-                STA     Character + CHARACTER::field_20+1
+                STA     Character + CHARACTER::Goods+1
                 STA     byte_640+1
                 STA     byte_660+1
                 LDA     Encounter

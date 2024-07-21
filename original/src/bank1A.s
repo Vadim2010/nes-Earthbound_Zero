@@ -1,3 +1,4 @@
+.include "nmi.inc"
 .include "palette.inc"
 .include "mmc3\mmc3.inc"
 .include "..\res\structures.inc"
@@ -19,7 +20,7 @@ sub_1AA000:
     .importzp IRQCount, ShiftX, ShiftY, CameraX, CameraY, CntrlPPU, BankNum
     .importzp BankPPU_X000, BankPPU_X400, byte_E7
 
-                LDX     #$78
+                LDX     #120
                 JSR     wait_frames     ; wait for a few frames
                                         ; input: X - number of frames
                 JSR     sub_1AA0B1
@@ -202,20 +203,20 @@ loc_1AA0F3:
 loc_1AA0F5:
                 STA     BankPPU_XC00
                 JSR     wait_nmi_processed
-                LDA     #5
-                STA     NMI_Data + NMI_DATA::NMI_ID ; NMITable
+                LDA     #WRITE_ROW                  ; #5
+                STA     NMI_Data + NMI_DATA::NMI_ID
                 LDY     #4
                 LDA     (BankPPU_X000),Y
                 STA     BankPPU_X800
                 DEY
                 LDA     (BankPPU_X000),Y
-                STA     NMI_Data + NMI_DATA::NumOfChr ; NMITable
+                STA     NMI_Data + NMI_DATA::NumOfChr
                 DEY
                 LDA     (BankPPU_X000),Y
-                STA     NMI_Data + NMI_DATA::PPU_Addr ; NMITable
+                STA     NMI_Data + NMI_DATA::PPU_Addr
                 DEY
                 LDA     (BankPPU_X000),Y
-                STA     NMI_Data + NMI_DATA::PPU_Addr+1 ; NMITable
+                STA     NMI_Data + NMI_DATA::PPU_Addr+1
                 LDY     #5
 
 loc_1AA119:
@@ -223,17 +224,17 @@ loc_1AA119:
 
 loc_1AA11B:
                 LDA     (BankPPU_X000),Y
-                STA     NMI_Data + NMI_DATA::Chr,X  ; NMITable
+                STA     NMI_Data + NMI_DATA::Chr,X
                 INY
                 BNE     loc_1AA125
                 INC     BankPPU_X400
 
 loc_1AA125:
                 INX
-                CPX     NMI_Data + NMI_DATA::NumOfChr ; NMITable
+                CPX     NMI_Data + NMI_DATA::NumOfChr
                 BNE     loc_1AA11B
                 LDA     #0
-                STA     NMI_Data + NMI_DATA::Chr,X  ; NMITable
+                STA     NMI_Data + NMI_DATA::Chr,X
                 STA     OffsetNMI_Data
                 LDA     #$80
                 STA     NMIFlags
@@ -242,11 +243,11 @@ loc_1AA125:
                 JSR     wait_nmi_processed
                 CLC
                 LDA     BankPPU_XC00
-                ADC     NMI_Data + NMI_DATA::PPU_Addr+1 ; NMITable
-                STA     NMI_Data + NMI_DATA::PPU_Addr+1 ; NMITable
+                ADC     NMI_Data + NMI_DATA::PPU_Addr+1
+                STA     NMI_Data + NMI_DATA::PPU_Addr+1
                 LDA     #0
-                ADC     NMI_Data + NMI_DATA::PPU_Addr ; NMITable
-                STA     NMI_Data + NMI_DATA::PPU_Addr ; NMITable
+                ADC     NMI_Data + NMI_DATA::PPU_Addr
+                STA     NMI_Data + NMI_DATA::PPU_Addr
                 JMP     loc_1AA119
 ; ---------------------------------------------------------------------------
 
@@ -278,10 +279,10 @@ loc_1AA159:
                 STA     PalNMISpr+4
                 STA     PalNMISpr+8
                 STA     PalNMISpr+$C
-                LDA     #4
-                STA     NMI_Data + NMI_DATA::NMI_ID ; NMITable
+                LDA     #LOAD_PALETTES      ; #4
+                STA     NMI_Data + NMI_DATA::NMI_ID
                 LDA     #0
-                STA     NMI_Data + NMI_DATA::NumOfChr ; NMITable
+                STA     NMI_Data + NMI_DATA::NumOfChr
                 STA     OffsetNMI_Data
                 LDA     #$80
                 STA     NMIFlags
@@ -433,20 +434,20 @@ sub_1AA215:
 
 sub_1AA226:
     .import text2stack, draw_tilepack_clear
-    .importzp PointerTilePack, Row, Column, byte_70, byte_71, byte_73
+    .importzp PointerTilePack, Row, Column, PrintSize, byte_71, DialogPage
 
                 INY
                 LDA     (BankPPU_X000),Y
                 STA     PointerTilePack
                 INY
                 LDA     (BankPPU_X000),Y
-                STA     byte_73
+                STA     DialogPage
                 LDA     #2
                 STA     Column
                 LDA     #$13
                 STA     Row
                 LDA     #$1C
-                STA     byte_70
+                STA     PrintSize
                 LDA     #0
                 STA     byte_71
 
@@ -462,18 +463,18 @@ loc_1AA240:
 
 loc_1AA252:
                 JSR     wait_nmi_processed
-                LDA     #8
-                STA     NMI_Data + NMI_DATA::NMI_ID ; NMITable
+                LDA     #FILL           ; #8
+                STA     NMI_Data + NMI_DATA::NMI_ID
                 LDA     #7
-                STA     NMI_Data + NMI_DATA::NumOfChr ; NMITable
+                STA     NMI_Data + NMI_DATA::NumOfChr
                 LDA     #$E9
-                STA     NMI_Data + NMI_DATA::PPU_Addr+1 ; NMITable
+                STA     NMI_Data + NMI_DATA::PPU_Addr+1
                 LDA     #$23 ; '#'
-                STA     NMI_Data + NMI_DATA::PPU_Addr ; NMITable
+                STA     NMI_Data + NMI_DATA::PPU_Addr
                 LDA     #$FF
-                STA     NMI_Data + NMI_DATA::Chr    ; NMITable
+                STA     NMI_Data + NMI_DATA::Chr
                 LDA     #0
-                STA     NMI_Data + NMI_DATA::Next   ; NMITable
+                STA     NMI_Data + NMI_DATA::Next
                 LDX     #2
 
 loc_1AA275:
@@ -486,11 +487,11 @@ loc_1AA275:
                 JSR     wait_nmi_processed
                 CLC
                 LDA     #8
-                ADC     NMI_Data + NMI_DATA::PPU_Addr+1 ; NMITable
-                STA     NMI_Data + NMI_DATA::PPU_Addr+1 ; NMITable
+                ADC     NMI_Data + NMI_DATA::PPU_Addr+1
+                STA     NMI_Data + NMI_DATA::PPU_Addr+1
                 LDA     #0
-                ADC     NMI_Data + NMI_DATA::PPU_Addr ; NMITable
-                STA     NMI_Data + NMI_DATA::PPU_Addr ; NMITable
+                ADC     NMI_Data + NMI_DATA::PPU_Addr
+                STA     NMI_Data + NMI_DATA::PPU_Addr
                 JMP     loc_1AA275
 ; ---------------------------------------------------------------------------
 
@@ -509,7 +510,7 @@ sub_1AA29A:
                 STA     PointerTilePack
                 INY
                 LDA     (BankPPU_X000),Y
-                STA     byte_73
+                STA     DialogPage
                 INY
                 LDA     (BankPPU_X000),Y
                 STA     Column
@@ -517,7 +518,7 @@ sub_1AA29A:
                 LDA     (BankPPU_X000),Y
                 STA     Row
                 LDA     #0
-                STA     byte_70
+                STA     PrintSize
                 STA     byte_71
                 JSR     text2stack
                 JSR     draw_tilepack_clear

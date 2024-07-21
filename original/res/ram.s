@@ -5,7 +5,7 @@
 .export SpriteTable, NMI_Data, PalNMIBG, PalNMISpr, PalBG, PalSpr, InterruptTable
 .export byte_57E, byte_57F, byte_580, byte_581, byte_582, GameSlotCopy, unk_588, unk_589, unk_58A, unk_58B
 .export byte_590, byte_591, byte_592, byte_593, unk_594, Character, byte_640, byte_650, byte_660, byte_670
-.export Item1, Item2, Item3, Item4, byte_6C0, byte_6D0, byte_6E0, byte_6F0, byte_700, apu_76C
+.export Item1, Item2, Item3, Item4, byte_6C0, byte_6D0, byte_6E0, byte_6F0, PrintSize0, apu_76C
 .export PulseTimer1, PulseCounter1, PulseTimer2, PulseCounter2, apu_786, PulseChannels, apu_78B, CurrentMusic
 .export byte_790, byte_791, byte_792, byte_793, byte_79A, apu_79C, byte_79D, byte_79F, byte_7A0, byte_7A1
 .export byte_7A3, byte_7A7, byte_7A8, byte_7A9, byte_7AC, byte_7B0, byte_7B4, byte_7B5, byte_7B6, byte_7B7
@@ -61,7 +61,7 @@ byte_6D0:           .res 16
 byte_6E0:           .res 16
 byte_6F0:           .res 16
 
-byte_700:           .res 108
+PrintSize0:         .res 108
 
 apu_76C:            .res 20
 

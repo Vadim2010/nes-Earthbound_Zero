@@ -3,6 +3,7 @@
 .include "palette.inc"
 .include "mmc3\bank.inc"
 .include "..\res\structures.inc"
+.include "..\res\charmap.inc"
 
 .segment "BANK_9"
 ; ===========================================================================
@@ -182,7 +183,7 @@ copyright_violation:
     .export copyright_violation
     .import darken_palette, update_animation, clear_oam_sprite, clear_nametables, wait_change_music, mmc3_bank_set
     .import text2stack, draw_tilepack_clear, PalNMIBG
-    .importzp IRQCount, PointerTilePack, Row, Column, byte_70, byte_71, byte_73
+    .importzp IRQCount, PointerTilePack, Row, Column, PrintSize, byte_71, DialogPage
 
     jsr darken_palette
     jsr update_animation
@@ -208,13 +209,13 @@ loc_19A214:
     lda #$F4
     sta PointerTilePack
     lda #6
-    sta byte_73
+    sta DialogPage
     lda #2
     sta Column
     lda #2
     sta Row
     lda #0
-    sta byte_70
+    sta PrintSize
     sta byte_71
 
 loc_19A238:
@@ -439,124 +440,120 @@ loc_19A365:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_19A36E:
-    .export sub_19A36E
+setup_menu:
+    .export setup_menu
     .import setup, cursor_update, CurrentGame, loc_EF7C
     .importzp byte_D6, pCursor, Buttons, CursorPosition
 
-    JSR setup
-    LDY #0
+    jsr setup
+    ldy #0
 
-loc_19A373:
-    TYA
-    PHA
-    JSR sub_19A3CD
-    PLA
-    TAY
-    INY
-    CPY #4
-    BCC loc_19A373
-    LDA #1
-    STA byte_D6
-    ldxa #cursor_A3FA
+@next_row:
+    tya
+    pha
+    jsr print_checkbox
+    pla
+    tay
+    iny
+    cpy #4
+    bcc @next_row
+    lda #1
+    sta byte_D6
+    ldxa #SetupCursor
     stxa pCursor
-    JSR cursor_update
+    jsr cursor_update
 
-loc_19A38E:
-    BIT Buttons
-    BPL loc_19A3C8
-    LDA CursorPosition
-    TAX
-    LSR A
-    LSR A
-    LSR A
-    TAY
-    JSR sram_write_enable
-    LDA byte_19A408,X
-    STA CurrentGame + PURE_SAVE::CmndBtn,Y     ; $743C,Y
-    CPY #3
-    BNE loc_19A3B0
-    TXA
-    AND #7
-    TAX
-    LDA byte_19A428,X
-    STA CurrentGame + PURE_SAVE::field_18       ; $7418
+@next_choice:
+    bit Buttons
+    bpl @stop_choice
+    lda CursorPosition
+    tax
+    lsr A
+    lsr A
+    lsr A
+    tay
+    jsr sram_write_enable
+    lda SetupRows,X
+    sta CurrentGame + PURE_SAVE::CmndBtn,Y
+    cpy #3
+    bne @no_speed
+    txa
+    and #7
+    tax
+    lda FightMsgSpd,X
+    sta CurrentGame + PURE_SAVE::FightMsgSpd
 
-loc_19A3B0:
-    JSR sram_read_enable
-    LDA Column
-    PHA
-    LDA Row
-    PHA
-    JSR sub_19A3CD
-    PLA
-    STA Row
-    PLA
-    STA Column
-    JSR loc_EF7C
-    JMP loc_19A38E
+@no_speed:
+    jsr sram_read_enable
+    lda Column
+    pha
+    lda Row
+    pha
+    jsr print_checkbox
+    pla
+    sta Row
+    pla
+    sta Column
+    jsr loc_EF7C
+    jmp @next_choice
 ; ---------------------------------------------------------------------------
 
-loc_19A3C8:
-    LDA #0
-    STA byte_D6
-    RTS
-; End of function sub_19A36E
+@stop_choice:
+    lda #0
+    sta byte_D6
+    rts
+; End of function setup_menu
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_19A3CD:
+print_checkbox:
     .import draw_symbol
 
-    TYA
-    ASL A
-    ASL A
-    ADC #$D
-    STA Row
-    LDA CurrentGame + PURE_SAVE::CmndBtn,Y     ; $743C,Y
-    STA Pointer
-    LDA byte_19A404,Y
-    STA Pointer+1
-    LDX #5
+    tya
+    asl A
+    asl A
+    adc #$D
+    sta Row
+    lda CurrentGame + PURE_SAVE::CmndBtn,Y
+    sta Pointer
+    lda ColumnTable,Y
+    sta Pointer+1
+    ldx #5
 
-loc_19A3E0:
-    STX Column
-    LDA #$94
-    ASL Pointer
-    ADC #0
-    ASL Pointer+1
-    BCC loc_19A3EF
-    JSR draw_symbol
+next_check_box:
+    stx Column
+    lda #UNCHECK            ; #$94
+    asl Pointer
+    adc #0
+    asl Pointer+1
+    bcc @next_column
+    jsr draw_symbol
 
-loc_19A3EF:
-    CLC
-    LDA Column
-    ADC #4
-    TAX
-    CPX #$19
-    BCC loc_19A3E0
-    RTS
-; End of function sub_19A3CD
+@next_column:
+    clc
+    lda Column
+    adc #4
+    tax
+    cpx #$19
+    bcc next_check_box
+    rts
+; End of function print_checkbox
 
 ; ---------------------------------------------------------------------------
-    ; CURSOR <8, 4, 4, 4, $C0, $3A, 4, $D, byte_19A408>
-cursor_A3FA:
+    ; CURSOR <8, 4, 4, 4, $C0, $3A, 4, $D, SetupRows>
+SetupCursor:
     .byte 8, 4, 4, 4, $C0, $3A, 4, $D
-    .word byte_19A408
-byte_19A404:
+    .word SetupRows
+ColumnTable:
     .byte $A8, $A8, $A8, $F8
-byte_19A408:
-    .byte $80, 0, $20, 0
-    .byte 8, 0, 0, 0
-    .byte $80, 0, $20, 0
-    .byte 8, 0, 0, 0
-    .byte $80, 0, $20, 0
-    .byte 8, 0, 0, 0
-    .byte $80, $40, $20, $10
-    .byte 8, 0, 0, 0
-byte_19A428:
+SetupRows:
+    .byte $80,   0, $20,   0, 8, 0, 0, 0
+    .byte $80,   0, $20,   0, 8, 0, 0, 0
+    .byte $80,   0, $20,   0, 8, 0, 0, 0
+    .byte $80, $40, $20, $10, 8, 0, 0, 0
+FightMsgSpd:
     .byte $41, $31, $21, $11, 1
 
 ; =============== S U B R O U T I N E =======================================
@@ -642,22 +639,22 @@ byte_19A48F:
 
 sub_19A4A7:
     .export sub_19A4A7
-    .import bank_A000_a, bank14_8000, sub_C3F4, loc_13AB30, loc_13AD1A
+    .import bank_A000_a, bank14_8000, redraw_screen, check_button_pressed, out_msg_button
     .importzp EnemyGroup
 
-    LDA CurrentGame+PURE_SAVE::field_19     ; $7419
+    LDA CurrentGame+PURE_SAVE::field_19
     BEQ locret_19A4CB
     LDY EnemyGroup
     LDX byte_19A504,Y
     LDA byte_19A4F2,X
-    CMP CurrentGame+PURE_SAVE::Boy1+CHARACTER::Level  ; Boy1Lvl
+    CMP CurrentGame+PURE_SAVE::Boy1+CHARACTER::Level
     BCS locret_19A4CB
     JSR sram_write_enable
-    DEC CurrentGame+PURE_SAVE::field_19     ; $7419
+    DEC CurrentGame+PURE_SAVE::field_19
     JSR sram_read_enable
     LDA #0
     STA EnemyGroup
-    LDA CurrentGame+PURE_SAVE::field_19     ; $7419
+    LDA CurrentGame+PURE_SAVE::field_19
     BEQ loc_19A4CC
 
 locret_19A4CB:
@@ -668,19 +665,19 @@ loc_19A4CC:
     LDA #$D1
     STA PointerTilePack
     LDA #6
-    STA byte_73
+    STA DialogPage
     LDA #$13
-    ldyx #(loc_13AD1A-1)
+    ldyx #(out_msg_button-1)
     JSR bank_A000_a     ; changes the memory bank $A000, transfers the execution of the code after completion of which returns the original memory bank
                         ; input: A - bank number, YX - (subroutine address - 1)
                         ; Y - high byte, X - low byte
     LDA #$13
-    ldyx #(loc_13AB30-1)
+    ldyx #(check_button_pressed-1)
     JSR bank_A000_a     ; changes the memory bank $A000, transfers the execution of the code after completion of which returns the original memory bank
                         ; input: A - bank number, YX - (subroutine address - 1)
                         ; Y - high byte, X - low byte
     LDA #$13
-    ldyx #(sub_C3F4-1)
+    ldyx #(redraw_screen-1)
     JSR bank_A000_a     ; changes the memory bank $A000, transfers the execution of the code after completion of which returns the original memory bank
                         ; input: A - bank number, YX - (subroutine address - 1)
                         ; Y - high byte, X - low byte
@@ -715,13 +712,13 @@ byte_19A504:
 sub_19A5CC:
     .export sub_19A5CC
     .import one_color_palettes_save, back_palettes, wait_frames, SpriteTable
-    .importzp byte_2C, Dist
+    .importzp WaitPressed, Dist
 
     JSR sub_19A81A
     LDA #0
-    STA byte_2C
+    STA WaitPressed
     LDA #$13
-    ldyx #(sub_C3F4-1)
+    ldyx #(redraw_screen-1)
     JSR bank_A000_a     ; changes the memory bank $A000, transfers the execution of the code after completion of which returns the original memory bank
                         ; input: A - bank number, YX - (subroutine address - 1)
                         ; Y - high byte, X - low byte
@@ -822,14 +819,16 @@ loc_19A5F5:
 
 ; ---------------------------------------------------------------------------
 stru_19A6A1:
+    .import stru_1599F8
+
     .byte 4, 0, $32, $32, 1, 1
-    .word $99F8                 ; ANIM_SPRITE <4, 0, $32, $32, 1, 1, FRAME.pSprite+$99F8>
+    .word stru_1599F8                 ; ANIM_SPRITE <4, 0, $32, $32, 1, 1, stru_1599F8>
     .byte 4, 0, $42, $32, 1, $FF
-    .word $99F8                 ; ANIM_SPRITE <4, 0, $42, $32, 1, $FF, FRAME.pSprite+$99F8>
+    .word stru_1599F8                 ; ANIM_SPRITE <4, 0, $42, $32, 1, $FF, stru_1599F8>
     .byte 4, 0, $32, $42, $FF, 1
-    .word $99F8                 ; ANIM_SPRITE <4, 0, $32, $42, $FF, 1, FRAME.pSprite+$99F8>
+    .word stru_1599F8                 ; ANIM_SPRITE <4, 0, $32, $42, $FF, 1, stru_1599F8>
     .byte 4, 0, $42, $42, $FF, $FF
-    .word $99F8                 ; ANIM_SPRITE <4, 0, $42, $42, $FF, $FF, FRAME.pSprite+$99F8>
+    .word stru_1599F8                 ; ANIM_SPRITE <4, 0, $42, $42, $FF, $FF, stru_1599F8>
 
 nullsub_7:
     .export nullsub_7
@@ -1008,6 +1007,8 @@ sub_19A7A7:
 
 
 sub_19A7AD:
+    .import RESET_vector
+
     JSR loc_19A7B0
 
 loc_19A7B0:
@@ -1042,10 +1043,8 @@ loc_19A7D6:
     BCC loc_19A7D6
     LDA #$16
     STA NMIFlags
-    LDA #$FC
-    LDX #$FF
-    STA Pointer
-    STX Pointer+1
+    ldxa #RESET_vector
+    stxa Pointer
     LDX #8
 
 loc_19A7EF:

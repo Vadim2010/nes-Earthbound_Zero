@@ -4,253 +4,315 @@
 
 .segment "BANK_8"
 
+    ; DIALOGS0 0x00-0x91
     .faraddr sSysError, sLampAlive, sFallingHouse, sBoohoo, sJuice, sSpooky, sScaredToDeath, sSysError
-    .faraddr sMimmieNotMinnie, sHouseEmergency, sSonBravery, sWounded, sNextLevel, sReturnOffer, sPoltergeist
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSlam, sYourDad, sTransfer, sRest, sSave, sCrisis
-    .faraddr sSysError, sSysError, sSleepSave, sSeeYouLater, sAdviceToRest, sSaveOffer, sSysError, sSysError
-    .faraddr sGoodLuck, sSysError, sThanks, sCemetery, sTerrific, sZombieAsk, sZombiePanic, sHuman, sCame
-    .faraddr sYouSee, sWetPants, sDreadful, sPanic, sTransformation, sDeadControl, sPraise, sZombieAnywhere
-    .faraddr sChick, sHum, sChickVoice, sGentleman, sBraveMan, sLittleGirl, sToCemetery, sSensibleChild
-    .faraddr sEmergency, sSuper, sSysError, sPoltergeistDamage, sMadAnimals, sMarkTrail, sTownHelp, sHelp
-    .faraddr sSaveHer, sPrize, sSysError, sSysError, sZoo, sGetKey, sGetZooKey, sHero, sRunKid, sWonderGirl
-    .faraddr sZooKeys, sEscaped, sBuyChick, sChickPrice, sFreeCountry, sTakeCare, sFree, sHowChick, sAnimalControl
-    .faraddr sCutePets, sHmmm, sStupid, sReturn, sMindVoice, sGood, sShopping, sNoCard, sSysError, sFineWeather
-    .faraddr sReturnBaby, sImportant, sLaura, sMelody, sNoGood, sSongPower, sFoundPippi, sSwellHeaded, sHopeMeet
+    .faraddr sMimmieNotMinnie, sHouseEmergency, sSonBravery, sWounded, sNextLevel, sReturnOffer, sPoltergeist, sSysError
+    .faraddr sSysError, sSysError, sSysError, sSlam, sYourDad, sTransfer, sRest, sSave
+    .faraddr sCrisis, sSysError, sSysError, sSleepSave, sSeeYouLater, sAdviceToRest, sSaveOffer, sSysError
+    .faraddr sSysError, sGoodLuck, sSysError, sThanks, sCemetery, sTerrific, sZombieAsk, sZombiePanic
+    .faraddr sHuman, sCame, sYouSee, sWetPants, sDreadful, sPanic, sTransformation, sDeadControl
+    .faraddr sPraise, sZombieAnywhere, sChick, sHum, sChickVoice, sGentleman, sBraveMan, sLittleGirl
+    .faraddr sToCemetery, sSensibleChild, sEmergency, sSuper, sSysError, sPoltergeistDamage, sMadAnimals, sMarkTrail
+    .faraddr sTownHelp, sHelp, sSaveHer, sPrize, sSysError, sSysError, sZoo, sGetKey
+    .faraddr sGetZooKey, sHero, sRunKid, sWonderGirl, sZooKeys, sEscaped, sBuyChick, sChickPrice
+    .faraddr sFreeCountry, sTakeCare, sFree, sHowChick, sAnimalControl, sCutePets, sHmmm, sStupid
+    .faraddr sReturn, sMindVoice, sGood, sShopping, sNoCard, sSysError, sFineWeather, sReturnBaby
+    .faraddr sImportant, sLaura, sMelody, sNoGood, sSongPower, sFoundPippi, sSwellHeaded, sHopeMeet
     .faraddr sGift, sSomeoneSpecial, sSeeYouAgain, sSysError, sCutie, sEEEEEEEK, sLostTail, sStrangeClothes
-    .faraddr sSysError, sBothered, sStayHome, sTrouble, sNickname, sCoolNick, sTooBad, sHelloNick, sPhilosophy
-    .faraddr sGoodNick, sNotMet, sCannotPart, sSameThink, sMeetHim, sFountain, sFountainSearch, sEarring
-    .faraddr sMysteriousSound, sWest, sSysError, sSpoon, sFixedSpoon, sWithoutEffort, sStrangePerson, sThatsGood
-    .faraddr sKindness, sEnjoyMeal, sSuspicious, sFavoriteFood, sSysError, sSysError, sNoOcarina, sIsThatSo
-    .faraddr sBedReady
+    .faraddr sSysError, sBothered, sStayHome, sTrouble, sNickname, sCoolNick, sTooBad, sHelloNick
+    .faraddr sPhilosophy, sGoodNick, sNotMet, sCannotPart, sSameThink, sMeetHim, sFountain, sFountainSearch
+    .faraddr sEarring, sMysteriousSound, sWest, sSysError, sSpoon, sFixedSpoon, sWithoutEffort, sStrangePerson
+    .faraddr sThatsGood, sKindness, sEnjoyMeal, sSuspicious, sFavoriteFood, sSysError, sSysError, sNoOcarina
+    .faraddr sIsThatSo, sBedReady
 
-    .faraddr sUseBed, sNotHere, sOcarinaOfHope, sSysError, sDude, sGoAhead, sHeyKid, sNoExit, sOutside
-    .faraddr sEmbarrassed, sKeeper, sMimicker, sAnotherWorld, sSysError, sSysError, sIntoMagicHerb
-    .faraddr sGiveBigBag, sBorrowCard, sHoldMagicHerbs, sPromiseToReturn, sDontTrust, sReturnCard
+    ; DIALOGS1 0x92 - 0x10A
+    .faraddr sUseBed, sNotHere, sOcarinaOfHope, sSysError, sDude, sGoAhead
+    .faraddr sHeyKid, sNoExit, sOutside, sEmbarrassed, sKeeper, sMimicker, sAnotherWorld, sSysError
+    .faraddr sSysError, sIntoMagicHerb, sGiveBigBag, sBorrowCard, sHoldMagicHerbs, sPromiseToReturn, sDontTrust, sReturnCard
     .faraddr sQueenFeeling, sSolveRiddle, sNoRiddle, sBye, sSysError, sSingAgain, sRealSecret, sSysError
-    .faraddr sLonesome, sHappy, sLullaby, sHermit, sForgetful, sHealer, sIThoughtSo, sCaution, sMonkey
-    .faraddr sRidiculous, sLikeQueen, sRailsFixed, sSeeQueen, sNightmares, sForGirls, sZzzz, sSysError
-    .faraddr sLiar, sWarpBack, sPromise, sLearnMelody, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sPause, sSingMelody, sRightSong, sOhGiegue, sSysError, sBadDream, sSysError
-    .faraddr sGuess, sRibbon, sOnlyGirls, sCandy, sNotHelpless, sUseCandy, sSysError, sHowCandy, sOldMan
-    .faraddr sSysError, sStoneIntoHat, sDidYouCallMe, sIsThatRight, sYouNeedMoney, sHelpful, sWithdraw
-    .faraddr sTakeIt, sLessMoney, sIgnoreMe, sManNotExist, sMonologue, sLuckyUnlucky, sForgotten
+    .faraddr sLonesome, sHappy, sLullaby, sHermit, sForgetful, sHealer, sIThoughtSo, sCaution
+    .faraddr sMonkey, sRidiculous, sLikeQueen, sRailsFixed, sSeeQueen, sNightmares, sForGirls, sZzzz
+    .faraddr sSysError, sLiar, sWarpBack, sPromise, sLearnMelody, sSysError, sSysError, sSysError
+    .faraddr sSysError, sSysError, sPause, sSingMelody, sRightSong, sOhGiegue, sSysError, sBadDream
+    .faraddr sSysError, sGuess, sRibbon, sOnlyGirls, sCandy, sNotHelpless, sUseCandy, sSysError
+    .faraddr sHowCandy, sOldMan, sSysError, sStoneIntoHat, sDidYouCallMe, sIsThatRight, sYouNeedMoney, sHelpful
+    .faraddr sWithdraw, sTakeIt, sLessMoney, sIgnoreMe, sManNotExist, sMonologue, sLuckyUnlucky, sForgotten
     .faraddr sGarbage, sLeaveMe, sThatsRight, sTooMore, sWeirdThings, sCrazyStuff, sBestDoctor, sSysError
-    .faraddr sSysError, sBill, sSysError, sCured, sDieOwn, sCurfew, sSchool, sDuncansFactory, sFactoryPass
-    .faraddr sPassExpired, sSysError, sAwfulCreature, sSysError, sCurfewLifted, sSysError, sSysError
-    .faraddr sWeakling, sHeysWeakling, sPickingWeakling, sJustTeasing, sStealExplosives, sYourGlasses
-    .faraddr sIAmSuzy, sYouLookCute, sYouAreUgly, sRoofLocked, sYouDontTalk
+    .faraddr sSysError, sBill, sSysError, sCured, sDieOwn, sCurfew, sSchool, sDuncansFactory
+    .faraddr sFactoryPass, sPassExpired, sSysError, sAwfulCreature, sSysError, sCurfewLifted, sSysError, sSysError
+    .faraddr sWeakling, sHeysWeakling, sPickingWeakling, sJustTeasing, sStealExplosives, sYourGlasses, sIAmSuzy, sYouLookCute
+    .faraddr sYouAreUgly, sRoofLocked, sYouDontTalk
 
-    .faraddr sPushUps, sSchoolyard, sBeStudying, sSysError, sTerribleWife, sRealLife, sScram, sSomeTea, sSysError
-    .faraddr sFollowMe, sRespect, sDangerous, sPleaseTea, sDontRun, sStranger, sJustDontRun, sShowMe, sSysError
-    .faraddr sWhoAreYou, sExplosives, sImComingOut, sRocketsDream, sBeTired, sSysError, sComeToLab, sFire, sStayHere
-    .faraddr sInvention, sSysError, sPriceList, sSomeMoney, sSysError, sNewInvention, sOldList, sProtect, sSysError
-    .faraddr sBuyTicket, sNoWeapon, sSysError, sSysError, sSysError, sThenIts, sSysError, sSysError, sHatReward
+    ; DIALOGS2 0x10B - 0x18D
+    .faraddr sPushUps, sSchoolyard, sBeStudying, sSysError, sTerribleWife
+    .faraddr sRealLife, sScram, sSomeTea, sSysError, sFollowMe, sRespect, sDangerous, sPleaseTea
+    .faraddr sDontRun, sStranger, sJustDontRun, sShowMe, sSysError, sWhoAreYou, sExplosives, sImComingOut
+    .faraddr sRocketsDream, sBeTired, sSysError, sComeToLab, sFire, sStayHere, sInvention, sSysError
+    .faraddr sPriceList, sSomeMoney, sSysError, sNewInvention, sOldList, sProtect, sSysError, sBuyTicket
+    .faraddr sNoWeapon, sSysError, sSysError, sSysError, sThenIts, sSysError, sSysError, sHatReward
     .faraddr sLongLife, sWithoutTrain, sFunGame, sSysError, sHereItIs, sSlickMustache, sParkingViolations, sSwindler
     .faraddr sHoldMoney, sDontRunAway, sJustDo, sIncognito, sBigBelly, sSpeeders, sWithoutPaying, sOhImSoFull
     .faraddr sDangerousTown, sAreYouReady, sMySong, sFineBeThatWay, sItsTime, sSysError, sDragonsLullaby, sGhostHouse
-    .faraddr sSysError, sGiveMe, sBarter, sGiveYou, sGoingGiveMe, sTakeFleaBag, sFlu, sHighMountains, sMmhm, sCantUnderstand
-    .faraddr sGargle, sSysError, sMouthwashBuy, sColdDied, sSpookaneGhostHouse, sVacantHouse, sDontKnow, sAhhHa
-    .faraddr sNobodysHere, sWorstNightmare, sTURNBACK, sAagghh, sYoullNeverMake, sJustMouse, sOwners, sSmallRoom
-    .faraddr sAssistant, sSysError, sColorMeGone, sHints, sClown, sNotJollyGuy, sPessimist, sLifeOutdoors, sYourRocket
-    .faraddr sSysError, sMotherShip, sOrbit, sHouseKey, sRosemary, sMyBoy, sRenamed, sSnowmanTerminal, sDisappeared
-    .faraddr sMomLeft, sBeenGhostHouse, sHorrorStories, sMustGo, sDontCatchCold, sSysError, sLifeIsGame, sDontLate
-    .faraddr sConcerned, sSysError, sNotEnoughMoney, sRunningNose, sPlayingPerson, sTalkAbout, sCooperation
-    .faraddr sUrgentThings, sAreYou, sSilly
+    .faraddr sSysError, sGiveMe, sBarter, sGiveYou, sGoingGiveMe, sTakeFleaBag, sFlu, sHighMountains
+    .faraddr sMmhm, sCantUnderstand, sGargle, sSysError, sMouthwashBuy, sColdDied, sSpookaneGhostHouse, sVacantHouse
+    .faraddr sDontKnow, sAhhHa, sNobodysHere, sWorstNightmare, sTURNBACK, sAagghh, sYoullNeverMake, sJustMouse
+    .faraddr sOwners, sSmallRoom, sAssistant, sSysError, sColorMeGone, sHints, sClown, sNotJollyGuy
+    .faraddr sPessimist, sLifeOutdoors, sYourRocket, sSysError, sMotherShip, sOrbit, sHouseKey, sRosemary
+    .faraddr sMyBoy, sRenamed, sSnowmanTerminal, sDisappeared, sMomLeft, sBeenGhostHouse, sHorrorStories, sMustGo
+    .faraddr sDontCatchCold, sSysError, sLifeIsGame, sDontLate, sConcerned, sSysError, sNotEnoughMoney, sRunningNose
+    .faraddr sPlayingPerson, sTalkAbout, sCooperation, sUrgentThings, sAreYou, sSilly
 
-    .faraddr sMomSearch, sLikeDream, sStayWithMe, sPleaseStay, sDance, sIsntTime, sDoYouLoveMe, sWhatsMatter
-    .faraddr sDragonSleeps, sDragonAwoke, sSysError, sMyDaughter, sPeacefulSleep, sPassFound, sClimbedRocket, sMyGrandfather
-    .faraddr sPileBones, sSignpost, sCorpse, sCamelBones, sMoveFoot, sLikeTell, sDesert, sCharterFlights, sMines
-    .faraddr sRidePlane, sBuyFlight, sExpensive, sStubs, sBrokeTank, sSysError, sThankYou, sAngry, sSysError
-    .faraddr sParents, sHalt, sSuspiciousGuys, sSomething, sStudy, sMom, sDad, sBigShip, sWithoutAdult, sPleaseHoldMe
-    .faraddr sHoldMeToo, sHoldMe, sBegYou, sMyName, sMysticPower, sSysError, sGoogaa, sTeleportation, sSysError, sSysError
-    .faraddr sSysError, sSysError, sFromMountains, sCantCarry, sWiser, sWatchOutAround, sTheBBGang, sBlaBla, sNotBlaBla
-    .faraddr sBlackClouds, sHeyYouTwo, sLoveAndPeace, sLoveBurn, sLiveShowTicket, sDontGoStore, sStingyKids, sSecret
-    .faraddr sBlaBlaBoss, sRegrets, sBackRoom, sSysError, sDrink, sCops, sNoDrinks, sBadThing, sGoHome, sAnotherNight
-    .faraddr sBuy, sNoMoney, sParentsKilled, sHeWas, sWantSing, sThenGoAhead, sYoureShy, sSysError, sSawName, sCuteGirl
-    .faraddr sNiceSong, sIllSmashYou, sIKnowYouDidIt, sVengeance, sSysError, sAcceptHelp, sUsedPhoneCard, sGoodTeam
-    .faraddr sSysError, sSysError, sGreatHelp, sPushA, sBorrowGoods, sSysError, sBeatThem, sHurryUp, sDressingRoom
-    .faraddr sToldName, sLookAfter, sRegister, sHarbor, sStrawBerry, sBuyForMe, sNoWayToBuy, sStrawBerryTofu
-    .faraddr sSysError, sSysError, sGetHurt, sSysError, sFightTime, sComeOn, sEVE, sSysError, sSysError, sSysError, sSysError
-    .faraddr sHeavyBags, sWorn, sFighting, sRealized, sToWhom, sTooHeavy, sRestGoods, sCantGiveGoods, sWeaklingAway
-    .faraddr sWelcomePodunk, sCityZoo, sOceanView, sNoOneHere, sPlaced, sSuchMan, sBigHelp, sTriangle, sLostDentures
-    .faraddr sBadFeel, sPleaseComeToLab
+    ; DIALOGS3 0x18E - 0x220
+    .faraddr sMomSearch, sLikeDream
+    .faraddr sStayWithMe, sPleaseStay, sDance, sIsntTime, sDoYouLoveMe, sWhatsMatter, sDragonSleeps, sDragonAwoke
+    .faraddr sSysError, sMyDaughter, sPeacefulSleep, sPassFound, sClimbedRocket, sMyGrandfather, sPileBones, sSignpost
+    .faraddr sCorpse, sCamelBones, sMoveFoot, sLikeTell, sDesert, sCharterFlights, sMines, sRidePlane
+    .faraddr sBuyFlight, sExpensive, sStubs, sBrokeTank, sSysError, sThankYou, sAngry, sSysError
+    .faraddr sParents, sHalt, sSuspiciousGuys, sSomething, sStudy, sMom, sDad, sBigShip
+    .faraddr sWithoutAdult, sPleaseHoldMe, sHoldMeToo, sHoldMe, sBegYou, sMyName, sMysticPower, sSysError
+    .faraddr sGoogaa, sTeleportation, sSysError, sSysError, sSysError, sSysError, sFromMountains, sCantCarry
+    .faraddr sWiser, sWatchOutAround, sTheBBGang, sBlaBla, sNotBlaBla, sBlackClouds, sHeyYouTwo, sLoveAndPeace
+    .faraddr sLoveBurn, sLiveShowTicket, sDontGoStore, sStingyKids, sSecret, sBlaBlaBoss, sRegrets, sBackRoom
+    .faraddr sSysError, sDrink, sCops, sNoDrinks, sBadThing, sGoHome, sAnotherNight, sBuy
+    .faraddr sNoMoney, sParentsKilled, sHeWas, sWantSing, sThenGoAhead, sYoureShy, sSysError, sSawName
+    .faraddr sCuteGirl, sNiceSong, sIllSmashYou, sIKnowYouDidIt, sVengeance, sSysError, sAcceptHelp, sUsedPhoneCard
+    .faraddr sGoodTeam, sSysError, sSysError, sGreatHelp, sPushA, sBorrowGoods, sSysError, sBeatThem
+    .faraddr sHurryUp, sDressingRoom, sToldName, sLookAfter, sRegister, sHarbor, sStrawBerry, sBuyForMe
+    .faraddr sNoWayToBuy, sStrawBerryTofu, sSysError, sSysError, sGetHurt, sSysError, sFightTime, sComeOn
+    .faraddr sEVE, sSysError, sSysError, sSysError, sSysError, sHeavyBags, sWorn, sFighting
+    .faraddr sRealized, sToWhom, sTooHeavy, sRestGoods, sCantGiveGoods, sWeaklingAway, sWelcomePodunk, sCityZoo
+    .faraddr sOceanView, sNoOneHere, sPlaced, sSuchMan, sBigHelp, sTriangle, sLostDentures, sBadFeel
+    .faraddr sPleaseComeToLab
 
-    .faraddr sSysError, sPhenomenStopped, sSwitch, sIllCook, sSysError, sSysError, sSysError, sPippiGone, sWhichOne
-    .faraddr sIllGiveYou, sCosmosShip, sSysError, sSysError, sLying, sTrio, sWhichKeep, sSysError, sDragonDeepSleep
-    .faraddr sSysError, sWhatCanIDo, sSysError, sKeep, sBrotherTakeCare, sTakeWithYou, sRockSlide, sYouMean
-    .faraddr sCantCarryMore, sSysError, sSeemLessMoney, sTooMuchCarry, sNeedMoreMoney, sBeCareful, sSysError
-    .faraddr sAnythingMore, sMedicine, sHopeSleepWell, sSysError, sHowMuchWithdraw, sDeposit, sGoBack, sCantCarryAll
-    .faraddr sShame, sOtherTime, sSysError, sWhichFlightplan, sSysError, sSysError, sWithoutDentures, sNotEnough
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sToughTime, sWish, sTeach, sJustFine
-    .faraddr sSysError, sMakeMad, sPickedUpPass, sHmm, sLoadTooHeavy, sTaste, sFantasticRobot, sBakerTaste, sTakeWords
-    .faraddr sLifeUpSleep, sLoadHeavy, sGetGift, sGiveGift, sHorrible, sFainted, sGratitude, sIAmLaura, sSysError
-    .faraddr sSysError, sSysError, sStopAndRest, sNoForGirl, sSysError, sHello, sGoodMorning, sComeAgain, sMorning
-    .faraddr sMonkeys, sLikeMonkey, sRaccoon, sEyesight, sCoolDown, sTakeRest, sJustGame, sCaughtMe, sDirection
-    .faraddr sQuietHere, sWalkStraight, sLady, sMan, sSysError, sLala, sHowLong, sGoodStory, sNice, sAmbitions
-    .faraddr sInside, sLiars, sRetreat, sNewFriend, sQuietMonkey, sDish, sAllLiars, sMonkeyBoss, sBigMistake, sHelpMe
-    .faraddr sTelephone, sAbbott, sShareSecret, sStayNight, sTraveller, sHauntingMelody, sSysError, sBeFound, sHeadquarters
-    .faraddr sSysError, sSysError, sLandmine, sDogCrap, sCertificate, sNiceTrip, sPatient, sNoPatient, sBadFlu, sDontCold
-    .faraddr sInn, sHi, sRestaurant, sLoveMusic, sDelicious, sHotel, sRoomRate, sBigRocks, sCheckMe, sDontHaveMoney, sMenu
-    .faraddr sFoodToGo, sSysError, sSysError, sHeNotCome, sHopeEnjoy, sWaiter, sIWantToTry, sSysError, sSysError
-    .faraddr sStopZombies, sItsMePippi, sMy, sItsCash, sAppetite, sSysError, sTrackRuined, sDontStop, sThinkAbout
-    .faraddr sAdventures, sCanaryVillage
+    ; DIALOGS4 0x221 - 0x2C5
+    .faraddr sSysError, sPhenomenStopped, sSwitch, sIllCook, sSysError, sSysError, sSysError
+    .faraddr sPippiGone, sWhichOne, sIllGiveYou, sCosmosShip, sSysError, sSysError, sLying, sTrio
+    .faraddr sWhichKeep, sSysError, sDragonDeepSleep, sSysError, sWhatCanIDo, sSysError, sKeep, sBrotherTakeCare
+    .faraddr sTakeWithYou, sRockSlide, sYouMean, sCantCarryMore, sSysError, sSeemLessMoney, sTooMuchCarry, sNeedMoreMoney
+    .faraddr sBeCareful, sSysError, sAnythingMore, sMedicine, sHopeSleepWell, sSysError, sHowMuchWithdraw, sDeposit
+    .faraddr sGoBack, sCantCarryAll, sShame, sOtherTime, sSysError, sWhichFlightplan, sSysError, sSysError
+    .faraddr sWithoutDentures, sNotEnough, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
+    .faraddr sToughTime, sWish, sTeach, sJustFine, sSysError, sMakeMad, sPickedUpPass, sHmm
+    .faraddr sLoadTooHeavy, sTaste, sFantasticRobot, sBakerTaste, sTakeWords, sLifeUpSleep, sLoadHeavy, sGetGift
+    .faraddr sGiveGift, sHorrible, sFainted, sGratitude, sIAmLaura, sSysError, sSysError, sSysError
+    .faraddr sStopAndRest, sNoForGirl, sSysError, sHello, sGoodMorning, sComeAgain, sMorning, sMonkeys
+    .faraddr sLikeMonkey, sRaccoon, sEyesight, sCoolDown, sTakeRest, sJustGame, sCaughtMe, sDirection
+    .faraddr sQuietHere, sWalkStraight, sLady, sMan, sSysError, sLala, sHowLong, sGoodStory
+    .faraddr sNice, sAmbitions, sInside, sLiars, sRetreat, sNewFriend, sQuietMonkey, sDish
+    .faraddr sAllLiars, sMonkeyBoss, sBigMistake, sHelpMe, sTelephone, sAbbott, sShareSecret, sStayNight
+    .faraddr sTraveller, sHauntingMelody, sSysError, sBeFound, sHeadquarters, sSysError, sSysError, sLandmine
+    .faraddr sDogCrap, sCertificate, sNiceTrip, sPatient, sNoPatient, sBadFlu, sDontCold, sInn
+    .faraddr sHi, sRestaurant, sLoveMusic, sDelicious, sHotel, sRoomRate, sBigRocks, sCheckMe
+    .faraddr sDontHaveMoney, sMenu, sFoodToGo, sSysError, sSysError, sHeNotCome, sHopeEnjoy, sWaiter
+    .faraddr sIWantToTry, sSysError, sSysError, sStopZombies, sItsMePippi, sMy, sItsCash, sAppetite
+    .faraddr sSysError, sTrackRuined, sDontStop, sThinkAbout, sAdventures, sCanaryVillage
 
-    .faraddr sReceptionist, sAsthma, sRules, sLookHappy, sDuncanEnterprises, sDoctor, sSurvey, sGetToSchool, sElection
-    .faraddr sHugeRockets, sOrdinaryMan, sBlownUp, sImportantMan, sLittleFactory, sScaryMonsters, sLaala, sJanitor
-    .faraddr sTheOldMan, sTunnel, sResidential, sFoodOut, sArchitecture, sBicycle, sBegFood, sDresses, sPsychicPowers
+    ; DIALOGS5 0x2C6 - 0x34E
+    .faraddr sReceptionist, sAsthma
+    .faraddr sRules, sLookHappy, sDuncanEnterprises, sDoctor, sSurvey, sGetToSchool, sElection, sHugeRockets
+    .faraddr sOrdinaryMan, sBlownUp, sImportantMan, sLittleFactory, sScaryMonsters, sLaala, sJanitor, sTheOldMan
+    .faraddr sTunnel, sResidential, sFoodOut, sArchitecture, sBicycle, sBegFood, sDresses, sPsychicPowers
     .faraddr sSmallMan, sLoveTown, sDonation, sGoodMedicine, sPostman, sNewAddress, sRosemaryGirl, sMonsters
-    .faraddr sWhatDoYouWant, sClairvoyant, sMansion, sChateau, sCrazyKids, sCamelsBones, sSmallWounds, sGrowUp, sLibrary
-    .faraddr sFisherman, sWay, sHey, sLowHP, sLoser, sStrongMan, sPinkie, sDidYouRead, sCactus, sTalkFisherman, sCartwheel
-    .faraddr sTelescopes, sSmoke, sICantDo, sSubtraction, sTasteStrawBerry, sHungry, sFavoriteWords, sYouAreLate, sStrangeMan
-    .faraddr sMario, sSell, sOutStock, sDontNeed, sVisit, sAreYouSure, sGladToSeeYou, sDeathbed, sTreat, sTreatment, sFine
-    .faraddr sFineAgain, sSysError, sIAmHealer, sOKDoWhatYou, sGive, sCareStay, sSorryHearThat, sSleepTight, sGreetings
-    .faraddr sInjuries, sWhoAreYouHere, sSysError, sPlaceStay, sLonelyHere, sSpendNight, sTicketsPlease, sHowever, sSysError
-    .faraddr sLeaveTakeout, sYouHaveNothing, sLeftAnything, sJustMoment, sCanIHelpYou, sBalance, sSysError, sThereIsnt, sLimit
-    .faraddr sThankYouVeryMuch, sInsideDoll, sAsk, sGratitudes, sWeapons, sSysError, sWon, sWithdrawDeposit, sAccount
-    .faraddr sDoorLocked, sNotFit, sUnlocked, sYesNo, sContinueRest, sGrabbed, sImSorry, sOhNoSir, sSirYouCant, sExpert
-    .faraddr sSorryICant, sReunion, sTune, sThisCanary, sMonkeyStole, sRobot, sPresence, sFor, sDoYouBest, sSysError
+    .faraddr sWhatDoYouWant, sClairvoyant, sMansion, sChateau, sCrazyKids, sCamelsBones, sSmallWounds, sGrowUp
+    .faraddr sLibrary, sFisherman, sWay, sHey, sLowHP, sLoser, sStrongMan, sPinkie
+    .faraddr sDidYouRead, sCactus, sTalkFisherman, sCartwheel, sTelescopes, sSmoke, sICantDo, sSubtraction
+    .faraddr sTasteStrawBerry, sHungry, sFavoriteWords, sYouAreLate, sStrangeMan, sMario, sSell, sOutStock
+    .faraddr sDontNeed, sVisit, sAreYouSure, sGladToSeeYou, sDeathbed, sTreat, sTreatment, sFine
+    .faraddr sFineAgain, sSysError, sIAmHealer, sOKDoWhatYou, sGive, sCareStay, sSorryHearThat, sSleepTight
+    .faraddr sGreetings, sInjuries, sWhoAreYouHere, sSysError, sPlaceStay, sLonelyHere, sSpendNight, sTicketsPlease
+    .faraddr sHowever, sSysError, sLeaveTakeout, sYouHaveNothing, sLeftAnything, sJustMoment, sCanIHelpYou, sBalance
+    .faraddr sSysError, sThereIsnt, sLimit, sThankYouVeryMuch, sInsideDoll, sAsk, sGratitudes, sWeapons
+    .faraddr sSysError, sWon, sWithdrawDeposit, sAccount, sDoorLocked, sNotFit, sUnlocked, sYesNo
+    .faraddr sContinueRest, sGrabbed, sImSorry, sOhNoSir, sSirYouCant, sExpert, sSorryICant, sReunion
+    .faraddr sTune, sThisCanary, sMonkeyStole, sRobot, sPresence, sFor, sDoYouBest, sSysError
     .faraddr sMysteriousWater, sSysError, sMyLittle, sImBusy, sPoisoned, sSoftened, sNoPoisoned
 
-    .faraddr sTurnedStone, sManufacture, sMyWife, sUnlockedRoof, sConstructing, sCallMeNames, sDawn, sPardon, sDontTalk
+    ; DIALOGS6 0x34F - 0x3DC
+    .faraddr sTurnedStone
+    .faraddr sManufacture, sMyWife, sUnlockedRoof, sConstructing, sCallMeNames, sDawn, sPardon, sDontTalk
     .faraddr sGameTitle, sSysError, sLadyReindeer, sImportantHint, sCheck, sTheSingingMonkey, sCactusSang, sPiano
     .faraddr sDragonCrooned, sRobotEve, sOneOfKind, sPadlock, sIMustStayHere, sNotEnoughCash, sGoFirst, sBrokenLock
-    .faraddr sHowAreYou, sLet, sNoICant, sFlyingMan, sStrongAlly, sBenevolent, sSorrow, sHorror, sProclamation, sDeep
-    .faraddr sCanTelepathy, sAreYouGoing, sFoundHat, sWellIhad, sUniqueSong, sExcuseMe, sSysError, sDoYouThink, sUsedBullhorn
-    .faraddr sExchange, sQuestionnaire, sHearing, sPriedUpLid, sTelescope, sBlueSea, sSparkled, sSuddenly, sDaddy, sSysError
-    .faraddr sTalking, sWhat, sNoProblem, sQueenVoice, sSysError, sSysError, sWeaponsShop, sSysError, sSysError, sUsed, sCantUse
+    .faraddr sHowAreYou, sLet, sNoICant, sFlyingMan, sStrongAlly, sBenevolent, sSorrow, sHorror
+    .faraddr sProclamation, sDeep, sCanTelepathy, sAreYouGoing, sFoundHat, sWellIhad, sUniqueSong, sExcuseMe
+    .faraddr sSysError, sDoYouThink, sUsedBullhorn, sExchange, sQuestionnaire, sHearing, sPriedUpLid, sTelescope
+    .faraddr sBlueSea, sSparkled, sSuddenly, sDaddy, sSysError, sTalking, sWhat, sNoProblem
+    .faraddr sQueenVoice, sSysError, sSysError, sWeaponsShop, sSysError, sSysError, sUsed, sCantUse
     .faraddr sDontBeSilly, sEquipped, sCantEquip, sThrewAway, sDontThrow, sHanded, sCantHandOver, sCantCarryAnyMore
-    .faraddr sNothingHappened, sOpened, sThereWas, sGot, sSysError, sCantCarryAnything, sSysError, sSysError, sSysError
-    .faraddr sItWasEmpty, sCurePoison, sCityZooSign, sNoHunting, sCityHall, sLookOutTower, sEllayMountSign, sHealersHouse, sSign
-    .faraddr sCityZooWest, sSnowmanChateau, sEllaySwampSign, sTwinkle, sHouse, sWestNorthSign, sWestEastSouth, sWestEastSign
-    .faraddr sSwampEast, sPrivateProperty, sPoliceStation, sCompanyInc, sPride, sServe, sDestiny, sTheCurfew, sOldRustyRocket
-    .faraddr sDidYouCome, sIveGivenYouAll, sIAmMinnie, sRefreshSoften, sLikeBeAlone, sOhShoot, sLovedYou, sLoudNoises, sNoises
-    .faraddr sBoatMotor, sAbleFixIt, sFired, sIllSend, sClaustrophobia, sSweetFactory, sKidnapped, sSpelled, sOddSound, sSysError
-    .faraddr sMostPrized, sCollar, sNoisyMouse, sSysError, sPsychicPower, sILovedHim, sWaggingTail, sPurpose, sInsertCard
-    .faraddr sDontMuchCash, sDataSaved, sYouSaidYes, sBreath, sAnyFriends, sPossession
+    .faraddr sNothingHappened, sOpened, sThereWas, sGot, sSysError, sCantCarryAnything, sSysError, sSysError
+    .faraddr sSysError, sItWasEmpty, sCurePoison, sCityZooSign, sNoHunting, sCityHall, sLookOutTower, sEllayMountSign
+    .faraddr sHealersHouse, sSign, sCityZooWest, sSnowmanChateau, sEllaySwampSign, sTwinkle, sHouse, sWestNorthSign
+    .faraddr sWestEastSouth, sWestEastSign, sSwampEast, sPrivateProperty, sPoliceStation, sCompanyInc, sPride, sServe
+    .faraddr sDestiny, sTheCurfew, sOldRustyRocket, sDidYouCome, sIveGivenYouAll, sIAmMinnie, sRefreshSoften, sLikeBeAlone
+    .faraddr sOhShoot, sLovedYou, sLoudNoises, sNoises, sBoatMotor, sAbleFixIt, sFired, sIllSend
+    .faraddr sClaustrophobia, sSweetFactory, sKidnapped, sSpelled, sOddSound, sSysError, sMostPrized, sCollar
+    .faraddr sNoisyMouse, sSysError, sPsychicPower, sILovedHim, sWaggingTail, sPurpose, sInsertCard, sDontMuchCash
+    .faraddr sDataSaved, sYouSaidYes, sBreath, sAnyFriends, sPossession
 
-    .faraddr sLoadTooGreat, sClosetFull, sMirage, sBraveChildren, sCanDash, sGetTrain, sDoYouWant, sMelodyForYou, sCrystal
-    .faraddr sSysError, sEmpty1
+    ; DIALOGS7 0x3DD - 0x3E7
+    .faraddr sLoadTooGreat, sClosetFull, sMirage
+    .faraddr sBraveChildren, sCanDash, sGetTrain, sDoYouWant, sMelodyForYou, sCrystal, sSysError, sEmpty1
 
-    .faraddr sEmpty4, sBagFilled, sCharge, sBreadCrumbs, sStrangeRing, sEmpty5, sEmpty6, sEmpty7, sEmpty8, sEmpty9, sKnife
-    .faraddr sSurvivalKnife, sSwordMaster, sJapaneseSword, sStunGunUse, sStrongWeapon, sPlasticBatUse, sWoodenBatUse, sTougher
-    .faraddr sAutographed, sFryingPanUse, sNonStickPan, sIronSkilletUse, sSlingshotUse, sBoomerangUse, sIrritating, sIndustrial
-    .faraddr sCritters, sWordsLove, sSwear, sStickyMachine, sOpposite, sEmpty10, sEmpty11, sFlameThrower, sDetonate, sBewareBlast
-    .faraddr sSissy, sWeenie, sEmpty12, sEnemyUp, sEmpty13, sEmpty14, sEmpty15, sEmpty16, sPeaceCoinUse, sProtectionCoin
-    .faraddr sMagicCoinUse, sBrassRingUse, sSilverRingUse, sGoldRingUse, sWaterPendant, sFirePendantUse, sEarthPendant
-    .faraddr sSeaPendantUse, sEmpty17, sEmpty18, sEmpty19, sEmpty20, sEmpty21, sVitaminC, sEaten, sMagicHerbUse, sFastFood
+    ; DIALOGS8 0x3E8 - 0x467
+    .faraddr sEmpty4, sBagFilled, sCharge, sBreadCrumbs, sStrangeRing, sEmpty5, sEmpty6, sEmpty7
+    .faraddr sEmpty8, sEmpty9, sKnife, sSurvivalKnife, sSwordMaster, sJapaneseSword, sStunGunUse, sStrongWeapon
+    .faraddr sPlasticBatUse, sWoodenBatUse, sTougher, sAutographed, sFryingPanUse, sNonStickPan, sIronSkilletUse, sSlingshotUse
+    .faraddr sBoomerangUse, sIrritating, sIndustrial, sCritters, sWordsLove, sSwear, sStickyMachine, sOpposite
+    .faraddr sEmpty10, sEmpty11, sFlameThrower, sDetonate, sBewareBlast, sSissy, sWeenie, sEmpty12
+    .faraddr sEnemyUp, sEmpty13, sEmpty14, sEmpty15, sEmpty16, sPeaceCoinUse, sProtectionCoin, sMagicCoinUse
+    .faraddr sBrassRingUse, sSilverRingUse, sGoldRingUse, sWaterPendant, sFirePendantUse, sEarthPendant, sSeaPendantUse, sEmpty17
+    .faraddr sEmpty18, sEmpty19, sEmpty20, sEmpty21, sVitaminC, sEaten, sMagicHerbUse, sFastFood
     .faraddr sStrengthen, sLifeUpCreamUse, sAsthmaAttacks, sAntidotePoison, sYouGargle, sStrawBerryEat, sEmpty22, sBreadTrail
     .faraddr sNobleSeedUse, sPSISolid, sEmpty23, sMagicForce, sMagicCandyEat, sEmpty24, sQuickCapsule, sWisdomCapsule
     .faraddr sPhysicalCapsule, sForceCapsule, sFightCapsule, sEmpty25, sEmpty26, sBasementKeyUse, sUnlockGate, sGhostHouseKey
-    .faraddr sGreatGrandFathers, sEmployee, sRocknRoll, sEmpty27, sEmpty28, sEmpty29, sEmpty30, sCanaryChickEyes, sEmpty31
-    .faraddr sBottleRocket, sPrettyHat, sBrush, sSaveTen, sEmpty32, sCatchyTune, sEmpty33, sFranklinBadge, sEmpty34, sEmpty35
-    .faraddr sOnyxHookWarp, sLastWeaponAsk, sRulerInches, sCashCardUse, sRedWeedLike, sAmplified, sEmpty36, sEmpty37, sEmpty38
-    .faraddr sEmpty39, sEmpty40, sEmpty41, sEmpty42, sEmpty43, sEmpty44, sEmpty45, sEmpty46, sEmpty47, sEmpty48, sEmpty49, sDbg
+    .faraddr sGreatGrandFathers, sEmployee, sRocknRoll, sEmpty27, sEmpty28, sEmpty29, sEmpty30, sCanaryChickEyes
+    .faraddr sEmpty31, sBottleRocket, sPrettyHat, sBrush, sSaveTen, sEmpty32, sCatchyTune, sEmpty33
+    .faraddr sFranklinBadge, sEmpty34, sEmpty35, sOnyxHookWarp, sLastWeaponAsk, sRulerInches, sCashCardUse, sRedWeedLike
+    .faraddr sAmplified, sEmpty36, sEmpty37, sEmpty38, sEmpty39, sEmpty40, sEmpty41, sEmpty42
+    .faraddr sEmpty43, sEmpty44, sEmpty45, sEmpty46, sEmpty47, sEmpty48, sEmpty49, sDbg
 
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError
-
-    .faraddr sEmpty50, sFightRun, sImportantSecret, sDefeat, sDontLetStop, sPorridge, sSurprised, sAsthmatic, sHypnotism
-    .faraddr sSpecialArmor, sAwful, sNotExist, sPrimate, sFace, sWatchThoseEyes, sNoOne, sStrong, sShell, sHhypnotism, sEmpty51
-    .faraddr sQuickness, sPearly, sThief, sInvitation, sFuel, sGuarding, sFBI, sRotten, sMalnourishedRobot, sTricked, sStarsMan
-    .faraddr sNaturally, sEvilLab, sPSIAttack, sArmorOwn, sAnimatedTree, sTemper, sFlowers, sFridge, sBadApple, sTwisted
-    .faraddr sEmpty52, sSmash, sSneak, sWallet, sNotPoison, sLaughsLast, sPetCat, sExterminate, sAHCho, sEffective, sYoullWantTry
-    .faraddr sPoisonous, sDontLetYourself, sComicBook, sDraw, sIdentity, sOrdinaryGhost, sDinnerPlate, sPuzzle, sSpaceman
-    .faraddr sHoldYourNose, sLastStrike, sRatTail, sEgg, sEmpty53, sStares, sHovers, sEmpty54, sEmpty55, sStrongPoison, sBeware
-    .faraddr sEmpty56, sEmpty57, sGoodExperience, sDoesntFriends, sChairBroken, sEmpty58, sEmpty59, sEmpty60, sEmpty61
-    .faraddr sWhereAntidote, sPoisonPoison, sDontSmile, sEmpty62, sHisFace, sEmpty63, sOriginStone, sFleas, sCar, sVehicle, sNext
-    .faraddr sDontAlarm, sEmpty64, sOptometrists, sWatchYourStep, sMomseyesWillSpot, sEmpty65, sEmpty66, sFriends
-
-    .faraddr sEmpty67, sHePKBeam, sStrongOx, sRagged, sTheLatest, sManhole, sBeauty, sCarries, sPlenty, sStrongPSIAttack
-    .faraddr sHisPurpose, sFreeze, sBeatIt, sUsingPSI, sEmpty68, sCareful, sBareHands, sCoat, sHuge, sMustSleep, sImproved
-    .faraddr sTheStrongest, sSysError, sSysError, sSysError, sSysError, sSysError, sEmpty69
-
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError
-
-    .faraddr sEmpty70, sEmpty70, sPos, sDrewNear, sAttack, sTankGun, sDodged, sContinuousAttack, sBit, sScratched, sCharged
-    .faraddr sSMAAAASH, sSuffered, sYOUWIN, sLose, sDefeated, sHurt, sGone, sNoEffect, sRanOut, sExhausted, sLastBlow
-    .faraddr sForm, sSurrounded, sMotherCall, sTturned, sSpit, sBlinded, sBound, sStrangeCry, sExploded, sBurst, sOFFENSEinc
-    .faraddr sOFFENSEdec, sDEFENSEinc, sSPEEDinc, sOFFENSE, sDEFENSE, sFIGHTdec, sDEFENSEdec, sDarlingSmile, sFIGHTinc, sRage
-    .faraddr sSPEEDdec, sConfused, sCriedOut, sSowed, sEXPinc, sStarted, sTankBroken, sUttered, sDirtyWords, sGrins, sBelieved
-    .faraddr sWasntConvinced, sMadeAngry, sCritical, sSenses, sSoConfused, sPutSleep, sIsAsleep, sRecoverPP, sRecoverHP, sEnergy
-    .faraddr sHoweverNoOne, sSilence, sJoined, sRanAway, sDidntWork, sTripped, sCantMove, sTurned, sSnatched, sCannotMove
-    .faraddr sPuffed, sWasPoisoned, sDehydrated, sBlocked, sWasBound, sShielded, sMiss, sPSIBlocked, sBounced, sBouncedBack
-    .faraddr sNotenoughPPs, sWasNoEffect, sWheeze, sMeditating, sSaid, sReady, sSang, sIsGuarding, sApproached, sDissipated
-    .faraddr sRegained, sItchy, sCanMove, sWakeUp, sBrought, sUSEd, sTtried, sCcantUse, sCircumstances, sSomethingStrange
-    .faraddr sDayDreaming, sDestroyed, sCHECKed, sAgainstFire, sAgainstFreeze, sAgainstThunder, sAgainstBeam, sWeakSprays
-    .faraddr sAsthmaAttackPass, sRecoveredStone, sILoveYou, sIHateYou, sAsthmaAttack, sWasBroken, sWickedSeed, sGas, sTurnedIntoStone
-    .faraddr sRegainedSenses, sQuiet, sBeaten, sWasDestroyed, sDust, sDidntMove, sPileJunk, sVanished, sTookAway, sAdvanced
-    .faraddr sNewPSIPower, sMaximumHPinc, sMaximumPPinc, sFIGHTInc, sSPEEDInc, sWISDOMinc, sSTRENGTHinc, sFORCEinc, sEscapedRope
-    .faraddr sPickedUp, sWasntConfused, sWokeUp, sZAP, sItNoEffect, sBecameEmpty, sLingers, sSingLullaby, sEmpty70, sEmpty70
-    .faraddr sGrateful, sYourGreat, sGeorgeStole, sDescendants, sGoHomeNow, sFoolish, sYouAlone, sFallSleep, sStopSinging
-    .faraddr sSTOPSinging, sSTOP, sSTOPIT, sPuny, sTheSONG, sSTOPIt, sExclamation, sStop, sAcclamation, sPoints, sBeDefeated
-    .faraddr sIWill, sMeetAgain
-
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
+    ; errors 0x468 - 0x513
     .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-
-    .faraddr sEmpty2, sDidntDo, sGave, sPut, sPulled, sThrew, sTook, sSysError, sSysError, sSysError, sSysError, sAte, sDrank
-    .faraddr sRecovered, sIncreased, sHPis, sPPis, sENERGYis, sSPEEDis, sWISDOMis, sSTRENGTHis, sFORCEis, sTookHerb, sDropping
-    .faraddr sYouCantUse, sHeadTrail, sTied, sTrue, sMeasured, sWhenBigBag, sReached, sNeutralized, sRid, sSqueezed, sPSIPower
-    .faraddr sTried, sPowerLeft, sScene, sTheDiary, sBecame, sTheOcarina, sDidYouHearIt, sPlace, sChecked, sStopped, sTheRepelRing
-
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
+    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
+    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
+    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
+    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
+    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
+    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
+    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
+    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
+    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
+    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
+    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
+    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
+    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
+    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
+    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
+    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
+    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
+    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
+    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
+    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
     .faraddr sSysError, sSysError, sSysError, sSysError
 
+    ; DIALOGS8 0x514 - 0x577
+    .faraddr sEmpty50, sFightRun, sImportantSecret, sDefeat
+    .faraddr sDontLetStop, sPorridge, sSurprised, sAsthmatic, sHypnotism, sSpecialArmor, sAwful, sNotExist
+    .faraddr sPrimate, sFace, sWatchThoseEyes, sNoOne, sStrong, sShell, sHhypnotism, sEmpty51
+    .faraddr sQuickness, sPearly, sThief, sInvitation, sFuel, sGuarding, sFBI, sRotten
+    .faraddr sMalnourishedRobot, sTricked, sStarsMan, sNaturally, sEvilLab, sPSIAttack, sArmorOwn, sAnimatedTree
+    .faraddr sTemper, sFlowers, sFridge, sBadApple, sTwisted, sEmpty52, sSmash, sSneak
+    .faraddr sWallet, sNotPoison, sLaughsLast, sPetCat, sExterminate, sAHCho, sEffective, sYoullWantTry
+    .faraddr sPoisonous, sDontLetYourself, sComicBook, sDraw, sIdentity, sOrdinaryGhost, sDinnerPlate, sPuzzle
+    .faraddr sSpaceman, sHoldYourNose, sLastStrike, sRatTail, sEgg, sEmpty53, sStares, sHovers
+    .faraddr sEmpty54, sEmpty55, sStrongPoison, sBeware, sEmpty56, sEmpty57, sGoodExperience, sDoesntFriends
+    .faraddr sChairBroken, sEmpty58, sEmpty59, sEmpty60, sEmpty61, sWhereAntidote, sPoisonPoison, sDontSmile
+    .faraddr sEmpty62, sHisFace, sEmpty63, sOriginStone, sFleas, sCar, sVehicle, sNext
+    .faraddr sDontAlarm, sEmpty64, sOptometrists, sWatchYourStep, sMomseyesWillSpot, sEmpty65, sEmpty66, sFriends
+
+    ; DIALOGS9 0x578 - 0x583
+    .faraddr sEmpty67, sHePKBeam, sStrongOx, sRagged, sTheLatest, sManhole, sBeauty, sCarries
+    .faraddr sPlenty, sStrongPSIAttack, sHisPurpose, sFreeze, sBeatIt, sUsingPSI, sEmpty68, sCareful
+    .faraddr sBareHands, sCoat, sHuge, sMustSleep, sImproved, sTheStrongest, sSysError, sSysError
+    .faraddr sSysError, sSysError, sSysError, sEmpty69
+
+    ; errors 0x584 - 0x5CB
+    .faraddr sSysError, sSysError, sSysError, sSysError
+    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
+    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
+    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
+    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
+    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
+    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
+    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
+    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
+    .faraddr sSysError, sSysError, sSysError, sSysError
+
+    ; DIALOGS9 0x5CC - 0x677
+    .faraddr sEmpty70, sEmpty70, sPos, sDrewNear
+    .faraddr sAttack, sTankGun, sDodged, sContinuousAttack, sBit, sScratched, sCharged, sSMAAAASH
+    .faraddr sSuffered, sYOUWIN, sLose, sDefeated, sHurt, sGone, sNoEffect, sRanOut
+    .faraddr sExhausted, sLastBlow, sForm, sSurrounded, sMotherCall, sTturned, sSpit, sBlinded
+    .faraddr sBound, sStrangeCry, sExploded, sBurst, sOFFENSEinc, sOFFENSEdec, sDEFENSEinc, sSPEEDinc
+    .faraddr sOFFENSE, sDEFENSE, sFIGHTdec, sDEFENSEdec, sDarlingSmile, sFIGHTinc, sRage, sSPEEDdec
+    .faraddr sConfused, sCriedOut, sSowed, sEXPinc, sStarted, sTankBroken, sUttered, sDirtyWords
+    .faraddr sGrins, sBelieved, sWasntConvinced, sMadeAngry, sCritical, sSenses, sSoConfused, sPutSleep
+    .faraddr sIsAsleep, sRecoverPP, sRecoverHP, sEnergy, sHoweverNoOne, sSilence, sJoined, sRanAway
+    .faraddr sDidntWork, sTripped, sCantMove, sTurned, sSnatched, sCannotMove, sPuffed, sWasPoisoned
+    .faraddr sDehydrated, sBlocked, sWasBound, sShielded, sMiss, sPSIBlocked, sBounced, sBouncedBack
+    .faraddr sNotenoughPPs, sWasNoEffect, sWheeze, sMeditating, sSaid, sReady, sSang, sIsGuarding
+    .faraddr sApproached, sDissipated, sRegained, sItchy, sCanMove, sWakeUp, sBrought, sUSEd
+    .faraddr sTtried, sCcantUse, sCircumstances, sSomethingStrange, sDayDreaming, sDestroyed, sCHECKed, sAgainstFire
+    .faraddr sAgainstFreeze, sAgainstThunder, sAgainstBeam, sWeakSprays, sAsthmaAttackPass, sRecoveredStone, sILoveYou, sIHateYou
+    .faraddr sAsthmaAttack, sWasBroken, sWickedSeed, sGas, sTurnedIntoStone, sRegainedSenses, sQuiet, sBeaten
+    .faraddr sWasDestroyed, sDust, sDidntMove, sPileJunk, sVanished, sTookAway, sAdvanced, sNewPSIPower
+    .faraddr sMaximumHPinc, sMaximumPPinc, sFIGHTInc, sSPEEDInc, sWISDOMinc, sSTRENGTHinc, sFORCEinc, sEscapedRope
+    .faraddr sPickedUp, sWasntConfused, sWokeUp, sZAP, sItNoEffect, sBecameEmpty, sLingers, sSingLullaby
+    .faraddr sEmpty70, sEmpty70, sGrateful, sYourGreat, sGeorgeStole, sDescendants, sGoHomeNow, sFoolish
+    .faraddr sYouAlone, sFallSleep, sStopSinging, sSTOPSinging, sSTOP, sSTOPIT, sPuny, sTheSONG
+    .faraddr sSTOPIt, sExclamation, sStop, sAcclamation, sPoints, sBeDefeated, sIWill, sMeetAgain
+
+    ; errors 0x678 - 0x693
+    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
+    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
+    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
+    .faraddr sSysError, sSysError, sSysError, sSysError
+
+    ; DIALOGS7 0x694 - 0x6C1
+    .faraddr sEmpty2, sDidntDo, sGave, sPut
+    .faraddr sPulled, sThrew, sTook, sSysError, sSysError, sSysError, sSysError, sAte
+    .faraddr sDrank, sRecovered, sIncreased, sHPis, sPPis, sENERGYis, sSPEEDis, sWISDOMis
+    .faraddr sSTRENGTHis, sFORCEis, sTookHerb, sDropping, sYouCantUse, sHeadTrail, sTied, sTrue
+    .faraddr sMeasured, sWhenBigBag, sReached, sNeutralized, sRid, sSqueezed, sPSIPower, sTried
+    .faraddr sPowerLeft, sScene, sTheDiary, sBecame, sTheOcarina, sDidYouHearIt, sPlace, sChecked
+    .faraddr sStopped, sTheRepelRing
+
+    ; errors 0x6C2 - 0x6E3
+    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
+    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
+    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
+    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
+    .faraddr sSysError, sSysError, sSysError, sSysError
+
+    ; DIALOGS7 0x6E4
     .faraddr sIllegal
 
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-
-    .faraddr sSpaces, sReunited, sHealth, sLonely, sForget, sElementarySchool, sNotHungry, sLetter, sFinally, sHome, stru_20EE56
-    .faraddr sSHIGESATOITOI, sMIYUKIKURE, sAKIOOHMORI, sRITSUOKAMIMURA, sKEIICHISUZUKI, sHIROKAZUTANAKA, sSHINBOMINAMI
-    .faraddr sTATSUYAISHII, sTOTTORI, sKAZUYANAKATANI, sTAKAYUKIONODERA, sMOTOOYASUMA, sMASAYUKIKAMEYAMA, sHIDEOKON
-    .faraddr sKATSUTOMOMAEIWA, sKUNIKOSAKURAI, sMASAHIROTATEMOTO, sTAKASHIKAWAGUCHI, sKEIZOHKATOH, sMOTOHIROISHII, sAKIHITOTODA
-    .faraddr sYUKARISAITOH, sPHILSANDHOP, sTOSHIKOWATSON, sYUKANAKATA, sHIROKOFAULKNER, sTONYHARMAN, sDAYVBROOKS
-    .faraddr sNORIYUKIMINAMI, sBINOHGAWARA, sYOSHIHISAWADA, sHIKONORISUZUKI, sTAKAOSHIMIZU, sSHIGERUMIYAMOTO, sHIROSHIYAMAUCHI
-
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
-    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
+    ; errors 0x6E5 - 0x6ED
     .faraddr sSysError, sSysError, sSysError
+    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
 
+    ; DIALOGS7 0x6EE - 0x71B
+    .faraddr sSpaces, sReunited
+    .faraddr sHealth, sLonely, sForget, sElementarySchool, sNotHungry, sLetter, sFinally, sHome
+    .faraddr stru_20EE56, sSHIGESATOITOI, sMIYUKIKURE, sAKIOOHMORI, sRITSUOKAMIMURA, sKEIICHISUZUKI, sHIROKAZUTANAKA, sSHINBOMINAMI
+    .faraddr sTATSUYAISHII, sTOTTORI, sKAZUYANAKATANI, sTAKAYUKIONODERA, sMOTOOYASUMA, sMASAYUKIKAMEYAMA, sHIDEOKON, sKATSUTOMOMAEIWA
+    .faraddr sKUNIKOSAKURAI, sMASAHIROTATEMOTO, sTAKASHIKAWAGUCHI, sKEIZOHKATOH, sMOTOHIROISHII, sAKIHITOTODA, sYUKARISAITOH, sPHILSANDHOP
+    .faraddr sTOSHIKOWATSON, sYUKANAKATA, sHIROKOFAULKNER, sTONYHARMAN, sDAYVBROOKS, sNORIYUKIMINAMI, sBINOHGAWARA, sYOSHIHISAWADA
+    .faraddr sHIKONORISUZUKI, sTAKAOSHIMIZU, sSHIGERUMIYAMOTO, sHIROSHIYAMAUCHI
+
+    ; errors 0x71C - 0x7BE
+    .faraddr sSysError, sSysError, sSysError, sSysError
+    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
+    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
+    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
+    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
+    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
+    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
+    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
+    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
+    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
+    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
+    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
+    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
+    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
+    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
+    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
+    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
+    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
+    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
+    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
+    .faraddr sSysError, sSysError, sSysError, sSysError, sSysError, sSysError, sSysError
+
+    ; DIALOGS7 0x7BF
     .faraddr sEmpty3
 
 
@@ -2812,6 +2874,8 @@ sSilly:
 
 .segment "DIALOGS3"
 
+.import byte_6D04
+
 sMomSearch:
     .byte "@I must go on a", 1
     .byte " trip to find my Mom,", 1
@@ -2845,7 +2909,6 @@ sStayWithMe:
     .byte "....", 1
     .byte " Please stay with", 1
     .byte " me.", 1, 0
-
 
 sPleaseStay:
     .byte "@No!!", 1
@@ -3326,7 +3389,7 @@ sBuy:
     .byte "@Hee hee hee...", 1
     .byte " I finally got a", 1
     .byte " "
-    tile_pointer $6D04
+    tile_pointer byte_6D04
     .byte "!", 1, 3
 
     .byte "@Wanna buy it for", 1
@@ -3703,7 +3766,7 @@ sSuchMan:
 
 sBigHelp:
     .byte "@This is "
-    tile_pointer $6D04
+    tile_pointer byte_6D04
     .byte ",", 1
     .byte " right? Thank you.", 1
     .byte " It's a big help.", 1, 0
@@ -3785,7 +3848,7 @@ sIllGiveYou:
     convert Price, 2, 0
     .byte " for", 1
     .byte " "
-    tile_pointer $6D04
+    tile_pointer byte_6D04
     .byte ".", 1, 3
 
     .byte "@Is that alright?", 1, 0
@@ -3838,7 +3901,7 @@ sWhatCanIDo:
 sKeep:
     .byte "@Yes, I will keep", 1
     .byte " "
-    tile_pointer $6D04
+    tile_pointer byte_6D04
     .byte " with", 1
     .byte " utmost care.", 1, 3
 
@@ -3853,7 +3916,7 @@ sBrotherTakeCare:
 sTakeWithYou:
     .byte "@You want to take", 1
     .byte " "
-    tile_pointer $6D04
+    tile_pointer byte_6D04
     .byte "?", 1, 3
 
     .byte "@OK! Anything else", 1
@@ -3872,7 +3935,7 @@ sRockSlide:
 sYouMean:
     .byte "@You mean", 1
     .byte " "
-    tile_pointer $6D04
+    tile_pointer byte_6D04
     .byte "?", 1, 0
 
 sCantCarryMore:
@@ -4487,7 +4550,7 @@ sMenu:
 sFoodToGo:
     .byte "@Thank you very much.", 1
     .byte " One "
-    tile_pointer $6D04
+    tile_pointer byte_6D04
     .byte 1
     .byte " to go, please!", 1, 0
 
@@ -4603,6 +4666,8 @@ sCanaryVillage:
 
 
 .segment "DIALOGS5"
+
+.import byte_6D00
 
 sReceptionist:
     .byte "@The receptionist at", 1
@@ -5108,7 +5173,7 @@ sAreYouSure:
 
 sGladToSeeYou:
     .byte "@"
-    tile_pointer $6D00
+    tile_pointer byte_6D00
     .byte ", glad to", 1
     .byte " see you are fine", 1
     .byte " now. See us again!", 1, 0
@@ -5179,7 +5244,7 @@ sGreetings:
 sInjuries:
     .byte "@They just brought", 1
     .byte " "
-    tile_pointer $6D00
+    tile_pointer byte_6D00
     .byte " here,", 1
     .byte " still unconscious.", 1, 3
 
@@ -5368,7 +5433,7 @@ sExpert:
 sSorryICant:
     .byte "@Sorry, but I can't", 1
     .byte " buy "
-    tile_pointer $6D04
+    tile_pointer byte_6D04
     .byte " from", 1
     .byte " you.", 1, 0
 
@@ -5407,7 +5472,7 @@ sFor:
     convert Price, 2, 0
     .byte " for", 1
     .byte " "
-    tile_pointer $6D00
+    tile_pointer byte_6D00
     .byte ".", 1, 0
 
 sDoYouBest:
@@ -5464,6 +5529,8 @@ sNoPoisoned:
 
 
 .segment "DIALOGS6"
+
+.import NameOffset, CharName, ItemName
 
 sTurnedStone:
     .byte "@You have not been", 1
@@ -5656,7 +5723,7 @@ sLet:
 sNoICant:
     .byte "@No, no. I can't", 1
     .byte " keep "
-    tile_pointer $6D04
+    tile_pointer byte_6D04
     .byte 1
     .byte " with me.", 1, 3
 
@@ -5900,18 +5967,18 @@ sWeaponsShop:
 
 sUsed:
     .byte "@"
-    tile_pointer $6D20
+    tile_pointer NameOffset
     .byte " USEd", 1
     .byte " "
-    tile_pointer $6D24
+    tile_pointer ItemName
     .byte ".", 1, 0
 
 sCantUse:
     .byte "@"
-    tile_pointer $6D20
+    tile_pointer NameOffset
     .byte " can't", 1
     .byte " USE "
-    tile_pointer $6D24
+    tile_pointer ItemName
     .byte ".", 1, 0
 
 sDontBeSilly:
@@ -5920,54 +5987,54 @@ sDontBeSilly:
 
 sEquipped:
     .byte "@"
-    tile_pointer $6D20
+    tile_pointer NameOffset
     .byte " equipped", 1
     .byte " "
-    tile_pointer $6D24
+    tile_pointer ItemName
     .byte ".", 1, 0
 
 sCantEquip:
     .byte "@"
-    tile_pointer $6D20
+    tile_pointer NameOffset
     .byte " can't", 1
     .byte " equip "
-    tile_pointer $6D24
+    tile_pointer ItemName
     .byte ".", 1, 0
 
 sThrewAway:
     .byte "@"
-    tile_pointer $6D20
+    tile_pointer NameOffset
     .byte " threw", 1
     .byte " away "
-    tile_pointer $6D24
+    tile_pointer ItemName
     .byte ".", 1, 0
 
 sDontThrow:
     .byte "@Don't throw", 1
     .byte " away "
-    tile_pointer $6D24
+    tile_pointer ItemName
     .byte ".", 1, 0
 
 sHanded:
     .byte "@"
-    tile_pointer $6D20
+    tile_pointer NameOffset
     .byte " handed", 1
     .byte " "
-    tile_pointer $6D24
+    tile_pointer ItemName
     .byte " to", 1
     .byte " "
-    tile_pointer $6D00
+    tile_pointer byte_6D00
     .byte ".", 1, 0
 
 sCantHandOver:
     .byte "@Can't hand over", 1
     .byte " "
-    tile_pointer $6D24
+    tile_pointer ItemName
     .byte ".", 1, 0
 
 sCantCarryAnyMore:
     .byte "@"
-    tile_pointer $6D00
+    tile_pointer byte_6D00
     .byte " can't", 1
     .byte " carry any more.", 1, 0
 
@@ -5983,7 +6050,7 @@ sOpened:
 sThereWas:
     .byte "@There was", 1
     .byte " "
-    tile_pointer $6D04
+    tile_pointer byte_6D04
     .byte ".", 1, 0
 
 sGot:
@@ -5991,7 +6058,7 @@ sGot:
     tile_pointer $670A
     .byte " got", 1
     .byte " "
-    tile_pointer $6D04
+    tile_pointer byte_6D04
     .byte ".", 1, 0
 
 sCantCarryAnything:
@@ -6243,7 +6310,7 @@ sFired:
 sIllSend:
     .byte "@I'll send this", 1
     .byte " "
-    tile_pointer $6D04
+    tile_pointer byte_6D04
     .byte " to", 1
     .byte " "
     tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name      ; Boy1Name
@@ -6374,7 +6441,7 @@ sAnyFriends:
 
 sPossession:
     .byte "@The "
-    tile_pointer $6D04
+    tile_pointer byte_6D04
     .byte " is", 1
     .byte " once more in", 1
     .byte " your possession.", 1, 3
@@ -6497,41 +6564,41 @@ sEmpty2:
 
 sDidntDo:
     .byte "@"
-    tile_pointer $6D20
+    tile_pointer NameOffset
     .byte " didn't do", 1
     .byte " anything.", 1, 0
 
 sGave:
     .byte "@"
-    tile_pointer $6D20
+    tile_pointer NameOffset
     .byte " gave", 1
     .byte " "
-    tile_pointer $6D24
+    tile_pointer ItemName
     .byte " to", 1
     .byte " "
-    tile_pointer $6D00
+    tile_pointer byte_6D00
     .byte ".", 1, 0
 
 sPut:
     .byte "@"
-    tile_pointer $6D20
+    tile_pointer NameOffset
     .byte " put", 1
     .byte " "
-    tile_pointer $6D24
+    tile_pointer ItemName
     .byte " in", 1
     .byte " "
-    tile_pointer $6D00
+    tile_pointer byte_6D00
     .byte "'s bag.", 1, 0
 
 sPulled:
     .byte "@"
-    tile_pointer $6D00
+    tile_pointer byte_6D00
     .byte " pulled", 1
     .byte " "
-    tile_pointer $6D24
+    tile_pointer ItemName
     .byte " from", 1
     .byte " "
-    tile_pointer $6D20
+    tile_pointer NameOffset
     .byte "'s bag.", 1, 0
 
 sThrew:
@@ -6539,10 +6606,10 @@ sThrew:
     tile_pointer $670A
     .byte " threw", 1
     .byte " "
-    tile_pointer $6D24
+    tile_pointer ItemName
     .byte " out of", 1
     .byte " "
-    tile_pointer $6D20
+    tile_pointer NameOffset
     .byte "'s bag.", 1, 0
 
 sTook:
@@ -6550,31 +6617,31 @@ sTook:
     tile_pointer $670A
     .byte " took", 1
     .byte " "
-    tile_pointer $6D24
+    tile_pointer ItemName
     .byte " from", 1
     .byte " "
-    tile_pointer $6D20
+    tile_pointer NameOffset
     .byte "'s bag ", 1, 3
 
     .byte "@and placed it in", 1
     .byte " "
-    tile_pointer $6D00
+    tile_pointer byte_6D00
     .byte "'s bag.", 1, 0
 
 sAte:
     .byte "@"
-    tile_pointer $6D20
+    tile_pointer NameOffset
     .byte " ate", 1
     .byte " "
-    tile_pointer $6D24
+    tile_pointer ItemName
     .byte ".", 1, 0
 
 sDrank:
     .byte "@"
-    tile_pointer $6D20
+    tile_pointer NameOffset
     .byte " drank", 1
     .byte " "
-    tile_pointer $6D24
+    tile_pointer ItemName
     .byte ".", 1, 0
 
 sRecovered:
@@ -6591,49 +6658,49 @@ sIncreased:
 
 sHPis:
     .byte "@"
-    tile_pointer $6D20
+    tile_pointer NameOffset
     .byte "'s HP is", 1, 0
 
 sPPis:
     .byte "@"
-    tile_pointer $6D20
+    tile_pointer NameOffset
     .byte "'s PP is", 1, 0
 
 sENERGYis:
     .byte "@"
-    tile_pointer $6D20
+    tile_pointer NameOffset
     .byte "'s ENERGY is", 1, 0
 
 sSPEEDis:
     .byte "@"
-    tile_pointer $6D20
+    tile_pointer NameOffset
     .byte "'s SPEED is", 1, 0
 
 sWISDOMis:
     .byte "@"
-    tile_pointer $6D20
+    tile_pointer NameOffset
     .byte "'s WISDOM is", 1, 0
 
 sSTRENGTHis:
     .byte "@"
-    tile_pointer $6D20
+    tile_pointer NameOffset
     .byte "'s STRENGTH is", 1, 0
 
 sFORCEis:
     .byte "@"
-    tile_pointer $6D20
+    tile_pointer NameOffset
     .byte "'s FORCE is", 1, 0
 
 sTookHerb:
     .byte "@"
-    tile_pointer $6D20
+    tile_pointer NameOffset
     .byte " took out a", 1
     .byte " Magic Herb from the", 1
     .byte " Big Bag and USEd it.", 1, 0
 
 sDropping:
     .byte "@"
-    tile_pointer $6D20
+    tile_pointer NameOffset
     .byte " started ", 1
     .byte " dropping the", 1
     .byte " Crumbs.", 1, 0
@@ -6656,7 +6723,7 @@ sHeadTrail:
 
 sTied:
     .byte "@"
-    tile_pointer $6D20
+    tile_pointer NameOffset
     .byte " tied the", 1
     .byte " Ribbon into", 1
     .byte " her hair.", 1, 0
@@ -6670,7 +6737,7 @@ sTrue:
 
 sMeasured:
     .byte "@"
-    tile_pointer $6D20
+    tile_pointer NameOffset
     .byte " measured the", 1
     .byte " lengths of many", 1
     .byte " things.", 1, 0
@@ -6691,18 +6758,18 @@ sNeutralized:
     .byte "@The poison was", 1
     .byte " neutralized from", 1
     .byte " "
-    tile_pointer $6D20
+    tile_pointer NameOffset
     .byte "'s body.", 1, 0
 
 sRid:
     .byte "@"
-    tile_pointer $6D20
+    tile_pointer NameOffset
     .byte " was rid", 1
     .byte " of the cold.", 1, 0
 
 sSqueezed:
     .byte "@"
-    tile_pointer $6D20
+    tile_pointer NameOffset
     .byte " squeezed", 1
     .byte " the PSI-Power", 1
     .byte " Stone.", 1, 0
@@ -6714,10 +6781,10 @@ sPSIPower:
 
 sTried:
     .byte "@"
-    tile_pointer $6D20
+    tile_pointer NameOffset
     .byte " tried", 1
     .byte " "
-    tile_pointer $6D24
+    tile_pointer ItemName
     .byte ".", 1, 0
 
 sPowerLeft:
@@ -6727,7 +6794,7 @@ sPowerLeft:
 
 sScene:
     .byte "@"
-    tile_pointer $6D20
+    tile_pointer NameOffset
     .byte " has", 1
     .byte " returned to the", 1
     .byte " scene.", 1, 0
@@ -6748,7 +6815,7 @@ sTheDiary:
 
 sBecame:
     .byte "@"
-    tile_pointer $6D00
+    tile_pointer byte_6D00
     .byte " became", 1
     .byte " softened.", 1, 0
 
@@ -9101,7 +9168,7 @@ sNewPSIPower:
 
 sPickedUp:
     .byte "Picked up "
-    tile_pointer $6D04
+    tile_pointer byte_6D04
     .byte "!", 1, 3
     .byte 2
 

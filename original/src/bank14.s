@@ -578,7 +578,7 @@ erase_save:
 
     jsr erase_dialog
     bne @exit
-    lda CurrentGame + PURE_SAVE::GameNumber     ; $7402
+    lda CurrentGame + PURE_SAVE::GameNumber
     jsr get_dist_save_addr
     jsr sram_write_enable
     ldy #3
@@ -620,7 +620,7 @@ copy_save:
     jsr sram_write_enable
     lda ItemCount
     ora #$B0
-    sta CurrentGame + PURE_SAVE::GameNumber     ; $7402
+    sta CurrentGame + PURE_SAVE::GameNumber
     jsr make_save
 
 @exit:
@@ -823,7 +823,7 @@ sub_1495D3:
                 ldx     #0
 
 loc_1495D5:
-                lda     CurrentGame + PURE_SAVE::CharactersNum,X    ; $7408,X
+                lda     CurrentGame + PURE_SAVE::CharactersNum,X
                 beq     loc_14962A
                 jsr     get_sram_pointer ; Input: A -
                                         ; Output: Pointer (word) = High $74 Low $40 * A
@@ -902,9 +902,9 @@ sub_149630:
 
 loc_149641:
                 lda     #7
-                sta     NMI_Data + NMI_DATA::NMI_ID ; NMITable
+                sta     NMI_Data + NMI_DATA::NMI_ID
                 lda     #0
-                sta     NMI_Data + NMI_DATA::NumOfChr ; NMITable
+                sta     NMI_Data + NMI_DATA::NumOfChr
                 sta     Pointer
 
 loc_14964D:                         ; cycle of animated disappearance of the location before the battle
@@ -930,7 +930,7 @@ loc_14964D:                         ; cycle of animated disappearance of the loc
                 bne     loc_14964D
 
 loc_149675:
-                lda     NMI_Data + NMI_DATA::NumOfChr ; NMITable
+                lda     NMI_Data + NMI_DATA::NumOfChr
                 cmp     #0
                 beq     locret_149684
                 lda     #0
@@ -983,7 +983,7 @@ loc_1496A6:
                 sta     Row
 
 loc_1496B8:
-                lda     NMI_Data + NMI_DATA::NumOfChr ; NMITable
+                lda     NMI_Data + NMI_DATA::NumOfChr
                 cmp     #$14
                 bcc     loc_1496CF
                 lda     #0
@@ -992,24 +992,24 @@ loc_1496B8:
                 sta     NMIFlags
                 jsr     wait_nmi_processed
                 lda     #0
-                sta     NMI_Data + NMI_DATA::NumOfChr ; NMITable
+                sta     NMI_Data + NMI_DATA::NumOfChr
 
 loc_1496CF:
                 jsr     nt_calc         ; Calculate Name table address Input: CameraX, CameraY, Column, Row
                                         ; Output: NTAddr address for screen tile position (Column, Row + 1)
-                lda     NMI_Data + NMI_DATA::NumOfChr ; NMITable
+                lda     NMI_Data + NMI_DATA::NumOfChr
                 asl     A
                 clc
-                adc     NMI_Data + NMI_DATA::NumOfChr ; NMITable
+                adc     NMI_Data + NMI_DATA::NumOfChr
                 tax
                 lda     NTAddr
-                sta     NMI_Data + NMI_DATA::PPU_Addr,X ; NMITable
+                sta     NMI_Data + NMI_DATA::PPU_Addr,X
                 lda     NTAddr+1
-                sta     NMI_Data + NMI_DATA::PPU_Addr+1,X ; NMITable
+                sta     NMI_Data + NMI_DATA::PPU_Addr+1,X
                 lda     #0
-                sta     NMI_Data + NMI_DATA::Chr,X  ; NMITable
-                sta     NMI_Data + NMI_DATA::Next,X ; NMITable
-                inc     NMI_Data + NMI_DATA::NumOfChr ; NMITable
+                sta     NMI_Data + NMI_DATA::Chr,X
+                sta     NMI_Data + NMI_DATA::Next,X
+                inc     NMI_Data + NMI_DATA::NumOfChr
                 rts
 ; End of function sub_149685
 
@@ -1293,8 +1293,8 @@ loc_14989C:
                 jsr     wait_nmi_processed
                 lda     #5
                 ldy     #$40
-                sta     NMI_Data + NMI_DATA::NMI_ID ; NMITable
-                sty     NMI_Data + NMI_DATA::NumOfChr ; NMITable
+                sta     NMI_Data + NMI_DATA::NMI_ID
+                sty     NMI_Data + NMI_DATA::NumOfChr
                 ldy     #8
                 sta     $444            ; byte_444
                 sty     $445            ; byte_444+1
@@ -1302,8 +1302,8 @@ loc_14989C:
                 ldy     Pointer
                 and     #3
                 ora     AddrForJmp
-                sta     NMI_Data + NMI_DATA::PPU_Addr ; NMITable
-                sty     NMI_Data + NMI_DATA::PPU_Addr+1 ; NMITable
+                sta     NMI_Data + NMI_DATA::PPU_Addr
+                sty     NMI_Data + NMI_DATA::PPU_Addr+1
                 lda     pTileID+1
                 ldy     pTileID
                 and     #3
@@ -1315,7 +1315,7 @@ loc_14989C:
 loc_1498F9:
                 lda     (Pointer),Y
                 jsr     sub_149919
-                sta     NMI_Data + NMI_DATA::Chr,Y  ; NMITable
+                sta     NMI_Data + NMI_DATA::Chr,Y
                 dey
                 bpl     loc_1498F9
                 ldy     #7
@@ -1363,7 +1363,7 @@ sub_149920:
 
 loc_149935:
     lda stru_149A3D,X
-    sta SpriteTable + ANIM_SPRITE::Tiles+$40,X  ; SpriteTable.Tiles+$40,X
+    sta SpriteTable + ANIM_SPRITE::Tiles+$40,X
     dex
     bpl loc_149935
     ldxa #byte_149A2D
@@ -1593,13 +1593,11 @@ new_game:
 
 
 draw_confirm:
-    .import get_anim_sprite, next_anim_sprite
+    .import get_anim_sprite, next_anim_sprite, byte_196C8B, stru_196CC0
 
-    lda #$8B            ; SRAM19:6C8B character names, favorite food into CHR bank $5E
-    ldx #$6C
+    ldxa #byte_196C8B
     jsr draw_frame
-    lda #$C0            ; SRAM19:6CC0 frame Is this OK? Yes No into CHR bank $5E
-    ldx #$6C
+    ldxa #stru_196CC0
     jsr draw_frame
     jsr get_anim_sprite
     ldy #0
@@ -1662,10 +1660,10 @@ confirm:
 
 print_story:
     .import wait_A_B, print_string
-    .importzp byte_70
+    .importzp PrintSize
 
     lda #0
-    sta byte_70
+    sta PrintSize
     styx PointerTilePack
 
 @next_string:
@@ -1682,10 +1680,11 @@ print_story:
 
 
 draw_start_game_menu:
+    .import stru_196C2D
+
     jsr clear_screen
     jsr home_camera
-    lda #$2D              ; SRAM19:6C2D into CHR bank $5E
-    ldx #$6C
+    ldxa #stru_196C2D
     jsr draw_frame
     jsr draw_alphabetic
     jsr draw_name_frame
@@ -1697,7 +1696,7 @@ draw_start_game_menu:
 
 
 draw_alphabetic:
-    .import get_next_string, draw_tilepack_clear
+    .import get_next_string, draw_tilepack_clear, byte_196C66
 
     store #AlphabeticalList, pTileID
     lda #$E
@@ -1723,8 +1722,7 @@ loc_149B4E:
     tax
     dex
     bne loc_149B4E
-    lda #$66
-    ldx #$6C           ; SRAM19:6C66 into CHR bank $5E
+    ldxa #byte_196C66
     jmp draw_frame
 ; End of function draw_alphabetic
 
@@ -1733,8 +1731,9 @@ loc_149B4E:
 
 
 draw_name_frame:
-    lda #0              ; SRAM19:6C00 into CHR bank $5E
-    ldx #$6C
+    .import stru_196C00
+
+    ldxa #stru_196C00
     jmp draw_frame
 ; End of function draw_name_frame
 
@@ -1743,7 +1742,7 @@ draw_name_frame:
 
 
 enter_name:
-    .import byte_580, byte_581
+    .import byte_580, byte_581, byte_196C24
     .importzp pCharacter, NamePos
 
     stxa pCharacter
@@ -1762,15 +1761,14 @@ enter_name:
 
 @food:
     jsr draw_ask
-    lda #$24            ; SRAM19:6C24 into CHR bank $5E
-    ldx #$6C
+    ldxa #byte_196C24
     jsr draw_frame
     ldy #4
     jsr get_pointer
     ldy Encounter
     lda #0
-    sta byte_70
-    sta byte_581,Y          ; byte_581,Y
+    sta PrintSize
+    sta byte_581,Y
     sty NamePos
 
 loc_149BB5:
@@ -1780,7 +1778,7 @@ loc_149BB5:
     lda #$A2
 
 loc_149BBD:
-    sta byte_580,Y          ; byte_580,Y
+    sta byte_580,Y
     dey
     bpl loc_149BB5
     jsr input_name
@@ -1791,7 +1789,7 @@ loc_149BBD:
     ldy Encounter
 
 @prev_char:
-    lda byte_580,Y          ; byte_580,Y
+    lda byte_580,Y
     cmp #$A2
     bne @no_letter
     lda #0
@@ -1859,7 +1857,7 @@ loc_149C14:
 
 
 input_name:
-    .import short_cursor_update, loc_EF7C, long_delay, AlphabeticalList, Names, TryAgain, SameName, Cur_62E8
+    .import short_cursor_update, loc_EF7C, long_delay, AlphabeticalList, Names, TryAgain, SameName, Cur_62E8, byte_57F
 
     jsr oam_sprite
     ldxa #Cur_62E8
@@ -1900,7 +1898,7 @@ command_button:
     cmp #$A3
     beq previous
     ldx NamePos
-    sta byte_580,X          ; byte_580,X
+    sta byte_580,X
     cpx Encounter
     beq loc_149C6B
     inx
@@ -1920,17 +1918,17 @@ back:
     ldx NamePos
     cpx Encounter
     bne loc_149C7D
-    cmp byte_580,X          ; byte_580,X
+    cmp byte_580,X
     bne loc_149C85
 
 loc_149C7D:
-    sta byte_580,X          ; byte_580,X
+    sta byte_580,X
     dex
     bmi loc_149C88
     stx NamePos
 
 loc_149C85:
-    sta byte_580,X          ; byte_580,X
+    sta byte_580,X
 
 loc_149C88:
     jmp loc_149C39
@@ -1940,13 +1938,13 @@ end:
     ldy NamePos
 
 @get_letter:
-    lda byte_580,Y          ; byte_580,Y
+    lda byte_580,Y
     cmp #$A2
     beq @no_letter
     cmp #$A0
     bne @letter
     lda #$A2
-    sta byte_580,Y          ; byte_580,Y
+    sta byte_580,Y
 
 @no_letter:
     dey
@@ -1973,7 +1971,7 @@ loc_149CA5:
     beq @repeat_msg
     inx
     iny
-    cmp $57F,Y          ; byte_57F,Y
+    cmp byte_57F,Y
     beq @next_compare
 
 @next_tile:
@@ -2057,10 +2055,7 @@ oam_sprite:
     sta Column
     lda #$A
     sta Row
-    lda #$80
-    sta PointerTilePack
-    lda #5
-    sta PointerTilePack+1
+    store #byte_580, PointerTilePack
     jsr draw_tilepack_clear
     pla
     sta Row
@@ -2129,26 +2124,26 @@ intro:
     lda #0
     sta Pointer
     lda #$10
-    sta SpriteTable + ANIM_SPRITE::Tiles + $E0  ; SpriteTable.Tiles+$E0
+    sta SpriteTable + ANIM_SPRITE::Tiles + $E0
     lda #0
-    sta SpriteTable + ANIM_SPRITE::TileID + $E0 ; SpriteTable.TileID+$E0
-    sta SpriteTable + ANIM_SPRITE::field_4 + $E0; SpriteTable.field_4+$E0
-    sta SpriteTable + ANIM_SPRITE::field_5 + $E0; SpriteTable.field_5+$E0
+    sta SpriteTable + ANIM_SPRITE::TileID + $E0
+    sta SpriteTable + ANIM_SPRITE::field_4 + $E0
+    sta SpriteTable + ANIM_SPRITE::field_5 + $E0
     lda #88
-    sta SpriteTable + ANIM_SPRITE::PosX + $E0   ; SpriteTable.PosX+$E0
+    sta SpriteTable + ANIM_SPRITE::PosX + $E0
     lda #87
-    sta SpriteTable + ANIM_SPRITE::PosY + $E0   ; SpriteTable.PosY+$E0
+    sta SpriteTable + ANIM_SPRITE::PosY + $E0
     lda #0
     sta Gamepad0Buttons
 
 @loop:
     clc
     lda Pointer
-    adc #<(EarthAnim)       ; #$B0
-    sta SpriteTable + ANIM_SPRITE::pFrame + $E0 ; SpriteTable.pFrame+$E0
+    adc #<(EarthAnim)
+    sta SpriteTable + ANIM_SPRITE::pFrame + $E0
     lda #0
-    adc #>(EarthAnim)       ; #$96
-    sta SpriteTable + ANIM_SPRITE::pFrame + $E1 ; SpriteTable.pFrame+$E1
+    adc #>(EarthAnim)
+    sta SpriteTable + ANIM_SPRITE::pFrame + $E1
     lda #$A
     sta NMIFlags
     clc

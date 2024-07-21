@@ -793,36 +793,36 @@ loc_FCE7:
     .import wait_nmi_processed, NMI_Data
     .importzp OffsetNMI_Data, NMIFlags
 
-    JSR wait_nmi_processed
-    LDA #FILL                   ; #8 fill_ppu function ID
-    LDX #$80                    ; number of char for fill
-    STA NMI_Data
-    STX NMI_Data+1              ; num_of_chr
-    LDA #0                      ; PPU address for fill ($2000) - nametable
-    LDX #$20
-    STA NMI_Data+3              ; PPU_addr+1
-    STX NMI_Data+2              ; PPU_addr
-    LDA #0
-    STA NMI_Data+4              ; chr ; character for fill = 0
-    STA NMI_Data+5              ; next; next record or end of record - 0
+    jsr wait_nmi_processed
+    lda #FILL                   ; #8 fill_ppu function ID
+    ldx #$80                    ; number of char for fill
+    sta NMI_Data
+    stx NMI_Data+1              ; num_of_chr
+    lda #0                      ; PPU address for fill ($2000) - nametable
+    ldx #$20
+    sta NMI_Data+3              ; PPU_addr+1
+    stx NMI_Data+2              ; PPU_addr
+    lda #0
+    sta NMI_Data+4              ; chr ; character for fill = 0
+    sta NMI_Data+5              ; next; next record or end of record - 0
 
 @next_fill:
-    LDX #0
-    LDA #$80
-    STX OffsetNMI_Data
-    STA NMIFlags
-    JSR wait_nmi_processed
+    ldx #0
+    lda #$80
+    stx OffsetNMI_Data
+    sta NMIFlags
+    jsr wait_nmi_processed
 
-    CLC                         ; clear carry flag
-    LDA NMI_Data+3              ; PPU_addr+1 ; get next nametable address + $80
-    ADC #$80
-    STA NMI_Data+3              ; PPU_addr+1
-    LDA NMI_Data+2              ; PPU_addr
-    ADC #0
-    STA NMI_Data+2              ; PPU_addr
-    CMP #$28                    ; address == $2800
-    BCC @next_fill
-    RTS
+    clc                         ; clear carry flag
+    lda NMI_Data+3              ; PPU_addr+1 ; get next nametable address + $80
+    adc #$80
+    sta NMI_Data+3              ; PPU_addr+1
+    lda NMI_Data+2              ; PPU_addr
+    adc #0
+    sta NMI_Data+2              ; PPU_addr
+    cmp #$28                    ; address == $2800
+    bcc @next_fill
+    rts
 .endproc
 
 ; FDC0
@@ -831,25 +831,25 @@ loc_FCE7:
     .import wait_nmi_processed
     .importzp ShiftX, ShiftY, byte_E7
 
-    JSR wait_nmi_processed
-    LDA byte_E7
-    AND #$BF
-    STA byte_E7
-    LDA #0
-    STA ShiftX
-    STA ShiftY
-    CLC
+    jsr wait_nmi_processed
+    lda byte_E7
+    and #$BF
+    sta byte_E7
+    lda #0
+    sta ShiftX
+    sta ShiftY
+    clc
 
 @next_field:
-    TAX
-    LDA $301,X
-    AND #$BF
-    STA $301,X
-    LDA #0
-    STA $304,X
-    STA $305,X
-    TXA 
-    ADC #8
-    BCC @next_field
-    RTS
+    tax
+    lda $301,X
+    and #$BF
+    sta $301,X
+    lda #0
+    sta $304,X
+    sta $305,X
+    txa 
+    adc #8
+    bcc @next_field
+    rts
 .endproc

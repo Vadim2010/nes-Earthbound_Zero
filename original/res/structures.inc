@@ -54,7 +54,7 @@
     field_1D        .byte
     field_1E        .byte
     field_1F        .byte
-    field_20        .res 8
+    Goods           .res 8
     Items           .res 4
     field_2C        .res 4
     field_30        .byte
@@ -79,7 +79,7 @@
     field_14        .byte
     Transfer        .word
     field_17        .byte
-    field_18        .byte
+    FightMsgSpd     .byte
     field_19        .byte
     field_1A        .res 5
     field_1F        .byte
@@ -88,7 +88,7 @@
     field_31        .byte
     field_32        .res 10
     CmndBtn         .res 3
-    field_3F        .byte
+    MsgSpdCheckbox  .byte
     Boy1            .tag CHARACTER
     Girl            .tag CHARACTER
     Boy2            .tag CHARACTER
@@ -153,11 +153,3 @@ InfoCharacter       = $6710
 Buffer              = $6780
 
 byte_6800           = $6800
-
-;$6D00
-;$6D01
-;$6D02
-;$6D03
-;$6D04
-;$6D20
-;$6D24

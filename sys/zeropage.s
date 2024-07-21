@@ -11,11 +11,11 @@
 .exportzp CameraX, CameraY, SpriteTabOffset, SpriteTabStep, StartX, Source, ShiftCameraX, ShiftCameraY, ScreenX, ScreenY, Screen, SaveNum
 .exportzp TileCount, TileID, pTileID, p4TileID, p4TileAttr, TileX, TileY, Attribute, pOAMSprite, pFrame, pStr, pDist, pCursor, pCharacter
 .exportzp FuncID, Dist, Row, Column
-.exportzp byte_C, byte_D, byte_F, byte_1F, byte_20, byte_21, byte_22, byte_23, byte_24, byte_25, byte_26, byte_27, byte_28, byte_29, byte_2C, byte_2D
+.exportzp byte_C, byte_D, byte_F, byte_1F, byte_20, byte_21, byte_22, byte_23, byte_24, byte_25, byte_26, byte_27, CharNum, Item, WaitPressed, byte_2D
 .exportzp byte_34, byte_35, byte_3A, byte_3B, byte_3C, byte_3D, byte_3F, byte_A0, byte_A9, byte_AE, byte_AF
 .exportzp byte_44, byte_45, byte_46, byte_47, EnemyGroup, byte_49, byte_4A, byte_4B, byte_4C, byte_4D, byte_4E, byte_4F
 .exportzp byte_50, byte_51, byte_52, CharacterOffset, byte_54, Encounter, byte_57, byte_58, byte_59, EnemyPos, byte_5B, word_5E
-.exportzp byte_6C, byte_6D, byte_6E, byte_70, byte_71, byte_73
+.exportzp byte_6C, byte_6D, byte_6E, PrintSize, byte_71, DialogPage
 .exportzp Pointer, CursorPosition
 .exportzp byte_0, Price
 .exportzp Color_0C, Color_0E
@@ -70,10 +70,10 @@ byte_24:            .res 1
 byte_25:            .res 1
 byte_26:            .res 1
 byte_27:            .res 1
-byte_28:            .res 1
-byte_29:            .res 1
+CharNum:            .res 1
+Item:               .res 1
 Price:              .res 2
-byte_2C:            .res 1
+WaitPressed:        .res 1
 byte_2D:            .res 3
 
 Dist:               .res 2
@@ -149,12 +149,12 @@ CursorMode:         .res 1
 byte_6C:            .res 1
 byte_6D:            .res 1
 byte_6E:            .res 2
-byte_70:            .res 1
+PrintSize:          .res 1
 byte_71:            .res 1
 
 UnpackID:           .res 1
 
-byte_73:            .res 1
+DialogPage:         .res 1
 
 PointerTilePack:    .res 2
 Column:             .res 1
@@ -256,7 +256,7 @@ byte_D3:            .res 2
 byte_D5:            .res 1
 byte_D6:            .res 1
 
-JmpInstr:           .res 3				; jump istruction
+JmpInstr:           .res 3      ; jump istruction
 
 Gamepad0Buttons:    .res 1
 Gamepad1Buttons:    .res 1
@@ -286,7 +286,7 @@ IRQCount:           .res 1
 InterruptOffset:    .res 1
 BankRegister:       .res 1
 BankMode:           .res 1
-BankTable:          .tag BANK_TABLE ;.res 8                ; BANK_TABLE <?>
+BankTable:          .tag BANK_TABLE ;.res 8 BANK_TABLE <?>
 
 byte_F8:            .res 4
 

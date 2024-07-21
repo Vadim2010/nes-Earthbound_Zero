@@ -270,9 +270,9 @@ loc_C31F:
 bank0_0:
     .import mmc3_bank_set
 
-    LDA #0
-    LDX #6
-    JMP mmc3_bank_set   ; Set memory BANK0 $8000
+    lda #0
+    ldx #6
+    jmp mmc3_bank_set   ; Set memory BANK0 $8000
 ; End of function bank0_0
 ; ---------------------------------------------------------------------------
 .import InfoFrame
@@ -339,11 +339,11 @@ CharacterInfo:
     left
     .byte " "
 
-    convert $38, 0, 7       ; character name base addr (7440, 7480, 74C0, 7500) + $38
-    convert $10, 1, 3       ; character level base addr (7440, 7480, 74C0, 7500) + $10
-    convert $14, 2, 4       ; character health base addr (7440, 7480, 74C0, 7500) + $14
-    convert $16, 2, 4       ; character PP base addr (7440, 7480, 74C0, 7500) + $16
-    convert $11, 3, 8       ; character experience base addr (7440, 7480, 74C0, 7500) + $11
+    convert CHARACTER::Name, 0, 7       ; character name base addr (7440, 7480, 74C0, 7500) + $38
+    convert CHARACTER::Level, 1, 3      ; character level base addr (7440, 7480, 74C0, 7500) + $10
+    convert CHARACTER::Health, 2, 4     ; character health base addr (7440, 7480, 74C0, 7500) + $14
+    convert CHARACTER::PP, 2, 4         ; character PP base addr (7440, 7480, 74C0, 7500) + $16
+    convert CHARACTER::Exp, 3, 8        ; character experience base addr (7440, 7480, 74C0, 7500) + $11
     .byte " "
     right
     end_frame
@@ -380,13 +380,13 @@ loc_C3AF:
 ; =============== S U B R O U T I N E =======================================
 
 
-goods_psi:
-    .export goods_psi
+goods_psi_frame:
+    .export goods_psi_frame
     .import stru_929B
 
     ldxa #stru_929B
     jmp out_frame
-; End of function goods_psi
+; End of function goods_psi_frame
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -416,13 +416,13 @@ sub_C3C0:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_C3C7:
-    .export sub_C3C7
-    .import stru_9317
+draw_goods_menu:
+    .export draw_goods_menu
+    .import GoodsMenu
 
-    ldxa #stru_9317
+    ldxa #GoodsMenu
     jmp out_frame
-; End of function sub_C3C7
+; End of function draw_goods_menu
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -488,22 +488,20 @@ setup:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_C3F4:
-    .export sub_C3F4
+redraw_screen:
+    .export redraw_screen
     .import update_animation
 
-                PHP
-
-loc_C3F5:
-                JSR     draw_screen
-                JSR     update_animation
-                LDA     #1
-                STA     NMIFlags
-                LDA     #0
-                STA     DMCflag
-                PLP
-                RTS
-; End of function sub_C3F4
+    php
+    jsr draw_screen
+    jsr update_animation
+    lda #1
+    sta NMIFlags
+    lda #0
+    sta DMCflag
+    plp
+    rts
+; End of function redraw_screen
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -755,7 +753,7 @@ loc_C56A:
 
 loc_C572:
     lda byte_C398,Y
-    sta Frames,X        ; $6700,X
+    sta Frames,X
     inx
     iny
     cpy #5
@@ -763,10 +761,10 @@ loc_C572:
     pla
     tay
     lda Condition,Y
-    sta Frames,X        ; $6700,X
+    sta Frames,X
     inx
     lda Condition+1,Y
-    sta Frames,X        ; $6700,X
+    sta Frames,X
     inx
     ldy #$1B
     bne next_byte
@@ -827,7 +825,7 @@ loc_C5DB:
     asl A
     tax
     lda #4          ; frame_offset
-    sta Frames      ; $6700
+    sta Frames
     sta $670A
     cpx #4
     bcs loc_C5EE
@@ -843,9 +841,9 @@ loc_C5EE:
     sta $670B
     lda $6714
     sta $670C
-    lda #<(ExclamationMark)     ; #$9D
+    lda #<(ExclamationMark)
     sta $670E
-    lda #>(ExclamationMark)     ; #$C3
+    lda #>(ExclamationMark)
     sta $670F     ; C39D
     jmp sram_read_enable
 ; End of function load_character_data
@@ -865,7 +863,7 @@ get_characters_num:
     .import CurrentGame
 
     sec
-    lda CurrentGame + PURE_SAVE::CharactersNum,Y    ; $7408,Y
+    lda CurrentGame + PURE_SAVE::CharactersNum,Y
     beq @exit
     cmp #6
 
@@ -882,26 +880,26 @@ get_characters_num:
 
 copy_tilepack:
     lda CharacterInfo,Y
-    sta Frames,X        ; $6700,X
+    sta Frames,X
     inx
     iny
     lda CharacterInfo,Y
-    sta Frames,X        ; $6700,X
+    sta Frames,X
     inx
     iny
     lda CharacterInfo,Y
-    sta Frames,X        ; $6700,X
+    sta Frames,X
     inx
     iny
     clc
     lda CharacterInfo,Y
     adc Pointer
-    sta Frames,X        ; $6700,X
+    sta Frames,X
     inx
     iny
     lda CharacterInfo,Y
     adc Pointer+1
-    sta Frames,X        ; $6700,X
+    sta Frames,X
     inx
     iny
     rts
@@ -984,9 +982,9 @@ draw_symbol:
 
 
 add_spaces:
-    .importzp byte_70
+    .importzp PrintSize
 
-    lda byte_70
+    lda PrintSize
     clc
     sbc ChrCount
     bcc loc_C6CF
@@ -1808,9 +1806,9 @@ get_type_ex:
 
 text2stack:
     .export text2stack
-    .importzp byte_73, CHRText
+    .importzp DialogPage, CHRText
 
-    lda byte_73
+    lda DialogPage
     bpl loc_CAA9
     sta PointerTilePack+1
     rts
@@ -1822,15 +1820,15 @@ loc_CAA9:
     tax
     lda PointerTilePack
     asl PointerTilePack
-    rol byte_73
+    rol DialogPage
     adc PointerTilePack
     sta PointerTilePack
     txa
-    adc byte_73
+    adc DialogPage
     adc #$80
     sta PointerTilePack+1
     lda #$7F
-    sta byte_73
+    sta DialogPage
     lda BankTable + BANK_TABLE::CPU_8K_8000
     pha
     lda #$18
@@ -1885,7 +1883,7 @@ loc_CAE1:
 get_text_row_pointer:
     lda PointerTilePack+1
     bpl loc_CB21
-    sta byte_73
+    sta DialogPage
     rts
 ; ---------------------------------------------------------------------------
 
@@ -1926,7 +1924,7 @@ get_tile_pointer:
 main:
     .export main
     .import game_intro, routine_selector, clear_oam_sprite, wait_change_music
-    .import sub_13A1C6, sub_13A123, sub_13A82F, sub_13A000, sub_13A178, sub_13AB53
+    .import sub_13A1C6, sub_13A123, sub_13A82F, sub_13A000, command_menu, sub_13AB53
     .import sub_149516, sub_149779, sub_1497A3, CurrentMusic
     .importzp ButtonPressed0, Gamepad0Buttons
     .importzp byte_D, byte_1F, byte_20, byte_21, byte_22, byte_23, byte_24, byte_25
@@ -1949,7 +1947,7 @@ loc_CB5D:
     jsr sub_CEFC
     lda #0
     sta byte_24
-    lda CurrentGame + PURE_SAVE::GlobalY    ; $7406
+    lda CurrentGame + PURE_SAVE::GlobalY
     and #$F
     eor #$84
     sta byte_D
@@ -2020,7 +2018,7 @@ loc_CBDC:
 ; ---------------------------------------------------------------------------
 
 loc_CBE2:
-                jsr     sub_13A178
+                jsr     command_menu
 
 loc_CBE5:
                 jsr     bank14_8000
@@ -2153,7 +2151,7 @@ get_command:
     lsr A
     tax
     ldy CmndBtn,X
-    lda CurrentGame + PURE_SAVE::CmndBtn,Y     ; $743C,Y
+    lda CurrentGame + PURE_SAVE::CmndBtn,Y
     rts
 ; End of function get_command
 
@@ -2194,14 +2192,14 @@ sub_CCD8:
     .import sub_13BBD4, SpriteTable, byte_7F3, byte_7F4
     .importzp byte_F, byte_A0, ButtonPressed0, byte_22, byte_25
 
-    lda CurrentMusic        ; $78C            ; CurrentMusic
+    lda CurrentMusic
     pha
     lda #$FF
     sta byte_F
     jsr wait_change_music
-    jsr sub_C3F4
+    jsr redraw_screen
     lda #1
-    sta byte_7F4        ;$7F4            ; byte_7F4
+    sta byte_7F4
     jsr sub_CD9D
     ldx #5
 
@@ -2247,7 +2245,7 @@ loc_CD26:
     sbc #1
     bne loc_CD26
     lda #1
-    sta byte_7F3        ; $7F3
+    sta byte_7F3
     lda #$22
     jsr one_color_palettes_save
     jsr bank13_A000
@@ -2255,13 +2253,13 @@ loc_CD26:
     jsr sub_13BBD4
     jsr sub_D9FA
     pla
-    lda CurrentGame + PURE_SAVE::GlobalX    ; $7404
+    lda CurrentGame + PURE_SAVE::GlobalX
     tax
     and #$3F
     pha
     txa
     and #$C0
-    sta CurrentGame + PURE_SAVE::GlobalX    ; $7404
+    sta CurrentGame + PURE_SAVE::GlobalX
     jsr sub_D8C9
     ldx #20
     jsr wait_frames     ; wait for a few frames input: X - number of frames
@@ -2309,7 +2307,7 @@ sub_CD8B:
 
 sub_CD9D:
                 JSR     sram_write_enable
-                LDA     CurrentGame + PURE_SAVE::GlobalY    ; $7406
+                LDA     CurrentGame + PURE_SAVE::GlobalY
                 AND     #$F
                 STA     $6799
                 ORA     #$40
@@ -2591,7 +2589,7 @@ sub_CEFC:
     .importzp byte_AE, byte_AF
 
     jsr sub_D674
-    lda #$14            ; BANK14:8000
+    lda #$14
     ldx #6
     jsr mmc3_bank_set   ; Set memory bank A - bank number, X - mode
     lda #0
@@ -2700,11 +2698,11 @@ draw_screen:
     ora #8
     tax
     ldy ShiftCameraY
-    lda CntrlPPU        ; PPU_CTRL
+    lda CntrlPPU
     and #$FC
     ora MaskCntrlPPU
-    sta CntrlPPU        ; PPU_CTRL
-    stx CameraX         ; $18
+    sta CntrlPPU
+    stx CameraX
     sty CameraY
     sty ScreenY
     clc
@@ -3815,26 +3813,26 @@ sub_D674:
 ; ---------------------------------------------------------------------------
 
 loc_D697:
-    lda CurrentGame + PURE_SAVE::GlobalY    ; $7406
+    lda CurrentGame + PURE_SAVE::GlobalY
     and #$3F
     sta LowGlobalY3F
     clc
-    lda CurrentGame + PURE_SAVE::GlobalX    ; $7404
+    lda CurrentGame + PURE_SAVE::GlobalX
     and #$C0
     sta LowGlobalXC0
     adc #0
     sta LowGlobalXC0_0
-    lda CurrentGame + PURE_SAVE::GlobalX+1  ; $7405
+    lda CurrentGame + PURE_SAVE::GlobalX+1
     sta HighGlobalX
     adc #2
     sta HighGlobalX_plus2
     clc
-    lda CurrentGame + PURE_SAVE::GlobalY    ; $7406
+    lda CurrentGame + PURE_SAVE::GlobalY
     and #$C0
     sta LowGlobalYC0
     adc #$C0
     sta MaskORA
-    lda CurrentGame + PURE_SAVE::GlobalY+1  ; $7407
+    lda CurrentGame + PURE_SAVE::GlobalY+1
     sta HighGlobalY
     adc #1
     sta HighGlobalY_plus1_carry
@@ -3852,7 +3850,7 @@ loc_D6CB:
     ldx #0
 
 loc_D6DA:
-    lda CurrentGame + PURE_SAVE::CharactersNum,X    ; $7408,X
+    lda CurrentGame + PURE_SAVE::CharactersNum,X
     beq loc_D6F2
     jsr sub_D7DF
     ldy #$19
@@ -3861,7 +3859,7 @@ loc_D6DA:
     lda #$C
     cpx #0
     bne loc_D6F2
-    ldy #CHARACTER::field_1C     ; #$1C
+    ldy #CHARACTER::field_1C
     lda (MsgOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
 
 loc_D6F2:
@@ -3876,7 +3874,7 @@ loc_D6F2:
     bcc loc_D6DA
 
 loc_D704:
-    lda CurrentGame + PURE_SAVE::GlobalX    ; $7404
+    lda CurrentGame + PURE_SAVE::GlobalX
     and #$3F
     beq loc_D70E
     jsr wait_change_music
@@ -3910,7 +3908,7 @@ loc_D738:
 ; ---------------------------------------------------------------------------
 
 loc_D73B:
-    lda CurrentGame + PURE_SAVE::CharactersNum+1,X  ; $7409,X
+    lda CurrentGame + PURE_SAVE::CharactersNum+1,X
     beq loc_D745
     jsr sub_D768
     bcc loc_D751
@@ -3940,7 +3938,7 @@ sub_D759:
                 LDX     #0
 
 loc_D75C:
-                LDA     CurrentGame + PURE_SAVE::CharactersNum+1,X  ; $7409,X
+                LDA     CurrentGame + PURE_SAVE::CharactersNum+1,X
                 BEQ     loc_D769
                 INX
                 CPX     #3
@@ -3965,7 +3963,7 @@ loc_D769:
                 PLA
                 TAX
                 PLA
-                STA     CurrentGame + PURE_SAVE::CharactersNum+1,X  ; $7409,X
+                STA     CurrentGame + PURE_SAVE::CharactersNum+1,X
                 JSR     sub_D7DF
                 LDY     #$19
                 LDA     LowGlobalY3F
@@ -3987,7 +3985,7 @@ sub_D78D:
                 LDX     #0
 
 loc_D78F:
-                CMP     CurrentGame + PURE_SAVE::CharactersNum,X    ; $7408,X
+                CMP     CurrentGame + PURE_SAVE::CharactersNum,X
                 BEQ     loc_D79A
                 INX
                 CPX     #4
@@ -4001,9 +3999,9 @@ loc_D79A:
 loc_D79D:
                 CPX     #3
                 BCS     loc_D7AC
-                LDA     CurrentGame + PURE_SAVE::CharactersNum+1,X  ; $7409,X
+                LDA     CurrentGame + PURE_SAVE::CharactersNum+1,X
                 BEQ     loc_D7AE
-                STA     CurrentGame + PURE_SAVE::CharactersNum,X    ; $7408,X
+                STA     CurrentGame + PURE_SAVE::CharactersNum,X
                 INX
                 BCC     loc_D79D
 
@@ -4011,7 +4009,7 @@ loc_D7AC:
                 LDA     #0
 
 loc_D7AE:
-                STA     CurrentGame + PURE_SAVE::CharactersNum,X    ; $7408,X
+                STA     CurrentGame + PURE_SAVE::CharactersNum,X
                 TXA
                 JSR     sub_D86C
                 JSR     sub_DFBF
@@ -4019,7 +4017,7 @@ loc_D7AE:
                 LDX     #0
 
 loc_D7BD:
-                LDA     CurrentGame + PURE_SAVE::CharactersNum,X    ; $7408,X
+                LDA     CurrentGame + PURE_SAVE::CharactersNum,X
                 BEQ     loc_D7CF
                 JSR     sub_D813
                 LDA     #$C
@@ -4235,13 +4233,13 @@ sub_D8D3:
     .export sub_D8D3
     .importzp ItemCount, SaveNum, byte_47
 
-                LDA     CurrentGame + PURE_SAVE::field_181      ; $7581
+                LDA     CurrentGame + PURE_SAVE::field_181
                 BPL     loc_D8DD
                 LDA     #6
                 JSR     sub_D78D
 
 loc_D8DD:
-                LDA     CurrentGame + PURE_SAVE::field_1C1      ; $75C1
+                LDA     CurrentGame + PURE_SAVE::field_1C1
                 BPL     loc_D8E7
                 LDA     #7
                 JSR     sub_D78D
@@ -4278,21 +4276,21 @@ loc_D90E:
                 JSR     sub_D8C9
                 JSR     sram_write_enable
                 LDA     #0
-                STA     CurrentGame + PURE_SAVE::Boy1 + CHARACTER::field_1      ; $7441
-                STA     CurrentGame + PURE_SAVE::Boy1 + CHARACTER::PP           ; $7456
-                STA     CurrentGame + PURE_SAVE::Boy1 + CHARACTER::PP+1         ; $7457
-                LDA     CurrentGame + PURE_SAVE::Boy1 + CHARACTER::MaxHealth    ; $7443
-                STA     CurrentGame + PURE_SAVE::Boy1 + CHARACTER::Health       ; $7454
-                LDA     CurrentGame + PURE_SAVE::Boy1 + CHARACTER::MaxHealth+1  ; $7444
-                STA     CurrentGame + PURE_SAVE::Boy1 + CHARACTER::Health+1     ; $7455
-                LDA     CurrentGame + PURE_SAVE::Cash                           ; $7410
-                LSR     CurrentGame + PURE_SAVE::Cash + 1                       ; $7411
+                STA     CurrentGame + PURE_SAVE::Boy1 + CHARACTER::field_1
+                STA     CurrentGame + PURE_SAVE::Boy1 + CHARACTER::PP
+                STA     CurrentGame + PURE_SAVE::Boy1 + CHARACTER::PP+1
+                LDA     CurrentGame + PURE_SAVE::Boy1 + CHARACTER::MaxHealth
+                STA     CurrentGame + PURE_SAVE::Boy1 + CHARACTER::Health
+                LDA     CurrentGame + PURE_SAVE::Boy1 + CHARACTER::MaxHealth+1
+                STA     CurrentGame + PURE_SAVE::Boy1 + CHARACTER::Health+1
+                LDA     CurrentGame + PURE_SAVE::Cash
+                LSR     CurrentGame + PURE_SAVE::Cash + 1
                 ROR     A
                 ADC     #0
-                STA     CurrentGame + PURE_SAVE::Cash                           ; $7410
-                LDA     CurrentGame + PURE_SAVE::Cash + 1                       ; $7411
+                STA     CurrentGame + PURE_SAVE::Cash
+                LDA     CurrentGame + PURE_SAVE::Cash + 1
                 ADC     #0
-                STA     CurrentGame + PURE_SAVE::Cash + 1                       ; $7411
+                STA     CurrentGame + PURE_SAVE::Cash + 1
                 LDA     #1
                 STA     ItemCount
                 LDA     #0
@@ -4304,11 +4302,11 @@ loc_D90E:
 
 loc_D950:
                 LDA     byte_D96F,Y
-                STA     CurrentGame + PURE_SAVE::GlobalX,X  ; $7404,X
+                STA     CurrentGame + PURE_SAVE::GlobalX,X
                 DEY
                 DEX
                 BPL     loc_D950
-                LDA     CurrentGame + PURE_SAVE::GlobalY    ; $7406
+                LDA     CurrentGame + PURE_SAVE::GlobalY
                 AND     #$F
                 ORA     #$20
                 STA     byte_20
@@ -4333,7 +4331,7 @@ sub_D977:
                 BEQ     locret_D997
 
 loc_D97D:
-                LDA     CurrentGame + PURE_SAVE::CharactersNum  ; $7408
+                LDA     CurrentGame + PURE_SAVE::CharactersNum
                 CMP     #1
                 BEQ     loc_D98C
                 JSR     sub_D998
@@ -4363,12 +4361,12 @@ sub_D998:
                 STX     ItemCount
 
 loc_D99F:
-                LDA     CurrentGame + PURE_SAVE::CharactersNum,X    ; $7408,X
+                LDA     CurrentGame + PURE_SAVE::CharactersNum,X
                 PHA
-                LDA     CurrentGame + PURE_SAVE::CharactersNum+1,X  ; $7409,X
-                STA     CurrentGame + PURE_SAVE::CharactersNum,X    ; $7408,X
+                LDA     CurrentGame + PURE_SAVE::CharactersNum+1,X
+                STA     CurrentGame + PURE_SAVE::CharactersNum,X
                 PLA
-                STA     CurrentGame + PURE_SAVE::CharactersNum+1,X  ; $7409,X
+                STA     CurrentGame + PURE_SAVE::CharactersNum+1,X
                 LDA     #2
                 JSR     sub_D9DE
                 LDA     #3
@@ -4422,7 +4420,7 @@ get_character_num:
     .export get_character_num
 
     sec
-    lda CurrentGame + PURE_SAVE::CharactersNum,X    ; $7408,X
+    lda CurrentGame + PURE_SAVE::CharactersNum,X
     beq @no_character
     cmp #6
 
@@ -4440,7 +4438,7 @@ sub_D9FA:
                 LDX     #0
 
 loc_D9FC:
-                LDA     CurrentGame + PURE_SAVE::CharactersNum,X    ; $7408,X
+                LDA     CurrentGame + PURE_SAVE::CharactersNum,X
                 BEQ     loc_DA10
                 JSR     get_sram_pointer ; Input: A - Character number
                                         ; Output: Pointer (word) = High $74 Low $40 * A
@@ -4500,7 +4498,7 @@ loc_DA3C:
 
 sub_DA48:
     .import sub_13BBC3, sub_13BB8C, sub_13A979, sub_17A3F8
-    .importzp byte_28, byte_29, Price, byte_49, byte_4A, byte_4B, CharacterOffset
+    .importzp CharNum, Item, Price, byte_49, byte_4A, byte_4B, CharacterOffset
 
                 LDA     ItemCount
                 STA     pTileID
@@ -4531,7 +4529,7 @@ loc_DA61:
 loc_DA77:
                 JSR     get_character_num
                 BCS     loc_DADD
-                STA     byte_28
+                STA     CharNum
                 TXA
                 LSR     A
                 ROR     A
@@ -4568,8 +4566,7 @@ loc_DA77:
                 INY
                 STA     (MsgOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
 
-loc_DAB9:                               ; CODE XREF: sub_DA48+63↑j
-                                        ; sub_DA48+8E↓j
+loc_DAB9:
                 LDY     #$10
                 LDA     (MsgOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
                 JSR     sub_DB40
@@ -4608,7 +4605,7 @@ loc_DADD:
                 JSR     sub_DC11
                 LDA     EnemyGroup
                 BEQ     loc_DB30
-                STA     byte_29
+                STA     Item
                 JSR     bank13_A000
                 JSR     sub_13BBC3
                 LDA     #$FF
@@ -4629,7 +4626,7 @@ loc_DB0A:
 loc_DB1B:
                 JSR     get_character_num
                 BCS     loc_DB2B
-                STA     byte_28
+                STA     CharNum
                 TXA
                 PHA
                 JSR     sub_13A979
@@ -4775,7 +4772,7 @@ loc_DBED:
                 JSR     sub_DC3F
                 LDA     #$84
                 JSR     sub_DC38
-                LDA     byte_28
+                LDA     CharNum
                 CMP     #3
                 BCS     loc_DC0F
                 LDY     #$F
@@ -4802,19 +4799,19 @@ sub_DC11:
 
     clc
     lda byte_4C
-    adc CurrentGame + PURE_SAVE::field_0,X          ; $7400,X
-    sta CurrentGame + PURE_SAVE::field_0,X          ; $7400,X
+    adc CurrentGame + PURE_SAVE::field_0,X
+    sta CurrentGame + PURE_SAVE::field_0,X
     lda byte_4D
-    adc CurrentGame + PURE_SAVE::field_1,X          ; $7401,X
-    sta CurrentGame + PURE_SAVE::field_1,X          ; $7401,X
+    adc CurrentGame + PURE_SAVE::field_1,X
+    sta CurrentGame + PURE_SAVE::field_1,X
     lda #0
-    adc CurrentGame + PURE_SAVE::GameNumber,X       ; $7402,X
-    sta CurrentGame + PURE_SAVE::GameNumber,X       ; $7402,X
+    adc CurrentGame + PURE_SAVE::GameNumber,X
+    sta CurrentGame + PURE_SAVE::GameNumber,X
     bcc locret_DC37
     lda #$FF
-    sta CurrentGame + PURE_SAVE::field_0,X          ; $7400,X
-    sta CurrentGame + PURE_SAVE::field_1,X          ; $7401,X
-    sta CurrentGame + PURE_SAVE::GameNumber,X       ; $7402,X
+    sta CurrentGame + PURE_SAVE::field_0,X
+    sta CurrentGame + PURE_SAVE::field_1,X
+    sta CurrentGame + PURE_SAVE::GameNumber,X
 
 locret_DC37:
     rts
@@ -4919,7 +4916,7 @@ sub_DC87:
                 LDX     #$C0
 
 loc_DC97:
-                STX     byte_29
+                STX     Item
                 JSR     sub_DCE6
                 PLA
                 PHA
@@ -4943,7 +4940,7 @@ loc_DC97:
                 JSR     sub_17A3F8
 
 loc_DCC6:
-                LDX     byte_29
+                LDX     Item
                 INX
                 BNE     loc_DC97
                 PLA
@@ -4959,14 +4956,14 @@ locret_DCCC:
 sub_DCCD:
     .export sub_DCCD
 
-                LDA     byte_29
+                LDA     Item
                 CLC
                 ADC     #$C0
                 ROR     A
                 LSR     A
                 LSR     A
                 TAY
-                LDA     byte_29
+                LDA     Item
                 AND     #7
                 TAX
                 LDA     byte_EC5D,X
@@ -4979,7 +4976,7 @@ sub_DCCD:
 
 sub_DCDF:
                 CLC
-                LDA     byte_28
+                LDA     CharNum
                 ADC     #$B8
                 BCC     loc_DCE8
 ; End of function sub_DCDF
@@ -4989,7 +4986,7 @@ sub_DCDF:
 
 
 sub_DCE6:
-                LDA     byte_29
+                LDA     Item
 
 loc_DCE8:
                 ASL     A
@@ -5231,10 +5228,8 @@ sub_DE29:
     sta ItemCount
 
 loc_DE3E:
-    lda #0
-    ldx #$68        ; SRAM19:6800
-    sta Dist
-    stx Dist+1
+    ldxa #byte_6800
+    stxa Dist
     ldx #$28
     stx SaveNum
     rts
@@ -5553,7 +5548,7 @@ sub_DFBF:
 sub_DFDA:
     .importzp byte_E3
 
-                LDA     CurrentGame + GAME_SAVE::field_21F      ; $761F
+                LDA     CurrentGame + GAME_SAVE::field_21F
                 LSR     A
                 LDA     #$80
                 LDX     #$67
@@ -5747,7 +5742,7 @@ get_save_field:
 
     and #$3F
     tax
-    lda CurrentGame,X       ; $7400,X
+    lda CurrentGame,X
     rts
 ; End of function get_save_field
 
@@ -5815,7 +5810,7 @@ stru_E105:      .word nullsub_3-1, 0
                 .word sub_E71A-1, $4604
 
 nullsub_3:
-    RTS
+    rts
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -5978,10 +5973,10 @@ loc_E286:
                 ROR     A
                 LSR     Source+1        ; byte_109EAB, byte_109EB3
                 ROR     A
-                ADC     #$80
+                ADC     #<Buffer        ; #$80
                 STA     Source          ; byte_109EAB, byte_109EB3
                 LDA     Source+1        ; byte_109EAB, byte_109EB3
-                ADC     #$67
+                ADC     #>Buffer        ; #$67
                 STA     Source+1        ; byte_109EAB, byte_109EB3
                 LDY     #$14
                 LDA     (Source),Y      ; byte_109EAB, byte_109EB3
@@ -6202,8 +6197,9 @@ bank14_8000_ex:
 ; End of function bank14_8000_ex
 
 ; ---------------------------------------------------------------------------
-ReturnTab:      .word sub_E428-1, loc_E43C-1, sub_E3DE-1, sub_E4B2-1, sub_E49E-1
-                .word loc_E4DC-1, loc_E403-1, loc_E466-1, loc_E490-1
+ReturnTab:
+    .word sub_E428-1, loc_E43C-1, sub_E3DE-1, sub_E4B2-1, sub_E49E-1
+    .word loc_E4DC-1, loc_E403-1, loc_E466-1, loc_E490-1
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -6442,7 +6438,7 @@ loc_E52F:
                 BMI     loc_E541
                 LDA     BankNum0
 ; ---------------------------------------------------------------------------
-                .byte $2C ; ,
+                .byte $2C
 ; ---------------------------------------------------------------------------
 
 loc_E541:
@@ -6756,20 +6752,20 @@ loc_E6A9:
                 SEC
                 LDA     (Pointer),Y
                 SBC     #0
-                STA     CurrentGame + PURE_SAVE::GlobalX    ; $7404
+                STA     CurrentGame + PURE_SAVE::GlobalX
                 INY
                 LDA     (Pointer),Y
                 SBC     #2
-                STA     CurrentGame + PURE_SAVE::GlobalX+1  ; $7405
+                STA     CurrentGame + PURE_SAVE::GlobalX+1
                 INY
                 SEC
                 LDA     (Pointer),Y
                 SBC     #$C0
-                STA     CurrentGame + PURE_SAVE::GlobalY    ; $7406
+                STA     CurrentGame + PURE_SAVE::GlobalY
                 INY
                 LDA     (Pointer),Y
                 SBC     #1
-                STA     CurrentGame + PURE_SAVE::GlobalY+1  ; $7407
+                STA     CurrentGame + PURE_SAVE::GlobalY+1
                 LDA     #$40
                 STA     byte_20
                 RTS
@@ -7914,7 +7910,7 @@ loc_ECC6:
                 LDA     #0
                 STA     MIRROR
                 STA     IRQCount
-                STA     byte_70
+                STA     PrintSize
                 STA     byte_71
                 STA     EnemyGroup
                 STA     ModeSRAM
@@ -8394,7 +8390,7 @@ sub_EEE4:
 
 
 .proc sub_EEF0
-    lda CurrentGame + GAME_SAVE::field_21F      ; $761F
+    lda CurrentGame + GAME_SAVE::field_21F
     and #$F0
     beq exit
     sta Pointer
@@ -9667,7 +9663,7 @@ loc_F539:
                 PHA
                 JSR     wait_nmi_processed
                 LDA     #0
-                STA     byte_70
+                STA     PrintSize
                 LDA     AddrForJmp
                 STA     Column
                 LDA     pTileID

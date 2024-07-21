@@ -3,7 +3,9 @@
 .include "structures.inc"
 
 .segment "FRAMES"
+    .export stru_196C00, byte_196C24, stru_196C2D, byte_196C8B, stru_196CC0, byte_196C66
 
+stru_196C00:
     tile_position 7, 1
     .byte FRAME_TOP_LEFT
     fill FRAME_TOP, 15
@@ -31,6 +33,7 @@
     .byte FRAME_BOTTOM_RIGHT
     end_frame
 
+byte_196C24:
     end_row
 
     tile_position 8, 10
@@ -39,6 +42,7 @@
 
     end_frame
 
+stru_196C2D:
     tile_position 5, 7
     .byte FRAME_TOP_LEFT
     fill FRAME_TOP, 19
@@ -85,6 +89,7 @@ byte_6C60:
     right
     end_row
 
+byte_196C66:
     end_row
 
     tile_position 8, 22
@@ -96,6 +101,7 @@ byte_6C60:
 
     end_frame
 
+byte_196C8B:
     end_row
 
     tile_position 15, 5
@@ -123,6 +129,7 @@ byte_6C60:
 
     end_row
 
+stru_196CC0:
     tile_position 7, 20
     .byte FRAME_TOP_LEFT
     fill FRAME_TOP, 16
@@ -150,6 +157,18 @@ byte_6C60:
     .byte FRAME_BOTTOM_RIGHT
     end_frame
 
-.align $0200
+.align $0100
+
+.export byte_6D00, word_6D01, byte_6D04, NameOffset, CharName, ItemName
+
+byte_6D00:      .res 1
+word_6D01:      .res 3
+byte_6D04:      .res 28
+
+NameOffset:     .res 1
+CharName:       .res 3
+ItemName:       .res 200
+
+.align $0100        ; .align $0200
 
     .byte 0

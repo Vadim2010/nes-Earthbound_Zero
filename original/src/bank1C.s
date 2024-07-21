@@ -1982,13 +1982,13 @@ loc_1C8A33:
                 LDA     byte_7D1,X
                 STA     PointerAPU
                 LDA     apu_B0
-                CMP     #$20 ; ' '
+                CMP     #$20
                 BEQ     loc_1C8A52
                 CMP     #$A0
                 BEQ     loc_1C8A61
-                CMP     #$60 ; '`'
+                CMP     #$60
                 BEQ     loc_1C8A24
-                CMP     #$40 ; '@'
+                CMP     #$40
                 BEQ     loc_1C8A13
                 CMP     #$80
                 BEQ     sub_1C89F6

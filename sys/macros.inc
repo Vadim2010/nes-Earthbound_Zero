@@ -127,3 +127,19 @@
         sty dest+1
     .endif
 .endmacro
+
+; store a 16-bit address in memory using X register
+; Input: 16-bit address (16-bit value), destination memory location (16-bit value)
+.macro storex addr, dest
+    .if (.match (.left (1, {addr}), #))
+        ldx #<(.mid (1, .tcount ({addr})-1, {addr}))
+        stx dest
+        ldx #>(.mid (1, .tcount ({addr})-1, {addr}))
+        stx dest+1
+    .else
+        ldx addr
+        stx dest
+        ldx addr+1
+        stx dest+1
+    .endif
+.endmacro

@@ -85,7 +85,7 @@ copy_pure_save:
     .import CurrentGame, PureSave
     .importzp Dist, Source
 
-    pha                 ; Input: A - game number
+    pha
     ldxa #CurrentGame
     stxa Dist
     ldxa #(PureSave+$2000)

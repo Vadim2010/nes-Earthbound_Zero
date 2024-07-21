@@ -119,7 +119,7 @@ HIDE                    = $80
     BBGang
     DrDistorto
     GangZombie1
-    GangZombie2
+    GangZombie
     PseudoZombi
     Crow
     Snake
@@ -143,42 +143,42 @@ HIDE                    = $80
     Rat
     Bomber
     Doll1
-    Doll2
+    Doll
     Lamp
     BionicCenti1
     BionicCenti2
-    BionicCenti3
+    BionicCenti
     BionicScorp
     RedSnake1
     RedSnake2
-    RedSnake3
+    RedSnake
     LoneWolf
     PolarBear
     Rattlesnake1
     Rattlesnake2
     Rattlesnake3
     Rattlesnake4
-    Rattlesnake5
+    Rattlesnake
     Tarantula
     Crocodile
     Buffalo1
-    Buffalo2
+    Buffalo
     BionicBat1
-    BionicBat2
+    BionicBat
     StrayDog
     PsychoCar
     PsychoTruck
     ManiacTruck
     AlarmGhost
     Foureyes1
-    Foureyes2
+    Foureyes
     Dadseyes
     Momseyes
     SkyYddet1
     SkyYddet2
-    SkyYddet3
+    SkyYddet
     GigaBorg1
-    GigaBorg2
+    GigaBorg
     OmegaBorg
     Scrapper
     UltraBarbot
@@ -192,7 +192,7 @@ HIDE                    = $80
     Titanian
     OhMook
     Zombie1
-    Zombie2
+    Zombie
     NastyZombie
     SilverWolf
     R7037
@@ -1116,7 +1116,7 @@ HIDE                    = $80
     .byte 0                 ; Item
     .byte $3F               ; Tile
 
-;GangZombie2:
+;GangZombie:
     .import sGangZombie
 
     .byte 0                 ; field_0
@@ -1644,7 +1644,7 @@ HIDE                    = $80
     .byte 0                 ; Item
     .byte $38               ; Tile
 
-;Doll2:
+;Doll:
     .import sDoll
 
     .byte 0                 ; field_0
@@ -1732,7 +1732,7 @@ HIDE                    = $80
     .byte 0                 ; Item
     .byte 0                 ; Tile
 
-;BionicCenti3:
+;BionicCenti:
     .import sBionicCenti
 
     .byte 0                 ; field_0
@@ -1819,7 +1819,7 @@ HIDE                    = $80
     .byte 0                 ; Item
     .byte 0                 ; Tile
 
-;RedSnake3:
+;RedSnake:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
@@ -1969,7 +1969,7 @@ HIDE                    = $80
     .byte 0                 ; Item
     .byte 0                 ; Tile
 
-;Rattlesnake5:
+;Rattlesnake:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
@@ -2056,7 +2056,7 @@ HIDE                    = $80
     .byte 0                 ; Item
     .byte $2C               ; Tile
 
-;Buffalo2:
+;Buffalo:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
@@ -2099,7 +2099,7 @@ HIDE                    = $80
     .byte 0                 ; Item
     .byte 0                 ; Tile
 
-;BionicBat2:
+;BionicBat:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
@@ -2252,7 +2252,7 @@ HIDE                    = $80
     .byte 0                 ; Item
     .byte 0                 ; Tile
 
-;Foureyes2:
+;Foureyes:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
@@ -2360,7 +2360,7 @@ HIDE                    = $80
     .byte 0                 ; Item
     .byte $2F               ; Tile
 
-;SkyYddet3:
+;SkyYddet:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
@@ -2403,7 +2403,7 @@ HIDE                    = $80
     .byte 0                 ; Item
     .byte $28               ; Tile
 
-;GigaBorg2:
+;GigaBorg:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
@@ -2710,7 +2710,7 @@ HIDE                    = $80
     .byte 0                 ; Item
     .byte 0                 ; Tile
 
-;Zombie2:
+;Zombie:
 
     .byte 0                 ; field_0
     .byte 0                 ; InitialStatus
@@ -2892,7 +2892,7 @@ EnemyGroups:
     .byte MrBat, 1, MrBat, 2, MrBat, 3, NO_ENEMY, 0, $A, $27
     .byte MrBat, 1, MrBat, 2, MrBat, 3, MrBat, 4, $C, $27
     .byte PseudoZombi, 0, NO_ENEMY, 0, NO_ENEMY, 0, NO_ENEMY, 0, 2, $3C
-    .byte GangZombie2, 0, NO_ENEMY, 0, NO_ENEMY, 0, NO_ENEMY, 0, 2, $3C
+    .byte GangZombie, 0, NO_ENEMY, 0, NO_ENEMY, 0, NO_ENEMY, 0, 2, $3C
     .byte Elephant, 0, NO_ENEMY, 0, NO_ENEMY, 0, NO_ENEMY, 0, 0, $36
     .byte Tiger, 0, NO_ENEMY, 0, NO_ENEMY, 0, NO_ENEMY, 0, 0, $30
     .byte Gorilla, 0, NO_ENEMY, 0, NO_ENEMY, 0, NO_ENEMY, 0, 1, $37
@@ -2902,7 +2902,7 @@ EnemyGroups:
     .byte Alligator, 1, Alligator, 2, NO_ENEMY, 0, NO_ENEMY, 0, 8, $39
     .byte Fly, 1, Fly, 2|HIDE, Fly, 3|HIDE, Fly, 4|HIDE, $C, $21
     .byte Fly, 1, Fly, 2, Fly, 3|HIDE, Fly, 4|HIDE, $C, $21
-    .byte BionicCenti3, 0, NO_ENEMY, 0, NO_ENEMY, 0, NO_ENEMY, 0, 2, $21
+    .byte BionicCenti, 0, NO_ENEMY, 0, NO_ENEMY, 0, NO_ENEMY, 0, 2, $21
     .byte LilSaucer, 0, NO_ENEMY, 0, NO_ENEMY, 0, NO_ENEMY, 0, 2, $30
     .byte LilSaucer, 1, LilSaucer, 2, NO_ENEMY, 0, NO_ENEMY, 0, 7, $30
     .byte Barbot, 0, NO_ENEMY, 0, NO_ENEMY, 0, NO_ENEMY, 0, 2, $30
@@ -2910,7 +2910,7 @@ EnemyGroups:
     .byte LilSaucer, 1, Barbot, 0, LilSaucer, 2, NO_ENEMY, 0, $A, $30
     .byte LilSaucer, 1, LilSaucer, 2, Barbot, 0, LilSaucer, 3, $C, $30
     .byte RaebYddet, 0, NO_ENEMY, 0, NO_ENEMY, 0, NO_ENEMY, 0, 1, $31
-    .byte RaebYddet, 0, SkyYddet3, HIDE, NO_ENEMY, 0, NO_ENEMY, 0, 8, $31
+    .byte RaebYddet, 0, SkyYddet, HIDE, NO_ENEMY, 0, NO_ENEMY, 0, 8, $31
     .byte BigWoodoh, 0, NO_ENEMY, 0, NO_ENEMY, 0, NO_ENEMY, 0, 0, $31
     .byte Woodoh, 1, Woodoh, 2|HIDE, Woodoh, 3|HIDE, NO_ENEMY, 0, $A, $36
     .byte MagicSnail, 0, NO_ENEMY, 0, NO_ENEMY, 0, NO_ENEMY, 0, 1, $3B
@@ -2919,7 +2919,7 @@ EnemyGroups:
     .byte Momseyes, 0, NO_ENEMY, 0, NO_ENEMY, 0, NO_ENEMY, 0, 2, $20
     .byte Dadseyes, 0, Watcher, 0, Momseyes, 0, NO_ENEMY, 0, $A, $20
     .byte Dadseyes, 0, NO_ENEMY, 0, NO_ENEMY, 0, NO_ENEMY, 0, 2, $20
-    .byte Foureyes2, 0, NO_ENEMY, 0, NO_ENEMY, 0, NO_ENEMY, 0, 2, $20
+    .byte Foureyes, 0, NO_ENEMY, 0, NO_ENEMY, 0, NO_ENEMY, 0, 2, $20
     .byte NO_ENEMY, 0, Groucho, 0, NO_ENEMY, 0, NO_ENEMY, 0, 4, $20
     .byte Dragon, 0, NO_ENEMY, 0, NO_ENEMY, 0, NO_ENEMY, 0, 0, $36
     .byte TheFish, 0, NO_ENEMY, 0, NO_ENEMY, 0, NO_ENEMY, 0, 2, $35
@@ -2946,20 +2946,20 @@ EnemyGroups:
     .byte DrDistorto, 0, Scrapper, 0, NO_ENEMY, 0, NO_ENEMY, 0, $E, $33
     .byte Bomber, 0, NO_ENEMY, 0, NO_ENEMY, 0, NO_ENEMY, 0, 2, $25
     .byte FireBall, 0, NO_ENEMY, 0, NO_ENEMY, 0, NO_ENEMY, 0, 2, $26
-    .byte RedSnake3, 0, NO_ENEMY, 0, NO_ENEMY, 0, NO_ENEMY, 0, 2, $31
+    .byte RedSnake, 0, NO_ENEMY, 0, NO_ENEMY, 0, NO_ENEMY, 0, 2, $31
     .byte Ghost, 0, NO_ENEMY, 0, NO_ENEMY, 0, NO_ENEMY, 0, 2, $24
     .byte Ghost, 1, Ghost, 2, NO_ENEMY, 0, NO_ENEMY, 0, 7, $24
     .byte Ghost, 1, Ghost, 2, Ghost, 3, NO_ENEMY, 0, $A, $24
     .byte Armor, 0, NO_ENEMY, 0, NO_ENEMY, 0, NO_ENEMY, 0, 2, $34
     .byte Armor, 1, Armor, 2, NO_ENEMY, 0, NO_ENEMY, 0, 7, $34
     .byte DustBall, 0, NO_ENEMY, 0, NO_ENEMY, 0, NO_ENEMY, 0, 1, $35
-    .byte BionicBat2, 1, BionicBat2, 2, NO_ENEMY, 0, NO_ENEMY, 0, 7, $25
-    .byte BionicBat2, 1, BionicBat2, 2, BionicBat2, 3|HIDE, BionicBat2, 4|HIDE, $C, $25
+    .byte BionicBat, 1, BionicBat, 2, NO_ENEMY, 0, NO_ENEMY, 0, 7, $25
+    .byte BionicBat, 1, BionicBat, 2, BionicBat, 3|HIDE, BionicBat, 4|HIDE, $C, $25
     .byte Ghost, 1|HIDE, Ghost, 2|HIDE, AlarmGhost, 0, Ghost, 3|HIDE, $C, $34
-    .byte Zombie2, HIDE, Ghost, HIDE, AlarmGhost, 0, Armor, HIDE, $C, $34
-    .byte Zombie2, 1, Zombie2, 2, NO_ENEMY, 0, NO_ENEMY, 0, 7, $34
-    .byte Zombie2, 0, NastyZombie, 0, NO_ENEMY, 0, NO_ENEMY, 0, 7, $34
-    .byte BionicBat2, HIDE, DustBall, 1|HIDE, AlarmGhost, 0, DustBall, 2|HIDE, $12, $35
+    .byte Zombie, HIDE, Ghost, HIDE, AlarmGhost, 0, Armor, HIDE, $C, $34
+    .byte Zombie, 1, Zombie, 2, NO_ENEMY, 0, NO_ENEMY, 0, 7, $34
+    .byte Zombie, 0, NastyZombie, 0, NO_ENEMY, 0, NO_ENEMY, 0, 7, $34
+    .byte BionicBat, HIDE, DustBall, 1|HIDE, AlarmGhost, 0, DustBall, 2|HIDE, $12, $35
     .byte SilverWolf, 1, SilverWolf, 2, SilverWolf, 3, NO_ENEMY, 0, $B, $3E
     .byte SilverWolf, 1, SilverWolf, 2, SilverWolf, 3, SilverWolf, 4, $D, $3E
     .byte LoneWolf, 0, NO_ENEMY, 0, NO_ENEMY, 0, NO_ENEMY, 0, 1, $3E
@@ -2981,7 +2981,7 @@ EnemyGroups:
     .byte Gabilan, 0, NO_ENEMY, 0, NO_ENEMY, 0, NO_ENEMY, 0, 1, $36
     .byte Gabilan, 1, Gabilan, 2, NO_ENEMY, 0, NO_ENEMY, 0, 8, $36
     .byte Starman, 0, NO_ENEMY, 0, NO_ENEMY, 0, NO_ENEMY, 0, 2, $30
-    .byte Rattlesnake5, 0, NO_ENEMY, 0, NO_ENEMY, 0, NO_ENEMY, 0, 2, $30
+    .byte Rattlesnake, 0, NO_ENEMY, 0, NO_ENEMY, 0, NO_ENEMY, 0, 2, $30
     .byte Tarantula, 1, Tarantula, 2|HIDE, Tarantula, 3|HIDE, NO_ENEMY, 0, $A, $21
     .byte Scorpion, 0, NO_ENEMY, 0, NO_ENEMY, 0, NO_ENEMY, 0, 2, $31
     .byte Scorpion, 1, Scorpion, 2, NO_ENEMY, 3, NO_ENEMY, 0, 7, $31
@@ -2997,8 +2997,8 @@ EnemyGroups:
     .byte Crocodile, 1, Crocodile, 2, Crocodile, 3, NO_ENEMY, 0, $B, $39
     .byte Bison, 0, NO_ENEMY, 0, NO_ENEMY, 0, NO_ENEMY, 0, 0, $2F
     .byte Bison, 1, Bison, 2, NO_ENEMY, 0, NO_ENEMY, 0, 9, $2F
-    .byte Buffalo2, 1, Buffalo2, 2, NO_ENEMY, 0, NO_ENEMY, 0, 9, $3D
-    .byte Buffalo2, 1, Buffalo2, 2, Buffalo2, 3, NO_ENEMY, 0, $13, $3D
+    .byte Buffalo, 1, Buffalo, 2, NO_ENEMY, 0, NO_ENEMY, 0, 9, $3D
+    .byte Buffalo, 1, Buffalo, 2, Buffalo, 3, NO_ENEMY, 0, $13, $3D
     .byte Seagull, 1, Seagull, 2, NO_ENEMY, 0, NO_ENEMY, 0, 8, $2D
     .byte Seagull, 1, Seagull, 2, Seagull, 3, NO_ENEMY, 0, $B, $2D
     .byte BlueStarman, 0, NO_ENEMY, 0, NO_ENEMY, 0, NO_ENEMY, 0, 2, $39
@@ -3024,17 +3024,17 @@ EnemyGroups:
     .byte StarMiner, 0, NO_ENEMY, 0, NO_ENEMY, 0, NO_ENEMY, 0, 2, $3C
     .byte Juana, 0, NO_ENEMY, 0, NO_ENEMY, 0, NO_ENEMY, 0, 2, $32
     .byte Juana, 0, SuperEnergy, 0, NO_ENEMY, 0, NO_ENEMY, 0, $E, $32
-    .byte GigaBorg2, 0, NO_ENEMY, 0, NO_ENEMY, 0, NO_ENEMY, 0, 1, $30
-    .byte GigaBorg2, 1, GigaBorg2, 2, NO_ENEMY, 0, NO_ENEMY, 0, 8, $30
+    .byte GigaBorg, 0, NO_ENEMY, 0, NO_ENEMY, 0, NO_ENEMY, 0, 1, $30
+    .byte GigaBorg, 1, GigaBorg, 2, NO_ENEMY, 0, NO_ENEMY, 0, 8, $30
     .byte OmegaBorg, 0, NO_ENEMY, 0, NO_ENEMY, 0, NO_ENEMY, 0, 1, $30
-    .byte OmegaBorg, 0, GigaBorg2, 0, NO_ENEMY, 0, NO_ENEMY, 0, 8, $30
+    .byte OmegaBorg, 0, GigaBorg, 0, NO_ENEMY, 0, NO_ENEMY, 0, 8, $30
     .byte LastStarman, 1, LastStarman, 2, LastStarman, 3, NO_ENEMY, 0, $A, $30
     .byte LastStarman, 1, LastStarman, 2, LastStarman, 3, LastStarman, 4, $C, $30
     .byte LastStarman, 1, LastStarman, 2, LastStarman, 3, LastStarman, 4, $C, $30
     .byte NO_ENEMY, 0, Fugitive, 0, Rope, 0, NO_ENEMY, 0, 5, $23
     .byte BBsBoss, 0, NO_ENEMY, 0, NO_ENEMY, 0, NO_ENEMY, 0, $22, $47
     .byte BBGang, 0, NO_ENEMY, 0, NO_ENEMY, 0, NO_ENEMY, 0, 2, $4B
-    .byte Doll2, 0, NO_ENEMY, 0, NO_ENEMY, 0, NO_ENEMY, 0, 2, $3F
+    .byte Doll, 0, NO_ENEMY, 0, NO_ENEMY, 0, NO_ENEMY, 0, 2, $3F
     .byte Lamp, 0, NO_ENEMY, 0, NO_ENEMY, 0, NO_ENEMY, 0, 2, $36
     .byte Ullrich, 0, NO_ENEMY, 0, NO_ENEMY, 0, NO_ENEMY, 0, 1, $39
     .byte Giegue, 0, NO_ENEMY, 0, NO_ENEMY, 0, NO_ENEMY, 0, $A0, $59

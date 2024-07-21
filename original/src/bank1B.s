@@ -732,7 +732,7 @@ sub_1B8341:
                 JSR     loc_1B80AD
                 LDA     apu_BF
                 STA     byte_7FD
-                CMP     #$33 ; '3'
+                CMP     #$33
                 BEQ     loc_1B835B
                 CMP     #$19
                 BEQ     loc_1B8355
