@@ -1,3 +1,5 @@
+.include "objects.inc"
+
 ; BANK $11
 .segment "BANK_1"
 ; 0x11 records
@@ -18,22 +20,22 @@ off_118022:
     .word 0
 
 byte_11805C:
-    .byte $41, $C1, 0, $ED, $46, $5A, $84, $79
+    entrance DOOR, $C140, $ED00, UP, 6, $5A40, $7980, DOWN
 
 byte_118064:
-    .byte $81, $BD, $C0, $ED, $40, $9B, $86, $F5
+    entrance DOOR, $BD80, $EDC0, UP, 0, $9B40, $F580, LEFT
 
 byte_11806C:
-    .byte $81, $BE, $C0, $ED, $40, $B3, $86, $F5
+    entrance DOOR, $BE80, $EDC0, UP, 0, $B340, $F580, LEFT
 
 byte_118074:
-    .byte $41, $BF, $C0, $ED, $40, $B3, $86, $FD
+    entrance DOOR, $BF40, $EDC0, UP, 0, $B340, $FD80, LEFT
 
 byte_11807C:
-    .byte $81, $C3, $C0, $ED, $40, $AB, $86, $F5
+    entrance DOOR, $C380, $EDC0, UP, 0, $AB40, $F580, LEFT
 
 byte_118084:
-    .byte $81, $C4, $C0, $ED, $40, $A3, $86, $FD
+    entrance DOOR, $C480, $EDC0, UP, 0, $A340, $FD80, LEFT
 
 byte_11808C:
     .byte $58, $C5, $C0, $ED, $36, $25, $35, $15, $12, $5B
@@ -42,28 +44,28 @@ byte_11808C:
     .byte $25, 8, $35, 3, 0
 
 byte_1180B2:
-    .byte $83, $BC, $46, $EE, $80, $BE, $82, $F5
+    entrance STAIRS, $BC80, $EE40, LEFT, 0, $BE80, $F580, RIGHT
 
 byte_1180BA:
-    .byte $43, $BE, $86, $F5, $C0, $BC, $42, $EE
+    entrance STAIRS, $BE40, $F580, LEFT, 0, $BCC0, $EE40, RIGHT
 
 byte_1180C2:
-    .byte $81, $BF, $C0, $F4, $40, $B3, $86, $ED
+    entrance DOOR, $BF80, $F4C0, UP, 0, $B340, $ED80, LEFT
 
 byte_1180CA:
-    .byte $81, $C0, $C0, $F4, $40, $BB, $86, $F5
+    entrance DOOR, $C080, $F4C0, UP, 0, $BB40, $F580, LEFT
 
 byte_1180D2:
-    .byte $81, $C1, $C0, $F4, $40, $BB, $86, $FD
+    entrance DOOR, $C180, $F4C0, UP, 0, $BB40, $FD80, LEFT
 
 byte_1180DA:
-    .byte $81, $C2, $C0, $F4, $40, $DF, $86, $25
+    entrance DOOR, $C280, $F4C0, UP, 0, $DF40, $2580, LEFT
 
 byte_1180E2:
-    .byte $81, $C3, $C0, $F4, $40, $9B, $86, $ED
+    entrance DOOR, $C380, $F4C0, UP, 0, $9B40, $ED80, LEFT
 
 byte_1180EA:
-    .byte $41, $C4, $C0, $F4, $40, $F, $86, $55
+    entrance DOOR, $C440, $F4C0, UP, 0, $F40, $5580, LEFT
 
 byte_1180F2:
     .byte $58, $C5, $42, $F5, $36, $27, $35, $17, $12, $3C
@@ -72,16 +74,16 @@ byte_1180F2:
     .byte $57, $27, 8, $35, 3, 0
 
 byte_11811A:
-    .byte $43, $C0, $86, $FD, $C0, $B4, $42, $F5
+    entrance STAIRS, $C040, $FD80, LEFT, 0, $B4C0, $F540, RIGHT
 
 byte_118122:
-    .byte $81, $C1, $C0, $FC, $40, $BB, $86, $21
+    entrance DOOR, $C180, $FCC0, UP, 0, $BB40, $2180, LEFT
 
 byte_11812A:
-    .byte $41, $C2, $C0, $FC, $40, $DB, $86, $21
+    entrance DOOR, $C240, $FCC0, UP, 0, $DB40, $2180, LEFT
 
 byte_118132:
-    .byte $83, $C0, $46, $FD, $80, $9C, $82, $F1
+    entrance STAIRS, $C080, $FD40, LEFT, 0, $9C80, $F180, RIGHT
 
 byte_11813A:
     .byte $D1, $C5, $82, $EE, $28, $83, $A, $B, 8, $18, 1
@@ -132,10 +134,10 @@ off_118208:
     .word 0
 
 byte_118242:
-    .byte $81, $B, $82, $21, $46, $2C, 4, $4F
+    entrance DOOR, $B80, $2180, RIGHT, 6, $2C40, $4F00, DOWN
 
 byte_11824A:
-    .byte $83, 8, $46, $21, $80, 8, $82, $39
+    entrance STAIRS, $880, $2140, LEFT, 0, $880, $3980, RIGHT
 
 byte_118252:
     .byte $58, $A, $C0, $20, $36, $24, $D, $55, $14, 8, $36
@@ -144,22 +146,22 @@ byte_118252:
     .byte 3, 0
 
 byte_118277:
-    .byte $81, $73, $82, $21, $80, 9, 4, $39
+    entrance DOOR, $7380, $2180, RIGHT, 0, $980, $3900, DOWN
 
 byte_11827F:
-    .byte $81, $9F, $82, $FD, $40, $A, 4, $39
+    entrance DOOR, $9F80, $FD80, RIGHT, 0, $A40, $3900, DOWN
 
 byte_118287:
-    .byte $81, $B, $82, $29, $46, $66, 4, $CE
+    entrance DOOR, $B80, $2980, RIGHT, 6, $6640, $CE00, DOWN
 
 byte_11828F:
-    .byte $81, 3, $82, $31, $46, $27, 4, $7C
+    entrance DOOR, $380, $3180, RIGHT, 6, $2740, $7C00, DOWN
 
 byte_118297:
-    .byte $81, $B, $82, $41, $4A, $E0, 4, $F4
+    entrance DOOR, $B80, $4180, RIGHT, $A, $E040, $F400, DOWN
 
 byte_11829F:
-    .byte $81, $9B, $82, $21, 6, $58, $84, $B2
+    entrance DOOR, $9B80, $2180, RIGHT, 6, $5800, $B280, DOWN
 
 byte_1182A7:
     .byte $54, $B, $86, $21, $C8, $85, 5, $A, $A, $18, 8, 9
@@ -283,7 +285,7 @@ byte_11861D:
     .byte $80, 0
 
 byte_118651:
-    .byte $81, $E3, $82, $39, $46, $D9, 4, $66
+    entrance DOOR, $E380, $3980, RIGHT, 6, $D940, $6600, DOWN
 
 byte_118659:
     .byte $95, $E2, $44, $39, $80, $80, 6, $2D, $A, $1B, $12
@@ -298,43 +300,43 @@ off_118675:
     .word 0
 
 byte_118697:
-    .byte $81, $9F, $82, $21, $40, $7C, $C2, $21
+    entrance DOOR, $9F80, $2180, RIGHT, 0, $7C40, $21C0, RIGHT
 
 byte_11869F:
-    .byte $81, $9C, $46, $21, $80, $C7, $86, $F8
+    entrance DOOR, $9C80, $2140, LEFT, 0, $C780, $F880, LEFT
 
 byte_1186A7:
-    .byte 1, $9C, $C6, $21, $80, $BB, $86, $EC
+    entrance DOOR, $9C00, $21C0, LEFT, 0, $BB80, $EC80, LEFT
 
 byte_1186AF:
-    .byte $41, $87, $42, $21, $40, $C, $C2, $41
+    entrance DOOR, $8740, $2140, RIGHT, 0, $C40, $41C0, RIGHT
 
 byte_1186B7:
-    .byte $C1, $87, $C2, $21, $C0, $94, $42, $21
+    entrance DOOR, $87C0, $21C0, RIGHT, 0, $94C0, $2140, RIGHT
 
 byte_1186BF:
-    .byte $81, $A7, $82, $21, $40, 4, $C2, $21
+    entrance DOOR, $A780, $2180, RIGHT, 0, $440, $21C0, RIGHT
 
 byte_1186C7:
-    .byte $41, $A4, $86, $21, $40, $F, $86, $31
+    entrance DOOR, $A440, $2180, LEFT, 0, $F40, $3180, LEFT
 
 byte_1186CF:
-    .byte $41, $8F, $42, $21, $C0, $C, $42, $41
+    entrance DOOR, $8F40, $2140, RIGHT, 0, $CC0, $4140, RIGHT
 
 byte_1186D7:
-    .byte $C1, $8F, $C2, $21, $40, $94, $C2, $21
+    entrance DOOR, $8FC0, $21C0, RIGHT, 0, $9440, $21C0, RIGHT
 
 byte_1186DF:
-    .byte $81, $F, $82, $21, $40, $9D, $C2, $EF
+    entrance DOOR, $F80, $2180, RIGHT, 0, $9D40, $EFC0, RIGHT
 
 byte_1186E7:
-    .byte $81, $C, $46, $21, $80, $AF, $86, $F8
+    entrance DOOR, $C80, $2140, LEFT, 0, $AF80, $F880, LEFT
 
 byte_1186EF:
-    .byte 1, $C, $C6, $21, $80, $AF, $86, $EC
+    entrance DOOR, $C00, $21C0, LEFT, 0, $AF80, $EC80, LEFT
 
 byte_1186F7:
-    .byte $81, 7, $82, $39, $40, $B5, $C2, $EF
+    entrance DOOR, $780, $3980, RIGHT, 0, $B540, $EFC0, RIGHT
 
 byte_1186FF:
     .byte $E0, 5, $80, $39, $88, $81, $41, 3
@@ -355,43 +357,43 @@ off_11872F:
     .word byte_1187D9, byte_1187E1, 0
 
 byte_118755:
-    .byte $81, $97, $82, $21, $C0, $74, $42, $21
+    entrance DOOR, $9780, $2180, RIGHT, 0, $74C0, $2140, RIGHT
 
 byte_11875D:
-    .byte $81, $94, $46, $21, $80, $87, $C6, $21
+    entrance DOOR, $9480, $2140, LEFT, 0, $8780, $21C0, LEFT
 
 byte_118765:
-    .byte 1, $94, $C6, $21, $80, $8F, $C6, $21
+    entrance DOOR, $9400, $21C0, LEFT, 0, $8F80, $21C0, LEFT
 
 byte_11876D:
-    .byte $81, $F, $82, $29, $40, $74, $C2, $21
+    entrance DOOR, $F80, $2980, RIGHT, 0, $7440, $21C0, RIGHT
 
 byte_118775:
-    .byte $81, $C, $46, $29, $80, $A3, $86, $EC
+    entrance DOOR, $C80, $2940, LEFT, 0, $A380, $EC80, LEFT
 
 byte_11877D:
-    .byte 1, $C, $C6, $29, $40, $F, $86, $51
+    entrance DOOR, $C00, $29C0, LEFT, 0, $F40, $5180, LEFT
 
 byte_118785:
-    .byte $81, $F, $82, $51, $40, $C, $C2, $29
+    entrance DOOR, $F80, $5180, RIGHT, 0, $C40, $29C0, RIGHT
 
 byte_11878D:
-    .byte $81, $C, $46, $51, $40, 7, $86, $41
+    entrance DOOR, $C80, $5140, LEFT, 0, $740, $4180, LEFT
 
 byte_118795:
-    .byte 1, $C, $C6, $51, $40, $F, $86, $39
+    entrance DOOR, $C00, $51C0, LEFT, 0, $F40, $3980, LEFT
 
 byte_11879D:
-    .byte $81, $AF, $82, $21, $80, 4, $82, $31
+    entrance DOOR, $AF80, $2180, RIGHT, 0, $480, $3180, RIGHT
 
 byte_1187A5:
-    .byte $81, $F, $82, $49, $40, $C1, $C2, $FB
+    entrance DOOR, $F80, $4980, RIGHT, 0, $C140, $FBC0, RIGHT
 
 byte_1187AD:
-    .byte $81, 7, $82, $49, $40, $A9, $C2, $EF
+    entrance DOOR, $780, $4980, RIGHT, 0, $A940, $EFC0, RIGHT
 
 byte_1187B5:
-    .byte $81, $F, $82, $39, $40, $C, $C2, $51
+    entrance DOOR, $F80, $3980, RIGHT, 0, $C40, $51C0, RIGHT
 
 byte_1187BD:
     .byte $DF, $C, $40, $51, 5, $F, $35, $B, 8, $63, 1, 0
@@ -418,70 +420,70 @@ off_1187E9:
     .word byte_1188E3, byte_1188EF, 0
 
 byte_11881F:
-    .byte $C1, $A3, $82, $F4, $C0, $6C, $42, $21
+    entrance DOOR, $A3C0, $F480, RIGHT, 0, $6CC0, $2140, RIGHT
 
 byte_118827:
-    .byte 1, $94, $C6, $FE, $40, $7F, $86, $21
+    entrance DOOR, $9400, $FEC0, LEFT, 0, $7F40, $2180, LEFT
 
 byte_11882F:
-    .byte $C1, 7, $82, $21, $C0, $7C, $42, $21
+    entrance DOOR, $7C0, $2180, RIGHT, 0, $7CC0, $2140, RIGHT
 
 byte_118837:
-    .byte 1, 4, $C6, $21, $40, $A7, $86, $21
+    entrance DOOR, $400, $21C0, LEFT, 0, $A740, $2180, LEFT
 
 byte_11883F:
-    .byte $81, 7, $82, $51, $C0, 4, $42, $29
+    entrance DOOR, $780, $5180, RIGHT, 0, $4C0, $2940, RIGHT
 
 byte_118847:
-    .byte $81, $F, $82, $41, $40, 4, $C2, $29
+    entrance DOOR, $F80, $4180, RIGHT, 0, $440, $29C0, RIGHT
 
 byte_11884F:
-    .byte 1, $C, $C6, $41, 0, $87, $46, $21
+    entrance DOOR, $C00, $41C0, LEFT, 0, $8700, $2140, LEFT
 
 byte_118857:
-    .byte $81, $C, $46, $41, 0, $8F, $46, $21
+    entrance DOOR, $C80, $4140, LEFT, 0, $8F00, $2140, LEFT
 
 byte_11885F:
-    .byte $C1, $A3, $82, $EC, $C0, $C, $42, $29
+    entrance DOOR, $A3C0, $EC80, RIGHT, 0, $CC0, $2940, RIGHT
 
 byte_118867:
-    .byte 1, $9D, $C6, $EF, $40, $F, $86, $21
+    entrance DOOR, $9D00, $EFC0, LEFT, 0, $F40, $2180, LEFT
 
 byte_11886F:
-    .byte $81, $F, $82, $31, $80, $A4, $82, $21
+    entrance DOOR, $F80, $3180, RIGHT, 0, $A480, $2180, RIGHT
 
 byte_118877:
-    .byte $C1, $C7, $82, $F8, $C0, $9C, $42, $21
+    entrance DOOR, $C7C0, $F880, RIGHT, 0, $9CC0, $2140, RIGHT
 
 byte_11887F:
-    .byte 1, $C1, $C6, $FB, $40, $F, $86, $49
+    entrance DOOR, $C100, $FBC0, LEFT, 0, $F40, $4980, LEFT
 
 byte_118887:
-    .byte $C1, $BB, $82, $EC, $40, $9C, $C2, $21
+    entrance DOOR, $BBC0, $EC80, RIGHT, 0, $9C40, $21C0, RIGHT
 
 byte_11888F:
-    .byte 1, $B5, $C6, $EF, $40, 7, $86, $39
+    entrance DOOR, $B500, $EFC0, LEFT, 0, $740, $3980, LEFT
 
 byte_118897:
-    .byte $41, 4, $86, $31, $40, $AF, $86, $21
+    entrance DOOR, $440, $3180, LEFT, 0, $AF40, $2180, LEFT
 
 byte_11889F:
-    .byte $81, 7, $82, $31, $40, $A4, $C2, $FF
+    entrance DOOR, $780, $3180, RIGHT, 0, $A440, $FFC0, RIGHT
 
 byte_1188A7:
-    .byte 1, $A4, $C6, $FF, $40, 7, $86, $31
+    entrance DOOR, $A400, $FFC0, LEFT, 0, $740, $3180, LEFT
 
 byte_1188AF:
-    .byte $C1, $AF, $82, $F8, $C0, $C, $42, $21
+    entrance DOOR, $AFC0, $F880, RIGHT, 0, $CC0, $2140, RIGHT
 
 byte_1188B7:
-    .byte $C1, $AF, $82, $EC, $40, $C, $C2, $21
+    entrance DOOR, $AFC0, $EC80, RIGHT, 0, $C40, $21C0, RIGHT
 
 byte_1188BF:
-    .byte 1, $A9, $C6, $EF, $40, 7, $86, $49
+    entrance DOOR, $A900, $EFC0, LEFT, 0, $740, $4980, LEFT
 
 byte_1188C7:
-    .byte $81, 7, $82, $41, $C0, $C, $42, $51
+    entrance DOOR, $780, $4180, RIGHT, 0, $CC0, $5140, RIGHT
 
 byte_1188CF:
     .byte $20, 6, $40, $41, $88, $81, $41, $18
@@ -504,40 +506,40 @@ off_1188FB:
     .word byte_118A65, byte_118A70, 0
 
 byte_118929:
-    .byte $81, 3, $82, $55, $C6, $2D, $44, $6C
+    entrance DOOR, $380, $5580, RIGHT, 6, $2DC0, $6C40, DOWN
 
 byte_118931:
-    .byte $81, 3, $82, $3D, $C6, $58, $44, $70
+    entrance DOOR, $380, $3D80, RIGHT, 6, $58C0, $7040, DOWN
 
 byte_118939:
-    .byte $81, $93, $82, $25, $C6, $74, $44, $EF
+    entrance DOOR, $9380, $2580, RIGHT, 6, $74C0, $EF40, DOWN
 
 byte_118941:
-    .byte $81, $B, $82, $2D, $C6, $C7, $44, $46
+    entrance DOOR, $B80, $2D80, RIGHT, 6, $C7C0, $4640, DOWN
 
 byte_118949:
-    .byte $83, 8, $46, $3D, $80, 0, $82, $45
+    entrance STAIRS, $880, $3D40, LEFT, 0, $80, $4580, RIGHT
 
 byte_118951:
-    .byte $43, 8, $86, $3D, $C0, $78, $42, $25
+    entrance STAIRS, $840, $3D80, LEFT, 0, $78C0, $2540, RIGHT
 
 byte_118959:
-    .byte $83, $A8, $46, $25, $80, 0, $82, $2D
+    entrance STAIRS, $A880, $2540, LEFT, 0, $80, $2D80, RIGHT
 
 byte_118961:
-    .byte $43, $A8, $86, $25, $C0, 0, $42, $4D
+    entrance STAIRS, $A840, $2580, LEFT, 0, $C0, $4D40, RIGHT
 
 byte_118969:
-    .byte $83, 8, $46, $4D, $80, $70, $82, $25
+    entrance STAIRS, $880, $4D40, LEFT, 0, $7080, $2580, RIGHT
 
 byte_118971:
-    .byte $43, 8, $86, $4D, $C0, 8, $42, $25
+    entrance STAIRS, $840, $4D80, LEFT, 0, $8C0, $2540, RIGHT
 
 byte_118979:
-    .byte $83, $B8, $46, $25, $80, 8, $82, $55
+    entrance STAIRS, $B880, $2540, LEFT, 0, $880, $5580, RIGHT
 
 byte_118981:
-    .byte $43, $B8, $86, $25, $C0, $C0, $42, $25
+    entrance STAIRS, $B840, $2580, LEFT, 0, $C0C0, $2540, RIGHT
 
 byte_118989:
     .byte $91, 1, 4, $55, $68, $84, 2, $89, $89, $B, 0, $A
@@ -591,37 +593,37 @@ off_118A7B:
     .word byte_118D7E, 0
 
 byte_118AA7:
-    .byte $83, 0, $46, $4D, $80, $A8, $82, $25
+    entrance STAIRS, $80, $4D40, LEFT, 0, $A880, $2580, RIGHT
 
 byte_118AAF:
-    .byte $43, 0, $86, $4D, $C0, 0, $42, $25
+    entrance STAIRS, $40, $4D80, LEFT, 0, $C0, $2540, RIGHT
 
 byte_118AB7:
-    .byte $83, 0, $46, $25, $80, 0, $82, $4D
+    entrance STAIRS, $80, $2540, LEFT, 0, $80, $4D80, RIGHT
 
 byte_118ABF:
-    .byte $43, 0, $86, $25, $C0, 0, $42, $35
+    entrance STAIRS, $40, $2580, LEFT, 0, $C0, $3540, RIGHT
 
 byte_118AC7:
-    .byte $83, 8, $46, $25, $80, 8, $82, $4D
+    entrance STAIRS, $880, $2540, LEFT, 0, $880, $4D80, RIGHT
 
 byte_118ACF:
-    .byte $43, 8, $86, $25, $C0, $B0, $42, $25
+    entrance STAIRS, $840, $2580, LEFT, 0, $B0C0, $2540, RIGHT
 
 byte_118AD7:
-    .byte $83, $B0, $46, $25, $80, 8, $82, $25
+    entrance STAIRS, $B080, $2540, LEFT, 0, $880, $2580, RIGHT
 
 byte_118ADF:
-    .byte $83, $B8, $46, $F9, $80, $C0, $82, $25
+    entrance STAIRS, $B880, $F940, LEFT, 0, $C080, $2580, RIGHT
 
 byte_118AE7:
-    .byte $43, $B0, $86, $25, $C0, 0, $42, $6D
+    entrance STAIRS, $B040, $2580, LEFT, 0, $C0, $6D40, RIGHT
 
 byte_118AEF:
-    .byte $83, 0, $46, $6D, $80, $B0, $82, $25
+    entrance STAIRS, $80, $6D40, LEFT, 0, $B080, $2580, RIGHT
 
 byte_118AF7:
-    .byte $81, $B, $82, $45, $70, $B3, 4, $70
+    entrance DOOR, $B80, $4580, RIGHT, $30, $B340, $7000, DOWN
 
 byte_118AFF:
     .byte $11, $A, 4, $45, $68, $82, $A, $46, 8, 6, 3, $10
@@ -711,28 +713,28 @@ off_118DC5:
     .word byte_118F4E, byte_118F7A, byte_118FA6, 0
 
 byte_118DED:
-    .byte $83, 0, $46, $35, $80, 0, $82, $25
+    entrance STAIRS, $80, $3540, LEFT, 0, $80, $2580, RIGHT
 
 byte_118DF5:
-    .byte $83, $C0, $46, $25, $80, $B8, $82, $25
+    entrance STAIRS, $C080, $2540, LEFT, 0, $B880, $2580, RIGHT
 
 byte_118DFD:
-    .byte $43, $C0, $86, $25, $C0, $B8, $42, $F9
+    entrance STAIRS, $C040, $2580, LEFT, 0, $B8C0, $F940, RIGHT
 
 byte_118E05:
-    .byte $41, $98, 0, $F1, $46, $80, $C4, $CF
+    entrance DOOR, $9840, $F100, UP, 6, $8040, $CFC0, DOWN
 
 byte_118E0D:
-    .byte $41, $A4, 0, $F1, $46, $50, $C4, $53
+    entrance DOOR, $A440, $F100, UP, 6, $5040, $53C0, DOWN
 
 byte_118E15:
-    .byte $41, $B4, 0, $F1, $8A, $D7, $C4, $F8
+    entrance DOOR, $B440, $F100, UP, $A, $D780, $F8C0, DOWN
 
 byte_118E1D:
-    .byte $41, $A4, 0, $F9, $46, $AA, $C4, $CF
+    entrance DOOR, $A440, $F900, UP, 6, $AA40, $CFC0, DOWN
 
 byte_118E25:
-    .byte $41, $B4, 0, $F9, $48, $BA, $C4, $67
+    entrance DOOR, $B440, $F900, UP, 8, $BA40, $67C0, DOWN
 
 byte_118E2D:
     .byte $11, 2, 4, $35, $E8, $82, $A, $4F, 8, 6, 3, $10
@@ -809,46 +811,46 @@ off_118FD5:
     .word 0
 
 byte_119017:
-    .byte $81, 3, $82, $45, $86, $30, $44, $6C
+    entrance DOOR, $380, $4580, RIGHT, 6, $3080, $6C40, DOWN
 
 byte_11901F:
-    .byte $43, 0, $86, $45, $C0, 8, $42, $3D
+    entrance STAIRS, $40, $4580, LEFT, 0, $8C0, $3D40, RIGHT
 
 byte_119027:
-    .byte $83, $78, $46, $25, $80, 8, $82, $3D
+    entrance STAIRS, $7880, $2540, LEFT, 0, $880, $3D80, RIGHT
 
 byte_11902F:
-    .byte $43, $78, $86, $25, $C0, $88, $42, $25
+    entrance STAIRS, $7840, $2580, LEFT, 0, $88C0, $2540, RIGHT
 
 byte_119037:
-    .byte $83, $88, $46, $25, $80, $78, $82, $25
+    entrance STAIRS, $8880, $2540, LEFT, 0, $7880, $2580, RIGHT
 
 byte_11903F:
-    .byte $43, $88, $86, $25, $C0, $98, $42, $25
+    entrance STAIRS, $8840, $2580, LEFT, 0, $98C0, $2540, RIGHT
 
 byte_119047:
-    .byte $83, $98, $46, $25, $80, $88, $82, $25
+    entrance STAIRS, $9880, $2540, LEFT, 0, $8880, $2580, RIGHT
 
 byte_11904F:
-    .byte $81, 3, $82, $2D, $86, $58, $44, $73
+    entrance DOOR, $380, $2D80, RIGHT, 6, $5880, $7340, DOWN
 
 byte_119057:
-    .byte $43, 0, $86, $2D, $C0, $A8, $42, $25
+    entrance STAIRS, $40, $2D80, LEFT, 0, $A8C0, $2540, RIGHT
 
 byte_11905F:
-    .byte $81, $73, $82, $25, $86, $6E, $44, $EF
+    entrance DOOR, $7380, $2580, RIGHT, 6, $6E80, $EF40, DOWN
 
 byte_119067:
-    .byte $43, $70, $86, $25, $C0, 8, $42, $4D
+    entrance STAIRS, $7040, $2580, LEFT, 0, $8C0, $4D40, RIGHT
 
 byte_11906F:
-    .byte $81, $B, $82, $55, $86, $C5, $44, $46
+    entrance DOOR, $B80, $5580, RIGHT, 6, $C580, $4640, DOWN
 
 byte_119077:
-    .byte $43, 8, $86, $55, $C0, $B8, $42, $25
+    entrance STAIRS, $840, $5580, LEFT, 0, $B8C0, $2540, RIGHT
 
 byte_11907F:
-    .byte $81, $A3, $82, $25, $4A, $E2, 4, $F9
+    entrance DOOR, $A380, $2580, RIGHT, $A, $E240, $F900, DOWN
 
 byte_119087:
     .byte $98, $A, $C0, $54, 2, 9, $8D, 9, 0
@@ -941,52 +943,52 @@ off_119285:
     .word byte_11932B, byte_119377, 0
 
 byte_1192AB:
-    .byte $81, $B7, $82, $25, $80, $BD, 4, $FD
+    entrance DOOR, $B780, $2580, RIGHT, 0, $BD80, $FD00, DOWN
 
 byte_1192B3:
-    .byte $81, $97, $82, $25, $40, $7E, 4, $25
+    entrance DOOR, $9780, $2580, RIGHT, 0, $7E40, $2500, DOWN
 
 byte_1192BB:
-    .byte $43, 4, $86, $35, $C0, 0, $42, $41
+    entrance STAIRS, $440, $3580, LEFT, 0, $C0, $4140, RIGHT
 
 byte_1192C3:
-    .byte $81, 5, $C0, $34, $40, 7, $86, $3D
+    entrance DOOR, $580, $34C0, UP, 0, $740, $3D80, LEFT
 
 byte_1192CB:
-    .byte $41, 6, $C0, $34, $40, 7, $86, $45
+    entrance DOOR, $640, $34C0, UP, 0, $740, $4580, LEFT
 
 byte_1192D3:
-    .byte $83, 4, $46, $35, $80, $C, $82, $45
+    entrance STAIRS, $480, $3540, LEFT, 0, $C80, $4580, RIGHT
 
 byte_1192DB:
-    .byte $81, 7, $82, $25, $80, 5, 4, $55
+    entrance DOOR, $780, $2580, RIGHT, 0, $580, $5500, DOWN
 
 byte_1192E3:
-    .byte $81, 7, $82, $2D, $40, 6, 4, $55
+    entrance DOOR, $780, $2D80, RIGHT, 0, $640, $5500, DOWN
 
 byte_1192EB:
-    .byte $81, 7, $82, $4D, 0, $96, 4, $F5
+    entrance DOOR, $780, $4D80, RIGHT, 0, $9600, $F500, DOWN
 
 byte_1192F3:
-    .byte $43, $C, $86, $4D, $C0, $94, $42, $F5
+    entrance STAIRS, $C40, $4D80, LEFT, 0, $94C0, $F540, RIGHT
 
 byte_1192FB:
-    .byte $81, $D, $C0, $4C, $40, $F, $86, $25
+    entrance DOOR, $D80, $4CC0, UP, 0, $F40, $2580, LEFT
 
 byte_119303:
-    .byte $41, $E, $C0, $4C, $40, $F, $86, $2D
+    entrance DOOR, $E40, $4CC0, UP, 0, $F40, $2D80, LEFT
 
 byte_11930B:
-    .byte $81, $F, $82, $25, $80, $D, 4, $4D
+    entrance DOOR, $F80, $2580, RIGHT, 0, $D80, $4D00, DOWN
 
 byte_119313:
-    .byte $81, $F, $82, $2D, $40, $E, 4, $4D
+    entrance DOOR, $F80, $2D80, RIGHT, 0, $E40, $4D00, DOWN
 
 byte_11931B:
-    .byte $81, $F, $82, $3D, $80, $D, 4, $35
+    entrance DOOR, $F80, $3D80, RIGHT, 0, $D80, $3500, DOWN
 
 byte_119323:
-    .byte $81, $77, $82, $25, $40, $E, 4, $35
+    entrance DOOR, $7780, $2580, RIGHT, 0, $E40, $3500, DOWN
 
 byte_11932B:
     .byte $10, $B5, 4, $25, $C8, $84, $1D, $5C, 0, 2, $2B
@@ -1007,10 +1009,10 @@ off_119385:
     .word byte_119474, byte_1194A7, 0
 
 byte_11939B:
-    .byte $81, $AF, $82, $25, $C6, $2E, $44, $6C
+    entrance DOOR, $AF80, $2580, RIGHT, 6, $2EC0, $6C40, DOWN
 
 byte_1193A3:
-    .byte $83, $AC, $46, $25, $80, $CC, $82, $25
+    entrance STAIRS, $AC80, $2540, LEFT, 0, $CC80, $2580, RIGHT
 
 byte_1193AB:
     .byte $58, $CC, $86, $25, $36, $16, $35, $16, $12, $2C
@@ -1018,13 +1020,13 @@ byte_1193AB:
     .byte $25, 0
 
 byte_1193C2:
-    .byte $43, $D4, $86, $25, $C0, $BC, $42, $FD
+    entrance STAIRS, $D440, $2580, LEFT, 0, $BCC0, $FD40, RIGHT
 
 byte_1193CA:
-    .byte $81, $D5, $C0, $24, $40, $B, $86, $49
+    entrance DOOR, $D580, $24C0, UP, 0, $B40, $4980, LEFT
 
 byte_1193D2:
-    .byte $41, $D6, $C0, $24, $40, $B, $86, $51
+    entrance DOOR, $D640, $24C0, UP, 0, $B40, $5180, LEFT
 
 byte_1193DA:
     .byte $10, $AE, 4, $25, $28, $83, $A, $12, $12, $D, $F
@@ -1065,19 +1067,19 @@ off_1194D5:
     .word byte_119605, byte_119621, 0
 
 byte_1194FB:
-    .byte $81, $DF, $82, $25, $80, $C2, 4, $F5
+    entrance DOOR, $DF80, $2580, RIGHT, 0, $C280, $F500, DOWN
 
 byte_119503:
-    .byte 1, 2, $86, $82, $46, $B4, $C6, $CF
+    entrance DOOR, $200, $8280, LEFT, 6, $B440, $CFC0, LEFT
 
 byte_11950B:
-    .byte $C1, $1D, $82, $82, $8A, $D0, 4, $F2
+    entrance DOOR, $1DC0, $8280, RIGHT, $A, $D080, $F200, DOWN
 
 byte_119513:
-    .byte $41, $F4, $C0, $76, $4F, $FB, $86, $21
+    entrance DOOR, $F440, $76C0, UP, $F, $FB40, $2180, LEFT
 
 byte_11951B:
-    .byte $C1, $E, $C0, $5A, 0, $A, 4, $35
+    entrance DOOR, $EC0, $5AC0, UP, 0, $A00, $3500, DOWN
 
 byte_119523:
     .byte $19, $DD, 0, $25, $84, $89, 0
@@ -1144,49 +1146,49 @@ off_11964A:
     .word byte_119731, byte_11973D, 0
 
 byte_119678:
-    .byte $43, $7C, $86, $25, $C0, $AC, $42, $FD
+    entrance STAIRS, $7C40, $2580, LEFT, 0, $ACC0, $FD40, RIGHT
 
 byte_119680:
-    .byte $81, $7D, $C0, $24, $40, $8F, $86, $25
+    entrance DOOR, $7D80, $24C0, UP, 0, $8F40, $2580, LEFT
 
 byte_119688:
-    .byte $41, $7E, $C0, $24, $40, $97, $86, $25
+    entrance DOOR, $7E40, $24C0, UP, 0, $9740, $2580, LEFT
 
 byte_119690:
-    .byte $81, $8F, $82, $25, $80, $7D, 4, $25
+    entrance DOOR, $8F80, $2580, RIGHT, 0, $7D80, $2500, DOWN
 
 byte_119698:
-    .byte $81, 7, $82, $3D, $80, 5, 4, $35
+    entrance DOOR, $780, $3D80, RIGHT, 0, $580, $3500, DOWN
 
 byte_1196A0:
-    .byte $81, 7, $82, $45, $40, 6, 4, $35
+    entrance DOOR, $780, $4580, RIGHT, 0, $640, $3500, DOWN
 
 byte_1196A8:
-    .byte $43, $C, $86, $45, $C0, 4, $42, $35
+    entrance STAIRS, $C40, $4580, LEFT, 0, $4C0, $3540, RIGHT
 
 byte_1196B0:
-    .byte $81, $87, $82, $25, $C0, $AC, $42, $F5
+    entrance DOOR, $8780, $2580, RIGHT, 0, $ACC0, $F540, RIGHT
 
 byte_1196B8:
-    .byte $81, $6F, $82, $25, $40, $AC, $C2, $F5
+    entrance DOOR, $6F80, $2580, RIGHT, 0, $AC40, $F5C0, RIGHT
 
 byte_1196C0:
-    .byte $43, $C, $86, $35, $C0, 0, $42, $39
+    entrance STAIRS, $C40, $3580, LEFT, 0, $C0, $3940, RIGHT
 
 byte_1196C8:
-    .byte $81, $D, $C0, $34, $40, $F, $86, $3D
+    entrance DOOR, $D80, $34C0, UP, 0, $F40, $3D80, LEFT
 
 byte_1196D0:
-    .byte $41, $E, $C0, $34, $40, $77, $86, $25
+    entrance DOOR, $E40, $34C0, UP, 0, $7740, $2580, LEFT
 
 byte_1196D8:
-    .byte $43, 4, $86, $55, $C0, $B4, $42, $FD
+    entrance STAIRS, $440, $5580, LEFT, 0, $B4C0, $FD40, RIGHT
 
 byte_1196E0:
-    .byte $81, 5, $C0, $54, $40, 7, $86, $25
+    entrance DOOR, $580, $54C0, UP, 0, $740, $2580, LEFT
 
 byte_1196E8:
-    .byte $41, 6, $C0, $54, $40, 7, $86, $2D
+    entrance DOOR, $640, $54C0, UP, 0, $740, $2D80, LEFT
 
 byte_1196F0:
     .byte $D1, $7E, $82, $25, $A8, $82, $A, $B, 8, $B5, 2
@@ -1222,28 +1224,28 @@ off_119749:
     .word byte_1198AE, byte_1198BA, byte_1198C6, 0
 
 byte_119781:
-    .byte $81, $F, $82, $55, $40, $C4, 4, $F5
+    entrance DOOR, $F80, $5580, RIGHT, 0, $C440, $F500, DOWN
 
 byte_119789:
-    .byte $81, $9B, $82, $F5, $80, $BD, 4, $EE
+    entrance DOOR, $9B80, $F580, RIGHT, 0, $BD80, $EE00, DOWN
 
 byte_119791:
-    .byte $81, $B3, $82, $F5, $80, $BE, 4, $EE
+    entrance DOOR, $B380, $F580, RIGHT, 0, $BE80, $EE00, DOWN
 
 byte_119799:
-    .byte $81, $B3, $82, $ED, $80, $BF, 4, $F5
+    entrance DOOR, $B380, $ED80, RIGHT, 0, $BF80, $F500, DOWN
 
 byte_1197A1:
-    .byte $81, $BB, $82, $F5, $80, $C0, 4, $F5
+    entrance DOOR, $BB80, $F580, RIGHT, 0, $C080, $F500, DOWN
 
 byte_1197A9:
-    .byte $81, $B3, $82, $FD, $40, $BF, 4, $EE
+    entrance DOOR, $B380, $FD80, RIGHT, 0, $BF40, $EE00, DOWN
 
 byte_1197B1:
-    .byte $81, $BB, $82, $FD, $80, $C1, 4, $F5
+    entrance DOOR, $BB80, $FD80, RIGHT, 0, $C180, $F500, DOWN
 
 byte_1197B9:
-    .byte $81, $C7, $82, $F1, $40, $C5, 4, $EE
+    entrance DOOR, $C780, $F180, RIGHT, 0, $C540, $EE00, DOWN
 
 byte_1197C1:
     .byte $10, $D, 4, $55, $88, $83, $A, $E, 8, $EF, 2, $3E
@@ -1326,19 +1328,19 @@ off_11990B:
     .word byte_119B76, byte_119B7E, 0
 
 byte_119939:
-    .byte $81, $9B, $82, $ED, $80, $C3, 4, $F5
+    entrance DOOR, $9B80, $ED80, RIGHT, 0, $C380, $F500, DOWN
 
 byte_119941:
-    .byte $81, $AB, $82, $F5, $80, $C3, 4, $EE
+    entrance DOOR, $AB80, $F580, RIGHT, 0, $C380, $EE00, DOWN
 
 byte_119949:
-    .byte $81, $E7, $82, $21, $80, $C3, 4, $EE
+    entrance DOOR, $E780, $2180, RIGHT, 0, $C380, $EE00, DOWN
 
 byte_119951:
-    .byte $81, $A3, $82, $FD, $80, $C4, 4, $EE
+    entrance DOOR, $A380, $FD80, RIGHT, 0, $C480, $EE00, DOWN
 
 byte_119959:
-    .byte $81, $97, $82, $F9, $46, $E9, 4, $5E
+    entrance DOOR, $9780, $F980, RIGHT, 6, $E940, $5E00, DOWN
 
 byte_119961:
     .byte $58, $94, $86, $F9, $36, $16, $35, $16, $12, $8C
@@ -1346,10 +1348,10 @@ byte_119961:
     .byte $F9, 0
 
 byte_119978:
-    .byte $81, $BF, $82, $F9, $92, $94, $82, $F9
+    entrance DOOR, $BF80, $F980, RIGHT, $12, $9480, $F980, RIGHT
 
 byte_119980:
-    .byte $81, $BD, $C0, $F8, $52, $BF, $86, $F1
+    entrance DOOR, $BD80, $F8C0, UP, $12, $BF40, $F180, LEFT
 
 byte_119988:
     .byte $98, $BF, $82, $F1, $36, $16, $35, $16, $12, $8C
@@ -1357,7 +1359,7 @@ byte_119988:
     .byte $F9, 0
 
 byte_11999F:
-    .byte $81, $D7, $82, $21, $B0, $A8, 4, $72
+    entrance DOOR, $D780, $2180, RIGHT, $30, $A880, $7200, DOWN
 
 byte_1199A7:
     .byte $94, $A9, 4, $F5, $A8, $84, 6, $46, $A, $62, $12
@@ -1443,52 +1445,52 @@ byte_119BB4:
     .byte $3D, 0
 
 byte_119BCB:
-    .byte $81, $79, $C0, $20, $40, $9F, $86, $25
+    entrance DOOR, $7980, $20C0, UP, 0, $9F40, $2580, LEFT
 
 byte_119BD3:
-    .byte $41, $7A, $C0, $20, $40, $BF, $86, $25
+    entrance DOOR, $7A40, $20C0, UP, 0, $BF40, $2580, LEFT
 
 byte_119BDB:
-    .byte $83, $78, $46, $21, $80, $A4, $82, $ED
+    entrance STAIRS, $7880, $2140, LEFT, 0, $A480, $ED80, RIGHT
 
 byte_119BE3:
-    .byte $43, $A4, $86, $ED, $C0, $78, $42, $21
+    entrance STAIRS, $A440, $ED80, LEFT, 0, $78C0, $2140, RIGHT
 
 byte_119BEB:
-    .byte $81, $A5, $C0, $EC, $40, $83, $86, $21
+    entrance DOOR, $A580, $ECC0, UP, 0, $8340, $2180, LEFT
 
 byte_119BF3:
-    .byte $41, $A6, $C0, $EC, $40, $A7, $86, $25
+    entrance DOOR, $A640, $ECC0, UP, 0, $A740, $2580, LEFT
 
 byte_119BFB:
-    .byte $83, $A4, $46, $ED, $80, $A0, $82, $21
+    entrance STAIRS, $A480, $ED40, LEFT, 0, $A080, $2180, RIGHT
 
 byte_119C03:
-    .byte $43, $A0, $86, $21, $C0, $A4, $42, $ED
+    entrance STAIRS, $A040, $2180, LEFT, 0, $A4C0, $ED40, RIGHT
 
 byte_119C0B:
-    .byte $81, $A1, $C0, $20, $40, $C7, $86, $25
+    entrance DOOR, $A180, $20C0, UP, 0, $C740, $2580, LEFT
 
 byte_119C13:
-    .byte $41, $A2, $C0, $20, $40, $8B, $86, $21
+    entrance DOOR, $A240, $20C0, UP, 0, $8B40, $2180, LEFT
 
 byte_119C1B:
-    .byte $81, $9F, $82, $25, $80, $79, 4, $21
+    entrance DOOR, $9F80, $2580, RIGHT, 0, $7980, $2100, DOWN
 
 byte_119C23:
-    .byte $81, $BF, $82, $25, $40, $7A, 4, $21
+    entrance DOOR, $BF80, $2580, RIGHT, 0, $7A40, $2100, DOWN
 
 byte_119C2B:
-    .byte $81, $83, $82, $21, $80, $A5, 4, $ED
+    entrance DOOR, $8380, $2180, RIGHT, 0, $A580, $ED00, DOWN
 
 byte_119C33:
-    .byte $81, $A7, $82, $25, $40, $A6, 4, $ED
+    entrance DOOR, $A780, $2580, RIGHT, 0, $A640, $ED00, DOWN
 
 byte_119C3B:
-    .byte $81, $C7, $82, $25, $80, $A1, 4, $21
+    entrance DOOR, $C780, $2580, RIGHT, 0, $A180, $2100, DOWN
 
 byte_119C43:
-    .byte $81, $8B, $82, $21, $40, $A2, 4, $21
+    entrance DOOR, $8B80, $2180, RIGHT, 0, $A240, $2100, DOWN
 
 byte_119C4B:
     .byte $60, $9D, $80, $25, $88, $81, $43, $19
@@ -1519,19 +1521,19 @@ off_119C96:
     .word byte_119E9B, byte_119EA3, 0
 
 byte_119CD4:
-    .byte $C3, $1A, $C0, $5B, 0, $C5, $46, $F5
+    entrance STAIRS, $1AC0, $5BC0, UP, 0, $C500, $F540, LEFT
 
 byte_119CDC:
-    .byte $44, $F, $80, $75, $40, $2B, 4, $A2
+    entrance HOLE, $F40, $7580, UP, 0, $2B40, $A200, DOWN
 
 byte_119CE4:
-    .byte $44, $13, $40, $A6, $B1, $F8, $44, $8A
+    entrance HOLE, $1340, $A640, UP, $31, $F880, $8A40, DOWN
 
 byte_119CEC:
-    .byte $41, $14, $C0, $72, $88, $9E, $C4, $44
+    entrance DOOR, $1440, $72C0, UP, 8, $9E80, $44C0, DOWN
 
 byte_119CF4:
-    .byte $41, $2B, $C0, $A1, $40, $F, $C4, $75
+    entrance DOOR, $2B40, $A1C0, UP, 0, $F40, $75C0, DOWN
 
 byte_119CFC:
     .byte $A1, $1B, $C0, $5B, $70, $88, 5, $27, $B, $E, 8

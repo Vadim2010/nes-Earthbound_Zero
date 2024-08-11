@@ -21,7 +21,7 @@
 .exportzp Color_0C, Color_0E
 .exportzp TilepackMode, TilesCount, TilesNum, UnpackID, Tile4Count, PointerTilePack
 .exportzp apu_BF
-.exportzp PPUAttribute, PPUAddr, Off_pAttr, OffScreen, NTAddr, MsgOffset, MsgNumber, MaskORA, MaskCntrlPPU
+.exportzp PPUAttribute, PPUAddr, Off_pAttr, OffScreen, NTAddr, ObjOffset, ObjNumber, MaskORA, MaskCntrlPPU
 .exportzp MapSectorID, LowGlobalYC0, LowGlobalY3F, LowGlobalXC0, LowGlobalXC0_0
 .exportzp LoopAddr, ItemCount, HighGlobalX, HighGlobalX_plus2, HighGlobalY, HighGlobalY_plus1_carry, FirstTileID, FieldPosition
 .exportzp DataBank, CursorMode, CurrentX, CurrentY, CHRText, ByteCount, Buttons, BlockIndex, ChrCount, BlockCount
@@ -50,7 +50,7 @@ BankNum0Mask3:      .res 1
 BankNum1:           .res 1
 BankNum1Mask3:      .res 1
 MapSectorID:        .res 1
-MsgNumber:          .res 1
+ObjNumber:          .res 1
 Color_0E:           .res 1
 Color_0C:           .res 1
 LowGlobalXC0:       .res 1
@@ -84,7 +84,7 @@ byte_35:            .res 1
 
 SaveNum:            .res 1
 ItemCount:          .res 1
-MsgOffset:          .res 2
+ObjOffset:          .res 2
 
 byte_3A:            .res 1
 byte_3B:            .res 1

@@ -16,7 +16,7 @@
 
 .proc sub_13A000
     .export sub_13A000, out_state
-    .import get_character_num, get_sram_pointer, state, cursor_update, loc_EF7C, redraw_screen, Character
+    .import get_character_num, get_character_pointer, state, cursor_update, loc_EF7C, redraw_screen, Character
     .importzp Pointer, Item, pCursor, Buttons, CursorPosition, Column, Row
 
     lda #5
@@ -47,7 +47,7 @@ loc_13A021:
 loc_13A023:
     jsr get_character_num
     bcs loc_13A084
-    jsr get_sram_pointer ; Input: A - Character number
+    jsr get_character_pointer ; Input: A - Character number
                         ; Output: Pointer (word) = High $74 Low $40 * A
     txa 
     pha 
@@ -1964,11 +1964,11 @@ press_redraw:
 
 
 .proc get_char_pntr
-    .import get_sram_pointer
+    .import get_character_pointer
     .importzp Pointer, CharNum, BankPPU_X000, BankPPU_X400
 
     lda CharNum
-    jsr get_sram_pointer ; Input: A - Character number
+    jsr get_character_pointer ; Input: A - Character number
                         ; Output: Pointer (word) = High $74 Low $40 * A
     lda Pointer
     sta BankPPU_X000
@@ -2292,16 +2292,16 @@ check_button_pressed:
 
 
 .proc sub_13AB3E
-    .export sub_13AB3E, load_msg_bank
-    .import sub_E655, set_msg_bank
+    .export sub_13AB3E, load_obj_bank
+    .import sub_E655, set_obj_bank
     .importzp Dist
 
     JSR sub_E655
 
-load_msg_bank:
+load_obj_bank:
     LDY #1
     LDA (Dist),Y        ; get msg number
-    JMP set_msg_bank
+    JMP set_obj_bank
 .endproc        ; End of function sub_13AB3E
 
 
@@ -2371,7 +2371,7 @@ off_13AB69:
     .word sub_13B1BD-1, loc_13B1D8-1, sub_13B0D1-1, sub_13B235-1
     .word sub_13B42B-1, sub_13B420-1, sub_13B246-1, sub_13AC57-1
     .word loc_13AC71-1, sub_13B4EB-1, sub_13B440-1, sub_13B459-1
-    .word sub_13B472-1, sub_13B511-1, sub_13B290-1, sub_13B2FC-1
+    .word set_enemy_group-1, sub_13B511-1, sub_13B290-1, sub_13B2FC-1
     .word sub_13B323-1, sub_13B339-1, sub_13B34A-1, sub_13B3A8-1
     .word sub_13B3B5-1, sub_13B317-1, sub_13B432-1, sub_13B3E8-1
     .word sub_13B5A9-1, loc_13B64A-1, sub_13B5E2-1, sub_13B600-1
@@ -2654,7 +2654,7 @@ loc_13AD21:
 
 sub_13AD27:
     .export sub_13AD27, out_msg
-    .import text2stack, print_string, move_chars, load_msg_bank, loc_13ADC5
+    .import text2stack, print_string, move_chars, load_obj_bank, loc_13ADC5
     .importzp Row, PointerTilePack, WaitPressed, byte_2D, byte_35, PrintSize, byte_71, DialogPage
 
     STA WaitPressed
@@ -2692,7 +2692,7 @@ loc_13AD40:
     BNE out_msg
 
 loc_13AD61:
-    JSR load_msg_bank
+    JSR load_obj_bank
     LDA #0
     STA PrintSize
     STA byte_71
@@ -3274,7 +3274,7 @@ loc_13AFB8:
 
 .proc sub_13AFD1
     .export sub_13AFD1, loc_13AFDC, loc_13AFEA, loc_13AFF5, loc_13B00C
-    .import load_msg_bank, sram_write_enable, sram_read_enable, loc_13B07E
+    .import load_obj_bank, sram_write_enable, sram_read_enable, loc_13B07E
     .importzp Pointer, byte_35, Item
 
     STY byte_35
@@ -3287,7 +3287,7 @@ loc_13AFDC:
     STY byte_35
     JSR sub_13B0A3
     PHP
-    JSR load_msg_bank
+    JSR load_obj_bank
     PLP
     BNE sub_13B023
     BEQ loc_13AFEC
@@ -3466,10 +3466,10 @@ loc_13B07E:
 
 
 .proc sub_13B089
-    .import get_sram_pointer
+    .import get_character_pointer
     .importzp Pointer
 
-    JSR get_sram_pointer ; Input: A - Character number
+    JSR get_character_pointer ; Input: A - Character number
                         ; Output: Pointer (word) = High $74 Low $40 * A
     CLC
     LDA Pointer
@@ -3799,7 +3799,7 @@ loc_13B1FB:
 
 
 sub_13B1FD:
-    .import get_char_pointer, sram_write_enable, load_msg_bank, sram_read_enable
+    .import get_char_pointer, sram_write_enable, load_obj_bank, sram_read_enable
     .importzp Pointer, byte_35, AddrForJmp
 
     STY byte_35
@@ -3811,7 +3811,7 @@ sub_13B1FD:
     STA CurrentGame + GAME_SAVE::field_280
     STY AddrForJmp
     JSR sub_13BC5A
-    JSR load_msg_bank
+    JSR load_obj_bank
 
 loc_13B216:
     LDY byte_35
@@ -3849,14 +3849,14 @@ sub_13B223:
 
 
 .proc sub_13B235
-    .import sram_write_enable, sram_read_enable, sub_DE13
+    .import sram_write_enable, sram_read_enable, save_obj_value
     .importzp Source, byte_35
 
     JSR sram_write_enable
     INY
     LDA (Source),Y      ; byte_109EAB, byte_109EB3
     STY byte_35
-    JSR sub_DE13
+    JSR save_obj_value
     LDY byte_35
     INY
     JMP sram_read_enable
@@ -4004,9 +4004,9 @@ loc_13B2DE:
     ASL A
     ASL A
     TAX
-    LDA $E107,X         ; stru_E105.value,X
+    LDA $E107,X         ; ObjectHandler.value,X
     STA $6788           ; byte_6788
-    LDA $E108,X         ; stru_E105.value+1,X
+    LDA $E108,X         ; ObjectHandler.value+1,X
     STA $6794           ; byte_6794
     LDY byte_35
     INY
@@ -4090,13 +4090,13 @@ loc_13B2DE:
 
 .proc sub_13B34A
     .import sram_write_enable, sram_read_enable, sub_CDAF
-    .importzp MsgNumber, byte_23, Item, byte_35
+    .importzp ObjNumber, byte_23, Item, byte_35
 
     STY byte_35
     LDA #$F0
     STA byte_23
     LDA #$3F
-    STA MsgNumber
+    STA ObjNumber
     JSR sram_write_enable
     LDA #0
     STA $67C0           ; byte_67C0
@@ -4135,9 +4135,9 @@ loc_13B2DE:
     STA $6796,Y         ; byte_6796,Y
     LDA #$8A
     STA $6797,Y         ; byte_6797,Y
-    LDA $E107,X         ; stru_E105.value,X
+    LDA $E107,X         ; ObjectHandler.value,X
     STA $6788,Y         ; byte_6788,Y
-    LDA $E108,X         ; stru_E105.value+1,X
+    LDA $E108,X         ; ObjectHandler.value+1,X
     STA $6794,Y         ; byte_6794,Y
     RTS
 .endproc            ; End of function sub_13B38B
@@ -4337,20 +4337,20 @@ loc_13B41B:
 ; =============== S U B R O U T I N E =======================================
 
 
-.proc sub_13B472
+.proc set_enemy_group
     .importzp Source, byte_21, byte_35, EnemyGroup
 
-    INY
-    LDA (Source),Y      ; byte_109EAB, byte_109EB3
-    STA EnemyGroup
-    JSR sub_13B2C3
-    STA byte_21
-    INY
-    STY byte_35
-    PLA
-    PLA
-    JMP check_button_pressed
-.endproc            ; End of function sub_13B472
+    iny
+    lda (Source),Y      ; byte_109EAB, byte_109EB3
+    sta EnemyGroup
+    jsr sub_13B2C3
+    sta byte_21
+    iny
+    sty byte_35
+    pla
+    pla
+    jmp check_button_pressed
+.endproc            ; End of function set_enemy_group
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -4405,7 +4405,7 @@ loc_13B41B:
 
 
 .proc sub_13B4A9
-    .import get_char_pointer, sub_DB40, load_msg_bank, sram_write_enable, sram_read_enable
+    .import get_char_pointer, sub_DB40, load_obj_bank, sram_write_enable, sram_read_enable
     .importzp Pointer, byte_35, Price, pTileID
 
     STY byte_35
@@ -4423,7 +4423,7 @@ loc_13B41B:
     LDA pTileID+1
     SBC (Pointer),Y
     STA Price+1
-    JSR load_msg_bank
+    JSR load_obj_bank
     JSR sram_write_enable
     LDX #3
 
@@ -4484,7 +4484,7 @@ loc_13B4F0:
 
 
 .proc sub_13B511
-    .import get_character_num, get_sram_pointer
+    .import get_character_num, get_character_pointer
     .importzp byte_35, Price, pTileID, Pointer
 
     STY byte_35
@@ -4497,7 +4497,7 @@ loc_13B4F0:
 loc_13B51D:
     JSR get_character_num
     BCS loc_13B53D
-    JSR get_sram_pointer ; Input: A - Character number
+    JSR get_character_pointer ; Input: A - Character number
                         ; Output: Pointer (word) = High $74 Low $40 * A
     LDY #1
     LDA (Pointer),Y
@@ -4548,7 +4548,7 @@ loc_13B53D:
 
 
 .proc sub_13B561
-    .import sram_write_enable, sram_read_enable, get_sram_pointer, sub_CDE4
+    .import sram_write_enable, sram_read_enable, get_character_pointer, sub_CDE4
     .importzp Pointer
 
     JSR sram_write_enable
@@ -4557,7 +4557,7 @@ loc_13B53D:
 loc_13B566:
     LDA CurrentGame + PURE_SAVE::CharactersNum,X
     BEQ loc_13B57A
-    JSR get_sram_pointer ; Input: A - Character number
+    JSR get_character_pointer ; Input: A - Character number
                         ; Output: Pointer (word) = High $74 Low $40 * A
     LDY #1
     LDA (Pointer),Y
@@ -4637,14 +4637,14 @@ loc_13B57A:
 
 .proc sub_13B5C2
     .export sub_13B5C2, get_char_pointer
-    .import get_sram_pointer
+    .import get_character_pointer
     .importzp CharNum, byte_35
 
     sty byte_35
 
 get_char_pointer:
     lda CharNum
-    jmp get_sram_pointer ; Input: A - Character number
+    jmp get_character_pointer ; Input: A - Character number
 .endproc            ; End of function sub_13B5C2            ; Output: Pointer (word) = High $74 Low $40 * A
 
 
@@ -5021,7 +5021,7 @@ loc_13B737:
 
 
 .proc sub_13B73F
-    .import bank_A000_a, load_msg_bank, sub_19A5CC
+    .import bank_A000_a, load_obj_bank, sub_19A5CC
     .importzp byte_35
 
     STY byte_35
@@ -5030,7 +5030,7 @@ loc_13B737:
     JSR bank_A000_a     ; changes the memory bank $A000, transfers the execution of the code after completion of which returns the original memory bank
                         ; input: A - bank number, YX - (subroutine address - 1)
                         ; Y - high byte, X - low byte
-    JSR load_msg_bank
+    JSR load_obj_bank
     LDY byte_35
     INY
     RTS
@@ -5041,7 +5041,7 @@ loc_13B737:
 
 
 .proc sub_13B751
-    .import bank_A000_a, load_msg_bank, nullsub_7
+    .import bank_A000_a, load_obj_bank, nullsub_7
     .importzp byte_35
 
     STY byte_35
@@ -5050,7 +5050,7 @@ loc_13B737:
     JSR bank_A000_a     ; changes the memory bank $A000, transfers the execution of the code after completion of which returns the original memory bank
                         ; input: A - bank number, YX - (subroutine address - 1)
                         ; Y - high byte, X - low byte
-    JSR load_msg_bank
+    JSR load_obj_bank
     LDY byte_35
     INY
     RTS
@@ -5061,7 +5061,7 @@ loc_13B737:
 
 
 .proc sub_13B763
-    .import draw_symbol, sub_C3C0, load_msg_bank, cursor_update, get_cursor_pos
+    .import draw_symbol, sub_C3C0, load_obj_bank, cursor_update, get_cursor_pos
     .importzp Column, Row, pCursor, Buttons, CursorPosition, CharNum
 
     LDX #2
@@ -5087,7 +5087,7 @@ loc_13B77E:
     SBC #4
     STA Row
     JSR sub_C3C0
-    JSR load_msg_bank
+    JSR load_obj_bank
     ldxa #stru_13B7AC
     stxa pCursor
     JSR cursor_update
@@ -5198,11 +5198,11 @@ loc_13B7F4:
 
 
 .proc sub_13B814
-    .import sub_C3B9, load_msg_bank, short_cursor_update
+    .import sub_C3B9, load_obj_bank, short_cursor_update
     .importzp Source, pStr, Row, Column, pCursor, Buttons, Item, byte_35, PrintSize
 
     JSR sub_C3B9
-    JSR load_msg_bank
+    JSR load_obj_bank
     SEC
     LDA byte_35
     ADC Source          ; byte_109EAB, byte_109EB3
@@ -5524,7 +5524,7 @@ stru_13B9DC:
 
 
 .proc sub_13B9E4
-    .import sub_C3CE,draw_tilepack, cursor_update, loc_EF7C, sram_write_enable, sram_read_enable, load_msg_bank
+    .import sub_C3CE,draw_tilepack, cursor_update, loc_EF7C, sram_write_enable, sram_read_enable, load_obj_bank
     .importzp ItemCount, Buttons, CursorPosition, byte_D6
 
     JSR sub_C3CE
@@ -5604,7 +5604,7 @@ loc_13BA60:
     LDA #$F0
     STA OAM_Cache + OAM_TILE::PosY+4
     JSR sram_read_enable
-    JMP load_msg_bank
+    JMP load_obj_bank
 .endproc            ; End of function sub_13B9E4
 
 
@@ -5721,10 +5721,10 @@ GoodsCursor:
 
 
 .proc print_character_name
-    .import get_sram_pointer, draw_tilepack
+    .import get_character_pointer, draw_tilepack
     .importzp Pointer, PointerTilePack, PrintSize, Column, Row
 
-    jsr get_sram_pointer ; Input: A - Character number Output: Pointer (word) = High $74 Low $40 * A
+    jsr get_character_pointer ; Input: A - Character number Output: Pointer (word) = High $74 Low $40 * A
     clc 
     lda Pointer
     adc #CHARACTER::Name
@@ -5806,7 +5806,7 @@ next_item:
 
 .proc sub_13BB8C
     .export sub_13BB8C
-    .import sram_write_enable, sram_read_enable, load_msg_bank, byte_6D04
+    .import sram_write_enable, sram_read_enable, load_obj_bank, byte_6D04
     .importzp Pointer, pTileID
 
     JSR get_item_pointer
@@ -5826,7 +5826,7 @@ loc_13BB9F:
     CMP #0
     BNE loc_13BB9F
     JSR sram_read_enable
-    JMP load_msg_bank
+    JMP load_obj_bank
 .endproc            ; End of function sub_13BB8C
 
 
@@ -5834,7 +5834,7 @@ loc_13BB9F:
 
 
 .proc print_item
-    .import draw_tilepack, load_msg_bank
+    .import draw_tilepack, load_obj_bank
     .importzp Pointer, PointerTilePack
 
     JSR get_item_pointer
@@ -5845,7 +5845,7 @@ loc_13BB9F:
     LDA (Pointer),Y
     STA PointerTilePack+1
     JSR draw_tilepack
-    JMP load_msg_bank
+    JMP load_obj_bank
 .endproc            ; End of function print_item
 
 
@@ -5854,7 +5854,7 @@ loc_13BB9F:
 
 .proc sub_13BBC3
     .export sub_13BBC3
-    .import load_msg_bank
+    .import load_obj_bank
     .importzp Pointer, Price
 
     JSR get_item_pointer
@@ -5864,7 +5864,7 @@ loc_13BB9F:
     INY
     LDA (Pointer),Y
     STA Price+1
-    JMP load_msg_bank
+    JMP load_obj_bank
 .endproc            ; End of function sub_13BBC3
 
 
@@ -5873,12 +5873,12 @@ loc_13BB9F:
 
 .proc sub_13BBD4
     .export sub_13BBD4
-    .import loc_E6A9, load_msg_bank
+    .import loc_E6A9, load_obj_bank
 
     JSR get_item_pointer
     LDY #2
     JSR loc_E6A9
-    JMP load_msg_bank
+    JMP load_obj_bank
 .endproc            ; End of function sub_13BBD4
 
 
@@ -5943,7 +5943,7 @@ get_off:
 
 
 .proc draw_msg_frame
-    .import out_msg_frame, load_msg_bank
+    .import out_msg_frame, load_obj_bank
     .importzp PointerTilePack, Column, Row, byte_2D, DialogPage
 
     lda PointerTilePack
@@ -5961,7 +5961,7 @@ get_off:
     ldy #19
     stx Column
     sty Row
-    jmp load_msg_bank
+    jmp load_obj_bank
 .endproc            ; End of function draw_msg_frame
 
 
@@ -5969,7 +5969,7 @@ get_off:
 
 
 .proc sub_13BC28
-    .import sub_C3DF, load_msg_bank
+    .import sub_C3DF, load_obj_bank
     .importzp Column, Row
 
     LDA Column
@@ -5981,7 +5981,7 @@ get_off:
     STA Row
     PLA
     STA Column
-    JMP load_msg_bank
+    JMP load_obj_bank
 .endproc            ; End of function sub_13BC28
 
 

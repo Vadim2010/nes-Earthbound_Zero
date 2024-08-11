@@ -719,7 +719,7 @@ game_menu:
 sub_149516:
     .export sub_149516
     .import get_save_field, sub_F1ED, sub_19A4A7
-    .importzp byte_20, byte_21, byte_22, byte_23, byte_24, byte_25, EnemyGroup, byte_A0, MsgNumber
+    .importzp byte_20, byte_21, byte_22, byte_23, byte_24, byte_25, EnemyGroup, byte_A0, ObjNumber
 
     lda EnemyGroup
     ora byte_20
@@ -731,8 +731,8 @@ sub_149516:
     bit byte_A0
     bmi locret_149538
     jsr sub_1495D3
-    ldx MsgNumber
-    lda byte_149593,X
+    ldx ObjNumber
+    lda ObjectsTab,X
 
 loc_149530:
     bne loc_149539
@@ -807,7 +807,7 @@ locret_14958A:
 
 ; ---------------------------------------------------------------------------
                 .byte $20, $15, $10, $D, $A, 8, 6, 5
-byte_149593:    .byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, $C, $11, $E8, $26
+ObjectsTab:    .byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, $C, $11, $E8, $26
                 .byte $2D, $34, $3D, $43, $4D, $55, $5D, $65, 0, 0, 0
                 .byte 0, 0, $6C, $74, $7C, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
                 .byte $E0, 0, 0, $8D, $95, $9C, $A7, 0, $AD, 0, 0, $B5
@@ -817,70 +817,69 @@ byte_149593:    .byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, $C, $11, $E8, $26
 
 
 sub_1495D3:
-    .import get_sram_pointer, one_color_palettes_save, back_palettes
+    .import get_character_pointer, one_color_palettes_save, back_palettes
     .importzp Pointer, pTileID, byte_D5
 
-                ldx     #0
+    ldx #0
 
 loc_1495D5:
-                lda     CurrentGame + PURE_SAVE::CharactersNum,X
-                beq     loc_14962A
-                jsr     get_sram_pointer ; Input: A -
-                                        ; Output: Pointer (word) = High $74 Low $40 * A
-                ldy     #1
-                lda     (Pointer),Y
-                lsr     A
-                bcc     loc_1495E8
-                lda     #7
-                bne     loc_1495ED
+    lda CurrentGame + PURE_SAVE::CharactersNum,X
+    beq loc_14962A
+    jsr get_character_pointer
+    ldy #CHARACTER::field_1
+    lda (Pointer),Y
+    lsr A
+    bcc loc_1495E8
+    lda #7
+    bne loc_1495ED
 
 loc_1495E8:
-                lsr     A
-                bcc     loc_14962A
-                lda     #7
+    lsr A
+    bcc loc_14962A
+    lda #7
 
 loc_1495ED:
-                sta     pTileID
-                clc
-                txa
-                adc     byte_D5
-                and     pTileID
-                bne     loc_14962A
-                jsr     sram_write_enable
-                sec
-                ldy     #$14
-                lda     (Pointer),Y
-                sbc     #1
-                sta     pTileID
-                iny
-                lda     (Pointer),Y
-                sbc     #0
-                sta     pTileID+1
-                bcc     loc_14961B
-                lda     pTileID
-                ora     pTileID+1
-                beq     loc_14961B
-                lda     pTileID+1
-                sta     (Pointer),Y
-                dey
-                lda     pTileID
-                sta     (Pointer),Y
+    sta pTileID
+    clc
+    txa
+    adc byte_D5
+    and pTileID
+    bne loc_14962A
+    jsr sram_write_enable
+    sec
+    ldy #$14
+    lda (Pointer),Y
+    sbc #1
+    sta pTileID
+    iny
+    lda (Pointer),Y
+    sbc #0
+    sta pTileID+1
+    bcc loc_14961B
+    lda pTileID
+    ora pTileID+1
+    beq loc_14961B
+    lda pTileID+1
+    sta (Pointer),Y
+    dey
+    lda pTileID
+    sta (Pointer),Y
 
 loc_14961B:
-                jsr     sram_read_enable
-                txa
-                pha
-                lda     #$16
-                jsr     one_color_palettes_save
-                jsr     back_palettes
-                pla
-                tax
+    jsr sram_read_enable
+    txa
+    pha
+    lda #$16
+    jsr one_color_palettes_save
+    jsr back_palettes
+    pla
+    tax
 
 loc_14962A:
-                inx
-                cpx     #4
-                bcc     loc_1495D5
-                rts
+    inx
+    cpx #4
+    bcc loc_1495D5
+    rts
 ; End of function sub_1495D3
 
 

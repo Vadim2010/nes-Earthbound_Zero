@@ -726,7 +726,7 @@ next_character:
     jsr get_characters_num
     bcs no_character
     inc Counter
-    jsr get_sram_pointer ; Input: A - charachter number, Output: Pointer (word) = High $74 Low $40 * A
+    jsr get_character_pointer ; Input: A - charachter number, Output: Pointer (word) = High $74 Low $40 * A
     tya
     pha
     ldy #0
@@ -911,8 +911,8 @@ copy_tilepack:
 ; Input: A - Character number
 ; Output: Pointer (word) = High $74 Low $40 * A
 
-get_sram_pointer:
-    .export get_sram_pointer
+get_character_pointer:
+    .export get_character_pointer
 
     sta Pointer+1
     lda #0
@@ -926,7 +926,7 @@ get_sram_pointer:
     adc #>CurrentGame
     sta Pointer+1
     rts
-; End of function get_sram_pointer
+; End of function get_character_pointer
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -1944,7 +1944,7 @@ new_place:
 
 loc_CB5D:
     jsr load_character_data ; Copies the characteristics of the characters
-    jsr sub_CEFC
+    jsr load_obj_data
     lda #0
     sta byte_24
     lda CurrentGame + PURE_SAVE::GlobalY
@@ -1957,7 +1957,7 @@ draw:
     jsr draw_screen     ; load room
 
 loc_CB76:
-    jsr sub_DE99
+    jsr available_objects
     jsr sub_EEF0
     lda byte_25
     bne loc_CB91
@@ -1970,98 +1970,98 @@ loc_CB76:
     lda #1
 
 loc_CB8F:
-                sta     byte_1F
+    sta byte_1F
 
 loc_CB91:
-                jsr     wait_nmi_processed
-                lda     byte_20
-                bne     new_place
-                jsr     sub_DD01
-                jsr     sub_DFDA
-                jsr     sub_CC2B        ; draw screen
-                lda     byte_21
-                beq     loc_CBAD
-                jsr     bank13_A000
-                jsr     sub_13A1C6
-                bcc     loc_CBEB
+    jsr wait_nmi_processed
+    lda byte_20
+    bne new_place
+    jsr sub_DD01
+    jsr sub_DFDA
+    jsr sub_CC2B        ; draw screen
+    lda byte_21
+    beq loc_CBAD
+    jsr bank13_A000
+    jsr sub_13A1C6
+    bcc check_enemy
 
 loc_CBAD:
-                jsr     bank13_A000
-                lda     #0
-                ldy     Gamepad0Buttons
-                sta     Gamepad0Buttons
-                lda     byte_22
-                ora     byte_23
-                ora     byte_21
-                ora     byte_20
-                bne     loc_CBEB
-                tya
-                and     #$F0
-                bmi     loc_CBE2
-                bne     loc_CBCD
-                jsr     sub_13A123
-                jmp     loc_CBE5
+    jsr bank13_A000
+    lda #0
+    ldy Gamepad0Buttons
+    sta Gamepad0Buttons
+    lda byte_22
+    ora byte_23
+    ora byte_21
+    ora byte_20
+    bne check_enemy
+    tya
+    and #$F0
+    bmi pressA
+    bne press_notA
+    jsr sub_13A123
+    jmp pressB
 ; ---------------------------------------------------------------------------
 
-loc_CBCD:
-                jsr     get_command
-                and     #$A0
-                beq     loc_CBE5
-                bmi     loc_CBDC
-                jsr     sub_13A82F
-                jmp     loc_CBE5
+press_notA:
+    jsr get_command
+    and #$A0
+    beq pressB
+    bmi loc_CBDC
+    jsr sub_13A82F
+    jmp pressB
 ; ---------------------------------------------------------------------------
 
 loc_CBDC:
-                jsr     sub_13A000
-                jmp     loc_CBE5
+    jsr sub_13A000
+    jmp pressB
 ; ---------------------------------------------------------------------------
 
-loc_CBE2:
-                jsr     command_menu
+pressA:
+    jsr command_menu
 
-loc_CBE5:
-                jsr     bank14_8000
-                jsr     sub_149516
+pressB:
+    jsr bank14_8000
+    jsr sub_149516
 
-loc_CBEB:
-                lda     EnemyGroup
-                beq     no_enemy
-                cmp     #$A2
-                beq     loc_CC1A
-                jsr     wait_nmi_processed
-                lda     CurrentMusic
-                pha
-                jsr     start_battle
-                pla
-                bcs     loc_CC14
-                jsr     wait_change_music
-                lda     byte_21
-                beq     loc_CC11
-                jsr     bank13_A000
-                jsr     sub_13AB53
-                lda     byte_20
-                bne     loc_CC14
+check_enemy:
+    lda EnemyGroup
+    beq no_enemy
+    cmp #$A2
+    beq loc_CC1A
+    jsr wait_nmi_processed
+    lda CurrentMusic
+    pha
+    jsr start_battle
+    pla
+    bcs loc_CC14
+    jsr wait_change_music
+    lda byte_21
+    beq loc_CC11
+    jsr bank13_A000
+    jsr sub_13AB53
+    lda byte_20
+    bne loc_CC14
 
 loc_CC11:
-                jmp     draw
+    jmp draw
 ; ---------------------------------------------------------------------------
 
 loc_CC14:
-                jmp     loc_CB5D
+    jmp loc_CB5D
 ; ---------------------------------------------------------------------------
 
 no_enemy:
-                jmp     loc_CB76
+    jmp loc_CB76
 ; ---------------------------------------------------------------------------
 
 loc_CC1A:
-                jsr     bank14_8000
-                jsr     sub_149779
-                jsr     start_battle
-                bcs     loc_CC14
-                jsr     bank14_8000
-                jmp     sub_1497A3
+    jsr bank14_8000
+    jsr sub_149779
+    jsr start_battle
+    bcs loc_CC14
+    jsr bank14_8000
+    jmp sub_1497A3
 ; End of function main
 
 
@@ -2264,7 +2264,7 @@ loc_CD26:
     ldx #20
     jsr wait_frames     ; wait for a few frames input: X - number of frames
     jsr load_character_data ; Copies the characteristics of the characters
-    jsr sub_CEFC
+    jsr load_obj_data
     jsr clear_oam_sprite
     jsr draw_screen
     jsr sub_CD9D
@@ -2294,7 +2294,7 @@ loc_CD79:
 
 sub_CD8B:
     jsr sub_CDAF
-    jsr sub_DE99
+    jsr available_objects
     jsr wait_nmi_processed
     jsr sub_DD01
     jsr sub_DFDA
@@ -2580,7 +2580,7 @@ set_ppu_banks:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_CEFC:
+load_obj_data:
     .import PalNMIBG, PalNMISpr
     .importzp p4TileID, MapSectorID, Color_0C, Color_0E, BlockCount
     .importzp HighGlobalY, HighGlobalY_plus1_carry, LowGlobalYC0, MaskORA
@@ -2674,8 +2674,8 @@ sub_CEFC:
     jsr get_shift_camerax ; ShiftCameraX = ((field_5 & 7)(field4_bits7_6 & C0)) >> 2
     ldy #0
     sty ShiftCameraY
-    jmp sub_DD72
-; End of function sub_CEFC
+    jmp unpack_obj_headers
+; End of function load_obj_data
 
 ; ---------------------------------------------------------------------------
 SpritePallete:
@@ -3712,7 +3712,7 @@ load_data_bank:
 
 
 load_map_tile:
-    .importzp MsgNumber
+    .importzp ObjNumber
 
     clc
     lda HighGlobalX
@@ -3752,7 +3752,7 @@ loc_D5FF:
     ldy #1
     lda (p4TileID),Y    ; BANK03:BC09
     and #$3F
-    sta MsgNumber
+    sta ObjNumber
     tax
     lda CHRTable_0,X    ; CHR personage table
     beq set_PPU0000
@@ -3793,7 +3793,7 @@ CHRTable_0:
 
 sub_D674:
     .export sub_D674
-    .importzp LowGlobalY3F, Dist, MsgOffset
+    .importzp LowGlobalY3F, Dist, ObjOffset
 
     lda byte_20
     bpl loc_D697
@@ -3860,7 +3860,7 @@ loc_D6DA:
     cpx #0
     bne loc_D6F2
     ldy #CHARACTER::field_1C
-    lda (MsgOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
+    lda (ObjOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
 
 loc_D6F2:
     ldy #0
@@ -4024,7 +4024,7 @@ loc_D7BD:
                 CPX     #0
                 BNE     loc_D7CF
                 LDY     #$1C
-                LDA     (MsgOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
+                LDA     (ObjOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
 
 loc_D7CF:
                 LDY     #0
@@ -4081,21 +4081,21 @@ loc_D7E2:
 sub_D813:
     ldy #2
     and #7
-    sta MsgOffset+1     ; BANK10:8000, BANK11:8000, BANK12:8000
+    sta ObjOffset+1     ; BANK10:8000, BANK11:8000, BANK12:8000
     lda #<CurrentGame   ; #0
-    lsr MsgOffset+1     ; BANK10:8000, BANK11:8000, BANK12:8000
+    lsr ObjOffset+1     ; BANK10:8000, BANK11:8000, BANK12:8000
     ror A
-    lsr MsgOffset+1     ; BANK10:8000, BANK11:8000, BANK12:8000
+    lsr ObjOffset+1     ; BANK10:8000, BANK11:8000, BANK12:8000
     ror A
-    sta MsgOffset       ; BANK10:8000, BANK11:8000, BANK12:8000
+    sta ObjOffset       ; BANK10:8000, BANK11:8000, BANK12:8000
     sta (Dist),Y
     iny
-    lda MsgOffset+1     ; BANK10:8000, BANK11:8000, BANK12:8000
+    lda ObjOffset+1     ; BANK10:8000, BANK11:8000, BANK12:8000
     adc #>CurrentGame   ; #$74
-    sta MsgOffset+1     ; BANK10:8000, BANK11:8000, BANK12:8000
+    sta ObjOffset+1     ; BANK10:8000, BANK11:8000, BANK12:8000
     sta (Dist),Y
     ldy #CHARACTER::field_1D    ; #$1D
-    lda (MsgOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
+    lda (ObjOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
     ldy #$14
     pha
     and #$F0
@@ -4107,19 +4107,19 @@ sub_D813:
 
 loc_D840:
     ldy #CHARACTER::field_1E    ; #$1E
-    lda (MsgOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
+    lda (ObjOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
     ldy #$16
     sta (Dist),Y
     ldy #CHARACTER::field_1E+1  ; #$1F
-    lda (MsgOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
+    lda (ObjOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
     ldy #$17
     sta (Dist),Y
     clc
     ldy #CHARACTER::field_1    ; #1
-    lda (MsgOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
+    lda (ObjOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
     bpl locret_D86B
     and #$80
-    sta (MsgOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
+    sta (ObjOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
     ldy #$16
     lda (Dist),Y
     adc #$A0
@@ -4203,10 +4203,10 @@ sub_D8BA:
                 JSR     sub_D86C
                 LDY     #2
                 LDA     (Dist),Y
-                STA     MsgOffset       ; BANK10:8000, BANK11:8000, BANK12:8000
+                STA     ObjOffset       ; BANK10:8000, BANK11:8000, BANK12:8000
                 INY
                 LDA     (Dist),Y
-                STA     MsgOffset+1     ; BANK10:8000, BANK11:8000, BANK12:8000
+                STA     ObjOffset+1     ; BANK10:8000, BANK11:8000, BANK12:8000
                 RTS
 ; End of function sub_D8BA
 
@@ -4344,7 +4344,7 @@ loc_D98C:
                 LDA     #0
                 JSR     sub_D8BA
                 LDY     #1
-                LDA     (MsgOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
+                LDA     (ObjOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
                 BMI     loc_D989
 
 locret_D997:
@@ -4440,7 +4440,7 @@ sub_D9FA:
 loc_D9FC:
                 LDA     CurrentGame + PURE_SAVE::CharactersNum,X
                 BEQ     loc_DA10
-                JSR     get_sram_pointer ; Input: A - Character number
+                JSR     get_character_pointer ; Input: A - Character number
                                         ; Output: Pointer (word) = High $74 Low $40 * A
                 LDY     #$2C
 
@@ -4473,7 +4473,7 @@ loc_DA1E:
                 TXA
                 JSR     sub_D8BA
                 LDY     #1
-                LDA     (MsgOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
+                LDA     (ObjOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
                 BMI     loc_DA3C
                 LDY     #$10
                 LDA     (Dist),Y
@@ -4540,45 +4540,45 @@ loc_DA77:
                 PHA
                 JSR     sub_D8BA
                 LDY     #1
-                LDA     (MsgOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
+                LDA     (ObjOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
                 BMI     loc_DADB
                 LDA     byte_47
                 BNE     loc_DAD8
                 LDY     #$11
                 CLC
                 LDA     byte_49
-                ADC     (MsgOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
-                STA     (MsgOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
+                ADC     (ObjOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
+                STA     (ObjOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
                 INY
                 LDA     byte_4A
-                ADC     (MsgOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
-                STA     (MsgOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
+                ADC     (ObjOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
+                STA     (ObjOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
                 INY
                 LDA     byte_4B
-                ADC     (MsgOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
-                STA     (MsgOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
+                ADC     (ObjOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
+                STA     (ObjOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
                 BCC     loc_DAB9
                 LDY     #$11
                 LDA     #$FF
-                STA     (MsgOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
+                STA     (ObjOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
                 INY
-                STA     (MsgOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
+                STA     (ObjOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
                 INY
-                STA     (MsgOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
+                STA     (ObjOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
 
 loc_DAB9:
                 LDY     #$10
-                LDA     (MsgOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
+                LDA     (ObjOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
                 JSR     sub_DB40
                 LDY     #$11
                 SEC
-                LDA     (MsgOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
+                LDA     (ObjOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
                 SBC     pTileID
                 INY
-                LDA     (MsgOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
+                LDA     (ObjOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
                 SBC     pTileID+1
                 INY
-                LDA     (MsgOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
+                LDA     (ObjOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
                 SBC     TilepackMode
                 BCC     loc_DAD8
                 JSR     sub_DB6C
@@ -4690,7 +4690,7 @@ sub_DB6C:
     .importzp byte_58, byte_59
 
                 LDY     #$10
-                LDA     (MsgOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
+                LDA     (ObjOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
                 CMP     #$63
                 BCC     loc_DB75
                 RTS
@@ -4698,7 +4698,7 @@ sub_DB6C:
 
 loc_DB75:
                 ADC     #1
-                STA     (MsgOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
+                STA     (ObjOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
                 JSR     loc_C43F
                 JSR     sram_write_enable
                 LDA     #$FF
@@ -4729,7 +4729,7 @@ loc_DB93:
 
 loc_DBAA:
                 CLC
-                LDA     (MsgOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
+                LDA     (ObjOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
                 ADC     $4D,Y
                 BCC     loc_DBBC
                 SBC     $4D,Y
@@ -4738,7 +4738,7 @@ loc_DBAA:
                 LDA     #$FF
 
 loc_DBBC:
-                STA     (MsgOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
+                STA     (ObjOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
                 LDA     $4D,Y
                 BEQ     loc_DBCD
                 TYA
@@ -4760,7 +4760,7 @@ loc_DBCD:
                 LDA     byte_59
                 JSR     sub_DC64
                 LDY     #$E
-                LDA     (MsgOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
+                LDA     (ObjOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
                 STA     Pointer
                 CLC
                 ADC     #$14
@@ -4776,7 +4776,7 @@ loc_DBED:
                 CMP     #3
                 BCS     loc_DC0F
                 LDY     #$F
-                LDA     (MsgOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
+                LDA     (ObjOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
                 STA     Pointer
                 LSR     A
                 CLC
@@ -4842,11 +4842,11 @@ sub_DC3F:
                 STA     Pointer+1
                 SEC
                 LDA     Pointer
-                SBC     (MsgOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
+                SBC     (ObjOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
                 TAX
                 INY
                 LDA     Pointer+1
-                SBC     (MsgOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
+                SBC     (ObjOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
                 BEQ     loc_DC5C
                 LDX     #8
                 BCS     loc_DC5C
@@ -4866,12 +4866,12 @@ loc_DC5C:
 
 sub_DC64:
                 CLC
-                ADC     (MsgOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
-                STA     (MsgOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
+                ADC     (ObjOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
+                STA     (ObjOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
                 INY
                 LDA     #0
-                ADC     (MsgOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
-                STA     (MsgOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
+                ADC     (ObjOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
+                STA     (ObjOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
 
 locret_DC70:
                 RTS
@@ -4923,17 +4923,17 @@ loc_DC97:
                 TAY
                 LDA     (pDist),Y
                 LDY     #$10
-                CMP     (MsgOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
+                CMP     (ObjOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
                 BCS     loc_DCC6
                 JSR     sub_DCCD
-                AND     (MsgOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
+                AND     (ObjOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
                 BNE     loc_DCC6
                 JSR     sub_F1ED
                 AND     #$C0
                 BNE     loc_DCC6
-                LDA     (MsgOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
+                LDA     (ObjOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
                 ORA     byte_EC5D,X
-                STA     (MsgOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
+                STA     (ObjOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
                 LDA     #9
                 STA     byte_7F1
                 LDA     #$83
@@ -5018,7 +5018,7 @@ loc_DD07:
                 LDA     (Dist),Y
                 ASL     A
                 BEQ     loc_DD2B
-                JSR     sub_E1BE
+                JSR     coordinate_compare
                 BCS     loc_DD1D
                 LDY     #0
                 LDA     (Dist),Y
@@ -5031,7 +5031,7 @@ loc_DD1D:
                 LDA     (Dist),Y
                 AND     #$3F
                 STA     (Dist),Y
-                JSR     sub_E0F9
+                JSR     obj_handler
                 JSR     sub_DEF9
 
 loc_DD2B:
@@ -5086,44 +5086,44 @@ get_dist_addr:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_DD72:
-    jsr sub_DE29
+unpack_obj_headers:
+    jsr get_obj
     jsr sram_write_enable
 
 @next_record:
     jsr get_source
-    jsr sub_DD88
-    jsr get_msg_dist_addr
+    jsr unpack_obj_header
+    jsr get_obj_dist_addr
     dec SaveNum
     bne @next_record
     jmp sram_read_enable
-; End of function sub_DD72
+; End of function unpack_obj_headers
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_DD88:
+unpack_obj_header:
     .importzp Source
 
     ldy #1
-    lda MsgNumber
+    lda ObjNumber
     sta (Dist),Y
     lda ItemCount
-    bne @item
+    bne @object
 
-@no_msg:
+@no_obj:
     ldy #0
     sta (Dist),Y
     rts
 ; ---------------------------------------------------------------------------
 
-@item:
+@object:
     ldy #0
     lda (Source),Y      ; byte_109EAB, byte_109EB3
     and #$3F
-    beq @no_msg
-    jsr sub_DE13
+    beq @no_obj
+    jsr save_obj_value
     ldy #2
     lda (Source),Y      ; byte_109EAB, byte_109EB3
     and #$3F
@@ -5188,14 +5188,14 @@ sub_DD88:
     dex
     bne @clear
     rts
-; End of function sub_DD88
+; End of function unpack_obj_header
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_DE13:
-    .export sub_DE13
+save_obj_value:
+    .export save_obj_value
 
     ldy #0
     sta (Dist),Y
@@ -5203,37 +5203,37 @@ sub_DE13:
     asl A
     tax
     ldy #8
-    lda $E107,X             ; stru_E105.value,X
+    lda $E107,X             ; ObjectHandler.value,X OBJECT_HANDLER
     sta (Dist),Y
     ldy #$14
-    lda $E108,X             ; stru_E105.value+1,X
+    lda $E108,X             ; ObjectHandler.value+1,X
     sta (Dist),Y
     rts
-; End of function sub_DE13
+; End of function save_obj_value
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_DE29:
-    lda MsgNumber
-    jsr set_msg_bank
+get_obj:
+    lda ObjNumber
+    jsr set_obj_bank
     asl A
     tax
     lda $8000,X     ; BANK10:8000, BANK11:8000, BANK12:8000
-    sta MsgOffset   ; BANK10:8000, BANK11:8000, BANK12:8000
+    sta ObjOffset   ; BANK10:8000, BANK11:8000, BANK12:8000
     lda $8000+1,X   ; 0x1A records
-    sta MsgOffset+1 ; BANK10:8000, BANK11:8000, BANK12:8000
+    sta ObjOffset+1 ; BANK10:8000, BANK11:8000, BANK12:8000
     lda #2
     sta ItemCount
 
-loc_DE3E:
+reset_obj:
     ldxa #byte_6800
     stxa Dist
     ldx #$28
     stx SaveNum
     rts
-; End of function sub_DE29
+; End of function get_obj
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -5241,11 +5241,11 @@ loc_DE3E:
 
 get_source:
     ldy #1
-    lda (MsgOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
+    lda (ObjOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
     beq @last_record
     sta Source+1        ; byte_109EAB, byte_109EB3
     dey
-    lda (MsgOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
+    lda (ObjOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
     sta Source          ; byte_109EAB, byte_109EB3
     rts
 ; ---------------------------------------------------------------------------
@@ -5259,23 +5259,23 @@ get_source:
 ; =============== S U B R O U T I N E =======================================
 
 
-get_msg_dist_addr:
+get_obj_dist_addr:
     clc
-    lda MsgOffset       ; BANK10:8000, BANK11:8000, BANK12:8000
+    lda ObjOffset       ; BANK10:8000, BANK11:8000, BANK12:8000
     adc ItemCount
-    sta MsgOffset       ; BANK10:8000, BANK11:8000, BANK12:8000
-    lda MsgOffset+1     ; BANK10:8000, BANK11:8000, BANK12:8000
+    sta ObjOffset       ; BANK10:8000, BANK11:8000, BANK12:8000
+    lda ObjOffset+1     ; BANK10:8000, BANK11:8000, BANK12:8000
     adc #0
-    sta MsgOffset+1     ; BANK10:8000, BANK11:8000, BANK12:8000
+    sta ObjOffset+1     ; BANK10:8000, BANK11:8000, BANK12:8000
     jmp get_dist_addr
-; End of function get_msg_dist_addr
+; End of function get_obj_dist_addr
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-set_msg_bank:
-    .export set_msg_bank
+set_obj_bank:
+    .export set_obj_bank
 
     cmp #$2B
     bcc @bank11         ; A < 2B; C = 0
@@ -5300,7 +5300,7 @@ set_msg_bank:
     jsr mmc3_bank_set   ; Set memory bank A - bank number, X - mode
     pla
     rts
-; End of function set_msg_bank
+; End of function set_obj_bank
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -5326,65 +5326,65 @@ set_bank0_1:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_DE99:
-    jsr sub_DE29
+available_objects:
+    jsr get_obj
     jsr sram_write_enable
 
-loc_DE9F:
+next_obj:
     jsr get_source
     ldy #1
     lda (Dist),Y
-    cmp MsgNumber
-    beq loc_DEB9
+    cmp ObjNumber
+    beq same_obj
     ldy #0
     lda (Dist),Y
     asl A
     beq loc_DEB6
-    jsr sub_E1BE
-    bcs loc_DECF
+    jsr coordinate_compare
+    bcs obj_here
 
 loc_DEB6:
-    jsr sub_DD88
+    jsr unpack_obj_header
 
-loc_DEB9:
+same_obj:
     ldy #0
     lda (Dist),Y
     asl A
-    beq loc_DED7
-    jsr sub_E1BE
-    bcs loc_DECF
+    beq obj_out
+    jsr coordinate_compare
+    bcs obj_here
     ldy #0
     lda (Dist),Y
     ora #$80
     sta (Dist),Y
-    bmi loc_DED7
+    bmi obj_out
 
-loc_DECF:
+obj_here:
     ldy #0
     lda (Dist),Y
     and #$3F
     sta (Dist),Y
 
-loc_DED7:
-    jsr get_msg_dist_addr
+obj_out:
+    jsr get_obj_dist_addr
     dec SaveNum
-    bne loc_DE9F
-    jsr loc_DE3E
+    bne next_obj
+    jsr reset_obj
 
 loc_DEE1:
     ldy #0
     lda (Dist),Y
-    beq loc_DEEF
-    bmi loc_DEEF
-    jsr sub_E0F9
+    beq skip_object
+    bmi skip_object
+    jsr obj_handler
     jsr sub_DEF9
 
-loc_DEEF:
+skip_object:
     jsr get_dist_addr
     dec SaveNum
     bne loc_DEE1
     jmp sram_read_enable
-; End of function sub_DE99
+; End of function available_objects
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -5750,64 +5750,65 @@ get_save_field:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_E0F9:
+obj_handler:
     asl A
     asl A
     tax
-    lda $E106,X            ; stru_E105.subroutine+1,X
+    lda $E106,X            ; ObjectHandler.subroutine+1,X
     pha
-    lda $E105,X            ;stru_E105,X
+    lda $E105,X            ;ObjectHandler,X
     pha
     rts
-; End of function sub_E0F9
+; End of function obj_handler
 
 ; ---------------------------------------------------------------------------
-stru_E105:      .word nullsub_3-1, 0
-                .word sub_E681-1, $8800
-                .word sub_E681-1, $8800
-                .word sub_E6CF-1, $8800
-                .word sub_E678-1, $800
-                .word nullsub_3-1, 0
-                .word nullsub_3-1, 0
-                .word sub_E83F-1, $A604
-                .word sub_E96C-1, $6004
-                .word sub_EB3A-1, $2009
-                .word sub_EB92-1, $2009
-                .word loc_E8DE-1, $2009
-                .word sub_E905-1, $6004
-                .word sub_EA38-1, $2009
-                .word sub_EAC5-1, $2009
-                .word sub_EBCA-1, $2004
-                .word sub_E7F5-1, $E604
-                .word loc_E7CD-1, $E604
-                .word loc_E7BE-1, $E604
-                .word loc_E814-1, $E604
-                .word sub_E808-1, $E604
-                .word loc_E7C7-1, $E604
-                .word sub_E7B8-1, $E604
-                .word sub_E80E-1, $E604
-                .word loc_E720-1, $C400
-                .word loc_E720-1, $C604
-                .word loc_E720-1, $4609
-                .word loc_E720-1, $4400
-                .word sub_E71A-1, $C400
-                .word sub_E71A-1, $C604
-                .word sub_E71A-1, $4609
-                .word sub_E71A-1, $4400
-                .word sub_E756-1, $8804
-                .word sub_E6F1-1, $C604
-                .word loc_E7BE-1, $E602
-                .word loc_E720-1, $560A
-                .word loc_E720-1, $5604
-                .word loc_E720-1, $C608
-                .word sub_E788-1, $A604
-                .word sub_E6D9-1, $C604
-                .word sub_E8D2-1, $4609
-                .word sub_E661-1, $4500
-                .word loc_E669-1, $4500
-                .word loc_E8F5-1, $C60A
-                .word sub_E8E8-1, $4609
-                .word sub_E71A-1, $4604
+ObjectHandler:
+    .word nullsub_3-1, 0
+    .word door-1, $8800
+    .word door-1, $8800
+    .word sub_E6CF-1, $8800
+    .word sub_E678-1, $800
+    .word nullsub_3-1, 0
+    .word nullsub_3-1, 0
+    .word sub_E83F-1, $A604
+    .word sub_E96C-1, $6004
+    .word sub_EB3A-1, $2009
+    .word sub_EB92-1, $2009
+    .word loc_E8DE-1, $2009
+    .word sub_E905-1, $6004
+    .word sub_EA38-1, $2009
+    .word sub_EAC5-1, $2009
+    .word sub_EBCA-1, $2004
+    .word sub_E7F5-1, $E604
+    .word loc_E7CD-1, $E604
+    .word loc_E7BE-1, $E604
+    .word loc_E814-1, $E604
+    .word sub_E808-1, $E604
+    .word loc_E7C7-1, $E604
+    .word sub_E7B8-1, $E604
+    .word sub_E80E-1, $E604
+    .word loc_E720-1, $C400
+    .word loc_E720-1, $C604
+    .word loc_E720-1, $4609
+    .word loc_E720-1, $4400
+    .word sub_E71A-1, $C400
+    .word sub_E71A-1, $C604
+    .word sub_E71A-1, $4609
+    .word sub_E71A-1, $4400
+    .word sub_E756-1, $8804
+    .word sub_E6F1-1, $C604
+    .word loc_E7BE-1, $E602
+    .word loc_E720-1, $560A
+    .word loc_E720-1, $5604
+    .word loc_E720-1, $C608
+    .word sub_E788-1, $A604
+    .word sub_E6D9-1, $C604
+    .word sub_E8D2-1, $4609
+    .word sub_E661-1, $4500
+    .word loc_E669-1, $4500
+    .word loc_E8F5-1, $C60A
+    .word sub_E8E8-1, $4609
+    .word sub_E71A-1, $4604
 
 nullsub_3:
     rts
@@ -5815,7 +5816,7 @@ nullsub_3:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_E1BE:
+coordinate_compare:
     ldy #4
     lda (Dist),Y
     sta byte_3A
@@ -5864,7 +5865,7 @@ loc_E1D4:
 
 locret_E20E:
     rts
-; End of function sub_E1BE
+; End of function coordinate_compare
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -6163,15 +6164,15 @@ sub_E376:
                 LDY     #1
                 CMP     (Dist),Y
                 BNE     loc_E3AD
-                LDA     MsgNumber
-                JSR     set_msg_bank
+                LDA     ObjNumber
+                JSR     set_obj_bank
                 CLC
                 RTS
 ; ---------------------------------------------------------------------------
 
 loc_E3AD:
-                LDA     MsgNumber
-                JSR     set_msg_bank
+                LDA     ObjNumber
+                JSR     set_obj_bank
                 SEC
                 RTS
 ; End of function sub_E376
@@ -6314,15 +6315,15 @@ loc_E466:
                 BEQ     loc_E497
 
 loc_E490:
-                LDA     MsgNumber
-                JSR     set_msg_bank
+                LDA     ObjNumber
+                JSR     set_obj_bank
                 SEC
                 RTS
 ; ---------------------------------------------------------------------------
 
 loc_E497:
-                LDA     MsgNumber
-                JSR     set_msg_bank
+                LDA     ObjNumber
+                JSR     set_obj_bank
                 CLC
                 RTS
 ; End of function sub_E428
@@ -6714,7 +6715,7 @@ sub_E678:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_E681:
+door:
                 LDY     #$15
                 LDA     (Dist),Y
                 ORA     #$40
@@ -6734,7 +6735,7 @@ loc_E694:
                 JSR     sub_E72E
                 SEC
                 RTS
-; End of function sub_E681
+; End of function door
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -6778,7 +6779,7 @@ loc_E6A9:
 sub_E6CF:
     .importzp FuncID
 
-                JSR     sub_E681
+                JSR     door
                 BCC     @exit
                 LDA     #1              ; sub_13BD0D
                 STA     FuncID          ; ID from table BANK13:BCFD (RoutineTable)
@@ -7120,9 +7121,9 @@ sub_E82B:
                 LDA     (Dist),Y
                 AND     #$7F
                 PHA
-                JSR     sub_DE13
+                JSR     save_obj_value
                 PLA
-                JMP     sub_E0F9
+                JMP     obj_handler
 ; End of function sub_E82B
 
 
@@ -7527,8 +7528,8 @@ sub_EA38:
                 LDY     #$1A
                 LDA     (Dist),Y
                 BNE     loc_EA7C
-                LDA     MsgNumber
-                JSR     set_msg_bank
+                LDA     ObjNumber
+                JSR     set_obj_bank
                 ASL     A
                 TAX
                 LDA     $8000,X
@@ -7770,8 +7771,8 @@ sub_EB92:
                 LDA     AttributeScr1
                 STA     Screen
                 JSR     sub_E506
-                LDA     MsgNumber
-                JSR     set_msg_bank
+                LDA     ObjNumber
+                JSR     set_obj_bank
                 BIT     byte_3F
                 BVS     loc_EBC4
 
