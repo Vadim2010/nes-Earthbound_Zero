@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="https://github.com/Vadim2010/nes-Earthbound_Zero/tree/master/res/EarthBound_Logo.png"
+    <img src="https://github.com/Vadim2010/nes-Earthbound_Zero/blob/master/res/EarthBound_Logo.png"
 </p>
 
 ## Special Thanks
