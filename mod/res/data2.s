@@ -32,7 +32,7 @@ ItemList:
 
     .word sRepelRing
     .byte $3F, 0, 8, 0
-    .word 160     ; ITEM <sRepelRing, $3F, 0, 8, 0, 160>
+    .word 13     ; ITEM <sRepelRing, $3F, 0, 8, 0, 160>
 
     .word sButterKnife
     .byte 0, 0, 0, 0
@@ -116,7 +116,7 @@ ItemList:
 
     .word sInsecticide
     .byte $3F, 0, 0, $16
-    .word 300   ; ITEM <sInsecticide, $3F, 0, 0, $16, 300>
+    .word 25   ; ITEM <sInsecticide, $3F, 0, 0, $16, 300>
 
     .word sSuperSpray
     .byte $3F, 0, 0, $77
@@ -136,7 +136,7 @@ ItemList:
 
     .word sStkyMachine
     .byte 4, 0, 0, $6E
-    .word 3200    ; ITEM <sStkyMachine, 4, 0, 0, $6E, 3200>
+    .word 267    ; ITEM <sStkyMachine, 4, 0, 0, $6E, 3200>
 
     .word sFlashdark
     .byte $3F, 0, 0, $6D
@@ -156,19 +156,19 @@ ItemList:
 
     .word sBomb
     .byte 4, 0, 0, $10
-    .word 280     ; ITEM <sBomb, 4, 0, 0, $10, 280>
+    .word 23     ; ITEM <sBomb, 4, 0, 0, $10, 280>
 
     .word sSuperBomb
     .byte 4, 0, 0, $11
-    .word 1800    ; ITEM <sSuperBomb, 4, 0, 0, $11, 1800>
+    .word 150    ; ITEM <sSuperBomb, 4, 0, 0, $11, 1800>
 
     .word sLaserBeam
     .byte 4, 0, 0, $69
-    .word 760     ; ITEM <sLaserBeam, 4, 0, 0, $69, 760>
+    .word 63     ; ITEM <sLaserBeam, 4, 0, 0, $69, 760>
 
     .word sPlasmaBeam
     .byte 4, 0, 0, $6A
-    .word 1300    ; ITEM <sPlasmaBeam, 4, 0, 0, $6A, 1300>
+    .word 108    ; ITEM <sPlasmaBeam, 4, 0, 0, $6A, 1300>
 
     .word sRope_0
     .byte 0, 0, 0, 0
@@ -176,7 +176,7 @@ ItemList:
 
     .word sRope_0
     .byte $3F, 0, 0, $47
-    .word 600   ; ITEM <sRope_0, $3F, 0, 0, $47, 600>
+    .word 50   ; ITEM <sRope_0, $3F, 0, 0, $47, 600>
 
     .word sPeaceCoin
     .byte 0, 0, 0, 0
@@ -288,11 +288,11 @@ ItemList:
 
     .word sMouthwash
     .byte $3F, 0, $12, 0
-    .word 175   ; ITEM <sMouthwash, $3F, 0, $12, 0, 175>
+    .word 15   ; ITEM <sMouthwash, $3F, 0, $12, 0, 175>
 
     .word sBerryTofu
     .byte $7F, 0, 6, 0
-    .word 975     ; ITEM <sBerryTofu, $7F, 0, 6, 0, 975>
+    .word 81     ; ITEM <sBerryTofu, $7F, 0, 6, 0, 975>
 
     .word sBread
     .byte 0, 0, 0, 0
@@ -448,7 +448,7 @@ ItemList:
 
     .word sLastWeapon
     .byte $3F, 0, $20, 0
-    .word 1048  ; ITEM <sLastWeapon, $3F, 0, $20, 0, 1048>
+    .word 87  ; ITEM <sLastWeapon, $3F, 0, $20, 0, 1048>
 
     .word sRuler
     .byte $3F, 0, $21, 0
@@ -645,11 +645,11 @@ ItemList:
 
 .word sRealRocket
 .byte 0, 0, 0, 0
-.word 3485               ; PLACE <sRealRocket, 0, 0, 0, 0, 3485>
+.word 290               ; PLACE <sRealRocket, 0, 0, 0, 0, 3485>
 
 .word sTimeMachine
 .byte 0, 0, 0, 0
-.word 2775               ; PLACE <sTimeMachine, 0, 0, 0, 0, 2775>
+.word 231               ; PLACE <sTimeMachine, 0, 0, 0, 0, 2775>
 
 .word InventoryList
 .byte 0, 0, 0, 0, 0, 0                  ; PLACE <InventoryList, 0, 0, 0, 0, 0, 0>

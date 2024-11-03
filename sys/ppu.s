@@ -437,9 +437,9 @@ loc_FB0B:
     ldx byte_E1
     bit Attribute
     bvc loc_FB70
-    lda SpriteTable + ANIM_SPRITE::field_4,Y
+    lda SpriteTable + ANIM_SPRITE::ShiftX,Y
     sta pOAMSprite
-    lda SpriteTable + ANIM_SPRITE::field_5,Y
+    lda SpriteTable + ANIM_SPRITE::ShiftY,Y
     sta pOAMSprite+1
     ldy #0
 
@@ -460,19 +460,19 @@ loc_FB4A:
     tya
     adc pOAMSprite
     ldy SpriteTabOffset
-    sta SpriteTable + ANIM_SPRITE::field_4,Y
+    sta SpriteTable + ANIM_SPRITE::ShiftX,Y
     lda #0
     adc pOAMSprite+1
-    sta SpriteTable + ANIM_SPRITE::field_5,Y
+    sta SpriteTable + ANIM_SPRITE::ShiftY,Y
     jmp loc_FB83
 
 loc_FB70:
     clc
-    lda SpriteTable + ANIM_SPRITE::field_4,Y
+    lda SpriteTable + ANIM_SPRITE::ShiftX,Y
     adc TileX
     sta TileX
     clc
-    lda SpriteTable + ANIM_SPRITE::field_5,Y
+    lda SpriteTable + ANIM_SPRITE::ShiftY,Y
     adc TileY
     sta TileY
     dex
