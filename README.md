@@ -24,15 +24,15 @@ I would also like to thank Eric Ledger, a person without whom this project would
 
 This repository is dedicated to disassembling the English version of the game Earthbound Zero for the NES. If you're a fan of the game and want to dive back into it, you have the opportunity to customize the game by making changes to its code and building a personalized game ROM.
 
-## lib directory
+### lib directory
 
 Contains subroutines of basic and auxiliary functions of work with peripherals.
 
-## original
+### original
 
 Contains files for building the original game image.
 
-## sys
+### sys
 
 Contains files that implement basic NES functions.
 
