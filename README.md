@@ -6,6 +6,7 @@
 
 I would like to express my gratitude to the people who created this game, which once captured the hearts of many. The fans' love for the game has stood the test of time, and even after many years, they fondly remember it and occasionally dive back into its universe. The creators of the game:
 
+<pre>
 SHIGESATO ITOI          MASAYUKI KAMEYAMA       YUKA NAKATA
 MIYUKI KURE             HIDEO KON               HIROKO FAULKNER
 AKIO OHMORI             KATSUTOMO MAEIWA        TONY HARMAN
@@ -18,6 +19,7 @@ TOTTORI                 AKIHITO TODA            TAKAO SHIMIZU
 KAZUYA NAKATANI         YUKARI SAITOH           SHIGERU MIYAMOTO
 TAKAYUKI ONODERA        PHIL SANDHOP            HIROSHI YAMAUCHI
 MOTOO YASUMA            TOSHIKO WATSON
+</pre>
 
 I would also like to thank Eric Ledger, a person without whom this project would not have been possible.
 
