@@ -7,18 +7,15 @@
 I would like to express my gratitude to the people who created this game, which once captured the hearts of many. The fans' love for the game has stood the test of time, and even after many years, they fondly remember it and occasionally dive back into its universe. The creators of the game:
 
 <pre>
-SHIGESATO ITOI          MASAYUKI KAMEYAMA       YUKA NAKATA
-MIYUKI KURE             HIDEO KON               HIROKO FAULKNER
-AKIO OHMORI             KATSUTOMO MAEIWA        TONY HARMAN
-RITSUO KAMIMURA         KUNIKO SAKURAI          DAYV BROOKS
-KEIICHI SUZUKI          MASAHIRO TATEMOTO       NORIYUKI MINAMI
-HIROKAZU TANAKA         TAKASHI KAWAGUCHI       BIN OHGAWARA
-SHINBO MINAMI           KEIZOH KATOH            YOSHIHISA WADA
-TATSUYA ISHII           MOTOHIRO ISHII          HIKONORI SUZUKI
-TOTTORI                 AKIHITO TODA            TAKAO SHIMIZU
-KAZUYA NAKATANI         YUKARI SAITOH           SHIGERU MIYAMOTO
-TAKAYUKI ONODERA        PHIL SANDHOP            HIROSHI YAMAUCHI
-MOTOO YASUMA            TOSHIKO WATSON
+SHIGESATO ITOI          KAZUYA NAKATANI             KEIZOH KATOH            DAYV BROOKS
+MIYUKI KURE             TAKAYUKI ONODERA            MOTOHIRO ISHII          NORIYUKI MINAMI
+AKIO OHMORI             MOTOO YASUMA                AKIHITO TODA            BIN OHGAWARA
+RITSUO KAMIMURA         MASAYUKI KAMEYAMA           YUKARI SAITOH           YOSHIHISA WADA
+KEIICHI SUZUKI          HIDEO KON                   PHIL SANDHOP            HIKONORI SUZUKI
+HIROKAZU TANAKA         KATSUTOMO MAEIWA            TOSHIKO WATSON          TAKAO SHIMIZU
+SHINBO MINAMI           KUNIKO SAKURAI              YUKA NAKATA             SHIGERU MIYAMOTO
+TATSUYA ISHII           MASAHIRO TATEMOTO           HIROKO FAULKNER         HIROSHI YAMAUCHI
+TOTTORI                 TAKASHI KAWAGUCHI           TONY HARMAN
 </pre>
 
 I would also like to thank Eric Ledger, a person without whom this project would not have been possible.
