@@ -26,7 +26,7 @@ sRepelRing:
 sButterKnife:
     .byte "ButterKnife", 0
 sSurvKnife:
-    .byte "Surv.Knife", 0
+    .byte "SurvvlKnife", 0
 sSword:
     .byte "Sword", 0
 sKatana:
@@ -64,7 +64,7 @@ sWordsOLove:
 sSwearWords:
     .byte "Swear Words", 0
 sStkyMachine:
-    .byte "Sticky Machine", 0
+    .byte "StkyMachine", 0
 sFlashdark:
     .byte "Flashdark", 0
 sStoneOrigin:
@@ -72,7 +72,7 @@ sStoneOrigin:
 sPoisnNeedle:
     .byte "PoisnNeedle", 0
 sFlThrower:
-    .byte "Fl Thrower", 0
+    .byte "Flamethrowr", 0
 sBomb:
     .byte "Bomb", 0
 sSuperBomb:
@@ -96,9 +96,9 @@ sSilverRing:
 sGoldRing:
     .byte "Gold Ring", 0
 sH2oPendant:
-    .byte "H2o Pendant", 0
+    .byte "RainPendant", 0
 sFirePendant:
-    .byte "FirePendant", 0
+    .byte "FlamePendnt", 0
 sEarthPendnt:
     .byte "EarthPendnt", 0
 sSeaPendant:
@@ -134,15 +134,15 @@ sMagicRibbon:
 sMagicCandy:
     .byte "Magic Candy", 0
 sQuickCapsul:
-    .byte "QuickCapsul", 0
+    .byte "QuckCapsule", 0
 sWisdomCaps:
-    .byte "Wisdom Caps", 0
+    .byte "WiseCapsule", 0
 sPhysicalCap:
-    .byte "PhysicalCap", 0
+    .byte "PhysCapsule", 0
 sForceCapsul:
-    .byte "ForceCapsul", 0
+    .byte "ForcCapsule", 0
 sFightCapsul:
-    .byte "FightCapsul", 0
+    .byte "Fgt Capsule", 0
 sBasementKey:
     .byte "BasementKey", 0
 sZooKey:
@@ -216,7 +216,7 @@ sTimeMachine:
 LocalList:
     .byte 0
 sMyHome:
-    .byte "MyHome", 0
+    .byte "Home", 0
 sPodunk:
     .byte "Podunk", 0
 sMerrysville:
@@ -297,11 +297,11 @@ sDefenseUpAlpha:
 sDefenseUpBeta:
     .byte "DefenseUp ", BETTA, 0
 sQuickUp:
-    .byte "QuickUp", 0
+    .byte "Quick Up", 0
 sDefenseDownAlpha:
-    .byte "Def.Down ", ALPHA , 0
+    .byte "Def. Down ", ALPHA , 0
 sDefenseDownBeta:
-    .byte "Def.Down ", BETTA , 0
+    .byte "Def. Down ", BETTA , 0
 s4thDSlip:
     .byte "4th-D Slip", 0
 sPKFreezeAlpha:
@@ -376,7 +376,7 @@ sElephant:
 sBear:
     .byte "Bear", 0
 sBigFoot:
-    .byte "Big Foot", 0
+    .byte "Bigfoot", 0
 sMadTruck:
     .byte "Mad Truck", 0
 sOldRobot:
@@ -444,11 +444,11 @@ sBagLady:
 sBBGang:
     .byte "B.B. Gang", 0
 sDrDistorto:
-    .byte "Dr.Distorto", 0
+    .byte "Dr. Distorto", 0
 sGangZombie:
     .byte "Gang Zombie", 0
 sPseudoZombi:
-    .byte "Pseudo Zombi", 0
+    .byte "PseudoZombie", 0
 sCrow:
     .byte "Crow", 0
 sSnake:
@@ -478,7 +478,7 @@ sGroucho:
 sGhost:
     .byte "Ghost", 0
 sLilSaucer:
-    .byte "Lil Saucer", 0
+    .byte "Li'l Saucer", 0
 sMrBat:
     .byte "Mr. Bat", 0
 sStarmanJr:
@@ -496,9 +496,9 @@ sDoll:
 sLamp:
     .byte "Lamp", 0
 sBionicCenti:
-    .byte "Bionic Centi", 0
+    .byte "BionicCenti", 0
 sBionicScorp:
-    .byte "Bionic Scorp", 0
+    .byte "BionicScorp", 0
 sRedSnake:
     .byte "Red Snake", 0
 sLoneWolf:

@@ -8,14 +8,14 @@
 .exportzp byte_D0, byte_D1, byte_D2, byte_D3, byte_D5, byte_D6
 .exportzp IRQCount, JmpInstr, MaskPPU, Bitfield
 .exportzp byte_C9, byte_CB, byte_CE, byte_CF, byte_E1, byte_E3, byte_E4, byte_E7, ShiftX, ShiftY
-.exportzp CameraX, CameraY, SpriteTabOffset, SpriteTabStep, StartX, Source, ShiftCameraX, ShiftCameraY, ScreenX, ScreenY, Screen, ObjectID
-.exportzp TileCount, TileID, pTileID, p4TileID, p4TileAttr, TileX, TileY, Attribute, pOAMSprite, pFrame, pStr, pDist, pCursor, pCharacter
-.exportzp FuncID, Dist, Row, Column
-.exportzp byte_C, byte_D, byte_F, byte_1F, byte_20, ObjectNumWithChar, byte_22, byte_23, byte_24, byte_25, byte_26, byte_27, CharNum, Item, WaitPressed, byte_2D
-.exportzp byte_34, ScriptOffset, TempX, TempY, Tiles, NewView, byte_A9, StepX, StepY
-.exportzp byte_44, byte_45, byte_46, byte_47, EnemyGroup, byte_49, byte_4A, byte_4B, byte_4C, byte_4D, byte_4E, byte_4F
-.exportzp StackPointer, byte_52, CharacterOffset, byte_54, Encounter, byte_57, byte_58, byte_59, EnemyPos, byte_5B, pBattleScript
-.exportzp byte_6C, byte_6D, byte_6E, PrintSize, byte_71, DialogPage
+.exportzp CameraX, CameraY, SpriteTabOffset, SpriteTabStep, StartX, Source, ShiftCameraX, ShiftCameraY, ScreenX, ScreenY, Screen
+.exportzp ObjectID, TileCount, TileID, pTileID, p4TileID, p4TileAttr, TileX, TileY, Attribute, pOAMSprite, pFrame, pStr, pDist
+.exportzp pCursor, pCharacter, FuncID, Dist, Row, Column
+.exportzp byte_C, byte_D, byte_F, byte_1F, byte_20, ObjectNumWithChar, byte_22, byte_23, byte_24, byte_25, byte_26, byte_27
+.exportzp CharNum, Item, WaitPressed, byte_2D, byte_34, ScriptOffset, TempX, TempY, Tiles, NewView, byte_A9, StepX, StepY
+.exportzp byte_44, byte_45, byte_46, byte_47, EnemyGroup, Experience, Money, byte_4E, byte_4F
+.exportzp StackPointer, byte_52, CharacterOffset, TargetOffset, Encounter, byte_57, byte_58, byte_59, EnemyPos, EnemyCount
+.exportzp pBattleScript, byte_6C, byte_6D, byte_6E, PrintSize, byte_71, DialogPage
 .exportzp Pointer, CursorPosition
 .exportzp byte_0, Price
 .exportzp Color_0C, Color_0E
@@ -101,12 +101,9 @@ byte_46:            .res 1
 byte_47:            .res 1
 
 EnemyGroup:         .res 1
+Experience:         .res 3
+Money:              .res 2
 
-byte_49:            .res 1
-byte_4A:            .res 1
-byte_4B:            .res 1
-byte_4C:            .res 1
-byte_4D:            .res 1
 byte_4E:            .res 1
 byte_4F:            .res 1
 
@@ -116,7 +113,7 @@ byte_52:            .res 1
 
 CharacterOffset:    .res 1
 
-byte_54:            .res 1
+TargetOffset:       .res 1
 
 NamePos:            .res 1
 Encounter:          .res 1
@@ -127,7 +124,7 @@ byte_59:            .res 1
 
 EnemyPos:           .res 1
 
-byte_5B:            .res 1
+EnemyCount:         .res 1
 
 pCharacter:         .res 2
 

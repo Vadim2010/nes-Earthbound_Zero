@@ -27,26 +27,26 @@ out_state:
     sta Pointer
     ldy #$F0
 
-loc_13A00C:
+@next_melody:
     lda #$A5
     lsr Pointer
-    bcc loc_13A014
+    bcc @melody_state
     lda #$96
 
-loc_13A014:
+@melody_state:
     sta Character,Y
     iny
     cpy #$F8
-    bcc loc_13A00C
+    bcc @next_melody
     lda #0
     sta Character,Y
 
-loc_13A021:
+character:
     ldx #0
 
 loc_13A023:
     jsr get_character_num
-    bcs loc_13A084
+    bcs next_charac
     jsr get_character_pointer ; Input: A - Character number
                         ; Output: Pointer (word) = High $74 Low $40 * A
     txa 
@@ -64,7 +64,7 @@ loc_13A023:
 @next_item:
     lda Character,Y
     sta Item
-    jsr copy_item_name
+    jsr copy_name
     iny
     cpy #$2C
     bcc @next_item
@@ -73,7 +73,7 @@ loc_13A023:
     jsr draw_tiles
     lda #$C0
     sta Item
-    jsr sub_13A0B3
+    jsr print_psi
     ldxa #stru_13A119
     stxa pCursor
     jsr cursor_update
@@ -83,9 +83,9 @@ loc_13A064:
     bvs loc_13A08B
     lda CursorPosition
     beq loc_13A082
-    jsr sub_13A0B3
+    jsr print_psi
     bcs loc_13A074
-    jsr sub_13A0B3
+    jsr print_psi
 
 loc_13A074:
     ldx #$A
@@ -100,11 +100,11 @@ loc_13A082:
     pla
     tax
 
-loc_13A084:
+next_charac:
     inx
     cpx #4
     bcc loc_13A023
-    bcs loc_13A021
+    bcs character
 
 loc_13A08B:
     pla
@@ -115,7 +115,7 @@ loc_13A08B:
 ; =============== S U B R O U T I N E =======================================
 
 
-.proc copy_item_name
+.proc copy_name
     .import Character
     .importzp Pointer, pTileID
 
@@ -144,63 +144,63 @@ loc_13A08B:
     pla
     tay
     rts
-.endproc            ; End of function copy_item_name
+.endproc            ; End of function copy_name
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-.proc sub_13A0B3
-    .import sub_DCCD, draw_tilepack_clear, Character
+.proc print_psi
+    .import get_flag_bit, draw_tilepack_clear, Character
     .importzp pDist, Item, PointerTilePack
 
-    LDX #$40
+    ldx #$40
 
-loc_13A0B5:
-    STX pDist
-    JSR sub_DCCD
-    LDX pDist
-    AND Character,Y
-    BEQ loc_13A0C4
-    JSR copy_item_name
+next_string:
+    stx pDist
+    jsr get_flag_bit
+    ldx pDist
+    and Character,Y
+    beq @next_psi
+    jsr copy_name
 
-loc_13A0C4:
-    INC Item
-    BNE loc_13A0E1
-    LDA #$C0
-    STA Item
-    CPX #$41
-    BCS loc_13A0DB
-    RTS
+@next_psi:
+    inc Item
+    bne no_last
+    lda #$C0
+    sta Item
+    cpx #$41
+    bcs no_psi
+    rts
 ; ---------------------------------------------------------------------------
 
-loc_13A0D1:
-    LDA #0
-    STA Character,X
-    CLC
-    TXA
-    ADC #$10
-    TAX
+empty_string:
+    lda #0
+    sta Character,X
+    clc
+    txa
+    adc #$10
+    tax
 
-loc_13A0DB:
-    CPX #$80
-    BCC loc_13A0D1
-    BCS loc_13A0E5
+no_psi:
+    cpx #$80
+    bcc empty_string
+    bcs get_frame
 
-loc_13A0E1:
-    CPX #$80
-    BCC loc_13A0B5
+no_last:
+    cpx #$80
+    bcc next_string
 
-loc_13A0E5:
+get_frame:
     ldxa #stru_13A0FE
     stxa PointerTilePack
 
-loc_13A0ED:
-    JSR draw_tilepack_clear
-    CMP #0
-    BNE loc_13A0ED
-    RTS
-.endproc            ; End of function sub_13A0B3
+@draw:
+    jsr draw_tilepack_clear
+    cmp #0
+    bne @draw
+    rts
+.endproc            ; End of function print_psi
 
 ; ---------------------------------------------------------------------------
 .import Character
@@ -598,7 +598,7 @@ cant_equip:
     .import loc_13A26A
     .importzp CharNum, Item, BankPPU_X800
 
-    LDX $6707            ; byte_6707
+    LDX $6707
     DEX
     BEQ no_friends
     LDA Item
@@ -2185,7 +2185,7 @@ loc_13AA2C:
 
     LDA CharNum
     STA BankPPU_X800
-    LDA $6707            ; byte_6707
+    LDA $6707
     CMP #2
     BCC loc_13AA6A
     LDA PointerTilePack
@@ -2730,11 +2730,11 @@ byte_13AD91:
 
 
 .proc sub_13AD98
-    .import sub_C7C1
+    .import delay_print_scroll
     .importzp Row
 
     LDX #4
-    JSR sub_C7C1
+    JSR delay_print_scroll
     DEC Row
     DEC Row
     RTS
@@ -4885,11 +4885,11 @@ loc_13B681:
 
     JSR sram_write_enable
     LDA #$20
-    ORA CurrentGame + PURE_SAVE::Boy1 + CHARACTER::field_30
-    STA CurrentGame + PURE_SAVE::Boy1 + CHARACTER::field_30
+    ORA CurrentGame + PURE_SAVE::Boy1 + CHARACTER::PSI
+    STA CurrentGame + PURE_SAVE::Boy1 + CHARACTER::PSI
     LDA #$20
-    ORA CurrentGame + PURE_SAVE::Girl + CHARACTER::field_30
-    STA CurrentGame + PURE_SAVE::Girl + CHARACTER::field_30
+    ORA CurrentGame + PURE_SAVE::Girl + CHARACTER::PSI
+    STA CurrentGame + PURE_SAVE::Girl + CHARACTER::PSI
     INY
     JMP sram_read_enable
 .endproc            ; End of function sub_13B6C4

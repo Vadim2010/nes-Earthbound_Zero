@@ -32,8 +32,8 @@
 
 .struct CHARACTER
     field_0         .byte
-    field_1         .byte
-    field_2         .byte
+    InitialStatus   .byte
+    Flags           .byte
     MaxHealth       .word
     MaxPP           .word
     Offense         .word
@@ -57,8 +57,7 @@
     Goods           .res 8
     Items           .res 4
     field_2C        .res 4
-    field_30        .byte
-    field_31        .res 7
+    PSI             .res 8
     Name            .res 8
 .endstruct
 

@@ -1805,7 +1805,7 @@ loc_1C892B:
 loc_1C8936:
                 CMP     #6
                 BNE     loc_1C8946
-                LDA     $6707           ; byte_6707
+                LDA     $6707
                 CMP     #1
                 BEQ     loc_1C8945
                 LDA     #7

@@ -862,7 +862,7 @@ loc_1495D5:
     lda CurrentGame + PURE_SAVE::CharactersNum,X
     beq loc_14962A
     jsr get_character_pointer
-    ldy #CHARACTER::field_1
+    ldy #CHARACTER::InitialStatus
     lda (Pointer),Y
     lsr A
     bcc loc_1495E8
@@ -1096,7 +1096,7 @@ sub_149779:
 
 sub_1497A3:
     .export sub_1497A3
-    .import sub_1AA000, Sound1, byte_7F4
+    .import sub_1AA000, Sound1, Sound4
 
                 lda     #$E
                 jsr     sub_149920
@@ -1109,7 +1109,7 @@ sub_1497A3:
                 lda     #9
                 sta     Sound1
                 lda     #1
-                sta     byte_7F4
+                sta     Sound4
                 ldxa    #word_1499E9
                 jsr     sub_1497D6
                 lda     #$1A

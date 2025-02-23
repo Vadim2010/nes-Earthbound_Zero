@@ -1439,7 +1439,7 @@ off_119B86:
     .word byte_119C03, byte_119C0B, byte_119C13, byte_119C1B
     .word byte_119C23, byte_119C2B, byte_119C33, byte_119C3B
     .word byte_119C43, byte_119C4B, byte_119C53, byte_119C5B
-    .word byte_119C63, byte_119C6B, 0
+    .word byte_119C63, capsule, 0
 
 byte_119BB4:
     .byte $98, $7B, $82, $21, $36, $16, $35, $16, $12, $D
@@ -1506,11 +1506,19 @@ byte_119C5B:
 byte_119C63:
     .byte $A0, $8A, $80, $21, $88, $81, $41, $1C
 
-byte_119C6B:
+capsule:
     .byte $21, $C6, $80, $25, $F4, $8A, 5, $D, $B, $24, 8
-    .byte $82, 3, $44, $A4, $5B, 9, $3E, $90, $9C, 8, $CC
-    .byte 3, $17, $1C, 0, $17, $1D, 0, $10, $D, $5A, $12, $3E
-    .byte $95, $9C, 0, $70, 6, $54, 1, 3, 0
+    .byte $82, 3, $44, $A4, $5B, 9
+    .byte $3E
+    .word capsule_away
+    .byte 8, $CC, 3, $17, $1C, 0, $17, $1D, 0, $10, $D, $5A, $12
+    .byte $3E
+    .word capsule_end
+    .byte 0
+capsule_away:
+    .byte $70, 6, $54, 1, 3
+capsule_end:
+    .byte 0
 
 off_119C96:
     .word byte_119CD4, byte_119CDC, byte_119CE4, byte_119CEC

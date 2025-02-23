@@ -3099,8 +3099,8 @@ byte_1697B5:    .byte 4, 4, 3, $2C, $2D, $2E, $2F, $3C, $3D, $3E, $3F
                 .byte $97, 1, $70, $97, 8, $74, $97, $22, $78, $97, 8
                 .byte $7C, $97
 
-.export off_1697FB
-off_1697FB:
+.export BattleScripts
+BattleScripts:
                 .byte $D, $99, $E, $99, $44, $99, $57, $99, $6B
                 .byte $99, $73, $99, $7B, $99, $85, $99, $A6, $99, $CD
                 .byte $99, $E7, $99, $F0, $99, $15, $9A, $25, $9A, $2E
@@ -3265,8 +3265,8 @@ off_1697FB:
                 .byte $9E, $65, 0, 0, 0, $68, $11, 0, $69, $B, $68, 6
                 .byte 0, $69, $13, $68, $50, 0, $68, $12, 0
 
-.export byte_169EC7
-byte_169EC7:
+.export BattleAction
+BattleAction:
     .byte $2A, $AA, 0, $A2, $A, $22, $81, $11, $4A, $20, $15
     .byte 4, $A0, $89, $40, $AA, $A8, $A2, 2, 0, $20, 2, 1
     .byte 1, $89, $58, $28, $AA, $15, $54, $A5, $40, $80, $44

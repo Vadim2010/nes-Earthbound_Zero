@@ -522,26 +522,26 @@ loc_C40F:
     pha
     tax
     lda Character + CHARACTER::field_0,X
-    beq loc_C436
+    beq no_char
     lda Character + CHARACTER::NameOffset,X
     sta PointerTilePack
     lda Character + CHARACTER::NameOffset+1,X
     sta PointerTilePack+1
     ldy #1
-    lda Character + CHARACTER::field_1,X
+    lda Character + CHARACTER::InitialStatus,X
     and Pointer
     sta (PointerTilePack),Y
     ldy #CHARACTER::Health
 
-loc_C42B:
+@health_pp:
     lda Character + CHARACTER::MaxHealth,X
     sta (PointerTilePack),Y
     inx
     iny
     cpy #CHARACTER::NameOffset
-    bcc loc_C42B
+    bcc @health_pp
 
-loc_C436:
+no_char:
     pla
     clc
     adc #$20
@@ -580,134 +580,134 @@ loc_C458:
 prepare_attributes:
     .importzp ChrCount, BlockIndex, Column, LoopAddr, NTAddr, AttributeOffset
 
-                LDA     ChrCount
-                LSR     A
-                ADC     #0
-                TAX
-                LDA     Row
-                AND     #$1E
-                ASL     A
-                ASL     A
-                ASL     A
-                STA     BlockIndex
-                LDA     Column
-                ADC     #1
-                LSR     A
-                ORA     BlockIndex
-                STA     BlockIndex
-                TAY
-                JSR     sram_write_enable
-                LDA     #$FF
+    lda ChrCount
+    lsr A
+    adc #0
+    tax
+    lda Row
+    and #$1E
+    asl A
+    asl A
+    asl A
+    sta BlockIndex
+    lda Column
+    adc #1
+    lsr A
+    ora BlockIndex
+    sta BlockIndex
+    tay
+    jsr sram_write_enable
+    lda #$FF
 
 @next_byte:
-                STA     AttributeCopy,Y
-                INY
-                DEX
-                BNE     @next_byte
-                JSR     sram_read_enable
-                LDX     NMI_Data + NMI_DATA::PPU_Addr
-                LDY     NMI_Data + NMI_DATA::PPU_Addr+1
-                TYA
-                CLC
-                AND     #3
-                ADC     #3
-                ADC     ChrCount
-                LSR     A
-                LSR     A
-                STA     LoopAddr        ; ROM:C84F, ROM:C881
-                TYA
-                AND     #$80
-                STA     NTAddr+1
-                TXA
-                LSR     A
-                ROR     NTAddr+1
-                LSR     A
-                ROR     NTAddr+1
-                TYA
-                AND     #$1C
-                ORA     NTAddr+1
-                LSR     A
-                LSR     A
-                ORA     #$C0
-                STA     NTAddr+1
-                ORA     #$F8
-                STA     AttributeOffset
-                TXA
-                ORA     #3
-                STA     NTAddr
-                TYA
-                AND     #$42
-                LSR     A
-                LSR     A
-                ADC     #0
-                EOR     #$FF
-                ADC     #1
-                CLC
-                ADC     BlockIndex
-                TAY
-                LDX     OffsetNMI_Data
-                LDA     #WRITE_CHAR     ; #7  write_ppu_chars
-                STA     NMI_Data,X
-                INX
-                LDA     LoopAddr        ; ROM:C84F, ROM:C881
-                STA     NMI_Data,X
-                INX
+    sta AttributeCopy,Y
+    iny
+    dex
+    bne @next_byte
+    jsr sram_read_enable
+    ldx NMI_Data + NMI_DATA::PPU_Addr
+    ldy NMI_Data + NMI_DATA::PPU_Addr+1
+    tya
+    clc
+    and #3
+    adc #3
+    adc ChrCount
+    lsr A
+    lsr A
+    sta LoopAddr
+    tya
+    and #$80
+    sta NTAddr+1
+    txa
+    lsr A
+    ror NTAddr+1
+    lsr A
+    ror NTAddr+1
+    tya
+    and #$1C
+    ora NTAddr+1
+    lsr A
+    lsr A
+    ora #$C0
+    sta NTAddr+1
+    ora #$F8
+    sta AttributeOffset
+    txa
+    ora #3
+    sta NTAddr
+    tya
+    and #$42
+    lsr A
+    lsr A
+    adc #0
+    eor #$FF
+    adc #1
+    clc
+    adc BlockIndex
+    tay
+    ldx OffsetNMI_Data
+    lda #WRITE_CHAR
+    sta NMI_Data,X
+    inx
+    lda LoopAddr
+    sta NMI_Data,X
+    inx
 
 @next_attr:
-                LDA     NTAddr
-                STA     NMI_Data,X
-                INX
-                LDA     NTAddr+1
-                STA     NMI_Data,X
-                INX
-                LDA     AttributeCopy,Y
-                AND     #3              ; left top attribute
-                STA     BlockIndex
-                INY
-                LDA     AttributeCopy,Y
-                AND     #$C             ; right top attribute
-                ORA     BlockIndex
-                STA     BlockIndex
-                TYA
-                CLC
-                ADC     #$F             ; get offset left bottom attribute
-                TAY
-                LDA     AttributeCopy,Y
-                AND     #$30            ; left bottom attribute
-                ORA     BlockIndex
-                STA     BlockIndex
-                INY
-                LDA     AttributeCopy,Y
-                AND     #$C0            ; right bottom attribute
-                ORA     BlockIndex
-                STA     NMI_Data,X
-                INX
-                TYA
-                SEC
-                SBC     #$F
-                TAY
-                DEC     LoopAddr        ; ROM:C84F, ROM:C881
-                BNE     @no_last
-                STX     OffsetNMI_Data
-                RTS
+    lda NTAddr
+    sta NMI_Data,X
+    inx
+    lda NTAddr+1
+    sta NMI_Data,X
+    inx
+    lda AttributeCopy,Y
+    and #3
+    sta BlockIndex
+    iny
+    lda AttributeCopy,Y
+    and #$C
+    ora BlockIndex
+    sta BlockIndex
+    tya
+    clc
+    adc #$F
+    tay
+    lda AttributeCopy,Y
+    and #$30
+    ora BlockIndex
+    sta BlockIndex
+    iny
+    lda AttributeCopy,Y
+    and #$C0
+    ora BlockIndex
+    sta NMI_Data,X
+    inx
+    tya
+    sec
+    sbc #$F
+    tay
+    dec LoopAddr
+    bne @no_last
+    stx OffsetNMI_Data
+    rts
 ; ---------------------------------------------------------------------------
 
 @no_last:
-                INC     AttributeOffset
-                BEQ     @end_screen
-                INC     NTAddr+1
-                JMP     @next_attr
+    inc AttributeOffset
+    beq @end_screen
+    inc NTAddr+1
+    jmp @next_attr
 ; ---------------------------------------------------------------------------
 
 @end_screen:
-                LDA     #4
-                EOR     NTAddr
-                STA     NTAddr
-                LDA     #$F8
-                STA     AttributeOffset
-                AND     NTAddr+1
-                STA     NTAddr+1
-                JMP     @next_attr
+    lda #4
+    eor NTAddr
+    sta NTAddr
+    lda #$F8
+    sta AttributeOffset
+    and NTAddr+1
+    sta NTAddr+1
+    jmp @next_attr
 ; End of function prepare_attributes
 
 
@@ -1172,71 +1172,71 @@ move_chars:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_C7C1:
-    .export sub_C7C1
+delay_print_scroll:
+    .export delay_print_scroll
     .importzp ByteCount
 
-                LDA     #$33
+    lda #$33
 
 loc_C7C3:
-                CLC
-                ADC     #$29
-                DEX
-                BNE     loc_C7C3
-                STX     ByteCount
-                TAX
-                PHA
-                JSR     sub_C7D4
-                STA     ByteCount
-                PLA
-                TAX
-; End of function sub_C7C1
+    clc
+    adc #$29
+    dex
+    bne loc_C7C3
+    stx ByteCount
+    tax
+    pha
+    jsr print_scroll
+    sta ByteCount
+    pla
+    tax
+; End of function delay_print_scroll
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_C7D4:
-                JSR     wait_nmi_processed
-                STX     OffsetNMI_Data
+print_scroll:
+    jsr wait_nmi_processed
+    stx OffsetNMI_Data
 
 loc_C7D9:
-                LDA     NMI_Data,X
-                BEQ     loc_C7FD
-                EOR     #5
-                BNE     loc_C7F3
-                ORA     ByteCount
-                BNE     loc_C7E9
-                JSR     sub_C80E
+    lda NMI_Data,X
+    beq loc_C7FD
+    eor #5
+    bne loc_C7F3
+    ora ByteCount
+    bne loc_C7E9
+    jsr sub_C80E
 
 loc_C7E9:
-                TXA
-                CLC
-                ADC     #4
-                ADC     NMI_Data + NMI_DATA::NumOfChr,X
-                TAX
-                BCC     loc_C7D9
+    txa
+    clc
+    adc #4
+    adc NMI_Data + NMI_DATA::NumOfChr,X
+    tax
+    bcc loc_C7D9
 
 loc_C7F3:
-                JSR     sub_C80E
-                TXA
-                CLC
-                ADC     #5
-                TAX
-                BCC     loc_C7D9
+    jsr sub_C80E
+    txa
+    clc
+    adc #5
+    tax
+    bcc loc_C7D9
 
 loc_C7FD:
-                STA     ByteCount
-                SEC
-                LDA     OffsetNMI_Data
-                SBC     #$29
-                TAX
-                LDA     #$80
-                STA     NMIFlags
-                CPX     #$5C
-                BCS     sub_C7D4
-                RTS
-; End of function sub_C7D4
+    sta ByteCount
+    sec
+    lda OffsetNMI_Data
+    sbc #$29
+    tax
+    lda #$80
+    sta NMIFlags
+    cpx #$5C
+    bcs print_scroll
+    rts
+; End of function print_scroll
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -2189,7 +2189,7 @@ loc_CCC6:
 
 sub_CCD8:
     .export sub_CCD8
-    .import sub_13BBD4, SpriteTable, Sound3, byte_7F4
+    .import sub_13BBD4, SpriteTable, Sound3, Sound4
     .importzp byte_F, NewView, ButtonPressed0, byte_22, byte_25
 
     lda CurrentMusic
@@ -2199,7 +2199,7 @@ sub_CCD8:
     jsr wait_change_music
     jsr redraw_screen
     lda #1
-    sta byte_7F4
+    sta Sound4
     jsr sub_CD9D
     ldx #5
 
@@ -4107,7 +4107,7 @@ loc_D840:
     ldy #$17
     sta (Dist),Y
     clc
-    ldy #CHARACTER::field_1    ; #1
+    ldy #CHARACTER::InitialStatus    ; #1
     lda (ObjOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
     bpl locret_D86B
     and #$80
@@ -4268,7 +4268,7 @@ loc_D90E:
                 JSR     sub_D8C9
                 JSR     sram_write_enable
                 LDA     #0
-                STA     CurrentGame + PURE_SAVE::Boy1 + CHARACTER::field_1
+                STA     CurrentGame + PURE_SAVE::Boy1 + CHARACTER::InitialStatus
                 STA     CurrentGame + PURE_SAVE::Boy1 + CHARACTER::PP
                 STA     CurrentGame + PURE_SAVE::Boy1 + CHARACTER::PP+1
                 LDA     CurrentGame + PURE_SAVE::Boy1 + CHARACTER::MaxHealth
@@ -4489,16 +4489,16 @@ loc_DA3C:
 
 
 sub_DA48:
-    .import sub_13BBC3, sub_13BB8C, sub_13A979, sub_17A3F8
-    .importzp CharNum, Item, Price, byte_49, byte_4A, byte_4B, CharacterOffset
+    .import sub_13BBC3, sub_13BB8C, sub_13A979, print_text
+    .importzp CharNum, Item, Price, Experience, CharacterOffset
 
                 LDA     ItemCount
                 STA     pTileID
-                LDA     byte_49
+                LDA     Experience
                 STA     Pointer
-                LDA     byte_4A
+                LDA     Experience+1
                 STA     Pointer+1
-                LDA     byte_4B
+                LDA     Experience+2
                 STA     AddrForJmp
                 JSR     sub_F13D
                 LDA     pDist
@@ -4508,13 +4508,13 @@ sub_DA48:
 loc_DA61:
                 CLC
                 ADC     Pointer
-                STA     byte_49
+                STA     Experience
                 LDA     #0
                 ADC     Pointer+1
-                STA     byte_4A
+                STA     Experience+1
                 LDA     #0
                 ADC     AddrForJmp
-                STA     byte_4B
+                STA     Experience+2
                 JSR     sram_write_enable
                 LDX     #0
 
@@ -4538,15 +4538,15 @@ loc_DA77:
                 BNE     loc_DAD8
                 LDY     #$11
                 CLC
-                LDA     byte_49
+                LDA     Experience
                 ADC     (ObjOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
                 STA     (ObjOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
                 INY
-                LDA     byte_4A
+                LDA     Experience+1
                 ADC     (ObjOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
                 STA     (ObjOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
                 INY
-                LDA     byte_4B
+                LDA     Experience+2
                 ADC     (ObjOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
                 STA     (ObjOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
                 BCC     loc_DAB9
@@ -4640,7 +4640,7 @@ loc_DB33:
                 LDA     #6
                 STA     Sound2
                 LDA     #$8C
-                JMP     sub_17A3F8
+                JMP     print_text
 ; End of function sub_DA48
 
 
@@ -4698,7 +4698,7 @@ loc_DB75:
                 LDA     #$1F
                 JSR     wait_change_music
                 LDA     #$82
-                JSR     sub_17A3F8
+                JSR     print_text
                 JSR     sub_DCDF
                 LDY     #3
 
@@ -4737,7 +4737,7 @@ loc_DBBC:
                 PHA
                 CLC
                 ADC     #$7B
-                JSR     sub_17A3F8
+                JSR     print_text
                 PLA
                 TAY
 
@@ -4787,13 +4787,13 @@ loc_DC0F:
 
 
 sub_DC11:
-    .importzp byte_4C, byte_4D
+    .importzp Money
 
     clc
-    lda byte_4C
+    lda Money
     adc CurrentGame + PURE_SAVE::field_0,X
     sta CurrentGame + PURE_SAVE::field_0,X
-    lda byte_4D
+    lda Money+1
     adc CurrentGame + PURE_SAVE::field_1,X
     sta CurrentGame + PURE_SAVE::field_1,X
     lda #0
@@ -4818,7 +4818,7 @@ sub_DC38:
 
                 LDX     pCharacter+1
                 BEQ     locret_DC70
-                JMP     sub_17A3F8
+                JMP     print_text
 ; End of function sub_DC38
 
 
@@ -4917,7 +4917,7 @@ loc_DC97:
                 LDY     #$10
                 CMP     (ObjOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
                 BCS     loc_DCC6
-                JSR     sub_DCCD
+                JSR     get_flag_bit
                 AND     (ObjOffset),Y   ; BANK10:8000, BANK11:8000, BANK12:8000
                 BNE     loc_DCC6
                 JSR     randomize
@@ -4929,7 +4929,7 @@ loc_DC97:
                 LDA     #9
                 STA     Sound2
                 LDA     #$83
-                JSR     sub_17A3F8
+                JSR     print_text
 
 loc_DCC6:
                 LDX     Item
@@ -4945,8 +4945,8 @@ locret_DCCC:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_DCCD:
-    .export sub_DCCD
+get_flag_bit:
+    .export get_flag_bit
 
                 LDA     Item
                 CLC
@@ -4960,7 +4960,7 @@ sub_DCCD:
                 TAX
                 LDA     FlagBit,X
                 RTS
-; End of function sub_DCCD
+; End of function get_flag_bit
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -9234,109 +9234,101 @@ sub_F2D5:
 sub_F2ED:
     .export sub_F2ED
 
-                PHA
-                TXA
-                PHA
-                TYA
-                PHA
-                LDA     AddrForJmp+1
-                PHA
-                LDA     AddrForJmp
-                PHA
-                LDA     pTileID+1
-                PHA
-                LDA     pTileID
-                PHA
-                LDA     pDist+1
-                PHA
-                LDA     pDist
-                PHA
-                LDA     Pointer+1
-                AND     #$FC
-                PHA
-                LDX     #6
+    save_registers
+    lda AddrForJmp+1
+    pha
+    lda AddrForJmp
+    pha
+    lda pTileID+1
+    pha
+    lda pTileID
+    pha
+    lda pDist+1
+    pha
+    lda pDist
+    pha
+    lda Pointer+1
+    and #$FC
+    pha
+    ldx #6
 
 loc_F30B:
-                ASL     Pointer
-                ROL     Pointer+1
-                DEX
-                BNE     loc_F30B
-                STX     AddrForJmp
-                TXA
-                PHA
-                LDA     Pointer+1
-                PHA
-                LDA     Pointer
-                PHA
-                LDA     #$64
-                STA     pTileID
+    asl Pointer
+    rol Pointer+1
+    dex
+    bne loc_F30B
+    stx AddrForJmp
+    txa
+    pha
+    lda Pointer+1
+    pha
+    lda Pointer
+    pha
+    lda #$64
+    sta pTileID
 
 loc_F320:
-                JSR     sub_F13D
-                JSR     randomize
-                LSR     A
-                PHP
-                TAX
-                LDA     byte_F37D,X
-                STA     pTileID
-                JSR     get_offset      ; Input: Pointer - first multiplier
-                                        ;        pTileID - second multiplier
-                                        ; Output: AddrForJmp, Pointer - result Pointer * pTileID
-                PLP
-                BCS     loc_F346
-                PLA
-                ADC     Pointer
-                STA     Pointer
-                PLA
-                ADC     Pointer+1
-                STA     Pointer+1
-                PLA
-                ADC     AddrForJmp
-                STA     AddrForJmp
-                JMP     loc_F355
+    jsr sub_F13D
+    jsr randomize
+    lsr A
+    php
+    tax
+    lda byte_F37D,X
+    sta pTileID
+    jsr get_offset      ; Input: Pointer - first multiplier
+                        ;        pTileID - second multiplier
+                        ; Output: AddrForJmp, Pointer - result Pointer * pTileID
+    plp
+    bcs loc_F346
+    pla
+    adc Pointer
+    sta Pointer
+    pla
+    adc Pointer+1
+    sta Pointer+1
+    pla
+    adc AddrForJmp
+    sta AddrForJmp
+    jmp loc_F355
 ; ---------------------------------------------------------------------------
 
 loc_F346:
-                PLA
-                SBC     Pointer
-                STA     Pointer
-                PLA
-                SBC     Pointer+1
-                STA     Pointer+1
-                PLA
-                SBC     AddrForJmp
-                STA     AddrForJmp
+    pla
+    sbc Pointer
+    sta Pointer
+    pla
+    sbc Pointer+1
+    sta Pointer+1
+    pla
+    sbc AddrForJmp
+    sta AddrForJmp
 
 loc_F355:
-                LDX     #6
+    ldx #6
 
 loc_F357:
-                LSR     AddrForJmp
-                ROR     Pointer+1
-                ROR     Pointer
-                DEX
-                BNE     loc_F357
-                PLA
-                ORA     Pointer+1
-                STA     Pointer+1
-                PLA
-                STA     pDist
-                PLA
-                STA     pDist+1
-                PLA
-                STA     pTileID
-                PLA
-                STA     pTileID+1
-                PLA
-                STA     AddrForJmp
-                PLA
-                STA     AddrForJmp+1
-                PLA
-                TAY
-                PLA
-                TAX
-                PLA
-                RTS
+    lsr AddrForJmp
+    ror Pointer+1
+    ror Pointer
+    dex
+    bne loc_F357
+    pla
+    ora Pointer+1
+    sta Pointer+1
+    pla
+    sta pDist
+    pla
+    sta pDist+1
+    pla
+    sta pTileID
+    pla
+    sta pTileID+1
+    pla
+    sta AddrForJmp
+    pla
+    sta AddrForJmp+1
+    restore_registers
+    rts
 ; End of function sub_F2ED
 
 ; ---------------------------------------------------------------------------
@@ -9403,51 +9395,51 @@ loc_F415:
 sub_F41F:
     .export sub_F41F
 
-                PHA
-                ASL     A
-                ASL     A
-                BEQ     loc_F463
-                TAX
-                LDA     $9EEA,X
-                STA     pTileID+1
-                LDA     $9EEB,X
-                STA     TilesCount
-                LDA     $9EE9,X
-                CMP     #0
-                BNE     loc_F43E
-                LDA     pTileID+1
-                STA     Sound1
-                JMP     loc_F45B
+    pha
+    asl A
+    asl A
+    beq loc_F463
+    tax
+    lda $9EEA,X
+    sta pTileID+1
+    lda $9EEB,X
+    sta TilesCount
+    lda $9EE9,X
+    cmp #0
+    bne @sound2
+    lda pTileID+1
+    sta Sound1
+    jmp loc_F45B
 ; ---------------------------------------------------------------------------
 
-loc_F43E:
-                CMP     #1
-                BNE     loc_F44A
-                LDA     pTileID+1
-                STA     Sound2
-                JMP     loc_F45B
+@sound2:
+    cmp #1
+    bne @sound3
+    lda pTileID+1
+    sta Sound2
+    jmp loc_F45B
 ; ---------------------------------------------------------------------------
 
-loc_F44A:
-                CMP     #2
-                BNE     loc_F456
-                LDA     pTileID+1
-                STA     $7F3
-                JMP     loc_F45B
+@sound3:
+    cmp #2
+    bne @sound4
+    lda pTileID+1
+    sta Sound3
+    jmp loc_F45B
 ; ---------------------------------------------------------------------------
 
-loc_F456:
-                LDA     pTileID+1
-                STA     byte_7F4
+@sound4:
+    lda pTileID+1
+    sta Sound4
 
 loc_F45B:
-                LDX     TilesCount
-                JSR     delay
-                JSR     bank16          ; set memory bank $16 at $8000
+    ldx TilesCount
+    jsr delay
+    jsr bank16
 
 loc_F463:
-                PLA
-                RTS
+    pla
+    rts
 ; End of function sub_F41F
 
 
@@ -9494,10 +9486,10 @@ get_enemy_group:
                         ;        pTileID - second multiplier
                         ; Output: AddrForJmp, Pointer - result Pointer * pTileID
     clc
-    lda #<(EnemyGroups)    ; #$98            ; BANK16:8F98
+    lda #<(EnemyGroups)
     adc Pointer
     sta pCharacter
-    lda #>(EnemyGroups)    ; #$8F
+    lda #>(EnemyGroups)
     adc Pointer+1
     sta pCharacter+1
     rts
@@ -9773,18 +9765,10 @@ byte_F5DF:
 statistical_frame:
     .export statistical_frame
 
-    pha
-    txa
-    pha
-    tya
-    pha
+    save_registers
     jsr draw_statistical_frame
-    jsr sub_F614
-    pla
-    tay
-    pla
-    tax
-    pla
+    jsr print_state
+    restore_registers
     sec
     rts
 ; End of function statistical_frame
@@ -9821,7 +9805,7 @@ loc_F60F:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_F614:
+print_state:
                 JSR     wait_nmi_processed
                 LDY     #$E8
                 STY     pDist
@@ -9849,7 +9833,7 @@ loc_F630:
                 EOR     #6
                 BEQ     loc_F660
                 LDX     #2
-                LDA     Character + CHARACTER::field_1,Y
+                LDA     Character + CHARACTER::InitialStatus,Y
                 AND     #$80
                 BNE     loc_F655
                 LDX     #1
@@ -9877,7 +9861,7 @@ loc_F660:
                 CMP     #$60
                 BNE     loc_F630
                 RTS
-; End of function sub_F614
+; End of function print_state
 
 
 ; =============== S U B R O U T I N E =======================================

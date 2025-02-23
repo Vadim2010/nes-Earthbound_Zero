@@ -7,6 +7,7 @@
 
 FramesList:
     .export FramesList
+    .import TilePntr2
 
     .word fBattleLog, fStatistic, fBattleMenu1, fClear2, fEmptyString
     .word stru_8CC8, stru_8CD0, fClear1, stru_8CE0, fEmptyString
@@ -314,7 +315,7 @@ byte_8E29:
     end_frame
 
 fNamePrint:
-    tile_pointer $588
+    tile_pointer TilePntr2
     end_frame
 
 byte_8E30:
@@ -354,10 +355,10 @@ stru_8E5A:
     end_frame
 
 stru_8E6C:
-    .import byte_580
+    .import TilePntr1
 
     tile_position 13, 25
-    tile_pointer byte_580
+    tile_pointer TilePntr1
     .byte " can't."
     end_frame
 
@@ -365,7 +366,7 @@ fNameStr:
     .export fNameStr
 
     tile_position 3, 19
-    tile_pointer byte_580
+    tile_pointer TilePntr1
     end_frame
 
 BattlePalettes:
@@ -836,7 +837,7 @@ stru_936A:
     end_frame
 
 StateFrame:
-    .import Item1, Item2, Item3, Item4, byte_6F0
+    .import Item1, Item2, Item3, Item4, Melodies
 
     tile_position 9, 1
 
@@ -1034,7 +1035,7 @@ byte_9431:
     right
     left
     .byte "  "
-    convert byte_6F0, 0, 10
+    convert Melodies, 0, 10
     right
     end_frame
 

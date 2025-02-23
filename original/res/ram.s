@@ -2,17 +2,7 @@
 
 .segment "RAM"
 
-.export SpriteTable, NMI_Data, PalNMIBG, PalNMISpr, PalBG, PalSpr, InterruptTable
-.export byte_57E, byte_57F, byte_580, byte_581, byte_582, GameSlotCopy, unk_588, unk_589, unk_58A, unk_58B
-.export byte_590, byte_591, byte_592, byte_593, unk_594, Character, byte_640, byte_650, byte_660, byte_670
-.export Item1, Item2, Item3, Item4, byte_6C0, byte_6D0, byte_6E0, byte_6F0, PrintSize0, apu_76C
-.export PulseTimer1, PulseCounter1, PulseTimer2, PulseCounter2, apu_786, PulseChannels, apu_78B, CurrentMusic
-.export byte_790, byte_791, byte_792, byte_793, byte_79A, apu_79C, byte_79D, byte_79F, byte_7A0, byte_7A1
-.export byte_7A3, byte_7A7, byte_7A8, byte_7A9, byte_7AC, byte_7B0, byte_7B4, byte_7B5, byte_7B6, byte_7B7
-.export byte_7B8, byte_7BC, PulseSweep1, byte_7C1, byte_7C3, byte_7C7, apu_7C8, apu_7C9, apu_7CA, byte_7CC
-.export byte_7CD, byte_7D1, byte_7D5, byte_7D6, byte_7D9, byte_7DA, byte_7DE, byte_7DF, byte_7E0, byte_7E2
-.export byte_7E3, byte_7E4, byte_7E6, byte_7E7, byte_7E8, ModeSRAM, Sound1, Sound2, Sound3, byte_7F4
-.export NewMusic, DMCflag, Noise, byte_7F9, byte_7FA, byte_7FB, byte_7FC, byte_7FD, apu_7FF
+.export SpriteTable, NMI_Data, PalNMIBG, PalNMISpr, PalBG, PalSpr, InterruptTable, byte_57E, byte_57F
 
 SpriteTable:        .res 256
 NMI_Data:           .res 256
@@ -26,6 +16,14 @@ InterruptTable:     .res 62
 
 byte_57E:           .res 1
 byte_57F:           .res 1
+
+
+.segment "RAMHIGH"
+
+.export byte_580, byte_581, byte_582, GameSlotCopy, unk_588, unk_589, unk_58A, unk_58B
+.export byte_590, byte_591, byte_592, byte_593, unk_594, Character, PSI1, PSI2, PSI3, PSI4
+.export Item1, Item2, Item3, Item4, byte_6C0, byte_6D0, byte_6E0, Melodies
+
 byte_580:           .res 1
 byte_581:           .res 1
 
@@ -46,10 +44,10 @@ unk_594:            .res 108
 
 Character:          .tag CHARACTER
 
-byte_640:           .res 16
-byte_650:           .res 16
-byte_660:           .res 16
-byte_670:           .res 16
+PSI1:               .res 16
+PSI2:               .res 16
+PSI3:               .res 16
+PSI4:               .res 16
 
 Item1:              .res 16
 Item2:              .res 16
@@ -59,7 +57,31 @@ Item4:              .res 16
 byte_6C0:           .res 16
 byte_6D0:           .res 16
 byte_6E0:           .res 16
-byte_6F0:           .res 16
+Melodies:           .res 16
+
+.segment "BSS"
+
+.export TilePntr1, TilePntr2
+
+TilePntr1:          .res 3
+
+byte_10583:         .res 5
+
+TilePntr2:          .res 3
+
+byte_1058B:         .res 5
+byte_10590:         .res 16
+byte_105A0:         .res 96
+
+.segment "RAMAUDIO"
+
+.export PrintSize0, apu_76C, PulseTimer1, PulseCounter1, PulseTimer2, PulseCounter2, apu_786, PulseChannels, apu_78B, CurrentMusic
+.export byte_790, byte_791, byte_792, byte_793, byte_79A, apu_79C, byte_79D, byte_79F, byte_7A0, byte_7A1
+.export byte_7A3, byte_7A7, byte_7A8, byte_7A9, byte_7AC, byte_7B0, byte_7B4, byte_7B5, byte_7B6, byte_7B7
+.export byte_7B8, byte_7BC, PulseSweep1, byte_7C1, byte_7C3, byte_7C7, apu_7C8, apu_7C9, apu_7CA, byte_7CC
+.export byte_7CD, byte_7D1, byte_7D5, byte_7D6, byte_7D9, byte_7DA, byte_7DE, byte_7DF, byte_7E0, byte_7E2
+.export byte_7E3, byte_7E4, byte_7E6, byte_7E7, byte_7E8, ModeSRAM, Sound1, Sound2, Sound3, Sound4
+.export NewMusic, DMCflag, Noise, byte_7F9, byte_7FA, byte_7FB, byte_7FC, byte_7FD, apu_7FF
 
 PrintSize0:         .res 108
 
@@ -150,9 +172,8 @@ ModeSRAM:           .res 1
 
 Sound1:             .res 1
 Sound2:             .res 2
-
 Sound3:             .res 1
-byte_7F4:           .res 1
+Sound4:             .res 1
 
 NewMusic:           .res 2
 
