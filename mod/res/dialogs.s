@@ -427,10 +427,10 @@ sPoltergeist:
     .byte " exactly where...", 1, 3
 
     .byte "@Anyhow, son, you", 1
-    .byte " are my only hope.", 1, 3
+    .byte " are our only hope.", 1, 3
 
     .byte "@It's time for you", 1
-    .byte " to go on a little", 1
+    .byte " to go on an", 1
     .byte " adventure,", 1, 3
 
     .byte "@and explore the", 1
@@ -901,7 +901,7 @@ sNoGood:
 sSongPower:
     .byte "@The truth is...", 1
     .byte " There is power in", 1
-    .byte " song.", 1, 0
+    .byte " that ---song.", 1, 0
 
 sFoundPippi:
     .byte "@Hi! I am Pippi,", 1
@@ -926,7 +926,7 @@ sGift:
     .byte " show my gratitude", 1
     .byte " take my gift.", 1, 3
 
-    .byte "@This shiny Badge", 1
+    .byte "@This shiny badge", 1
     .byte " will guard you.", 1
     .byte " Keep it!", 1, 0
 
@@ -1278,7 +1278,7 @@ sIntoMagicHerb:
     .byte " into the fountain,", 1, 3
 
     .byte "@it will turn into", 1
-    .byte " the Magic Herb.", 1, 0
+    .byte " a Magic Herb.", 1, 0
 
 sGiveBigBag:
     .byte "@Would you like me", 1
@@ -1455,8 +1455,8 @@ sLullaby:
 
 sHermit:
     .byte "@Deep in the woods,", 1
-    .byte " is a guitar player", 1
-    .byte " who is a hermit.", 1, 3
+    .byte " is a hermit who", 1
+    .byte " plays the guitar.", 1, 3
 
     .byte "@Not that bad", 1
     .byte " looking of a", 1
@@ -2011,7 +2011,7 @@ sRoofLocked:
 
     .byte "@I was going to", 1
     .byte " sneak out and play", 1
-    .byte " with my Game Boy.", 1, 0
+    .byte " my Game Boy.", 1, 0
 
 sYouDontTalk:
     .byte "@You don't talk", 1
@@ -3252,8 +3252,8 @@ sCantCarry:
     .byte " so you can't have it.", 1, 0
 
 sWiser:
-    .byte "@Time has passed,", 1
-    .byte " you are more", 1
+    .byte "@Time has passed.", 1
+    .byte " You are more", 1
     .byte " experienced and", 1, 3
 
     .byte "@hopefully a little", 1
@@ -3305,7 +3305,7 @@ sLiveShowTicket:
     .byte "@I've got a Ticket", 1
     .byte " to the Live-Show.", 1, 3
 
-    .byte "@You know the Store", 1
+    .byte "@You know the store", 1
     .byte " is all sold out.", 1, 3
 
     .byte "@But I could part", 1
@@ -3317,7 +3317,7 @@ sLiveShowTicket:
 sDontGoStore:
     .byte "@Here it is! No,", 1
     .byte " don't go to the", 1
-    .byte " Store now.", 1, 0
+    .byte " store now.", 1, 0
 
 sStingyKids:
     .byte "@Stingy kids...", 1, 0
@@ -3578,14 +3578,14 @@ sRegister:
     .byte " more.", 1, 0
 
 sHarbor:
-    .byte "@To the Harbor", 1
+    .byte "@To the harbor", 1
     .byte " before Mt. Itoi.", 1, 3
 
     .byte "@I mean it.", 1, 0
 
 sStrawBerry:
     .byte "@Have you ever", 1
-    .byte " tasted StrawBerry", 1
+    .byte " tasted Strawberry", 1
     .byte " Tofu?", 1, 0
 
 sBuyForMe:
@@ -3604,7 +3604,7 @@ sNoWayToBuy:
 
 sStrawBerryTofu:
     .byte "@Oh!  This is", 1
-    .byte " StrawBerry Tofu!", 1
+    .byte " Strawberry Tofu!", 1
     .byte " Thank you!", 1, 3
 
     .byte "@Here's something", 1
@@ -3757,7 +3757,7 @@ sPlaced:
     .byte " fountain,", 1, 3
 
     .byte "@the Red Weed became", 1
-    .byte " Magic Herb.", 1, 0
+    .byte " a Magic Herb.", 1, 0
 
 sSuchMan:
     .byte "@Where do you think", 1
@@ -4058,7 +4058,7 @@ sTaste:
 
     .byte "@I too would like", 1
     .byte " to taste", 1
-    .byte " StrawBerry Tofu.", 1, 0
+    .byte " Strawberry Tofu.", 1, 0
 
 sFantasticRobot:
     .byte "@Thank you, It", 1
@@ -4084,7 +4084,7 @@ sBakerTaste:
     .byte " Baker.", 1, 3
 
     .byte "@I also want to try", 1
-    .byte " StrawBerry Tofu.", 1, 0
+    .byte " Strawberry Tofu.", 1, 0
 
 sTakeWords:
     .byte "@Oh! I'm so happy.", 1
@@ -4201,7 +4201,7 @@ sEyesight:
     .byte " Hats off to you...", 1, 0
 
 sCoolDown:
-    .byte "@Cool down dude...", 1
+    .byte "@Cool down, dude...", 1
     .byte " Are you so serious", 1
     .byte " all the time?", 1, 0
 
@@ -4446,7 +4446,7 @@ sNiceTrip:
     .byte " Have a nice trip!", 1, 0
 
 sPatient:
-    .byte "@Oh! not visiting a", 1
+    .byte "@Oh! Not visiting a", 1
     .byte " patient?", 1, 3
 
     .byte "@If you are the", 1
@@ -4505,7 +4505,7 @@ sDelicious:
     .byte " is delicious, too.", 1, 0
 
 sHotel:
-    .byte "@The Hotel in this", 1
+    .byte "@The hotel in this", 1
     .byte " town isn't any ", 1
     .byte " better than the", 1, 3
 
@@ -4515,7 +4515,7 @@ sHotel:
 
 sRoomRate:
     .byte "@The room rate at", 1
-    .byte " this Hotel is so", 1
+    .byte " this hotel is so", 1
     .byte " inexpensive...", 1, 3
 
     .byte "@And that's not", 1
@@ -4575,11 +4575,11 @@ sIWantToTry:
 
 sStopZombies:
     .byte "@I'd like to stop", 1
-    .byte " the zombies evil", 1
+    .byte " the zombies' evil", 1
     .byte " ways, but...", 1, 3
 
     .byte "@They do not listen", 1
-    .byte " to me, or won't", 1
+    .byte " to me, and won't", 1
     .byte " even talk to me...", 1, 3
 
     .byte "@Now I am too", 1
@@ -4868,7 +4868,7 @@ sDresses:
 
 sPsychicPowers:
     .byte "@I don't believe in", 1
-    .byte " Psychic Powers.", 1, 0
+    .byte " psychic powers.", 1, 0
 
 sSmallMan:
     .byte "@I am a man whose", 1
@@ -4941,7 +4941,7 @@ sClairvoyant:
     .byte "@I am a clairvoyant", 1
     .byte " still in training.", 1, 3
 
-    .byte "@However this much I", 1
+    .byte "@However, this much I", 1
     .byte " can see...", 1, 3
 
     .byte "@You shall return", 1
@@ -4955,14 +4955,14 @@ sMansion:
     .byte "@"
     tile_pointer CurrentGame+PURE_SAVE::Girl+CHARACTER::Name        ; GirlName
     .byte "'s house is", 1
-    .byte " a chateau, not a", 1
-    .byte " mansion.", 1, 3
+    .byte " a church, not a", 1
+    .byte " chateau.", 1, 3
 
     .byte "@But, I'll bet you", 1
     .byte " already knew that.", 1, 0
 
 sChateau:
-    .byte "@There is a chateau", 1
+    .byte "@There is a church", 1
     .byte " in the mountains", 1
     .byte " to the east.", 1, 3
 
@@ -5060,9 +5060,9 @@ sDidYouRead:
 sCactus:
     .byte "@While walking in", 1
     .byte " the desert, I saw a", 1
-    .byte " cactus with a face,", 1, 3
+    .byte " cactus with a face.", 1, 3
 
-    .byte "@then I ran for the", 1
+    .byte "@Then I ran for the", 1
     .byte " hills screaming as", 1
     .byte " loud as I could.", 1, 0
 
@@ -5107,7 +5107,7 @@ sSubtraction:
     .byte " in subtraction.", 1, 0
 
 sTasteStrawBerry:
-    .byte "@I heard StrawBerry", 1
+    .byte "@I heard Strawberry", 1
     .byte " Tofu is popular", 1
     .byte " in big cities.", 1, 3
 
@@ -5139,7 +5139,7 @@ sStrangeMan:
 
 sMario:
     .byte "@Have you played", 1
-    .byte " Super Mario Bros.7?", 1, 3
+    .byte " Super Mario Bros. 7?", 1, 3
 
     .byte "@I'm still playing", 1
     .byte " Super Mario Bros.3.", 1, 3
@@ -5260,7 +5260,7 @@ sWhoAreYouHere:
 
 sPlaceStay:
     .byte "@Well, Dad isn't", 1
-    .byte " home and I don't", 1
+    .byte " home, and I don't", 1
     .byte " care about money.", 1, 3
 
     .byte "@So if you need a", 1
@@ -5413,7 +5413,7 @@ sImSorry:
     .byte " enough money.", 1, 0
 
 sOhNoSir:
-    .byte "@Oh no sir, you", 1
+    .byte "@Oh no, sir, you", 1
     .byte " do not have that", 1
     .byte " much money.", 1, 0
 
@@ -5434,8 +5434,7 @@ sSorryICant:
     .byte "@Sorry, but I can't", 1
     .byte " buy "
     tile_pointer byte_6D04
-    .byte " from", 1
-    .byte " you.", 1, 0
+    .byte " from you.", 1, 0
 
 sReunion:
     .byte "@Overjoyed with her", 1
@@ -5479,7 +5478,7 @@ sDoYouBest:
     .byte "@Do your best.", 1, 0
 
 sMysteriousWater:
-    .byte "@Your strength has", 1
+    .byte "@Your strength was", 1
     .byte " revived by touching", 1, 3
 
     .byte "@the fountain's", 1
@@ -5542,9 +5541,10 @@ sManufacture:
     .byte " there.", 1, 0
 
 sMyWife:
-    .byte "@My wife was the 1st", 1
-    .byte " Miss Merrysville in", 1
-    .byte " history.", 1, 0
+    .byte "@My wife was the", 1
+    .byte " first Miss", 1
+    .byte " Merrysville", 1
+    .byte " in history.", 1, 0
 
 sUnlockedRoof:
     .byte "@OK, I've unlocked", 1
@@ -5573,12 +5573,12 @@ sCallMeNames:
     .byte " you've heard them.", 1, 0
 
 sDawn:
-    .byte "@In the mean time,", 1
+    .byte "@In the meantime,", 1
     .byte " dawn breaks over", 1
     .byte " the harbor...", 1, 0
 
 sPardon:
-    .byte "@Pardon me young", 1
+    .byte "@Pardon me, young", 1
     .byte " whipper-snappers...", 1, 3
 
     .byte "@I didn't really", 1
@@ -5597,7 +5597,7 @@ sGameTitle:
     .byte "  ", $A6, "EARTH", 1
     .byte "   BOUND", $A6, "...", 1, 3
 
-    .byte "@don't know exactly", 1
+    .byte "@I don't know exactly", 1
     .byte " why...", 1, 3
 
     .byte "@because it really", 1
@@ -5666,13 +5666,13 @@ sDragonCrooned:
     .byte " this...", 1, 0
 
 sRobotEve:
-    .byte "@Robot Eve was", 1
+    .byte "@The robot Eve was", 1
     .byte " demolished and", 1
     .byte " moved no more.", 1, 3
 
     .byte "@Examining the", 1
     .byte " wreckage caused", 1
-    .byte " music to start...", 1, 0
+    .byte " a song to start...", 1, 0
 
 sOneOfKind:
     .byte "@One of a kind!", 1
@@ -6080,7 +6080,7 @@ sCityZooSign:
     .byte "       SOUTH", 1, 0
 
 sNoHunting:
-    .byte "@No Hunting -", 1
+    .byte "@No hunting -", 1
     .byte " Approaching", 1, 3
 
     .byte "@The Canary Village", 1
@@ -6105,7 +6105,7 @@ sEllayMountSign:
 sHealersHouse:
     .byte "@   Healer's House", 1
     .byte "        WEST", 1
-    .byte "   Beyond Bridge...", 1, 3
+    .byte "   Beyond bridge...", 1, 3
 
     .byte "@     Cemetery", 1
     .byte " Abandon all hope", 1
@@ -6124,8 +6124,8 @@ sCityZooWest:
     .byte "        WEST", 1, 0
 
 sSnowmanChateau:
-    .byte "@Snowman Chateau", 1
-    .byte " Straight Ahead", 1, 0
+    .byte "@Snowman Church", 1
+    .byte " straight ahead", 1, 0
 
 sEllaySwampSign:
     .byte "@      Ellay", 1
@@ -6382,7 +6382,7 @@ sNoisyMouse:
 
 sPsychicPower:
     .byte "@Teleportation is a", 1
-    .byte " Psychic Power not", 1
+    .byte " psychic power not", 1
     .byte " to be played with.", 1, 0
 
 sILovedHim:
@@ -6397,9 +6397,9 @@ sWaggingTail:
     .byte " wagging his tail,", 1
     .byte " just like a pup...", 1, 3
 
-    .byte "@EXCEPT for when I", 1
+    .byte "@except for when I", 1
     .byte " tried to SING him", 1
-    .byte " lullabies...", 1, 0
+    .byte " a lullaby...", 1, 0
 
 sPurpose:
     .byte "@Ahhh...George!", 1
@@ -6407,7 +6407,7 @@ sPurpose:
     .byte " Maria.", 1, 3
 
     .byte "@I'm coming to join", 1
-    .byte " you, my purpose is", 1
+    .byte " you. My purpose is", 1
     .byte " complete...", 1, 0
 
 sInsertCard:
@@ -6889,7 +6889,7 @@ sForget:
     tile_pointer CurrentGame+PURE_SAVE::Girl+CHARACTER::Name        ; GirlName
     .byte ")", 1
     .byte "I promise I won't forget you", 1
-    .byte "so I will not say Good-Bye,", 1
+    .byte "so I will not say good-bye,", 1
     .byte "just - 'til we meet again!", 1, 0
 
 sElementarySchool:
@@ -7047,7 +7047,7 @@ sEmpty4:
 sBagFilled:
     .byte $A6, "Big Bag", $A6, 1
     .byte "@A bag filled with", 1
-    .byte " Magic Herb.", 1, 0
+    .byte " Magic Herbs.", 1, 0
 
 sCharge:
     .byte $A6, "Telephone Card", $A6, 1
@@ -7059,9 +7059,9 @@ sBreadCrumbs:
     .byte $A6, "Bread Crumbs", $A6, 1
     .byte "@If you follow them,", 1, 3
 
-    .byte "@you will return to", 1
-    .byte " the place that you", 1
-    .byte " started.", 1, 0
+    .byte "@you will return", 1
+    .byte " where you started", 1
+    .byte " dropping them.", 1, 0
 
 sStrangeRing:
     .byte $A6, "Repel Ring", $A6, 1
@@ -7099,7 +7099,7 @@ sSurvivalKnife:
     tile_pointer CurrentGame+PURE_SAVE::Boy3+CHARACTER::Name        ; Boy3Name
     .byte ", this is", 1
     .byte " stronger than an", 1
-    .byte " ordinary Knife.", 1, 0
+    .byte " ordinary knife.", 1, 0
 
 sSwordMaster:
     .byte $A6, "Sword", $A6, 1
@@ -7145,7 +7145,7 @@ sWoodenBatUse:
     tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name      ; Boy1Name
     .byte ", USE this", 1
     .byte " weapon to fight", 1
-    .byte " with weak enemies.", 1, 0
+    .byte " weak enemies.", 1, 0
 
 sTougher:
     .byte $A6, "Aluminum Bat", $A6, 1
@@ -7244,7 +7244,7 @@ sEmpty11:
     .byte 0
 
 sFlameThrower:
-    .byte $A6, "Flame Thrower", $A6, 1
+    .byte $A6, "Flamethrower", $A6, 1
     .byte "@Toasts the enemy,", 1
     .byte " but only "
     tile_pointer CurrentGame+PURE_SAVE::Boy2+CHARACTER::Name     ; Boy2Name
@@ -7337,13 +7337,13 @@ sGoldRingUse:
     .byte " up.", 1, 0
 
 sWaterPendant:
-    .byte $A6, "H2o Pendant", $A6, 1
+    .byte $A6, "Rain Pendant", $A6, 1
     .byte "@When you USE it,", 1
     .byte " it will defend", 1
     .byte " against PK Fire.", 1, 0
 
 sFirePendantUse:
-    .byte $A6, "Fire Pendant", $A6, 1
+    .byte $A6, "Flame Pendant", $A6, 1
     .byte "@When you USE it,", 1
     .byte " it will defend", 1
     .byte " against PK Freeze.", 1, 0
@@ -7428,7 +7428,7 @@ sYouGargle:
     .byte " your cold.", 1, 0
 
 sStrawBerryEat:
-    .byte $A6, "StrawBerry Tofu", $A6, 1
+    .byte $A6, "Strawberry Tofu", $A6, 1
     .byte "@If you really want", 1
     .byte " to eat it OK, but...", 1, 0
 
@@ -7522,7 +7522,7 @@ sGhostHouseKey:
     .byte " the Rosemarys' house.", 1, 0
 
 sGreatGrandFathers:
-    .byte $A6, "Great-Grand Father's", 1
+    .byte $A6, "Great-Grandfather's", 1
     .byte " Diary", $A6, 1
     .byte "@It is old,", 1
     .byte " ragged, and filled", 1
@@ -7741,7 +7741,7 @@ sSpecialArmor:
     .byte "from PSI attack.", 0
 
 sAwful:
-    .byte "It has, the awful", 1
+    .byte "It has the dreaded", 1
     .byte "Stone of Origin.", 0
 
 sNotExist:
@@ -7804,7 +7804,7 @@ sGuarding:
 sFBI:
     .byte "He can be found", 1
     .byte "on the FBI's", 1
-    .byte "most wanted list.", 0
+    .byte "most-wanted list.", 0
 
 sRotten:
     .byte "Maybe he is not", 1
@@ -7853,13 +7853,13 @@ sFlowers:
     .byte "hair.", 0
 
 sFridge:
-    .byte "Her refrigerator", 1
+    .byte "Her refrigerator-", 1
     .byte "shaped body holds a", 1
     .byte "heart of ice.", 0
 
 sBadApple:
-    .byte "A real bad apple,", 1
-    .byte "stay out of his way.", 0
+    .byte "A real bad apple.", 1
+    .byte "Stay out of his way.", 0
 
 sTwisted:
     .byte "His twisted face", 1
@@ -7884,7 +7884,7 @@ sWallet:
     .byte "he's a thief.", 0
 
 sNotPoison:
-    .byte "It might not poison,", 1
+    .byte "It might not poisonous,", 1
     .byte "maybe...", 0
 
 sLaughsLast:
@@ -7943,7 +7943,7 @@ sDinnerPlate:
 
 sPuzzle:
     .byte "Life itself is a", 1
-    .byte "puzzle for Mr.Bat.", 0
+    .byte "puzzle for Mr. Bat.", 0
 
 sSpaceman:
     .byte "He is small, but it is", 1
@@ -8026,11 +8026,11 @@ sEmpty61:
 
 sWhereAntidote:
     .byte "Where's that", 1
-    .byte "antidote.", 0
+    .byte "antidote!?", 0
 
 sPoisonPoison:
     .byte "Poison, poison,", 1
-    .byte "poison.", 0
+    .byte "poison!", 0
 
 sDontSmile:
     .byte "If he smiles, don't", 1
@@ -8065,7 +8065,7 @@ sVehicle:
 sNext:
     .byte "What is going to", 1
     .byte "happen next, speeding,", 1
-    .byte "reckless driving, or..", 0
+    .byte "reckless driving, or...", 0
 
 sDontAlarm:
     .byte "Don't alarm this", 1
@@ -8076,13 +8076,13 @@ sEmpty64:
     .byte 0
 
 sOptometrists:
-    .byte "The optometrists", 1
+    .byte "The optometrist's", 1
     .byte "favorite.", 0
 
 sWatchYourStep:
     .byte "Watch your step,", 1
-    .byte "Dadseyes are every", 1
-    .byte "where.", 0
+    .byte "Dadseyes are", 1
+    .byte "everywhere.", 0
 
 sMomseyesWillSpot:
     .byte "Momseyes will spot", 1
@@ -8110,7 +8110,7 @@ sHePKBeam:
     .byte "He only has PK Beam.", 0
 
 sStrongOx:
-    .byte "As strong as on ox.", 0
+    .byte "As strong as an ox.", 0
 
 sRagged:
     .byte "Ragged around the", 1
@@ -8130,7 +8130,7 @@ sBeauty:
     .byte "her beauty.", 0
 
 sCarries:
-    .byte "It carries, and", 1
+    .byte "It carries and", 1
     .byte "likes to use Bombs.", 0
 
 sPlenty:
@@ -8138,7 +8138,7 @@ sPlenty:
     .byte "fuel inside.", 0
 
 sStrongPSIAttack:
-    .byte "She is good at, and", 1
+    .byte "She is good at and", 1
     .byte "not afraid to use a", 1
     .byte "strong PSI attack.", 0
 
@@ -8159,7 +8159,8 @@ sBeatIt:
 sUsingPSI:
     .byte "Not only will it", 1
     .byte "attack using PSI,", 1
-    .byte "it is a thief!", 0
+    .byte "but it is also a" 
+    .byte "thief!", 0
 
 sEmpty68:
     .byte 0
@@ -8170,7 +8171,7 @@ sCareful:
 
 sBareHands:
     .byte $A6, "It attacks with", 1
-    .byte "bare hands.", $A6, 0
+    .byte "its bare hands.", $A6, 0
 
 sCoat:
     .byte "Its marvelous silver", 1
@@ -8185,7 +8186,7 @@ sMustSleep:
     .byte "don't borrow his bed!", 0
 
 sImproved:
-    .byte "New and unfortunately,", 1
+    .byte "New and unfortunately", 1
     .byte "improved.", 0
 
 sTheStrongest:
@@ -8255,7 +8256,7 @@ sForm:
 
 sSpit:
     tile_pointer byte_580
-    .byte " spit a", 1
+    .byte " spat a", 1
     .byte "sticky substance!", 0
 
 sBound:
@@ -8312,7 +8313,7 @@ sDirtyWords:
 sGrins:
     tile_pointer byte_580
     .byte " just", 1
-    .byte "grins, and bears it.", 0
+    .byte "grins and bears it.", 0
 
 sSoConfused:
     tile_pointer byte_580
@@ -8525,7 +8526,7 @@ sGrateful:
 
 sYourGreat:
     .byte " Your Great-", 1
-    .byte " Grandparents,", 1, 3
+    .byte " grandparents,", 1, 3
 
     .byte " George and Maria", 1
     .byte " raised me.", 1, 3
@@ -8565,7 +8566,7 @@ sGoHomeNow:
     .byte " Perish with the", 1
     .byte " rest of the ugly", 1, 3
 
-    .byte " Earth People.", 1, 3
+    .byte " Earth people.", 1, 3
     .byte 2
 
 sFoolish:
@@ -8599,7 +8600,7 @@ sFallSleep:
     .byte " with your friends", 1, 3
 
     .byte " and the other ugly", 1
-    .byte " Earth People.", 1, 3
+    .byte " Earth people.", 1, 3
     .byte 2
 
 sStopSinging:
@@ -8934,11 +8935,11 @@ sMiss:
     .byte " Miss!!", 0
 
 sPSIBlocked:
-    .byte " But, the PSI was", 1
+    .byte " But the PSI was", 1
     .byte " blocked.", 0
 
 sBounced:
-    .byte " But, "
+    .byte " But "
     tile_pointer unk_588
     .byte "'s", 1
     .byte " FranklinBadge bounced", 1
@@ -8951,7 +8952,7 @@ sBouncedBack:
     .byte " back the attack!", 0
 
 sNotenoughPPs:
-    .byte " Not enough PP's.", 0
+    .byte " Not enough PP.", 0
 
 sWasNoEffect:
     .byte " There was no effect", 1
