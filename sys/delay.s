@@ -66,17 +66,17 @@
 ; FD4F
 .proc wait_press_button
     .export wait_press_button
-    .importzp Gamepad0Buttons
+    .importzp GamepadButtons
 
     lda #0
-    sta Gamepad0Buttons
+    sta GamepadButtons
 
 @wait_button:
-    lda Gamepad0Buttons
+    lda GamepadButtons
     beq @wait_button
     pha 
     lda #0
-    sta Gamepad0Buttons
+    sta GamepadButtons
     pla
     rts
 .endproc

@@ -12,7 +12,7 @@
 ; subroutine to process gamepad 1 input and perform bitwise operations
 .proc gamepad_input
     .export gamepad_input
-    .importzp TileCount, Attribute, Gamepad0Status, ButtonPressed0
+    .importzp TileCount, Attribute, GamepadStatus, ButtonPressed
 
     ldx #1
 
@@ -39,21 +39,21 @@
     ora Attribute
     plp                         ; pull the original processor status register
     bcc @handle_pad2
-    sta Gamepad0Status,X
+    sta GamepadStatus,X
     clc                         ; clear carry flag
     bcc @set_pad_strobe
 
 @handle_pad2:
-    cmp Gamepad0Status,X        ; compare the data with the previously stored data
+    cmp GamepadStatus,X        ; compare the data with the previously stored data
     beq @skip_pad_update        ; if equal, skip the controller update
-    lda ButtonPressed0,X
+    lda ButtonPressed,X
 
 @skip_pad_update:
     tay
-    eor ButtonPressed0,X
-    and Gamepad0Status,X
-    sta Gamepad0Status,X
-    sty ButtonPressed0,X
+    eor ButtonPressed,X
+    and GamepadStatus,X
+    sta GamepadStatus,X
+    sty ButtonPressed,X
     dex 
     bpl @read_gamepad
     rts 
@@ -63,9 +63,9 @@
 ; subroutine to handle game logic and control flow
 .proc handle_game_logic
     .export handle_game_logic
-    .importzp Gamepad0Status, byte_D0, byte_D1, byte_D2, byte_D3
+    .importzp GamepadStatus, byte_D0, byte_D1, byte_D2, byte_D3
 
-    lda Gamepad0Status
+    lda GamepadStatus
     bne @check_next_state
     lda byte_D3
     cmp #$2A

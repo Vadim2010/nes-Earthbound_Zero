@@ -19,6 +19,20 @@
     pla                         ; Restore accumulator (A) from the stack
 .endmacro
 
+.macro save arg
+    lda 1+(arg)
+    pha
+    lda arg
+    pha
+.endmacro
+
+.macro restore arg
+    pla
+    sta arg
+    pla
+    sta 1+(arg)
+.endmacro
+
 ; list where used: reset
 ; this is like a x = y call where x is set to the value of y
 .macro set set_var, from

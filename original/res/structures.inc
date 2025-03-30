@@ -165,6 +165,29 @@
     .word Tiles
 .endmacro
 
+.struct BATTLE
+    EnemyGroup      .byte
+    InitialStatus   .byte
+    Flags           .byte
+    Health          .word
+    PP              .word
+    Offense         .word
+    Defense         .word
+    Fight           .byte
+    Speed           .byte
+    Wisdom          .byte
+    Strength        .byte
+    Force           .byte
+    field_10        .res 8
+    PointerChr      .word
+    Letter          .byte
+    field_1B        .byte
+    TargetOff       .byte
+    Script          .byte
+    field_1E        .byte
+    field_1F        .byte
+.endstruct
+
 ;offsets ??? into dialogs
 ;$0058
 ;$0059

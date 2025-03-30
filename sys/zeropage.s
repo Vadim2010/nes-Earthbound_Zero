@@ -4,17 +4,17 @@
 
 .exportzp IRQLatch, BankRegister, BankTable, BankNum, BankMode, InterruptOffset
 .exportzp OffsetNMI_Data, NMIFlags, NMIReady, OtherNMIFlags, CHRBank, CameraX, CameraY, CntrlPPU, FlagClearOAM300
-.exportzp Gamepad0Buttons, Gamepad0Status, Gamepad1Buttons, Gamepad1Status, ButtonPressed0
+.exportzp GamepadButtons, GamepadStatus, ButtonPressed
 .exportzp byte_D0, byte_D1, byte_D2, byte_D3, byte_D5, byte_D6
 .exportzp IRQCount, JmpInstr, MaskPPU, Bitfield
 .exportzp byte_C9, byte_CB, byte_CE, byte_CF, byte_E1, byte_E3, byte_E4, byte_E7, ShiftX, ShiftY
 .exportzp CameraX, CameraY, SpriteTabOffset, SpriteTabStep, StartX, Source, ShiftCameraX, ShiftCameraY, ScreenX, ScreenY, Screen
 .exportzp ObjectID, TileCount, TileID, pTileID, p4TileID, p4TileAttr, TileX, TileY, Attribute, pOAMSprite, pFrame, pStr, pDist
 .exportzp pCursor, pCharacter, FuncID, Dist, Row, Column
-.exportzp byte_C, byte_D, byte_F, byte_1F, byte_20, ObjectNumWithChar, byte_22, byte_23, byte_24, byte_25, byte_26, byte_27
+.exportzp byte_C, byte_D, byte_F, byte_1F, byte_20, ObjectNumWithChar, byte_22, byte_23, byte_24, byte_25, RandomNumber
 .exportzp CharNum, Item, WaitPressed, byte_2D, byte_34, ScriptOffset, TempX, TempY, Tiles, NewView, byte_A9, StepX, StepY
-.exportzp byte_44, byte_45, byte_46, byte_47, EnemyGroup, Experience, Money, byte_4E, byte_4F
-.exportzp StackPointer, byte_52, CharacterOffset, TargetOffset, Encounter, byte_57, byte_58, byte_59, EnemyPos, EnemyCount
+.exportzp byte_44, byte_45, byte_46, byte_47, EnemyGroup, Experience, Money, Value
+.exportzp StackPointer, MsgCounter, CharacterOffset, TargetOffset, BossID, byte_57, byte_58, byte_59, EnemyPos, EnemyCount
 .exportzp pBattleScript, byte_6C, byte_6D, byte_6E, PrintSize, byte_71, DialogPage
 .exportzp Pointer, CursorPosition
 .exportzp byte_0, Price
@@ -66,8 +66,7 @@ byte_22:            .res 1
 byte_23:            .res 1
 byte_24:            .res 1
 byte_25:            .res 1
-byte_26:            .res 1
-byte_27:            .res 1
+RandomNumber:       .res 2
 CharNum:            .res 1
 Item:               .res 1
 Price:              .res 2
@@ -103,20 +102,13 @@ byte_47:            .res 1
 EnemyGroup:         .res 1
 Experience:         .res 3
 Money:              .res 2
-
-byte_4E:            .res 1
-byte_4F:            .res 1
-
+Value:              .res 2
 StackPointer:       .res 2
-
-byte_52:            .res 1
-
+MsgCounter:         .res 1
 CharacterOffset:    .res 1
-
 TargetOffset:       .res 1
-
 NamePos:            .res 1
-Encounter:          .res 1
+BossID:          .res 1
 
 byte_57:            .res 1
 byte_58:            .res 1
@@ -249,12 +241,9 @@ byte_D6:            .res 1
 
 JmpInstr:           .res 3      ; jump istruction
 
-Gamepad0Buttons:    .res 1
-Gamepad1Buttons:    .res 1
-Gamepad0Status:     .res 1
-Gamepad1Status:     .res 1
-ButtonPressed0:     .res 1
-ButtonPressed1:     .res 1
+GamepadButtons:     .res 2
+GamepadStatus:      .res 2
+ButtonPressed:      .res 2
 OtherNMIFlags:      .res 1
 
 byte_E1:            .res 1

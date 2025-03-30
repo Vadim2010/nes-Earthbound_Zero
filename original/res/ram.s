@@ -21,8 +21,8 @@ byte_57F:           .res 1
 .segment "RAMHIGH"
 
 .export byte_580, byte_581, byte_582, GameSlotCopy, unk_588, unk_589, unk_58A, unk_58B
-.export byte_590, byte_591, byte_592, byte_593, unk_594, Character, PSI1, PSI2, PSI3, PSI4
-.export Item1, Item2, Item3, Item4, byte_6C0, byte_6D0, byte_6E0, Melodies
+.export byte_590, byte_591, byte_592, byte_593, unk_594, Character1, Character2, Character3, Character4, Enemy1, Enemy2, Enemy3, Enemy4
+.export Character, PSI, Items
 
 byte_580:           .res 1
 byte_581:           .res 1
@@ -42,22 +42,17 @@ byte_592:           .res 1
 byte_593:           .res 1
 unk_594:            .res 108
 
-Character:          .tag CHARACTER
-
-PSI1:               .res 16
-PSI2:               .res 16
-PSI3:               .res 16
-PSI4:               .res 16
-
-Item1:              .res 16
-Item2:              .res 16
-Item3:              .res 16
-Item4:              .res 16
-
-byte_6C0:           .res 16
-byte_6D0:           .res 16
-byte_6E0:           .res 16
-Melodies:           .res 16
+Character:
+Character1:         .tag BATTLE
+Character2:         .tag BATTLE
+PSI:
+Character3:         .tag BATTLE
+Character4:         .tag BATTLE
+Items:
+Enemy1:             .tag BATTLE
+Enemy2:             .tag BATTLE
+Enemy3:             .tag BATTLE
+Enemy4:             .tag BATTLE
 
 .segment "BSS"
 

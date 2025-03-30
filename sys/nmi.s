@@ -8,7 +8,7 @@
 ; F79F
 .proc nmi
     .export nmi, get_function
-    .importzp JmpInstr, Gamepad0Buttons, Gamepad0Status, Gamepad1Buttons, Gamepad1Status, BankMode, BankTable, BankRegister, CHRBank
+    .importzp JmpInstr, GamepadButtons, GamepadStatus, BankMode, BankTable, BankRegister, CHRBank
     .importzp MaskPPU, CntrlPPU, CameraX, CameraY, IRQCount, IRQLatch, NMIFlags, NMIReady, OffsetNMI_Data, OtherNMIFlags, InterruptOffset
     .importzp byte_E7, byte_E1, FlagClearOAM300
     .import handle_game_logic, gamepad_input, draw_sprite, sub_FC96, bank_8000_1D_A000, mmc3_bank_set, NMI_Data
@@ -158,12 +158,12 @@ restore_bank:
     sta BANK_SELECT             ; restore mode ?
 
     jsr gamepad_input
-    lda Gamepad0Status
-    ora Gamepad0Buttons
-    sta Gamepad0Buttons
-    lda Gamepad1Status
-    ora Gamepad1Buttons
-    sta Gamepad1Buttons
+    lda GamepadStatus
+    ora GamepadButtons
+    sta GamepadButtons
+    lda GamepadStatus+1
+    ora GamepadButtons+1
+    sta GamepadButtons+1
     jsr handle_game_logic
     lda JmpInstr
     beq @end_nmi

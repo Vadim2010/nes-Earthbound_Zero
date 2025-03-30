@@ -837,7 +837,7 @@ stru_936A:
     end_frame
 
 StateFrame:
-    .import Item1, Item2, Item3, Item4, Melodies
+    .import Items
 
     tile_position 9, 1
 
@@ -964,7 +964,7 @@ byte_9431:
     right
     left
     .byte " "
-    convert Item1, 0, 11
+    convert Items, 0, 11
     right
     end_row
 
@@ -977,7 +977,7 @@ byte_9431:
     right
     left
     .byte " "
-    convert Item2, 0, 11
+    convert Items+$10, 0, 11
     right
     end_row
 
@@ -990,7 +990,7 @@ byte_9431:
     right
     left
     .byte " "
-    convert Item3, 0, 11
+    convert Items+$20, 0, 11
     right
     end_row
 
@@ -1003,7 +1003,7 @@ byte_9431:
     right
     left
     .byte " "
-    convert Item4, 0, 11
+    convert Items+$30, 0, 11
     right
     end_frame
 
@@ -1035,7 +1035,7 @@ byte_9431:
     right
     left
     .byte "  "
-    convert Melodies, 0, 10
+    convert Items+$70, 0, 10
     right
     end_frame
 

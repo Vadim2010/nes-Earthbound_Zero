@@ -1059,16 +1059,17 @@ loc_19A7EF:
 
 
 sub_19A7FC:
+    .export sub_19A7FC
     .import Character
-    .importzp byte_4E, byte_4F, CharacterOffset
+    .importzp Value, CharacterOffset
 
     LDY CharacterOffset
     SEC
     LDA Character + CHARACTER::MaxPP,Y
-    SBC byte_4E
+    SBC Value
     STA Character + CHARACTER::MaxPP,Y
     LDA Character + CHARACTER::MaxPP+1,Y
-    SBC byte_4F
+    SBC Value+1
     STA Character + CHARACTER::MaxPP+1,Y
     BCS locret_19A819
     LDA #0

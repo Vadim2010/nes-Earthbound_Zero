@@ -1553,39 +1553,39 @@ stru_149A3D:    .byte $86, 0, $F4, $76, 0, 0
 
 new_game:
     .import delay, Boy1, Girl, Boy2, Boy3, Food, GameStory, Nowadays, NewMusic
-    .importzp Encounter
+    .importzp BossID
 
     jsr draw_start_game_menu
 
 @character1:
     lda #6
-    sta Encounter
+    sta BossID
     ldxa #Boy1
     jsr enter_name
     bcs @exit
 
 @character2:
     lda #6
-    sta Encounter
+    sta BossID
     ldxa #Girl
     jsr enter_name
     bcs @character1
 
 @character3:
     lda #6
-    sta Encounter
+    sta BossID
     ldxa #Boy2
     jsr enter_name
     bcs @character2
 
 @character4:
     lda #6
-    sta Encounter
+    sta BossID
     ldxa #Boy3
     jsr enter_name
     bcs @character3
     lda #$A
-    sta Encounter
+    sta BossID
     ldxa #Food
     jsr enter_name
     bcs @character4
@@ -1800,7 +1800,7 @@ enter_name:
     jsr draw_frame
     ldy #4
     jsr get_pointer
-    ldy Encounter
+    ldy BossID
     lda #0
     sta PrintSize
     sta byte_581,Y
@@ -1821,7 +1821,7 @@ loc_149BBD:
     ldy #4
     jsr get_pointer
     jsr sram_write_enable
-    ldy Encounter
+    ldy BossID
 
 @prev_char:
     lda byte_580,Y
@@ -1934,7 +1934,7 @@ command_button:
     beq previous
     ldx NamePos
     sta byte_580,X
-    cpx Encounter
+    cpx BossID
     beq loc_149C6B
     inx
     stx NamePos
@@ -1951,7 +1951,7 @@ previous:
 back:
     lda #$A2
     ldx NamePos
-    cpx Encounter
+    cpx BossID
     bne loc_149C7D
     cmp byte_580,X
     bne loc_149C85
@@ -1986,7 +1986,7 @@ end:
     bpl @get_letter
 
 @letter:
-    cpy Encounter
+    cpy BossID
     beq loc_149CA5
     iny
 
@@ -2067,7 +2067,7 @@ oam_sprite:
     jsr wait_nmi        ; wait for NMI interrupt processing to complete
     sec
     lda #0
-    sbc Encounter
+    sbc BossID
     sec
     ror A
     clc
@@ -2119,7 +2119,7 @@ clear_screen:
 
 intro:
     .import preload_palettes, check_copyrights, EarthAnim, CurrentMusic
-    .importzp CntrlPPU, Gamepad0Buttons, NMIFlags, OtherNMIFlags
+    .importzp CntrlPPU, GamepadButtons, NMIFlags, OtherNMIFlags
 
     jsr clear_oam_sprite
     jsr clear_nametables
@@ -2169,7 +2169,7 @@ intro:
     lda #87
     sta SpriteTable + ANIM_SPRITE::PosY + $E0
     lda #0
-    sta Gamepad0Buttons
+    sta GamepadButtons
 
 @loop:
     clc
@@ -2192,7 +2192,7 @@ intro:
     sta Pointer
 
 @wait:
-    lda Gamepad0Buttons
+    lda GamepadButtons
     and #$10
     bne @start_pressed
     lda NMIFlags
@@ -2202,7 +2202,7 @@ intro:
 
 @start_pressed:
     ldx #0
-    stx Gamepad0Buttons
+    stx GamepadButtons
     jsr darken_palette
     lda #$19            ; BANK19:A000
     ldyx #(check_copyrights - 1)
@@ -2251,10 +2251,10 @@ load_tilemap_lighten:
 
 
 pause:
-    .importzp ButtonPressed0
+    .importzp ButtonPressed
 
     jsr wait_nmi        ; wait for NMI interrupt processing to complete
-    lda ButtonPressed0
+    lda ButtonPressed
     and #$10
     eor #$10
     beq @end
