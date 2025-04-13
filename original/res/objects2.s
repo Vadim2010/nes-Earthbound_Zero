@@ -1541,10 +1541,10 @@ capsule:
     .byte $21, $C6, $80, $25, $F4, $8A, 5, $D, $B, $24, 8
     .byte $82, 3, $44, $A4, $5B, 9
     .byte $3E
-    .word capsule_away ; $9C90
+    .word capsule_away
     .byte 8, $CC, 3, $17, $1C, 0, $17, $1D, 0, $10, $D, $5A, $12
     .byte $3E
-    .word capsule_end ; $9C95
+    .word capsule_end
     .byte 0
 capsule_away:
     .byte $70, 6, $54, 1, 3

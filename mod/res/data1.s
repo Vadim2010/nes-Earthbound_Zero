@@ -11,9 +11,9 @@ FramesList:
 
     .word fBattleLog, fStatistic, fBattleMenu1, fClear2, fEmptyString
     .word stru_8CC8, stru_8CD0, fClear1, stru_8CE0, fEmptyString
-    .word fName, fSelectEnemy, fEnemyName, stru_8CF0, fSelectGoods
-    .word fGoods, stru_8CF8, stru_8D0C, stru_8CC0, fBattleMenu2
-    .word stru_8D20
+    .word fName, fSelectEnemy, fEnemyName, fCursor, fSelectGoods
+    .word fGoods, fCantNow1, fCantNow, fArrow, fBattleMenu2
+    .word fCant
 
 fBattleLog:
     down 0, 1
@@ -81,19 +81,19 @@ fSelectGoods:
     line fSelectGoodsBottom
     end_mark
 
-stru_8CC0:
+fArrow:
     down 7, 17
-    line byte_8E29
+    line fArrowStr
     end_mark
 
 stru_8CC8:
     down 7, 6
-    line stru_8E32
+    line fSpace
     end_mark
 
 stru_8CD0:
     down 7, 7
-    line stru_8E32
+    line fSpace
     end_mark
 
 fEnemyName:
@@ -111,36 +111,36 @@ fGoods:
     lines 1, fNamePrint
     end_mark
 
-stru_8CF0:
+fCursor:
     down $FF, $FF
-    line byte_8E30
+    line fCursorStr
     end_mark
 
-stru_8CF8:
+fCantNow1:
     down 11, 23
-    line byte_8E36
-    lines 1, byte_8E3C
-    line byte_8E42
+    line fTop
+    lines 1, fMiddle
+    line fBottom
     .byte $FC, 1
-    .word stru_8E48
+    .word fCantNowStr1
     end_mark
 
-stru_8D0C:
+fCantNow:
     down 11, 23
-    line byte_8E36
-    lines 1, byte_8E3C
-    line byte_8E42
+    line fTop
+    lines 1, fMiddle
+    line fBottom
     .byte $FC, 1
-    .word stru_8E5A
+    .word fCantNowStr
     end_mark
 
-stru_8D20:
+fCant:
     down 11, 23
-    line byte_8E36
-    lines 1, byte_8E3C
-    line byte_8E42
+    line fTop
+    lines 1, fMiddle
+    line fBottom
     .byte $FC, 1
-    .word stru_8E6C
+    .word fCantStr
     end_mark
 
 fEmptyString:
@@ -310,7 +310,7 @@ fSelectGoodsBottom:
     .byte FRAME_BOTTOM_RIGHT
     end_frame
 
-byte_8E29:
+fArrowStr:
     .byte " ", ARROW
     end_frame
 
@@ -318,43 +318,43 @@ fNamePrint:
     tile_pointer TilePntr2
     end_frame
 
-byte_8E30:
+fCursorStr:
     .byte CURSOR
     end_frame
 
-stru_8E32:
+fSpace:
     fill " ", 22
     end_frame
 
-byte_8E36:
+fTop:
     .byte FRAME_TOP_LEFT
     fill FRAME_TOP, 18
     .byte FRAME_TOP_RIGHT
     end_frame
 
-byte_8E3C:
+fMiddle:
     left
     fill " ", 18
     right
     end_frame
 
-byte_8E42:
+fBottom:
     .byte FRAME_BOTTOM_LEFT
     fill FRAME_BOTTOM, 18
     .byte FRAME_BOTTOM_RIGHT
     end_frame
 
-stru_8E48:
+fCantNowStr1:
     tile_position 13, 25
     .byte "You can't now."
     end_frame
 
-stru_8E5A:
+fCantNowStr:
     tile_position 13, 25
     .byte "You can't now."
     end_frame
 
-stru_8E6C:
+fCantStr:
     .import TilePntr1
 
     tile_position 13, 25
@@ -837,7 +837,7 @@ stru_936A:
     end_frame
 
 StateFrame:
-    .import Item1, Item2, Item3, Item4, Melodies
+    .import Items
 
     tile_position 9, 1
 
@@ -964,7 +964,7 @@ byte_9431:
     right
     left
     .byte " "
-    convert Item1, 0, 11
+    convert Items, 0, 11
     right
     end_row
 
@@ -977,7 +977,7 @@ byte_9431:
     right
     left
     .byte " "
-    convert Item2, 0, 11
+    convert Items+$10, 0, 11
     right
     end_row
 
@@ -990,7 +990,7 @@ byte_9431:
     right
     left
     .byte " "
-    convert Item3, 0, 11
+    convert Items+$20, 0, 11
     right
     end_row
 
@@ -1003,7 +1003,7 @@ byte_9431:
     right
     left
     .byte " "
-    convert Item4, 0, 11
+    convert Items+$30, 0, 11
     right
     end_frame
 
@@ -1035,7 +1035,7 @@ byte_9431:
     right
     left
     .byte "  "
-    convert Melodies, 0, 10
+    convert Items+$70, 0, 10
     right
     end_frame
 

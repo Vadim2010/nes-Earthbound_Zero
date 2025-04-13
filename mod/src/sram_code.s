@@ -109,8 +109,8 @@ copy_pure_save:
     iny
     bne @clear
     pla
-    ora CurrentGame + PURE_SAVE::GameNumber     ; $7402
-    sta CurrentGame + PURE_SAVE::GameNumber     ; $7402
+    ora CurrentGame + PURE_SAVE::GameNumber
+    sta CurrentGame + PURE_SAVE::GameNumber
     rts
 ; End of function copy_pure_save
 
@@ -148,11 +148,11 @@ EraseDialog:
     end_row
 
     left
-    .byte " ", $A6              ; ' "'
-    convert CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name, 0, 8      ; Boy1Name
+    .byte " ", $A6
+    convert CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name, 0, 8
     .byte "Lvl"
-    convert CurrentGame+PURE_SAVE::Boy1+CHARACTER::Level, 1, 2       ; Boy1Lvl
-    .byte $A6, "  "             ; '"  '
+    convert CurrentGame+PURE_SAVE::Boy1+CHARACTER::Level, 1, 2
+    .byte $A6, "  "
     right
     end_row
 
@@ -196,9 +196,9 @@ ContinueGame1:
     end_row
 
     .byte " ", FRAME_TOP_LEFT, FRAME_TOP, FRAME_TOP_SHORT
-    convert Game1+PURE_SAVE::Boy1+CHARACTER::Name, 0, 8         ; Boy1NameSave1
+    convert Game1+PURE_SAVE::Boy1+CHARACTER::Name, 0, 8
     .byte "Lvl"
-    convert Game1+PURE_SAVE::Boy1+CHARACTER::Level, 1, 2        ; Boy1LvlSave1
+    convert Game1+PURE_SAVE::Boy1+CHARACTER::Level, 1, 2
     fill FRAME_TOP, 7
     .byte FRAME_TOP_RIGHT
     end_row
@@ -213,9 +213,9 @@ ContinueGame2:
     end_row
 
     .byte " ", FRAME_TOP_LEFT, FRAME_TOP, FRAME_TOP_SHORT
-    convert Game2+PURE_SAVE::Boy1+CHARACTER::Name, 0, 8  ; Boy1NameSave2
+    convert Game2+PURE_SAVE::Boy1+CHARACTER::Name, 0, 8
     .byte "Lvl"
-    convert Game2+PURE_SAVE::Boy1+CHARACTER::Level, 1, 2   ; Boy1LvlSave2
+    convert Game2+PURE_SAVE::Boy1+CHARACTER::Level, 1, 2
     fill FRAME_TOP, 7
     .byte FRAME_TOP_RIGHT
     end_row
@@ -230,9 +230,9 @@ ContinueGame3:
     end_row
 
     .byte " ", FRAME_TOP_LEFT, FRAME_TOP, FRAME_TOP_SHORT
-    convert Game3+PURE_SAVE::Boy1+CHARACTER::Name, 0, 8 ; Boy1NameSave3
+    convert Game3+PURE_SAVE::Boy1+CHARACTER::Name, 0, 8
     .byte "Lvl"
-    convert Game3+PURE_SAVE::Boy1+CHARACTER::Level, 1, 2  ; Boy1LvlSave3
+    convert Game3+PURE_SAVE::Boy1+CHARACTER::Level, 1, 2
     fill FRAME_TOP, 7
     .byte FRAME_TOP_RIGHT
     end_row
@@ -437,19 +437,19 @@ get_next_string:
 .import AnimBoy1, AnimGirl, AnimBoy2, AnimBoy3
 
 Boy1:
-    .word AnimBoy1 + $10, AskBoy1Name, CurrentGame + PURE_SAVE::Boy1 + CHARACTER::Name     ; Boy1Name
+    .word AnimBoy1 + $10, AskBoy1Name, CurrentGame + PURE_SAVE::Boy1 + CHARACTER::Name
 
 Girl:
-    .word AnimGirl + $10, AskGirlName, CurrentGame + PURE_SAVE::Girl + CHARACTER::Name     ; GirlName
+    .word AnimGirl + $10, AskGirlName, CurrentGame + PURE_SAVE::Girl + CHARACTER::Name
 
 Boy2:
-    .word AnimBoy2 + $10, AskBoy2Name, CurrentGame + PURE_SAVE::Boy2 + CHARACTER::Name     ; Boy2Name
+    .word AnimBoy2 + $10, AskBoy2Name, CurrentGame + PURE_SAVE::Boy2 + CHARACTER::Name
 
 Boy3:
-    .word AnimBoy3 + $10, AskBoy3Name, CurrentGame + PURE_SAVE::Boy3 + CHARACTER::Name     ; Boy3Name
+    .word AnimBoy3 + $10, AskBoy3Name, CurrentGame + PURE_SAVE::Boy3 + CHARACTER::Name
 
 Food:
-    .word 0, AskFoodName, CurrentGame + GAME_SAVE::Food       ;FoodName
+    .word 0, AskFoodName, CurrentGame + GAME_SAVE::Food
 
 Cur_62E8:
     .byte $10, 6, 1, 2, $D0, 1, 8, $E                   ; CURSOR_SHORT <$10, 6, 1, 2, $D0, 1, 8, $E>

@@ -716,6 +716,9 @@ ItemList:
 .import sPKFreezeAlpha, sPKFreezeBeta, sPKFreezeGamma, sPKFreezeOmega, sPKFireAlpha, sPKFireBeta, sPKFireGamma, sPKFireOmega
 .import sPKBeamAlpha, sPKBeamBeta, sPKBeamGamma, sPKBeamOmega, sPKThunderAlpha, sPKThunderBeta, sPKThunderGamma
 
+PSIList:
+.export PSIList
+
 .word SpellList
 .byte $FF, $FF, 0, 0, 0, 0              ; PSI <SpellList, $FF, $FF, 0, 0, 0, 0>
 

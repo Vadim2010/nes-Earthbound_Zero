@@ -1599,7 +1599,7 @@ new_game:
 
 @yes:
     jsr clear_screen
-    ldx #$3C
+    ldx #60
     jsr delay
     jsr lighten_palette ; increase the brightness of colors in the palette
     lda #2

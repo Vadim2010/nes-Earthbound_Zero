@@ -178,15 +178,48 @@
     Wisdom          .byte
     Strength        .byte
     Force           .byte
-    field_10        .res 8
+    Scripts         .res 8
     PointerChr      .word
     Letter          .byte
     field_1B        .byte
     TargetOff       .byte
     Script          .byte
-    field_1E        .byte
+    Resist          .byte
     field_1F        .byte
 .endstruct
+
+.struct SOUND_EFFECT
+    NumSound       .byte
+    Sound          .byte
+    Delay          .byte
+    field_3        .byte
+.endstruct
+
+.macro sound_effect NumSound, Sound, Delay
+    .byte NumSound, Sound, Delay, 0
+.endmacro
+
+.struct CURSOR
+    MaxX            .byte
+    MaxY            .byte
+    TileX           .byte
+    TileY           .byte
+    ButtonsMask     .byte
+    TileIDOAM       .byte
+    Column          .byte
+    Row             .byte
+    pStruct         .word
+.endstruct
+
+.macro cursor_short MaxX, MaxY, TileX, TileY, ButtonsMask, TileIDOAM, Column, Row
+    .byte MaxX, MaxY, TileX, TileY, ButtonsMask, TileIDOAM, Column, Row
+.endmacro
+
+.macro cursor MaxX, MaxY, TileX, TileY, ButtonsMask, TileIDOAM, Column, Row, pStruct
+    .byte MaxX, MaxY, TileX, TileY, ButtonsMask, TileIDOAM, Column, Row
+    .word pStruct
+.endmacro
+
 
 ;offsets ??? into dialogs
 ;$0058
@@ -195,6 +228,181 @@
 ;$005B
 ;$005C
 ;$005D
+
+.enum
+    Empty                   ; $00
+    SingLullaby
+    Pos
+    DrewNear
+    Attack
+    TankGun
+    Dodged
+    ContinuousAttack
+    Bit
+    Scratched
+    Charged
+    SMAAAASH
+    Suffered
+    YOUWIN
+    Lose
+    Defeated
+    Hurt                    ; $10
+    Gone
+    NoEffect
+    RanOut
+    Exhausted
+    LastBlow
+    Form
+    Surrounded
+    MotherCall
+    Tturned
+    Spit
+    Blinded
+    Bound
+    StrangeCry
+    Exploded
+    Burst
+    OFFENSEinc              ; $20
+    OFFENSEdec
+    DEFENSEinc
+    SPEEDinc
+    Offense
+    Defense
+    FIGHTdec
+    DEFENSEdec
+    DarlingSmile
+    FIGHTinc
+    Rage
+    SPEEDdec
+    Confused
+    CriedOut
+    Sowed
+    EXPinc
+    Started                 ; $30
+    TankBroken
+    Uttered
+    DirtyWords
+    Grins
+    Believed
+    WasntConvinced
+    MadeAngry
+    Critical
+    Senses
+    SoConfused
+    PutSleep
+    IsAsleep
+    RecoverPP
+    RecoverHP
+    Energy
+    HoweverNoOne            ; $40
+    Silence
+    Joined
+    RanAway
+    DidntWork
+    Tripped
+    CantMove
+    Turned
+    Snatched
+    CannotMove
+    Puffed
+    WasPoisoned
+    Dehydrated
+    Blocked
+    WasBound
+    Shielded
+    Miss                    ; $50
+    PSIBlocked
+    Bounced
+    BouncedBack
+    NotenoughPPs
+    WasNoEffect
+    Wheeze
+    Meditating
+    Said
+    Ready
+    Sang
+    IsGuarding
+    Approached
+    Dissipated
+    Regained
+    Itchy
+    CanMove                 ; $60
+    WakeUp
+    Brought
+    USEd
+    Ttried
+    CcantUse
+    Circumstances
+    SomethingStrange
+    DayDreaming
+    Destroyed
+    CHECKed
+    AgainstFire
+    AgainstFreeze
+    AgainstThunder
+    AgainstBeam
+    WeakSprays
+    AsthmaAttackPass        ; $70
+    RecoveredStone
+    ILoveYou
+    IHateYou
+    AsthmaAttack
+    WasBroken
+    WickedSeed
+    Gas
+    TurnedIntoStone
+    RegainedSenses
+    Quiet
+    Beaten
+    WasDestroyed
+    Dust
+    DidntMove
+    PileJunk
+    Vanished                ; $80
+    TookAway
+    Advanced
+    NewPSIPower
+    MaximumHPinc
+    MaximumPPinc
+    FIGHTInc
+    SPEEDInc
+    WISDOMinc
+    STRENGTHinc
+    FORCEinc
+    EscapedRope
+    PickedUp
+    WasntConfused
+    WokeUp
+    ZAP
+    ItNoEffect              ; $90
+    BecameEmpty
+    Lingers
+    Defeat
+    Improved
+    Huge
+    Grateful
+    YourGreat
+    GeorgeStole
+    Descendants
+    GoHomeNow
+    Foolish
+    YouAlone
+    FallSleep
+    StopSinging
+    STOPSinging
+    STOP                    ; $A0
+    STOPIT
+    Puny
+    TheSONG
+    STOPIt
+    Exclamation
+    Stop
+    Acclamation
+    Points
+    BeDefeated
+    IWill
+    MeetAgain
+.endenum
 
 Stack               = $0100
 OAM_Cache           = $0200

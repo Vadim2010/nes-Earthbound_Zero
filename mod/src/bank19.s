@@ -1058,17 +1058,18 @@ loc_19A7EF:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_19A7FC:
+waste_PP:
+    .export waste_PP
     .import Character
-    .importzp byte_4E, byte_4F, CharacterOffset
+    .importzp Value, CharacterOffset
 
     LDY CharacterOffset
     SEC
     LDA Character + CHARACTER::MaxPP,Y
-    SBC byte_4E
+    SBC Value
     STA Character + CHARACTER::MaxPP,Y
     LDA Character + CHARACTER::MaxPP+1,Y
-    SBC byte_4F
+    SBC Value+1
     STA Character + CHARACTER::MaxPP+1,Y
     BCS locret_19A819
     LDA #0
@@ -1077,7 +1078,7 @@ sub_19A7FC:
 
 locret_19A819:
     RTS
-; End of function sub_19A7FC
+; End of function waste_PP
 
 
 ; =============== S U B R O U T I N E =======================================

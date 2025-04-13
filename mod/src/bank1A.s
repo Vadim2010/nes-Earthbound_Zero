@@ -117,18 +117,18 @@ loc_1AA094:
 
 
 sub_1AA0A0:
-    .importzp Gamepad0Buttons
+    .importzp GamepadButtons
 
                 LDA     #0
-                STA     Gamepad0Buttons
+                STA     GamepadButtons
                 INY
                 LDA     (BankPPU_X000),Y
 
 loc_1AA0A7:
-                BIT     Gamepad0Buttons
+                BIT     GamepadButtons
                 BEQ     loc_1AA0A7
                 LDA     #0
-                STA     Gamepad0Buttons
+                STA     GamepadButtons
                 INY
                 RTS
 ; End of function sub_1AA0A0

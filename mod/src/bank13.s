@@ -345,30 +345,30 @@ CommandCursor:
     .import get_obj_pointer, redraw_screen
     .importzp byte_34
 
-    JSR get_obj_pointer
-    BCS loc_13A1E4
-    JSR sub_13A9C7
-    BEQ locret_13A1E9
-    ASL A
-    ASL A
-    BCC locret_13A1E9
-    AND #$3C
-    BEQ locret_13A1E9
-    LDA #$35
-    STA byte_34
-    JSR sub_13AB0F
-    BCS locret_13A1E9
+    jsr get_obj_pointer
+    bcs loc_13A1E4
+    jsr get_obj_type
+    beq locret_13A1E9
+    asl A
+    asl A
+    bcc locret_13A1E9
+    and #$3C
+    beq locret_13A1E9
+    lda #$35
+    sta byte_34
+    jsr sub_13AB0F
+    bcs locret_13A1E9
 
 loc_13A1E1:
-    JMP redraw_screen
+    jmp redraw_screen
 ; ---------------------------------------------------------------------------
 
 loc_13A1E4:
-    JSR sub_13AB48
-    BCC loc_13A1E1
+    jsr sub_13AB48
+    bcc loc_13A1E1
 
 locret_13A1E9:
-    RTS
+    rts
 .endproc            ; End of function sub_13A1C6
 
 
@@ -414,7 +414,7 @@ redraw:
     .importzp byte_34
 
     JSR sub_E20F
-    JSR sub_13A9C7
+    JSR get_obj_type
     BNE loc_13A21D
     JSR sub_13A9D6
     JMP redraw_screen
@@ -970,8 +970,8 @@ loc_13A4D6:
 .proc sub_13A4E5
     .import loc_13A63E
 
-    JSR set_price1000
-    JMP loc_13A63E
+    jsr set_price1000
+    jmp loc_13A63E
 .endproc            ; End of function sub_13A4E5
 
 
@@ -1032,9 +1032,9 @@ loc_13A4D6:
 .proc sub_13A504
     .import loc_13A54B
 
-    JSR set_price1000
-    LDX #$16
-    JMP loc_13A54B
+    jsr set_price1000
+    ldx #$16
+    jmp loc_13A54B
 .endproc            ; End of function sub_13A504
 
 
@@ -1748,7 +1748,7 @@ byte_13A803:
     .export sub_13A82F, loc_13A834
     .import clear_oam_sprite, set_camera, mmc3_bank_set, sub_CE6D, set_ppu_banks, copy_palettes, DMCflag
     .import wait_frames, wait_nmi_processed, darken_color, restore_palettes, draw_screen
-    .importzp MapSectorID, MaskPPU, Gamepad0Buttons
+    .importzp MapSectorID, MaskPPU, GamepadButtons
 
     lda #5
     sta Sound2
@@ -1812,7 +1812,7 @@ loc_13A843:
     ldxa #Palette
     jsr copy_palettes
     lda #0
-    sta Gamepad0Buttons
+    sta GamepadButtons
 
 loc_13A899:
     ldx #8
@@ -1820,10 +1820,10 @@ loc_13A899:
     lda #$DF
     eor OAM_Cache + OAM_TILE::TileID
     sta OAM_Cache + OAM_TILE::TileID
-    bit Gamepad0Buttons
+    bit GamepadButtons
     bvc loc_13A899
     lda #0
-    sta Gamepad0Buttons
+    sta GamepadButtons
     lda #$F0
     sta OAM_Cache + OAM_TILE::PosY
     jsr wait_nmi_processed
@@ -1892,13 +1892,13 @@ press_redraw:
 
 
 .proc sub_13A912
-    .import sub_F2ED
+    .import random_value
     .importzp Pointer, Price
 
     sta Pointer
     lda #0
     sta Pointer+1
-    jsr sub_F2ED
+    jsr random_value
     store Pointer, Price
     rts
 .endproc
@@ -2078,22 +2078,22 @@ loc_13A9A1:
 ; =============== S U B R O U T I N E =======================================
 
 
-.proc sub_13A9C7
+.proc get_obj_type
     .importzp Dist
 
-    TAY
-    BEQ loc_13A9D3
-    TAX
-    LDY #0
-    LDA (Dist),Y
-    AND #$3F
-    TAY
-    TXA
+    tay
+    beq loc_13A9D3
+    tax
+    ldy #0
+    lda (Dist),Y
+    and #$3F
+    tay
+    txa
 
 loc_13A9D3:
-    CPY #$20
-    RTS
-.endproc            ; End of function sub_13A9C7
+    cpy #$20
+    rts
+.endproc            ; End of function get_obj_type
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -2361,7 +2361,7 @@ MapScripts:
     .word loc_13AFB8-1, sub_13AEB6-1, sub_13AED3-1, sub_13AF8E-1
     .word sub_13AEDB-1, loc_13AEEE-1, sub_13AF15-1, loc_13AF2F-1
     .word loc_13AFDC-1, sub_13AFD1-1, loc_13AFEA-1, loc_13AFF5-1
-    .word loc_13B00C-1, sub_13B03C-1, sub_13AF5E-1, sub_13B028-1
+    .word loc_13B00C-1, sub_13B03C-1, multiply_num-1, sub_13B028-1
     .word loc_13AC71-1, loc_13AC71-1, sub_13B3D8-1, sub_13ADFA-1
     .word sub_13B1BD-1, loc_13B1D8-1, sub_13B0D1-1, sub_13B235-1
     .word sub_13B42B-1, sub_13B420-1, move_object-1, sub_13AC57-1
@@ -3153,34 +3153,34 @@ loc_13AF47:
 ; =============== S U B R O U T I N E =======================================
 
 
-.proc sub_13AF5E
-    .import get_offset, sub_F13D
+.proc multiply_num
+    .import multiplication, divide
     .importzp Source, pTileID, Pointer, AddrForJmp, ScriptOffset, Price
 
-    INY
-    LDA (Source),Y
-    STA pTileID
-    STY ScriptOffset
-    LDA Price
-    STA Pointer
-    LDA Price+1
-    STA Pointer+1
-    JSR get_offset      ; Input: Pointer - first multiplier
+    iny
+    lda (Source),Y
+    sta pTileID
+    sty ScriptOffset
+    lda Price
+    sta Pointer
+    lda Price+1
+    sta Pointer+1
+    jsr multiplication      ; Input: Pointer - first multiplier
                         ;        pTileID - second multiplier
                         ; Output: AddrForJmp, Pointer - result Pointer * pTileID
-    LDA #$64
-    STA pTileID
-    JSR sub_F13D
-    LDY ScriptOffset
-    INY 
-    LDA AddrForJmp
-    BNE sub_13AF87
-    LDA Pointer
-    STA Price
-    LDA Pointer+1
-    STA Price+1
-    RTS
-.endproc ; End of function sub_13AF5E
+    lda #100
+    sta pTileID
+    jsr divide
+    ldy ScriptOffset
+    iny 
+    lda AddrForJmp
+    bne sub_13AF87
+    lda Pointer
+    sta Price
+    lda Pointer+1
+    sta Price+1
+    rts
+.endproc ; End of function multiply_num
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -3189,10 +3189,10 @@ loc_13AF47:
 .proc sub_13AF87
     .importzp Price
 
-    LDA #$FF
-    STA Price
-    STA Price+1
-    RTS
+    lda #$FF
+    sta Price
+    sta Price+1
+    rts
 .endproc            ; End of function sub_13AF87
 
 
@@ -3203,26 +3203,26 @@ loc_13AF47:
     .import get_character_num
     .importzp CharNum, Item
 
-    JSR sub_13AFC4
-    LDX #0
+    jsr sub_13AFC4
+    ldx #0
 
 loc_13AF93:
-    JSR get_character_num
-    BCS loc_13AFA5
-    STA CharNum
-    TXA
-    PHA
-    LDA Item
-    JSR sub_13B058
-    PLA
-    TAX
-    BCC sub_13B01E
+    jsr get_character_num
+    bcs loc_13AFA5
+    sta CharNum
+    txa
+    pha
+    lda Item
+    jsr sub_13B058
+    pla
+    tax
+    bcc sub_13B01E
 
 loc_13AFA5:
-    INX
-    CPX #4
-    BCC loc_13AF93
-    BCS sub_13B023
+    inx
+    cpx #4
+    bcc loc_13AF93
+    bcs sub_13B023
 .endproc            ; End of function sub_13AF8E
 
 
@@ -3233,18 +3233,18 @@ loc_13AFA5:
     .export sub_13AFAC, loc_13AFB8
     .importzp Item
 
-    JSR sub_13AFC4
-    LDA Item
-    JSR sub_13B058
-    BCC sub_13B01E
-    BCS sub_13B023
+    jsr sub_13AFC4
+    lda Item
+    jsr sub_13B058
+    bcc sub_13B01E
+    bcs sub_13B023
 
 loc_13AFB8:
-    JSR sub_13AFC4
-    LDA Item
-    JSR sub_13B063
-    BCS sub_13B023
-    BCC sub_13B01E
+    jsr sub_13AFC4
+    lda Item
+    jsr sub_13B063
+    bcs sub_13B023
+    bcc sub_13B01E
 .endproc            ; End of function sub_13AFAC
 
 
@@ -3255,12 +3255,12 @@ loc_13AFB8:
     .importzp Source, Item, ScriptOffset
 
 
-    INY
-    LDA (Source),Y
-    STA Item
-    STY ScriptOffset
-    JSR sub_13BBC3
-    JMP sub_13BB8C
+    iny
+    lda (Source),Y
+    sta Item
+    sty ScriptOffset
+    jsr sub_13BBC3
+    jmp sub_13BB8C
 .endproc            ; End of function sub_13AFC4
 
 

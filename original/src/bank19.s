@@ -1058,8 +1058,8 @@ loc_19A7EF:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_19A7FC:
-    .export sub_19A7FC
+waste_PP:
+    .export waste_PP
     .import Character
     .importzp Value, CharacterOffset
 
@@ -1078,7 +1078,7 @@ sub_19A7FC:
 
 locret_19A819:
     RTS
-; End of function sub_19A7FC
+; End of function waste_PP
 
 
 ; =============== S U B R O U T I N E =======================================

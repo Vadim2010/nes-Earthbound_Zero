@@ -1892,13 +1892,13 @@ press_redraw:
 
 
 .proc sub_13A912
-    .import sub_F2ED
+    .import random_value
     .importzp Pointer, Price
 
     sta Pointer
     lda #0
     sta Pointer+1
-    jsr sub_F2ED
+    jsr random_value
     store Pointer, Price
     rts
 .endproc

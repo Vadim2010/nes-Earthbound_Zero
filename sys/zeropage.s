@@ -14,7 +14,7 @@
 .exportzp byte_C, byte_D, byte_F, byte_1F, byte_20, ObjectNumWithChar, byte_22, byte_23, byte_24, byte_25, RandomNumber
 .exportzp CharNum, Item, WaitPressed, byte_2D, byte_34, ScriptOffset, TempX, TempY, Tiles, NewView, byte_A9, StepX, StepY
 .exportzp byte_44, byte_45, byte_46, byte_47, EnemyGroup, Experience, Money, Value
-.exportzp StackPointer, MsgCounter, CharacterOffset, TargetOffset, BossID, byte_57, byte_58, byte_59, EnemyPos, EnemyCount
+.exportzp StackPointer, MsgCounter, CharacterOffset, TargetOffset, BossID, Flags, Sound, Auto, EnemyPos, EnemyCount
 .exportzp pBattleScript, byte_6C, byte_6D, byte_6E, PrintSize, byte_71, DialogPage
 .exportzp Pointer, CursorPosition
 .exportzp byte_0, Price
@@ -108,11 +108,11 @@ MsgCounter:         .res 1
 CharacterOffset:    .res 1
 TargetOffset:       .res 1
 NamePos:            .res 1
-BossID:          .res 1
+BossID:             .res 1
 
-byte_57:            .res 1
-byte_58:            .res 1
-byte_59:            .res 1
+Flags:              .res 1
+Sound:              .res 1
+Auto:               .res 1
 
 EnemyPos:           .res 1
 

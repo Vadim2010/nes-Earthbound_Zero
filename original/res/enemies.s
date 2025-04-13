@@ -1,3 +1,5 @@
+.include "structures.inc"
+
 .segment "BANK_6"
 
 ;--------------------------------------------------------
@@ -3128,187 +3130,187 @@ byte_1697B5:
 
 .export BattleScripts
 BattleScripts:
-    .word End,byte_16990E,byte_169944,byte_169957,byte_16996B,byte_169973,byte_16997B,byte_169985
-    .word byte_1699A6,byte_1699CD,byte_1699E7,byte_1699F0,byte_169A15,byte_169A25,byte_169A2E,byte_169A41
-    .word byte_169A4D,byte_169A56,byte_169A62,byte_169A7C,byte_169A8F,byte_169AA2,byte_169AE6,byte_169ABA
-    .word byte_169ACA,byte_169E55,byte_169E69,byte_169B71,byte_1699B9,byte_169B7C,byte_169B8D,byte_169B9E
-    .word EndScript,EndScript,byte_169C01,byte_169C0D,EndScript,byte_169BBC,EndScript,EndScript
-    .word byte_169BAB,byte_169CD3,byte_169CE0,byte_169CE9,byte_169CF4,byte_169D07,byte_169D18,byte_169D1E
-    .word byte_169E75,byte_169B0E,byte_169C14,EndScript,byte_169C2E,EndScript,byte_169DC3,byte_169DD5
-    .word byte_169DE0,byte_169DEB,EndScript,EndScript,byte_169C44,byte_169BCF,byte_169C71,byte_169B24
-    .word byte_169B30,byte_169B46,byte_169B4D,byte_169B54,byte_169C83,byte_169C98,byte_169E39,byte_169CC7
-    .word byte_169DF9,byte_169E87,byte_169E89,byte_169E8B,byte_169E3E,EndScript,EndScript,byte_169E41
-    .word byte_169E44,byte_169E97,EndScript,byte_169E0F,byte_169EA3,EndScript,EndScript,EndScript
-    .word EndScript,byte_169E15,EndScript,byte_169D72,byte_169E1B,byte_169BB5,byte_169EAB,byte_169D84
-    .word byte_169C62,EndScript,byte_169CBD,byte_169D8F,byte_169D9A,byte_169DA5,byte_169E2E,byte_1699F9
-    .word EndScript,byte_169A72,byte_169A85,byte_169B87,byte_169BE1,byte_169B1D,byte_169CA7,byte_169EAF
-    .word EndScript,byte_169D2D,byte_169D36,byte_169D3F,byte_169D48,byte_169D51,byte_169DAD,byte_169B06
-    .word byte_169E47,byte_169E4E,byte_169D5B,byte_169D64,byte_169D7D,byte_1699E0,EndScript,EndScript
-    .word byte_169CB8,EndScript,byte_169BE6,byte_169AD3,byte_169D6B,byte_169A03,byte_169DB8,EndScript, byte_169E5F
+    .word End,Fight,Fight2,Fight3,Fight4,Fight5,Fight6,Fight7
+    .word Fight8,PKFireAlpha,PKFireBeta,PKFireGamma,PKFreezeAlpha,PKFreezeBeta,PKFreezeOmega,PKFreezeGamma
+    .word Bomb,SuperBomb,PKBeamAlpha,PKBeamBeta,PKBeamOmega,PKBeamGamma,Insecticide,PKThunderAlpha
+    .word PKThunderBeta,Fight_19,Fight_1A,OffenseUp,Fight_1C,DefenseUpAlpha,DefenseUpBeta,QuickUp
+    .word EndScript,EndScript,Fight_22,Fight_23,EndScript,DefenseDownAlpha,EndScript,EndScript
+    .word Fight_28,LifeUpAlpha,LifeUpBeta,LifeUpGamma,LifeUpPi,LifeUpOmega,Fight_2E,PSIStone
+    .word PSIMagnet,Darkness,Fight_32,EndScript,Fight_34,EndScript,PSIBlock,PowerShield
+    .word PSIShieldAlpha,PSIShieldBeta,EndScript,EndScript,Bullhorn,PoisnNeedle,StoneOrigin,Fight_3F
+    .word Fight_40,Fight_41,BrainShock,BrainCyclon,Hypnosis,Paralysis,Fight_46,UseRope
+    .word Fight_48,Fight_49,Fight_4A,Fight_4B,Fight_4C,EndScript,EndScript,Fight_4F
+    .word Fight_50,Fight_51,EndScript,Fight_53,Fight_54,EndScript,EndScript,EndScript
+    .word EndScript,GuardScript,EndScript,HealingAlpha,P4thDSlip,Fight_5D,Fight_5E,NobleSeed
+    .word FleaBag,EndScript,Fight_62,HealingBeta,HealingPi,SuprHealing,ShieldOff,FlThrower
+    .word EndScript,LaserBeam,PlasmaBeam,Fight_6B,Fight_6C,Flashdark,StkyMachine,Fight_6F
+    .word EndScript,OrangeJuice,FrenchFries,MagicHerb,SportsDrink,BigBag,AsthmaSpray,SuperSpray
+    .word WordsOLove,SwearWords,Hamburger,LifeUpCream,Antidote,BottlRocket,EndScript,EndScript
+    .word Fight_80,EndScript,DefenseDownBeta,PKThunderGamma,Bread,PKFireOmega,HealingGamma,EndScript, Fight_88
 
 End:
     .byte 0
 
-byte_16990E:
+Fight:
     .byte $51, $80, $1B, $99, $73, $1B, $99, $74, $3A, $99, $72, $2E
     .byte $99, $66, 0, $68, 4, $80, $B7, $9E, $81, $BA, $9E
     .byte $73, $BF, $9E, $12, $60, 0, $40, 6, 0, $69, 3, $68
     .byte 4, $1B, $68, $B, $61, 0, $40, 6, 0, $69, 8, $68
     .byte 5, $1B, $62, $3C, $40, 6, 0
 
-byte_169944:
+Fight2:
     .byte $51, $66, 0, $68, 4, $90, $1F, $99, $80, $56, $99, $66, 0, $68, 7, $90
     .byte $1F, $99, 0
 
-byte_169957:
+Fight3:
     .byte $51, $66, 0, $68, 8, $60, 0, $80, $B7
     .byte $9E, $81, $BA, $9E, $73, $BF, $9E, $12, $40, 6, 0
 
-byte_16996B:
+Fight4:
     .byte $51, $66, 0, $68, 9, $A0, $5C, $99
 
-byte_169973:
+Fight5:
     .byte $51, $66, 0, $68, $A, $A0, $5C, $99
 
-byte_16997B:
+Fight6:
     .byte $51, $66, 0, $68, $13, $62, $F, $A0, $5E, $99
 
-byte_169985:
+Fight7:
     .byte $51, $69, 3, $68, $15, $80, $9A, $99, $73, $A0, $99, $1B, $62, $C8, $40, 6, $40, $E
     .byte $68, $14, 0, $90, $B7, $9E, $A0, $95, $99, $90, $BF, $9E, $A0, $95, $99
 
-byte_1699A6:
+Fight8:
     .byte $63, 0, $52, $69, $14, $68, $16
     .byte $B4, $80, $B6, $99, $13, $62, $4B, $40, 6, $56, 0, 0
 
-byte_1699B9:
+Fight_1C:
     .byte $52, $68, $5A, $B4, $80, $CA, $99, $8D, $C8, $99
     .byte $40, $29, $A0, $CA, $99, $68, $12, $56, 0, 0
 
-byte_1699CD:
+PKFireAlpha:
     .byte $67, 5, $20, $2C, $62, $14, $52, $B4, $80, $DD, $99, $64
     .byte $40, $17, $40, 6, $56, 0, 0
 
-byte_1699E0:
+BottlRocket:
     .byte $67, 5, $31, $61, $A0, $D1, $99
 
-byte_1699E7:
+PKFireBeta:
     .byte $67, 5, $20, $2D, $62, $3C, $A0, $D3, $99
 
-byte_1699F0:
+PKFireGamma:
     .byte $67, 5, $20, $2E, $62, $64, $A0, $D3, $99
 
-byte_1699F9:
+FlThrower:
     .byte $67, 5, $32, $22, $90, $F4, $99, $C0, $22, 0
 
-byte_169A03:
+PKFireOmega:
     .byte $67, 5, $20, $2F, $A0, $A, $9A, $52, $B4, $80, $12, $9A, $17, $40, 9, $56, 0, 0
 
-byte_169A15:
+PKFreezeAlpha:
     .byte $67, 7, $20, $28, $62, $A, $51
     .byte $80, $B7, $9E, $64, $20, $18, $40, 6, 0
 
-byte_169A25:
+PKFreezeBeta:
     .byte $67, 7, $20, $29, $62, $28, $A0, $1B, $9A
 
-byte_169A2E:
+PKFreezeOmega:
     .byte $67, 7, $20, $2B, $62, $50, $52, $B4, $80, $3E
     .byte $9A, $64, $20, $18, $40, 6, $56, 0, 0
 
-byte_169A41:
+PKFreezeGamma:
     .byte $67, 7, $20, $2A, $51, $80, $B7, $9E, $18, $40, $A, 0
 
-byte_169A4D:
+Bomb:
     .byte $67, 8, $31, $23, $62, $3C, $A0, $D3, $99
 
-byte_169A56:
+SuperBomb:
     .byte $67, 8, $31, $24, $90, $A, $9A, $62, $1F, $40, $F, 0
 
-byte_169A62:
+PKBeamAlpha:
     .byte $67, 6, $20, $30, $62, $1E, $51, $80, $B7, $9E, $64, 2, $1A, $40, 6, 0
 
-byte_169A72:
+LaserBeam:
     .byte $67, 6, $32, $25, $90, $66, $9A, $C0, $25, 0
 
-byte_169A7C:
+PKBeamBeta:
     .byte $67, 6, $20, $31, $62, $50, $A0, $68, $9A
 
-byte_169A85:
+PlasmaBeam:
     .byte $67, 6, $32, $26, $90, $80, $9A, $C0, $26, 0
 
-byte_169A8F:
+PKBeamOmega:
     .byte $67, 6, $20, $33, $62, $B4, $52, $B4, $80, $9F, $9A, $64
     .byte 2, $1A, $40, 6, $56, 0, 0
 
-byte_169AA2:
+PKBeamGamma:
     .byte $67, 6, $20, $32, $51, $80, $B7, $9E, $75, $B4, $9A, $1A, $79, $C4, $9E
     .byte $40, 9, 0, $68, $52, $54, $A0, $AD, $9A
 
-byte_169ABA:
+PKThunderAlpha:
     .byte $67, 4, $20, $34, $62, $A, $51, $80, $B7, $9E, $64, $10, $19, $40, 6, 0
 
-byte_169ACA:
+PKThunderBeta:
     .byte $67, 4, $20, $35, $62, $32, $A0, $C0, $9A
 
-byte_169AD3:
+PKThunderGamma:
     .byte $67, 4, $20, $36, $62, $3C, $52, $B4, $80
     .byte $E3, $9A, $64, $10, $19, $40, 6, $56, 0, 0
 
-byte_169AE6:
+Insecticide:
     .byte $67, 1, $32, $19, $90, $F0, $9A, $C0, $19, 0, $52, $B4
     .byte $80, $FE, $9A, $12, $79, 1, $9B, $87, 1, $9B, $40
     .byte 9, $56, 0, 0, $68, $12, $A0, $FE, $9A
 
-byte_169B06:
+SuperSpray:
     .byte $67, 1, $30, $1A, $90, $F0, $9A, 0
 
- byte_169B0E:
+ Darkness:
     .byte $67, $D, $20, $1C, $51, $80, $B7, $9E, $13, $79, $C4, $9E, $40, $12, 0
 
-byte_169B1D:
+Flashdark:
     .byte $67, 0, $30, $1F, $A0, $12, $9B
 
-byte_169B24:
+Fight_3F:
     .byte $66,  0,$68,$1A,$51,$80,$B7,$9E
     .byte $13,$40,$12,  0
 
-byte_169B30:
+Fight_40:
     .byte $69, $D,$51,$68,$2C,$51,$80,$B7
     .byte $9E,$13,$78,$C4,$9E,$79,$C4,$9E
     .byte $7A,$C4,$9E,$40,$14,  0
 
-byte_169B46:
+Fight_41:
     .byte $69, $D,$68,$76,$A0,$35,$9B
 
-byte_169B4D:
+BrainShock:
     .byte $67, $D,$20,$18,$A0,$35,$9B
 
-byte_169B54:
+BrainCyclon:
     .byte $67, $D,$20,$19,$52,$B4,$80,$69
     .byte $9B,$13,$78,$6C,$9B,$79,$6C,$9B
     .byte $7A,$6C,$9B,$40,$14,$56,  0,  0
     .byte $68,$12,$A0,$69,$9B
 
-byte_169B71:
+OffenseUp:
     .byte $67,  0,$20,$20,$51,$80,$B7,$9E
     .byte $40,  3,  0
 
-byte_169B7C:
+DefenseUpAlpha:
     .byte $67,  0,$20,$21,$51,$80,$B7,$9E
     .byte $40,  4,  0
 
-byte_169B87:
+Fight_6B:
     .byte $68,$28,$54,$A0,$81,$9B
 
-byte_169B8D:
+DefenseUpBeta:
     .byte $67,  0,$20,$22,$53,$B4,$80,$9B
     .byte $9B,$7C,$9B,$9B,$40,  4,$56, 0, 0
 
-byte_169B9E:
+QuickUp:
     .byte $67,  0,$20,$23,$51,$80,$B7,$9E
     .byte $62,$14,$40,  2,  0
 
-byte_169BAB:
+Fight_28:
     .byte $62,$19
     .byte $54
     .byte $68,$2A           ; msg sRage
@@ -3316,270 +3318,270 @@ byte_169BAB:
     .byte $40,$11
     .byte 0
 
-byte_169BB5:
+Fight_5D:
     .byte $66,  0,$62,$14,$40,$10,  0
 
-byte_169BBC:
+DefenseDownAlpha:
     .byte $67, $D,$20,$24,$62,$28,$51,$80
     .byte $B7,$9E,$13,$79,$C4,$9E,$64,  4
     .byte $40,  7,  0
 
-byte_169BCF:
+PoisnNeedle:
     .byte $67,  0,$31,$21,$51,$80,$B7,$9E
     .byte $73,$BF,$9E,$13,$79,$C4,$9E,$40
     .byte $13,  0
 
-byte_169BE1:
+Fight_6C:
     .byte $68,$1D,$A0,$C0,$9B
 
-byte_169BE6:
+DefenseDownBeta:
     .byte $52,$67, $D,$20,$25,$B4,$62,$28
     .byte $80,$F9,$9B,$13,$79,$FC,$9B,$64
     .byte   4,$40,  7,$56,  0,  0,$68,$12
     .byte $A0,$F9,$9B
 
-byte_169C01:
+Fight_22:
     .byte $68,$32,$62,$1E,$51,$80,$B7,$9E
     .byte $13,$40,  8,  0
 
-byte_169C0D:
+Fight_23:
     .byte $68,$33,$62,$14,$A0,  5,$9C
 
-byte_169C14:
+Fight_32:
     .byte $52,$66,  0,$68,$4A,$B4,$80,$2B
     .byte $9C,$12,$62,$1E,$40,  6,$80,$2B
     .byte $9C,$62,$14,$40,  8,$40,$1D,$56
     .byte   0,  0
 
-byte_169C2E:
+Fight_34:
     .byte $51,$66,  0,$68,  4,$80,$B7,$9E
     .byte $73,$BF,$9E,$13,$79,$C4,$9E,$68
     .byte $4C,$40, $B,$40, $C,  0
 
-byte_169C44:
+Bullhorn:
     .byte $67,  0,$30,$70,$51,$80,$B7,$9E
     .byte $68,$18,$13,$88,$59,$9C,$68,$35
     .byte $62,$19,$40,  8,  0,$68,$36,$68
     .byte $37,$62,$14,$40,$11,  0
 
-byte_169C62:
+FleaBag:
     .byte $67,  0,$31,$1B,$51,$79,$C4,$9E
     .byte $68,$5F,$40, $B,$40, $C,  0
 
-byte_169C71:
+StoneOrigin:
     .byte $67,  0,$31,$20,$51,$80,$B7,$9E
     .byte $73,$BF,$9E,$13,$79,$C4,$9E,$40
     .byte $1C,  0
 
-byte_169C83:
+Hypnosis:
     .byte $67, $D,$20,$1A,$51,$80,$B7,$9E
     .byte $13,$78,$C4,$9E,$79,$C4,$9E,$7A
     .byte $C4,$9E,$40,$15,  0
 
-byte_169C98:
+Paralysis:
     .byte $67, $D,$20,$1B,$51,$80,$B7,$9E
     .byte $13,$79,$C4,$9E,$40,$16,  0
 
-byte_169CA7:
+StkyMachine:
     .byte $67,  0,$32,$1E,$51,$80,$B7,$9E
     .byte $13,$79,$C4,$9E,$40,$16,$C0,$1E
     .byte   0
 
-byte_169CB8:
+Fight_80:
     .byte $68,$77,$A0,$AB,$9C
 
-byte_169CBD:
+Fight_62:
     .byte $68,  4,$51,$80,$B7,$9E,$13,$40
     .byte $1E,  0
 
-byte_169CC7:
+UseRope:
     .byte $67,  0,$31,$28,$51,$80,$B7,$9E
     .byte $12,$40,$1B,  0
 
-byte_169CD3:
+LifeUpAlpha:
     .byte $67,  0,$20,  8,$62,$1E,$51,$80
     .byte $B7,$9E,$40,  0,  0
 
-byte_169CE0:
+LifeUpBeta:
     .byte $67,  0,$20,  9,$62,$50,$A0,$D9
     .byte $9C
 
-byte_169CE9:
+LifeUpGamma:
     .byte $67,  0,$20, $A,$51,$80,$B7,$9E
     .byte $40,  5,  0
 
-byte_169CF4:
+LifeUpPi:
     .byte $67,  0,$20, $B,$62,$32,$53,$B4
     .byte $80,  4,$9D,$7C,  4,$9D,$40,  0
     .byte $56,  0,  0
 
-byte_169D07:
+LifeUpOmega:
     .byte $67,  0,$20, $C,$53,$B4,$80,$15
     .byte $9D,$7C,$15,$9D,$40,  5,$56,  0
     .byte   0
 
-byte_169D18:
+Fight_2E:
     .byte $51,$68,$3F,$A0,$ED,$9C
 
-byte_169D1E:
+PSIStone:
     .byte $67,  0,$32,$49,$62,$14,$54,$80
     .byte $B7,$9E,$40,  1,$C1,$49,  0
 
-byte_169D2D:
+OrangeJuice:
     .byte $67,  0,$31,$3C,$62, $A,$A0,$D9
     .byte $9C
 
-byte_169D36:
+FrenchFries:
     .byte $67,  0,$31,$3D,$62,$14,$A0,$D9
     .byte $9C
 
-byte_169D3F:
+MagicHerb:
     .byte $67,  0,$31,$3E,$62,$1E,$A0,$D9
     .byte $9C
 
-byte_169D48:
+SportsDrink:
     .byte $67,  0,$31,$40,$62,$64,$A0,$D9
     .byte $9C
 
-byte_169D51:
+BigBag:
     .byte $67,  0,$33,  1,$90,$43,$9D,$C2
     .byte   1,  0
 
-byte_169D5B:
+Hamburger:
     .byte $67,  0,$31,$3F,$62,$3C,$A0,$D9
     .byte $9C
 
-byte_169D64:
+LifeUpCream:
     .byte $67,  0,$31,$41,$A0,$ED,$9C
 
-byte_169D6B:
+Bread:
     .byte $67,  0,$31,$47,$A0,$3A,$9D
 
-byte_169D72:
+HealingAlpha:
     .byte $67,  0,$20,$10,$51,$80,$B7,$9E
     .byte $40,$1F,  0
 
-byte_169D7D:
+Antidote:
     .byte $67,  0,$31,$43,$A0,$76,$9D
 
-byte_169D84:
+NobleSeed:
     .byte $67,  0,$31,$48,$51,$80,$B7,$9E
     .byte $40,$23,  0
 
-byte_169D8F:
+HealingBeta:
     .byte $67,  0,$20,$11,$51,$80,$B7,$9E
     .byte $40,$21,  0
 
-byte_169D9A:
+HealingPi:
     .byte $67,  0,$20,$13,$51,$80,$B7,$9E
     .byte $40,$20,  0
 
-byte_169DA5:
+SuprHealing:
     .byte $67,  0,$20,$14,$51,$40,$25,  0
 
-byte_169DAD:
+AsthmaSpray:
     .byte $67,  0,$30,$42,$51,$80,$B7,$9E
     .byte $40,$22,  0
 
-byte_169DB8:
+HealingGamma:
     .byte $67,  0,$20,$12,$51,$80,$B7,$9E
     .byte $40,$26,  0
 
-byte_169DC3:
+PSIBlock:
     .byte $67, $D,$20,$1F,$51,$80,$B7,$9E
     .byte $78,$D1,$9D,$78,$C4,$9E,$13,$40
     .byte $17,  0
 
-byte_169DD5:
+PowerShield:
     .byte $67,  0,$20,$17,$51,$80,$B7,$9E
     .byte $40,$1A,  0
 
-byte_169DE0:
+PSIShieldAlpha:
     .byte $67,  0,$20,$15,$51,$80,$B7,$9E
     .byte $40,$19,  0
 
-byte_169DEB:
+PSIShieldBeta:
     .byte $67,  0,$20,$16,$53,$B4,$80,$F6
     .byte $9D,$40,$19,$56,  0,  0
 
-byte_169DF9:
+Fight_48:
     .byte $55,$68,$43,$78, $C,$9E,$7B, $C
     .byte $9E,$B4,$86,  9,$9E,$69,$11,$11
     .byte $56,  0,  0,$68,$44,  0
 
-byte_169E0F:
+Fight_53:
     .byte $68,$59,$54,$40,$18,  0
 
-byte_169E15:
+GuardScript:
     .byte $68,$5B,$54,$40,$18,  0
 
-byte_169E1B:
+P4thDSlip:
     .byte $67, $C,$20,$26,$7B,$2B,$9E,$55
     .byte $B4,$86,$28,$9E,$16,$56,  0,  0
     .byte $68,$90,  0
 
-byte_169E2E:
+ShieldOff:
     .byte $67,  0,$20,$1E,$51,$80,$B7,$9E
     .byte $40,$24,  0
 
-byte_169E39:
+Fight_46:
     .byte $69,$13,$68,$45,  0
 
-byte_169E3E:
+Fight_4C:
     .byte $68,$30,  0
 
-byte_169E41:
+Fight_4F:
     .byte $68,$34,  0
 
-byte_169E44:
+Fight_50:
     .byte $68,$57,  0
 
-byte_169E47:
+WordsOLove:
     .byte $67,  0,$30,$1C,$68,$72,  0
 
-byte_169E4E:
+SwearWords:
     .byte $67,  0,$30,$1D,$68,$73,  0
 
-byte_169E55:
+Fight_19:
     .byte $69,  8,$68,$1E,$90,$51,$9A,$40
     .byte  $E,  0
 
-byte_169E5F:
+Fight_88:
     .byte $69,  8,$68,$1E,$90, $A,$9A,$40
     .byte  $E,  0
 
-byte_169E69:
+Fight_1A:
     .byte $69,  5,$68,$1F,$62,$1E,$90,$D3
     .byte $99,$40, $E,  0
 
-byte_169E75:
+PSIMagnet:
     .byte $67, $D,$20,$1D,$51,$80,$B7,$9E
     .byte $78,$83,$9E,$78,$C4,$9E,$13,$40
     .byte $27,  0
 
-byte_169E87:
+Fight_49:
     .byte $14,  0
 
-byte_169E89:
+Fight_4A:
     .byte $15,  0
 
-byte_169E8B:
+Fight_4B:
     .byte $51,$80, $E,$99,$73, $E,$99,$69
     .byte  $B,$40,$28,  0
 
-byte_169E97:
+Fight_51:
     .byte $68,$58,$54,$69,$11,$11,$51,$62
     .byte $46,$40, $D,  0
 
-byte_169EA3:
+Fight_54:
     .byte $66,  0,$68,$66,$54,$40,$2A,  0
 
-byte_169EAB:
+Fight_5E:
     .byte $10
     .byte $68,  3
     .byte 0
 
-byte_169EAF:
+Fight_6F:
     .byte $51,$80,$B7,$9E,$65,  0,  0
 
 EndScript:
@@ -3592,28 +3594,47 @@ BattleAction:
     .byte 4, $A0, $89, $40, $AA, $A8, $A2, 2, 0, $20, 2, 1
     .byte 1, $89, $58, $28, $AA, $15, $54, $A5, $40, $80, $44
 
-byte_169EE9:
-    .byte 0
+.export SoundEffects
+SoundEffects:
+    sound_effect 0,   0,   0
+    sound_effect 1,  $A,   0
+    sound_effect 0,   1,   0
+    sound_effect 0,   5,   0
+    sound_effect 0,   3, $3C
+    sound_effect 0,   4, $3C
+    sound_effect 1,   2, $3C
+    sound_effect 2,   1, $3C
+    sound_effect 0,   2, $14
+    sound_effect 1,   3,   0
+    sound_effect 1,   7,   0
+    sound_effect 1,  $C,   0
+    sound_effect 3,   1, $B4
+    sound_effect 3,   2, $50
+    sound_effect 1,   5,   0
+    sound_effect 1,   1,   0
+    sound_effect 1,   4,   0
+    sound_effect 0,   8,   0
+    sound_effect 3,   2,   0
+    sound_effect 1,  $F,   0
+    sound_effect 3,   3, $8C
+    sound_effect 2,   3, $3C
 
-byte_169EEA:
-    .byte 0
+.export ScreenEffects1, ScreenEffects2, ScreenEffects3
+ScreenEffects1:
+    .byte 5, 8, 2, 3, $FE, $FD, $FE, 3, 2, $FD
 
-byte_169EEB:
-    .byte 0, 0, 1, $A, 0, 0, 0, 1, 0, 0, 0, 5, 0, 0, 0, 3
-    .byte $3C, 0, 0, 4, $3C, 0, 1, 2, $3C, 0, 2, 1, $3C, 0
-    .byte 0, 2, $14, 0, 1, 3, 0, 0, 1, 7, 0, 0, 1, $C, 0, 0
-    .byte 3, 1, $B4, 0, 3, 2, $50, 0, 1, 5, 0, 0, 1, 1, 0
-    .byte 0, 1, 4, 0, 0, 0, 8, 0, 0, 3, 2, 0, 0, 1, $F, 0
-    .byte 0, 3, 3, $8C, 0, 2, 3, $3C, 0, 5, 8, 2, 3, $FE, $FD
-    .byte $FE, 3, 2, $FD, 3, $14, 0, $FE, 0, $FF, 0, 0, 0
-    .byte 1, 0, 2, 0, 2, 0, 1, 0, 0, 0, $FF, 0, $FE, 3, 8
-    .byte 2, 6, $FE, $FA, $FE, 6, 2, $FA
+ScreenEffects2:
+    .byte 3, $14, 0, $FE, 0, $FF, 0, 0, 0
+    .byte 1, 0, 2, 0, 2, 0, 1, 0, 0, 0, $FF, 0, $FE
 
-.export stru_169F6B, byte_169F73, byte_169F7B, byte_169F83, stru_169F8B
+ScreenEffects3:
+    .byte 3, 8, 2, 6, $FE, $FA, $FE, 6, 2, $FA
+
+.export stru_169F6B, BattleMenu1ID, byte_169F7B, byte_169F83, SelectEnemyCursor
 stru_169F6B:
-    .byte 2, 4, 9, 2, $C0, $5E, $C, $13
+    cursor_short 2, 4, 9, 2, $C0, $5E, $C, $13
 
-byte_169F73:
+BattleMenu1ID:
     .byte 1, 2, 3, 4, 5, 6, 7, 0
 
 byte_169F7B:
@@ -3622,19 +3643,19 @@ byte_169F7B:
 byte_169F83:
     .byte 1, 0, 0, 0, 0, 0, 0, 0
 
-.export stru_169F95, stru_169F9D, stru_169FA7
-stru_169F8B:
-    .byte 1, 4, 0, 2, $C0, $5E, $10, $13, $91, 5
+.export stru_169F95, stru_169F9D, ListCursor
+SelectEnemyCursor:
+    cursor 1, 4, 0, 2, $C0, $5E, $10, $13, $591
 stru_169F95:
-    .byte 2, 4, $C, 2, $C0, $5E, 6, $13
+    cursor_short 2, 4, $C, 2, $C0, $5E, 6, $13
 stru_169F9D:
-    .byte 2, 4, $C, 2, $C8, $5E, 6, $13, $80, 5
-stru_169FA7:
+    cursor 2, 4, $C, 2, $C8, $5E, 6, $13, $580
+ListCursor:
     .byte 1, 1, 0, 0, $C5, $5E, 7, $11, $B1, $9F, 1
 
-.export byte_169FB2, byte_169FB4
-byte_169FB2:
+.export Columns, Rows
+Columns:
     .byte 7, $13
-byte_169FB4:
+Rows:
     .byte $12, $14, $16, $18
 ; end of 'BANK16'

@@ -365,7 +365,7 @@ sMimmieNotMinnie:
 
 sHouseEmergency:
     .byte "@"
-    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name      ; Boy1Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name
     .byte ".", 1
     .byte " Are you alright?" , 1, 3
 
@@ -398,7 +398,7 @@ sNextLevel:
 sReturnOffer:
     .byte "@When you want to", 1
     .byte " eat "
-    tile_pointer CurrentGame+GAME_SAVE::Food        ; FoodName
+    tile_pointer CurrentGame+GAME_SAVE::Food
     .byte 1
     .byte " again, just come", 1
     .byte " back here.", 1, 0
@@ -441,7 +441,7 @@ sPoltergeist:
     .byte " lightly.", 1, 3
 
     .byte "@"
-    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name      ; Boy1Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name
     .byte ", go", 1
     .byte " for it!!", 1, 3
 
@@ -476,7 +476,7 @@ sTransfer:
 
     .byte "@the balance is", 1
     .byte " $"
-    convert CurrentGame + PURE_SAVE::Account, 3, 0              ; TILEPACK_23 <$23, $7412, 3, 0>
+    convert CurrentGame + PURE_SAVE::Account, 3, 0
     .byte ".", 1, 3
 
     .byte "@Spend your money", 1
@@ -723,7 +723,7 @@ sPrize:
 
     .byte "@Here, I will give", 1
     .byte " "
-    tile_pointer $670A             ; TILEPACK_OFF <$21, $670A> ; command to load packed tiles at the specified offset
+    tile_pointer $670A
     .byte " a prize of", 1
     .byte " "
     convert Price, 2, 0
@@ -761,7 +761,7 @@ sHero:
 sRunKid:
     .byte "@Why if it's not", 1
     .byte " our hero "
-    tile_pointer $670A                 ; TILEPACK_OFF <$21, $670A> ; command to load packed tiles at the specified offset
+    tile_pointer $670A
     .byte ",", 1, 3
 
     .byte "@You have tiger", 1
@@ -842,7 +842,7 @@ sMindVoice:
     .byte "@Wait.. A voice is", 1
     .byte " speaking into", 1
     .byte " "
-    tile_pointer $670A             ; TILEPACK_OFF <$21, $670A> ; command to load packed tiles at the specified offset
+    tile_pointer $670A
     .byte "'s mind.", 1, 0
 
 sGood:
@@ -1114,7 +1114,7 @@ sFixedSpoon:
     .byte " right away.", 1, 3
 
     .byte "@("
-    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name      ; Boy1Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name
     .byte " fixed", 1
     .byte " the spoon with", 1
     .byte " PSI-Power.)", 1, 3
@@ -1163,12 +1163,12 @@ sSuspicious:
 sFavoriteFood:
     .byte "@Yes, it's ", 1
     .byte " "
-    tile_pointer CurrentGame+GAME_SAVE::Food        ; FoodName
+    tile_pointer CurrentGame+GAME_SAVE::Food
     .byte ".", 1, 3
 
     .byte "@I knew you liked", 1
     .byte " "
-    tile_pointer CurrentGame+GAME_SAVE::Food        ; FoodName
+    tile_pointer CurrentGame+GAME_SAVE::Food
     .byte ". Do you", 1
     .byte " want some?", 1, 0
 
@@ -1951,14 +1951,14 @@ sWeakling:
     .byte "@I was picking", 1
     .byte " on that weakling,", 1
     .byte " "
-    tile_pointer CurrentGame+PURE_SAVE::Boy2+CHARACTER::Name     ; Boy2Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy2+CHARACTER::Name
     .byte ".", 1, 3
 
     .byte "@But he got away.", 1, 0
 
 sHeysWeakling:
     .byte "@Hey, "
-    tile_pointer CurrentGame+PURE_SAVE::Boy2+CHARACTER::Name     ; Boy2Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy2+CHARACTER::Name
     .byte "!", 1
     .byte " You weakling!", 1, 0
 
@@ -1966,7 +1966,7 @@ sPickingWeakling:
     .byte "@We've been picking", 1
     .byte " on that weakling", 1
     .byte " "
-    tile_pointer CurrentGame+PURE_SAVE::Boy2+CHARACTER::Name     ; Boy2Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy2+CHARACTER::Name
     .byte ", right?", 1, 0
 
 sJustTeasing:
@@ -1974,7 +1974,7 @@ sJustTeasing:
 
 sStealExplosives:
     .byte "@I saw "
-    tile_pointer CurrentGame+PURE_SAVE::Boy2+CHARACTER::Name     ; Boy2Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy2+CHARACTER::Name
     .byte 1
     .byte " steal explosives!!", 1, 3
 
@@ -2158,7 +2158,7 @@ sImComingOut:
 
 sRocketsDream:
     .byte "@Hi, I am "
-    tile_pointer CurrentGame+PURE_SAVE::Boy2+CHARACTER::Name     ; Boy2Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy2+CHARACTER::Name
     .byte ".", 1
     .byte " I wanted to fly", 1
     .byte " the Bottle Rockets", 1, 3
@@ -2186,14 +2186,14 @@ sComeToLab:
 
 sFire:
     .byte "@("
-    tile_pointer CurrentGame+PURE_SAVE::Boy2+CHARACTER::Name     ; Boy2Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy2+CHARACTER::Name
     .byte ") Aim on", 1
     .byte " the rock...", 1
     .byte " OK! 1-2-3 Fire!!", 1, 0
 
 sStayHere:
     .byte "@("
-    tile_pointer CurrentGame+PURE_SAVE::Boy2+CHARACTER::Name     ; Boy2Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy2+CHARACTER::Name
     .byte ") Now it is", 1
     .byte " the weakling's turn.", 1, 3
 
@@ -2273,7 +2273,7 @@ sHatReward:
 
     .byte "@the one that", 1
     .byte " "
-    tile_pointer CurrentGame+PURE_SAVE::Girl+CHARACTER::Name        ; GirlName
+    tile_pointer CurrentGame+PURE_SAVE::Girl+CHARACTER::Name
     .byte " of Snowman", 1
     .byte " lost.", 1, 3
 
@@ -2364,7 +2364,7 @@ sSpeeders:
 sWithoutPaying:
     .byte "@She ate", 1
     .byte " 5 "
-    tile_pointer CurrentGame+GAME_SAVE::Food        ; FoodName
+    tile_pointer CurrentGame+GAME_SAVE::Food
     .byte "s,", 1, 3
 
     .byte "@then ran away", 1
@@ -2650,7 +2650,7 @@ sLifeOutdoors:
 
 sYourRocket:
     .byte "@("
-    tile_pointer CurrentGame+PURE_SAVE::Boy2+CHARACTER::Name     ; Boy2Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy2+CHARACTER::Name
     .byte ") Your", 1
     .byte " Bottle Rocket and", 1
     .byte " my...", 1, 3
@@ -2672,7 +2672,7 @@ sMotherShip:
     .byte " girl from Snowman?", 1, 3
 
     .byte "@"
-    tile_pointer CurrentGame+PURE_SAVE::Girl+CHARACTER::Name        ; GirlName
+    tile_pointer CurrentGame+PURE_SAVE::Girl+CHARACTER::Name
     .byte ", I believe", 1
     .byte " it was...", 1, 3
 
@@ -2713,7 +2713,7 @@ sHouseKey:
 sRosemary:
     .byte "@Hi there, my name", 1
     .byte " is "
-    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name      ; Boy1Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name
     .byte ".", 1, 3
 
     .byte "@It used to be", 1
@@ -2722,7 +2722,7 @@ sRosemary:
 
 sMyBoy:
     .byte "@"
-    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name      ; Boy1Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name
     .byte "!", 1
     .byte " Get your grubby", 1
     .byte " little...", 1, 3
@@ -2739,7 +2739,7 @@ sRenamed:
 
     .byte "@I've renamed my", 1
     .byte " son "
-    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name      ; Boy1Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name
     .byte ",", 1
     .byte " after you.", 1, 0
 
@@ -2801,7 +2801,7 @@ sLifeIsGame:
 
 sDontLate:
     .byte "@"
-    tile_pointer CurrentGame+PURE_SAVE::Girl+CHARACTER::Name        ; GirlName
+    tile_pointer CurrentGame+PURE_SAVE::Girl+CHARACTER::Name
     .byte " hasn't been", 1
     .byte " to school lately,", 1
     .byte " I'm so worried.", 1, 0
@@ -2809,7 +2809,7 @@ sDontLate:
 sConcerned:
     .byte "@I'm concerned", 1
     .byte " about "
-    tile_pointer CurrentGame+PURE_SAVE::Girl+CHARACTER::Name        ; GirlName
+    tile_pointer CurrentGame+PURE_SAVE::Girl+CHARACTER::Name
     .byte ".", 1, 3
 
     .byte "@I am so worried I", 1
@@ -2839,7 +2839,7 @@ sCooperation:
     .byte "@I appreciate your", 1
     .byte " kindness to", 1
     .byte " "
-    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name      ; Boy1Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name
     .byte ".", 1, 3
 
     .byte "@I am the boy's", 1
@@ -2905,7 +2905,7 @@ sLikeDream:
 
 sStayWithMe:
     .byte "@"
-    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name      ; Boy1Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name
     .byte "....", 1
     .byte " Please stay with", 1
     .byte " me.", 1, 0
@@ -2927,14 +2927,14 @@ sIsntTime:
 
 sDoYouLoveMe:
     .byte "@"
-    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name      ; Boy1Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name
     .byte "?...", 1
     .byte " Do you love me?", 1, 0
 
 sWhatsMatter:
     .byte "@What's the matter,", 1
     .byte " "
-    tile_pointer CurrentGame+PURE_SAVE::Boy2+CHARACTER::Name     ; Boy2Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy2+CHARACTER::Name
     .byte "?", 1, 0
 
 sDragonSleeps:
@@ -2960,7 +2960,7 @@ sDragonAwoke:
 sMyDaughter:
     .byte "@My daughter,", 1
     .byte " "
-    tile_pointer CurrentGame+PURE_SAVE::Girl+CHARACTER::Name        ; GirlName
+    tile_pointer CurrentGame+PURE_SAVE::Girl+CHARACTER::Name
     .byte " has never", 1
     .byte " been a brave girl,", 1, 3
 
@@ -3330,12 +3330,12 @@ sSecret:
 sBlaBlaBoss:
     .byte "@The Bla-Bla Boss,", 1
     .byte " "
-    tile_pointer CurrentGame+PURE_SAVE::Boy3+CHARACTER::Name        ; Boy3Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy3+CHARACTER::Name
     .byte "'s real name", 1
     .byte " is...", 1, 3
 
     .byte " "
-    tile_pointer CurrentGame+PURE_SAVE::Boy3+CHARACTER::Name        ; Boy3Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy3+CHARACTER::Name
     .byte " Junior, the", 1
     .byte " 3rd.", 1
     .byte " Ha.", 1, 3
@@ -3404,7 +3404,7 @@ sNoMoney:
 
 sParentsKilled:
     .byte "@"
-    tile_pointer CurrentGame+PURE_SAVE::Boy3+CHARACTER::Name        ; Boy3Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy3+CHARACTER::Name
     .byte "'s parents", 1
     .byte " were killed by", 1
     .byte " mountain creatures.", 1, 3
@@ -3414,7 +3414,7 @@ sParentsKilled:
 
 sHeWas:
     .byte "@I wish "
-    tile_pointer CurrentGame+PURE_SAVE::Boy3+CHARACTER::Name        ; Boy3Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy3+CHARACTER::Name
     .byte 1
     .byte " would go back to", 1
     .byte " the way he was.", 1, 0
@@ -3432,7 +3432,7 @@ sYoureShy:
 
 sSawName:
     .byte "@"
-    tile_pointer CurrentGame+PURE_SAVE::Girl+CHARACTER::Name        ; GirlName
+    tile_pointer CurrentGame+PURE_SAVE::Girl+CHARACTER::Name
     .byte " girl!!", 1
     .byte " Well, I saw your", 1
     .byte " name on your hat.", 1, 0
@@ -3462,7 +3462,7 @@ sVengeance:
 
     .byte "@Your name is", 1
     .byte " "
-    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name      ; Boy1Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name
     .byte "?", 1, 3
 
     .byte "@Let's call it a", 1
@@ -3475,7 +3475,7 @@ sVengeance:
 
 sAcceptHelp:
     .byte "@"
-    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name      ; Boy1Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name
     .byte ", please", 1
     .byte " accept my help.", 1, 0
 
@@ -3535,7 +3535,7 @@ sBeatThem:
 
 sHurryUp:
     .byte "@("
-    tile_pointer CurrentGame+PURE_SAVE::Boy3+CHARACTER::Name        ; Boy3Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy3+CHARACTER::Name
     .byte ")", 1
     .byte " Why are you two", 1
     .byte " blushing?", 1, 3
@@ -3551,12 +3551,12 @@ sDressingRoom:
 
 sToldName:
     .byte "@I am "
-    tile_pointer CurrentGame+PURE_SAVE::Boy2+CHARACTER::Name     ; Boy2Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy2+CHARACTER::Name
     .byte "'s", 1
     .byte " father.", 1, 3
 
     .byte "@I think "
-    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name      ; Boy1Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name
     .byte "'s", 1
     .byte " Dad asked,", 1, 3
 
@@ -3568,7 +3568,7 @@ sLookAfter:
 
     .byte "@Please look after", 1
     .byte " "
-    tile_pointer CurrentGame+PURE_SAVE::Boy2+CHARACTER::Name     ; Boy2Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy2+CHARACTER::Name
     .byte ". He is a", 1
     .byte " real weakling...", 1, 0
 
@@ -3621,7 +3621,7 @@ sGetHurt:
 
 sFightTime:
     .byte "@Hey! "
-    tile_pointer CurrentGame+PURE_SAVE::Boy2+CHARACTER::Name     ; Boy2Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy2+CHARACTER::Name
     .byte "!...", 1, 3
 
     .byte "@Now is the time", 1
@@ -3666,9 +3666,9 @@ sHeavyBags:
 
 sWorn:
     .byte "@"
-    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name      ; Boy1Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name
     .byte "! "
-    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name      ; Boy1Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name
     .byte "!..", 1, 3
 
     .byte "@You seem to be worn", 1
@@ -3680,26 +3680,26 @@ sFighting:
     .byte " regained...", 1, 3
 
     .byte "@"
-    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name      ; Boy1Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name
     .byte " returned", 1
     .byte " once more to the", 1
     .byte " fighting scene.", 1, 3
 
     .byte "@Do your best,", 1
     .byte " "
-    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name      ; Boy1Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name
     .byte "!", 1, 0
 
 sRealized:
     .byte "@"
-    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name      ; Boy1Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name
     .byte " realized", 1
     .byte " that it had only", 1
     .byte " been a bad dream.", 1, 3
 
     .byte "@Do your best,", 1
     .byte " "
-    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name      ; Boy1Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name
     .byte "!", 1, 0
 
 sToWhom:
@@ -3717,20 +3717,20 @@ sRestGoods:
 
 sCantGiveGoods:
     .byte "@Are you "
-    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name      ; Boy1Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name
     .byte "'s", 1
     .byte " friend?", 1, 3
 
     .byte "@I see...", 1
     .byte " But I can't give", 1
     .byte " you "
-    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name      ; Boy1Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name
     .byte "'s Goods.", 1, 0
 
 sWeaklingAway:
     .byte "@Did that weakling", 1
     .byte " "
-    tile_pointer CurrentGame+PURE_SAVE::Boy2+CHARACTER::Name     ; Boy2Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy2+CHARACTER::Name
     .byte " run away", 1
     .byte " from you?", 1, 0
 
@@ -3811,7 +3811,7 @@ sSwitch:
 sIllCook:
     .byte "@I'll cook", 1
     .byte " "
-    tile_pointer CurrentGame+GAME_SAVE::Food        ; FoodName
+    tile_pointer CurrentGame+GAME_SAVE::Food
     .byte ".", 1, 3
 
     .byte "@Eat your dinner,", 1
@@ -4132,7 +4132,7 @@ sHorrible:
 sFainted:
     .byte "@Oh! no!", 1
     .byte " "
-    tile_pointer CurrentGame+PURE_SAVE::Girl+CHARACTER::Name        ; GirlName
+    tile_pointer CurrentGame+PURE_SAVE::Girl+CHARACTER::Name
     .byte " has fainted!", 1, 0
 
 sGratitude:
@@ -4149,7 +4149,7 @@ sIAmLaura:
 sStopAndRest:
     .byte "@What a surprise!", 1
     .byte " Our hero "
-    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name      ; Boy1Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name
     .byte 1
     .byte " returning alone!", 1, 3
 
@@ -4316,7 +4316,7 @@ sQuietMonkey:
 
 sDish:
     .byte "@Oh "
-    tile_pointer CurrentGame+PURE_SAVE::Girl+CHARACTER::Name        ; GirlName
+    tile_pointer CurrentGame+PURE_SAVE::Girl+CHARACTER::Name
     .byte " baby,", 1
     .byte " Hubba hubba,", 1
     .byte " what a dish.", 1, 0
@@ -4352,7 +4352,7 @@ sHelpMe:
 sTelephone:
     .byte "@Telephone!", 1
     .byte " "
-    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name      ; Boy1Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name
     .byte ", please get", 1
     .byte " it!", 1, 0
 
@@ -4390,7 +4390,7 @@ sHauntingMelody:
 sBeFound:
     .byte "@I believe that", 1
     .byte " "
-    tile_pointer CurrentGame+PURE_SAVE::Girl+CHARACTER::Name        ; GirlName
+    tile_pointer CurrentGame+PURE_SAVE::Girl+CHARACTER::Name
     .byte " may still", 1
     .byte " be found somewhere.", 1, 0
 
@@ -4425,7 +4425,7 @@ sCertificate:
     .byte "@", $A6, "Certificate", $A6, 1, 3
 
     .byte "@"
-    tile_pointer CurrentGame + PURE_SAVE::field_20      ; $7420
+    tile_pointer CurrentGame + PURE_SAVE::field_20
     .byte 1, 3
 
     .byte "@We acknowledge the", 1
@@ -4500,7 +4500,7 @@ sLoveMusic:
 
 sDelicious:
     .byte "@I think "
-    tile_pointer CurrentGame+GAME_SAVE::Food        ; FoodName
+    tile_pointer CurrentGame+GAME_SAVE::Food
     .byte 1
     .byte " is delicious, too.", 1, 0
 
@@ -4570,7 +4570,7 @@ sWaiter:
 sIWantToTry:
     .byte "@I want to try", 1
     .byte " "
-    tile_pointer CurrentGame+GAME_SAVE::Food        ; FoodName
+    tile_pointer CurrentGame+GAME_SAVE::Food
     .byte ".", 1, 0
 
 sStopZombies:
@@ -4676,7 +4676,7 @@ sReceptionist:
 
 sAsthma:
     .byte "@Hey "
-    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name      ; Boy1Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name
     .byte ", how's", 1
     .byte " your asthma?", 1, 3
 
@@ -4953,7 +4953,7 @@ sClairvoyant:
 
 sMansion:
     .byte "@"
-    tile_pointer CurrentGame+PURE_SAVE::Girl+CHARACTER::Name        ; GirlName
+    tile_pointer CurrentGame+PURE_SAVE::Girl+CHARACTER::Name
     .byte "'s house is", 1
     .byte " a church, not a", 1
     .byte " chateau.", 1, 3
@@ -4995,7 +4995,7 @@ sSmallWounds:
 
 sGrowUp:
     .byte "@I think "
-    tile_pointer CurrentGame+PURE_SAVE::Boy2+CHARACTER::Name     ; Boy2Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy2+CHARACTER::Name
     .byte 1
     .byte " will grow up and", 1
     .byte " be a computer", 1
@@ -5047,7 +5047,7 @@ sStrongMan:
 sPinkie:
     .byte "@You are no match", 1
     .byte " for "
-    tile_pointer CurrentGame+PURE_SAVE::Boy3+CHARACTER::Name        ; Boy3Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy3+CHARACTER::Name
     .byte ".", 1, 3
 
     .byte "@He could beat you up", 1
@@ -5461,7 +5461,7 @@ sRobot:
 
 sPresence:
     .byte "@Feeling "
-    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name      ; Boy1Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name
     .byte "'s", 1
     .byte " presence, the robot", 1
     .byte " came back to life.", 1, 0
@@ -5492,7 +5492,7 @@ sMyLittle:
     .byte "@Thank you for", 1
     .byte " finding her,", 1
     .byte " "
-    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name      ; Boy1Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name
     .byte "!", 1, 3
 
     .byte "@By the way, the", 1
@@ -5501,7 +5501,7 @@ sMyLittle:
 
     .byte "@Pippi, go with", 1
     .byte " "
-    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name      ; Boy1Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name
     .byte ", and help", 1
     .byte " straighten this out.", 1, 0
 
@@ -5696,7 +5696,7 @@ sNotEnoughCash:
 
 sGoFirst:
     .byte "@"
-    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name      ; Boy1Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name
     .byte ", please go", 1
     .byte " first. I am so", 1
     .byte " afraid.", 1, 0
@@ -5710,13 +5710,13 @@ sBrokenLock:
 
 sHowAreYou:
     .byte "@Hi! "
-    tile_pointer CurrentGame+PURE_SAVE::Boy3+CHARACTER::Name        ; Boy3Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy3+CHARACTER::Name
     .byte "!", 1
     .byte " How are you doin'?", 1, 0
 
 sLet:
     .byte "@Let "
-    tile_pointer CurrentGame+PURE_SAVE::Boy3+CHARACTER::Name        ; Boy3Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy3+CHARACTER::Name
     .byte " come", 1
     .byte " back fast!", 1, 0
 
@@ -5733,7 +5733,7 @@ sNoICant:
 
 sFlyingMan:
     .byte "@"
-    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name      ; Boy1Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name
     .byte "'s faithful", 1
     .byte " and loyal servant,", 1, 3
 
@@ -5743,7 +5743,7 @@ sFlyingMan:
 
 sStrongAlly:
     .byte "@"
-    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name      ; Boy1Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name
     .byte "'s strong", 1
     .byte " and powerful ally,", 1, 3
 
@@ -5753,7 +5753,7 @@ sStrongAlly:
 
 sBenevolent:
     .byte "@"
-    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name      ; Boy1Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name
     .byte "'s", 1
     .byte " benevolent buddy,", 1, 3
 
@@ -5763,7 +5763,7 @@ sBenevolent:
 
 sSorrow:
     .byte "@To "
-    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name      ; Boy1Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name
     .byte "'s great", 1
     .byte " sorrow,", 1, 3
 
@@ -5773,7 +5773,7 @@ sSorrow:
 
 sHorror:
     .byte "@To "
-    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name      ; Boy1Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name
     .byte "'s horror", 1
     .byte " and dismay,", 1, 3
 
@@ -5916,7 +5916,7 @@ sSuddenly:
 
 sDaddy:
     .byte "@("
-    tile_pointer CurrentGame+PURE_SAVE::Girl+CHARACTER::Name        ; GirlName
+    tile_pointer CurrentGame+PURE_SAVE::Girl+CHARACTER::Name
     .byte ")", 1
     .byte " Daddy...", 1
     .byte " Good-bye...", 1, 3
@@ -5946,7 +5946,7 @@ sQueenVoice:
     .byte " Maria.", 1, 3
 
     .byte "@"
-    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name      ; Boy1Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name
     .byte ", use my", 1
     .byte " last power!", 1, 3
 
@@ -6141,7 +6141,7 @@ sTwinkle:
 
 sHouse:
     .byte "@"
-    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name      ; Boy1Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name
     .byte "'s house", 1, 0
 
 sWestNorthSign:
@@ -6246,7 +6246,7 @@ sRefreshSoften:
 
 sLikeBeAlone:
     .byte "@("
-    tile_pointer CurrentGame+PURE_SAVE::Boy3+CHARACTER::Name        ; Boy3Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy3+CHARACTER::Name
     .byte ") I'm", 1
     .byte " sure you two would", 1
     .byte " like to be alone.", 1, 3
@@ -6261,7 +6261,7 @@ sOhShoot:
 
 sLovedYou:
     .byte "@Oh "
-    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name      ; Boy1Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name
     .byte ", I've", 1
     .byte " loved you for such", 1
     .byte " a long time.", 1, 3
@@ -6272,7 +6272,7 @@ sLovedYou:
 
 sLoudNoises:
     .byte "@("
-    tile_pointer CurrentGame+PURE_SAVE::Boy3+CHARACTER::Name        ; Boy3Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy3+CHARACTER::Name
     .byte ")", 1
     .byte " Sorry to bother", 1
     .byte " you two...", 1, 3
@@ -6282,7 +6282,7 @@ sLoudNoises:
 
 sNoises:
     .byte "@("
-    tile_pointer CurrentGame+PURE_SAVE::Boy3+CHARACTER::Name        ; Boy3Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy3+CHARACTER::Name
     .byte ")", 1
     .byte " Those noises", 1
     .byte " coming from outside,", 1, 3
@@ -6303,7 +6303,7 @@ sAbleFixIt:
 
 sFired:
     .byte "@But "
-    tile_pointer CurrentGame+PURE_SAVE::Boy2+CHARACTER::Name     ; Boy2Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy2+CHARACTER::Name
     .byte " fired", 1
     .byte " it right up.", 1, 0
 
@@ -6313,7 +6313,7 @@ sIllSend:
     tile_pointer byte_6D04
     .byte " to", 1
     .byte " "
-    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name      ; Boy1Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name
     .byte "'s house.", 1, 3
 
     .byte "@Is there anything", 1
@@ -6430,7 +6430,7 @@ sYouSaidYes:
 
 sBreath:
     .byte "@"
-    tile_pointer CurrentGame+PURE_SAVE::Boy3+CHARACTER::Name        ; Boy3Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy3+CHARACTER::Name
     .byte " seems to be", 1
     .byte " out of breath.", 1, 0
 
@@ -6466,7 +6466,7 @@ sClosetFull:
 sMirage:
     .byte "@After telling the", 1
     .byte " story to "
-    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name      ; Boy1Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name
     .byte ",", 1, 3
 
     .byte "@with a rush of", 1
@@ -6488,15 +6488,15 @@ sBraveChildren:
     .byte " has called you.", 1, 3
 
     .byte "@"
-    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name      ; Boy1Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name
     .byte ", "
-    tile_pointer CurrentGame+PURE_SAVE::Girl+CHARACTER::Name        ; GirlName
+    tile_pointer CurrentGame+PURE_SAVE::Girl+CHARACTER::Name
     .byte ",", 1
     .byte " "
-    tile_pointer CurrentGame+PURE_SAVE::Boy2+CHARACTER::Name     ; Boy2Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy2+CHARACTER::Name
     .byte ", and", 1
     .byte " "
-    tile_pointer CurrentGame+PURE_SAVE::Boy3+CHARACTER::Name        ; Boy3Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy3+CHARACTER::Name
     .byte "!", 1, 3
 
     .byte "@All of the brave", 1
@@ -6867,14 +6867,14 @@ sSpaces:
 
 sReunited:
     .byte "At the summit of Mt. Itoi,", 1
-    tile_pointer CurrentGame+PURE_SAVE::Girl+CHARACTER::Name        ; GirlName
+    tile_pointer CurrentGame+PURE_SAVE::Girl+CHARACTER::Name
     .byte " is reunited with her", 1
     .byte "mom as the rest of the freed", 1
     .byte "Earth people exit the cave.", 1, 0
 
 sHealth:
     .byte " "
-    tile_pointer CurrentGame+PURE_SAVE::Boy3+CHARACTER::Name        ; Boy3Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy3+CHARACTER::Name
     .byte ", his health fully", 1
     .byte " recovered, now sings daily", 1
     .byte " at The Live Show.", 1, 0
@@ -6886,7 +6886,7 @@ sLonely:
 
 sForget:
     .byte "("
-    tile_pointer CurrentGame+PURE_SAVE::Girl+CHARACTER::Name        ; GirlName
+    tile_pointer CurrentGame+PURE_SAVE::Girl+CHARACTER::Name
     .byte ")", 1
     .byte "I promise I won't forget you", 1
     .byte "so I will not say good-bye,", 1
@@ -6894,7 +6894,7 @@ sForget:
 
 sElementarySchool:
     .byte " "
-    tile_pointer CurrentGame+PURE_SAVE::Boy2+CHARACTER::Name     ; Boy2Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy2+CHARACTER::Name
     .byte " returns to a hero's", 1
     .byte " welcome at Twinkle", 1
     .byte " Elementary School.", 1, 0
@@ -6907,7 +6907,7 @@ sNotHungry:
 
 sLetter:
     .byte " A letter from "
-    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name      ; Boy1Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name
     .byte ",", 1
     .byte " I miss him so much. I hope", 1
     .byte " we can get together again", 1
@@ -6926,7 +6926,7 @@ sHome:
     .byte " come up and...", 1, 0
 
 stru_20EE56:
-    tile_pointer CurrentGame + PURE_SAVE::field_20      ; $7420
+    tile_pointer CurrentGame + PURE_SAVE::field_20
     .byte 0
 
 sSHIGESATOITOI:
@@ -7089,14 +7089,14 @@ sEmpty9:
 sKnife:
     .byte $A6, "Butter Knife", $A6, 1
     .byte "@"
-    tile_pointer CurrentGame+PURE_SAVE::Boy3+CHARACTER::Name        ; Boy3Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy3+CHARACTER::Name
     .byte " can master", 1
     .byte " it.", 1, 0
 
 sSurvivalKnife:
     .byte $A6, "Survival Knife", $A6, 1
     .byte "@Hey "
-    tile_pointer CurrentGame+PURE_SAVE::Boy3+CHARACTER::Name        ; Boy3Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy3+CHARACTER::Name
     .byte ", this is", 1
     .byte " stronger than an", 1
     .byte " ordinary knife.", 1, 0
@@ -7110,14 +7110,14 @@ sJapaneseSword:
     .byte $A6, "Katana", $A6, 1
     .byte "@This Japanese sword", 1
     .byte " is the best "
-    tile_pointer CurrentGame+PURE_SAVE::Boy3+CHARACTER::Name        ; Boy3Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy3+CHARACTER::Name
     .byte 1
     .byte " has seen yet.", 1, 0
 
 sStunGunUse:
     .byte $A6, "Stun Gun", $A6, 1
     .byte "@"
-    tile_pointer CurrentGame+PURE_SAVE::Boy2+CHARACTER::Name     ; Boy2Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy2+CHARACTER::Name
     .byte 1
     .byte " seems to be able to", 1
     .byte " USE it.", 1, 0
@@ -7127,7 +7127,7 @@ sStrongWeapon:
     .byte "@A strong weapon,", 1, 3
 
     .byte "@but only "
-    tile_pointer CurrentGame+PURE_SAVE::Boy2+CHARACTER::Name     ; Boy2Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy2+CHARACTER::Name
     .byte 1
     .byte " seems to be able to", 1
     .byte " USE it.", 1, 0
@@ -7136,13 +7136,13 @@ sPlasticBatUse:
     .byte $A6, "Plastic Bat", $A6, 1
     .byte "@This weapon is OK", 1
     .byte " for "
-    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name      ; Boy1Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name
     .byte ". USE it!", 1, 0
 
 sWoodenBatUse:
     .byte $A6, "Wooden Bat", $A6, 1
     .byte "@"
-    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name      ; Boy1Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name
     .byte ", USE this", 1
     .byte " weapon to fight", 1
     .byte " weak enemies.", 1, 0
@@ -7152,7 +7152,7 @@ sTougher:
     .byte "@With this weapon", 1, 3
 
     .byte "@"
-    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name      ; Boy1Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name
     .byte " can easily", 1
     .byte " fight tougher", 1
     .byte " enemies.", 1, 0
@@ -7166,7 +7166,7 @@ sAutographed:
 sFryingPanUse:
     .byte $A6, "Frying Pan", $A6, 1
     .byte "@"
-    tile_pointer CurrentGame+PURE_SAVE::Girl+CHARACTER::Name        ; GirlName
+    tile_pointer CurrentGame+PURE_SAVE::Girl+CHARACTER::Name
     .byte " can USE", 1
     .byte " this weapon best.", 1, 0
 
@@ -7174,14 +7174,14 @@ sNonStickPan:
     .byte $A6, "Non-stick Pan", $A6, 1
     .byte "@A good weapon for", 1
     .byte " "
-    tile_pointer CurrentGame+PURE_SAVE::Girl+CHARACTER::Name        ; GirlName
+    tile_pointer CurrentGame+PURE_SAVE::Girl+CHARACTER::Name
     .byte ", with no", 1
     .byte " messy clean up.", 1, 0
 
 sIronSkilletUse:
     .byte $A6, "Iron Skillet", $A6, 1
     .byte "@"
-    tile_pointer CurrentGame+PURE_SAVE::Girl+CHARACTER::Name        ; GirlName
+    tile_pointer CurrentGame+PURE_SAVE::Girl+CHARACTER::Name
     .byte " can USE this", 1
     .byte " heavy metal pan to", 1
     .byte " rock strong enemies.", 1, 0
@@ -7247,14 +7247,14 @@ sFlameThrower:
     .byte $A6, "Flamethrower", $A6, 1
     .byte "@Toasts the enemy,", 1
     .byte " but only "
-    tile_pointer CurrentGame+PURE_SAVE::Boy2+CHARACTER::Name     ; Boy2Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy2+CHARACTER::Name
     .byte 1
     .byte " can use it.", 1, 0
 
 sDetonate:
     .byte $A6, "Bomb", $A6, 1
     .byte "@Maybe only "
-    tile_pointer CurrentGame+PURE_SAVE::Boy2+CHARACTER::Name     ; Boy2Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy2+CHARACTER::Name
     .byte 1
     .byte " can detonate it.", 1, 0
 
@@ -7264,7 +7264,7 @@ sBewareBlast:
     .byte " ", $A6, "Beware of blast", $A6, ",", 1, 3
 
     .byte "@only "
-    tile_pointer CurrentGame+PURE_SAVE::Boy2+CHARACTER::Name     ; Boy2Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy2+CHARACTER::Name
     .byte " can", 1
     .byte " use it.", 1, 0
 
@@ -7272,14 +7272,14 @@ sSissy:
     .byte $A6, "Laser Beam", $A6, 1
     .byte "@It helps that sissy", 1
     .byte " "
-    tile_pointer CurrentGame+PURE_SAVE::Boy2+CHARACTER::Name     ; Boy2Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy2+CHARACTER::Name
     .byte ".", 1, 0
 
 sWeenie:
     .byte $A6, "Plasma Beam", $A6, 1
     .byte "@It helps that weenie", 1
     .byte " "
-    tile_pointer CurrentGame+PURE_SAVE::Boy2+CHARACTER::Name     ; Boy2Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy2+CHARACTER::Name
     .byte " quite a lot.", 1, 0
 
 sEmpty12:
@@ -7411,7 +7411,7 @@ sLifeUpCreamUse:
 sAsthmaAttacks:
     .byte $A6, "Asthma Spray", $A6, 1
     .byte "@When "
-    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name      ; Boy1Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name
     .byte "'s", 1
     .byte " asthma attacks,", 1
     .byte " spray this.", 1, 0
@@ -7565,7 +7565,7 @@ sEmpty31:
 sBottleRocket:
     .byte $A6, "Bottle Rocket", $A6, 1
     .byte "@"
-    tile_pointer CurrentGame+PURE_SAVE::Boy2+CHARACTER::Name     ; Boy2Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy2+CHARACTER::Name
     .byte " seems to", 1
     .byte " know how to use it.", 1, 0
 
@@ -7574,7 +7574,7 @@ sPrettyHat:
     .byte "@A pretty hat", 1
     .byte " embroidered with", 1
     .byte " the name "
-    tile_pointer CurrentGame+PURE_SAVE::Girl+CHARACTER::Name        ; GirlName
+    tile_pointer CurrentGame+PURE_SAVE::Girl+CHARACTER::Name
     .byte ".", 1, 0
 
 sBrush:
@@ -7637,7 +7637,7 @@ sRulerInches:
 
 sCashCardUse:
     .byte $A6, ""
-    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name      ; Boy1Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name
     .byte "'s Cash Card", $A6, 1
     .byte "@Use it for all your", 1
     .byte " banking needs.", 1, 0
@@ -8517,7 +8517,7 @@ sDEFENSE:
 
 sGrateful:
     .byte " "
-    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name      ; Boy1Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name
     .byte "!", 1, 3
 
     .byte " I am grateful to", 1
@@ -8554,7 +8554,7 @@ sDescendants:
     .byte " stopped!!", 1, 3
 
     .byte " "
-    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name      ; Boy1Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name
     .byte "!", 1
     .byte " I am talking about", 1
     .byte " you!", 1, 3
@@ -8582,7 +8582,7 @@ sFoolish:
 
 sYouAlone:
     .byte " "
-    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name      ; Boy1Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name
     .byte "!", 1
     .byte " You alone,", 1, 3
 
@@ -8657,7 +8657,7 @@ sIWill:
 
 sMeetAgain:
     .byte " "
-    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name      ; Boy1Name
+    tile_pointer CurrentGame+PURE_SAVE::Boy1+CHARACTER::Name
     .byte "!", 1
     .byte " We SHALL meet again!", 1, 3
     .byte 2
