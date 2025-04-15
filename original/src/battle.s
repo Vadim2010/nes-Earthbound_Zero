@@ -2732,8 +2732,8 @@ sub_17AF08:
     and #$F
     jsr script_low
 ; ---------------------------------------------------------------------------
-    .word @step_2, sub_17B250, get_offense, sub_17B2F9, sub_17B302
-    .word sub_17B319, sub_17B320, sub_17B3C2, sub_17B3CE, print_pTileID
+    .word @step_2, sub_17B250, get_offense, set_value, sub_17B302
+    .word set_flags, sub_17B320, sub_17B3C2, pTileID2sound, print_pTileID
     .word play_pTileID
 
 ; =============== S U B R O U T I N E =======================================
@@ -3672,13 +3672,13 @@ locret_17B2F8:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17B2F9:
+set_value:
     lda pTileID
     sta Value
     lda #0
     sta Value+1
     rts
-; End of function sub_17B2F9
+; End of function set_value
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -3707,14 +3707,14 @@ locret_17B318:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17B319:
+set_flags:
     .importzp Flags
 
     lda Flags
     ora pTileID
     sta Flags
     rts
-; End of function sub_17B319
+; End of function set_flags
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -3849,11 +3849,11 @@ loc_17B3CA:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17B3CE:
+pTileID2sound:
     lda pTileID
     sta Sound
     rts
-; End of function sub_17B3CE
+; End of function pTileID2sound
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -4689,12 +4689,12 @@ change_parameter:
     lda (pBattleScript),Y
     jsr script_low
 ; ---------------------------------------------------------------------------
-    .word sub_17B863, sub_17B868, sub_17B879, sub_17B899, sub_17B8AF
-    .word increase_defense, sub_17B8CB, sub_17B915, sub_17BA07, decrease_fight
+    .word sub_17B863, recover_hp, recover_pp, increase_speed, increase_off
+    .word increase_defense, sub_17B8CB, sub_17B915, decrease_def, decrease_fight
     .word sub_17BA2A, sub_17BA3C, decrease_offense, decrease_defense, sub_17BA95
     .word sub_17B8AA, sub_17B8F2, sub_17BA86, increase_offense, sub_17BAE4
     .word sub_17BAFA, sub_17BB0D, sub_17BB25, sub_17BB3D, sub_17BB55
-    .word sub_17BB78, sub_17BB83, sub_17BB8C, sub_17BB9D, sub_17BBB0
+    .word set_resist, sub_17BB83, sub_17BB8C, sub_17BB9D, sub_17BBB0
     .word sub_17BBCD, sub_17BBEB, sub_17BBF9, sub_17BC02, sub_17BC0B
     .word sub_17BC14, sub_17BC1D, sub_17BC26, sub_17BC38, sub_17BC2F
     .word sub_17BCD0, sub_17BD2B, sub_17BC5D, sub_17BD44
@@ -4711,7 +4711,7 @@ sub_17B863:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17B868:
+recover_hp:
     jsr get_random_value
 
 loc_17B86B:
@@ -4721,13 +4721,13 @@ loc_17B86B:
     ldx #$A
     lda #RecoverHP
     jmp sub_17BD5B
-; End of function sub_17B868
+; End of function recover_hp
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17B879:
+recover_pp:
     jsr get_random_value
     ldx TargetOffset
     ldy #5
@@ -4735,7 +4735,7 @@ sub_17B879:
     ldx #$A
     lda #RecoverPP
     jmp sub_17BD5B
-; End of function sub_17B879
+; End of function recover_pp
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -4754,7 +4754,7 @@ increase_offense:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17B899:
+increase_speed:
     jsr get_random_value
     ldx TargetOffset
     ldy #$C
@@ -4762,7 +4762,7 @@ sub_17B899:
     ldx #9
     lda #SPEEDinc
     jmp sub_17BD5B
-; End of function sub_17B899
+; End of function increase_speed
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -4777,14 +4777,14 @@ sub_17B8AA:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17B8AF:
+increase_off:
     ldx TargetOffset
     ldy #7
     jsr sub_17BF00
     ldx #9
     lda #OFFENSEinc
     jmp sub_17BD5B
-; End of function sub_17B8AF
+; End of function increase_off
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -5002,7 +5002,7 @@ loc_17BA00:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17BA07:
+decrease_def:
     jsr get_random_value
     ldy TargetOffset
     jsr sub_17BF74
@@ -5011,7 +5011,7 @@ sub_17BA07:
     jsr sub_17BE72
     lda #DEFENSEdec
     jmp print_text
-; End of function sub_17BA07
+; End of function decrease_def
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -5275,13 +5275,13 @@ sub_17BB55:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17BB78:
+set_resist:
     ldy TargetOffset
     lda Character1 + BATTLE::Resist,Y
     ora #8
     sta Character1 + BATTLE::Resist,Y
     rts
-; End of function sub_17BB78
+; End of function set_resist
 
 
 ; =============== S U B R O U T I N E =======================================

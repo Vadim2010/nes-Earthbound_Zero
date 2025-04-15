@@ -3313,7 +3313,7 @@ QuickUp:
 Fight_28:
     .byte $62,$19
     .byte $54
-    .byte $68,$2A           ; msg sRage
+    .byte $68,$2A
     .byte $62,$14
     .byte $40,$11
     .byte 0

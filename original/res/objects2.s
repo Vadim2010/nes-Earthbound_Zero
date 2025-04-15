@@ -1374,10 +1374,10 @@ MysteriousTeacher:
 byte_119A0A:
     .byte $14, $AB, $82, $F5, $40, $80, 6, $24, $35, $23
     .byte $3E
-    .word byte_119A2E   ; $9A2E
+    .word byte_119A2E
     .byte 8, $72, 1
     .byte $3E
-    .word byte_119A35   ; $9A35
+    .word byte_119A35
     .byte $42, 3, $23
     .byte $10, $76, $10, $46, $11, $24, $3D, $40, $E5, $82
     .byte $21, $3C, 3, 0
@@ -1403,13 +1403,13 @@ byte_119A96:
     .byte $14, $BD, $46, $F9, $A8, $84, 6, $8F, $A, $E, 8
     .byte $CA, 0, 0, $40, $23, $4F, $1E
     .byte $3E
-    .word byte_119ABA   ; $9ABA
+    .word byte_119ABA
     .byte 8, 6, 2, $3F, $F
     .byte $3E
-    .word byte_119ABD   ; $9ABD
+    .word byte_119ABD
     .byte 0, $11, $8F
     .byte $3E
-    .word byte_119AC0   ; $9AC0
+    .word byte_119AC0
     .byte 0
 byte_119ABA:
     .byte $72, 4, 3
@@ -1422,16 +1422,16 @@ byte_119AC3:
     .byte $54, $BE, $44, $F9, $40, $80, 6, $8E, $A, $E, 8
     .byte $CA, 0, 0, $40, $47
     .byte $3E
-    .word byte_119B0B   ; $9B0B
+    .word byte_119B0B
     .byte 8, $25, 1
     .byte $3E
-    .word byte_119B14   ; $9B14
+    .word byte_119B14
     .byte $19, 4, $31, 0, $2B, $2E, $2E, $26, 3
     .byte $25, 1, $19, $19, 3, $2D, $2B, 1, $19, $19, 3, $53
     .byte 0, $51, $FF, $50, $2F, $61, $FF, $60, $33, $5A, $21
     .byte 4, $B4, $5A, $1B, $42, 3, $62, $11, $8E, $3F, $E
     .byte $3E
-    .word byte_119B19   ; $9B19
+    .word byte_119B19
     .byte 0
 byte_119B0B:
     .byte $75, 1, $76, 3, $77, 1, $F4, 1, 3
@@ -1581,7 +1581,7 @@ byte_119CFC:
     .byte $2D, 3, 0, $A, $2F, $12, $44, $29, 8, $1E, 1, 9
     .byte $25, 8, $1F, 1, $10, $28, $10, $27, $3F, 6
     .byte $3E
-    .word byte_119D2C      ; $9D2C
+    .word byte_119D2C
     .byte 0, 8, $CA, 0, 0, 8, $1D, 1, $10, $44, 0
     .byte 0
 byte_119D2C:
@@ -1592,10 +1592,10 @@ byte_119D2F:
     .byte $20, 1, $27, $61, $2B, 8, $23, 1, $5A, $21, 4, $B4
     .byte $5A, $E
     .byte $3E
-    .word byte_119D5B       ; $9D5B
+    .word byte_119D5B
     .byte $10, $24, $11, $28, $40, $2B
     .byte $3E
-    .word byte_119D66       ; $9D66
+    .word byte_119D66
     .byte $5A, $1D, 4, $B4, $5A, $E, 0
 byte_119D5B:
     .byte $34, 2, $36, 3, $30, 1, $10, 1, $16, 1, 3

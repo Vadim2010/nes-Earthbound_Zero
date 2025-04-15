@@ -2583,8 +2583,7 @@ loc_17ADFB:
     jsr play_sound
     lda #0
     sta Sound
-    lda #2
-    jmp get_script_pntr
+    jmp sub_17B863
 ; ---------------------------------------------------------------------------
 
 @blocked:
@@ -2625,8 +2624,7 @@ loc_17AE7B:
     jsr play_sound
     lda #0
     sta Sound
-    lda #2
-    jmp get_script_pntr
+    jmp sub_17B863
 ; End of function print_used_item
 
 
@@ -2692,8 +2690,7 @@ sub_17AECF:
     jsr print_text
 
 loc_17AEE5:
-    lda #2
-    jmp get_script_pntr
+    jmp sub_17B863
 ; End of function sub_17AECF
 
 
@@ -2708,17 +2705,8 @@ get_target:
 ; End of function get_target
 
 ; ---------------------------------------------------------------------------
-    .word @step_1, nullsub_4, get_target_offset, sub_17B202, sub_17B21D
+    .word sub_17ADEC, nullsub_4, get_target_offset, sub_17B202, sub_17B21D
     .word sub_17B238, sub_17B23D, sub_17B248
-
-; =============== S U B R O U T I N E =======================================
-
-
-@step_1:
-    lda #1
-    jmp get_script_pntr
-; End of function @step_1
-
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -2732,18 +2720,9 @@ sub_17AF08:
     and #$F
     jsr script_low
 ; ---------------------------------------------------------------------------
-    .word @step_2, sub_17B250, get_offense, sub_17B2F9, sub_17B302
+    .word sub_17B863, sub_17B250, get_offense, sub_17B2F9, sub_17B302
     .word sub_17B319, sub_17B320, sub_17B3C2, sub_17B3CE, print_pTileID
     .word play_pTileID
-
-; =============== S U B R O U T I N E =======================================
-
-
-@step_2:
-    lda #2
-    jmp get_script_pntr
-; End of function step_2
-
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -2819,8 +2798,7 @@ sub_17AF7B:
     sta pBattleScript
     pla
     sta pBattleScript+1
-    lda #3
-    jmp get_script_pntr
+    jmp step_3
 ; End of function sub_17AF7B
 
 
@@ -4697,7 +4675,7 @@ change_parameter:
     .word sub_17BB78, sub_17BB83, sub_17BB8C, sub_17BB9D, sub_17BBB0
     .word sub_17BBCD, sub_17BBEB, sub_17BBF9, sub_17BC02, sub_17BC0B
     .word sub_17BC14, sub_17BC1D, sub_17BC26, sub_17BC38, sub_17BC2F
-    .word sub_17BCD0, sub_17BD2B, sub_17BC5D, sub_17BD44
+    .word sub_17BCD0, sub_17BD2B, sub_17BC5D, sub_17BD44, increase_fight
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -4750,9 +4728,15 @@ increase_offense:
     jmp print_text
 ; End of function increase_offense
 
+increase_fight:
+    jsr get_random_value
+    ldx TargetOffset
+    ldy #CHARACTER::Fight
+    jsr sub_17BE3B
+    lda #FIGHTinc
+    jmp print_text
 
 ; =============== S U B R O U T I N E =======================================
-
 
 sub_17B899:
     jsr get_random_value
