@@ -2120,9 +2120,9 @@ loc_17ABBA:
 list_select:
 .import ListCursor, stru_169F9D
 
-    lda #<ListCursor       ; #$A7
+    lda #<ListCursor
     sta pCursor
-    lda #>ListCursor       ; #$9F
+    lda #>ListCursor
     sta pCursor+1
     jsr cursor_update
     lda Buttons
@@ -2366,32 +2366,29 @@ sub_17ACD6:
 
 loc_17ACE2:
     lda Character1 + BATTLE::InitialStatus,Y
-    and #$80
-    beq loc_17ACEE
+    asl A
+    bcc loc_17ACEE
     lda #Empty
     jmp loc_17ADC1
 ; ---------------------------------------------------------------------------
 
 loc_17ACEE:
-    lda Character1 + BATTLE::InitialStatus,Y
-    and #$40
-    beq loc_17ACFA
+    asl A
+    bcc loc_17ACFA
     lda #Turned
     jmp loc_17ADC1
 ; ---------------------------------------------------------------------------
 
 loc_17ACFA:
-    lda Character1 + BATTLE::InitialStatus,Y
-    and #$20
-    beq loc_17AD06
+    asl A
+    bcc loc_17AD06
     lda #CantMove
     jmp loc_17ADC1
 ; ---------------------------------------------------------------------------
 
 loc_17AD06:
-    lda Character1 + BATTLE::InitialStatus,Y
-    and #$10
-    beq loc_17AD2B
+    asl A
+    bcc loc_17AD2B
     jsr randomize
     and #$E0
     bne loc_17AD26
@@ -2410,17 +2407,16 @@ loc_17AD26:
 ; ---------------------------------------------------------------------------
 
 loc_17AD2B:
-    lda Character1 + BATTLE::InitialStatus,Y
-    and #4
-    beq loc_17AD37
+    asl A
+    asl A
+    bcc loc_17AD37
     lda #DayDreaming
     jmp loc_17ADC1
 ; ---------------------------------------------------------------------------
 
 loc_17AD37:
-    lda Character1 + BATTLE::Resist,Y
-    and #2
-    beq loc_17AD4A
+    asl A
+    bcc loc_17AD4A
     lda Character1 + BATTLE::Script,Y
     cmp #$76
     beq loc_17AD4A
@@ -2681,9 +2677,9 @@ sub_17AECF:
     .import sram_read_enable
 
     jsr sram_write_enable
-    dec CurrentGame + PURE_SAVE::field_1F       ; $741F
+    dec CurrentGame + PURE_SAVE::field_1F
     jsr sram_read_enable
-    lda CurrentGame + PURE_SAVE::field_1F       ; $741F
+    lda CurrentGame + PURE_SAVE::field_1F
     bne loc_17AEE5
     jsr sub_17B4E5
     lda #BecameEmpty
@@ -3219,6 +3215,8 @@ sub_17B125:
     bmi loc_17B12F
     lda byte_23
     beq loc_17B12F
+
+loc_17B12D:
     clc
     rts
 ; ---------------------------------------------------------------------------
@@ -3244,7 +3242,7 @@ sub_17B131:
 loc_17B141:
     lda (Pointer),Y
     cmp #$68
-    beq loc_17B14E
+    beq loc_17B12D
     iny
     cpy #$28
     bne loc_17B141
@@ -3252,11 +3250,7 @@ loc_17B141:
 loc_17B14C:
     sec
     rts
-; ---------------------------------------------------------------------------
 
-loc_17B14E:
-    clc
-    rts
 ; End of function sub_17B131
 
 
@@ -3266,20 +3260,17 @@ loc_17B14E:
 sub_17B150:
     ldy TargetOffset
     lda Character1 + BATTLE::Flags,Y
-    and #$80
-    bne loc_17B160
+    asl A
+    bcs loc_17B160
     lda Character1 + BATTLE::Flags,Y
     and #1
-    bne loc_17B162
+    bne loc_17B12D
 
 loc_17B160:
     sec
     rts
 ; ---------------------------------------------------------------------------
 
-loc_17B162:
-    clc
-    rts
 ; End of function sub_17B150
 
 
@@ -3326,14 +3317,11 @@ sub_17B180:
     .importzp ObjectNumWithChar
 
     lda ObjectNumWithChar
-    bne loc_17B186
+    bne loc_17B12D
     sec
     rts
 ; ---------------------------------------------------------------------------
 
-loc_17B186:
-    clc
-    rts
 ; End of function sub_17B180
 
 
@@ -3356,16 +3344,13 @@ sub_17B188:
 sub_17B194:
     lda BossID
     cmp #5
-    beq loc_17B1A0
+    beq loc_17B12D
     cmp #6
-    beq loc_17B1A0
+    beq loc_17B12D
     sec
     rts
 ; ---------------------------------------------------------------------------
 
-loc_17B1A0:
-    clc
-    rts
 ; End of function sub_17B194
 
 
@@ -3461,8 +3446,8 @@ sub_17B202:
     and #8
     beq loc_17B212
     jsr randomize
-    and #$80
-    bne loc_17B22D
+    asl A
+    bcs loc_17B22D
 
 loc_17B212:
     ldx #$80
@@ -3485,8 +3470,8 @@ sub_17B21D:
     and #8
     beq loc_17B22D
     jsr randomize
-    and #$80
-    bne loc_17B212
+    asl
+    bcs loc_17B212
 
 loc_17B22D:
     ldx #0
@@ -3784,8 +3769,8 @@ loc_17B39B:
 loc_17B3A6:
     pla
     pha
-    and #$80
-    bne loc_17B3B7
+    asl A
+    bcs loc_17B3B7
     pla
     pha
     and #1
@@ -4791,7 +4776,26 @@ sub_17B8CB:
     lda #$FF
     sta Value
     sta Value+1
-    jmp loc_17B86B
+    ldy TargetOffset
+    lda Character1 + BATTLE::InitialStatus,Y
+    asl A
+    bcc loc_17B86B
+    lda #0
+    sta Character1 + BATTLE::InitialStatus,Y
+    ldx TargetOffset
+    ldy #CHARACTER::MaxHealth
+    jsr get_chr_pntr
+    lda (TilepackMode),Y
+    lsr A
+    sta Value
+    lda (TilepackMode+1),Y
+    ror A
+    sta Value+1
+    jmp brought
+    ;lda #$FF
+    ;sta Value
+    ;sta Value+1
+    ;jmp loc_17B86B
 ; End of function sub_17B8CB
 
 
@@ -5452,15 +5456,17 @@ sub_17BC2F:
 sub_17BC38:
     ldy TargetOffset
     lda Character1 + BATTLE::InitialStatus,Y
-    and #$80
-    beq loc_17BC5A
+    asl A
+    bcc loc_17BC5A
     lda #0
     sta Character1 + BATTLE::InitialStatus,Y
     lda #$FF
     sta Value
     sta Value+1
+
+brought:
     ldx TargetOffset
-    ldy #3
+    ldy #CHARACTER::MaxHealth
     jsr sub_17BEF2
     ldx #$A
     lda #Brought
@@ -5991,10 +5997,7 @@ sub_17BF15:
 
 
 sub_17BF2C:
-    lda Character1 + BATTLE::PointerChr,X
-    sta TilepackMode
-    lda Character1 + BATTLE::PointerChr+1,X
-    sta TilesCount
+    jsr get_chr_pntr
     lda (TilepackMode),Y
     sta AddrForJmp
     asl A
@@ -6188,5 +6191,12 @@ loc_17BFFC:
     clc
     rts
 ; End of function sub_17BFEF
+
+get_chr_pntr:
+    lda Character1 + BATTLE::PointerChr,X
+    sta TilepackMode
+    lda Character1 + BATTLE::PointerChr+1,X
+    sta TilesCount
+    rts
 
 ; end of 'BANK17'
