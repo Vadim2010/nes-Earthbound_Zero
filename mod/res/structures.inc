@@ -165,6 +165,15 @@
     .word Tiles
 .endmacro
 
+.struct ITEM
+    Name            .addr
+    Flags           .byte
+    Equipment       .byte
+    Action          .byte
+    BattleAction    .byte
+    Price           .word
+.endstruct
+
 .struct BATTLE
     EnemyGroup      .byte
     InitialStatus   .byte
@@ -186,6 +195,27 @@
     Script          .byte
     Resist          .byte
     field_1F        .byte
+.endstruct
+
+.struct ENEMY
+    field_0         .byte
+    InitialStatus   .byte
+    Flags           .byte
+    HP              .word
+    PP              .word
+    Offense         .word
+    Defense         .word
+    Fight           .byte
+    Speed           .byte
+    Wisdom          .byte
+    Strength        .byte
+    Force           .byte
+    Attacks         .res 8
+    Name            .word
+    Experience      .word
+    Money           .word
+    Item            .byte
+    TilePage        .byte
 .endstruct
 
 .struct SOUND_EFFECT

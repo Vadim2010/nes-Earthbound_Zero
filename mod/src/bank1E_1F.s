@@ -9864,21 +9864,21 @@ sub_F6AA:
     pla 
     jsr script_low
 
-    .word set_nmi_flag,sub_F6BF,sub_F6C8,sub_F6F0
+    .word set_nmi_flag,set_dark_tile,tile_blink,set_light_tile
 
 set_nmi_flag:
     lda #1
     sta NMIFlags
     rts
 
-sub_F6BF:
+set_dark_tile:
     .import stru_15970C
 
     lda #0
     ldyx #stru_15970C
     jmp set_anim_spite
 
-sub_F6C8:
+tile_blink:
     ldx pDist
     lda SpriteTable,X
     pha
@@ -9894,9 +9894,9 @@ loc_F6DE:
     txa
     pha
     lda #0
-    jsr sub_F724
+    jsr change_tile_wait
     lda #3
-    jsr sub_F724
+    jsr change_tile_wait
     pla
     tax
     dex
@@ -9905,7 +9905,7 @@ loc_F6DE:
 locret_F6EF:
     rts
 ; ---------------------------------------------------------------------------
-sub_F6F0:
+set_light_tile:
 .import stru_159710
 
     lda #3
@@ -9938,14 +9938,14 @@ set_anim_spite:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_F724:
+change_tile_wait:
     ldx pDist
     sta SpriteTable,X
     lda #1
     sta NMIFlags
     ldx #8
     jmp delay
-; End of function sub_F724
+; End of function change_tile_wait
 
 
 ; =============== S U B R O U T I N E =======================================

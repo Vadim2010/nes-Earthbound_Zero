@@ -395,7 +395,7 @@ loc_17A257:
     sta Character1 + BATTLE::InitialStatus,X
     iny
     inx
-    cpy #$18
+    cpy #ENEMY::Name
     bne loc_17A257
     ldx CharacterOffset
     ldy EnemyGroup
@@ -795,7 +795,7 @@ loc_17A4DA:
     sta Pointer
     lda Character1 + BATTLE::PointerChr+1,X
     sta Pointer+1
-    ldy #$18
+    ldy #ENEMY::Name
     lda (Pointer),Y
     pha
     iny
@@ -1808,10 +1808,10 @@ sub_17AA08:
     lda (pCharacter),Y
     jsr get_itemID_pntr
     ldy CharacterOffset
-    jsr sub_17AC49
+    jsr check_item_flag
     bcs loc_17AA43
     jsr bank0
-    ldy #5
+    ldy #ITEM::BattleAction
     lda (AddrForJmp),Y
     jsr bank16
     cmp #0
@@ -2232,7 +2232,7 @@ loc_17AC46:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17AC49:
+check_item_flag:
     jsr bank0
     lda Character1 + BATTLE::Scripts+1,Y
     sta pTileID
@@ -2257,7 +2257,7 @@ loc_17AC55:
 loc_17AC68:
     sec
     rts
-; End of function sub_17AC49
+; End of function check_item_flag
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -2616,7 +2616,7 @@ print_used_item:
     and #$F
     cmp #1
     bne loc_17AE7B
-    jsr sub_17B4E5
+    jsr remove_item
 
 loc_17AE7B:
     lda #USEd
@@ -2655,7 +2655,7 @@ sub_17AEAB:
     jsr randomize
     and #$E0
     bne loc_17AEE5
-    jsr sub_17B4E5
+    jsr remove_item
     lda #WasBroken
     jsr print_text
     jmp loc_17AEE5
@@ -2669,7 +2669,7 @@ sub_17AEBD:
     jsr randomize
     and #$E0
     bne loc_17AEE5
-    jsr sub_17B4E5
+    jsr remove_item
     lda #TurnedIntoStone
     jsr print_text
     jmp loc_17AEE5
@@ -2687,7 +2687,7 @@ sub_17AECF:
     jsr sram_read_enable
     lda CurrentGame + PURE_SAVE::field_1F       ; $741F
     bne loc_17AEE5
-    jsr sub_17B4E5
+    jsr remove_item
     lda #BecameEmpty
     jsr print_text
 
@@ -3958,7 +3958,7 @@ sub_17B42D:
     tya
     pha
     clc
-    ldy #$1A
+    ldy #ENEMY::Experience
     lda (Pointer),Y
     adc Experience
     sta Experience
@@ -3970,7 +3970,7 @@ sub_17B42D:
     adc Experience+2
     sta Experience+2
     clc
-    ldy #$1C
+    ldy #ENEMY::Money
     lda (Pointer),Y
     adc Money
     sta Money
@@ -3978,7 +3978,7 @@ sub_17B42D:
     lda (Pointer),Y
     adc Money+1
     sta Money+1
-    ldy #$1E
+    ldy #ENEMY::Item
     lda (Pointer),Y
     beq loc_17B47E
     sta EnemyGroup
@@ -4069,14 +4069,14 @@ sub_17B4CA:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17B4E5:
+remove_item:
     ldy CharacterOffset
     clc
     lda Character1 + BATTLE::PointerChr,Y
-    adc #$20
+    adc #<CHARACTER::Goods
     sta Pointer
     lda Character1 + BATTLE::PointerChr+1,Y
-    adc #0
+    adc #>CHARACTER::Goods
     sta Pointer+1
     ldy CharacterOffset
     lda Character1 + BATTLE::Scripts,Y
@@ -4099,7 +4099,7 @@ loc_17B50C:
     lda #0
     sta (Pointer),Y
     jmp sram_read_enable
-; End of function sub_17B4E5
+; End of function remove_item
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -4127,7 +4127,7 @@ sub_17B513:
     lda Character1 + BATTLE::Letter,Y
     and #3
     tax
-    ldy #$1F
+    ldy #ENEMY::TilePage
     lda (pCharacter),Y
     sta BankPPU_X000,X
     pla
@@ -4186,7 +4186,7 @@ draw_enemy:
     lda Character1 + BATTLE::Letter,Y
     and #3
     tax
-    ldy #$1F
+    ldy #ENEMY::TilePage
     lda (pCharacter),Y
     ora #$80
     sta BankPPU_X000,X
@@ -4370,7 +4370,7 @@ loc_17B639:
     lda #1
     sta NMIFlags
     jsr wait_nmi
-    ldy #$1F
+    ldy #ENEMY::TilePage
     lda (pCharacter),Y
     ldx pTileID
     sta BankPPU_X000,X
@@ -4696,7 +4696,7 @@ change_parameter:
     .word sub_17BAFA, sub_17BB0D, sub_17BB25, sub_17BB3D, sub_17BB55
     .word set_resist, sub_17BB83, sub_17BB8C, sub_17BB9D, sub_17BBB0
     .word sub_17BBCD, sub_17BBEB, sub_17BBF9, sub_17BC02, sub_17BC0B
-    .word sub_17BC14, sub_17BC1D, sub_17BC26, sub_17BC38, sub_17BC2F
+    .word sub_17BC14, sub_17BC1D, sub_17BC26, revives, sub_17BC2F
     .word sub_17BCD0, sub_17BD2B, sub_17BC5D, sub_17BD44
 
 ; =============== S U B R O U T I N E =======================================
@@ -4716,11 +4716,11 @@ recover_hp:
 
 loc_17B86B:
     ldx TargetOffset
-    ldy #3
+    ldy #CHARACTER::MaxHealth
     jsr sub_17BEF2
     ldx #$A
     lda #RecoverHP
-    jmp sub_17BD5B
+    jmp sound_frame_text
 ; End of function recover_hp
 
 
@@ -4730,11 +4730,11 @@ loc_17B86B:
 recover_pp:
     jsr get_random_value
     ldx TargetOffset
-    ldy #5
+    ldy #CHARACTER::MaxPP
     jsr sub_17BEF2
     ldx #$A
     lda #RecoverPP
-    jmp sub_17BD5B
+    jmp sound_frame_text
 ; End of function recover_pp
 
 
@@ -4757,11 +4757,11 @@ increase_offense:
 increase_speed:
     jsr get_random_value
     ldx TargetOffset
-    ldy #$C
+    ldy #CHARACTER::Speed
     jsr sub_17BE3B
     ldx #9
     lda #SPEEDinc
-    jmp sub_17BD5B
+    jmp sound_frame_text
 ; End of function increase_speed
 
 
@@ -4779,11 +4779,11 @@ sub_17B8AA:
 
 increase_off:
     ldx TargetOffset
-    ldy #7
+    ldy #CHARACTER::Offense
     jsr sub_17BF00
     ldx #9
     lda #OFFENSEinc
-    jmp sub_17BD5B
+    jmp sound_frame_text
 ; End of function increase_off
 
 
@@ -4792,11 +4792,11 @@ increase_off:
 
 increase_defense:
     ldx TargetOffset
-    ldy #9
+    ldy #CHARACTER::Defense
     jsr sub_17BF00
     ldx #9
     lda #DEFENSEinc
-    jmp sub_17BD5B
+    jmp sound_frame_text
 ; End of function increase_defense
 
 
@@ -4821,11 +4821,11 @@ sub_17B8D4:
     lda #0
     ldx TargetOffset
     sta Character1 + BATTLE::InitialStatus,X
-    ldy #3
+    ldy #CHARACTER::MaxHealth
     jsr sub_17BEF2
     ldx #$A
     lda #Empty
-    jsr sub_17BD5B
+    jsr sound_frame_text
     ldx #20
     jmp delay
 ; End of function sub_17B8D4
@@ -5069,7 +5069,7 @@ sub_17BA3C:
     sta Character1 + BATTLE::Health+1,Y
     ldx #0
     lda #Critical
-    jmp sub_17BD5B
+    jmp sound_frame_text
 ; ---------------------------------------------------------------------------
 
 loc_17BA6B:
@@ -5107,7 +5107,7 @@ decrease_defense:
 sub_17BA86:
     jsr get_random_value
     ldx CharacterOffset
-    ldy #7
+    ldy #CHARACTER::Offense
     jsr sub_17BDE8
     lda #Approached
     jmp print_text
@@ -5125,7 +5125,7 @@ sub_17BA95:
     sta AddrForJmp
     lda Character1 + BATTLE::PointerChr+1,Y
     sta AddrForJmp+1
-    ldy #$11
+    ldy #CHARACTER::Exp
     clc
     lda (AddrForJmp),Y
     adc Pointer
@@ -5146,7 +5146,7 @@ sub_17BA95:
 
 loc_17BAC7:
     jsr sram_write_enable
-    ldy #$11
+    ldy #CHARACTER::Exp
     lda pTileID
     sta (AddrForJmp),Y
     iny
@@ -5160,7 +5160,7 @@ loc_17BAC7:
 loc_17BADD:
     ldx #$A
     lda #EXPinc
-    jmp sub_17BD5B
+    jmp sound_frame_text
 ; End of function sub_17BA95
 
 
@@ -5260,7 +5260,7 @@ sub_17BB55:
     sta Pointer
     lda Character1 + BATTLE::PointerChr+1,Y
     sta Pointer+1
-    ldy #5
+    ldy #ENEMY::PP
     lda (Pointer),Y
     iny
     ora (Pointer),Y
@@ -5465,27 +5465,27 @@ sub_17BC2F:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17BC38:
+revives:
     ldy TargetOffset
     lda Character1 + BATTLE::InitialStatus,Y
     and #$80
-    beq loc_17BC5A
+    beq @no_revives
     lda #0
     sta Character1 + BATTLE::InitialStatus,Y
     lda #$FF
     sta Value
     sta Value+1
     ldx TargetOffset
-    ldy #3
+    ldy #CHARACTER::MaxHealth
     jsr sub_17BEF2
     ldx #$A
     lda #Brought
-    jmp sub_17BD5B
+    jmp sound_frame_text
 ; ---------------------------------------------------------------------------
 
-loc_17BC5A:
+@no_revives:
     jmp print_no_effect
-; End of function sub_17BC38
+; End of function revives
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -5596,13 +5596,13 @@ loc_17BCEC:
     lda byte_591
     sta Pointer+1
     ldx CharacterOffset
-    ldy #5
+    ldy #CHARACTER::MaxPP
     jsr sub_17BEF2
     lda CharacterOffset
     sta TargetOffset
     ldx #$A
     lda #RecoverPP
-    jmp sub_17BD5B
+    jmp sound_frame_text
 ; ---------------------------------------------------------------------------
 
 loc_17BD28:
@@ -5652,7 +5652,7 @@ locret_17BD5A:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17BD5B:
+sound_frame_text:
     pha
     txa
     beq loc_17BD62
@@ -5662,7 +5662,7 @@ loc_17BD62:
     jsr statistical_frame
     pla
     jmp print_text
-; End of function sub_17BD5B
+; End of function sound_frame_text
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -5717,7 +5717,7 @@ loc_17BDAB:
 loc_17BDBE:
     ldx Sound
     pla
-    jsr sub_17BD5B
+    jsr sound_frame_text
     clc
     rts
 ; ---------------------------------------------------------------------------

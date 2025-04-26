@@ -3361,8 +3361,8 @@ Fight_34:
 Bullhorn:
     .byte $67,  0,$30,$70,$51,$80,$B7,$9E
     .byte $68,$18,$13,$88,$59,$9C,$68,$35
-    .byte $62,$19,$40,$2B,  0,$68,$36,$68
-    .byte $37,$62,$14,$40, $B,  0
+    .byte $62,$14,$40,$B,  0,$68,$36,$68
+    .byte $37,$62,$19,$40, $2B,  0
 
 FleaBag:
     .byte $67,  0,$31,$1B,$51,$79,$C4,$9E
@@ -3452,7 +3452,8 @@ Hamburger:
     .byte $9C
 
 LifeUpCream:
-    .byte $67,  0,$31,$41,$A0,$ED,$9C
+    .byte $67,  0,$31,$41,$A0
+    .word Revive
 
 Bread:
     .byte $67,  0,$31,$47,$A0,$3A,$9D
@@ -3587,6 +3588,9 @@ Fight_6F:
 EndScript:
     .byte 0
     .byte $68, $11, 0, $69, $B, $68, 6, 0, $69, $13, $68, $50, 0, $68, $12, 0
+
+Revive:
+    .byte $51, $40, 5, 0
 
 .export BattleAction
 BattleAction:

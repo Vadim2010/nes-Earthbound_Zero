@@ -4787,10 +4787,11 @@ sub_17B8CB:
     jsr get_chr_pntr
     lda (TilepackMode),Y
     lsr A
-    sta Value
-    lda (TilepackMode+1),Y
+    sta Pointer
+    iny
+    lda (TilepackMode),Y
     ror A
-    sta Value+1
+    sta Pointer+1
     jmp brought
     ;lda #$FF
     ;sta Value
