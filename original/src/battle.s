@@ -2120,9 +2120,9 @@ loc_17ABBA:
 list_select:
 .import ListCursor, stru_169F9D
 
-    lda #<ListCursor       ; #$A7
+    lda #<ListCursor
     sta pCursor
-    lda #>ListCursor       ; #$9F
+    lda #>ListCursor
     sta pCursor+1
     jsr cursor_update
     lda Buttons
@@ -4085,17 +4085,17 @@ remove_item:
 loc_17B4FC:
     jsr sram_write_enable
 
-loc_17B4FF:
+@next_item:
     cpy #7
-    beq loc_17B50C
+    beq @last
     iny
     lda (Pointer),Y
     dey
     sta (Pointer),Y
     iny
-    bne loc_17B4FF
+    bne @next_item
 
-loc_17B50C:
+@last:
     lda #0
     sta (Pointer),Y
     jmp sram_read_enable

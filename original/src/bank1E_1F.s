@@ -9794,7 +9794,7 @@ loc_F630:
 
 loc_F655:
     txa
-    jsr sub_F6AA
+    jsr warning
     clc
     lda pDist
     adc #8
@@ -9856,9 +9856,7 @@ sub_F673:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_F6AA:
-    .importzp apu_BF, TileX, byte_A9
-
+warning:
     pha
     jsr wait_nmi_processed
     pla 
@@ -9887,10 +9885,10 @@ tile_blink:
     jsr set_anim_spite
     pla
     cmp #3
-    beq locret_F6EF
+    beq @stop
     ldx #4
 
-loc_F6DE:
+@blink:
     txa
     pha
     lda #0
@@ -9900,9 +9898,9 @@ loc_F6DE:
     pla
     tax
     dex
-    bne loc_F6DE
+    bne @blink
 
-locret_F6EF:
+@stop:
     rts
 ; ---------------------------------------------------------------------------
 set_light_tile:
@@ -9932,7 +9930,7 @@ set_anim_spite:
     lda Pointer+1
     sta SpriteTable + ANIM_SPRITE::pFrame+1,X
     rts
-; End of function sub_F6AA
+; End of function warning
 
 
 ; =============== S U B R O U T I N E =======================================
