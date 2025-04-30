@@ -452,7 +452,7 @@ loc_13A235:
 ; ---------------------------------------------------------------------------
 
 loc_13A240:
-    jsr sub_13A92D
+    jsr make_msg
     ldy #7
     lda (Pointer),Y
     sta BankPPU_XC00
@@ -520,7 +520,7 @@ byte_13A2A2:
 loc_13A2A7:
     lda #$FF
     jsr get_cursor_pos  ; get position of cursor and set cursor tile Input: A - tile ID, Output: PosX, PosY
-    jsr sub_13A92D
+    jsr make_msg
     lda CursorPosition
     asl A
     tax
@@ -1050,7 +1050,7 @@ sub_13A50C:
     jsr get_char_pntr
     jsr sub_13A972
     bmi loc_13A56F
-    jsr sub_13A92D
+    jsr make_msg
     ldx #$42
     jsr message_button
     jsr sram_write_enable
@@ -1094,7 +1094,7 @@ loc_13A54B:
     jsr get_char_pntr
     jsr sub_13A972
     bmi loc_13A56F
-    jsr sub_13A92D
+    jsr make_msg
     jsr out_msg_button
     jsr sub_13A9A3
 
@@ -1138,7 +1138,7 @@ sub_13A57A:
     bmi loc_13A56F
 
 loc_13A592:
-    jsr sub_13A92D
+    jsr make_msg
     jsr out_msg_button
     jsr sub_13A9A3
 
@@ -1182,7 +1182,7 @@ sub_13A5C5:
     jsr get_char_pntr
     jsr sub_13A972
     bmi loc_13A56F
-    jsr sub_13A92D
+    jsr make_msg
     jsr out_msg_button
     jsr sub_13A9A3
     ldy Price
@@ -1274,7 +1274,7 @@ loc_13A63E:
     jsr sub_13A9B1
     ldx #$E
     jsr message_button
-    jsr sub_13A92D
+    jsr make_msg
     jsr sub_13A972
     bmi loc_13A65E
     jsr sub_13A681
@@ -1306,7 +1306,7 @@ sub_13A661:
     jsr sub_13A9B1
     ldx #$E
     jsr message_button
-    jsr sub_13A92D
+    jsr make_msg
     lda Price
     bmi loc_13A67E
     jsr sub_13A972
@@ -1919,7 +1919,7 @@ press_redraw:
 ; =============== S U B R O U T I N E =======================================
 
 
-.proc sub_13A92D
+.proc make_msg
     .import sram_write_enable, sram_read_enable, NameOffset, CharName, ItemName
     .importzp Pointer, pTileID, BankPPU_X000, BankPPU_X400
 
@@ -1929,10 +1929,10 @@ press_redraw:
     sta NameOffset
     clc
     lda BankPPU_X000
-    adc #CHARACTER::Name     ; #$38
+    adc #<CHARACTER::Name
     sta CharName
     lda BankPPU_X400
-    adc #0
+    adc #>CHARACTER::Name
     sta CharName+1
     jsr get_item_pointer
     ldy #0
@@ -1951,7 +1951,7 @@ press_redraw:
     bne @next_char
     jmp sram_read_enable
 .endproc
-; End of function sub_13A92D
+; End of function make_msg
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -2025,7 +2025,7 @@ sub_13A990:
     jsr sub_13B058
     bcs loc_13A9A1
     jsr sram_write_enable
-    jsr loc_13B07E
+    jsr item_removed
     clc
     jmp sram_read_enable
 ; ---------------------------------------------------------------------------
@@ -2153,7 +2153,7 @@ loc_13AA1F:
 
 loc_13AA2C:
     jsr sub_13AA3F
-    jsr sub_13BB6F
+    jsr get_name
     ldx #$6A
     jsr message_button
     lda #6
@@ -2199,7 +2199,7 @@ loc_13AA2C:
     bcs loc_13AA6F
 
 loc_13AA6A:
-    jsr sub_13BB6F
+    jsr get_name
     clc
     rts
 ; ---------------------------------------------------------------------------
@@ -3266,7 +3266,7 @@ none_closet:
 
 .proc add_inventory
     .export add_inventory, jump_unsellable, remove_inventory, add_closet, remove_closet
-    .import load_obj_bank, sram_write_enable, sram_read_enable, loc_13B07E
+    .import load_obj_bank, sram_write_enable, sram_read_enable, item_removed
     .importzp Pointer, ScriptOffset, Item
 
     sty ScriptOffset
@@ -3317,7 +3317,7 @@ remove_closet:
 
 loc_13B015:
     jsr sram_write_enable
-    jsr loc_13B07E
+    jsr item_removed
     jsr sram_read_enable
 .endproc            ; End of function add_inventory
 
@@ -3367,7 +3367,7 @@ loc_13B015:
     lda (Source),Y
     sta CharNum
     sty ScriptOffset
-    jmp sub_13BB6F
+    jmp get_name
 .endproc            ; End of function sub_13B032
 
 
@@ -3382,7 +3382,7 @@ loc_13B015:
     sty ScriptOffset
     pha
     lda CharNum
-    jsr sub_13B089
+    jsr get_goods_pntr
     pla
     tay
     lda (Pointer),Y
@@ -3402,7 +3402,7 @@ sub_13B058:
 
     pha
     lda CharNum
-    jsr sub_13B089
+    jsr get_goods_pntr
     pla
     ldy #8
     bne loc_13B068
@@ -3413,7 +3413,7 @@ sub_13B058:
 
 
 sub_13B063:
-    .export sub_13B063, loc_13B07E
+    .export sub_13B063, item_removed
     .importzp Pointer, pTileID
 
     jsr sub_13B09A
@@ -3423,16 +3423,16 @@ loc_13B068:
     sty pTileID
     ldy #0
 
-loc_13B06C:
+@next_item:
     cmp (Pointer),Y
-    beq loc_13B076
+    beq @item_found
     iny
     cpy pTileID
-    bcc loc_13B06C
+    bcc @next_item
     rts
 ; ---------------------------------------------------------------------------
 
-loc_13B076:
+@item_found:
     clc
     rts
 ; ---------------------------------------------------------------------------
@@ -3443,7 +3443,7 @@ loc_13B078:
     sta (Pointer),Y
     iny
 
-loc_13B07E:
+item_removed:
     iny
     cpy pTileID
     bcc loc_13B078
@@ -3457,7 +3457,7 @@ loc_13B07E:
 ; =============== S U B R O U T I N E =======================================
 
 
-.proc sub_13B089
+.proc get_goods_pntr
     .import get_character_pointer
     .importzp Pointer
 
@@ -3465,13 +3465,13 @@ loc_13B07E:
                         ; Output: Pointer (word) = High $74 Low $40 * A
     clc
     lda Pointer
-    adc #$20
+    adc #<CHARACTER::Goods
     sta Pointer
     lda Pointer+1
-    adc #0
+    adc #>CHARACTER::Goods
     sta Pointer+1
     rts
-.endproc            ; End of function sub_13B089
+.endproc            ; End of function get_goods_pntr
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -3520,7 +3520,7 @@ choose_character:
     bcs loc_13B0CC
 
 loc_13B0C4:
-    jsr sub_13BB6F
+    jsr get_name
     ldy ScriptOffset
     iny
     iny
@@ -3760,7 +3760,7 @@ no_closet:
 sub_13B1E1:
     .importzp Pointer, pTileID
 
-    jsr sub_13B089
+    jsr get_goods_pntr
     ldy #8
     bne loc_13B1ED
 
@@ -4554,7 +4554,7 @@ loc_13B566:
     ldy #1
     lda (Pointer),Y
     bmi loc_13B57A
-    jsr sub_13B587
+    jsr recovery_health
     jsr sub_13B598
 
 loc_13B57A:
@@ -4570,19 +4570,19 @@ loc_13B57A:
 ; =============== S U B R O U T I N E =======================================
 
 
-.proc sub_13B587
+.proc recovery_health
     .importzp Pointer
 
-    ldy #3
+    ldy #CHARACTER::MaxHealth
     lda (Pointer),Y
-    ldy #$14
+    ldy #CHARACTER::Health
     sta (Pointer),Y
-    ldy #4
+    ldy #CHARACTER::MaxHealth+1
     lda (Pointer),Y
-    ldy #$15
+    ldy #CHARACTER::Health+1
     sta (Pointer),Y
     rts
-.endproc            ; End of function sub_13B587
+.endproc            ; End of function recovery_health
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -4715,7 +4715,7 @@ get_char_pointer:
     sta (Pointer),Y
     plp
     bmi loc_13B623
-    jsr sub_13B587
+    jsr recovery_health
     txa
     bpl loc_13B623
     jsr loc_13A6F0
@@ -5774,7 +5774,7 @@ next_item:
 ; =============== S U B R O U T I N E =======================================
 
 
-.proc sub_13BB6F
+.proc get_name
     .import get_char_pointer, sram_write_enable, sram_read_enable, byte_6D00, word_6D01
     .importzp Pointer
 
@@ -5784,13 +5784,13 @@ next_item:
     sta byte_6D00
     clc
     lda Pointer
-    adc #$38
+    adc #<CHARACTER::Name
     sta word_6D01
     lda Pointer+1
-    adc #0
+    adc #>CHARACTER::Name
     sta word_6D01+1
     jmp sram_read_enable
-.endproc            ; End of function sub_13BB6F
+.endproc            ; End of function get_name
 
 
 ; =============== S U B R O U T I N E =======================================

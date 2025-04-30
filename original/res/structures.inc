@@ -52,8 +52,7 @@
     field_1B        .byte
     field_1C        .byte
     field_1D        .byte
-    field_1E        .byte
-    field_1F        .byte
+    Frame           .word
     Goods           .res 8
     Items           .res 4
     field_2C        .res 4

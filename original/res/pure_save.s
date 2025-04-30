@@ -3,7 +3,7 @@
 .segment "PURE_SAVE"
 
 .export PureSave
-.import CurrentGame
+.import CurrentGame, AnimBoy1, AnimGirl, AnimBoy2, AnimBoy3
 
 PureSave:
     .byte 0                 ; field_0
@@ -55,7 +55,7 @@ PureSave:
     .byte 0                 ; Boy1.field_1B
     .byte 8                 ; Boy1.field_1C
     .byte $64               ; Boy1.field_1D
-    .word $8000             ; Boy1.field_1E
+    .word AnimBoy1          ; Boy1.field_1E
     .byte $6E, 0, 0, 0, 0, 0, 0, 0; Boy1.Goods
     .byte 0, 0, 0, 0        ; Boy1.Items
     .byte $52, 8, $86, $2F  ; Boy1.field_2C
@@ -84,7 +84,7 @@ PureSave:
     .byte 0                 ; Girl.field_1B
     .byte 8                 ; Girl.field_1C
     .byte $64               ; Girl.field_1D
-    .word $8020             ; Girl.field_1E
+    .word AnimGirl          ; Girl.field_1E
     .byte 0, 0, 0, 0, 0, 0, 0, 0; Girl.Goods
     .byte 0, 0, 0, 0        ; Girl.Items
     .byte $52, 8, $86, $2F  ; Girl.field_2C
@@ -113,7 +113,7 @@ PureSave:
     .byte 0                 ; Boy2.field_1B
     .byte 8                 ; Boy2.field_1C
     .byte $64               ; Boy2.field_1D
-    .word $8040             ; Boy2.field_1E
+    .word AnimBoy2          ; Boy2.field_1E
     .byte 0, 0, 0, 0, 0, 0, 0, 0; Boy2.Goods
     .byte 0, 0, 0, 0        ; Boy2.Items
     .byte $52, 8, $86, $2F  ; Boy2.field_2C
@@ -142,7 +142,7 @@ PureSave:
     .byte 0                 ; Boy3.field_1B
     .byte 8                 ; Boy3.field_1C
     .byte $64               ; Boy3.field_1D
-    .word $8060             ; Boy3.field_1E
+    .word AnimBoy3          ; Boy3.field_1E
     .byte 0, 0, 0, 0, 0, 0, 0, 0; Boy3.Goods
     .byte 0, 0, 0, 0        ; Boy3.Items
     .byte $52, 8, $86, $2F  ; Boy3.field_2C

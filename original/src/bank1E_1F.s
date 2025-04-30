@@ -4091,11 +4091,11 @@ sub_D813:
     sta (Dist),Y
 
 loc_D840:
-    ldy #CHARACTER::field_1E
+    ldy #CHARACTER::Frame
     lda (ObjOffset),Y
     ldy #$16
     sta (Dist),Y
-    ldy #CHARACTER::field_1E+1
+    ldy #CHARACTER::Frame+1
     lda (ObjOffset),Y
     ldy #$17
     sta (Dist),Y
@@ -4184,7 +4184,7 @@ sub_D884:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_D8BA:
+get_object_pntr:
     jsr get_buffer_offset
     ldy #2
     lda (Dist),Y
@@ -4193,7 +4193,7 @@ sub_D8BA:
     lda (Dist),Y
     sta ObjOffset+1
     rts
-; End of function sub_D8BA
+; End of function get_object_pntr
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -4237,7 +4237,7 @@ loc_D8EB:
     jsr get_character_num
     bcs loc_D906
     txa
-    jsr sub_D8BA
+    jsr get_object_pntr
     jsr sram_write_enable
     jsr loc_D840
     bcs loc_D8FE
@@ -4330,7 +4330,7 @@ loc_D989:
 
 loc_D98C:
     lda #0
-    jsr sub_D8BA
+    jsr get_object_pntr
     ldy #1
     lda (ObjOffset),Y
     bmi loc_D989
@@ -4459,7 +4459,7 @@ loc_DA1E:
     jsr get_character_num
     bcs loc_DA3C
     txa
-    jsr sub_D8BA
+    jsr get_object_pntr
     ldy #1
     lda (ObjOffset),Y
     bmi loc_DA3C
@@ -4526,7 +4526,7 @@ loc_DA77:
     sta CharacterOffset
     txa
     pha
-    jsr sub_D8BA
+    jsr get_object_pntr
     ldy #1
     lda (ObjOffset),Y
     bmi loc_DADB
