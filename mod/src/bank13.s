@@ -1341,7 +1341,11 @@ resurrect:
     lda Price+1
     sta (BankPPU_X000),Y
     jsr sram_read_enable
-    jmp loc_13A6F0
+    jsr loc_13A6F0
+    jsr make_msg
+    ldx #$14
+    jsr message_button
+    jmp sub_13BC04
 
 ; =============== S U B R O U T I N E =======================================
 

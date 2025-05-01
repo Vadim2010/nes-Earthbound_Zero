@@ -404,13 +404,13 @@ sub_C3B9:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_C3C0:
-    .export sub_C3C0
-    .import byte_9300
+who_frame:
+    .export who_frame
+    .import WhoFrame
 
-    ldxa #byte_9300
+    ldxa #WhoFrame
     jmp out_frame
-; End of function sub_C3C0
+; End of function who_frame
 
 
 ; =============== S U B R O U T I N E =======================================
