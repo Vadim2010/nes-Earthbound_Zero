@@ -5458,7 +5458,7 @@ revives:
     ldy TargetOffset
     lda Character1 + BATTLE::InitialStatus,Y
     asl A
-    bcc loc_17BC5A
+    bcc @no_revives
     lda #0
     sta Character1 + BATTLE::InitialStatus,Y
     lda #$FF
@@ -5474,7 +5474,7 @@ brought:
     jmp sound_frame_text
 ; ---------------------------------------------------------------------------
 
-loc_17BC5A:
+@no_revives:
     jmp print_no_effect
 ; End of function revives
 
