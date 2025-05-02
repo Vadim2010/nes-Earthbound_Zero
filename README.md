@@ -133,14 +133,14 @@ We will remove: `@step_1`, `@step_2`.
 
 The following lines will be replaced accordingly:
 <pre>
-    ...                                                                     ...
-    lda #2                                                                  jmp sub_17B863
-    jmp get_script_pntr                                                     ...
+    ...                                                             ...
+    lda #2                                                          jmp sub_17B863
+    jmp get_script_pntr                                             ...
     ...
 
-    ...                                                                     ...
-    lda #3                                                                  jmp step_3
-    jmp get_script_pntr                                                     ...
+    ...                                                             ...
+    lda #3                                                          jmp step_3
+    jmp get_script_pntr                                             ...
     ...
 </pre>
 
@@ -233,69 +233,69 @@ We’ll start by modifying the battle behavior. However, memory in BANK_7 is sti
 We’ll need to apply another code optimization to free up the necessary space.
 
 <pre>
-loc_17ACE2:                                                                 loc_17ACE2:
-    lda Character1 + BATTLE::InitialStatus,Y                                    lda Character1 + BATTLE::InitialStatus,Y
-    and #$80                                                                    asl A
-    beq loc_17ACEE                                                              bcc loc_17ACEE
-    ...                                                                         ...
+loc_17ACE2:                                                         loc_17ACE2:
+    lda Character1 + BATTLE::InitialStatus,Y                            lda Character1 + BATTLE::InitialStatus,Y
+    and #$80                                                            asl A
+    beq loc_17ACEE                                                      bcc loc_17ACEE
+    ...                                                                 ...
 
-loc_17ACEE:                                                                 loc_17ACEE:
-    lda Character1 + BATTLE::InitialStatus,Y                                    asl A
-    and #$40                                                                    bcc loc_17ACFA
-    beq loc_17ACFA                                                              ...
+loc_17ACEE:                                                         loc_17ACEE:
+    lda Character1 + BATTLE::InitialStatus,Y                            asl A
+    and #$40                                                            bcc loc_17ACFA
+    beq loc_17ACFA                                                      ...
     ... 
 
-loc_17ACFA:                                                                 loc_17ACFA:
-    lda Character1 + BATTLE::InitialStatus,Y                                    asl A
-    and #$20                                                                    bcc loc_17AD06
-    beq loc_17AD06                                                              ...
+loc_17ACFA:                                                         loc_17ACFA:
+    lda Character1 + BATTLE::InitialStatus,Y                            asl A
+    and #$20                                                            bcc loc_17AD06
+    beq loc_17AD06                                                      ...
     ...
 
-loc_17AD06:                                                                 loc_17AD06:
-    lda Character1 + BATTLE::InitialStatus,Y                                    asl A
-    and #$10                                                                    bcc loc_17AD2B
-    beq loc_17AD2B                                                              ...
+loc_17AD06:                                                         loc_17AD06:
+    lda Character1 + BATTLE::InitialStatus,Y                            asl A
+    and #$10                                                            bcc loc_17AD2B
+    beq loc_17AD2B                                                      ...
     ...
 
-loc_17AD2B:                                                                 loc_17AD2B:
-    lda Character1 + BATTLE::InitialStatus,Y                                    asl A
-    and #4                                                                      asl A
-    beq loc_17AD37                                                              bcc loc_17AD37
-    ...                                                                         ...
+loc_17AD2B:                                                         loc_17AD2B:
+    lda Character1 + BATTLE::InitialStatus,Y                            asl A
+    and #4                                                              asl A
+    beq loc_17AD37                                                      bcc loc_17AD37
+    ...                                                                 ...
 
-loc_17AD37:                                                                 loc_17AD37:
-    lda Character1 + BATTLE::Resist,Y                                           asl A
-    and #2                                                                      bcc loc_17AD4A
-    beq loc_17AD4A                                                              ...
+loc_17AD37:                                                         loc_17AD37:
+    lda Character1 + BATTLE::Resist,Y                                   asl A
+    and #2                                                              bcc loc_17AD4A
+    beq loc_17AD4A                                                      ...
     ...
 
 
 
-sub_17B150:                                                                 sub_17B150:
-    ...                                                                         ...
-    and #$80                                                                    asl A
-    bne loc_17B160                                                              bcs loc_17B160
-    lda Character1 + BATTLE::Flags,Y                                            lda Character1 + BATTLE::Flags,Y
-    ...                                                                         ...
+sub_17B150:                                                         sub_17B150:
+    ...                                                                 ...
+    and #$80                                                            asl A
+    bne loc_17B160                                                      bcs loc_17B160
+    lda Character1 + BATTLE::Flags,Y                                    lda Character1 + BATTLE::Flags,Y
+    ...                                                                 ...
 
 
-sub_17B202:                                                                 sub_17B202:
-    ...                                                                         ...
-    and #$80                                                                    asl A
-    bne loc_17B22D                                                              bcs loc_17B22D
-    ...                                                                         ...
+sub_17B202:                                                         sub_17B202:
+    ...                                                                 ...
+    and #$80                                                            asl A
+    bne loc_17B22D                                                      bcs loc_17B22D
+    ...                                                                 ...
 
-loc_17B3A6:                                                                 loc_17B3A6:
-    ...                                                                         ...
-    and #$80                                                                    asl A
-    bne loc_17B3B7                                                              bcs loc_17B3B7
-    ...                                                                         ...
+loc_17B3A6:                                                         loc_17B3A6:
+    ...                                                                 ...
+    and #$80                                                            asl A
+    bne loc_17B3B7                                                      bcs loc_17B3B7
+    ...                                                                 ...
 
-revives:                                                                    revives:
-    ...                                                                         ...
-    and #$80                                                                    asl A
-    beq @no_revives                                                             bcc @no_revives
-    ...                                                                         ...
+revives:                                                            revives:
+    ...                                                                 ...
+    and #$80                                                            asl A
+    beq @no_revives                                                     bcc @no_revives
+    ...                                                                 ...
 </pre>
 
 We will add the label loc_17B12D to the sub_17B125 subroutine:
@@ -348,9 +348,9 @@ get_chr_pntr:
 
 We will replace it with the following function:
 <pre>
-sub_17BF2C:                                                                 sub_17BF2C:
-    lda Character1 + BATTLE::PointerChr,X                                       jsr get_chr_pntr
-    sta TilepackMode                                                            ...
+sub_17BF2C:                                                         sub_17BF2C:
+    lda Character1 + BATTLE::PointerChr,X                               jsr get_chr_pntr
+    sta TilepackMode                                                    ...
     lda Character1 + BATTLE::PointerChr+1,X
     sta TilesCount
     ...
@@ -358,27 +358,27 @@ sub_17BF2C:                                                                 sub_
 
 And we will add the code for reviving with 50% HP:
 <pre>
-sub_17B8CB:                                                                 sub_17B8CB:
-    lda #$FF                                                                    lda #$FF
-    sta Value                                                                   sta Value
-    sta Value+1                                                                 sta Value+1
-    jmp loc_17B86B                                                              ldy TargetOffset
-    ...                                                                         lda Character1 + BATTLE::InitialStatus,Y
-                                                                                asl A
-                                                                                bcc loc_17B86B
-                                                                                lda #0
-                                                                                sta Character1 + BATTLE::InitialStatus,Y
-                                                                                ldx TargetOffset
-                                                                                ldy #CHARACTER::MaxHealth
-                                                                                jsr get_chr_pntr
-                                                                                lda (TilepackMode),Y
-                                                                                lsr A
-                                                                                sta Pointer
-                                                                                iny
-                                                                                lda (TilepackMode),Y
-                                                                                ror A
-                                                                                sta Pointer+1
-                                                                                jmp brought
+sub_17B8CB:                                                         sub_17B8CB:
+    lda #$FF                                                            lda #$FF
+    sta Value                                                           sta Value
+    sta Value+1                                                         sta Value+1
+    jmp loc_17B86B                                                      ldy TargetOffset
+    ...                                                                 lda Character1 + BATTLE::InitialStatus,Y
+                                                                        asl A
+                                                                        bcc loc_17B86B
+                                                                        lda #0
+                                                                        sta Character1 + BATTLE::InitialStatus,Y
+                                                                        ldx TargetOffset
+                                                                        ldy #CHARACTER::MaxHealth
+                                                                        jsr get_chr_pntr
+                                                                        lda (TilepackMode),Y
+                                                                        lsr A
+                                                                        sta Pointer
+                                                                        iny
+                                                                        lda (TilepackMode),Y
+                                                                        ror A
+                                                                        sta Pointer+1
+                                                                        jmp brought
 </pre>
 
 We will fix the scripts in `enemies.s`:
@@ -422,22 +422,22 @@ We will make the following changes to the `bank13.s` file:
 
 We will add lines that check if the character is dead and LifeUpCream was used. If so, control will be passed to the `resurrect` subroutine, which revives the character with 50% HP.
 <pre>
-sub_13A53E:                                                                 sub_13A53E:
-    ...                                                                         ...
-    .importzp PointerTilePack                                                   .importzp Item, PointerTilePack
-    ...                                                                         ...
+sub_13A53E:                                                         sub_13A53E:
+    ...                                                                 ...
+    .importzp PointerTilePack                                           .importzp Item, PointerTilePack
+    ...                                                                 ...
 
-loc_13A56F:                                                                 loc_13A56F:
-    jsr sub_13A9A3                                                              jsr sub_13A9A3
-    ldx #$58                                                                    ldx #$58
-    jsr message_button                                                          jsr message_button
-                                                                                lda Item
-                                                                                cmp #$41
-                                                                                bne loc_13A577
-                                                                                jmp resurrect
+loc_13A56F:                                                         loc_13A56F:
+    jsr sub_13A9A3                                                      jsr sub_13A9A3
+    ldx #$58                                                            ldx #$58
+    jsr message_button                                                  jsr message_button
+                                                                        lda Item
+                                                                        cmp #$41
+                                                                        bne loc_13A577
+                                                                        jmp resurrect
 
-loc_13A577:                                                                 loc_13A577:
-    jmp nothing_happend                                                         jmp nothing_happend
+loc_13A577:                                                         loc_13A577:
+    jmp nothing_happend                                                 jmp nothing_happend
 </pre>
 
 We will insert the `resurrect` function between the subroutines `sub_13A661` and `sub_13A681`
