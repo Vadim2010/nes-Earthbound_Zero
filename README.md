@@ -102,8 +102,6 @@ And replace everything under it with the following values:
 After finishing the edits, build the ROM. Go to the folder with your modifications (`mod`) and run the command `make`. The game ROM, `game.nes`, will be located in the `../mod/build` folder.
 
 ### Advanced Custom Modifications (Code-Level)
-1. Bullhorn
-2. LifeUpCream
 
 #### 1. Bullhorn
 In the original game, Bullhorn works as follows:
@@ -228,3 +226,249 @@ Bullhorn:
 Since Bullhorn is only used during battle, these are the only changes that need to be made.
 
 #### 2. LifeUpCream
+Let’s fix the behavior of LifeUpCream. This will be a bit more complicated, since it can be used both in battle and on the overworld map.
+In addition to its healing properties, let’s make this item also revive fallen characters with 50% HP.
+
+We’ll start by modifying the battle behavior. However, memory in BANK_7 is still very limited.
+We’ll need to apply another code optimization to free up the necessary space.
+
+<pre>
+loc_17ACE2:                                                                     loc_17ACE2:
+    lda Character1 + BATTLE::InitialStatus,Y                                        lda Character1 + BATTLE::InitialStatus,Y
+    and #$80                                                                        asl A
+    beq loc_17ACEE                                                                  bcc loc_17ACEE
+    ...                                                                             ...
+
+loc_17ACEE:                                                                     loc_17ACEE:
+    lda Character1 + BATTLE::InitialStatus,Y                                        asl A
+    and #$40                                                                        bcc loc_17ACFA
+    beq loc_17ACFA                                                                  ...
+    ... 
+
+loc_17ACFA:                                                                     loc_17ACFA:
+    lda Character1 + BATTLE::InitialStatus,Y                                        asl A
+    and #$20                                                                        bcc loc_17AD06
+    beq loc_17AD06                                                                  ...
+    ...
+
+loc_17AD06:                                                                     loc_17AD06:
+    lda Character1 + BATTLE::InitialStatus,Y                                        asl A
+    and #$10                                                                        bcc loc_17AD2B
+    beq loc_17AD2B                                                                  ...
+    ...
+
+loc_17AD2B:                                                                     loc_17AD2B:
+    lda Character1 + BATTLE::InitialStatus,Y                                        asl A
+    and #4                                                                          asl A
+    beq loc_17AD37                                                                  bcc loc_17AD37
+    ...                                                                             ...
+
+loc_17AD37:                                                                     loc_17AD37:
+    lda Character1 + BATTLE::Resist,Y                                               asl A
+    and #2                                                                          bcc loc_17AD4A
+    beq loc_17AD4A                                                                  ...
+    ...
+
+
+
+sub_17B150:                                                                     sub_17B150:
+    ...                                                                             ...
+    and #$80                                                                        asl A
+    bne loc_17B160                                                                  bcs loc_17B160
+    lda Character1 + BATTLE::Flags,Y                                                lda Character1 + BATTLE::Flags,Y
+    ...                                                                             ...
+
+
+sub_17B202:                                                                     sub_17B202:
+    ...                                                                             ...
+    and #$80                                                                        asl A
+    bne loc_17B22D                                                                  bcs loc_17B22D
+    ...                                                                             ...
+
+loc_17B3A6:                                                                     loc_17B3A6:
+    ...                                                                             ...
+    and #$80                                                                        asl A
+    bne loc_17B3B7                                                                  bcs loc_17B3B7
+    ...                                                                             ...
+
+revives:                                                                        revives:
+    ...                                                                             ...
+    and #$80                                                                        asl A
+    beq @no_revives                                                                 bcc @no_revives
+    ...                                                                             ...
+</pre>
+
+We will add the label loc_17B12D to the sub_17B125 subroutine:
+<pre>
+sub_17B125:
+    lda CharacterOffset
+    bmi loc_17B12F
+    lda byte_23
+    beq loc_17B12F
+
+loc_17B12D:
+    clc
+    rts
+
+loc_17B12F:
+    sec
+    rts
+</pre>
+
+We will remove all subsequent code fragments of the following form:
+<pre>
+label:
+    clc
+    rts
+</pre>
+
+And in all jump instructions referring to these labels, we will replace their targets with loc_17B12D.
+
+We will add the label brought:
+<pre>
+revives:
+    ...
+    sta Value
+    sta Value+1
+
+brought:
+    ldx TargetOffset
+    ...
+</pre>
+
+At the end of the bank, we will add the following function:
+<pre>
+get_chr_pntr:
+    lda Character1 + BATTLE::PointerChr,X
+    sta TilepackMode
+    lda Character1 + BATTLE::PointerChr+1,X
+    sta TilesCount
+    rts
+</pre>
+
+We will replace it with the following function:
+<pre>
+sub_17BF2C:                                                                     sub_17BF2C:
+    lda Character1 + BATTLE::PointerChr,X                                           jsr get_chr_pntr
+    sta TilepackMode                                                                ...
+    lda Character1 + BATTLE::PointerChr+1,X
+    sta TilesCount
+    ...
+</pre>
+
+And we will add the code for reviving with 50% HP:
+<pre>
+sub_17B8CB:                                                                         sub_17B8CB:
+    lda #$FF                                                                            lda #$FF
+    sta Value                                                                           sta Value
+    sta Value+1                                                                         sta Value+1
+    jmp loc_17B86B                                                                      ldy TargetOffset
+    ...                                                                                 lda Character1 + BATTLE::InitialStatus,Y
+                                                                                        asl A
+                                                                                        bcc loc_17B86B
+                                                                                        lda #0
+                                                                                        sta Character1 + BATTLE::InitialStatus,Y
+                                                                                        ldx TargetOffset
+                                                                                        ldy #CHARACTER::MaxHealth
+                                                                                        jsr get_chr_pntr
+                                                                                        lda (TilepackMode),Y
+                                                                                        lsr A
+                                                                                        sta Pointer
+                                                                                        iny
+                                                                                        lda (TilepackMode),Y
+                                                                                        ror A
+                                                                                        sta Pointer+1
+                                                                                        jmp brought
+</pre>
+
+We will fix the scripts in `enemies.s`:
+Before:
+<pre>
+LifeUpCream:
+    .byte $67,  0,$31,$41,$A0,$ED,$9C
+
+...
+EndScript:
+    .byte 0
+    .byte $68, $11, 0, $69, $B, $68, 6, 0, $69, $13, $68, $50, 0, $68, $12, 0
+
+.export BattleAction
+BattleAction:
+...
+</pre>
+
+After:
+<pre>
+LifeUpCream:
+    .byte $67,  0,$31,$41,$A0
+    .word Revive
+
+...
+EndScript:
+    .byte 0
+    .byte $68, $11, 0, $69, $B, $68, 6, 0, $69, $13, $68, $50, 0, $68, $12, 0
+
+Revive:
+    .byte $51, $40, 5, 0
+
+.export BattleAction
+BattleAction:
+...
+</pre>
+
+These changes will work during battles. Now let’s fix the behavior of LifeUpCream on the overworld map.
+
+We will make the following changes to the `bank13.s` file:
+
+We will add lines that check if the character is dead and LifeUpCream was used. If so, control will be passed to the `resurrect` subroutine, which revives the character with 50% HP.
+<pre>
+sub_13A53E:                                                                         sub_13A53E:
+    ...                                                                                 ...
+    .importzp PointerTilePack                                                           .importzp Item, PointerTilePack
+    ...                                                                                 ...
+
+loc_13A56F:                                                                         loc_13A56F:
+    jsr sub_13A9A3                                                                      jsr sub_13A9A3
+    ldx #$58                                                                            ldx #$58
+    jsr message_button                                                                  jsr message_button
+                                                                                        lda Item
+                                                                                        cmp #$41
+                                                                                        bne loc_13A577
+                                                                                        jmp resurrect
+
+loc_13A577:                                                                         loc_13A577:
+    jmp nothing_happend                                                                 jmp nothing_happend
+</pre>
+
+We will insert the `resurrect` function between the subroutines `sub_13A661` and `sub_13A681`
+<pre>
+.import loc_13A6F0
+resurrect:
+    jsr sram_write_enable
+    ldy #CHARACTER::InitialStatus
+    lda (BankPPU_X000),Y
+    and #$7F
+    sta (BankPPU_X000),Y
+    ldy #CHARACTER::MaxHealth
+    lda (BankPPU_X000),Y
+    sta Price
+    iny
+    lda (BankPPU_X000),Y
+    sta Price+1
+    lsr Price+1
+    ror Price
+    ldy #CHARACTER::Health
+    lda Price
+    sta (BankPPU_X000),Y
+    iny
+    lda Price+1
+    sta (BankPPU_X000),Y
+    jsr sram_read_enable
+    jsr loc_13A6F0
+    jsr make_msg
+    ldx #$14
+    jsr message_button
+    jmp sub_13BC04
+</pre>
+
+This completes the LifeUpCream modification.

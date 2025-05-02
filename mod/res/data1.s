@@ -542,7 +542,7 @@ BattleMsg:
     .word $67C, $67D, $67E, $67F, $680, $681, $682, $683    ; $A0
     .word $684, $685, $686, $687
 
-.export CommandMenu, FrameOff, InfoFrame, MsgFrame, stru_929B, stru_92CF, byte_9300, GoodsMenu
+.export CommandMenu, FrameOff, InfoFrame, MsgFrame, stru_929B, stru_92CF, WhoFrame, GoodsMenu
 .export byte_935F, stru_936A, StateFrame, Setup
 .import CurrentGame, Character
 
@@ -738,7 +738,7 @@ stru_92CF:
     .byte FRAME_BOTTOM_RIGHT
     end_frame
 
-byte_9300:
+WhoFrame:
     .byte FRAME_TOP_LEFT
     fill FRAME_TOP, 4
     .byte FRAME_TOP_RIGHT

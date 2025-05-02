@@ -1173,7 +1173,7 @@ loc_13A5B5:
 sub_13A5C5:
     .export sub_13A5C5, loc_13A5E2
     .import sram_write_enable, sram_read_enable, message_button
-    .importzp Price, BankPPU_X000, pTileID
+    .importzp BankPPU_X000, pTileID
 
     sty Price
     jsr get_dialog_id

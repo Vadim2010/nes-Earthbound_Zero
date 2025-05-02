@@ -490,7 +490,7 @@ loc_13A25D:
 loc_13A26A:
     jsr draw_goods_menu
     jsr get_char_pntr
-    jsr sub_13A972
+    jsr get_char_status
     beq loc_13A281
     lda Item
     cmp #3
@@ -610,10 +610,10 @@ cant_equip:
     jsr sub_13A9A3
     cmp BankPPU_X800
     beq loc_13A356
-    jsr sub_13A972
+    jsr get_char_status
     bne loc_13A349
     jsr get_char_pntr
-    jsr sub_13A972
+    jsr get_char_status
     bne wisdom
     ldx #$24
     jmp msg_press_redraw
@@ -626,14 +626,14 @@ wisdom:
 
 loc_13A349:
     jsr get_char_pntr
-    jsr sub_13A972
+    jsr get_char_status
     bne use_magic_herb
     ldx #$4E
     jmp msg_press_redraw
 ; ---------------------------------------------------------------------------
 
 loc_13A356:
-    jsr sub_13A972
+    jsr get_char_status
     bne use_magic_herb
     ldx #$50
     jmp msg_press_redraw
@@ -695,7 +695,7 @@ cant_do:
 .proc drop
     jsr sub_13A98B
     bcs dont_throw
-    jsr sub_13A972
+    jsr get_char_status
     bne force
     ldx #$20
     jmp msg_press_redraw
@@ -771,7 +771,7 @@ ActionTable:
     .import sub_E20F
     .importzp byte_34
 
-    jsr sub_13A9B1
+    jsr spend_pp
     jsr sub_E20F
     asl A
     bpl sub_13A43E
@@ -1048,7 +1048,7 @@ sub_13A50C:
     jsr sub_13AA4E
     bcs loc_13A56A
     jsr get_char_pntr
-    jsr sub_13A972
+    jsr get_char_status
     bmi loc_13A56F
     jsr make_msg
     ldx #$42
@@ -1073,8 +1073,8 @@ loc_13A53B:
 
 sub_13A53E:
     .export sub_13A53E, loc_13A542, loc_13A54B
-    .import loc_13A26A, message_button, two_messages
-    .importzp Price, Item, PointerTilePack
+    .import loc_13A26A, message_button
+    .importzp Item, PointerTilePack
 
     ldx #$2E
     bne loc_13A544
@@ -1092,7 +1092,7 @@ loc_13A54B:
     jsr sub_13AA4E
     bcs loc_13A56A
     jsr get_char_pntr
-    jsr sub_13A972
+    jsr get_char_status
     bmi loc_13A56F
     jsr make_msg
     jsr out_msg_button
@@ -1127,7 +1127,7 @@ loc_13A577:
 
 sub_13A57A:
     .import sram_write_enable, sram_read_enable, message_button, Sound2
-    .importzp BankPPU_X000
+    .importzp Price, BankPPU_X000
 
     sta Price
     sty Price+1
@@ -1137,7 +1137,7 @@ sub_13A57A:
     lda Price
     bmi loc_13A592
     jsr get_char_pntr
-    jsr sub_13A972
+    jsr get_char_status
     bmi loc_13A56F
 
 loc_13A592:
@@ -1176,14 +1176,14 @@ loc_13A5B5:
 sub_13A5C5:
     .export sub_13A5C5, loc_13A5E2
     .import sram_write_enable, sram_read_enable, message_button
-    .importzp Price, BankPPU_X000, pTileID
+    .importzp BankPPU_X000, pTileID
 
     sty Price
     jsr get_dialog_id
     jsr sub_13AA4E
     bcs loc_13A56A
     jsr get_char_pntr
-    jsr sub_13A972
+    jsr get_char_status
     bmi loc_13A56F
     jsr make_msg
     jsr out_msg_button
@@ -1230,7 +1230,7 @@ sub_13A612:
     jsr sub_13A62C
     jsr sub_13B98F
     bcs loc_13A659
-    jsr sub_13A9B1
+    jsr spend_pp
     ldx #$E
     jsr message_button
     pla
@@ -1274,11 +1274,11 @@ sub_13A63B:
 loc_13A63E:
     jsr sub_13AA4E
     bcs loc_13A659
-    jsr sub_13A9B1
+    jsr spend_pp
     ldx #$E
     jsr message_button
     jsr make_msg
-    jsr sub_13A972
+    jsr get_char_status
     bmi loc_13A65E
     jsr sub_13A681
     jmp sub_13BC04
@@ -1306,13 +1306,13 @@ sub_13A661:
     sty Price+1
     jsr sub_13AA4E
     bcs loc_13A659
-    jsr sub_13A9B1
+    jsr spend_pp
     ldx #$E
     jsr message_button
     jsr make_msg
     lda Price
     bmi loc_13A67E
-    jsr sub_13A972
+    jsr get_char_status
     bmi loc_13A65E
 
 loc_13A67E:
@@ -1351,7 +1351,6 @@ resurrect:
 
 
 .proc sub_13A681
-    .export two_messages
     .import sram_write_enable, sram_read_enable, message_button
 
     ldy #$14
@@ -1364,8 +1363,6 @@ resurrect:
     jsr sram_read_enable
     lda #7
     sta Sound2
-
-two_messages:
     ldx #$34
     jsr message_button
     ldx #$30
@@ -2009,14 +2006,14 @@ press_redraw:
 ; =============== S U B R O U T I N E =======================================
 
 
-.proc sub_13A972
+.proc get_char_status
     .importzp BankPPU_X000
 
-    ldy #1
+    ldy #CHARACTER::InitialStatus
     lda (BankPPU_X000),Y
     and #$F0
     rts
-.endproc            ; End of function sub_13A972
+.endproc            ; End of function get_char_status
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -2089,13 +2086,13 @@ loc_13A9A1:
 ; =============== S U B R O U T I N E =======================================
 
 
-.proc sub_13A9B1
+.proc spend_pp
     .import sram_write_enable, sram_read_enable
     .importzp BankPPU_X000, BankPPU_XC00
 
     jsr sram_write_enable
     sec
-    ldy #$16
+    ldy #CHARACTER::PP
     lda (BankPPU_X000),Y
     sbc BankPPU_XC00
     sta (BankPPU_X000),Y
@@ -2104,7 +2101,7 @@ loc_13A9A1:
     sbc #0
     sta (BankPPU_X000),Y
     jmp sram_read_enable
-.endproc            ; End of function sub_13A9B1
+.endproc            ; End of function spend_pp
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -5086,7 +5083,7 @@ loc_13B737:
 
 
 .proc sub_13B763
-    .import draw_symbol, sub_C3C0, load_obj_bank, cursor_update, get_cursor_pos
+    .import draw_symbol, who_frame, load_obj_bank, cursor_update, get_cursor_pos
     .importzp Column, Row, pCursor, Buttons, CursorPosition, CharNum
 
     ldx #2
@@ -5111,7 +5108,7 @@ loc_13B77E:
     lda Row
     sbc #4
     sta Row
-    jsr sub_C3C0
+    jsr who_frame
     jsr load_obj_bank
     ldxa #stru_13B7AC
     stxa pCursor
