@@ -105,7 +105,7 @@ After finishing the edits, build the ROM. Go to the folder with your modificatio
 1. Bullhorn
 2. LifeUpCream
 
-1. Bullhorn
+#### 1. Bullhorn
 In the original game, Bullhorn works as follows:
 When used in battle, the user shouts "Your mother is calling for you!" to one of the enemies. This can lead to one of two outcomes: if the enemy believes the statement, their Fight stat decreases; if they don't believe it and get angry, their Offense increases.
 
@@ -116,7 +116,7 @@ Believes it: Offense decreases.
 Disbelieves it and gets angry: Fight increases.
 
 There is already a subroutine in the game that decreases Offense, so we only need to update the Bullhorn script accordingly.
-However, there is no existing subroutine for increasing Fight in `battle.s`. Still, there is a dialog message related to increasing Fight found in dialogs.s. This means we’ll need to implement a new handler for increasing the Fight stat and use the existing message.
+However, there is no existing subroutine for increasing Fight in `battle.s`. Still, there is a dialog message related to increasing Fight found in `dialogs.s`. This means we’ll need to implement a new handler for increasing the Fight stat and use the existing message.
 
 But there’s a problem: looking at `original\build\mmc3\map.txt`, we see that `battle.s` occupies nearly the entire memory bank (BANK_7) — 8190 ($1FFE) bytes out of 8192 ($2000), leaving only 2 free bytes. This is just enough to add a pointer to the new Fight-increase handler, but not the handler code itself. We need an additional 17 bytes for the new subroutine.
 
@@ -205,3 +205,26 @@ increase_fight:
     lda #FIGHTinc
     jmp print_text
 </pre>
+
+Let’s fix the script that handles Bullhorn in the `enemies.s` file.
+Before:
+<pre>
+Bullhorn:
+    .byte $67, 0,$30,$70,$51,$80,$B7,$9E
+    .byte $68,$18,$13,$88,$59,$9C,$68,$35
+    .byte $62,$19,$40,$2B, 0,$68,$36,$68
+    .byte $37,$62,$14,$40, $B, 0
+</pre>
+
+After:
+<pre>
+Bullhorn:
+    .byte $67, 0,$30,$70,$51,$80,$B7,$9E
+    .byte $68,$18,$13,$88,$59,$9C,$68,$35
+    .byte $62,$14,$40,$B, 0,$68,$36,$68
+    .byte $37,$62,$19,$40, $2B, 0
+</pre>
+
+Since Bullhorn is only used during battle, these are the only changes that need to be made.
+
+#### 2. LifeUpCream
