@@ -542,8 +542,8 @@ BattleMsg:
     .word $67C, $67D, $67E, $67F, $680, $681, $682, $683    ; $A0
     .word $684, $685, $686, $687
 
-.export CommandMenu, FrameOff, InfoFrame, MsgFrame, stru_929B, stru_92CF, WhoFrame, GoodsMenu
-.export byte_935F, stru_936A, StateFrame, Setup
+.export CommandMenu, FrameOff, InfoFrame, MsgFrame, GoodsPSIFrame, StoreFrame, WhoFrame, GoodsMenu
+.export byte_935F, CashFrame, StateFrame, Setup
 .import CurrentGame, Character
 
 CommandMenu:
@@ -652,7 +652,7 @@ MsgFrame:
     .byte FRAME_BOTTOM_RIGHT
     end_frame
 
-stru_929B:
+GoodsPSIFrame:
     tile_position 5, 3
     .byte FRAME_TOP_LEFT, FRAME_TOP, " ", ARROW
     fill FRAME_TOP, 21
@@ -696,7 +696,7 @@ byte_92A6:
     .byte FRAME_BOTTOM_RIGHT
     end_frame
 
-stru_92CF:
+StoreFrame:
     tile_position 1, 1
     .byte FRAME_TOP_LEFT
     fill FRAME_TOP, 20
@@ -815,7 +815,7 @@ byte_935F:
 
     frame_offset byte_92A6
 
-stru_936A:
+CashFrame:
     tile_position 21, 1
     .byte FRAME_TOP_LEFT, FRAME_TOP, FRAME_TOP, FRAME_TOP_SHORT, "Cash", FRAME_TOP, FRAME_TOP_RIGHT
     end_row

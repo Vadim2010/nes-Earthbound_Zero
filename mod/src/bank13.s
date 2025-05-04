@@ -5220,10 +5220,10 @@ loc_13B7F4:
 
 
 .proc sub_13B814
-    .import sub_C3B9, load_obj_bank, short_cursor_update
+    .import store_frame, load_obj_bank, short_cursor_update
     .importzp Source, pStr, Row, Column, pCursor, Buttons, Item, ScriptOffset, PrintSize
 
-    jsr sub_C3B9
+    jsr store_frame
     jsr load_obj_bank
     sec
     lda ScriptOffset
@@ -5954,10 +5954,10 @@ get_off:
 
 
 .proc sub_13BC04
-    .import wait_press_button, sub_C3D5
+    .import wait_press_button, info_frame
 
     jsr wait_press_button
-    jmp sub_C3D5
+    jmp info_frame
 .endproc            ; End of function sub_13BC04
 
 
@@ -5991,14 +5991,14 @@ get_off:
 
 
 .proc sub_13BC28
-    .import sub_C3DF, load_obj_bank
+    .import cash_frame, load_obj_bank
     .importzp Column, Row
 
     lda Column
     pha
     lda Row
     pha
-    jsr sub_C3DF
+    jsr cash_frame
     pla
     sta Row
     pla

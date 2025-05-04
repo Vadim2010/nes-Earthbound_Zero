@@ -28,13 +28,17 @@ This repository is dedicated to disassembling the English version of the game Ea
 
 Contains subroutines of basic and auxiliary functions of work with peripherals.
 
+### sys
+
+Contains files that implement basic NES functions.
+
 ### original
 
 Contains files for building the original game image.
 
-### sys
+### mod
 
-Contains files that implement basic NES functions.
+Contains files for creating a modified game image containing all the fixes described below.
 
 ## Getting Started
 

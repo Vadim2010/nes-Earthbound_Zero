@@ -4793,10 +4793,6 @@ sub_17B8CB:
     ror A
     sta Pointer+1
     jmp brought
-    ;lda #$FF
-    ;sta Value
-    ;sta Value+1
-    ;jmp loc_17B86B
 ; End of function sub_17B8CB
 
 

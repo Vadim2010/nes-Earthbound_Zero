@@ -277,7 +277,7 @@ bank0_0:
 ; ---------------------------------------------------------------------------
 .import InfoFrame
 
-TilePack:
+InfoFrame1:
     tile_position 1, 23
     tile_pointer InfoFrame
     end_row
@@ -294,7 +294,7 @@ TilePack:
 EndTileMark:
     end_frame
 
-stru_C33E:
+InfoFrame2:
     tile_position 1, 21
     tile_pointer InfoFrame
     end_row
@@ -312,7 +312,7 @@ stru_C33E:
     .byte FRAME_BOTTOM_RIGHT
     end_frame
 
-stru_C359:
+InfoFrame3:
     tile_position 1, 19
     tile_pointer InfoFrame
     end_row
@@ -382,9 +382,9 @@ loc_C3AF:
 
 goods_psi_frame:
     .export goods_psi_frame
-    .import stru_929B
+    .import GoodsPSIFrame
 
-    ldxa #stru_929B
+    ldxa #GoodsPSIFrame
     jmp out_frame
 ; End of function goods_psi_frame
 
@@ -392,13 +392,13 @@ goods_psi_frame:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_C3B9:
-    .export sub_C3B9
-    .import stru_92CF
+store_frame:
+    .export store_frame
+    .import StoreFrame
 
-    ldxa #stru_92CF
+    ldxa #StoreFrame
     jmp out_frame
-; End of function sub_C3B9
+; End of function store_frame
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -440,25 +440,25 @@ sub_C3CE:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_C3D5:
-    .export sub_C3D5
+info_frame:
+    .export info_frame
 
     jsr load_character_data ; Copies the characteristics of the characters
     ldxa #FrameOff
     jmp out_frame
-; End of function sub_C3D5
+; End of function info_frame
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_C3DF:
-    .export sub_C3DF
-    .import stru_936A
+cash_frame:
+    .export cash_frame
+    .import CashFrame
 
-    ldxa #stru_936A
+    ldxa #CashFrame
     jmp out_frame
-; End of function sub_C3DF
+; End of function cash_frame
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -850,7 +850,7 @@ loc_C5EE:
 
 ; ---------------------------------------------------------------------------
 off_C616:
-    .word EndTileMark, TilePack, stru_C33E, stru_C359
+    .word EndTileMark, InfoFrame1, InfoFrame2, InfoFrame3
 
 .import sCold, sPoison, sPuzzld, sConfsd, sAsleep, sParlzd, sStone, sFaintd
 Condition:
