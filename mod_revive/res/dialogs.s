@@ -7406,7 +7406,7 @@ sStrengthen:
 
 sLifeUpCreamUse:
     .byte $A6, "Revival Cream", $A6, 1
-    .byte "@USEd to restore", 1, 
+    .byte "@USEd to restore", 1
     .byte " consciousness.", 1, 0
 
 sAsthmaAttacks:
