@@ -7406,7 +7406,8 @@ sStrengthen:
 
 sLifeUpCreamUse:
     .byte $A6, "Life Up Cream", $A6, 1
-    .byte "@USEd to heal wounds.", 1, 0
+    .byte "@USEd to heal wound", 1
+    .byte "or resurrection", 1, 0
 
 sAsthmaAttacks:
     .byte $A6, "Asthma Spray", $A6, 1

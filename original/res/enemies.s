@@ -3130,23 +3130,23 @@ byte_1697B5:
 
 .export BattleScripts
 BattleScripts:
-    .word End,Fight,Fight2,Fight3,Fight4,Fight5,Fight6,Fight7
-    .word Fight8,PKFireAlpha,PKFireBeta,PKFireGamma,PKFreezeAlpha,PKFreezeBeta,PKFreezeOmega,PKFreezeGamma
+    .word End,Fight,ContAttack,Bite,Scratch,Charge,RanOutOf,FinalBlow
+    .word Inexplicable,PKFireAlpha,PKFireBeta,PKFireGamma,PKFreezeAlpha,PKFreezeBeta,PKFreezeOmega,PKFreezeGamma
     .word Bomb,SuperBomb,PKBeamAlpha,PKBeamBeta,PKBeamOmega,PKBeamGamma,Insecticide,PKThunderAlpha
-    .word PKThunderBeta,Fight_19,Fight_1A,OffenseUp,Fight_1C,DefenseUpAlpha,DefenseUpBeta,QuickUp
-    .word EndScript,EndScript,Fight_22,Fight_23,EndScript,DefenseDownAlpha,EndScript,EndScript
-    .word Fight_28,LifeUpAlpha,LifeUpBeta,LifeUpGamma,LifeUpPi,LifeUpOmega,Fight_2E,PSIStone
-    .word PSIMagnet,Darkness,Fight_32,EndScript,Fight_34,EndScript,PSIBlock,PowerShield
-    .word PSIShieldAlpha,PSIShieldBeta,EndScript,EndScript,Bullhorn,PoisnNeedle,StoneOrigin,Fight_3F
-    .word Fight_40,Fight_41,BrainShock,BrainCyclon,Hypnosis,Paralysis,Fight_46,UseRope
-    .word Fight_48,Fight_49,Fight_4A,Fight_4B,Fight_4C,EndScript,EndScript,Fight_4F
-    .word Fight_50,Fight_51,EndScript,Fight_53,Fight_54,EndScript,EndScript,EndScript
-    .word EndScript,GuardScript,EndScript,HealingAlpha,P4thDSlip,Fight_5D,Fight_5E,NobleSeed
+    .word PKThunderBeta,Explode,Burn,OffenseUp,Sing,DefenseUpAlpha,DefenseUpBeta,QuickUp
+    .word EndScript,EndScript,ThreatWords,DirtyWord,EndScript,DefenseDownAlpha,EndScript,EndScript
+    .word Rampage,LifeUpAlpha,LifeUpBeta,LifeUpGamma,LifeUpPi,LifeUpOmega,FlowEnergy,PSIStone
+    .word PSIMagnet,Darkness,GasAttack,EndScript,Dehydrate,EndScript,PSIBlock,PowerShield
+    .word PSIShieldAlpha,PSIShieldBeta,EndScript,EndScript,Bullhorn,PoisnNeedle,StoneOrigin,StickySpit
+    .word Confuse,EvilSeed,BrainShock,BrainCyclon,Hypnosis,Paralysis,Trip,UseRope
+    .word Run,Fight_49,Fight_4A,Fight_4B,Laugh,EndScript,EndScript,Grin
+    .word Meditate,WalkAway,EndScript,AttackReady,Circumstance,EndScript,EndScript,EndScript
+    .word EndScript,GuardScript,EndScript,HealingAlpha,P4thDSlip,Fight_5D,CameClose,NobleSeed
     .word FleaBag,EndScript,Fight_62,HealingBeta,HealingPi,SuprHealing,ShieldOff,FlThrower
-    .word EndScript,LaserBeam,PlasmaBeam,Fight_6B,Fight_6C,Flashdark,StkyMachine,Fight_6F
+    .word EndScript,LaserBeam,PlasmaBeam,Smile,Cry,Flashdark,StkyMachine,Fight_6F
     .word EndScript,OrangeJuice,FrenchFries,MagicHerb,SportsDrink,BigBag,AsthmaSpray,SuperSpray
     .word WordsOLove,SwearWords,Hamburger,LifeUpCream,Antidote,BottlRocket,EndScript,EndScript
-    .word Fight_80,EndScript,DefenseDownBeta,PKThunderGamma,Bread,PKFireOmega,HealingGamma,EndScript, Fight_88
+    .word ParalyzingGas,EndScript,DefenseDownBeta,PKThunderGamma,Bread,PKFireOmega,HealingGamma,EndScript, BlowUp
 
 End:
     .byte 0
@@ -3158,32 +3158,32 @@ Fight:
     .byte 4, $1B, $68, $B, $61, 0, $40, 6, 0, $69, 8, $68
     .byte 5, $1B, $62, $3C, $40, 6, 0
 
-Fight2:
+ContAttack:
     .byte $51, $66, 0, $68, 4, $90, $1F, $99, $80, $56, $99, $66, 0, $68, 7, $90
     .byte $1F, $99, 0
 
-Fight3:
+Bite:
     .byte $51, $66, 0, $68, 8, $60, 0, $80, $B7
     .byte $9E, $81, $BA, $9E, $73, $BF, $9E, $12, $40, 6, 0
 
-Fight4:
+Scratch:
     .byte $51, $66, 0, $68, 9, $A0, $5C, $99
 
-Fight5:
+Charge:
     .byte $51, $66, 0, $68, $A, $A0, $5C, $99
 
-Fight6:
+RanOutOf:
     .byte $51, $66, 0, $68, $13, $62, $F, $A0, $5E, $99
 
-Fight7:
+FinalBlow:
     .byte $51, $69, 3, $68, $15, $80, $9A, $99, $73, $A0, $99, $1B, $62, $C8, $40, 6, $40, $E
     .byte $68, $14, 0, $90, $B7, $9E, $A0, $95, $99, $90, $BF, $9E, $A0, $95, $99
 
-Fight8:
+Inexplicable:
     .byte $63, 0, $52, $69, $14, $68, $16
     .byte $B4, $80, $B6, $99, $13, $62, $4B, $40, 6, $56, 0, 0
 
-Fight_1C:
+Sing:
     .byte $52, $68, $5A, $B4, $80, $CA, $99, $8D, $C8, $99
     .byte $40, $29, $A0, $CA, $99, $68, $12, $56, 0, 0
 
@@ -3270,16 +3270,16 @@ SuperSpray:
 Flashdark:
     .byte $67, 0, $30, $1F, $A0, $12, $9B
 
-Fight_3F:
+StickySpit:
     .byte $66,  0,$68,$1A,$51,$80,$B7,$9E
     .byte $13,$40,$12,  0
 
-Fight_40:
+Confuse:
     .byte $69, $D,$51,$68,$2C,$51,$80,$B7
     .byte $9E,$13,$78,$C4,$9E,$79,$C4,$9E
     .byte $7A,$C4,$9E,$40,$14,  0
 
-Fight_41:
+EvilSeed:
     .byte $69, $D,$68,$76,$A0,$35,$9B
 
 BrainShock:
@@ -3299,7 +3299,7 @@ DefenseUpAlpha:
     .byte $67,  0,$20,$21,$51,$80,$B7,$9E
     .byte $40,  4,  0
 
-Fight_6B:
+Smile:
     .byte $68,$28,$54,$A0,$81,$9B
 
 DefenseUpBeta:
@@ -3310,7 +3310,7 @@ QuickUp:
     .byte $67,  0,$20,$23,$51,$80,$B7,$9E
     .byte $62,$14,$40,  2,  0
 
-Fight_28:
+Rampage:
     .byte $62,$19
     .byte $54
     .byte $68,$2A
@@ -3331,7 +3331,7 @@ PoisnNeedle:
     .byte $73,$BF,$9E,$13,$79,$C4,$9E,$40
     .byte $13,  0
 
-Fight_6C:
+Cry:
     .byte $68,$1D,$A0,$C0,$9B
 
 DefenseDownBeta:
@@ -3340,20 +3340,20 @@ DefenseDownBeta:
     .byte   4,$40,  7,$56,  0,  0,$68,$12
     .byte $A0,$F9,$9B
 
-Fight_22:
+ThreatWords:
     .byte $68,$32,$62,$1E,$51,$80,$B7,$9E
     .byte $13,$40,  8,  0
 
-Fight_23:
+DirtyWord:
     .byte $68,$33,$62,$14,$A0,  5,$9C
 
-Fight_32:
+GasAttack:
     .byte $52,$66,  0,$68,$4A,$B4,$80,$2B
     .byte $9C,$12,$62,$1E,$40,  6,$80,$2B
     .byte $9C,$62,$14,$40,  8,$40,$1D,$56
     .byte   0,  0
 
-Fight_34:
+Dehydrate:
     .byte $51,$66,  0,$68,  4,$80,$B7,$9E
     .byte $73,$BF,$9E,$13,$79,$C4,$9E,$68
     .byte $4C,$40, $B,$40, $C,  0
@@ -3387,7 +3387,7 @@ StkyMachine:
     .byte $13,$79,$C4,$9E,$40,$16,$C0,$1E
     .byte   0
 
-Fight_80:
+ParalyzingGas:
     .byte $68,$77,$A0,$AB,$9C
 
 Fight_62:
@@ -3420,7 +3420,7 @@ LifeUpOmega:
     .byte $9D,$7C,$15,$9D,$40,  5,$56,  0
     .byte   0
 
-Fight_2E:
+FlowEnergy:
     .byte $51,$68,$3F,$A0,$ED,$9C
 
 PSIStone:
@@ -3504,12 +3504,12 @@ PSIShieldBeta:
     .byte $67,  0,$20,$16,$53,$B4,$80,$F6
     .byte $9D,$40,$19,$56,  0,  0
 
-Fight_48:
+Run:
     .byte $55,$68,$43,$78, $C,$9E,$7B, $C
     .byte $9E,$B4,$86,  9,$9E,$69,$11,$11
     .byte $56,  0,  0,$68,$44,  0
 
-Fight_53:
+AttackReady:
     .byte $68,$59,$54,$40,$18,  0
 
 GuardScript:
@@ -3524,16 +3524,16 @@ ShieldOff:
     .byte $67,  0,$20,$1E,$51,$80,$B7,$9E
     .byte $40,$24,  0
 
-Fight_46:
+Trip:
     .byte $69,$13,$68,$45,  0
 
-Fight_4C:
+Laugh:
     .byte $68,$30,  0
 
-Fight_4F:
+Grin:
     .byte $68,$34,  0
 
-Fight_50:
+Meditate:
     .byte $68,$57,  0
 
 WordsOLove:
@@ -3542,15 +3542,15 @@ WordsOLove:
 SwearWords:
     .byte $67,  0,$30,$1D,$68,$73,  0
 
-Fight_19:
+Explode:
     .byte $69,  8,$68,$1E,$90,$51,$9A,$40
     .byte  $E,  0
 
-Fight_88:
+BlowUp:
     .byte $69,  8,$68,$1E,$90, $A,$9A,$40
     .byte  $E,  0
 
-Fight_1A:
+Burn:
     .byte $69,  5,$68,$1F,$62,$1E,$90,$D3
     .byte $99,$40, $E,  0
 
@@ -3569,14 +3569,14 @@ Fight_4B:
     .byte $51,$80, $E,$99,$73, $E,$99,$69
     .byte  $B,$40,$28,  0
 
-Fight_51:
+WalkAway:
     .byte $68,$58,$54,$69,$11,$11,$51,$62
     .byte $46,$40, $D,  0
 
-Fight_54:
+Circumstance:
     .byte $66,  0,$68,$66,$54,$40,$2A,  0
 
-Fight_5E:
+CameClose:
     .byte $10
     .byte $68,  3
     .byte 0
