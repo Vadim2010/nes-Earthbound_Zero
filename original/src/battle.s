@@ -23,8 +23,7 @@ battle:
     .importzp byte_23, byte_47, EnemyGroup, Experience, Money
     .importzp MsgCounter, CharacterOffset, BossID, Auto, EnemyPos, EnemyCount
 
-    lda #0
-    sta GamepadButtons
+    set GamepadButtons, #0
     sta GamepadButtons+1
     sta MsgCounter
     sta Auto
@@ -45,8 +44,7 @@ battle:
     sta byte_580,X
     dex
     bpl @clear2
-    lda #0
-    sta CharacterOffset
+    set CharacterOffset, #0
     ldx #0
 
 next_character:
@@ -69,8 +67,7 @@ no_character:
     jsr get_enemy_group ; Input: EnemyGroup - ID enemy ?
                         ; Output: pCharacter - pointer to struct
                         ;         Pointer - offset for struct, offset zero page
-    lda #$80
-    sta CharacterOffset
+    set CharacterOffset, #$80
     ldy #0
 
 @next_enemy:
@@ -138,10 +135,8 @@ no_character:
     ldy #$C0
     jsr fill_attribute
     jsr statistical_frame
-    lda #0
-    sta EnemyCount
-    lda #$80
-    sta CharacterOffset
+    set EnemyCount, #0
+    set CharacterOffset, #$80
 
 loc_17A0C0:
     ldx CharacterOffset
@@ -183,10 +178,8 @@ loc_17A0D9:
     cpx #8
     bne loc_17A0D9
     jsr wait_nmi_processed
-    lda #WRITE_ROW
-    sta NMI_Data + NMI_DATA::NMI_ID
-    lda #$10
-    sta NMI_Data + NMI_DATA::NumOfChr
+    set NMI_Data + NMI_DATA::NMI_ID, #WRITE_ROW
+    set NMI_Data + NMI_DATA::NumOfChr, #$10
     ldy #0
     ldx #4
 
@@ -200,16 +193,11 @@ loc_17A110:
     bne loc_17A110
     lda #0
     sta NMI_Data + NMI_DATA::PPU_Addr+6,X
-    lda #$80
-    sta NMIFlags
-    lda #$23
-    sta NMI_Data + NMI_DATA::PPU_Addr
-    lda #$D8
-    sta NMI_Data + NMI_DATA::PPU_Addr+1
-    lda #0
-    sta OffsetNMI_Data
-    lda #0
-    sta byte_47
+    set NMIFlags, #$80
+    set NMI_Data + NMI_DATA::PPU_Addr, #$23
+    set NMI_Data + NMI_DATA::PPU_Addr+1, #$D8
+    set OffsetNMI_Data, #0
+    set byte_47, #0
     sta EnemyGroup
     ldx #$80
 
@@ -236,11 +224,9 @@ loc_17A142:
     cmp #1
     bne loc_17A173
     ldx #4
-    lda #$FF
-    sta Enemy1 + BATTLE::Health
+    set Enemy1 + BATTLE::Health, #$FF
     sta Enemy1 + BATTLE::Health+1
-    lda #0
-    sta Character2 + BATTLE::EnemyGroup
+    set Character2 + BATTLE::EnemyGroup, #0
     sta Character3 + BATTLE::EnemyGroup
     sta Character4 + BATTLE::EnemyGroup
 
@@ -265,10 +251,8 @@ loc_17A18C:
     lda BossID
     cmp #5
     bne loc_17A19C
-    lda #$96
-    sta NamePos
-    lda Character1 + BATTLE::Speed
-    sta Enemy1 + BATTLE::Speed
+    set NamePos, #$96
+    set Enemy1 + BATTLE::Speed, Character1 + BATTLE::Speed
 
 loc_17A19C:
     ldx #20
@@ -284,8 +268,7 @@ loc_17A19C:
     jsr delay
     lda #CLEAR1
     jsr frame
-    lda #0
-    sta MsgCounter
+    set MsgCounter, #0
     jsr shift_up_window
     jsr sub_F765
     jsr battle_order      ; battle menu, wait command
@@ -298,8 +281,7 @@ loc_17A19C:
 
 @end_battle:
     jsr clear_jmp_instr
-    lda #0
-    sta GamepadButtons
+    set GamepadButtons, #0
     sta GamepadButtons+1
     rts
 ; End of function battle
@@ -369,8 +351,7 @@ copy_enemy:
     asl A
     asl A
     sta Character1 + BATTLE::Letter,X
-    lda Pointer
-    sta AddrForJmp
+    set AddrForJmp, Pointer
     lda #0
     ldx #5
 
@@ -571,10 +552,8 @@ loc_17A32F:
     lda pTileID+1
     adc #0
     sta pTileID+1
-    lda #0
-    sta OffsetNMI_Data
-    lda #$80
-    sta NMIFlags
+    set OffsetNMI_Data, #0
+    set NMIFlags, #$80
     dec AddrForJmp
     bne @next_row
     ldx CharacterOffset
@@ -628,18 +607,12 @@ fill_attribute:
     jsr wait_nmi_processed
     stx NMI_Data + NMI_DATA::PPU_Addr
     sty NMI_Data + NMI_DATA::PPU_Addr+1
-    lda #FILL
-    sta NMI_Data + NMI_DATA::NMI_ID
-    lda #$40
-    sta NMI_Data + NMI_DATA::NumOfChr
-    lda #$FF
-    sta NMI_Data + NMI_DATA::Chr
-    lda #0
-    sta NMI_Data + NMI_DATA::Next
-    lda #$80
-    sta NMIFlags
-    lda #0
-    sta OffsetNMI_Data
+    set NMI_Data + NMI_DATA::NMI_ID, #FILL
+    set NMI_Data + NMI_DATA::NumOfChr, #$40
+    set NMI_Data + NMI_DATA::Chr, #$FF
+    set NMI_Data + NMI_DATA::Next, #0
+    set NMIFlags, #$80
+    set OffsetNMI_Data, #0
     rts
 ; End of function fill_attribute
 
@@ -742,8 +715,7 @@ print_msg:
     lda (StackPointer),Y
     cmp #3
     bne loc_17A49D
-    lda #$F
-    sta Column
+    set Column, #$F
     jsr sub_F5C2
     inc StackPointer
     bne loc_17A495
@@ -756,15 +728,10 @@ loc_17A495:
     beq locret_17A4BA
 
 loc_17A49D:
-    lda #$16
-    sta PrintSize
-    lda #5
-    sta Column
+    set PrintSize, #$16
+    set Column, #5
     jsr wait_nmi_processed
-    lda StackPointer
-    sta PointerTilePack
-    lda StackPointer+1
-    sta PointerTilePack+1
+    store StackPointer, PointerTilePack
     jsr print_string
     lda #1
     jsr move_chars      ; Move $A4 chars from $432-4D6 to $45B-4FF
@@ -781,8 +748,7 @@ locret_17A4BA:
 set_names:
     .import TilePntr1, TilePntr2
 
-    lda #$21
-    sta TilePntr1
+    set TilePntr1, #$21
     sta TilePntr2
     store #TilePntr1, AddrForJmp
     ldx CharacterOffset
@@ -828,8 +794,7 @@ loc_17A505:
 
 
 battle_order:
-    lda #0
-    sta CharacterOffset
+    set CharacterOffset, #0
 
 loc_17A50E:
     ldy CharacterOffset
@@ -1399,24 +1364,15 @@ auto:
 .import stru_159714
 
     jsr wait_nmi_processed
-    lda #1
-    sta Auto
-    lda #<stru_159714
-    sta SpriteTable + ANIM_SPRITE::pFrame+$E0
-    lda #>stru_159714
-    sta SpriteTable + ANIM_SPRITE::pFrame+$E1
-    lda #4
-    sta SpriteTable + ANIM_SPRITE::Tiles+$E0
-    lda #0
-    sta SpriteTable + ANIM_SPRITE::TileID+$E0
+    set Auto, #1
+    store #stru_159714, SpriteTable + ANIM_SPRITE::pFrame+$E0
+    set SpriteTable + ANIM_SPRITE::Tiles+$E0, #4
+    set SpriteTable + ANIM_SPRITE::TileID+$E0, #0
     sta SpriteTable + ANIM_SPRITE::ShiftX+$E0
     sta SpriteTable + ANIM_SPRITE::ShiftY+$E0
-    lda #$D0
-    sta SpriteTable + ANIM_SPRITE::PosX+$E0
-    lda #$47
-    sta SpriteTable + ANIM_SPRITE::PosY+$E0
-    lda #1
-    sta NMIFlags
+    set SpriteTable + ANIM_SPRITE::PosX+$E0, #$D0
+    set SpriteTable + ANIM_SPRITE::PosY+$E0, #$47
+    set NMIFlags, #1
     clc
     jmp nullsub_6
 ; End of function auto
@@ -1427,8 +1383,7 @@ auto:
 
 battle_psi:
     jsr get_psi_pointer
-    lda #0
-    sta Pointer
+    set Pointer, #0
     ldy #7
 
 loc_17A850:
@@ -1495,8 +1450,7 @@ battle_goods:
     lda Character1 + BATTLE::PointerChr+1,Y
     adc #>CHARACTER::Goods
     sta pCharacter+1
-    lda #0
-    sta Pointer
+    set Pointer, #0
     ldy #7
 
 loc_17A89F:
@@ -1537,8 +1491,7 @@ battle_check:
     .import byte_591
     .importzp CursorPosition
 
-    lda #$80
-    sta TargetOffset
+    set TargetOffset, #$80
     jsr target_choice
     bcs loc_17A8DF
     ldx CursorPosition
@@ -1735,8 +1688,7 @@ loc_17A9B1:
 target_list:
     .import byte_590, byte_592, byte_593, unk_594
 
-    lda #$12
-    sta Row
+    set Row, #$12
     ldx #0
     stx byte_591
     stx byte_592
@@ -1874,8 +1826,7 @@ loc_17AA69:
     beq loc_17AA9C
     jsr get_itemID_pntr
     jsr bank0
-    lda #4
-    sta unk_588
+    set unk_588, #4
     ldy #0
     lda (AddrForJmp),Y
     sta unk_589
@@ -1940,16 +1891,14 @@ get_goods_pointer_battle:
 
 set_item_name_tiles:
     jsr bank0
-    lda #$21
-    sta byte_590
+    set byte_590, #$21
     ldy #0
     lda (AddrForJmp),Y
     sta byte_591
     iny
     lda (AddrForJmp),Y
     sta byte_592
-    lda #0
-    sta byte_593
+    set byte_593, #0
     jmp bank16
 ; End of function set_item_name_tiles
 
@@ -1960,14 +1909,8 @@ set_item_name_tiles:
 select_battle_goods:
 .import stru_169F95
 
-    lda #<stru_169F95
-    sta pCursor
-    lda #>stru_169F95
-    sta pCursor+1
-    lda pCharacter
-    sta pStr
-    lda pCharacter+1
-    sta pStr+1
+    store #stru_169F95, pCursor
+    store pCharacter, pStr
     jsr short_cursor_update
     bit Buttons
     bvs loc_17AB0E
@@ -2057,8 +2000,7 @@ print_list:
     asl A
     asl A
     sta Pointer
-    lda #$80
-    sta Pointer+1
+    set Pointer+1, #$80
     ldx #0
 
 loc_17AB6D:
@@ -2093,8 +2035,7 @@ loc_17AB86:
     beq loc_17ABBA
     jsr set_jmp_addr
     jsr bank0
-    lda #4
-    sta unk_588
+    set unk_588, #4
     ldy #0
     lda (AddrForJmp),Y
     sta unk_589
@@ -2120,10 +2061,7 @@ loc_17ABBA:
 list_select:
 .import ListCursor, stru_169F9D
 
-    lda #<ListCursor
-    sta pCursor
-    lda #>ListCursor
-    sta pCursor+1
+    store #ListCursor, pCursor
     jsr cursor_update
     lda Buttons
     and #6
@@ -2147,10 +2085,7 @@ loc_17ABE3:
 ; ---------------------------------------------------------------------------
 
 loc_17ABE6:
-    lda #<stru_169F9D
-    sta pCursor
-    lda #>stru_169F9D
-    sta pCursor+1
+    store #stru_169F9D, pCursor
     jsr cursor_update
     lda Buttons
     and #8
@@ -2317,8 +2252,7 @@ loc_17ACA3:
 sub_17ACA5:
     .import get_speed
 
-    lda #0
-    sta Pointer
+    set Pointer, #0
     sta Pointer+1
 
 loc_17ACAB:
@@ -2333,8 +2267,7 @@ loc_17ACAB:
     cmp Pointer+1
     bcc loc_17ACC8
     sta Pointer+1
-    lda Pointer
-    sta AddrForJmp
+    set AddrForJmp, Pointer
 
 loc_17ACC8:
     clc
@@ -2488,8 +2421,8 @@ next_script:
     jsr script_high
 ; ---------------------------------------------------------------------------
     .word step_1, sub_17ADC9, use_psi, print_used_item, change_parameter
-    .word get_target, sub_17AF08, sub_17AF31, sub_17AF39, sub_17AF7B
-    .word sub_17AF92, sub_17AF98, sub_17AE8E
+    .word get_target, sub_17AF08, script_bcc, script_bcs, script_sub
+    .word script_jmp, sub_17AF98, item_gone
 ; ---------------------------------------------------------------------------
 
 loc_17ADC1:
@@ -2559,18 +2492,15 @@ loc_17ADFB:
     ldy #7
     lda (Pointer),Y
     sta Value
-    lda #0
-    sta Value+1
-    lda #$21
-    sta byte_590
+    set Value+1, #0
+    set byte_590, #$21
     ldy #0
     lda (Pointer),Y
     sta byte_591
     iny
     lda (Pointer),Y
     sta byte_592
-    lda #0
-    sta byte_593
+    set byte_593, #0
     jsr bank16
     lda #Ttried
     jsr print_text
@@ -2581,8 +2511,7 @@ loc_17ADFB:
     jsr waste_PP_stframe
     lda Sound
     jsr play_sound
-    lda #0
-    sta Sound
+    set Sound, #0
     lda #2
     jmp get_script_pntr
 ; ---------------------------------------------------------------------------
@@ -2623,8 +2552,7 @@ loc_17AE7B:
     jsr print_text
     lda Sound
     jsr play_sound
-    lda #0
-    sta Sound
+    set Sound, #0
     lda #2
     jmp get_script_pntr
 ; End of function print_used_item
@@ -2633,68 +2561,68 @@ loc_17AE7B:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17AE8E:
+item_gone:
     ldy #1
     lda (pBattleScript),Y
     jsr get_itemID_pntr
     jsr set_item_name_tiles
     ldy CharacterOffset
-    bmi loc_17AEE5
+    bmi step2
     ldy #0
     lda (pBattleScript),Y
     and #$F
     jsr script_high
-; End of function sub_17AE8E
+; End of function item_gone
 ; ---------------------------------------------------------------------------
-    .word sub_17AEAB, sub_17AEBD, sub_17AECF
+    .word item_broken, turn2stone, became_empty
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17AEAB:
+item_broken:
     jsr randomize
     and #$E0
-    bne loc_17AEE5
+    bne step2
     jsr remove_item
     lda #WasBroken
     jsr print_text
-    jmp loc_17AEE5
-; End of function sub_17AEAB
+    jmp step2
+; End of function item_broken
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17AEBD:
+turn2stone:
     jsr randomize
     and #$E0
-    bne loc_17AEE5
+    bne step2
     jsr remove_item
     lda #TurnedIntoStone
     jsr print_text
-    jmp loc_17AEE5
-; End of function sub_17AEBD
+    jmp step2
+; End of function turn2stone
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17AECF:
+became_empty:
     .import sram_read_enable
 
     jsr sram_write_enable
-    dec CurrentGame + PURE_SAVE::field_1F       ; $741F
+    dec CurrentGame + PURE_SAVE::field_1F
     jsr sram_read_enable
-    lda CurrentGame + PURE_SAVE::field_1F       ; $741F
-    bne loc_17AEE5
+    lda CurrentGame + PURE_SAVE::field_1F
+    bne step2
     jsr remove_item
     lda #BecameEmpty
     jsr print_text
 
-loc_17AEE5:
+step2:
     lda #2
     jmp get_script_pntr
-; End of function sub_17AECF
+; End of function became_empty
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -2709,7 +2637,7 @@ get_target:
 
 ; ---------------------------------------------------------------------------
     .word @step_1, nullsub_4, get_target_offset, sub_17B202, sub_17B21D
-    .word sub_17B238, sub_17B23D, sub_17B248
+    .word sub_17B238, sub_17B23D, get_next_target
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -2732,8 +2660,8 @@ sub_17AF08:
     and #$F
     jsr script_low
 ; ---------------------------------------------------------------------------
-    .word @step_2, sub_17B250, get_offense, set_value, sub_17B302
-    .word set_flags, sub_17B320, sub_17B3C2, pTileID2sound, print_pTileID
+    .word @step_2, sub_17B250, get_offense, set_value, boss_msg
+    .word set_flags, enemy_check, choose_sound, pTileID2sound, print_pTileID
     .word play_pTileID
 
 ; =============== S U B R O U T I N E =======================================
@@ -2748,26 +2676,26 @@ sub_17AF08:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17AF31:
+script_bcc:
     jsr low_script
-    bcc sub_17AF3E
+    bcc new_script
     jmp step_3
-; End of function sub_17AF31
+; End of function script_bcc
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17AF39:
+script_bcs:
     jsr low_script
     bcc step_3
-; End of function sub_17AF39
+; End of function script_bcs
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17AF3E:
+new_script:
     ldy #1
     lda (pBattleScript),Y
     pha
@@ -2777,7 +2705,7 @@ sub_17AF3E:
     pla
     sta pBattleScript
     jmp next_script
-; End of function sub_17AF3E
+; End of function new_script
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -2808,29 +2736,23 @@ nullsub_5:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17AF7B:
-    lda pBattleScript+1
-    pha
-    lda pBattleScript
-    pha
-    jsr sub_17AFD3
+script_sub:
+    save pBattleScript
+    jsr new_battle_script
     jsr next_script
-    pla
-    sta pBattleScript
-    pla
-    sta pBattleScript+1
+    restore pBattleScript
     lda #3
     jmp get_script_pntr
-; End of function sub_17AF7B
+; End of function script_sub
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17AF92:
-    jsr sub_17AFD3
+script_jmp:
+    jsr new_battle_script
     jmp next_script
-; End of function sub_17AF92
+; End of function script_jmp
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -2847,27 +2769,15 @@ sub_17AF98:
 loc_17AFA4:
     txa
     pha
-    lda pBattleScript+1
-    pha
-    lda pBattleScript
-    pha
+    save pBattleScript
     jsr next_script
-    lda pBattleScript
-    sta Pointer
-    lda pBattleScript+1
-    sta Pointer+1
-    pla
-    sta pBattleScript
-    pla
-    sta pBattleScript+1
+    store pBattleScript, Pointer
+    restore pBattleScript
     pla
     tax
     dex
     bne loc_17AFA4
-    lda Pointer
-    sta pBattleScript
-    lda Pointer+1
-    sta pBattleScript+1
+    store Pointer, pBattleScript
     jmp next_script
 ; End of function sub_17AF98
 
@@ -2884,7 +2794,7 @@ get_script_pntr:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17AFD3:
+new_battle_script:
     ldy #1
     lda (pBattleScript),Y
     pha
@@ -2894,7 +2804,7 @@ sub_17AFD3:
     pla
     sta pBattleScript
     rts
-; End of function sub_17AFD3
+; End of function new_battle_script
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -2930,8 +2840,7 @@ sub_17AFF2:
 ; ---------------------------------------------------------------------------
 
 @player:
-    lda #1
-    sta byte_47
+    set byte_47, #1
     rts
 ; End of function sub_17AFF2
 
@@ -3000,8 +2909,7 @@ locret_17B031:
 
 
 sub_17B032:
-    lda #2
-    sta byte_47
+    set byte_47, #2
     rts
 ; End of function sub_17B032
 
@@ -3395,8 +3303,7 @@ loc_17B1A0:
 
 
 sub_17B1A2:
-    lda #1
-    sta Pointer+1
+    set Pointer+1, #1
     sec
     lda Pointer
     sbc AddrForJmp
@@ -3526,8 +3433,7 @@ loc_17B235:
 
 
 sub_17B238:
-    lda CharacterOffset
-    sta TargetOffset
+    set TargetOffset, CharacterOffset
     rts
 ; End of function sub_17B238
 
@@ -3550,13 +3456,13 @@ loc_17B245:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17B248:
+get_next_target:
     clc
     lda TargetOffset
     adc #$20
     sta TargetOffset
     rts
-; End of function sub_17B248
+; End of function get_next_target
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -3597,8 +3503,7 @@ loc_17B284:
     and #7
     ora #4
     sta Pointer
-    lda #0
-    sta Pointer+1
+    set Pointer+1, #0
 
 loc_17B297:
     lda Pointer
@@ -3607,10 +3512,7 @@ loc_17B297:
     inc Pointer
 
 loc_17B29F:
-    lda Pointer
-    sta Value
-    lda Pointer+1
-    sta Value+1
+    store Pointer, Value
     rts
 ; ---------------------------------------------------------------------------
 
@@ -3632,8 +3534,7 @@ loc_17B2A8:
     sbc pTileID+1
     sta Pointer+1
     bcs loc_17B2CE
-    lda #0
-    sta Pointer
+    set Pointer, #0
     sta Pointer+1
 
 loc_17B2CE:
@@ -3661,8 +3562,7 @@ get_offense:
     and #$F
     ora #8
     sta Value
-    lda #0
-    sta Value+1
+    set Value+1, #0
 
 locret_17B2F8:
     rts
@@ -3673,10 +3573,8 @@ locret_17B2F8:
 
 
 set_value:
-    lda pTileID
-    sta Value
-    lda #0
-    sta Value+1
+    set Value, pTileID
+    set Value+1, #0
     rts
 ; End of function set_value
 
@@ -3684,7 +3582,7 @@ set_value:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17B302:
+boss_msg:
     lda BossID
     cmp #5
     bne locret_17B318
@@ -3701,7 +3599,7 @@ loc_17B316:
 
 locret_17B318:
     rts
-; End of function sub_17B302
+; End of function boss_msg
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -3720,7 +3618,7 @@ set_flags:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17B320:
+enemy_check:
     lda #CHECKed
     jsr print_text
     lda BossID
@@ -3819,7 +3717,7 @@ loc_17B3B7:
     pla
     lda #$FF
     jmp print_text
-; End of function sub_17B320
+; End of function enemy_check
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -3834,7 +3732,7 @@ sub_17B3BD:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17B3C2:
+choose_sound:
     ldx #$F
     lda CharacterOffset
     bmi loc_17B3CA
@@ -3843,15 +3741,14 @@ sub_17B3C2:
 loc_17B3CA:
     txa
     jmp play_sound
-; End of function sub_17B3C2
+; End of function choose_sound
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
 pTileID2sound:
-    lda pTileID
-    sta Sound
+    set Sound, pTileID
     rts
 ; End of function pTileID2sound
 
@@ -3883,8 +3780,7 @@ sub_17B3DD:
     lda Character1 + BATTLE::Scripts+1,Y
     cmp #6
     bne loc_17B3F0
-    lda #0
-    sta BossID
+    set BossID, #0
     ldx #$88
     jmp loc_17B40B
 ; ---------------------------------------------------------------------------
@@ -3914,17 +3810,11 @@ loc_17B40B:
     pha
     lda CharacterOffset
     pha
-    lda pBattleScript+1
-    pha
-    lda pBattleScript
-    pha
+    save pBattleScript
     sty CharacterOffset
     txa
     jsr loc_17AD7B
-    pla
-    sta pBattleScript
-    pla
-    sta pBattleScript+1
+    restore pBattleScript
     pla
     sta CharacterOffset
     pla
@@ -3984,8 +3874,7 @@ sub_17B42D:
     sta EnemyGroup
 
 loc_17B47E:
-    lda #6
-    sta Sound1
+    set Sound1, #6
     pla
     tay
     jsr sub_17B555
@@ -4115,13 +4004,11 @@ sub_17B513:
     sta Character1 + BATTLE::InitialStatus,Y
     lda #$22
     sta Pointer
-    lda #$FF
-    sta Pointer+1
+    set Pointer+1, #$FF
     lda #$FF
     sta AddrForJmp
     jsr draw_enemy
-    lda #0
-    sta byte_45
+    set byte_45, #0
     tya
     pha
     lda Character1 + BATTLE::Letter,Y
@@ -4135,11 +4022,9 @@ sub_17B513:
     lda Character1 + BATTLE::TargetOff,Y
     ldx pTileID+1
     sta SpriteTable,X
-    lda #1
-    sta NMIFlags
+    set NMIFlags, #1
     jsr wait_nmi
-    lda #$80
-    sta NMIFlags
+    set NMIFlags, #$80
     rts
 ; End of function sub_17B513
 
@@ -4152,19 +4037,14 @@ sub_17B555:
     lda #0
     ldx pTileID+1
     sta SpriteTable,X
-    lda #1
-    sta NMIFlags
+    set NMIFlags, #1
     jsr wait_nmi
-    lda #$80
-    sta NMIFlags
+    set NMIFlags, #$80
     lda #0
     sta Character1 + BATTLE::EnemyGroup,Y
-    lda #0
-    sta Pointer
-    lda #$23
-    sta Pointer+1
-    lda #1
-    sta AddrForJmp
+    set Pointer, #0
+    set Pointer+1, #$23
+    set AddrForJmp, #1
     jsr draw_enemy
     lda Character1 + BATTLE::Letter,Y
     and #3
@@ -4192,12 +4072,10 @@ draw_enemy:
     sta BankPPU_X000,X
     pla
     tay
-    lda #$80
-    sta byte_45
+    set byte_45, #$80
 
 loc_17B59F:
-    lda Pointer
-    sta byte_44
+    set byte_44, Pointer
     and #1
     bne loc_17B5AD
     lda byte_45
@@ -4304,8 +4182,7 @@ sub_17B5FD:
 loc_17B5FF:
     txa
     pha
-    lda #5
-    sta Sound1
+    set Sound1, #5
     jsr randomize
     and #3
     tax
@@ -4314,8 +4191,7 @@ loc_17B5FF:
 loc_17B60D:
     txa
     pha
-    lda #1
-    sta Sound1
+    set Sound1, #1
     pla
     pha
     ldx #3
@@ -4355,8 +4231,7 @@ loc_17B639:
     pha
     lda #0
     sta SpriteTable,X
-    lda #1
-    sta NMIFlags
+    set NMIFlags, #1
     jsr wait_nmi
     lda #$7C
     ldx pTileID
@@ -4367,8 +4242,7 @@ loc_17B639:
     pla
     ldx pTileID+1
     sta SpriteTable,X
-    lda #1
-    sta NMIFlags
+    set NMIFlags, #1
     jsr wait_nmi
     ldy #ENEMY::TilePage
     lda (pCharacter),Y
@@ -4401,11 +4275,9 @@ sub_17B67C:
     lda #0
     ldx pTileID+1
     sta SpriteTable,X
-    lda #1
-    sta NMIFlags
+    set NMIFlags, #1
     jsr wait_nmi        ; wait for NMI interrupt processing to complete
-    lda #$80
-    sta NMIFlags
+    set NMIFlags, #$80
     ldy TargetOffset
     jsr sub_17B513
     pla
@@ -4553,15 +4425,13 @@ loc_17B733:
     lda (Pointer),Y
     sta ShiftX
     iny
-    lda #1
-    sta NMIFlags
+    set NMIFlags, #1
     jsr wait_nmi        ; wait for NMI interrupt processing to complete
     cpy AddrForJmp+1
     bne loc_17B722
     dec AddrForJmp
     bne loc_17B720
-    lda #0
-    sta ShiftX
+    set ShiftX, #0
     sta ShiftY
     jsr wait_nmi        ; wait for NMI interrupt processing to complete
     jmp black1color_palette
@@ -4598,16 +4468,14 @@ loc_17B77B:
     adc #$20
     tay
     bpl loc_17B766
-    lda #$80
-    sta Character1 + BATTLE::InitialStatus
+    set Character1 + BATTLE::InitialStatus, #$80
     sta Character2 + BATTLE::InitialStatus
     sta Character3 + BATTLE::InitialStatus
     sta Character4 + BATTLE::InitialStatus
     lda BossID
     cmp #4
     bne loc_17B7A7
-    lda #3
-    sta byte_47
+    set byte_47, #3
     lda #4
     jsr play_sound
     lda #ZAP
@@ -4616,8 +4484,7 @@ loc_17B77B:
 ; ---------------------------------------------------------------------------
 
 loc_17B7A7:
-    lda #0
-    sta CharacterOffset
+    set CharacterOffset, #0
     lda #Lose
     jsr print_text
 
@@ -4641,14 +4508,11 @@ loc_17B7C9:
     lda BossID
     cmp #6
     bne loc_17B7E7
-    lda #0
-    sta TargetOffset
+    set TargetOffset, #0
     jsr sub_17B8D4
-    lda #$20
-    sta TargetOffset
+    set TargetOffset, #$20
     jsr sub_17B8D4
-    lda #$40
-    sta TargetOffset
+    set TargetOffset, #$40
     jsr sub_17B8D4
     jmp loc_17B7F1
 ; ---------------------------------------------------------------------------
@@ -4690,8 +4554,8 @@ change_parameter:
     jsr script_low
 ; ---------------------------------------------------------------------------
     .word sub_17B863, recover_hp, recover_pp, increase_speed, increase_off
-    .word increase_defense, sub_17B8CB, sub_17B915, decrease_def, decrease_fight
-    .word sub_17BA2A, sub_17BA3C, decrease_offense, decrease_defense, sub_17BA95
+    .word increase_defense, restore_hp, sub_17B915, decrease_def, decrease_fight
+    .word sub_17BA2A, sub_17BA3C, decrease_offense, decrease_defense, increase_exp
     .word sub_17B8AA, sub_17B8F2, sub_17BA86, increase_offense, sub_17BAE4
     .word sub_17BAFA, sub_17BB0D, sub_17BB25, sub_17BB3D, sub_17BB55
     .word set_resist, sub_17BB83, sub_17BB8C, sub_17BB9D, sub_17BBB0
@@ -4803,20 +4667,18 @@ increase_defense:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17B8CB:
-    lda #$FF
-    sta Value
+restore_hp:
+    set Value, #$FF
     sta Value+1
     jmp loc_17B86B
-; End of function sub_17B8CB
+; End of function restore_hp
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
 sub_17B8D4:
-    lda #$FF
-    sta Value
+    set Value, #$FF
     sta Value+1
     lda #0
     ldx TargetOffset
@@ -4880,8 +4742,7 @@ loc_17B931:
     jsr randomize
     and Pointer
     sta Value
-    lda #0
-    sta Value+1
+    set Value+1, #0
 
 loc_17B93E:
     lda TargetOffset
@@ -4891,16 +4752,10 @@ loc_17B93E:
     lda Character1 + BATTLE::Resist,Y
     and #4
     beq loc_17B962
-    lda Pointer+1
-    pha
-    lda Pointer
-    pha
+    save Pointer
     lda #BouncedBack
     jsr print_text
-    pla
-    sta Pointer
-    pla
-    sta Pointer+1
+    restore Pointer
     ldy CharacterOffset
     sty TargetOffset
 
@@ -4926,11 +4781,9 @@ loc_17B978:
     inc Pointer
 
 loc_17B983:
-    lda Pointer
-    sta byte_590
+    set byte_590, Pointer
     pha
-    lda Pointer+1
-    sta byte_591
+    set byte_591, Pointer+1
     pha
     lda #Suffered
     jsr print_text
@@ -5117,7 +4970,7 @@ sub_17BA86:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17BA95:
+increase_exp:
     jsr get_random_value
     ldy TargetOffset
     bmi loc_17BADD
@@ -5139,8 +4992,7 @@ sub_17BA95:
     adc #0
     sta TilepackMode
     bcc loc_17BAC7
-    lda #$FF
-    sta pTileID
+    set pTileID, #$FF
     sta pTileID+1
     sta TilepackMode
 
@@ -5161,7 +5013,7 @@ loc_17BADD:
     ldx #$A
     lda #EXPinc
     jmp sound_frame_text
-; End of function sub_17BA95
+; End of function increase_exp
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -5472,8 +5324,7 @@ revives:
     beq @no_revives
     lda #0
     sta Character1 + BATTLE::InitialStatus,Y
-    lda #$FF
-    sta Value
+    set Value, #$FF
     sta Value+1
     ldx TargetOffset
     ldy #CHARACTER::MaxHealth
@@ -5503,8 +5354,7 @@ sub_17BC5D:
     pha
     ldx #0
     jsr sub_F26B
-    lda #3
-    sta Sound1
+    set Sound1, #3
     ldx #56
     jsr delay
     pla
@@ -5524,8 +5374,7 @@ loc_17BC85:
     sbc #$9E
     tax
     jsr sub_F26B
-    lda #3
-    sta Sound1
+    set Sound1, #3
     jsr sub_17B6E8
     lda NamePos
     jsr print_text
@@ -5591,15 +5440,11 @@ loc_17BCEC:
     sta Character1 + BATTLE::PP+1,Y
     lda #Snatched
     jsr print_text
-    lda byte_590
-    sta Pointer
-    lda byte_591
-    sta Pointer+1
+    store byte_590, Pointer
     ldx CharacterOffset
     ldy #CHARACTER::MaxPP
     jsr sub_17BEF2
-    lda CharacterOffset
-    sta TargetOffset
+    set TargetOffset, CharacterOffset
     ldx #$A
     lda #RecoverPP
     jmp sound_frame_text
@@ -5759,10 +5604,7 @@ print_no_effect:
 get_random_value:
     .import random_value
 
-    lda Value
-    sta Pointer
-    lda Value+1
-    sta Pointer+1
+    store Value, Pointer
     jmp random_value
 ; End of function get_random_value
 
@@ -5787,8 +5629,7 @@ sub_17BDEB:
     adc Pointer+1
     sta TilesCount
     bcc loc_17BE02
-    lda #$FF
-    sta TilepackMode
+    set TilepackMode, #$FF
     sta TilesCount
 
 loc_17BE02:
@@ -5798,10 +5639,8 @@ loc_17BE02:
     lda pTileID+1
     sbc TilesCount
     bcs loc_17BE15
-    lda pTileID
-    sta TilepackMode
-    lda pTileID+1
-    sta TilesCount
+    set TilepackMode, pTileID
+    set TilesCount, pTileID+1
 
 loc_17BE15:
     sec
@@ -5836,20 +5675,17 @@ sub_17BE3B:
     adc Pointer
     sta TilepackMode
     bcc loc_17BE4C
-    lda #$FF
-    sta TilepackMode
+    set TilepackMode, #$FF
 
 loc_17BE4C:
     sec
     lda pTileID
     sbc TilepackMode
     bcs loc_17BE57
-    lda pTileID
-    sta TilepackMode
+    set TilepackMode, pTileID
 
 loc_17BE57:
-    lda #0
-    sta byte_591
+    set byte_591, #0
     sec
     lda TilepackMode
     sbc Character1 + BATTLE::EnemyGroup,X
@@ -5879,8 +5715,7 @@ sub_17BE72:
     sbc Pointer+1
     sta TilesCount
     bcs loc_17BE8C
-    lda #0
-    sta TilepackMode
+    set TilepackMode, #0
     sta TilesCount
 
 loc_17BE8C:
@@ -5891,8 +5726,7 @@ loc_17BE8C:
     lda TilepackMode
     ora TilesCount
     bne loc_17BE9E
-    lda #1
-    sta TilepackMode
+    set TilepackMode, #1
 
 loc_17BE9E:
     sec
@@ -5930,12 +5764,10 @@ decrease_parameter:
     bcs loc_17BED7
 
 loc_17BED3:
-    lda #1
-    sta TilepackMode
+    set TilepackMode, #1
 
 loc_17BED7:
-    lda #0
-    sta byte_591
+    set byte_591, #0
     sec
     lda Character1 + BATTLE::EnemyGroup,X
     sbc TilepackMode
@@ -5957,10 +5789,7 @@ loc_17BEEF:
 
 sub_17BEF2:
     jsr sub_17BF2C
-    lda AddrForJmp
-    sta pTileID
-    lda AddrForJmp+1
-    sta pTileID+1
+    store AddrForJmp, pTileID
     jmp sub_17BDEB
 ; End of function sub_17BEF2
 
@@ -5974,10 +5803,7 @@ sub_17BF00:
     jsr sub_17BF2C
     pla
     tax
-    lda AddrForJmp
-    sta Pointer
-    lda AddrForJmp+1
-    sta Pointer+1
+    store AddrForJmp, Pointer
     jsr random_value
     jmp sub_17BDE8
 ; End of function sub_17BF00
@@ -6022,8 +5848,7 @@ sub_17BF2C:
     rol A
     sta pTileID+1
     bcc loc_17BF4F
-    lda #$FF
-    sta pTileID
+    set pTileID, #$FF
     sta pTileID+1
 
 loc_17BF4F:
@@ -6078,8 +5903,7 @@ sub_17BF74:
     inc Pointer
 
 loc_17BF87:
-    lda #0
-    sta Flags
+    set Flags, #0
     rts
 ; End of function sub_17BF74
 
@@ -6101,8 +5925,7 @@ sub_17BF8C:
 
 loc_17BF99:
     sta Pointer+1
-    lda #0
-    sta Pointer
+    set Pointer, #0
     sta AddrForJmp
     jsr divide
     jsr randomize
@@ -6156,8 +5979,7 @@ loc_17BFD4:
 
 
 sub_17BFD8:
-    lda #0
-    sta byte_590
+    set byte_590, #0
     sta byte_591
     clc
     rts

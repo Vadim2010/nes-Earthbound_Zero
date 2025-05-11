@@ -55,12 +55,11 @@ PureSave:
     .byte 0                 ; Boy1.field_1B
     .byte 8                 ; Boy1.field_1C
     .byte $64               ; Boy1.field_1D
-    .word AnimBoy1          ; Boy1.field_1E
+    .word AnimBoy1          ; Boy1.Frame
     .byte $6E, 0, 0, 0, 0, 0, 0, 0; Boy1.Goods
     .byte 0, 0, 0, 0        ; Boy1.Items
     .byte $52, 8, $86, $2F  ; Boy1.field_2C
-    .byte $40               ; Boy1.field_30
-    .byte 0, 0, 0, 0, 0, 0, 0; Boy1.PSI
+    .byte $40, 0, 0, 0, 0, 0, 0, 0; Boy1.PSI
     .byte 0, 0, 0, 0, 0, 0, 0, 0; Boy1.Name
     
     .byte 0                 ; Girl.field_0
@@ -84,12 +83,11 @@ PureSave:
     .byte 0                 ; Girl.field_1B
     .byte 8                 ; Girl.field_1C
     .byte $64               ; Girl.field_1D
-    .word AnimGirl          ; Girl.field_1E
+    .word AnimGirl          ; Girl.Frame
     .byte 0, 0, 0, 0, 0, 0, 0, 0; Girl.Goods
     .byte 0, 0, 0, 0        ; Girl.Items
     .byte $52, 8, $86, $2F  ; Girl.field_2C
-    .byte $40               ; Girl.field_30
-    .byte $40, 0, 0, 0, 0, 0, 0; Girl.PSI
+    .byte $40, $40, 0, 0, 0, 0, 0, 0; Girl.PSI
     .byte 0, 0, 0, 0, 0, 0, 0, 0; Girl.Name
     
     .byte 0                 ; Boy2.field_0
@@ -113,12 +111,11 @@ PureSave:
     .byte 0                 ; Boy2.field_1B
     .byte 8                 ; Boy2.field_1C
     .byte $64               ; Boy2.field_1D
-    .word AnimBoy2          ; Boy2.field_1E
+    .word AnimBoy2          ; Boy2.Frame
     .byte 0, 0, 0, 0, 0, 0, 0, 0; Boy2.Goods
     .byte 0, 0, 0, 0        ; Boy2.Items
     .byte $52, 8, $86, $2F  ; Boy2.field_2C
-    .byte 0                 ; Boy2.field_30
-    .byte 0, 0, 0, 0, 0, 0, 0; Boy2.PSI
+    .byte 0, 0, 0, 0, 0, 0, 0, 0; Boy2.PSI
     .byte 0, 0, 0, 0, 0, 0, 0, 0; Boy2.Name
     
     .byte 0                 ; Boy3.field_0
@@ -142,12 +139,11 @@ PureSave:
     .byte 0                 ; Boy3.field_1B
     .byte 8                 ; Boy3.field_1C
     .byte $64               ; Boy3.field_1D
-    .word AnimBoy3          ; Boy3.field_1E
+    .word AnimBoy3          ; Boy3.Frame
     .byte 0, 0, 0, 0, 0, 0, 0, 0; Boy3.Goods
     .byte 0, 0, 0, 0        ; Boy3.Items
     .byte $52, 8, $86, $2F  ; Boy3.field_2C
-    .byte 0                 ; Boy3.field_30
-    .byte 0, 0, 0, 0, 0, 0, 0; Boy3.PSI
+    .byte 0, 0, 0, 0, 0, 0, 0, 0; Boy3.PSI
     .byte 0, 0, 0, 0, 0, 0, 0, 0; Boy3.Name
     
     .byte 0, 0, 0, $20, 0, 0, 0, 9, 0, 9, 0, 9, 9, 2, 6, 4; field_140

@@ -29,15 +29,13 @@
     sei                             ; mask interrupts
     cld                             ; disable decimal mode
 
-    lda #0
-    sta PPU_MASK                    ; disable rendering
+    set PPU_MASK, #0                ; disable rendering
     sta SND_CHN                     ; silence channels and halt its' length counters
     sta DMC_FREQ
 
     sta IRQ_DISABLE                 ; disable MMC3 interrupts and acknowledge any pending interrupts
 
-    lda #$40
-    sta IO_JOY2                     ; disable frame counter interrupts
+    set IO_JOY2, #$40               ; disable frame counter interrupts
     sta SRAM_MODE                   ; disable SRAM
 
     ldx #2
@@ -66,8 +64,7 @@
     stx PPU_ADDR                    ; write the high byte of $0000 address
     stx PPU_ADDR                    ; write the low byte of $0000 address
 
-    lda #(MASK_SHOW_LEFT_BG|MASK_SHOW_LEFT_SPRITE|MASK_SHOW_BG|MASK_SHOW_SPRITE)
-    sta PPU_MASK
+    set PPU_MASK, #(MASK_SHOW_LEFT_BG|MASK_SHOW_LEFT_SPRITE|MASK_SHOW_BG|MASK_SHOW_SPRITE)
     bit PPU_STATUS
     lda #$10
     tax
@@ -80,8 +77,7 @@
 
     ldx #$FF
     txs                             ; set SP = $FF
-    lda #0
-    sta BANK_SELECT
+    set BANK_SELECT, #0
     jsr set_ppu
     jsr set_apu
 

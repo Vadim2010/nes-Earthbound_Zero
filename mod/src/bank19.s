@@ -30,7 +30,7 @@ check_copyrights:
     cmp #$88
     bne @violation
     jsr wait_nmi_processed
-    lda #READ                       ; #9
+    lda #READ
     ldx #$12
     sta NMI_Data + NMI_DATA::NMI_ID
     stx NMI_Data + NMI_DATA::NumOfChr
@@ -38,11 +38,9 @@ check_copyrights:
     ldx #$23
     stx NMI_Data + NMI_DATA::PPU_Addr
     sta NMI_Data + NMI_DATA::PPU_Addr+1
-    lda #0
-    sta NMI_Data + NMI_DATA::Chr+$12
+    set NMI_Data + NMI_DATA::Chr+$12, #0
     sta OffsetNMI_Data
-    lda #$80
-    sta NMIFlags
+    set NMIFlags, #$80
     jsr wait_nmi_processed
     ldx #0
 
@@ -53,10 +51,8 @@ check_copyrights:
     inx
     cpx #$12
     bcc @next_id
-    lda #$10
-    sta NMI_Data + NMI_DATA::NumOfChr
-    lda #0
-    sta NMI_Data + NMI_DATA::PPU_Addr+$12
+    set NMI_Data + NMI_DATA::NumOfChr, #$10
+    set NMI_Data + NMI_DATA::PPU_Addr+$12, #0
     store #CopyrightTiles, Pointer
     lda #$43
     ldx #5
@@ -83,8 +79,7 @@ check_copyrights:
 ; ---------------------------------------------------------------------------
 
 @violation:
-    lda #$E5
-    sta CopyrightViolation
+    set CopyrightViolation, #$E5
     rts
 ; End of function check_copyrights
 
@@ -111,10 +106,8 @@ compare_tiles:
     sta NMI_Data + NMI_DATA::PPU_Addr
 
 @next_compare:
-    lda #0
-    sta OffsetNMI_Data
-    lda #$80
-    sta NMIFlags
+    set OffsetNMI_Data, #0
+    set NMIFlags, #$80
     jsr wait_nmi_processed
     ldy #0
 
@@ -192,8 +185,7 @@ copyright_violation:
 
 loc_19A204:
     jsr wait_nmi_processed
-    lda #0
-    sta IRQCount
+    set IRQCount, #0
     sta CameraX
     sta CameraY
     lda #$FF
@@ -206,16 +198,11 @@ loc_19A214:
     lda #$7F
     ldx #5
     jsr mmc3_bank_set   ; Set memory bank A - bank number, X - mode
-    lda #$F4
-    sta PointerTilePack
-    lda #6
-    sta DialogPage
-    lda #2
-    sta Column
-    lda #2
-    sta Row
-    lda #0
-    sta PrintSize
+    set PointerTilePack, #$F4
+    set DialogPage, #6
+    set Column, #2
+    set Row, #2
+    set PrintSize, #0
     sta byte_71
 
 loc_19A238:
@@ -237,13 +224,10 @@ loc_19A24A:
     sta PalNMIBG,X
     dex
     bpl @next_color
-    lda #4
-    sta NMI_Data + NMI_DATA::NMI_ID
-    lda #0
-    sta NMI_Data + NMI_DATA::NumOfChr
+    set NMI_Data + NMI_DATA::NMI_ID, #4
+    set NMI_Data + NMI_DATA::NumOfChr, #0
     sta OffsetNMI_Data
-    lda #$80
-    sta NMIFlags
+    set NMIFlags, #$80
 
 infinite_loop:
     jmp infinite_loop
@@ -455,8 +439,7 @@ setup_menu:
     iny
     cpy #4
     bcc @next_row
-    lda #1
-    sta byte_D6
+    set byte_D6, #1
     ldxa #SetupCursor
     stxa pCursor
     jsr cursor_update
@@ -497,8 +480,7 @@ setup_menu:
 ; ---------------------------------------------------------------------------
 
 @stop_choice:
-    lda #0
-    sta byte_D6
+    set byte_D6, #0
     rts
 ; End of function setup_menu
 

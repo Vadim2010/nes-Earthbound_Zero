@@ -15,6 +15,11 @@
     pFrame          .word
 .endstruct
 
+.macro animation_sprite Tiles, TileID, PosX, PosY, ShiftX, ShiftY, pFrame
+    .byte Tiles, TileID, PosX, PosY, ShiftX, ShiftY
+    .word pFrame
+.endmacro
+
 .struct NMI_DATA
     NMI_ID          .byte
     NumOfChr        .byte

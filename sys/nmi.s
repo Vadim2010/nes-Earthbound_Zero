@@ -63,23 +63,17 @@ get_function:
 no_flags:
     ldx IRQCount
     beq @no_irq
-    lda #$FF
-    sta IRQ_LATCH
+    set IRQ_LATCH, #$FF
     sta IRQ_RELOAD
-    lda #0
+    set PPU_ADDR, #0
     sta PPU_ADDR
+    set PPU_ADDR, #$10
     sta PPU_ADDR
-    lda #$10
+    set PPU_ADDR, #0
     sta PPU_ADDR
+    set PPU_ADDR, #$10
     sta PPU_ADDR
-    lda #0
-    sta PPU_ADDR
-    sta PPU_ADDR
-    lda #$10
-    sta PPU_ADDR
-    sta PPU_ADDR
-    lda #0
-    sta PPU_ADDR
+    set PPU_ADDR, #0
     sta PPU_ADDR
     stx IRQ_LATCH
     stx IRQ_RELOAD
@@ -100,8 +94,7 @@ no_flags:
     stx PPU_MASK
 
     sty OffsetNMI_Data            ; set offset of next record
-    lda #$80
-    sta NMIReady
+    set NMIReady, #$80
     lda BankRegister
     pha                         ; save BankRegister into stack
     lda BankTable + BANK_TABLE::CPU_8K_8000

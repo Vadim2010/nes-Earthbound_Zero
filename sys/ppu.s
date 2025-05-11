@@ -55,8 +55,6 @@
     bne @next_color             ; Branch to LoadPalettesLoop if compare was Not Equal to zero
                                 ; if compare was equal to 32, keep going down
 
-    ; lda #$3F
-    ; ldx #$00
     ldax #PALETTE
     sta PPU_ADDR                ; write the high byte of $3F00 address   
     stx PPU_ADDR                ; write the low byte of $3F00 address
@@ -95,8 +93,7 @@
     lda NMI_Data,Y
     cmp #6
     beq @next_block
-    lda CntrlPPU
-    sta PPU_CTRL
+    set PPU_CTRL, CntrlPPU
     jmp get_function
 .endproc
 
@@ -318,8 +315,7 @@ end_block:
     lda #$15
     ldx #6
     jsr mmc3_bank_set           ; set memory bank 15 at $8000
-    lda #0
-    sta byte_CE
+    set byte_CE, #0
     sta byte_CF
     ldx byte_E1
     bit byte_E7
@@ -401,11 +397,9 @@ loc_FAF5:
     and #$3F
     eor #$20
     sta FlagClearOAM300
-    lda #0
-    sta SpriteTabOffset
+    set SpriteTabOffset, #0
     sta byte_E4
-    lda #8
-    sta SpriteTabStep
+    set SpriteTabStep, #8
     ldx #$10
 
 loc_FB0B:
@@ -642,8 +636,7 @@ loc_FC79:
     lda FlagClearOAM300
     and #$20
     bne loc_FC87
-    lda #$F8
-    sta SpriteTabOffset
+    set SpriteTabOffset, #$F8
     sta SpriteTabStep
 
 loc_FC87:
@@ -652,17 +645,17 @@ loc_FC87:
 ; FC8A oam_offscreen
 ; this moves all the sprites in OAM memory offscreen by setting y to 255
 oam_offscreen:
-    LDA #$F0
+    lda #$F0
 
 offscreen:
-    STA OAM_Cache, X
-    INX
-    INX
-    INX
-    INX
-    BNE offscreen
+    sta OAM_Cache, X
+    inx
+    inx
+    inx
+    inx
+    bne offscreen
 exit:
-    RTS
+    rts
 .endproc
 
 ; FC96
@@ -739,20 +732,15 @@ loc_FCE7:
     jsr oam_offscreen
     ; VBlank Disable, Sprite Size = 8x8, PPU Horizontal Write, Name Table Address 0 = $2000
     ; Screen Pattern Table Address 0 = $0000, Sprite Pattern Table Address 1 = $1000
-    lda #(CTRL_SPRITE_1000)
-    sta PPU_CTRL
+    set PPU_CTRL, #(CTRL_SPRITE_1000)
     sta CntrlPPU
     ; set bank mode for PRG and CHR
-    lda #(PRG_SWAP_8000|CHR_2K_1XXX_1K_0XXX)
-    sta BankMode
+    set BankMode, #(PRG_SWAP_8000|CHR_2K_1XXX_1K_0XXX)
     sta BANK_SELECT
     ; allow display of sprites
-    lda #(MASK_SHOW_BG|MASK_SHOW_SPRITE)
-    sta PPU_MASK
+    set PPU_MASK, #(MASK_SHOW_BG|MASK_SHOW_SPRITE)
     sta MaskPPU
-
-    lda #0
-    sta MIRROR                  ; vertical nametable mirroring
+    set MIRROR, #0                  ; vertical nametable mirroring
     rts
 .endproc
 
@@ -763,28 +751,28 @@ loc_FCE7:
     .import wait_nmi_processed, SpriteTable
     .importzp FlagClearOAM300
 
-    JSR wait_nmi_processed
-    SEC                         ; set carry flag
-    ROR FlagClearOAM300
-    LDX #0
+    jsr wait_nmi_processed
+    sec                         ; set carry flag
+    ror FlagClearOAM300
+    ldx #0
 
 @clear:
-    LDA #0
-    STA SpriteTable,X
-    LDA #$F0
-    STA OAM_Cache,X
-    INX
-    INX
-    INX
-    INX
-    STA OAM_Cache,X
-    INX
-    INX
-    INX
-    INX
-    BNE @clear
-    ASL FlagClearOAM300
-    RTS
+    lda #0
+    sta SpriteTable,X
+    lda #$F0
+    sta OAM_Cache,X
+    inx
+    inx
+    inx
+    inx
+    sta OAM_Cache,X
+    inx
+    inx
+    inx
+    inx
+    bne @clear
+    asl FlagClearOAM300
+    rts
 .endproc
 
 ; FD80
@@ -802,8 +790,7 @@ loc_FCE7:
     ldx #$20
     sta NMI_Data+3              ; PPU_addr+1
     stx NMI_Data+2              ; PPU_addr
-    lda #0
-    sta NMI_Data+4              ; chr ; character for fill = 0
+    set NMI_Data+4, #0          ; chr ; character for fill = 0
     sta NMI_Data+5              ; next; next record or end of record - 0
 
 @next_fill:
@@ -835,8 +822,7 @@ loc_FCE7:
     lda byte_E7
     and #$BF
     sta byte_E7
-    lda #0
-    sta ShiftX
+    set ShiftX, #0
     sta ShiftY
     clc
 

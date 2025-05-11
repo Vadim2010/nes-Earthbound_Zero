@@ -75,8 +75,7 @@ byte_C180:
 sub_C200:
     .importzp BankMode, byte_0
 
-    lda #$F
-    sta Stack
+    set Stack, #$F
     lda #3
     ora BankMode
     sta BANK_SELECT
@@ -114,8 +113,7 @@ wait4:
 
 
 sub_C226:
-    lda #$F
-    sta Stack
+    set Stack, #$F
     rts
 ; End of function sub_C226
 
@@ -145,12 +143,9 @@ loc_C274:
     jsr bank_A000_a     ; changes the memory bank $A000, transfers the execution of the code after completion of which returns the original memory bank
                         ; input: A - bank number, YX - (subroutine address - 1)
                         ; Y - high byte, X - low byte
-    lda #0
-    sta IRQCount
-    lda #$FF            ; prepare enable Delta Modulation
-    sta DMCflag
-    lda #$F             ; disable Delta Modulation
-    sta SND_CHN         ; pAPU Sound/Vertical Clock Signal Register (R)
+    set IRQCount, #0
+    set DMCflag, #$FF
+    set SND_CHN, #$F    ; pAPU Sound/Vertical Clock Signal Register (R)
                         ;
                         ;    D6: Vertical Clock Signal IRQ Availability
                         ;    D4: Delta Modulation
@@ -182,8 +177,7 @@ loc_C274:
     sta InterruptTable,X
     inx
     sta InterruptTable,X
-    lda #$F
-    sta IRQCount
+    set  IRQCount, #$F
 
 next_tilepack:
     jsr bank0_0
@@ -251,8 +245,7 @@ sub_C306:
     lda #0
     sta NMI_Data,X
     sta OffsetNMI_Data
-    lda #$80
-    sta NMIFlags
+    set NMIFlags, #$80
     lda #$19
     ldyx #(sub_19A31E-1)
     jsr bank_A000_a     ; changes the memory bank $A000, transfers the execution of the code after completion of which returns the original memory bank
@@ -495,10 +488,8 @@ redraw_screen:
     php
     jsr draw_screen
     jsr update_animation
-    lda #1
-    sta NMIFlags
-    lda #0
-    sta DMCflag
+    set NMIFlags, #1
+    set  DMCflag, #0
     plp
     rts
 ; End of function redraw_screen
@@ -703,8 +694,7 @@ prepare_attributes:
     lda #4
     eor NTAddr
     sta NTAddr
-    lda #$F8
-    sta AttributeOffset
+    set  AttributeOffset, #$F8
     and NTAddr+1
     sta NTAddr+1
     jmp @next_attr
@@ -797,8 +787,7 @@ no_character:
     bcc next_character
 
 loc_C5B5:
-    lda #0
-    sta $6704
+    set $6704, #0
     sta $6705
     sta $6706
     sec
@@ -824,8 +813,7 @@ loc_C5DB:
     lda Counter
     asl A
     tax
-    lda #4
-    sta Frames
+    set Frames, #4
     sta $670A
     cpx #4
     bcs loc_C5EE
@@ -837,14 +825,9 @@ loc_C5EE:
     sta $6701
     lda off_C616+1,X
     sta $6702
-    lda $6713
-    sta $670B
-    lda $6714
-    sta $670C
-    lda #<(ExclamationMark)
-    sta $670E
-    lda #>(ExclamationMark)
-    sta $670F
+    set $670B, $6713
+    set $670C, $6714
+    store #ExclamationMark, $670E
     jmp sram_read_enable
 ; End of function load_character_data
 
@@ -959,21 +942,15 @@ draw_symbol:
     jsr wait_nmi_processed
     jsr nt_calc         ; Calculate Name table address Input: CameraX, CameraY, Column, Row
                         ; Output: NTAddr address for screen tile position (Column, Row + 1)
-    lda #WRITE_ROW
-    sta NMI_Data + NMI_DATA::NMI_ID
-    lda #1
-    sta NMI_Data + NMI_DATA::NumOfChr
-    lda NTAddr
-    sta NMI_Data + NMI_DATA::PPU_Addr
-    lda NTAddr+1
-    sta NMI_Data + NMI_DATA::PPU_Addr+1
+    set NMI_Data + NMI_DATA::NMI_ID, #WRITE_ROW
+    set NMI_Data + NMI_DATA::NumOfChr, #1
+    set NMI_Data + NMI_DATA::PPU_Addr, NTAddr
+    set NMI_Data + NMI_DATA::PPU_Addr+1, NTAddr+1
     pla
     sta NMI_Data + NMI_DATA::Chr
-    lda #0
-    sta NMI_Data + NMI_DATA::Next
+    set NMI_Data + NMI_DATA::Next, #0
     sta OffsetNMI_Data
-    lda #$80
-    sta NMIFlags
+    set NMIFlags, #$80
     rts
 ; End of function draw_symbol
 
@@ -1031,8 +1008,7 @@ tiles2nmi:
     lda #0
     sta NMI_Data,Y        ; save marker end of block
     sta OffsetNMI_Data
-    lda #$80
-    sta NMIFlags
+    set NMIFlags, #$80
 
 check_last_row:
     jsr get_text_row_pointer
@@ -1055,18 +1031,15 @@ print_string:
     .import wait_frames, ModeSRAM, Sound2
 
     jsr wait_nmi_processed
-    lda #$33
-    sta OffsetNMI_Data
+    set OffsetNMI_Data, #$33
     pha
     jsr tiled_area
     jsr add_spaces
     sty AttributeOffset
     pla
     tax
-    lda #WRITE_ROW
-    sta NMI_Data + NMI_DATA::NMI_ID
-    lda #1
-    sta NMI_Data + NMI_DATA::NumOfChr
+    set NMI_Data + NMI_DATA::NMI_ID, #WRITE_ROW
+    set NMI_Data + NMI_DATA::NumOfChr, #1
 
 loc_C723:
     lda #0
@@ -1109,15 +1082,12 @@ next_char:
     sta ModeSRAM
     lsr A
     bcc @print_char
-    lda #$E
-    sta Sound2
+    set Sound2, #$E
 
 @print_char:
-    lda #0
-    sta NMI_Data + NMI_DATA::Next
+    set NMI_Data + NMI_DATA::Next, #0
     sta OffsetNMI_Data
-    lda #$80
-    sta NMIFlags
+    set NMIFlags, #$80
     jsr wait_nmi_processed ; print one symbol
     bit ModeSRAM
     bvc next_nt_addr
@@ -1231,8 +1201,7 @@ loc_C7FD:
     lda OffsetNMI_Data
     sbc #$29
     tax
-    lda #$80
-    sta NMIFlags
+    set NMIFlags, #$80
     cpx #$5C
     bcs print_scroll
     rts
@@ -1278,8 +1247,7 @@ tiled_area:
     jsr nt_calc         ; Calculate Name table address
                         ; Input: CameraX, CameraY, Column, Row
                         ; Output: NTAddr address for screen tile position (Column, Row + 1)
-    lda byte_71
-    sta ByteCount
+    set ByteCount, byte_71
     ldx OffsetNMI_Data
     ldy #0
     sty ChrCount
@@ -1312,8 +1280,7 @@ tiled_area:
 clear_area:
     dec Row
     jsr nt_calc
-    lda byte_71
-    sta ByteCount
+    set ByteCount, byte_71
     ldx OffsetNMI_Data
     ldy #0
     sty ChrCount
@@ -1513,8 +1480,7 @@ sub_C950:
     pha
     ldy TilepackMode
     beq @mode0
-    lda #0
-    sta Pointer
+    set Pointer, #0
     sta Pointer+1
     sta AddrForJmp
     dey
@@ -1827,8 +1793,7 @@ loc_CAA9:
     adc DialogPage
     adc #$80
     sta PointerTilePack+1
-    lda #$7F
-    sta DialogPage
+    set DialogPage, #$7F
     lda BankTable + BANK_TABLE::CPU_8K_8000
     pha
     lda #$18
@@ -1848,8 +1813,7 @@ loc_CAA9:
 
 loc_CAE1:
     jsr wait_nmi_processed
-    lda #TEXT2STACK             ; chr_text2stack
-    sta NMI_Data + NMI_DATA::NMI_ID
+    set NMI_Data + NMI_DATA::NMI_ID, #TEXT2STACK
     lda CHRText + CHR_TXT_OFFSET::BANK_PPU_HIGH+1
     lsr A
     lda CHRText + CHR_TXT_OFFSET::BANK_PPU_HIGH
@@ -1861,18 +1825,11 @@ loc_CAE1:
     and #3
     ora #8
     sta NMI_Data + NMI_DATA::PPU_Addr
-    lda CHRText + CHR_TXT_OFFSET::PPU_LOW
-    sta NMI_Data + NMI_DATA::PPU_Addr+1
-    lda #0
-    sta NMI_Data + NMI_DATA::Chr
-    lda #0
-    sta OffsetNMI_Data
-    lda #$80
-    sta NMIFlags
-    lda #$10
-    sta PointerTilePack ; stack $110
-    lda #1
-    sta PointerTilePack+1
+    set NMI_Data + NMI_DATA::PPU_Addr+1, CHRText + CHR_TXT_OFFSET::PPU_LOW
+    set NMI_Data + NMI_DATA::Chr, #0
+    set OffsetNMI_Data, #0
+    set NMIFlags, #$80
+    store #$110, PointerTilePack
     jmp wait_nmi_processed
 ; End of function text2stack
 
@@ -1931,12 +1888,10 @@ main:
     .importzp EnemyGroup
 
     jsr sram_read_enable
-    lda #SRAM_WRITE_DISABLE|SRAM_ENABLE
-    sta ModeSRAM
+    set ModeSRAM, #SRAM_WRITE_DISABLE|SRAM_ENABLE
     jsr bank14_8000
     jsr game_intro
-    lda #SRAM_WRITE_ENABLE|SRAM_DISABLE
-    sta ModeSRAM
+    set ModeSRAM, #SRAM_WRITE_ENABLE|SRAM_DISABLE
 
 new_place:
     jsr bank13_A000
@@ -1945,8 +1900,7 @@ new_place:
 loc_CB5D:
     jsr load_character_data ; Copies the characteristics of the characters
     jsr load_obj_data
-    lda #0
-    sta byte_24
+    set byte_24, #0
     lda CurrentGame + PURE_SAVE::GlobalY
     and #$F
     eor #$84
@@ -2074,8 +2028,7 @@ sub_CC2B:
     lda byte_1F
     cmp #7
     bcs loc_CC5D
-    lda #$10
-    sta NMIFlags
+    set NMIFlags, #$10
     jsr get_new_coordinate
     jsr check_load_map
 
@@ -2095,8 +2048,7 @@ sub_CC2B:
     lda #0
     sta NMI_Data,X
     sta OffsetNMI_Data
-    lda #$80
-    sta NMIFlags
+    set NMIFlags, #$80
     bne loc_CC83
 
 loc_CC5D:
@@ -2106,8 +2058,7 @@ loc_CC5D:
     lda #0
     sta NMI_Data,X
     sta OffsetNMI_Data
-    lda #$10
-    sta NMIFlags
+    set NMIFlags, #$10
     lda byte_1F
     cmp #$F
     bcs loc_CC83
@@ -2128,8 +2079,7 @@ loc_CC83:
     lda #0
     sta NMI_Data,X
     sta OffsetNMI_Data
-    lda #$80
-    sta NMIFlags
+    set NMIFlags, #$80
 
 loc_CC96:
     bit NewView
@@ -2169,8 +2119,7 @@ sub_CCB1:
     lda #$FF
     jsr wait_change_music
     jsr sub_DA16
-    lda #2
-    sta Sound1
+    set Sound1, #2
     lda #1
     ora MaskPPU
     sta MaskPPU
@@ -2194,12 +2143,10 @@ sub_CCD8:
 
     lda CurrentMusic
     pha
-    lda #$FF
-    sta byte_F
+    set byte_F, #$FF
     jsr wait_change_music
     jsr redraw_screen
-    lda #1
-    sta Sound4
+    set Sound4, #1
     jsr sub_CD9D
     ldx #5
 
@@ -2244,8 +2191,7 @@ loc_CD26:
     sec
     sbc #1
     bne loc_CD26
-    lda #1
-    sta Sound3
+    set Sound3, #1
     lda #$22
     jsr one_color_palettes_save
     jsr bank13_A000
@@ -2349,8 +2295,7 @@ sub_CDE4:
     tax
     pla
     jsr wait_change_music
-    lda #0
-    sta GamepadButtons
+    set GamepadButtons, #0
 
 loc_CDF1:
     bit GamepadButtons
@@ -2359,8 +2304,7 @@ loc_CDF1:
     bne loc_CDF1
 
 loc_CDFA:
-    lda #0
-    sta GamepadButtons
+    set GamepadButtons, #0
     txa
     jmp wait_change_music
 ; End of function sub_CDE4
@@ -2391,15 +2335,12 @@ chr2sram:
     ldx #$18
     stx NMI_Data + NMI_DATA::PPU_Addr
     sta NMI_Data + NMI_DATA::PPU_Addr+1
-    lda #0
-    sta $444            ; pNMI_Data ($400) + NMI_Data header size (4) + record size ($40)
+    set $444, #0
     ldx #$20            ; number of blocks
 
 @next_block:
-    lda #0
-    sta OffsetNMI_Data
-    lda #$80
-    sta NMIFlags
+    set OffsetNMI_Data, #0
+    set NMIFlags, #$80
     jsr wait_nmi_processed
     jsr sram_write_enable
     ldy #0
@@ -2442,8 +2383,7 @@ sub_CE6D:
     stxa Pointer
     ldxa #$2000
     stxa pTileID
-    lda #$10
-    sta pDist
+    set pDist, #$10
 
 loc_CE81:
     ldxa Pointer
@@ -2486,14 +2426,10 @@ sub_CEB2:
     sta NMI_Data + NMI_DATA::PPU_Addr+1
     stx NMI_Data + NMI_DATA::PPU_Addr
     sty NMI_Data + NMI_DATA::NMI_ID
-    lda #$40
-    sta NMI_Data + NMI_DATA::NumOfChr
-    lda #0
-    sta $444
-    lda #0
-    sta OffsetNMI_Data
-    lda #$80
-    sta NMIFlags
+    set NMI_Data + NMI_DATA::NumOfChr, #$40
+    set $444, #0
+    set OffsetNMI_Data, #0
+    set NMIFlags, #$80
     rts
 ; End of function sub_CEB2
 
@@ -2583,8 +2519,7 @@ load_obj_data:
     lda #$14
     ldx #6
     jsr mmc3_bank_set
-    lda #0
-    sta p4TileID+1
+    set p4TileID+1, #0
     lda MapSectorID
     asl A
     asl A
@@ -2628,14 +2563,10 @@ load_obj_data:
     lda CoorY
     and #$C0
     sta MaxY
-    lda CoorY+1
-    sta MaxY+1
-    lda #$40
-    sta StepX
-    lda #0
-    sta StepY
-    lda #$10
-    sta BlockCount
+    set MaxY+1, CoorY+1
+    set StepX, #$40
+    set StepY, #0
+    set BlockCount, #$10
 
 @next_block:
     sec
@@ -2646,8 +2577,7 @@ load_obj_data:
     lda CoorX+1
     sbc #0
     sta MaxX+1
-    lda #$13
-    sta Tile4Count
+    set Tile4Count, #$13
     jsr load_map
     dec BlockCount
     beq @last_block
@@ -2704,8 +2634,7 @@ draw_screen:
     lda CoorY+1
     adc #3
     sta MaxY+1
-    lda #$F
-    sta BlockCount
+    set BlockCount, #$F
 
 next_block:
     clc
@@ -2719,8 +2648,7 @@ loc_CFE1:
     lda CoorX
     and #$C0
     sta MaxX
-    lda CoorX+1
-    sta MaxX+1
+    set MaxX+1, CoorX+1
     ldx BlockCount
     lda locret_D04E,X   ; get value from the table D04F
     eor ScreenY
@@ -2735,8 +2663,7 @@ loc_CFFB:
     lda #0
     sta NMI_Data,X
     sta OffsetNMI_Data
-    lda #$80
-    sta NMIFlags
+    set NMIFlags, #$80
     dec BlockCount
     beq last_block
     lda BlockCount
@@ -2758,17 +2685,12 @@ loc_CFFB:
 last_block:
     jsr wait_nmi_processed
     jsr load_map_tile
-    lda #LOAD_PALETTES      ; #4 load_palettes ID
-    sta NMI_Data + NMI_DATA::NMI_ID
-    lda #0
-    sta NMI_Data + NMI_DATA::NumOfChr
+    set NMI_Data + NMI_DATA::NMI_ID, #LOAD_PALETTES
+    set NMI_Data + NMI_DATA::NumOfChr, #0
     sta OffsetNMI_Data
-    lda #$80
-    sta NMIFlags
-    lda #$88
-    sta NewView
-    lda #0
-    sta IRQCount
+    set NMIFlags, #$80
+    set NewView, #$88
+    set IRQCount, #0
     sta GamepadButtons
 
 locret_D04E:
@@ -2927,8 +2849,7 @@ next_quadrant:
     ldx #6
     jsr mmc3_bank_set   ; Set memory bank A - bank number, X - mode
     clc
-    lda MaxX+1
-    sta p4TileID
+    set p4TileID, MaxX+1
     lda MaxY+1
     and #$1F
     adc #$80
@@ -2953,8 +2874,7 @@ next_quadrant:
 ; ---------------------------------------------------------------------------
 
 @low_bank:
-    lda BankNum0Mask3
-    sta p4TileID+1
+    set p4TileID+1, BankNum0Mask3
     txa
     asl A
     asl A
@@ -3172,8 +3092,7 @@ write_tile_attr:
     .importzp AttributeScr
 
     jsr sub_D4B7
-    lda #$11
-    sta TilesNum
+    set TilesNum, #$11
     ldx #0
 
 @add_nmi_tiles:
@@ -3251,8 +3170,7 @@ write_tile_attr:
 ; ---------------------------------------------------------------------------
 
 @last_tile:
-    lda #9
-    sta TilesNum
+    set TilesNum, #9
     ldx #$54
     lda #WRITE_CHAR
     sta NMI_Data,X
@@ -3304,8 +3222,7 @@ sub_D398:
     clc
     adc OffScreen
     sta OffScreen
-    lda #$F
-    sta TilesNum
+    set TilesNum, #$F
     ldx #0
     lda #WRITE_COLUMN
     sta NMI_Data,X
@@ -3327,8 +3244,7 @@ sub_D398:
     ora #1
     sta NMI_Data + NMI_DATA::Chr+$1E,X
     inx
-    lda ScreenY
-    sta PPUAddr
+    set PPUAddr, ScreenY
 
 loc_D3DA:
     lda PPUAddr
@@ -3377,8 +3293,7 @@ loc_D3E9:
 ; ---------------------------------------------------------------------------
 
 loc_D425:
-    lda #8
-    sta TilesNum
+    set TilesNum, #8
     ldx #$44
     lda #7
     sta NMI_Data,X
@@ -3394,18 +3309,15 @@ loc_D425:
     pha
     sbc #$10
     sta Off_pAttr
-    lda #$20
-    sta Add_Off_pAttr
+    set Add_Off_pAttr, #$20
     jsr write_attr
     pla
     sta Off_pAttr
-    lda #$10
-    sta Add_Off_pAttr
+    set Add_Off_pAttr, #$10
     bne loc_D45C
 
 loc_D455:
-    lda #$10
-    sta Add_Off_pAttr
+    set Add_Off_pAttr, #$10
 
 loc_D459:
     jsr write_attr
@@ -3589,8 +3501,7 @@ get4tileID_pointer:
 ; ---------------------------------------------------------------------------
 
 loc_D548:
-    lda BankNum0Mask3
-    sta p4TileID+1
+    set p4TileID+1, BankNum0Mask3
     lda (Screen),Y
     asl A
     asl A
@@ -3632,8 +3543,7 @@ get_screen_pointers:
     ror OffScreen
     lsr A
     ror OffScreen
-    lda #0
-    sta Screen
+    set Screen, #0
     sta AttributeScr
     sta ObjectScr
     lda Screen+1
@@ -3787,13 +3697,11 @@ copy_character_buffer:
     lda Characters + OBJECT::CoorX
     and #$C0
     sta MaxX
-    lda Characters + OBJECT::CoorX+1
-    sta MaxX+1
+    set MaxX+1, Characters + OBJECT::CoorX+1
     lda Characters + OBJECT::CoorY
     and #$C0
     sta MaxY
-    lda Characters + OBJECT::CoorY+1
-    sta MaxY+1
+    set MaxY+1, Characters + OBJECT::CoorY+1
     jmp loc_D6CB
 ; ---------------------------------------------------------------------------
 
@@ -3807,8 +3715,7 @@ loc_D697:
     sta CoorX
     adc #0
     sta MaxX
-    lda CurrentGame + PURE_SAVE::GlobalX+1
-    sta CoorX+1
+    set CoorX+1, CurrentGame + PURE_SAVE::GlobalX+1
     adc #2
     sta MaxX+1
     clc
@@ -3817,8 +3724,7 @@ loc_D697:
     sta CoorY
     adc #$C0
     sta MaxY
-    lda CurrentGame + PURE_SAVE::GlobalY+1
-    sta CoorY+1
+    set CoorY+1, CurrentGame + PURE_SAVE::GlobalY+1
     adc #1
     sta MaxY+1
     jsr get_map_palette
@@ -3865,8 +3771,7 @@ set_music:
     jsr wait_change_music
 
 loc_D70E:
-    lda #0
-    sta byte_20
+    set byte_20, #0
     lda byte_22
     and #$CF
     sta byte_22
@@ -4260,14 +4165,10 @@ loc_D906:
 loc_D90E:
     jsr sub_D8C9
     jsr sram_write_enable
-    lda #0
-    sta CurrentGame + PURE_SAVE::Boy1 + CHARACTER::InitialStatus
+    set CurrentGame + PURE_SAVE::Boy1 + CHARACTER::InitialStatus, #0
     sta CurrentGame + PURE_SAVE::Boy1 + CHARACTER::PP
     sta CurrentGame + PURE_SAVE::Boy1 + CHARACTER::PP+1
-    lda CurrentGame + PURE_SAVE::Boy1 + CHARACTER::MaxHealth
-    sta CurrentGame + PURE_SAVE::Boy1 + CHARACTER::Health
-    lda CurrentGame + PURE_SAVE::Boy1 + CHARACTER::MaxHealth+1
-    sta CurrentGame + PURE_SAVE::Boy1 + CHARACTER::Health+1
+    store CurrentGame + PURE_SAVE::Boy1 + CHARACTER::MaxHealth, CurrentGame + PURE_SAVE::Boy1 + CHARACTER::Health
     lda CurrentGame + PURE_SAVE::Cash
     lsr CurrentGame + PURE_SAVE::Cash + 1
     ror A
@@ -4276,10 +4177,8 @@ loc_D90E:
     lda CurrentGame + PURE_SAVE::Cash + 1
     adc #0
     sta CurrentGame + PURE_SAVE::Cash + 1
-    lda #1
-    sta ItemCount
-    lda #0
-    sta ObjectNumWithChar
+    set ItemCount, #1
+    set ObjectNumWithChar, #0
     sta byte_23
     ldx byte_47
     ldy byte_D96B,X
@@ -4475,8 +4374,7 @@ loc_DA3C:
     inx
     cpx #4
     bcc loc_DA1E
-    lda #1
-    sta NMIFlags
+    set NMIFlags, #1
     jmp wait_nmi_processed
 ; End of function sub_DA16
 
@@ -4488,14 +4386,9 @@ sub_DA48:
     .import sub_13BBC3, sub_13BB8C, sub_13A979, print_text
     .importzp CharNum, Item, Price, Experience, CharacterOffset
 
-    lda ItemCount
-    sta pTileID
-    lda Experience
-    sta Pointer
-    lda Experience+1
-    sta Pointer+1
-    lda Experience+2
-    sta AddrForJmp
+    set pTileID, ItemCount
+    store Experience, Pointer
+    set AddrForJmp, Experience+2
     jsr divide
     lda pDist
     beq loc_DA61
@@ -4596,8 +4489,7 @@ loc_DADD:
     sta Item
     jsr bank13_A000
     jsr sub_13BBC3
-    lda #$FF
-    sta Price
+    set Price, #$FF
     lda Price+1
     ora #$1F
 
@@ -4633,8 +4525,7 @@ loc_DB30:
 
 loc_DB33:
     jsr bank17_A000
-    lda #6
-    sta Sound2
+    set Sound2, #6
     lda #PickedUp
     jmp print_text
 ; End of function sub_DA48
@@ -4651,8 +4542,7 @@ sub_DB40:
     stx pTileID
     inx
     stx Pointer
-    lda #0
-    sta Pointer+1
+    set Pointer+1, #0
     sta AddrForJmp
     jsr sub_F109
     jsr sub_F109
@@ -4661,12 +4551,9 @@ sub_DB40:
     lda (pDist),Y
     sta pTileID
     jsr sub_F109
-    lda Pointer+1
-    sta pTileID
-    lda AddrForJmp
-    sta pTileID+1
-    lda AddrForJmp+1
-    sta TilepackMode
+    set pTileID, Pointer+1
+    set pTileID+1, AddrForJmp
+    set TilepackMode, AddrForJmp+1
     rts
 ; End of function sub_DB40
 
@@ -4922,8 +4809,7 @@ loc_DC97:
     lda (ObjOffset),Y
     ora FlagBit,X
     sta (ObjOffset),Y
-    lda #9
-    sta Sound2
+    set Sound2, #9
     lda #NewPSIPower
     jsr print_text
 
@@ -5212,8 +5098,7 @@ get_obj:
     sta ObjOffset
     lda $8000+1,X
     sta ObjOffset+1
-    lda #2
-    sta ItemCount
+    set ItemCount, #2
 
 reset_obj:
     ldxa #Objects
@@ -5547,10 +5432,8 @@ prepare_anim:
 loc_DFEC:
     stxa Dist
     sty ObjectID
-    lda #$18
-    sta byte_E3
-    lda #0
-    sta SpriteTable + ANIM_SPRITE::Tiles
+    set byte_E3, #$18
+    set SpriteTable + ANIM_SPRITE::Tiles, #0
     ldx #8
     jsr sram_write_enable
 
@@ -5660,8 +5543,7 @@ sub_E087:
     jsr get_objects
     ldx #4
     stx ObjectID
-    lda #0
-    sta AddrForJmp
+    set AddrForJmp, #0
     ldx #8
 
 loc_E094:
@@ -6168,8 +6050,7 @@ bank14_8000_ex:
     lda #$14
     ldx #6
     jsr mmc3_bank_set
-    lda ObjectScr
-    sta Screen
+    set Screen, ObjectScr
     lda View
     asl A
     tax
@@ -6416,8 +6297,7 @@ loc_E52F:
     clc
     adc #$FC
     sta Screen+1
-    lda #0
-    sta AttributeScr
+    set AttributeScr, #0
     lda (Screen),Y
     bmi loc_E541
     lda BankNum0
@@ -6745,8 +6625,7 @@ loc_E6A9:
     lda (Pointer),Y
     sbc #1
     sta CurrentGame + PURE_SAVE::GlobalY+1
-    lda #$40
-    sta byte_20
+    set byte_20, #$40
     rts
 ; End of function enter
 
@@ -6759,8 +6638,7 @@ sub_E6CF:
 
     jsr door
     bcc @exit
-    lda #1
-    sta FuncID
+    set FuncID, #1
 
 @exit:
     rts
@@ -6842,8 +6720,7 @@ hide_object:
 
 
 reset_view:
-    lda #$88
-    sta View
+    set View, #$88
     rts
 ; End of function reset_view
 
@@ -6960,14 +6837,12 @@ loc_E79C:
     jsr sub_E5AF
     jsr loc_E1D4
     bcc loc_E7B1
-    lda #$F8
-    sta byte_22
+    set byte_22, #$F8
     jmp sub_E552
 ; ---------------------------------------------------------------------------
 
 loc_E7B1:
-    lda #0
-    sta byte_22
+    set byte_22, #0
     jmp loc_E965
 ; End of function sub_E788
 
@@ -7029,8 +6904,7 @@ sub_E7DC:
 
 
 sub_E7F5:
-    lda #$88
-    sta View
+    set View, #$88
 
 loc_E7F9:
     jmp sub_E567
@@ -7191,8 +7065,7 @@ loc_E8B2:
     bpl loc_E8C5
 
 loc_E8C1:
-    lda #$88
-    sta View
+    set View, #$88
 
 loc_E8C5:
     txa
@@ -7309,17 +7182,14 @@ loc_E940:
 ; ---------------------------------------------------------------------------
 
 loc_E94C:
-    lda #$88
-    sta NewView
-    lda #0
-    sta byte_E7
+    set NewView, #$88
+    set byte_E7, #0
     sta ShiftX
     sta ShiftY
     jsr clear_shifts_object
 
 loc_E95B:
-    lda #0
-    sta View
+    set View, #0
     sta byte_23
     lda #$10
     bcs loc_E967
@@ -7373,16 +7243,14 @@ loc_E99F:
     bcc loc_E9AD
 
 loc_E9A9:
-    lda #$88
-    sta View
+    set View, #$88
 
 loc_E9AD:
     jsr sub_E567
     jsr sub_EA24
 
 loc_E9B3:
-    lda View
-    sta NewView
+    set NewView, View
     ldy #9
     lda (Dist),Y
     and #$40
@@ -7574,15 +7442,13 @@ loc_EAA1:
     sta (Dist),Y
     lda byte_23
     bne loc_EABB
-    lda #$80
-    sta byte_23
+    set byte_23, #$80
     jsr sub_D9FA
     ldx #0
     jsr sub_CDAF
 
 loc_EABB:
-    lda #$88
-    sta View
+    set View, #$88
     jsr loc_EB0B
     jmp loc_E9B3
 ; End of function sub_EA38
@@ -7638,8 +7504,7 @@ loc_EB04:
 
 
 sub_EB07:
-    lda #$88
-    sta View
+    set View, #$88
 
 loc_EB0B:
     jsr sub_E607
@@ -7709,18 +7574,15 @@ loc_EB68:
 ; ---------------------------------------------------------------------------
 
 loc_EB70:
-    lda #$88
-    sta NewView
+    set NewView, #$88
     sta View
 
 loc_EB76:
     jsr sub_E567
     jsr sub_E74D
-    lda NewView
-    sta View
+    set View, NewView
     jsr sub_E607
-    lda byte_1F
-    sta byte_E7
+    set byte_E7, byte_1F
     lda CoorXY + CHANGE_COOR::NewY,X
     sta ShiftX
     lda CoorXY + CHANGE_COOR::NewY+1,X
@@ -7746,8 +7608,7 @@ sub_EB92:
     lda #$14
     ldx #6
     jsr mmc3_bank_set
-    lda ObjectScr
-    sta Screen
+    set Screen, ObjectScr
     jsr sub_E506
     lda ObjNumber
     jsr set_obj_bank
@@ -7755,8 +7616,7 @@ sub_EB92:
     bvs loc_EBC4
 
 loc_EBC0:
-    lda #$88
-    sta View
+    set View, #$88
 
 loc_EBC4:
     jsr sub_E567
@@ -7830,19 +7690,14 @@ sub_EC65:
                         ; |-------------------------------------|
                         ; |   $0C00    |        5        |  1K  |
                         ; ---------------------------------------
-    lda #1
-    sta MIRROR           ; horizontal mirroring
-    lda #$80
-    sta ModeSRAM
-    lda #$7C
-    sta BankPPU_X000
+    set MIRROR, #1
+    set ModeSRAM, #$80
+    set BankPPU_X000, #$7C
     sta BankPPU_X400
     sta BankPPU_X800
     sta BankPPU_XC00
-    lda #0
-    sta byte_46
-    lda #0
-    sta byte_45
+    set byte_46, #0
+    set byte_45, #0
     ldx #9
 
 @next_byte:
@@ -7889,8 +7744,7 @@ loc_ECC6:
     lda #$60
     ldx #0
     jsr mmc3_bank_set   ; Set memory bank A - bank number, X - mode
-    lda #0
-    sta MIRROR
+    set MIRROR, #0
     sta IRQCount
     sta PrintSize
     sta byte_71
@@ -7926,14 +7780,12 @@ shift_up_window:
     ldx #$14
 
 @next_shift:
-    lda #1              ; shift up or down window
-    sta NMIFlags
+    set NMIFlags, #1
     jsr wait_nmi_processed
     jsr sub_ED1A
     dex
     bne @next_shift
-    lda #0
-    sta ShiftY
+    set ShiftY, #0
     rts
 ; End of function shift_down_window
 
@@ -8036,8 +7888,7 @@ load_fonts:
     .export locret_EDCA
     .importzp byte_44
 
-    lda byte_44
-    sta byte_46
+    set byte_46, byte_44
     lda #$C8
     jsr sub_C218
     sta IRQ_DISABLE           ; Disable MMC3 interrupts and acknowledge any pending interrupts
@@ -8319,13 +8170,10 @@ one_frame:
     ldx #1
 
 wait_palette_to_PPU:
-    lda #LOAD_PALETTES              ; #4 load_palettes function ID
-    sta NMI_Data + NMI_DATA::NMI_ID
-    lda #0
-    sta NMI_Data + NMI_DATA::NumOfChr
+    set NMI_Data + NMI_DATA::NMI_ID, #LOAD_PALETTES
+    set NMI_Data + NMI_DATA::NumOfChr, #0
     sta OffsetNMI_Data
-    lda #$80
-    sta NMIFlags
+    set NMIFlags, #$80
     jmp wait_frames     ; wait for a few frames X - number of frames
 ; End of function copy_palettes
 
@@ -8341,8 +8189,7 @@ home_camera:
 
 set_camera:
     jsr wait_nmi_processed
-    lda #0
-    sta ShiftX
+    set ShiftX, #0
     sta ShiftY
     sta IRQCount
     lda #$FC
@@ -8386,8 +8233,7 @@ sub_EEE4:
     ldx #$A
 
 loc_EF0C:
-    lda #7
-    sta Sound1
+    set Sound1, #7
     jsr sub_EEE4
     dex
     bne loc_EF0C
@@ -8488,8 +8334,7 @@ loc_EF7C:
     jsr wait_nmi_processed
     ldy #$18
     sty pTileID+1
-    lda #0
-    sta OAM_Cache + OAM_TILE::Attr
+    set OAM_Cache + OAM_TILE::Attr, #0
 
 set_cursor_pos:
     ldy #5
@@ -8553,12 +8398,10 @@ set_cursor_pos:
     and (pCursor),Y
     beq arrow_buttons
     sta Buttons
-    lda #5
-    sta Sound2
+    set Sound2, #5
 
 off_cursor:
-    lda #$F0
-    sta OAM_Cache + OAM_TILE::PosY
+    set OAM_Cache + OAM_TILE::PosY, #$F0
     rts
 ; ---------------------------------------------------------------------------
 
@@ -8569,10 +8412,8 @@ arrow_buttons:
     tay
     ldx CursorModeTab,Y
     bmi set_cursor_pos
-    lda CurrentX
-    sta pDist
-    lda CurrentY
-    sta pDist+1
+    set pDist, CurrentX
+    set pDist+1, CurrentY
     stx CursorMode
 
 cursor_pos:
@@ -8601,14 +8442,10 @@ cursor_pos:
     tay
     lda (pStr),Y        ; get a tile ID or mark at this position
     beq menu_area
-    lda pDist
-    sta CurrentX
-    lda pDist+1
-    sta CurrentY
-    lda FieldPosition
-    sta CursorPosition
-    lda #$D
-    sta Sound2
+    set CurrentX, pDist
+    set CurrentY, pDist+1
+    set CursorPosition, FieldPosition
+    set Sound2, #$D
 
 no_command_button:
     jmp set_cursor_pos
@@ -8620,8 +8457,7 @@ out_area:
     and (pCursor),Y
     beq no_command_button
     sta Buttons
-    lda #$D
-    sta Sound2
+    set Sound2, #$D
     jmp off_cursor
 ; ---------------------------------------------------------------------------
 
@@ -9241,8 +9077,7 @@ random_value:
     txa
     pha
     save Pointer
-    lda #100
-    sta pTileID
+    set pTileID, #100
 
 loc_F320:
     jsr divide
@@ -9324,13 +9159,11 @@ get_speed:
     tax
     save Pointer
     stx Pointer
-    lda #0
-    sta Pointer+1
+    set Pointer+1, #0
     jsr random_value
     lda Pointer+1
     beq loc_F415
-    lda #$FF
-    sta Pointer
+    set Pointer, #$FF
 
 loc_F415:
     ldx Pointer
@@ -9359,30 +9192,26 @@ play_sound:
     lda SoundEffects + SOUND_EFFECT::NumSound,X
     cmp #0
     bne @sound2
-    lda pTileID+1
-    sta Sound1
+    set Sound1, pTileID+1
     jmp sound
 ; ---------------------------------------------------------------------------
 
 @sound2:
     cmp #1
     bne @sound3
-    lda pTileID+1
-    sta Sound2
+    set Sound2, pTileID+1
     jmp sound
 ; ---------------------------------------------------------------------------
 
 @sound3:
     cmp #2
     bne @sound4
-    lda pTileID+1
-    sta Sound3
+    set Sound3, pTileID+1
     jmp sound
 ; ---------------------------------------------------------------------------
 
 @sound4:
-    lda pTileID+1
-    sta Sound4
+    set Sound4, pTileID+1
 
 sound:
     ldx TilesCount
@@ -9406,8 +9235,7 @@ long_delay:
 @loop:
     txa
     pha
-    lda #5
-    sta Sound2
+    set Sound2, #5
     ldx #2
     jsr delay
     pla
@@ -9428,12 +9256,9 @@ get_enemy_group:
     .export get_enemy_group
     .import EnemyGroups
 
-    lda EnemyGroup
-    sta Pointer
-    lda #0
-    sta Pointer+1
-    lda #$A
-    sta pTileID
+    set Pointer, EnemyGroup
+    set Pointer+1, #0
+    set pTileID, #$A
     jsr multiplication      ; Input: Pointer - first multiplier, pTileID - second multiplier
                             ; Output: AddrForJmp, Pointer - result Pointer * pTileID
     clc
@@ -9463,14 +9288,10 @@ preload_palettes:
     bpl @next_color
 
 set_nmi_id4:
-    lda #LOAD_PALETTES
-    sta NMI_Data + NMI_DATA::NMI_ID
-    lda #0
-    sta NMI_Data + NMI_DATA::NumOfChr
-    lda #0
-    sta OffsetNMI_Data
-    lda #$80
-    sta NMIFlags
+    set NMI_Data + NMI_DATA::NMI_ID, #LOAD_PALETTES
+    set NMI_Data + NMI_DATA::NumOfChr, #0
+    set OffsetNMI_Data, #0
+    set NMIFlags, #$80
     rts
 ; End of function preload_palettes
 
@@ -9593,14 +9414,9 @@ loc_F539:
     tya
     pha
     jsr wait_nmi_processed
-    lda #0
-    sta PrintSize
-    lda AddrForJmp
-    sta Column
-    lda pTileID
-    sta PointerTilePack
-    lda pTileID+1
-    sta PointerTilePack+1
+    set PrintSize, #0
+    set Column, AddrForJmp
+    store pTileID, PointerTilePack
     jsr sub_F562
     clc
     lda AddrForJmp+1
@@ -9620,16 +9436,10 @@ loc_F539:
 
 
 sub_F562:
-    lda Pointer+1
-    pha
-    lda Pointer
-    pha
+    save Pointer
     lda AddrForJmp
     pha
-    lda pTileID+1
-    pha
-    lda pTileID
-    pha
+    save pTileID
     lda TilesCount
     pha
     lda TilepackMode
@@ -9638,8 +9448,7 @@ sub_F562:
     beq loc_F58D
     cmp #1
     beq loc_F59E
-    lda AddrForJmp+1
-    sta Row
+    set Row, AddrForJmp+1
     pha
     jsr draw_tilepack
     pla
@@ -9674,16 +9483,10 @@ loc_F5AC:
     sta TilepackMode
     pla
     sta TilesCount
-    pla
-    sta pTileID
-    pla
-    sta pTileID+1
+    restore pTileID
     pla
     sta AddrForJmp
-    pla
-    sta Pointer
-    pla
-    sta Pointer+1
+    restore Pointer
     rts
 ; End of function sub_F562
 
@@ -9760,8 +9563,7 @@ print_state:
     jsr wait_nmi_processed
     ldy #$E8
     sty pDist
-    lda #$DF            ; CFE8
-    sta pDist+1
+    set pDist+1, #$DF
     ldy $6707
 
 loc_F622:
@@ -9771,8 +9573,7 @@ loc_F622:
     sta pDist+1
     dey
     bne loc_F622
-    lda #0
-    sta TilepackMode
+    set TilepackMode, #0
 
 loc_F630:
     jsr wait_nmi_processed
@@ -9865,8 +9666,7 @@ warning:
     .word set_nmi_flag,set_dark_tile,tile_blink,set_light_tile
 
 set_nmi_flag:
-    lda #1
-    sta NMIFlags
+    set NMIFlags, #1
     rts
 
 set_dark_tile:
@@ -9939,8 +9739,7 @@ set_anim_spite:
 change_tile_wait:
     ldx pDist
     sta SpriteTable,X
-    lda #1
-    sta NMIFlags
+    set NMIFlags, #1
     ldx #8
     jmp delay
 ; End of function change_tile_wait
@@ -9962,10 +9761,8 @@ copy_packed_tiles:
     sta NMI_Data,Y
     dey
     bpl @next_byte
-    lda #$80
-    sta NMIFlags
-    lda #0
-    sta OffsetNMI_Data
+    set NMIFlags, #$80
+    set OffsetNMI_Data, #0
     rts
 ; End of function copy_packed_tiles
 
@@ -9989,8 +9786,7 @@ save_jmp_instr:
 clear_jmp_instr:
     .export clear_jmp_instr
 
-    lda #0
-    sta JmpInstr
+    set JmpInstr, #0
     jmp wait_nmi        ; wait for NMI interrupt processing to complete
 ; End of function clear_jmp_instr
 
@@ -10001,8 +9797,7 @@ clear_jmp_instr:
 sub_F760:
     .export sub_F760
 
-    lda #1
-    sta EnemyPos
+    set EnemyPos, #1
     rts
 ; End of function sub_F760
 
@@ -10013,8 +9808,7 @@ sub_F760:
 sub_F765:
     .export sub_F765
 
-    lda #0
-    sta EnemyPos
+    set EnemyPos, #0
     rts
 ; End of function sub_F765
 

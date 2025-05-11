@@ -1,3 +1,5 @@
+.include "macros.inc"
+
 .segment "WAIT"
 
 ; FD28
@@ -44,8 +46,7 @@
     .export wait_nmi
     .importzp NMIReady
 
-    lda #1
-    sta NMIReady
+    set NMIReady, #1
 
 @wait:
     lda NMIReady
@@ -68,15 +69,13 @@
     .export wait_press_button
     .importzp GamepadButtons
 
-    lda #0
-    sta GamepadButtons
+    set GamepadButtons, #0
 
 @wait_button:
     lda GamepadButtons
     beq @wait_button
     pha 
-    lda #0
-    sta GamepadButtons
+    set GamepadButtons, #0
     pla
     rts
 .endproc

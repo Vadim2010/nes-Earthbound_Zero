@@ -1,4 +1,5 @@
 .include "nes.inc"
+.include "macros.inc"
 
 ; .segment "ZEROPAGE"
     ; gamepad_press: .res 1
@@ -21,10 +22,8 @@
 
 @set_pad_strobe:
     php                         ; push processor status register on the stack
-    lda #1                      ; reset joysticks, write first $01 then $00 into $4016
-    sta IO_JOY1
-    lda #0
-    sta IO_JOY1
+    set IO_JOY1, #1                      ; reset joysticks, write first $01 then $00 into $4016
+    set IO_JOY1, #0
     ldy #8                      ; initialize Y to 8 (number of bits to process)
 
 @read_pad_data:
@@ -73,8 +72,7 @@
     rts
 
 @check_next_state:
-    lda #0
-    sta byte_D3
+    set byte_D3, #0
 
 @next_state:
     inc byte_D0

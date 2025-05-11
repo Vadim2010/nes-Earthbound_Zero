@@ -68,8 +68,7 @@ get_cursor:
 set_pos_6_5:
     .importzp Column, Row, byte_D6
 
-    lda #$FF
-    sta byte_D6
+    set byte_D6, #$FF
     ldx #6
     ldy #5
     stx Column
@@ -298,24 +297,19 @@ StartUp:
     end_frame
 
 CopyGame1:
-    .byte 1, 3, 0, 6, $C0, $3A, 3, 4
-    .word CopySlots1 ; CURSOR <1, 3, 0, 6, $C0, $3A, 3, 4, CopySlots1>
+    cursor 1, 3, 0, 6, $C0, $3A, 3, 4, CopySlots1
 
 CopyGame2:
-    .byte 1, 3, 0, 6, $C0, $3A, 3, 4
-    .word CopySlots2 ; CURSOR <1, 3, 0, 6, $C0, $3A, 3, 4, CopySlots2>
+    cursor 1, 3, 0, 6, $C0, $3A, 3, 4, CopySlots2
 
 CopyGame3:
-    .byte 1, 3, 0, 6, $C0, $3A, 3, 4
-    .word CopySlots3 ; CURSOR <1, 3, 0, 6, $C0, $3A, 3, 4, CopySlots3>
+    cursor 1, 3, 0, 6, $C0, $3A, 3, 4, CopySlots3
 
 GameMenu:
-    .byte 4, 3, 5, 6, $80, $3A, 5, 5
-    .word GameSlotCopy              ; CURSOR <4, 3, 5, 6, $80, $3A, 5, 5, $584>
+    cursor 4, 3, 5, 6, $80, $3A, 5, 5, $584
 
 Erase:
-    .byte 2, 1, 5, 0, $80, $3A, 11, 26
-    .word ConfirmMenu ; CURSOR <2, 1, 5, 0, $80, $3A, $B, $1A, ConfirmMenu>
+    cursor 2, 1, 5, 0, $80, $3A, $B, $1A, ConfirmMenu
 
 GameSlot:
     .byte $80, 0, $81, $82      ; busy slot <$80, 0, $81, $82>
@@ -368,8 +362,7 @@ set_anim_sprite:
     sta SpriteTable + ANIM_SPRITE::pFrame,Y
     lda Pointer+1
     sta SpriteTable + ANIM_SPRITE::pFrame+1,Y
-    lda #1
-    sta NMIFlags
+    set NMIFlags, #1
     rts
 ; End of function set_anim_sprite
 
@@ -378,16 +371,9 @@ set_anim_sprite:
 
 
 get_anim_sprite:
-    lda #$50
-    sta AddrForJmp
-    lda #8
-    sta AddrForJmp+1
-    lda #0
-    sta pTileID
-    lda #$10
-    sta Pointer
-    lda #$80
-    sta Pointer+1
+    store #$850, AddrForJmp
+    set pTileID, #0
+    store #(AnimBoy1 + $10), Pointer
     rts
 ; End of function get_anim_sprite
 
@@ -452,11 +438,10 @@ Food:
     .word 0, AskFoodName, CurrentGame + GAME_SAVE::Food
 
 Cur_62E8:
-    .byte $10, 6, 1, 2, $D0, 1, 8, $E                   ; CURSOR_SHORT <$10, 6, 1, 2, $D0, 1, 8, $E>
+    cursor_short $10, 6, 1, 2, $D0, 1, 8, $E
 
 Cur_62F0:
-    .byte 2, 1, 4, 0, $80, $3A, $C, $18
-    .word byte_1962FA                         ; CURSOR <2, 1, 4, 0, $80, $3A, $C, $18, byte_1962FA>
+    cursor 2, 1, 4, 0, $80, $3A, $C, $18, byte_1962FA
 
 byte_1962FA:
     .byte 1, 1, 1
