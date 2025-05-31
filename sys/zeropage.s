@@ -11,9 +11,9 @@
 .exportzp CameraX, CameraY, SpriteTabOffset, SpriteTabStep, StartX, Source, ShiftCameraX, ShiftCameraY, ScreenX, ScreenY, Screen
 .exportzp ObjectID, TileCount, TileID, pTileID, p4TileID, p4TileAttr, TileX, TileY, Attribute, pOAMSprite, pFrame, pStr, pDist
 .exportzp pCursor, pCharacter, FuncID, Dist, Row, Column
-.exportzp byte_C, byte_D, byte_F, byte_1F, byte_20, ObjectNumWithChar, byte_22, byte_23, byte_24, byte_25, RandomNumber
+.exportzp byte_C, byte_D, byte_F, byte_1F, byte_20, ObjectNumWithChar, byte_22, Vechicle, byte_24, byte_25, RandomNumber
 .exportzp CharNum, Item, WaitPressed, byte_2D, byte_34, ScriptOffset, TempX, TempY, Tiles, NewView, byte_A9, StepX, StepY
-.exportzp byte_44, byte_45, byte_46, byte_47, EnemyGroup, Experience, Money, Value
+.exportzp SplitLine, CHRFlags, IRQLine, byte_47, EnemyGroup, Experience, Money, Value
 .exportzp StackPointer, MsgCounter, CharacterOffset, TargetOffset, BossID, Flags, Sound, Auto, EnemyPos, EnemyCount
 .exportzp pBattleScript, byte_6C, byte_6D, byte_6E, PrintSize, byte_71, DialogPage
 .exportzp Pointer, CursorPosition
@@ -63,7 +63,7 @@ byte_1F:            .res 1
 byte_20:            .res 1
 ObjectNumWithChar:  .res 1
 byte_22:            .res 1
-byte_23:            .res 1
+Vechicle:           .res 1
 byte_24:            .res 1
 byte_25:            .res 1
 RandomNumber:       .res 2
@@ -94,9 +94,9 @@ BankPPU_X400:       .res 1
 BankPPU_X800:       .res 1
 BankPPU_XC00:       .res 1
 
-byte_44:            .res 1
-byte_45:            .res 1
-byte_46:            .res 1
+SplitLine:          .res 1
+CHRFlags:           .res 1
+IRQLine:            .res 1
 byte_47:            .res 1
 
 EnemyGroup:         .res 1

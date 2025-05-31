@@ -20,8 +20,7 @@
     .import get_character_num, get_character_pointer, state, cursor_update, loc_EF7C, redraw_screen, Character
     .importzp Pointer, Item, pCursor, Buttons, CursorPosition, Column, Row
 
-    lda #5
-    sta Sound2
+    set Sound2, #5
 
 out_state:
     lda CurrentGame + GAME_SAVE::Flags+$1E
@@ -72,8 +71,7 @@ loc_13A023:
     jsr state
     ldxa #stru_13A0F5
     jsr draw_tiles
-    lda #$C0
-    sta Item
+    set Item, #$C0
     jsr print_psi
     ldxa #stru_13A119
     stxa pCursor
@@ -168,8 +166,7 @@ next_string:
 @next_psi:
     inc Item
     bne no_last
-    lda #$C0
-    sta Item
+    set Item, #$C0
     cpx #$41
     bcs no_psi
     rts
@@ -207,7 +204,7 @@ get_frame:
 .import Character
 stru_13A0F5:
     tile_position 11, 3
-    convert Character+CHARACTER::Name, 0, 7       ; $638, 0, 7
+    convert Character+CHARACTER::Name, 0, 7
     end_frame
 
 stru_13A0FE:
@@ -254,8 +251,7 @@ stru_13A119:
     jsr message_button
     ldx #$80
     jsr message_button
-    lda #$37
-    sta WaitPressed
+    set WaitPressed, #$37
     jsr loc_13ADC1
     bit Buttons
     bvs loc_13A168
@@ -289,8 +285,7 @@ loc_13A168:
     .import sub_C26C, cursor_update, redraw_screen, get_cursor_pos
     .importzp pCursor, Buttons, CursorPosition
 
-    lda #5
-    sta Sound2
+    set Sound2, #5
     jsr sub_C26C
     ldxa #CommandCursor
     stxa pCursor
@@ -353,8 +348,7 @@ CommandCursor:
     bcc locret_13A1E9
     and #$3C
     beq locret_13A1E9
-    lda #$35
-    sta byte_34
+    set byte_34, #$35
     jsr sub_13AB0F
     bcs locret_13A1E9
 
@@ -384,8 +378,7 @@ locret_13A1E9:
     and #$1E
     beq what
     jsr set_oam
-    lda #$A
-    sta byte_34
+    set byte_34, #$A
     jsr sub_13AB0F
     bcc redraw
 
@@ -424,8 +417,7 @@ loc_13A21D:
     bpl no_problem
     and #$1E
     beq no_problem
-    lda #$B
-    sta byte_34
+    set byte_34, #$B
     jsr sub_13AB0F
     bcc loc_13A235
 
@@ -579,8 +571,7 @@ to_equip:
     bcs cant_equip
     ldx #$1C
     jsr message_button
-    lda #4
-    sta Sound3
+    set Sound3, #4
     jmp press_redraw
 ; ---------------------------------------------------------------------------
 
@@ -777,8 +768,7 @@ ActionTable:
     bpl sub_13A43E
     and #$1E
     beq sub_13A43E
-    lda #$C
-    sta byte_34
+    set byte_34, #$C
     jsr sub_13AB0F
     bcs sub_13A43E
     rts
@@ -834,8 +824,7 @@ message_button:
     bpl nothing_happend
     and #$1E
     beq nothing_happend
-    lda #$D
-    sta byte_34
+    set byte_34, #$D
     jsr sub_13AB0F
     bcs nothing_happend
     rts
@@ -876,10 +865,8 @@ loc_13A480:
     cpy #$30
     bcc loc_13A480
     jsr sram_read_enable
-    lda #$40
-    sta byte_20
-    lda #1              ; sub_13BD0D
-    sta FuncID          ; ID from table BANK13:BCFD (RoutineTable)
+    set byte_20, #$40
+    set FuncID, #1
     ldx #$48
     jmp message_button
 .endproc         ; End of function sub_13A478
@@ -1165,8 +1152,7 @@ loc_13A59B:
 
 loc_13A5B5:
     jsr sram_read_enable
-    lda #7
-    sta Sound2
+    set Sound2, #7
     ldx Price+1
     jsr message_button
     jmp sub_13BC04
@@ -1325,7 +1311,7 @@ loc_13A67E:
 .import loc_13A6F0
 resurrect:
     jsr sram_write_enable
-    ldy #CHARACTER::InitialStatus
+    ldy #CHARACTER::Status
     lda (BankPPU_X000),Y
     and #$7F
     sta (BankPPU_X000),Y
@@ -1364,8 +1350,7 @@ resurrect:
     ldy #$14
     jsr sub_13A6D1
     jsr sram_read_enable
-    lda #7
-    sta Sound2
+    set Sound2, #7
     ldx #$34
     jsr message_button
     ldx #$30
@@ -1699,10 +1684,8 @@ loc_13A7E7:
     bpl loc_13A7E7
     jsr sub_D9FA
     jsr loc_D8CE
-    lda #2              ; check_copyright
-    sta FuncID          ; ID from table BANK13:BCFD (RoutineTable)
-    lda #$40
-    sta byte_20
+    set FuncID, #2
+    set byte_20, #$40
     ldx #$16
     jmp message_button
 .endproc            ; End of function sub_13A7D7
@@ -1782,8 +1765,7 @@ byte_13A803:
     .import wait_frames, wait_nmi_processed, darken_color, restore_palettes, draw_screen
     .importzp MapSectorID, MaskPPU, GamepadButtons
 
-    lda #5
-    sta Sound2
+    set Sound2, #5
 
 loc_13A834:
     lda MapSectorID
@@ -1827,10 +1809,8 @@ loc_13A843:
                         ; |-------------------------------------|
                         ; |   $0C00    |        5        |  1K  |
                         ; ---------------------------------------
-    lda #$DF
-    sta OAM_Cache + OAM_TILE::TileID
-    lda #0
-    sta OAM_Cache + OAM_TILE::Attr
+    set OAM_Cache + OAM_TILE::TileID, #$DF
+    set OAM_Cache + OAM_TILE::Attr, #0
     ldx #$40
     lda Characters + OBJECT::CoorX+1
     jsr sub_13A8D4
@@ -1843,8 +1823,7 @@ loc_13A843:
     sta OAM_Cache + OAM_TILE::PosY
     ldxa #Palette
     jsr copy_palettes
-    lda #0
-    sta GamepadButtons
+    set GamepadButtons, #0
 
 loc_13A899:
     ldx #8
@@ -1854,10 +1833,8 @@ loc_13A899:
     sta OAM_Cache + OAM_TILE::TileID
     bit GamepadButtons
     bvc loc_13A899
-    lda #0
-    sta GamepadButtons
-    lda #$F0
-    sta OAM_Cache + OAM_TILE::PosY
+    set GamepadButtons, #0
+    set OAM_Cache + OAM_TILE::PosY, #$F0
     jsr wait_nmi_processed
     jsr darken_color
     jsr restore_palettes
@@ -1867,8 +1844,7 @@ loc_13A899:
     lda #$7E
     ldx #4
     jsr mmc3_bank_set   ; Set memory bank A - bank number, X - mode
-    lda #0
-    sta DMCflag
+    set  DMCflag, #0
     jsr clear_oam_sprite
     jmp draw_screen
 .endproc            ; End of function sub_13A82F
@@ -1928,8 +1904,7 @@ press_redraw:
     .importzp Pointer, Price
 
     sta Pointer
-    lda #0
-    sta Pointer+1
+    set Pointer+1, #0
     jsr random_value
     store Pointer, Price
     rts
@@ -1958,8 +1933,7 @@ press_redraw:
 
     jsr sram_write_enable
     jsr get_char_pntr
-    lda #4
-    sta NameOffset
+    set NameOffset, #4
     clc
     lda BankPPU_X000
     adc #<CHARACTER::Name
@@ -1997,10 +1971,7 @@ press_redraw:
     lda CharNum
     jsr get_character_pointer ; Input: A - Character number
                         ; Output: Pointer (word) = High $74 Low $40 * A
-    lda Pointer
-    sta BankPPU_X000
-    lda Pointer+1
-    sta BankPPU_X400
+    store Pointer, BankPPU_X000
     rts
 .endproc
 ; End of function get_char_pntr
@@ -2012,7 +1983,7 @@ press_redraw:
 .proc get_char_status
     .importzp BankPPU_X000
 
-    ldy #CHARACTER::InitialStatus
+    ldy #CHARACTER::Status
     lda (BankPPU_X000),Y
     and #$F0
     rts
@@ -2077,8 +2048,7 @@ loc_13A9A1:
 
     lda CharNum
     pha
-    lda BankPPU_X800
-    sta CharNum
+    set CharNum, BankPPU_X800
     jsr sub_13A990
     pla
     sta CharNum
@@ -2143,8 +2113,7 @@ loc_13A9D3:
     jsr loc_E2C2
     ldx #$66
     jsr message_button
-    lda #$A
-    sta Sound2
+    set Sound2, #$A
     ldy #6
     lda (Source),Y
     and #$7F
@@ -2189,8 +2158,7 @@ loc_13AA2C:
     jsr get_name
     ldx #$6A
     jsr message_button
-    lda #6
-    sta Sound2
+    set Sound2, #6
     jmp check_button_pressed
 .endproc            ; End of function sub_13A9D6
 
@@ -2215,8 +2183,7 @@ loc_13AA2C:
 .proc sub_13AA4E
     .importzp CharNum, DialogPage, BankPPU_X800, PointerTilePack
 
-    lda CharNum
-    sta BankPPU_X800
+    set BankPPU_X800, CharNum
     lda $6707
     cmp #2
     bcc loc_13AA6A
@@ -2238,8 +2205,7 @@ loc_13AA6A:
 ; ---------------------------------------------------------------------------
 
 loc_13AA6F:
-    lda BankPPU_X800
-    sta CharNum
+    set CharNum, BankPPU_X800
     rts
 .endproc            ; End of function sub_13AA4E
 
@@ -2296,15 +2262,13 @@ end_object:
     lda ObjectNumWithChar
     beq check_button_pressed
     jsr get_obj_pointer
-    lda #$40
-    sta byte_34
+    set byte_34, #$40
     bne sub_13AB0F
 
 check_button_pressed:
     lda WaitPressed
     beq @no_wait
-    lda #0
-    sta WaitPressed
+    set WaitPressed, #0
     clc
     jmp wait_press_button
 ; ---------------------------------------------------------------------------
@@ -2703,10 +2667,8 @@ loc_13AD36:
 
 loc_13AD40:
     jsr text2stack
-    lda #$16
-    sta PrintSize
-    lda #0
-    sta byte_71
+    set PrintSize, #$16
+    set byte_71, #0
     jsr print_string
     jsr move_chars      ; Move $A4 chars from $432-4D6 to $45B-4FF
     cmp #0
@@ -2720,8 +2682,7 @@ loc_13AD40:
 
 loc_13AD61:
     jsr load_obj_bank
-    lda #0
-    sta PrintSize
+    set PrintSize, #0
     sta byte_71
     ldy ScriptOffset
 
@@ -2812,8 +2773,7 @@ loc_13ADC5:
     ldxa #byte_F0D1
     stxa pStr
     jsr loc_EF4B
-    lda #8
-    sta Column
+    set Column, #8
     rts
 .endproc            ; End of function sub_13ADAE
 
@@ -3191,10 +3151,7 @@ loc_13AF47:
     lda (Source),Y
     sta pTileID
     sty ScriptOffset
-    lda Price
-    sta Pointer
-    lda Price+1
-    sta Pointer+1
+    store Price, Pointer
     jsr multiplication      ; Input: Pointer - first multiplier
                         ;        pTileID - second multiplier
                         ; Output: AddrForJmp, Pointer - result Pointer * pTileID
@@ -3205,10 +3162,7 @@ loc_13AF47:
     iny 
     lda AddrForJmp
     bne sub_13AF87
-    lda Pointer
-    sta Price
-    lda Pointer+1
-    sta Price+1
+    store Pointer, Price
     rts
 .endproc ; End of function multiply_num
 
@@ -3219,8 +3173,7 @@ loc_13AF47:
 .proc sub_13AF87
     .importzp Price
 
-    lda #$FF
-    sta Price
+    set Price, #$FF
     sta Price+1
     rts
 .endproc            ; End of function sub_13AF87
@@ -3538,8 +3491,7 @@ item_removed:
 choose_character:
     .importzp Column, Row, WaitPressed, ScriptOffset
 
-    lda #$18
-    sta WaitPressed
+    set WaitPressed, #$18
     lda Column
     pha
     lda Row
@@ -3613,8 +3565,7 @@ loc_13B0EB:
     ldx #0
     sta pStr
     stx pStr+1
-    lda #0
-    sta CurrentX
+    set CurrentX, #0
     sta CurrentY
     sta CursorPosition
 
@@ -3652,10 +3603,7 @@ loc_13B13D:
 
 loc_13B146:
     jsr sub_F1A4
-    lda Pointer
-    sta Price
-    lda Pointer+1
-    sta Price+1
+    store Pointer, Price
     ldx #8
     stx Column
     ldy ScriptOffset
@@ -3682,8 +3630,7 @@ byte_13B16C:
     .import loc_13B1A5
     .importzp Column, Row, WaitPressed, ScriptOffset
 
-    lda #$21
-    sta WaitPressed
+    set WaitPressed, #$21
     sty ScriptOffset
     lda Column
     pha
@@ -3701,8 +3648,7 @@ byte_13B16C:
     .import loc_13B1A5
     .importzp Column, Row, WaitPressed, ScriptOffset
 
-    lda #$22
-    sta WaitPressed
+    set WaitPressed, #$22
     sty ScriptOffset
     lda Column
     pha
@@ -3720,8 +3666,7 @@ choose_inventory:
     .export choose_inventory, loc_13B1A5
     .importzp Column, Row, WaitPressed, ScriptOffset
 
-    lda #$20
-    sta WaitPressed
+    set WaitPressed, #$20
     sty ScriptOffset
     lda Column
     pha
@@ -3963,20 +3908,20 @@ loc_13B295:
 
 .proc sub_13B29C
     .import sram_write_enable, sram_read_enable
-    .importzp Dist, ObjectNumWithChar, byte_23, ScriptOffset
+    .importzp Dist, ObjectNumWithChar, Vechicle, ScriptOffset
 
     tax
     sty ScriptOffset
     jsr sram_write_enable
     txa
-    eor byte_23
+    eor Vechicle
     and #$7F
     bne loc_13B2AA
     rts
 ; ---------------------------------------------------------------------------
 
 loc_13B2AA:
-    stx byte_23
+    stx Vechicle
     ldy #$1C
     lda ScriptOffset
     sta (Dist),Y
@@ -4054,8 +3999,7 @@ loc_13B2DE:
     ldx #$FC
     ldy #$8A            ; 8AFC
     jsr sub_13B2D8
-    lda #$F
-    sta $679A           ; byte_679A
+    set $679A, #$F
     ldx #$10
     jsr sub_CDAF
     jmp loc_13B295
@@ -4069,8 +4013,7 @@ loc_13B2DE:
     .import sram_write_enable, sram_read_enable
 
     jsr sram_write_enable
-    lda #$F8
-    sta $679A           ; byte_679A
+    set $679A, #$F8
     iny
     jmp sram_read_enable
 .endproc            ; End of function sub_13B317
@@ -4115,17 +4058,14 @@ loc_13B2DE:
 
 .proc train
     .import sram_write_enable, sram_read_enable, sub_CDAF
-    .importzp ObjNumber, byte_23, Item, ScriptOffset
+    .importzp ObjNumber, Vechicle, Item, ScriptOffset
 
     sty ScriptOffset
-    lda #$F0
-    sta byte_23
-    lda #$3F
-    sta ObjNumber
+    set Vechicle, #$F0
+    set ObjNumber, #$3F
     jsr sram_write_enable
-    lda #0
-    sta $67C0           ; byte_67C0
-    sta $67E0           ; byte_67E0
+    set $67C0, #0
+    sta $67E0
     lda #$D
     ldy #0
     jsr sub_13B38B
@@ -4135,10 +4075,9 @@ loc_13B2DE:
     sec
     lda Item
     sbc #$8F
-    sta $679E           ; byte_679E
-    lda #0
-    sta $679F           ; byte_679F
-    sta $679A           ; byte_679A
+    sta $679E
+    set $679F, #0
+    sta $679A
     jsr sub_13BBD4
     ldx #$10
     jsr sub_CDAF
@@ -4187,7 +4126,7 @@ loc_13B2DE:
 
 .proc no_vehicle
     .import sub_CDAF, copy_character_buffer
-    .importzp Source, Dist, byte_20, byte_23, ScriptOffset
+    .importzp Source, Dist, byte_20, Vechicle, ScriptOffset
 
     iny
     sty ScriptOffset
@@ -4195,7 +4134,7 @@ loc_13B2DE:
     ora #$80
     sta byte_20
     ldx #0
-    stx byte_23
+    stx Vechicle
     jsr sub_CDAF
     lda Dist
     pha
@@ -4457,8 +4396,7 @@ loc_13B4D0:
     sta CurrentGame + PURE_SAVE::field_C,X
     dex
     bpl loc_13B4D0
-    lda #0
-    sta CurrentGame + PURE_SAVE::Transfer
+    set CurrentGame + PURE_SAVE::Transfer, #0
     sta CurrentGame + PURE_SAVE::Transfer + 1
     sta CurrentGame + PURE_SAVE::field_17
     jsr sram_read_enable
@@ -4483,10 +4421,8 @@ loc_13B4F0:
     sta CurrentGame + PURE_SAVE::GlobalX,X
     dex
     bpl loc_13B4F0
-    lda #$20
-    sta byte_20
-    lda #0
-    sta byte_22
+    set byte_20, #$20
+    set byte_22, #0
     iny
     jmp sram_read_enable
 .endproc            ; End of function teleport_save
@@ -4513,10 +4449,7 @@ loc_13B4F0:
     .importzp ScriptOffset, Price, pTileID, Pointer
 
     sty ScriptOffset
-    lda Price
-    sta pTileID
-    lda Price+1
-    sta pTileID+1
+    store Price, pTileID
     ldx #1
 
 loc_13B51D:
@@ -4560,8 +4493,7 @@ loc_13B53D:
     jsr darken_palette
     jsr sub_13B561
     jsr draw_msg_frame
-    lda #$55
-    sta WaitPressed
+    set WaitPressed, #$55
     jsr lighten_palette ; increase the brightness of colors in the palette
     ldy ScriptOffset
     iny
@@ -4981,8 +4913,7 @@ byte_13B708:
 .proc name_register
     .importzp Column, Row, WaitPressed, ScriptOffset
 
-    lda #$66
-    sta WaitPressed
+    set WaitPressed, #$66
     sty ScriptOffset
     lda Column
     pha
@@ -5245,14 +5176,12 @@ loc_13B829:
     lda (Source),Y
     sta Item
     beq loc_13B853
-    lda #$C
-    sta PrintSize
+    set PrintSize, #$C
     ldx #3
     stx Column
     jsr print_item
     jsr sub_13BBC3
-    lda #0
-    sta PrintSize
+    set PrintSize, #0
     ldx #$F
     stx Column
     ldxa #byte_13B86F
@@ -5560,8 +5489,7 @@ stru_13B9DC:
     jsr sub_13BA72
     jsr sub_13BA72
     jsr sram_write_enable
-    lda #0
-    sta CurrentGame + PURE_SAVE::field_31
+    set CurrentGame + PURE_SAVE::field_31, #0
     sta ItemCount
     ldy #$10
     lda #$A2
@@ -5626,8 +5554,7 @@ loc_13BA60:
     lda #0
     sta CurrentGame + PURE_SAVE::field_20,Y
     sta byte_D6
-    lda #$F0
-    sta OAM_Cache + OAM_TILE::PosY+4
+    set OAM_Cache + OAM_TILE::PosY+4, #$F0
     jsr sram_read_enable
     jmp load_obj_bank
 .endproc            ; End of function sub_13B9E4
@@ -5668,12 +5595,9 @@ loc_13BA85:
 
     ldxa #byte_13BAE5
     jsr draw_tiles
-    lda #$32
-    sta OAM_Cache + OAM_TILE::PosY+4
-    lda #1
-    sta OAM_Cache + OAM_TILE::TileID+4
-    lda #0
-    sta OAM_Cache + OAM_TILE::Attr+4
+    set OAM_Cache + OAM_TILE::PosY+4, #$32
+    set OAM_Cache + OAM_TILE::TileID+4, #1
+    set OAM_Cache + OAM_TILE::Attr+4, #0
     lda ItemCount
     asl A
     asl A
@@ -5798,8 +5722,7 @@ next_item:
     iny
     cpy #8
     bcc next_item
-    lda #0
-    sta PrintSize
+    set PrintSize, #0
     rts
 .endproc            ; End of function print_goods
 
@@ -5813,8 +5736,7 @@ next_item:
 
     jsr get_char_pointer
     jsr sram_write_enable
-    lda #4
-    sta byte_6D00
+    set byte_6D00, #4
     clc
     lda Pointer
     adc #<CHARACTER::Name
@@ -5980,8 +5902,7 @@ get_off:
     sta DialogPage
     pla
     sta PointerTilePack
-    lda #0
-    sta byte_2D
+    set byte_2D, #0
     ldx #8
     ldy #19
     stx Column
@@ -6043,15 +5964,12 @@ sub_13BC5A:
     .import get_char_pointer, get_off, get_item_pntr, sram_write_enable, sram_read_enable
     .importzp CursorMode, Pointer, pDist, AddrForJmp, FieldPosition
 
-    lda #0
-    sta CursorMode
+    set CursorMode, #0
 
 loc_13BC5E:
     jsr get_char_pointer
-    lda Pointer
-    ldx Pointer+1
-    sta pDist
-    stx pDist+1
+    ldxa Pointer
+    stxa pDist
     ldy AddrForJmp
     lda (pDist),Y
     jsr get_off
@@ -6153,8 +6071,7 @@ loc_13BCE0:
     lda FuncID          ; ID from table BANK13:BCFD (RoutineTable)
     asl A
     tax
-    lda #0
-    sta FuncID          ; ID from table BANK13:BCFD (RoutineTable)
+    set FuncID, #0
     lda RoutineTable+1,X
     pha
     lda RoutineTable,X
@@ -6176,8 +6093,7 @@ RoutineTable:
 .proc sub_13BD0D
     .import Sound1
 
-    lda #8
-    sta Sound1
+    set Sound1, #8
     jmp darken_palette
 .endproc            ; End of function sub_13BD0D
 
@@ -6189,8 +6105,7 @@ RoutineTable:
     .import one_color_lighten_palette, bank_A000_a, wait_frames, copyright_violation
     .importzp CopyrightViolation
 
-    lda #$10
-    sta Sound2
+    set Sound2, #$10
     lda #LIGHTEST_PURPLE
     jsr one_color_lighten_palette
     lda CopyrightViolation
@@ -6217,8 +6132,7 @@ RoutineTable:
     jsr sub_13BD3B
 
 loc_13BD34:
-    lda #$20
-    sta byte_20
+    set byte_20, #$20
     jmp darken_palette
 .endproc            ; End of function sub_13BD31
 
@@ -6230,8 +6144,7 @@ loc_13BD34:
     .import store_palettes, one_color_palettes, Sound1
 
     jsr store_palettes
-    lda #2
-    sta Sound1
+    set Sound1, #2
     lda #$14
 
 loc_13BD45:
@@ -6258,8 +6171,7 @@ loc_13BD45:
     .import copy_palettes, wait_nmi_processed, wait_frames, SpriteTable, Sound1
     .importzp Pointer, NMIFlags
 
-    lda #9
-    sta Sound1
+    set Sound1, #9
     lda #MEDIUM_BLUE
     jsr one_color_lighten_palette
     jsr clear_oam_sprite
@@ -6311,8 +6223,7 @@ loc_13BDAE:
     tax
     cpx #$28
     bcc loc_13BD95
-    lda #8
-    sta NMIFlags
+    set NMIFlags, #8
     pla
     tay
     dey
@@ -6332,8 +6243,7 @@ loc_13BDAE:
 
     lda #$11
     jsr sub_EE0E
-    lda #3
-    sta Sound1
+    set Sound1, #3
     jsr update_animation
     ldx #8
     ldy #7
@@ -6492,8 +6402,7 @@ byte_13BE4F:
     adc pDist+1
     adc #>Game1
     sta pDist+1
-    lda #0
-    sta pDist
+    set pDist, #0
 
 get_active_save:
     ldxa #CurrentGame
@@ -6511,8 +6420,7 @@ get_active_save:
     .importzp Pointer, pTileID
 
     jsr get_active_save ; returns the address $7400 in pTileID
-    lda #0
-    sta Pointer
+    set Pointer, #0
     sta Pointer+1
     ldx #3
 

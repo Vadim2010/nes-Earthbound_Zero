@@ -1,9 +1,10 @@
 .include "structures.inc"
+.include "battle.inc"
 
 .segment "BANK_6"
 
 ;--------------------------------------------------------
-;                    ENEMY_FLAGS
+;        ENEMY_FLAGS
 ;--------------------------------------------------------
 NO_RESIST               = $00
 SPRAY_VULNERABLE        = $01
@@ -17,14 +18,14 @@ IMMUNE_STATUS_EFFECTS   = $80
 
 ; HP, PP, Offense, Defense maximum possible value of 1023
 ;--------------------------------------------------------
-;                       HP fields
+;           HP fields
 ;--------------------------------------------------------
 
 COLOR0                  = $00 << 10
 COLOR1                  = $01 << 10
 COLOR2                  = $02 << 10
 COLOR3                  = $03 << 10
-
+                
 TILE0                   = $00 << 12
 TILE1                   = $01 << 12
 TILE2                   = $02 << 12
@@ -32,7 +33,7 @@ TILE4                   = $04 << 12
 TILE8                   = $08 << 12
 
 ;--------------------------------------------------------
-;                       PP fields
+;           PP fields
 ;--------------------------------------------------------
 
 EXTRA0                  = $00 << 10
@@ -44,7 +45,7 @@ EXTRA16                 = $10 << 10
 EXTRA32                 = $20 << 10
 
 ;--------------------------------------------------------
-;                   Offense fields
+;       Offense fields
 ;--------------------------------------------------------
 NONE_ACT                = $00 << 10
 EXPLODE                 = $01 << 10
@@ -56,7 +57,7 @@ ALTITUDE2               = $02 << 13
 ALTITUDE4               = $04 << 13
 
 ;--------------------------------------------------------
-;                   Defense fields
+;       Defense fields
 ;--------------------------------------------------------
 
 MSG0                    = $00 << 10
@@ -69,13 +70,13 @@ MSG6                    = $06 << 10
 MSG7                    = $07 << 10
 
 ;--------------------------------------------------------
-;                   Enemy properties
+;       Enemy properties
 ;--------------------------------------------------------
 
 HIDE                    = $80
 
 ;--------------------------------------------------------
-;                     Enemy names
+;         Enemy names
 ;--------------------------------------------------------
 
 .enum
@@ -221,2218 +222,2218 @@ EnemyList:
 ;BigWoodoh:
     .import sBigWoodoh
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte IMMUNE_SLEEP_DEFDOWN|RESIST_PK_FREEZE ; Flags
     .word 70|COLOR1|TILE1   ; HP
     .word EXTRA1|EXTRA2     ; PP
     .word 18|BURST          ; Offense
     .word 50|MSG2           ; Defense
-    .byte 20                ; Fight
-    .byte 23                ; Speed
-    .byte 60                ; Wisdom
-    .byte 60                ; Strength
-    .byte 18                ; Force
-    .byte 1, 52, 65, 65, 1, 1, 1, 1; Attacks
+    .byte 20    ; Fight
+    .byte 23    ; Speed
+    .byte 60    ; Wisdom
+    .byte 60    ; Strength
+    .byte 18    ; Force
+    .byte 1, 52, 65, 65, 1, 1, 1, 1; ATTACKs
     .word sBigWoodoh        ; Name
     .word 100               ; Experience
     .word 140               ; Money
-    .byte 72                ; Item
+    .byte 72    ; Item
     .byte $20               ; TilePage
 
 ;Dragon:
     .import sDragon
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte RESIST_PK_BEAM|IMMUNE_SLEEP_DEFDOWN|ENEMY_FLAGS_8|RESIST_PK_THUNDER|RESIST_PK_FREEZE|RESIST_PK_FIRE|IMMUNE_STATUS_EFFECTS ; Flags
     .word 650|TILE1         ; HP
     .word 200               ; PP
     .word 180               ; Offense
     .word 200|MSG1          ; Defense
-    .byte 60                ; Fight
-    .byte 60                ; Speed
-    .byte 20                ; Wisdom
+    .byte 60    ; Fight
+    .byte 60    ; Speed
+    .byte 20    ; Wisdom
     .byte 100               ; Strength
-    .byte 60                ; Force
-    .byte 108, 10, 108, 1, 10, 1, 1, 131; Attacks
+    .byte 60    ; Force
+    .byte 108, 10, 108, 1, 10, 1, 1, 131; ATTACKs
     .word sDragon           ; Name
     .word 500               ; Experience
     .word 1200              ; Money
-    .byte 0                 ; Item
+    .byte 0     ; Item
     .byte $21               ; TilePage
 
 ;R7038:
     .import sR7038
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte RESIST_PK_BEAM|IMMUNE_SLEEP_DEFDOWN|RESIST_PK_THUNDER|RESIST_PK_FREEZE|RESIST_PK_FIRE|IMMUNE_STATUS_EFFECTS   ; Flags
     .word 1000|COLOR1|TILE1 ; HP
     .word EXTRA4|EXTRA1     ; PP
     .word 600               ; Offense
     .word 1000|MSG3         ; Defense
-    .byte 40                ; Fight
-    .byte 50                ; Speed
-    .byte 60                ; Wisdom
+    .byte 40    ; Fight
+    .byte 50    ; Speed
+    .byte 60    ; Wisdom
     .byte 100               ; Strength
     .byte 100               ; Force
-    .byte 1, 1, 1, 1, 1, 1, 1, 1; Attacks
+    .byte 1, 1, 1, 1, 1, 1, 1, 1; ATTACKs
     .word sR7038            ; Name
     .word 430               ; Experience
     .word 101               ; Money
-    .byte 0                 ; Item
+    .byte 0     ; Item
     .byte $22               ; TilePage
 
 ;Elephant:
     .import sElephant
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte NO_RESIST         ; Flags
     .word 70|COLOR2|TILE1   ; HP
-    .word 0                 ; PP
-    .word 20                ; Offense
+    .word 0     ; PP
+    .word 20    ; Offense
     .word 34|MSG1           ; Defense
-    .byte 30                ; Fight
-    .byte 10                ; Speed
-    .byte 5                 ; Wisdom
-    .byte 30                ; Strength
-    .byte 8                 ; Force
-    .byte 5, 5, 5, 1, 1, 1, 1, 1; Attacks
+    .byte 30    ; Fight
+    .byte 10    ; Speed
+    .byte 5     ; Wisdom
+    .byte 30    ; Strength
+    .byte 8     ; Force
+    .byte 5, 5, 5, 1, 1, 1, 1, 1; ATTACKs
     .word sElephant         ; Name
-    .word 60                ; Experience
-    .word 99                ; Money
-    .byte 0                 ; Item
+    .word 60    ; Experience
+    .word 99    ; Money
+    .byte 0     ; Item
     .byte $23               ; TilePage
 
 ;Bear:
     .import sBear
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte NO_RESIST         ; Flags
     .word 80|TILE2          ; HP
-    .word 0                 ; PP
-    .word 42                ; Offense
+    .word 0     ; PP
+    .word 42    ; Offense
     .word 64|MSG1           ; Defense
-    .byte 30                ; Fight
-    .byte 28                ; Speed
-    .byte 20                ; Wisdom
-    .byte 40                ; Strength
-    .byte 10                ; Force
-    .byte 1, 1, 1, 4, 5, 79, 1, 1; Attacks
+    .byte 30    ; Fight
+    .byte 28    ; Speed
+    .byte 20    ; Wisdom
+    .byte 40    ; Strength
+    .byte 10    ; Force
+    .byte 1, 1, 1, 4, 5, 79, 1, 1; ATTACKs
     .word sBear             ; Name
-    .word 70                ; Experience
+    .word 70    ; Experience
     .word 250               ; Money
-    .byte 0                 ; Item
+    .byte 0     ; Item
     .byte $2B               ; TilePage
 
 ;BigFoot:
     .import sBigFoot
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte RESIST_PK_FREEZE  ; Flags
     .word 90|COLOR2|TILE1   ; HP
-    .word 50                ; PP
-    .word 50                ; Offense
+    .word 50    ; PP
+    .word 50    ; Offense
     .word 90|MSG1           ; Defense
-    .byte 50                ; Fight
-    .byte 38                ; Speed
-    .byte 30                ; Wisdom
-    .byte 60                ; Strength
-    .byte 15                ; Force
-    .byte 15, 13, 12, 12, 12, 12, 12, 12; Attacks
+    .byte 50    ; Fight
+    .byte 38    ; Speed
+    .byte 30    ; Wisdom
+    .byte 60    ; Strength
+    .byte 15    ; Force
+    .byte 15, 13, 12, 12, 12, 12, 12, 12; ATTACKs
     .word sBigFoot          ; Name
     .word 150               ; Experience
-    .word 48                ; Money
-    .byte 0                 ; Item
+    .word 48    ; Money
+    .byte 0     ; Item
     .byte $25               ; TilePage
 
 ;MadTruck:
     .import sMadTruck
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte IMMUNE_SLEEP_DEFDOWN|IMMUNE_STATUS_EFFECTS    ; Flags
     .word 60|TILE2          ; HP
-    .word 0                 ; PP
-    .word 22                ; Offense
+    .word 0     ; PP
+    .word 22    ; Offense
     .word 40|MSG6           ; Defense
-    .byte 38                ; Fight
-    .byte 35                ; Speed
-    .byte 35                ; Wisdom
+    .byte 38    ; Fight
+    .byte 35    ; Speed
+    .byte 35    ; Wisdom
     .byte 100               ; Strength
     .byte 100               ; Force
-    .byte 6, 6, 6, 6, 6, 6, 50, 50 ; Attacks
+    .byte 6, 6, 6, 6, 6, 6, 50, 50 ; ATTACKs
     .word sMadTruck         ; Name
-    .word 57                ; Experience
-    .word 30                ; Money
-    .byte 0                 ; Item
+    .word 57    ; Experience
+    .word 30    ; Money
+    .byte 0     ; Item
     .byte $26               ; TilePage
 
 ;OldRobot:
     .import sOldRobot
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte IMMUNE_SLEEP_DEFDOWN|IMMUNE_STATUS_EFFECTS    ; Flags
     .word 60|COLOR2|TILE2   ; HP
-    .word 30                ; PP
-    .word 48                ; Offense
+    .word 30    ; PP
+    .word 48    ; Offense
     .word 72|MSG3           ; Defense
-    .byte 25                ; Fight
-    .byte 20                ; Speed
-    .byte 20                ; Wisdom
+    .byte 25    ; Fight
+    .byte 20    ; Speed
+    .byte 20    ; Wisdom
     .byte 100               ; Strength
     .byte 100               ; Force
-    .byte 1, 18, 18, 83, 1, 1, 1, 1; Attacks
+    .byte 1, 18, 18, 83, 1, 1, 1, 1; ATTACKs
     .word sOldRobot         ; Name
-    .word 54                ; Experience
-    .word 38                ; Money
-    .byte 0                 ; Item
+    .word 54    ; Experience
+    .word 38    ; Money
+    .byte 0     ; Item
     .byte $27               ; TilePage
 
 ;Megaborg:
     .import sMegaborg
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte RESIST_PK_BEAM|IMMUNE_SLEEP_DEFDOWN|ENEMY_FLAGS_8|RESIST_PK_THUNDER|RESIST_PK_FREEZE|RESIST_PK_FIRE|IMMUNE_STATUS_EFFECTS ; Flags
     .word 160|TILE2         ; HP
-    .word 60                ; PP
-    .word 80                ; Offense
+    .word 60    ; PP
+    .word 80    ; Offense
     .word 170|MSG3          ; Defense
-    .byte 60                ; Fight
-    .byte 50                ; Speed
-    .byte 60                ; Wisdom
+    .byte 60    ; Fight
+    .byte 50    ; Speed
+    .byte 60    ; Wisdom
     .byte 100               ; Strength
     .byte 100               ; Force
-    .byte 18, 19, 18, 18, 18, 18, 18, 1; Attacks
+    .byte 18, 19, 18, 18, 18, 18, 18, 1; ATTACKs
     .word sMegaborg         ; Name
     .word 197               ; Experience
     .word 109               ; Money
-    .byte 0                 ; Item
+    .byte 0     ; Item
     .byte $28               ; TilePage
 
 ;Gargoyle:
     .import sGargoyle
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte IMMUNE_SLEEP_DEFDOWN  ; Flags
     .word 180|TILE2|TILE1   ; HP
-    .word 60                ; PP
+    .word 60    ; PP
     .word 90|ALTITUDE2      ; Offense
     .word 160|MSG2          ; Defense
-    .byte 80                ; Fight
-    .byte 70                ; Speed
-    .byte 70                ; Wisdom
+    .byte 80    ; Fight
+    .byte 70    ; Speed
+    .byte 70    ; Wisdom
     .byte 100               ; Strength
     .byte 100               ; Force
-    .byte 10, 1, 11, 10, 1, 11, 1, 62; Attacks
+    .byte 10, 1, 11, 10, 1, 11, 1, 62; ATTACKs
     .word sGargoyle         ; Name
     .word 110               ; Experience
-    .word 86                ; Money
-    .byte 0                 ; Item
+    .word 86    ; Money
+    .byte 0     ; Item
     .byte $29               ; TilePage
 
 ;Gabilan:
     .import sGabilan
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte NO_RESIST         ; Flags
     .word 100|TILE2         ; HP
-    .word 0                 ; PP
-    .word 62                ; Offense
+    .word 0     ; PP
+    .word 62    ; Offense
     .word 100|MSG2          ; Defense
-    .byte 50                ; Fight
-    .byte 68                ; Speed
-    .byte 70                ; Wisdom
-    .byte 15                ; Strength
-    .byte 15                ; Force
-    .byte 1, 63, 63, 1, 2, 1, 1, 52; Attacks
+    .byte 50    ; Fight
+    .byte 68    ; Speed
+    .byte 70    ; Wisdom
+    .byte 15    ; Strength
+    .byte 15    ; Force
+    .byte 1, 63, 63, 1, 2, 1, 1, 52; ATTACKs
     .word sGabilan          ; Name
-    .word 70                ; Experience
-    .word 43                ; Money
-    .byte 0                 ; Item
+    .word 70    ; Experience
+    .word 43    ; Money
+    .byte 0     ; Item
     .byte $2A               ; TilePage
 
 ;Gorilla:
     .import sGorilla
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte NO_RESIST         ; Flags
     .word 40|COLOR2|TILE4   ; HP
-    .word 0                 ; PP
-    .word 20                ; Offense
+    .word 0     ; PP
+    .word 20    ; Offense
     .word 26|MSG1           ; Defense
-    .byte 35                ; Fight
-    .byte 15                ; Speed
-    .byte 5                 ; Wisdom
-    .byte 10                ; Strength
-    .byte 20                ; Force
-    .byte 75, 1, 1, 40, 1, 1, 1, 1; Attacks
+    .byte 35    ; Fight
+    .byte 15    ; Speed
+    .byte 5     ; Wisdom
+    .byte 10    ; Strength
+    .byte 20    ; Force
+    .byte 75, 1, 1, 40, 1, 1, 1, 1; ATTACKs
     .word sGorilla          ; Name
-    .word 23                ; Experience
-    .word 52                ; Money
-    .byte 0                 ; Item
+    .word 23    ; Experience
+    .word 52    ; Money
+    .byte 0     ; Item
     .byte $32               ; TilePage
 
 ;Bison:
     .import sBison
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte NO_RESIST         ; Flags
     .word 160|TILE2|TILE1   ; HP
-    .word 0                 ; PP
-    .word 70                ; Offense
+    .word 0     ; PP
+    .word 70    ; Offense
     .word 160|MSG1          ; Defense
-    .byte 50                ; Fight
-    .byte 50                ; Speed
-    .byte 80                ; Wisdom
-    .byte 80                ; Strength
-    .byte 80                ; Force
-    .byte 1, 1, 1, 1, 1, 1, 1, 2; Attacks
+    .byte 50    ; Fight
+    .byte 50    ; Speed
+    .byte 80    ; Wisdom
+    .byte 80    ; Strength
+    .byte 80    ; Force
+    .byte 1, 1, 1, 1, 1, 1, 1, 2; ATTACKs
     .word sBison            ; Name
     .word 186               ; Experience
-    .word 83                ; Money
-    .byte 0                 ; Item
+    .word 83    ; Money
+    .byte 0     ; Item
     .byte $2C               ; TilePage
 
 ;Tiger:
     .import sTiger
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte NO_RESIST         ; Flags
     .word 35|COLOR2|TILE2   ; HP
-    .word 0                 ; PP
-    .word 26                ; Offense
+    .word 0     ; PP
+    .word 26    ; Offense
     .word 24|MSG1           ; Defense
-    .byte 40                ; Fight
-    .byte 20                ; Speed
-    .byte 5                 ; Wisdom
-    .byte 10                ; Strength
-    .byte 20                ; Force
-    .byte 3, 2, 2, 3, 3, 3, 3, 2; Attacks
+    .byte 40    ; Fight
+    .byte 20    ; Speed
+    .byte 5     ; Wisdom
+    .byte 10    ; Strength
+    .byte 20    ; Force
+    .byte 3, 2, 2, 3, 3, 3, 3, 2; ATTACKs
     .word sTiger            ; Name
-    .word 24                ; Experience
-    .word 47                ; Money
-    .byte 0                 ; Item
+    .word 24    ; Experience
+    .word 47    ; Money
+    .byte 0     ; Item
     .byte $2D               ; TilePage
 
 ;MadCar:
     .import sMadCar
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte IMMUNE_SLEEP_DEFDOWN|IMMUNE_STATUS_EFFECTS    ; Flags
     .word 40|TILE4          ; HP
-    .word 0                 ; PP
-    .word 20                ; Offense
+    .word 0     ; PP
+    .word 20    ; Offense
     .word 38|MSG6           ; Defense
-    .byte 45                ; Fight
-    .byte 40                ; Speed
-    .byte 35                ; Wisdom
+    .byte 45    ; Fight
+    .byte 40    ; Speed
+    .byte 35    ; Wisdom
     .byte 100               ; Strength
     .byte 100               ; Force
-    .byte 6, 6, 6, 6, 6, 6, 6, 50; Attacks
+    .byte 6, 6, 6, 6, 6, 6, 6, 50; ATTACKs
     .word sMadCar           ; Name
-    .word 55                ; Experience
-    .word 32                ; Money
-    .byte 0                 ; Item
+    .word 55    ; Experience
+    .word 32    ; Money
+    .byte 0     ; Item
     .byte $2E               ; TilePage
 
 ;RaebYddet:
     .import sRaebYddet
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte NO_RESIST         ; Flags
     .word 40|COLOR2|TILE4   ; HP
-    .word 0                 ; PP
-    .word 22                ; Offense
+    .word 0     ; PP
+    .word 22    ; Offense
     .word 38|MSG2           ; Defense
-    .byte 25                ; Fight
-    .byte 25                ; Speed
-    .byte 18                ; Wisdom
-    .byte 25                ; Strength
-    .byte 18                ; Force
-    .byte 73, 73, 1, 1, 1, 1, 1, 1; Attacks
+    .byte 25    ; Fight
+    .byte 25    ; Speed
+    .byte 18    ; Wisdom
+    .byte 25    ; Strength
+    .byte 18    ; Force
+    .byte 73, 73, 1, 1, 1, 1, 1, 1; ATTACKs
     .word sRaebYddet        ; Name
-    .word 25                ; Experience
-    .word 27                ; Money
-    .byte 0                 ; Item
+    .word 25    ; Experience
+    .word 27    ; Money
+    .byte 0     ; Item
     .byte $2F               ; TilePage
 
 ;MagicSnail:
     .import sMagicSnail
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte ENEMY_FLAGS_8     ; Flags
     .word 50|COLOR1|TILE4   ; HP
-    .word 0                 ; PP
-    .word 20                ; Offense
+    .word 0     ; PP
+    .word 20    ; Offense
     .word 90|MSG2           ; Defense
-    .byte 20                ; Fight
-    .byte 18                ; Speed
-    .byte 18                ; Wisdom
-    .byte 40                ; Strength
-    .byte 18                ; Force
-    .byte 1, 93, 1, 1, 1, 1, 1, 1; Attacks
+    .byte 20    ; Fight
+    .byte 18    ; Speed
+    .byte 18    ; Wisdom
+    .byte 40    ; Strength
+    .byte 18    ; Force
+    .byte 1, 93, 1, 1, 1, 1, 1, 1; ATTACKs
     .word sMagicSnail       ; Name
-    .word 42                ; Experience
-    .word 28                ; Money
-    .byte 0                 ; Item
+    .word 42    ; Experience
+    .word 28    ; Money
+    .byte 0     ; Item
     .byte $30               ; TilePage
 
 ;Titanees:
     .import sTitanees
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte IMMUNE_SLEEP_DEFDOWN|ENEMY_FLAGS_8    ; Flags
     .word 130|COLOR2|TILE4  ; HP
-    .word 40                ; PP
-    .word 54                ; Offense
+    .word 40    ; PP
+    .word 54    ; Offense
     .word 200|MSG2          ; Defense
-    .byte 30                ; Fight
-    .byte 58                ; Speed
-    .byte 80                ; Wisdom
-    .byte 60                ; Strength
-    .byte 10                ; Force
-    .byte 68, 68, 68, 1, 1, 1, 1, 1; Attacks
+    .byte 30    ; Fight
+    .byte 58    ; Speed
+    .byte 80    ; Wisdom
+    .byte 60    ; Strength
+    .byte 10    ; Force
+    .byte 68, 68, 68, 1, 1, 1, 1, 1; ATTACKs
     .word sTitanees         ; Name
-    .word 78                ; Experience
-    .word 50                ; Money
-    .byte 0                 ; Item
+    .word 78    ; Experience
+    .word 50    ; Money
+    .byte 0     ; Item
     .byte $33               ; TilePage
 
 ;Giegue:
     .import sGiegue
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte RESIST_PK_BEAM|IMMUNE_SLEEP_DEFDOWN|ENEMY_FLAGS_8|RESIST_PK_THUNDER|RESIST_PK_FREEZE|RESIST_PK_FIRE|IMMUNE_STATUS_EFFECTS ; Flags
     .word 35|COLOR3|TILE1   ; HP
     .word EXTRA8|EXTRA4|EXTRA2|EXTRA1 ; PP
-    .word 15                ; Offense
+    .word 15    ; Offense
     .word 20|MSG2           ; Defense
-    .byte 20                ; Fight
+    .byte 20    ; Fight
     .byte 100               ; Speed
-    .byte 14                ; Wisdom
-    .byte 10                ; Strength
-    .byte 23                ; Force
-    .byte 8, 8, 8, 8, 8, 8, 8, 8; Attacks
+    .byte 14    ; Wisdom
+    .byte 10    ; Strength
+    .byte 23    ; Force
+    .byte 8, 8, 8, 8, 8, 8, 8, 8; ATTACKs
     .word sGiegue           ; Name
-    .word 0                 ; Experience
-    .word 0                 ; Money
-    .byte 0                 ; Item
+    .word 0     ; Experience
+    .word 0     ; Money
+    .byte 0     ; Item
     .byte $24               ; TilePage
 
 ;Eagle:
     .import sEagle
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte NO_RESIST         ; Flags
     .word 45|COLOR3|TILE4   ; HP
-    .word 0                 ; PP
+    .word 0     ; PP
     .word 32|ALTITUDE2      ; Offense
     .word 44|MSG1           ; Defense
-    .byte 20                ; Fight
-    .byte 60                ; Speed
-    .byte 30                ; Wisdom
-    .byte 20                ; Strength
-    .byte 40                ; Force
-    .byte 1, 1, 1, 1, 1, 1, 1, 1; Attacks
+    .byte 20    ; Fight
+    .byte 60    ; Speed
+    .byte 30    ; Wisdom
+    .byte 20    ; Strength
+    .byte 40    ; Force
+    .byte 1, 1, 1, 1, 1, 1, 1, 1; ATTACKs
     .word sEagle            ; Name
-    .word 36                ; Experience
-    .word 30                ; Money
-    .byte 0                 ; Item
+    .word 36    ; Experience
+    .word 30    ; Money
+    .byte 0     ; Item
     .byte $35               ; TilePage
 
 ;Wolf:
     .import sWolf
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte NO_RESIST         ; Flags
     .word 50|COLOR1|TILE4   ; HP
-    .word 0                 ; PP
-    .word 30                ; Offense
+    .word 0     ; PP
+    .word 30    ; Offense
     .word 46|MSG1           ; Defense
-    .byte 25                ; Fight
-    .byte 30                ; Speed
-    .byte 30                ; Wisdom
-    .byte 30                ; Strength
-    .byte 30                ; Force
-    .byte 3, 3, 3, 3, 3, 3, 3, 3; Attacks
+    .byte 25    ; Fight
+    .byte 30    ; Speed
+    .byte 30    ; Wisdom
+    .byte 30    ; Strength
+    .byte 30    ; Force
+    .byte 3, 3, 3, 3, 3, 3, 3, 3; ATTACKs
     .word sWolf             ; Name
-    .word 34                ; Experience
-    .word 31                ; Money
-    .byte 0                 ; Item
+    .word 34    ; Experience
+    .word 31    ; Money
+    .byte 0     ; Item
     .byte $36               ; TilePage
 
 ;Seagull:
     .import sSeagull
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte NO_RESIST         ; Flags
     .word 90|COLOR3|TILE4   ; HP
-    .word 0                 ; PP
+    .word 0     ; PP
     .word 68|ALTITUDE1      ; Offense
     .word 90|MSG1           ; Defense
-    .byte 50                ; Fight
-    .byte 70                ; Speed
-    .byte 40                ; Wisdom
-    .byte 20                ; Strength
-    .byte 20                ; Force
-    .byte 75, 76, 1, 83, 1, 1, 1, 1; Attacks
+    .byte 50    ; Fight
+    .byte 70    ; Speed
+    .byte 40    ; Wisdom
+    .byte 20    ; Strength
+    .byte 20    ; Force
+    .byte 75, 76, 1, 83, 1, 1, 1, 1; ATTACKs
     .word sSeagull          ; Name
     .word 100               ; Experience
-    .word 44                ; Money
-    .byte 0                 ; Item
+    .word 44    ; Money
+    .byte 0     ; Item
     .byte $37               ; TilePage
 
 ;Alligator:
     .import sAlligator
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte NO_RESIST         ; Flags
     .word 30|TILE4          ; HP
-    .word 0                 ; PP
-    .word 18                ; Offense
+    .word 0     ; PP
+    .word 18    ; Offense
     .word 22|MSG1           ; Defense
-    .byte 10                ; Fight
-    .byte 15                ; Speed
-    .byte 10                ; Wisdom
-    .byte 15                ; Strength
-    .byte 5                 ; Force
-    .byte 93, 93, 1, 1, 1, 1, 1, 1; Attacks
+    .byte 10    ; Fight
+    .byte 15    ; Speed
+    .byte 10    ; Wisdom
+    .byte 15    ; Strength
+    .byte 5     ; Force
+    .byte 93, 93, 1, 1, 1, 1, 1, 1; ATTACKs
     .word sAlligator        ; Name
-    .word 21                ; Experience
-    .word 18                ; Money
-    .byte 0                 ; Item
+    .word 21    ; Experience
+    .word 18    ; Money
+    .byte 0     ; Item
     .byte $31               ; TilePage
 
 ;EnergyRobot:
     .import sEnergyRobot
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte IMMUNE_SLEEP_DEFDOWN|IMMUNE_STATUS_EFFECTS    ; Flags
     .word 80|TILE8|TILE2    ; HP
-    .word 0                 ; PP
+    .word 0     ; PP
     .word 60|EXPLODE        ; Offense
     .word 90|MSG3           ; Defense
-    .byte 20                ; Fight
-    .byte 20                ; Speed
-    .byte 40                ; Wisdom
+    .byte 20    ; Fight
+    .byte 20    ; Speed
+    .byte 40    ; Wisdom
     .byte 100               ; Strength
     .byte 100               ; Force
-    .byte 83, 46, 46, 46, 46, 1, 1, 1; Attacks
+    .byte 83, 46, 46, 46, 46, 1, 1, 1; ATTACKs
     .word sEnergyRobot      ; Name
     .word 202               ; Experience
-    .word 70                ; Money
-    .byte 0                 ; Item
+    .word 70    ; Money
+    .byte 0     ; Item
     .byte $2C               ; TilePage
 
 ;TheFish:
     .import sTheFish
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte RESIST_PK_BEAM|RESIST_PK_FREEZE|RESIST_PK_FIRE    ; Flags
     .word 65|COLOR2|TILE4|TILE1   ; HP
-    .word 0                 ; PP
-    .word 38                ; Offense
+    .word 0     ; PP
+    .word 38    ; Offense
     .word 60|MSG2           ; Defense
-    .byte 45                ; Fight
-    .byte 30                ; Speed
-    .byte 20                ; Wisdom
-    .byte 40                ; Strength
-    .byte 40                ; Force
-    .byte 2, 2, 2, 2, 2, 2, 2, 2; Attacks
+    .byte 45    ; Fight
+    .byte 30    ; Speed
+    .byte 20    ; Wisdom
+    .byte 40    ; Strength
+    .byte 40    ; Force
+    .byte 2, 2, 2, 2, 2, 2, 2, 2; ATTACKs
     .word sTheFish          ; Name
     .word 140               ; Experience
     .word 180               ; Money
-    .byte 0                 ; Item
+    .byte 0     ; Item
     .byte $2E               ; TilePage
 
 ;Fugitive:
     .import sFugitive
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte NO_RESIST         ; Flags
     .word 60|COLOR1|TILE4|TILE1   ; HP
-    .word 0                 ; PP
-    .word 32                ; Offense
-    .word 45                ; Defense
-    .byte 20                ; Fight
-    .byte 22                ; Speed
-    .byte 6                 ; Wisdom
-    .byte 18                ; Strength
-    .byte 8                 ; Force
-    .byte 1, 1, 1, 1, 1, 1, 1, 1; Attacks
+    .word 0     ; PP
+    .word 32    ; Offense
+    .word 45    ; Defense
+    .byte 20    ; Fight
+    .byte 22    ; Speed
+    .byte 6     ; Wisdom
+    .byte 18    ; Strength
+    .byte 8     ; Force
+    .byte 1, 1, 1, 1, 1, 1, 1, 1; ATTACKs
     .word sFugitive         ; Name
-    .word 60                ; Experience
+    .word 60    ; Experience
     .word 350               ; Money
-    .byte 0                 ; Item
+    .byte 0     ; Item
     .byte $35               ; TilePage
 
 ;BBsBoss:
     .import sBBsBoss
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte NO_RESIST         ; Flags
     .word 108|COLOR2|TILE4|TILE1  ; HP
-    .word 0                 ; PP
-    .word 57                ; Offense
-    .word 51                ; Defense
-    .byte 50                ; Fight
-    .byte 81                ; Speed
-    .byte 18                ; Wisdom
-    .byte 54                ; Strength
-    .byte 36                ; Force
-    .byte 1, 1, 1, 1, 1, 1, 1, 1; Attacks
+    .word 0     ; PP
+    .word 57    ; Offense
+    .word 51    ; Defense
+    .byte 50    ; Fight
+    .byte 81    ; Speed
+    .byte 18    ; Wisdom
+    .byte 54    ; Strength
+    .byte 36    ; Force
+    .byte 1, 1, 1, 1, 1, 1, 1, 1; ATTACKs
     .word sBBsBoss          ; Name
-    .word 0                 ; Experience
-    .word 0                 ; Money
-    .byte 0                 ; Item
+    .word 0     ; Experience
+    .word 0     ; Money
+    .byte 0     ; Item
     .byte $37               ; TilePage
 
 ;Barbot:
     .import sBarbot
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte RESIST_PK_BEAM|IMMUNE_SLEEP_DEFDOWN|RESIST_PK_THUNDER|RESIST_PK_FIRE|IMMUNE_STATUS_EFFECTS    ; Flags
     .word 60|TILE4|TILE1          ; HP
-    .word 40                ; PP
-    .word 24                ; Offense
+    .word 40    ; PP
+    .word 24    ; Offense
     .word 36|MSG3           ; Defense
-    .byte 30                ; Fight
-    .byte 35                ; Speed
-    .byte 35                ; Wisdom
+    .byte 30    ; Fight
+    .byte 35    ; Speed
+    .byte 35    ; Wisdom
     .byte 100               ; Strength
     .byte 100               ; Force
-    .byte 1, 1, 1, 21, 1, 1, 1, 1; Attacks
+    .byte 1, 1, 1, 21, 1, 1, 1, 1; ATTACKs
     .word sBarbot           ; Name
-    .word 32                ; Experience
-    .word 45                ; Money
-    .byte 0                 ; Item
+    .word 32    ; Experience
+    .word 45    ; Money
+    .byte 0     ; Item
     .byte $31               ; TilePage
 
 ;Nancy:
     .import sNancy
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte IMMUNE_SLEEP_DEFDOWN|RESIST_PK_THUNDER|RESIST_PK_FREEZE|IMMUNE_STATUS_EFFECTS ; Flags
     .word 120|TILE4|TILE1         ; HP
-    .word 60                ; PP
-    .word 62                ; Offense
+    .word 60    ; PP
+    .word 62    ; Offense
     .word 170|MSG3          ; Defense
-    .byte 50                ; Fight
-    .byte 72                ; Speed
-    .byte 60                ; Wisdom
+    .byte 50    ; Fight
+    .byte 72    ; Speed
+    .byte 60    ; Wisdom
     .byte 100               ; Strength
     .byte 100               ; Force
-    .byte 107, 1, 54, 15, 107, 1, 1, 1; Attacks
+    .byte 107, 1, 54, 15, 107, 1, 1, 1; ATTACKs
     .word sNancy            ; Name
-    .word 68                ; Experience
-    .word 50                ; Money
-    .byte 0                 ; Item
+    .word 68    ; Experience
+    .word 50    ; Money
+    .byte 0     ; Item
     .byte $32               ; TilePage
 
 ;Starman:
     .import sStarman
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte NO_RESIST         ; Flags
     .word 80|TILE4|TILE1          ; HP
-    .word 50                ; PP
-    .word 45                ; Offense
+    .word 50    ; PP
+    .word 45    ; Offense
     .word 80|MSG2           ; Defense
-    .byte 30                ; Fight
-    .byte 40                ; Speed
-    .byte 60                ; Wisdom
-    .byte 40                ; Strength
-    .byte 35                ; Force
-    .byte 18, 18, 56, 1, 1, 83, 83, 21; Attacks
+    .byte 30    ; Fight
+    .byte 40    ; Speed
+    .byte 60    ; Wisdom
+    .byte 40    ; Strength
+    .byte 35    ; Force
+    .byte 18, 18, 56, 1, 1, 83, 83, 21; ATTACKs
     .word sStarman          ; Name
     .word 165               ; Experience
-    .word 68                ; Money
-    .byte 73                ; Item
+    .word 68    ; Money
+    .byte 73    ; Item
     .byte $33               ; TilePage
 
 ;Ullrich:
     .import sUllrich
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte RESIST_PK_THUNDER ; Flags
     .word 40|COLOR2|TILE4|TILE1   ; HP
-    .word 60                ; PP
+    .word 60    ; PP
     .word 18|ALTITUDE1      ; Offense
     .word 40|MSG2           ; Defense
-    .byte 40                ; Fight
-    .byte 30                ; Speed
-    .byte 30                ; Wisdom
-    .byte 10                ; Strength
-    .byte 20                ; Force
-    .byte 23, 23, 23, 23, 23, 23, 23, 23; Attacks
+    .byte 40    ; Fight
+    .byte 30    ; Speed
+    .byte 30    ; Wisdom
+    .byte 10    ; Strength
+    .byte 20    ; Force
+    .byte 23, 23, 23, 23, 23, 23, 23, 23; ATTACKs
     .word sUllrich          ; Name
-    .word 65                ; Experience
-    .word 50                ; Money
-    .byte 0                 ; Item
+    .word 65    ; Experience
+    .word 50    ; Money
+    .byte 0     ; Item
     .byte $36               ; TilePage
 
 ;Cerebrum:
     .import sCerebrum
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte RESIST_PK_BEAM|IMMUNE_SLEEP_DEFDOWN|ENEMY_FLAGS_8|RESIST_PK_THUNDER|RESIST_PK_FREEZE|RESIST_PK_FIRE|IMMUNE_STATUS_EFFECTS ; Flags
     .word 200|COLOR1|TILE4|TILE1  ; HP
     .word 180               ; PP
-    .word 60                ; Offense
+    .word 60    ; Offense
     .word 280|MSG2          ; Defense
     .byte 120               ; Fight
     .byte 120               ; Speed
-    .byte 80                ; Wisdom
+    .byte 80    ; Wisdom
     .byte 100               ; Strength
     .byte 100               ; Force
-    .byte 18, 19, 130, 10, 54, 48, 56, 24; Attacks
+    .byte 18, 19, 130, 10, 54, 48, 56, 24; ATTACKs
     .word sCerebrum         ; Name
-    .word 89                ; Experience
-    .word 80                ; Money
-    .byte 0                 ; Item
+    .word 89    ; Experience
+    .word 80    ; Money
+    .byte 0     ; Item
     .byte $38               ; TilePage
 
 ;Mook:
     .import sMook
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte IMMUNE_SLEEP_DEFDOWN  ; Flags
     .word 85|TILE4|TILE1    ; HP
-    .word 80                ; PP
-    .word 50                ; Offense
+    .word 80    ; PP
+    .word 50    ; Offense
     .word 110|MSG2          ; Defense
-    .byte 50                ; Fight
-    .byte 40                ; Speed
+    .byte 50    ; Fight
+    .byte 40    ; Speed
     .byte 100               ; Wisdom
-    .byte 30                ; Strength
-    .byte 30                ; Force
-    .byte 12, 13, 66, 41, 29, 49, 68, 69; Attacks
+    .byte 30    ; Strength
+    .byte 30    ; Force
+    .byte 12, 13, 66, 41, 29, 49, 68, 69; ATTACKs
     .word sMook             ; Name
     .word 166               ; Experience
-    .word 42                ; Money
-    .byte 0                 ; Item
+    .word 42    ; Money
+    .byte 0     ; Item
     .byte $34               ; TilePage
 
 ;Armor:
     .import sArmor
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte RESIST_PK_BEAM|IMMUNE_SLEEP_DEFDOWN|ENEMY_FLAGS_8|RESIST_PK_THUNDER|RESIST_PK_FREEZE|RESIST_PK_FIRE|IMMUNE_STATUS_EFFECTS ; Flags
     .word 120|TILE4|TILE1   ; HP
     .word 100|EXTRA8|EXTRA2 ; PP
     .word 68|4096           ; Offense
     .word 150|MSG2          ; Defense
-    .byte 50                ; Fight
-    .byte 60                ; Speed
-    .byte 50                ; Wisdom
+    .byte 50    ; Fight
+    .byte 60    ; Speed
+    .byte 50    ; Wisdom
     .byte 100               ; Strength
     .byte 100               ; Force
-    .byte 1, 24, 1, 1, 1, 1, 1, 1; Attacks
+    .byte 1, 24, 1, 1, 1, 1, 1, 1; ATTACKs
     .word sArmor            ; Name
     .word 200               ; Experience
     .word 300               ; Money
-    .byte 0                 ; Item
+    .byte 0     ; Item
     .byte $2F               ; TilePage
 
 ;Woodoh:
     .import sWoodoh
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte IMMUNE_SLEEP_DEFDOWN|RESIST_PK_FREEZE ; Flags
     .word 40|TILE4|TILE1          ; HP
-    .word 0                 ; PP
-    .word 20                ; Offense
+    .word 0     ; PP
+    .word 20    ; Offense
     .word 38|MSG2           ; Defense
-    .byte 25                ; Fight
-    .byte 25                ; Speed
-    .byte 30                ; Wisdom
-    .byte 40                ; Strength
-    .byte 20                ; Force
-    .byte 74, 74, 74, 98, 1, 1, 1, 1; Attacks
+    .byte 25    ; Fight
+    .byte 25    ; Speed
+    .byte 30    ; Wisdom
+    .byte 40    ; Strength
+    .byte 20    ; Force
+    .byte 74, 74, 74, 98, 1, 1, 1, 1; ATTACKs
     .word sWoodoh           ; Name
-    .word 40                ; Experience
-    .word 38                ; Money
-    .byte 0                 ; Item
+    .word 40    ; Experience
+    .word 38    ; Money
+    .byte 0     ; Item
     .byte $30               ; TilePage
 
 ;Wally:
     .import sWally
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte NO_RESIST         ; Flags
     .word 20|COLOR2|TILE8   ; HP
-    .word 0                 ; PP
-    .word 8                 ; Offense
-    .word 12                ; Defense
-    .byte 6                 ; Fight
-    .byte 4                 ; Speed
-    .byte 1                 ; Wisdom
-    .byte 1                 ; Strength
-    .byte 2                 ; Force
-    .byte 40, 1, 1, 1, 1, 1, 1, 1; Attacks
+    .word 0     ; PP
+    .word 8     ; Offense
+    .word 12    ; Defense
+    .byte 6     ; Fight
+    .byte 4     ; Speed
+    .byte 1     ; Wisdom
+    .byte 1     ; Strength
+    .byte 2     ; Force
+    .byte 40, 1, 1, 1, 1, 1, 1, 1; ATTACKs
     .word sWally            ; Name
-    .word 5                 ; Experience
-    .word 20                ; Money
-    .byte 0                 ; Item
+    .word 5     ; Experience
+    .word 20    ; Money
+    .byte 0     ; Item
     .byte $39               ; TilePage
 
 ;TheHippie:
     .import sTheHippie
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte NO_RESIST         ; Flags
     .word 25|TILE4|TILE2|TILE1          ; HP
-    .word 0                 ; PP
-    .word 8                 ; Offense
-    .word 14                ; Defense
-    .byte 3                 ; Fight
-    .byte 6                 ; Speed
-    .byte 1                 ; Wisdom
-    .byte 1                 ; Strength
-    .byte 3                 ; Force
-    .byte 60, 80, 40, 1, 1, 1, 1, 1; Attacks
+    .word 0     ; PP
+    .word 8     ; Offense
+    .word 14    ; Defense
+    .byte 3     ; Fight
+    .byte 6     ; Speed
+    .byte 1     ; Wisdom
+    .byte 1     ; Strength
+    .byte 3     ; Force
+    .byte 60, 80, 40, 1, 1, 1, 1, 1; ATTACKs
     .word sTheHippie        ; Name
-    .word 6                 ; Experience
-    .word 35                ; Money
-    .byte 0                 ; Item
+    .word 6     ; Experience
+    .word 35    ; Money
+    .byte 0     ; Item
     .byte $39               ; TilePage
 
 ;BagLady:
     .import sBagLady
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte NO_RESIST         ; Flags
     .word 90|COLOR1|TILE4|TILE2|TILE1   ; HP
-    .word 0                 ; PP
-    .word 12                ; Offense
-    .word 38                ; Defense
-    .byte 20                ; Fight
-    .byte 40                ; Speed
-    .byte 30                ; Wisdom
-    .byte 30                ; Strength
-    .byte 10                ; Force
-    .byte 2, 2, 2, 34, 1, 1, 1, 1; Attacks
+    .word 0     ; PP
+    .word 12    ; Offense
+    .word 38    ; Defense
+    .byte 20    ; Fight
+    .byte 40    ; Speed
+    .byte 30    ; Wisdom
+    .byte 30    ; Strength
+    .byte 10    ; Force
+    .byte 2, 2, 2, 34, 1, 1, 1, 1; ATTACKs
     .word sBagLady          ; Name
-    .word 63                ; Experience
+    .word 63    ; Experience
     .word 150               ; Money
-    .byte 63                ; Item
+    .byte 63    ; Item
     .byte $3A               ; TilePage
 
 ;BBGang:
     .import sBBGang
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte NO_RESIST         ; Flags
     .word 80|COLOR3|TILE8   ; HP
-    .word 0                 ; PP
-    .word 60                ; Offense
+    .word 0     ; PP
+    .word 60    ; Offense
     .word 125               ; Defense
-    .byte 40                ; Fight
-    .byte 40                ; Speed
-    .byte 20                ; Wisdom
-    .byte 20                ; Strength
-    .byte 20                ; Force
-    .byte 35, 35, 2, 2, 1, 1, 1, 1; Attacks
+    .byte 40    ; Fight
+    .byte 40    ; Speed
+    .byte 20    ; Wisdom
+    .byte 20    ; Strength
+    .byte 20    ; Force
+    .byte 35, 35, 2, 2, 1, 1, 1, 1; ATTACKs
     .word sBBGang           ; Name
-    .word 72                ; Experience
-    .word 60                ; Money
-    .byte 34                ; Item
+    .word 72    ; Experience
+    .word 60    ; Money
+    .byte 34    ; Item
     .byte $3B               ; TilePage
 
 ;DrDistorto:
     .import sDrDistorto
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte NO_RESIST         ; Flags
     .word 60|COLOR1|TILE4|TILE2|TILE1   ; HP
-    .word 0                 ; PP
-    .word 38                ; Offense
-    .word 48                ; Defense
-    .byte 25                ; Fight
-    .byte 45                ; Speed
-    .byte 30                ; Wisdom
-    .byte 30                ; Strength
-    .byte 30                ; Force
-    .byte 72, 40, 1, 1, 1, 1, 1, 1; Attacks
+    .word 0     ; PP
+    .word 38    ; Offense
+    .word 48    ; Defense
+    .byte 25    ; Fight
+    .byte 45    ; Speed
+    .byte 30    ; Wisdom
+    .byte 30    ; Strength
+    .byte 30    ; Force
+    .byte 72, 40, 1, 1, 1, 1, 1, 1; ATTACKs
     .word sDrDistorto       ; Name
-    .word 45                ; Experience
-    .word 40                ; Money
-    .byte 0                 ; Item
+    .word 45    ; Experience
+    .word 40    ; Money
+    .byte 0     ; Item
     .byte $3F               ; TilePage
 
 ;GangZombie1:
     .import sGangZombie
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte NO_RESIST         ; Flags
     .word 12|COLOR1|TILE8   ; HP
     .word 106               ; PP
-    .word 13                ; Offense
-    .word 13                ; Defense
-    .byte 9                 ; Fight
-    .byte 9                 ; Speed
-    .byte 2                 ; Wisdom
-    .byte 6                 ; Strength
-    .byte 4                 ; Force
-    .byte 1, 1, 1, 1, 1, 1, 1, 1; Attacks
+    .word 13    ; Offense
+    .word 13    ; Defense
+    .byte 9     ; Fight
+    .byte 9     ; Speed
+    .byte 2     ; Wisdom
+    .byte 6     ; Strength
+    .byte 4     ; Force
+    .byte 1, 1, 1, 1, 1, 1, 1, 1; ATTACKs
     .word sGangZombie       ; Name
-    .word 0                 ; Experience
-    .word 0                 ; Money
-    .byte 0                 ; Item
+    .word 0     ; Experience
+    .word 0     ; Money
+    .byte 0     ; Item
     .byte $3F               ; TilePage
 
 ;GangZombie:
     .import sGangZombie
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte IMMUNE_STATUS_EFFECTS ; Flags
     .word 34|COLOR1|TILE4|TILE2|TILE1   ; HP
-    .word 0                 ; PP
-    .word 18                ; Offense
+    .word 0     ; PP
+    .word 18    ; Offense
     .word 20|MSG4           ; Defense
-    .byte 8                 ; Fight
-    .byte 8                 ; Speed
-    .byte 5                 ; Wisdom
-    .byte 40                ; Strength
-    .byte 5                 ; Force
-    .byte 1, 1, 1, 1, 1, 1, 1, 1; Attacks
+    .byte 8     ; Fight
+    .byte 8     ; Speed
+    .byte 5     ; Wisdom
+    .byte 40    ; Strength
+    .byte 5     ; Force
+    .byte 1, 1, 1, 1, 1, 1, 1, 1; ATTACKs
     .word sGangZombie       ; Name
-    .word 12                ; Experience
-    .word 32                ; Money
-    .byte 0                 ; Item
+    .word 12    ; Experience
+    .word 32    ; Money
+    .byte 0     ; Item
     .byte $3C               ; TilePage
 
 ;PseudoZombi:
     .import sPseudoZombi
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte IMMUNE_STATUS_EFFECTS ; Flags
     .word 30|COLOR1|TILE8   ; HP
-    .word 0                 ; PP
-    .word 16                ; Offense
+    .word 0     ; PP
+    .word 16    ; Offense
     .word 16|MSG4           ; Defense
-    .byte 10                ; Fight
-    .byte 12                ; Speed
-    .byte 5                 ; Wisdom
-    .byte 40                ; Strength
-    .byte 7                 ; Force
-    .byte 4, 3, 5, 4, 3, 5, 4, 3; Attacks
+    .byte 10    ; Fight
+    .byte 12    ; Speed
+    .byte 5     ; Wisdom
+    .byte 40    ; Strength
+    .byte 7     ; Force
+    .byte 4, 3, 5, 4, 3, 5, 4, 3; ATTACKs
     .word sPseudoZombi      ; Name
-    .word 8                 ; Experience
-    .word 12                ; Money
-    .byte 0                 ; Item
+    .word 8     ; Experience
+    .word 12    ; Money
+    .byte 0     ; Item
     .byte $3C               ; TilePage
 
 ;Crow:
     .import sCrow
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte NO_RESIST         ; Flags
     .word 22|COLOR2|TILE8   ; HP
-    .word 0                 ; PP
+    .word 0     ; PP
     .word 8|ALTITUDE1       ; Offense
     .word 12|MSG1           ; Defense
-    .byte 8                 ; Fight
-    .byte 12                ; Speed
-    .byte 1                 ; Wisdom
-    .byte 5                 ; Strength
-    .byte 10                ; Force
-    .byte 75, 76, 76, 1, 1, 1, 1, 1; Attacks
+    .byte 8     ; Fight
+    .byte 12    ; Speed
+    .byte 1     ; Wisdom
+    .byte 5     ; Strength
+    .byte 10    ; Force
+    .byte 75, 76, 76, 1, 1, 1, 1, 1; ATTACKs
     .word sCrow             ; Name
-    .word 3                 ; Experience
-    .word 4                 ; Money
-    .byte 0                 ; Item
+    .word 3     ; Experience
+    .word 4     ; Money
+    .byte 0     ; Item
     .byte $3E               ; TilePage
 
 ;Snake:
     .import sSnake
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte NO_RESIST         ; Flags
     .word 18|COLOR1|TILE8   ; HP
-    .word 0                 ; PP
-    .word 6                 ; Offense
+    .word 0     ; PP
+    .word 6     ; Offense
     .word 8|MSG1            ; Defense
-    .byte 5                 ; Fight
-    .byte 10                ; Speed
-    .byte 1                 ; Wisdom
-    .byte 10                ; Strength
-    .byte 1                 ; Force
-    .byte 1, 1, 1, 1, 1, 1, 1, 1; Attacks
+    .byte 5     ; Fight
+    .byte 10    ; Speed
+    .byte 1     ; Wisdom
+    .byte 10    ; Strength
+    .byte 1     ; Force
+    .byte 1, 1, 1, 1, 1, 1, 1, 1; ATTACKs
     .word sSnake            ; Name
-    .word 2                 ; Experience
-    .word 8                 ; Money
-    .byte 62                ; Item
+    .word 2     ; Experience
+    .word 8     ; Money
+    .byte 62    ; Item
     .byte $3D               ; TilePage
 
 ;Hyena:
     .import sHyena
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte NO_RESIST         ; Flags
     .word 30|TILE8|TILE1    ; HP
-    .word 0                 ; PP
-    .word 10                ; Offense
+    .word 0     ; PP
+    .word 10    ; Offense
     .word 16|MSG1           ; Defense
-    .byte 10                ; Fight
-    .byte 22                ; Speed
-    .byte 18                ; Wisdom
-    .byte 10                ; Strength
-    .byte 5                 ; Force
-    .byte 79, 79, 79, 72, 3, 3, 3, 3; Attacks
+    .byte 10    ; Fight
+    .byte 22    ; Speed
+    .byte 18    ; Wisdom
+    .byte 10    ; Strength
+    .byte 5     ; Force
+    .byte 79, 79, 79, 72, 3, 3, 3, 3; ATTACKs
     .word sHyena            ; Name
-    .word 12                ; Experience
-    .word 20                ; Money
-    .byte 0                 ; Item
+    .word 12    ; Experience
+    .word 20    ; Money
+    .byte 0     ; Item
     .byte $3E               ; TilePage
 
 ;Cougar:
     .import sCougar
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte NO_RESIST         ; Flags
     .word 42|COLOR3|TILE8|TILE1   ; HP
-    .word 0                 ; PP
-    .word 28                ; Offense
+    .word 0     ; PP
+    .word 28    ; Offense
     .word 40|MSG1           ; Defense
-    .byte 35                ; Fight
-    .byte 78                ; Speed
-    .byte 30                ; Wisdom
-    .byte 20                ; Strength
-    .byte 20                ; Force
-    .byte 4, 4, 4, 4, 4, 4, 4, 4; Attacks
+    .byte 35    ; Fight
+    .byte 78    ; Speed
+    .byte 30    ; Wisdom
+    .byte 20    ; Strength
+    .byte 20    ; Force
+    .byte 4, 4, 4, 4, 4, 4, 4, 4; ATTACKs
     .word sCougar           ; Name
-    .word 32                ; Experience
-    .word 25                ; Money
-    .byte 0                 ; Item
+    .word 32    ; Experience
+    .word 25    ; Money
+    .byte 0     ; Item
     .byte $3D               ; TilePage
 
 ;Centipede:
     .import sCentipede
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte SPRAY_VULNERABLE  ; Flags
     .word 12|COLOR1|TILE8   ; HP
     .word EXTRA8|EXTRA1     ; PP
-    .word 4                 ; Offense
+    .word 4     ; Offense
     .word 12|MSG1           ; Defense
-    .byte 3                 ; Fight
-    .byte 17                ; Speed
-    .byte 40                ; Wisdom
-    .byte 20                ; Strength
-    .byte 1                 ; Force
-    .byte 1, 1, 1, 1, 1, 1, 1, 1; Attacks
+    .byte 3     ; Fight
+    .byte 17    ; Speed
+    .byte 40    ; Wisdom
+    .byte 20    ; Strength
+    .byte 1     ; Force
+    .byte 1, 1, 1, 1, 1, 1, 1, 1; ATTACKs
     .word sCentipede        ; Name
-    .word 1                 ; Experience
-    .word 1                 ; Money
-    .byte 0                 ; Item
+    .word 1     ; Experience
+    .word 1     ; Money
+    .byte 0     ; Item
     .byte $3A               ; TilePage
 
 ;DustBall:
     .import sDustBall
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte IMMUNE_STATUS_EFFECTS ; Flags
     .word 78|COLOR1|TILE8|TILE1   ; HP
-    .word 0                 ; PP
+    .word 0     ; PP
     .word 40|BURST          ; Offense
     .word 120|MSG7          ; Defense
-    .byte 30                ; Fight
-    .byte 50                ; Speed
-    .byte 50                ; Wisdom
-    .byte 60                ; Strength
-    .byte 20                ; Force
-    .byte 79, 79, 79, 79, 79, 79, 79, 79; Attacks
+    .byte 30    ; Fight
+    .byte 50    ; Speed
+    .byte 50    ; Wisdom
+    .byte 60    ; Strength
+    .byte 20    ; Force
+    .byte 79, 79, 79, 79, 79, 79, 79, 79; ATTACKs
     .word sDustBall         ; Name
-    .word 80                ; Experience
+    .word 80    ; Experience
     .word 100               ; Money
-    .byte 0                 ; Item
+    .byte 0     ; Item
     .byte $3B               ; TilePage
 
 ;Fly:
     .import sFly
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte SPRAY_VULNERABLE  ; Flags
     .word 10|TILE8|TILE2          ; HP
-    .word 0                 ; PP
+    .word 0     ; PP
     .word 1|ALTITUDE4       ; Offense
     .word 40|MSG1           ; Defense
-    .byte 32                ; Fight
-    .byte 40                ; Speed
-    .byte 10                ; Wisdom
-    .byte 1                 ; Strength
-    .byte 40                ; Force
-    .byte 73, 73, 73, 1, 72, 1, 1, 1; Attacks
+    .byte 32    ; Fight
+    .byte 40    ; Speed
+    .byte 10    ; Wisdom
+    .byte 1     ; Strength
+    .byte 40    ; Force
+    .byte 73, 73, 73, 1, 72, 1, 1, 1; ATTACKs
     .word sFly              ; Name
-    .word 1                 ; Experience
-    .word 1                 ; Money
-    .byte 0                 ; Item
+    .word 1     ; Experience
+    .word 1     ; Money
+    .byte 0     ; Item
     .byte $2B               ; TilePage
 
 ;Spider:
     .import sSpider
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte SPRAY_VULNERABLE  ; Flags
     .word 80|COLOR2|TILE8|TILE2   ; HP
-    .word 0                 ; PP
-    .word 45                ; Offense
+    .word 0     ; PP
+    .word 45    ; Offense
     .word 95|MSG1           ; Defense
-    .byte 60                ; Fight
-    .byte 80                ; Speed
-    .byte 80                ; Wisdom
-    .byte 60                ; Strength
-    .byte 15                ; Force
-    .byte 73, 61, 61, 73, 73, 1, 1, 35; Attacks
+    .byte 60    ; Fight
+    .byte 80    ; Speed
+    .byte 80    ; Wisdom
+    .byte 60    ; Strength
+    .byte 15    ; Force
+    .byte 73, 61, 61, 73, 73, 1, 1, 35; ATTACKs
     .word sSpider           ; Name
-    .word 48                ; Experience
-    .word 40                ; Money
-    .byte 0                 ; Item
+    .word 48    ; Experience
+    .word 40    ; Money
+    .byte 0     ; Item
     .byte $2A               ; TilePage
 
 ;Scorpion:
     .import sScorpion
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte SPRAY_VULNERABLE  ; Flags
     .word 75|COLOR1|TILE8|TILE2   ; HP
-    .word 0                 ; PP
-    .word 60                ; Offense
+    .word 0     ; PP
+    .word 60    ; Offense
     .word 80|MSG1           ; Defense
-    .byte 40                ; Fight
-    .byte 60                ; Speed
-    .byte 80                ; Wisdom
-    .byte 60                ; Strength
-    .byte 15                ; Force
-    .byte 61, 61, 61, 3, 3, 3, 3, 3; Attacks
+    .byte 40    ; Fight
+    .byte 60    ; Speed
+    .byte 80    ; Wisdom
+    .byte 60    ; Strength
+    .byte 15    ; Force
+    .byte 61, 61, 61, 3, 3, 3, 3, 3; ATTACKs
     .word sScorpion         ; Name
-    .word 50                ; Experience
-    .word 36                ; Money
-    .byte 0                 ; Item
+    .word 50    ; Experience
+    .word 36    ; Money
+    .byte 0     ; Item
     .byte $3D               ; TilePage
 
 ;Rope:
     .import sRope
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte NO_RESIST         ; Flags
     .word 80|COLOR3|TILE8|TILE2   ; HP
-    .word 0                 ; PP
-    .word 35                ; Offense
+    .word 0     ; PP
+    .word 35    ; Offense
     .word 50|MSG5           ; Defense
-    .byte 50                ; Fight
-    .byte 30                ; Speed
-    .byte 5                 ; Wisdom
-    .byte 80                ; Strength
-    .byte 80                ; Force
-    .byte 71, 71, 1, 1, 1, 1, 1, 1; Attacks
+    .byte 50    ; Fight
+    .byte 30    ; Speed
+    .byte 5     ; Wisdom
+    .byte 80    ; Strength
+    .byte 80    ; Force
+    .byte 71, 71, 1, 1, 1, 1, 1, 1; ATTACKs
     .word sRope             ; Name
-    .word 48                ; Experience
-    .word 80                ; Money
-    .byte 40                ; Item
+    .word 48    ; Experience
+    .word 80    ; Money
+    .byte 40    ; Item
     .byte $3F               ; TilePage
 
 ;FireBall:
     .import sFireBall
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte RESIST_PK_FIRE|IMMUNE_STATUS_EFFECTS  ; Flags
     .word 58|COLOR3|TILE8|TILE2   ; HP
     .word EXTRA8|50         ; PP
     .word 24|ALTITUDE2      ; Offense
     .word 58|MSG2           ; Defense
-    .byte 35                ; Fight
-    .byte 40                ; Speed
-    .byte 30                ; Wisdom
-    .byte 50                ; Strength
-    .byte 30                ; Force
-    .byte 9, 9, 9, 9, 9, 9, 9, 9; Attacks
+    .byte 35    ; Fight
+    .byte 40    ; Speed
+    .byte 30    ; Wisdom
+    .byte 50    ; Strength
+    .byte 30    ; Force
+    .byte 9, 9, 9, 9, 9, 9, 9, 9; ATTACKs
     .word sFireBall         ; Name
-    .word 61                ; Experience
-    .word 35                ; Money
-    .byte 0                 ; Item
+    .word 61    ; Experience
+    .word 35    ; Money
+    .byte 0     ; Item
     .byte $39               ; TilePage
 
 ;Watcher:
     .import sWatcher
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte NO_RESIST         ; Flags
     .word 30|COLOR1|TILE8|TILE4|TILE2   ; HP
-    .word 0                 ; PP
-    .word 16                ; Offense
+    .word 0     ; PP
+    .word 16    ; Offense
     .word 24|MSG2           ; Defense
-    .byte 25                ; Fight
-    .byte 30                ; Speed
-    .byte 20                ; Wisdom
-    .byte 20                ; Strength
-    .byte 20                ; Force
-    .byte 1, 1, 1, 1, 1, 1, 1, 1; Attacks
+    .byte 25    ; Fight
+    .byte 30    ; Speed
+    .byte 20    ; Wisdom
+    .byte 20    ; Strength
+    .byte 20    ; Force
+    .byte 1, 1, 1, 1, 1, 1, 1, 1; ATTACKs
     .word sWatcher          ; Name
-    .word 30                ; Experience
-    .word 20                ; Money
-    .byte 0                 ; Item
+    .word 30    ; Experience
+    .word 20    ; Money
+    .byte 0     ; Item
     .byte $27               ; TilePage
 
 ;Groucho:
     .import sGroucho
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte NO_RESIST         ; Flags
     .word 35|COLOR1|TILE8|TILE2   ; HP
-    .word 0                 ; PP
+    .word 0     ; PP
     .word 12|ALTITUDE2      ; Offense
     .word 40|MSG2           ; Defense
-    .byte 20                ; Fight
-    .byte 20                ; Speed
-    .byte 20                ; Wisdom
-    .byte 20                ; Strength
-    .byte 20                ; Force
-    .byte 81, 81, 81, 81, 1, 1, 1, 1; Attacks
+    .byte 20    ; Fight
+    .byte 20    ; Speed
+    .byte 20    ; Wisdom
+    .byte 20    ; Strength
+    .byte 20    ; Force
+    .byte 81, 81, 81, 81, 1, 1, 1, 1; ATTACKs
     .word sGroucho          ; Name
-    .word 3                 ; Experience
-    .word 12                ; Money
-    .byte 0                 ; Item
+    .word 3     ; Experience
+    .word 12    ; Money
+    .byte 0     ; Item
     .byte $26               ; TilePage
 
 ;Ghost:
     .import sGhost
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte IMMUNE_STATUS_EFFECTS ; Flags
     .word 20|COLOR1|TILE8|TILE2   ; HP
-    .word 0                 ; PP
+    .word 0     ; PP
     .word 12|ALTITUDE2      ; Offense
     .word 24|MSG7           ; Defense
-    .byte 6                 ; Fight
-    .byte 22                ; Speed
-    .byte 5                 ; Wisdom
-    .byte 40                ; Strength
-    .byte 15                ; Force
-    .byte 72, 72, 1, 1, 1, 1, 1, 1; Attacks
+    .byte 6     ; Fight
+    .byte 22    ; Speed
+    .byte 5     ; Wisdom
+    .byte 40    ; Strength
+    .byte 15    ; Force
+    .byte 72, 72, 1, 1, 1, 1, 1, 1; ATTACKs
     .word sGhost            ; Name
-    .word 5                 ; Experience
-    .word 10                ; Money
-    .byte 0                 ; Item
+    .word 5     ; Experience
+    .word 10    ; Money
+    .byte 0     ; Item
     .byte $3A               ; TilePage
 
 ;LilSaucer:
     .import sLilSaucer
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte RESIST_PK_BEAM|IMMUNE_SLEEP_DEFDOWN|RESIST_PK_THUNDER|RESIST_PK_FIRE|IMMUNE_STATUS_EFFECTS  ; Flags
     .word 32|COLOR1|TILE8|TILE2   ; HP
-    .word 20                ; PP
+    .word 20    ; PP
     .word 20|ALTITUDE4      ; Offense
     .word 30|MSG3           ; Defense
-    .byte 15                ; Fight
-    .byte 20                ; Speed
-    .byte 18                ; Wisdom
+    .byte 15    ; Fight
+    .byte 20    ; Speed
+    .byte 18    ; Wisdom
     .byte 100               ; Strength
     .byte 100               ; Force
-    .byte 1, 54, 1, 1, 56, 1, 1, 1; Attacks
+    .byte 1, 54, 1, 1, 56, 1, 1, 1; ATTACKs
     .word sLilSaucer        ; Name
-    .word 30                ; Experience
-    .word 22                ; Money
-    .byte 0                 ; Item
+    .word 30    ; Experience
+    .word 22    ; Money
+    .byte 0     ; Item
     .byte $28               ; TilePage
 
 ;MrBat:
     .import sMrBat
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte NO_RESIST         ; Flags
     .word 20|COLOR3|TILE8|TILE2   ; HP
-    .word 0                 ; PP
+    .word 0     ; PP
     .word 8|ALTITUDE4       ; Offense
     .word 10|MSG1           ; Defense
-    .byte 8                 ; Fight
-    .byte 5                 ; Speed
-    .byte 5                 ; Wisdom
-    .byte 4                 ; Strength
-    .byte 8                 ; Force
-    .byte 84, 84, 84, 1, 1, 1, 1, 1; Attacks
+    .byte 8     ; Fight
+    .byte 5     ; Speed
+    .byte 5     ; Wisdom
+    .byte 4     ; Strength
+    .byte 8     ; Force
+    .byte 84, 84, 84, 1, 1, 1, 1, 1; ATTACKs
     .word sMrBat            ; Name
-    .word 4                 ; Experience
-    .word 7                 ; Money
-    .byte 0                 ; Item
+    .word 4     ; Experience
+    .word 7     ; Money
+    .byte 0     ; Item
     .byte $29               ; TilePage
 
 ;StarmanJr:
     .import sStarmanJr
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte RESIST_PK_BEAM|IMMUNE_SLEEP_DEFDOWN|RESIST_PK_THUNDER|RESIST_PK_FREEZE|RESIST_PK_FIRE|IMMUNE_STATUS_EFFECTS  ; Flags
     .word 52|TILE8|TILE2          ; HP
-    .word 16                ; PP
+    .word 16    ; PP
     .word 32|ALTITUDE2      ; Offense
     .word 52|MSG2           ; Defense
-    .byte 35                ; Fight
-    .byte 20                ; Speed
-    .byte 18                ; Wisdom
-    .byte 30                ; Strength
-    .byte 30                ; Force
-    .byte 18, 18, 21, 1, 1, 1, 1, 83; Attacks
+    .byte 35    ; Fight
+    .byte 20    ; Speed
+    .byte 18    ; Wisdom
+    .byte 30    ; Strength
+    .byte 30    ; Force
+    .byte 18, 18, 21, 1, 1, 1, 1, 83; ATTACKs
     .word sStarmanJr        ; Name
-    .word 30                ; Experience
-    .word 5                 ; Money
-    .byte 0                 ; Item
+    .word 30    ; Experience
+    .word 5     ; Money
+    .byte 0     ; Item
     .byte $3C               ; TilePage
 
 ;Skunk:
     .import sSkunk
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte NO_RESIST         ; Flags
     .word 40|COLOR2|TILE8|TILE2   ; HP
-    .word 0                 ; PP
-    .word 26                ; Offense
+    .word 0     ; PP
+    .word 26    ; Offense
     .word 48|MSG1           ; Defense
-    .byte 52                ; Fight
-    .byte 30                ; Speed
-    .byte 30                ; Wisdom
-    .byte 20                ; Strength
-    .byte 20                ; Force
-    .byte 1, 1, 1, 1, 70, 1, 1, 1; Attacks
+    .byte 52    ; Fight
+    .byte 30    ; Speed
+    .byte 30    ; Wisdom
+    .byte 20    ; Strength
+    .byte 20    ; Force
+    .byte 1, 1, 1, 1, 70, 1, 1, 1; ATTACKs
     .word sSkunk            ; Name
-    .word 32                ; Experience
-    .word 32                ; Money
-    .byte 0                 ; Item
+    .word 32    ; Experience
+    .word 32    ; Money
+    .byte 0     ; Item
     .byte $2D               ; TilePage
 
 ;Shroudley:
     .import sShroudley
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte IMMUNE_STATUS_EFFECTS ; Flags
     .word 90|COLOR2|TILE4   ; HP
-    .word 0                 ; PP
-    .word 42                ; Offense
+    .word 0     ; PP
+    .word 42    ; Offense
     .word 128|MSG4          ; Defense
-    .byte 25                ; Fight
-    .byte 35                ; Speed
-    .byte 55                ; Wisdom
-    .byte 70                ; Strength
-    .byte 10                ; Force
-    .byte 52, 52, 7, 1, 1, 1, 1, 1; Attacks
+    .byte 25    ; Fight
+    .byte 35    ; Speed
+    .byte 55    ; Wisdom
+    .byte 70    ; Strength
+    .byte 10    ; Force
+    .byte 52, 52, 7, 1, 1, 1, 1, 1; ATTACKs
     .word sShroudley        ; Name
-    .word 58                ; Experience
-    .word 34                ; Money
-    .byte 0                 ; Item
+    .word 58    ; Experience
+    .word 34    ; Money
+    .byte 0     ; Item
     .byte $34               ; TilePage
 
 ;Rat:
     .import sRat
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte NO_RESIST         ; Flags
     .word 10|COLOR2|TILE8|TILE2   ; HP
-    .word 0                 ; PP
-    .word 4                 ; Offense
+    .word 0     ; PP
+    .word 4     ; Offense
     .word 8|MSG1            ; Defense
-    .byte 6                 ; Fight
-    .byte 5                 ; Speed
-    .byte 1                 ; Wisdom
-    .byte 3                 ; Strength
-    .byte 7                 ; Force
-    .byte 35, 35, 35, 3, 3, 3, 3, 3; Attacks
+    .byte 6     ; Fight
+    .byte 5     ; Speed
+    .byte 1     ; Wisdom
+    .byte 3     ; Strength
+    .byte 7     ; Force
+    .byte 35, 35, 35, 3, 3, 3, 3, 3; ATTACKs
     .word sRat              ; Name
-    .word 3                 ; Experience
-    .word 2                 ; Money
-    .byte 0                 ; Item
+    .word 3     ; Experience
+    .word 2     ; Money
+    .byte 0     ; Item
     .byte $3E               ; TilePage
 
 ;Bomber:
     .import sBomber
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte IMMUNE_SLEEP_DEFDOWN|RESIST_PK_FIRE|IMMUNE_STATUS_EFFECTS  ; Flags
     .word 60|COLOR1|TILE8|TILE2   ; HP
-    .word 0                 ; PP
-    .word 10                ; Offense
+    .word 0     ; PP
+    .word 10    ; Offense
     .word 64|MSG3           ; Defense
-    .byte 20                ; Fight
-    .byte 35                ; Speed
-    .byte 30                ; Wisdom
+    .byte 20    ; Fight
+    .byte 35    ; Speed
+    .byte 30    ; Wisdom
     .byte 100               ; Strength
     .byte 100               ; Force
-    .byte 70, 70, 70, 16, 16, 1, 1, 1; Attacks
+    .byte 70, 70, 70, 16, 16, 1, 1, 1; ATTACKs
     .word sBomber           ; Name
-    .word 56                ; Experience
-    .word 32                ; Money
-    .byte 35                ; Item
+    .word 56    ; Experience
+    .word 32    ; Money
+    .byte 35    ; Item
     .byte $3B               ; TilePage
 
 ;Doll1:
     .import sDoll
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte NO_RESIST         ; Flags
     .word 4|TILE8|TILE2|TILE1 ; HP
-    .word 0                 ; PP
-    .word 3                 ; Offense
+    .word 0     ; PP
+    .word 3     ; Offense
     .word 5|MSG5            ; Defense
-    .byte 1                 ; Fight
-    .byte 5                 ; Speed
-    .byte 3                 ; Wisdom
-    .byte 3                 ; Strength
-    .byte 3                 ; Force
-    .byte 1, 1, 1, 1, 1, 1, 1, 1; Attacks
+    .byte 1     ; Fight
+    .byte 5     ; Speed
+    .byte 3     ; Wisdom
+    .byte 3     ; Strength
+    .byte 3     ; Force
+    .byte 1, 1, 1, 1, 1, 1, 1, 1; ATTACKs
     .word sDoll             ; Name
-    .word 1                 ; Experience
-    .word 0                 ; Money
-    .byte 0                 ; Item
+    .word 1     ; Experience
+    .word 0     ; Money
+    .byte 0     ; Item
     .byte $38               ; TilePage
 
 ;Doll:
     .import sDoll
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte IMMUNE_SLEEP_DEFDOWN|IMMUNE_STATUS_EFFECTS  ; Flags
     .word 12|COLOR1|TILE8|TILE4   ; HP
-    .word 0                 ; PP
+    .word 0     ; PP
     .word 4|ALTITUDE2       ; Offense
     .word 5|MSG5            ; Defense
-    .byte 3                 ; Fight
-    .byte 5                 ; Speed
-    .byte 1                 ; Wisdom
-    .byte 1                 ; Strength
-    .byte 1                 ; Force
-    .byte 1, 1, 1, 1, 1, 1, 1, 1; Attacks
+    .byte 3     ; Fight
+    .byte 5     ; Speed
+    .byte 1     ; Wisdom
+    .byte 1     ; Strength
+    .byte 1     ; Force
+    .byte 1, 1, 1, 1, 1, 1, 1, 1; ATTACKs
     .word sDoll             ; Name
-    .word 10                ; Experience
-    .word 50                ; Money
-    .byte 0                 ; Item
+    .word 10    ; Experience
+    .word 50    ; Money
+    .byte 0     ; Item
     .byte $38               ; TilePage
 
 ;Lamp:
     .import sLamp
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte IMMUNE_SLEEP_DEFDOWN|IMMUNE_STATUS_EFFECTS  ; Flags
     .word 6|COLOR1|TILE8|TILE4|TILE1    ; HP
-    .word 0                 ; PP
+    .word 0     ; PP
     .word 3|ALTITUDE2       ; Offense
     .word 5|MSG5            ; Defense
-    .byte 1                 ; Fight
-    .byte 5                 ; Speed
-    .byte 3                 ; Wisdom
-    .byte 3                 ; Strength
-    .byte 3                 ; Force
-    .byte 1, 1, 1, 1, 1, 1, 1, 1; Attacks
+    .byte 1     ; Fight
+    .byte 5     ; Speed
+    .byte 3     ; Wisdom
+    .byte 3     ; Strength
+    .byte 3     ; Force
+    .byte 1, 1, 1, 1, 1, 1, 1, 1; ATTACKs
     .word sLamp             ; Name
-    .word 1                 ; Experience
-    .word 0                 ; Money
-    .byte 0                 ; Item
+    .word 1     ; Experience
+    .word 0     ; Money
+    .byte 0     ; Item
     .byte $38               ; TilePage
 
 ;BionicCenti1:
     .import sBionicCenti
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte NO_RESIST         ; Flags
     .word 180               ; HP
     .word 120               ; PP
-    .word 35                ; Offense
-    .word 20                ; Defense
-    .byte 50                ; Fight
-    .byte 5                 ; Speed
-    .byte 5                 ; Wisdom
-    .byte 45                ; Strength
-    .byte 30                ; Force
-    .byte 1, 1, 1, 1, 1, 1, 1, 1; Attacks
+    .word 35    ; Offense
+    .word 20    ; Defense
+    .byte 50    ; Fight
+    .byte 5     ; Speed
+    .byte 5     ; Wisdom
+    .byte 45    ; Strength
+    .byte 30    ; Force
+    .byte 1, 1, 1, 1, 1, 1, 1, 1; ATTACKs
     .word sBionicCenti      ; Name
-    .word 0                 ; Experience
-    .word 0                 ; Money
-    .byte 0                 ; Item
-    .byte 0                 ; TilePage
+    .word 0     ; Experience
+    .word 0     ; Money
+    .byte 0     ; Item
+    .byte 0     ; TilePage
 
 ;BionicCenti2:
     .import sBionicCenti
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte NO_RESIST         ; Flags
     .word 180               ; HP
     .word 120               ; PP
-    .word 35                ; Offense
-    .word 20                ; Defense
-    .byte 50                ; Fight
-    .byte 5                 ; Speed
-    .byte 5                 ; Wisdom
-    .byte 45                ; Strength
-    .byte 30                ; Force
-    .byte 1, 1, 1, 1, 1, 1, 1, 1; Attacks
+    .word 35    ; Offense
+    .word 20    ; Defense
+    .byte 50    ; Fight
+    .byte 5     ; Speed
+    .byte 5     ; Wisdom
+    .byte 45    ; Strength
+    .byte 30    ; Force
+    .byte 1, 1, 1, 1, 1, 1, 1, 1; ATTACKs
     .word sBionicCenti      ; Name
-    .word 0                 ; Experience
-    .word 0                 ; Money
-    .byte 0                 ; Item
-    .byte 0                 ; TilePage
+    .word 0     ; Experience
+    .word 0     ; Money
+    .byte 0     ; Item
+    .byte 0     ; TilePage
 
 ;BionicCenti:
     .import sBionicCenti
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte SPRAY_VULNERABLE  ; Flags
     .word 35|COLOR2|TILE8   ; HP
     .word EXTRA8|EXTRA1     ; PP
-    .word 16                ; Offense
+    .word 16    ; Offense
     .word 32|MSG1           ; Defense
-    .byte 15                ; Fight
-    .byte 28                ; Speed
-    .byte 60                ; Wisdom
-    .byte 30                ; Strength
-    .byte 30                ; Force
-    .byte 1, 61, 61, 1, 1, 1, 1, 1; Attacks
+    .byte 15    ; Fight
+    .byte 28    ; Speed
+    .byte 60    ; Wisdom
+    .byte 30    ; Strength
+    .byte 30    ; Force
+    .byte 1, 61, 61, 1, 1, 1, 1, 1; ATTACKs
     .word sBionicCenti      ; Name
-    .word 18                ; Experience
-    .word 14                ; Money
-    .byte 0                 ; Item
+    .word 18    ; Experience
+    .word 14    ; Money
+    .byte 0     ; Item
     .byte $3A               ; TilePage
 
 ;BionicScorp:
     .import sBionicScorp
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte SPRAY_VULNERABLE  ; Flags
     .word 100|COLOR2|TILE8|TILE2  ; HP
-    .word 0                 ; PP
-    .word 60                ; Offense
+    .word 0     ; PP
+    .word 60    ; Offense
     .word 150|MSG1          ; Defense
-    .byte 40                ; Fight
-    .byte 70                ; Speed
-    .byte 80                ; Wisdom
-    .byte 60                ; Strength
-    .byte 60                ; Force
-    .byte 61, 62, 61, 62, 1, 1, 1, 1; Attacks
+    .byte 40    ; Fight
+    .byte 70    ; Speed
+    .byte 80    ; Wisdom
+    .byte 60    ; Strength
+    .byte 60    ; Force
+    .byte 61, 62, 61, 62, 1, 1, 1, 1; ATTACKs
     .word sBionicScorp      ; Name
-    .word 61                ; Experience
-    .word 56                ; Money
-    .byte 0                 ; Item
+    .word 61    ; Experience
+    .word 56    ; Money
+    .byte 0     ; Item
     .byte $3D               ; TilePage
 
 ;RedSnake1:
     .import sRedSnake
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte NO_RESIST         ; Flags
     .word 180               ; HP
     .word 120               ; PP
-    .word 35                ; Offense
-    .word 20                ; Defense
-    .byte 50                ; Fight
-    .byte 5                 ; Speed
-    .byte 5                 ; Wisdom
-    .byte 45                ; Strength
-    .byte 30                ; Force
-    .byte 1, 1, 1, 1, 1, 1, 1, 1; Attacks
+    .word 35    ; Offense
+    .word 20    ; Defense
+    .byte 50    ; Fight
+    .byte 5     ; Speed
+    .byte 5     ; Wisdom
+    .byte 45    ; Strength
+    .byte 30    ; Force
+    .byte 1, 1, 1, 1, 1, 1, 1, 1; ATTACKs
     .word sRedSnake         ; Name
-    .word 0                 ; Experience
-    .word 0                 ; Money
-    .byte 0                 ; Item
-    .byte 0                 ; TilePage
+    .word 0     ; Experience
+    .word 0     ; Money
+    .byte 0     ; Item
+    .byte 0     ; TilePage
 
 ;RedSnake2:
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte NO_RESIST         ; Flags
     .word 180               ; HP
     .word 120               ; PP
-    .word 35                ; Offense
-    .word 20                ; Defense
-    .byte 50                ; Fight
-    .byte 5                 ; Speed
-    .byte 5                 ; Wisdom
-    .byte 45                ; Strength
-    .byte 30                ; Force
-    .byte 1, 1, 1, 1, 1, 1, 1, 1; Attacks
+    .word 35    ; Offense
+    .word 20    ; Defense
+    .byte 50    ; Fight
+    .byte 5     ; Speed
+    .byte 5     ; Wisdom
+    .byte 45    ; Strength
+    .byte 30    ; Force
+    .byte 1, 1, 1, 1, 1, 1, 1, 1; ATTACKs
     .word sRedSnake         ; Name
-    .word 0                 ; Experience
-    .word 0                 ; Money
-    .byte 0                 ; Item
-    .byte 0                 ; TilePage
+    .word 0     ; Experience
+    .word 0     ; Money
+    .byte 0     ; Item
+    .byte 0     ; TilePage
 
 ;RedSnake:
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte NO_RESIST         ; Flags
     .word 150|COLOR1|TILE8  ; HP
-    .word 0                 ; PP
-    .word 50                ; Offense
+    .word 0     ; PP
+    .word 50    ; Offense
     .word 160|MSG1          ; Defense
-    .byte 90                ; Fight
+    .byte 90    ; Fight
     .byte 100               ; Speed
-    .byte 60                ; Wisdom
-    .byte 60                ; Strength
-    .byte 40                ; Force
-    .byte 72, 72, 72, 72, 72, 72, 1, 1; Attacks
+    .byte 60    ; Wisdom
+    .byte 60    ; Strength
+    .byte 40    ; Force
+    .byte 72, 72, 72, 72, 72, 72, 1, 1; ATTACKs
     .word sRedSnake         ; Name
     .word 500               ; Experience
     .word 330               ; Money
-    .byte 47                ; Item
+    .byte 47    ; Item
     .byte $3D               ; TilePage
 
 ;LoneWolf:
     .import sLoneWolf
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte RESIST_PK_FREEZE  ; Flags
     .word 80|COLOR2|TILE4   ; HP
-    .word 0                 ; PP
-    .word 60                ; Offense
+    .word 0     ; PP
+    .word 60    ; Offense
     .word 150|MSG1          ; Defense
-    .byte 50                ; Fight
-    .byte 60                ; Speed
-    .byte 30                ; Wisdom
-    .byte 30                ; Strength
-    .byte 60                ; Force
-    .byte 3, 3, 3, 3, 3, 3, 3, 3; Attacks
+    .byte 50    ; Fight
+    .byte 60    ; Speed
+    .byte 30    ; Wisdom
+    .byte 30    ; Strength
+    .byte 60    ; Force
+    .byte 3, 3, 3, 3, 3, 3, 3, 3; ATTACKs
     .word sLoneWolf         ; Name
     .word 100               ; Experience
-    .word 41                ; Money
-    .byte 0                 ; Item
+    .word 41    ; Money
+    .byte 0     ; Item
     .byte $36               ; TilePage
 
 ;PolarBear:
     .import sPolarBear
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte RESIST_PK_FREEZE  ; Flags
     .word 100|COLOR1|TILE2  ; HP
-    .word 0                 ; PP
-    .word 52                ; Offense
+    .word 0     ; PP
+    .word 52    ; Offense
     .word 180|MSG1          ; Defense
-    .byte 30                ; Fight
-    .byte 40                ; Speed
-    .byte 30                ; Wisdom
-    .byte 40                ; Strength
-    .byte 30                ; Force
-    .byte 1, 1, 1, 4, 5, 79, 1, 1; Attacks
+    .byte 30    ; Fight
+    .byte 40    ; Speed
+    .byte 30    ; Wisdom
+    .byte 40    ; Strength
+    .byte 30    ; Force
+    .byte 1, 1, 1, 4, 5, 79, 1, 1; ATTACKs
     .word sPolarBear        ; Name
     .word 160               ; Experience
-    .word 50                ; Money
-    .byte 0                 ; Item
+    .word 50    ; Money
+    .byte 0     ; Item
     .byte $2B               ; TilePage
 
 ;Rattlesnake1:
     .import sRattlesnake
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte NO_RESIST         ; Flags
     .word 70|TILE8|TILE2          ; HP
     .word 100               ; PP
-    .word 65                ; Offense
+    .word 65    ; Offense
     .word 60|MSG1           ; Defense
-    .byte 55                ; Fight
-    .byte 45                ; Speed
-    .byte 30                ; Wisdom
-    .byte 30                ; Strength
-    .byte 45                ; Force
-    .byte 1, 1, 1, 1, 1, 1, 1, 1; Attacks
+    .byte 55    ; Fight
+    .byte 45    ; Speed
+    .byte 30    ; Wisdom
+    .byte 30    ; Strength
+    .byte 45    ; Force
+    .byte 1, 1, 1, 1, 1, 1, 1, 1; ATTACKs
     .word sRattlesnake      ; Name
-    .word 96                ; Experience
-    .word 37                ; Money
-    .byte 0                 ; Item
+    .word 96    ; Experience
+    .word 37    ; Money
+    .byte 0     ; Item
     .byte $3C               ; TilePage
 
 ;Rattlesnake2:
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte NO_RESIST         ; Flags
     .word 70|TILE8|TILE2          ; HP
     .word 100               ; PP
-    .word 60                ; Offense
+    .word 60    ; Offense
     .word 55|MSG1           ; Defense
-    .byte 40                ; Fight
-    .byte 55                ; Speed
-    .byte 40                ; Wisdom
-    .byte 40                ; Strength
-    .byte 60                ; Force
-    .byte 1, 1, 1, 1, 1, 1, 1, 1; Attacks
+    .byte 40    ; Fight
+    .byte 55    ; Speed
+    .byte 40    ; Wisdom
+    .byte 40    ; Strength
+    .byte 60    ; Force
+    .byte 1, 1, 1, 1, 1, 1, 1, 1; ATTACKs
     .word sRattlesnake      ; Name
-    .word 98                ; Experience
-    .word 34                ; Money
-    .byte 0                 ; Item
+    .word 98    ; Experience
+    .word 34    ; Money
+    .byte 0     ; Item
     .byte $2C               ; TilePage
 
 ;Rattlesnake3:
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte NO_RESIST         ; Flags
-    .word 95                ; HP
+    .word 95    ; HP
     .word 100               ; PP
-    .word 70                ; Offense
-    .word 90                ; Defense
-    .byte 50                ; Fight
-    .byte 50                ; Speed
-    .byte 30                ; Wisdom
-    .byte 30                ; Strength
-    .byte 40                ; Force
-    .byte 55, 61, 61, 1, 1, 1, 1, 1; Attacks
+    .word 70    ; Offense
+    .word 90    ; Defense
+    .byte 50    ; Fight
+    .byte 50    ; Speed
+    .byte 30    ; Wisdom
+    .byte 30    ; Strength
+    .byte 40    ; Force
+    .byte 55, 61, 61, 1, 1, 1, 1, 1; ATTACKs
     .word sRattlesnake      ; Name
-    .word 0                 ; Experience
-    .word 0                 ; Money
-    .byte 0                 ; Item
-    .byte 0                 ; TilePage
+    .word 0     ; Experience
+    .word 0     ; Money
+    .byte 0     ; Item
+    .byte 0     ; TilePage
 
 ;Rattlesnake4:
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte NO_RESIST         ; Flags
     .word 180               ; HP
     .word 120               ; PP
-    .word 35                ; Offense
-    .word 20                ; Defense
-    .byte 50                ; Fight
-    .byte 5                 ; Speed
-    .byte 5                 ; Wisdom
-    .byte 45                ; Strength
-    .byte 30                ; Force
-    .byte 1, 1, 1, 1, 1, 1, 1, 1; Attacks
+    .word 35    ; Offense
+    .word 20    ; Defense
+    .byte 50    ; Fight
+    .byte 5     ; Speed
+    .byte 5     ; Wisdom
+    .byte 45    ; Strength
+    .byte 30    ; Force
+    .byte 1, 1, 1, 1, 1, 1, 1, 1; ATTACKs
     .word sRattlesnake      ; Name
-    .word 0                 ; Experience
-    .word 0                 ; Money
-    .byte 0                 ; Item
-    .byte 0                 ; TilePage
+    .word 0     ; Experience
+    .word 0     ; Money
+    .byte 0     ; Item
+    .byte 0     ; TilePage
 
 ;Rattlesnake:
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte ENEMY_FLAGS_8     ; Flags
     .word 100|COLOR2|TILE8  ; HP
     .word EXTRA8|EXTRA2|EXTRA1 ; PP
-    .word 65                ; Offense
+    .word 65    ; Offense
     .word 128|MSG1          ; Defense
-    .byte 60                ; Fight
-    .byte 80                ; Speed
-    .byte 80                ; Wisdom
-    .byte 60                ; Strength
-    .byte 20                ; Force
-    .byte 93, 93, 93, 7, 1, 1, 1, 1; Attacks
+    .byte 60    ; Fight
+    .byte 80    ; Speed
+    .byte 80    ; Wisdom
+    .byte 60    ; Strength
+    .byte 20    ; Force
+    .byte 93, 93, 93, 7, 1, 1, 1, 1; ATTACKs
     .word sRattlesnake      ; Name
-    .word 57                ; Experience
-    .word 54                ; Money
-    .byte 0                 ; Item
+    .word 57    ; Experience
+    .word 54    ; Money
+    .byte 0     ; Item
     .byte $3D               ; TilePage
 
 ;Tarantula:
     .import sTarantula
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte SPRAY_VULNERABLE  ; Flags
     .word 120|COLOR1|TILE8|TILE2  ; HP
-    .word 0                 ; PP
-    .word 84                ; Offense
+    .word 0     ; PP
+    .word 84    ; Offense
     .word 160|MSG1          ; Defense
-    .byte 70                ; Fight
-    .byte 80                ; Speed
-    .byte 80                ; Wisdom
-    .byte 60                ; Strength
-    .byte 15                ; Force
-    .byte 73, 73, 61, 61, 61, 61, 1, 1; Attacks
+    .byte 70    ; Fight
+    .byte 80    ; Speed
+    .byte 80    ; Wisdom
+    .byte 60    ; Strength
+    .byte 15    ; Force
+    .byte 73, 73, 61, 61, 61, 61, 1, 1; ATTACKs
     .word sTarantula        ; Name
     .word 205               ; Experience
-    .word 85                ; Money
-    .byte 0                 ; Item
+    .word 85    ; Money
+    .byte 0     ; Item
     .byte $2A               ; TilePage
 
 ;Crocodile:
     .import sCrocodile
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte NO_RESIST         ; Flags
     .word 120|COLOR1|TILE4  ; HP
-    .word 0                 ; PP
-    .word 80                ; Offense
+    .word 0     ; PP
+    .word 80    ; Offense
     .word 150|MSG1          ; Defense
-    .byte 40                ; Fight
-    .byte 30                ; Speed
-    .byte 40                ; Wisdom
-    .byte 80                ; Strength
-    .byte 20                ; Force
-    .byte 93, 93, 1, 1, 1, 1, 1, 1; Attacks
+    .byte 40    ; Fight
+    .byte 30    ; Speed
+    .byte 40    ; Wisdom
+    .byte 80    ; Strength
+    .byte 20    ; Force
+    .byte 93, 93, 1, 1, 1, 1, 1, 1; ATTACKs
     .word sCrocodile        ; Name
     .word 172               ; Experience
-    .word 88                ; Money
-    .byte 0                 ; Item
+    .word 88    ; Money
+    .byte 0     ; Item
     .byte $31               ; TilePage
 
 ;Buffalo1:
     .import sBuffalo
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte NO_RESIST         ; Flags
     .word 90|TILE8|TILE2          ; HP
     .word 100               ; PP
-    .word 70                ; Offense
+    .word 70    ; Offense
     .word 60|MSG1           ; Defense
-    .byte 60                ; Fight
-    .byte 80                ; Speed
-    .byte 80                ; Wisdom
-    .byte 80                ; Strength
-    .byte 80                ; Force
-    .byte 1, 1, 1, 1, 1, 1, 1, 1; Attacks
+    .byte 60    ; Fight
+    .byte 80    ; Speed
+    .byte 80    ; Wisdom
+    .byte 80    ; Strength
+    .byte 80    ; Force
+    .byte 1, 1, 1, 1, 1, 1, 1, 1; ATTACKs
     .word sBuffalo          ; Name
-    .word 78                ; Experience
-    .word 36                ; Money
-    .byte 0                 ; Item
+    .word 78    ; Experience
+    .word 36    ; Money
+    .byte 0     ; Item
     .byte $2C               ; TilePage
 
 ;Buffalo:
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte NO_RESIST         ; Flags
     .word 150|TILE2|TILE1   ; HP
-    .word 0                 ; PP
-    .word 68                ; Offense
+    .word 0     ; PP
+    .word 68    ; Offense
     .word 150|MSG1          ; Defense
-    .byte 60                ; Fight
-    .byte 43                ; Speed
-    .byte 40                ; Wisdom
-    .byte 40                ; Strength
-    .byte 20                ; Force
-    .byte 1, 1, 1, 1, 1, 1, 1, 1; Attacks
+    .byte 60    ; Fight
+    .byte 43    ; Speed
+    .byte 40    ; Wisdom
+    .byte 40    ; Strength
+    .byte 20    ; Force
+    .byte 1, 1, 1, 1, 1, 1, 1, 1; ATTACKs
     .word sBuffalo          ; Name
     .word 103               ; Experience
-    .word 95                ; Money
-    .byte 0                 ; Item
+    .word 95    ; Money
+    .byte 0     ; Item
     .byte $2C               ; TilePage
 
 ;BionicBat1:
     .import sBionicBat
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte NO_RESIST         ; Flags
     .word 180               ; HP
     .word 120               ; PP
-    .word 35                ; Offense
-    .word 20                ; Defense
-    .byte 50                ; Fight
-    .byte 5                 ; Speed
-    .byte 5                 ; Wisdom
-    .byte 45                ; Strength
-    .byte 30                ; Force
-    .byte 1, 1, 1, 1, 1, 1, 1, 1; Attacks
+    .word 35    ; Offense
+    .word 20    ; Defense
+    .byte 50    ; Fight
+    .byte 5     ; Speed
+    .byte 5     ; Wisdom
+    .byte 45    ; Strength
+    .byte 30    ; Force
+    .byte 1, 1, 1, 1, 1, 1, 1, 1; ATTACKs
     .word sBionicBat        ; Name
-    .word 0                 ; Experience
-    .word 0                 ; Money
-    .byte 0                 ; Item
-    .byte 0                 ; TilePage
+    .word 0     ; Experience
+    .word 0     ; Money
+    .byte 0     ; Item
+    .byte 0     ; TilePage
 
 ;BionicBat:
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte NO_RESIST         ; Flags
     .word 50|TILE8|TILE2          ; HP
-    .word 0                 ; PP
+    .word 0     ; PP
     .word 34|ALTITUDE4      ; Offense
     .word 64|MSG1           ; Defense
-    .byte 20                ; Fight
-    .byte 35                ; Speed
-    .byte 50                ; Wisdom
-    .byte 60                ; Strength
-    .byte 30                ; Force
-    .byte 73, 73, 84, 84, 1, 1, 1, 62; Attacks
+    .byte 20    ; Fight
+    .byte 35    ; Speed
+    .byte 50    ; Wisdom
+    .byte 60    ; Strength
+    .byte 30    ; Force
+    .byte 73, 73, 84, 84, 1, 1, 1, 62; ATTACKs
     .word sBionicBat        ; Name
-    .word 40                ; Experience
-    .word 34                ; Money
-    .byte 0                 ; Item
+    .word 40    ; Experience
+    .word 34    ; Money
+    .byte 0     ; Item
     .byte $29               ; TilePage
 
 ;StrayDog:
     .import sStrayDog
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte NO_RESIST         ; Flags
     .word 16|COLOR3|TILE4   ; HP
     .word EXTRA8|EXTRA4     ; PP
-    .word 8                 ; Offense
+    .word 8     ; Offense
     .word 10|MSG1           ; Defense
-    .byte 8                 ; Fight
-    .byte 12                ; Speed
-    .byte 2                 ; Wisdom
-    .byte 5                 ; Strength
-    .byte 8                 ; Force
-    .byte 3, 3, 3, 3, 3, 3, 3, 3; Attacks
+    .byte 8     ; Fight
+    .byte 12    ; Speed
+    .byte 2     ; Wisdom
+    .byte 5     ; Strength
+    .byte 8     ; Force
+    .byte 3, 3, 3, 3, 3, 3, 3, 3; ATTACKs
     .word sStrayDog         ; Name
-    .word 4                 ; Experience
-    .word 10                ; Money
-    .byte 27                ; Item
+    .word 4     ; Experience
+    .word 10    ; Money
+    .byte 27    ; Item
     .byte $36               ; TilePage
 
 ;PsychoCar:
     .import sPsychoCar
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte IMMUNE_SLEEP_DEFDOWN|IMMUNE_STATUS_EFFECTS  ; Flags
     .word 40|COLOR1|TILE4   ; HP
-    .word 0                 ; PP
-    .word 18                ; Offense
+    .word 0     ; PP
+    .word 18    ; Offense
     .word 40|MSG6           ; Defense
-    .byte 45                ; Fight
-    .byte 40                ; Speed
-    .byte 35                ; Wisdom
+    .byte 45    ; Fight
+    .byte 40    ; Speed
+    .byte 35    ; Wisdom
     .byte 100               ; Strength
     .byte 100               ; Force
-    .byte 6, 50, 6, 6, 6, 6, 6, 6; Attacks
+    .byte 6, 50, 6, 6, 6, 6, 6, 6; ATTACKs
     .word sPsychoCar        ; Name
-    .word 61                ; Experience
-    .word 45                ; Money
-    .byte 0                 ; Item
+    .word 61    ; Experience
+    .word 45    ; Money
+    .byte 0     ; Item
     .byte $2E               ; TilePage
 
 ;PsychoTruck:
     .import sPsychoTruck
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte IMMUNE_SLEEP_DEFDOWN|IMMUNE_STATUS_EFFECTS  ; Flags
     .word 58|COLOR1|TILE2   ; HP
-    .word 0                 ; PP
-    .word 20                ; Offense
+    .word 0     ; PP
+    .word 20    ; Offense
     .word 40|MSG6           ; Defense
-    .byte 30                ; Fight
-    .byte 32                ; Speed
-    .byte 35                ; Wisdom
+    .byte 30    ; Fight
+    .byte 32    ; Speed
+    .byte 35    ; Wisdom
     .byte 100               ; Strength
     .byte 100               ; Force
-    .byte 6, 6, 50, 50, 6, 6, 6, 50; Attacks
+    .byte 6, 6, 50, 50, 6, 6, 6, 50; ATTACKs
     .word sPsychoTruck      ; Name
-    .word 34                ; Experience
-    .word 27                ; Money
-    .byte 0                 ; Item
+    .word 34    ; Experience
+    .word 27    ; Money
+    .byte 0     ; Item
     .byte $26               ; TilePage
 
 ;ManiacTruck:
     .import sManiacTruck
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte IMMUNE_SLEEP_DEFDOWN|IMMUNE_STATUS_EFFECTS  ; Flags
     .word 80|COLOR3|TILE2   ; HP
-    .word 0                 ; PP
-    .word 34                ; Offense
+    .word 0     ; PP
+    .word 34    ; Offense
     .word 48|MSG6           ; Defense
-    .byte 45                ; Fight
-    .byte 35                ; Speed
-    .byte 35                ; Wisdom
+    .byte 45    ; Fight
+    .byte 35    ; Speed
+    .byte 35    ; Wisdom
     .byte 100               ; Strength
     .byte 100               ; Force
-    .byte 50, 50, 6, 6, 50, 6, 6, 50; Attacks
+    .byte 50, 50, 6, 6, 50, 6, 6, 50; ATTACKs
     .word sManiacTruck      ; Name
-    .word 75                ; Experience
-    .word 58                ; Money
-    .byte 0                 ; Item
+    .word 75    ; Experience
+    .word 58    ; Money
+    .byte 0     ; Item
     .byte $26               ; TilePage
 
 ;AlarmGhost:
     .import sAlarmGhost
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte IMMUNE_STATUS_EFFECTS ; Flags
     .word 100|COLOR3|TILE8|TILE2  ; HP
-    .word 0                 ; PP
+    .word 0     ; PP
     .word 30|ALTITUDE2      ; Offense
     .word 160|MSG7          ; Defense
-    .byte 50                ; Fight
-    .byte 90                ; Speed
-    .byte 50                ; Wisdom
-    .byte 60                ; Strength
-    .byte 30                ; Force
-    .byte 73, 73, 73, 73, 1, 1, 1, 1; Attacks
+    .byte 50    ; Fight
+    .byte 90    ; Speed
+    .byte 50    ; Wisdom
+    .byte 60    ; Strength
+    .byte 30    ; Force
+    .byte 73, 73, 73, 73, 1, 1, 1, 1; ATTACKs
     .word sAlarmGhost       ; Name
-    .word 80                ; Experience
-    .word 27                ; Money
-    .byte 0                 ; Item
+    .word 80    ; Experience
+    .word 27    ; Money
+    .byte 0     ; Item
     .byte $3A               ; TilePage
 
 ;Foureyes1:
     .import sFoureyes
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte NO_RESIST         ; Flags
     .word 180               ; HP
     .word 120               ; PP
-    .word 35                ; Offense
-    .word 20                ; Defense
-    .byte 50                ; Fight
-    .byte 5                 ; Speed
-    .byte 5                 ; Wisdom
-    .byte 45                ; Strength
-    .byte 30                ; Force
-    .byte 1, 1, 1, 1, 1, 1, 1, 1; Attacks
+    .word 35    ; Offense
+    .word 20    ; Defense
+    .byte 50    ; Fight
+    .byte 5     ; Speed
+    .byte 5     ; Wisdom
+    .byte 45    ; Strength
+    .byte 30    ; Force
+    .byte 1, 1, 1, 1, 1, 1, 1, 1; ATTACKs
     .word sFoureyes         ; Name
-    .word 0                 ; Experience
-    .word 0                 ; Money
-    .byte 0                 ; Item
-    .byte 0                 ; TilePage
+    .word 0     ; Experience
+    .word 0     ; Money
+    .byte 0     ; Item
+    .byte 0     ; TilePage
 
 ;Foureyes:
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte NO_RESIST         ; Flags
     .word 40|COLOR1|TILE8|TILE4|TILE2|TILE1   ; HP
-    .word 0                 ; PP
+    .word 0     ; PP
     .word 22|ALTITUDE1      ; Offense
     .word 32|MSG2           ; Defense
-    .byte 20                ; Fight
-    .byte 40                ; Speed
-    .byte 20                ; Wisdom
-    .byte 20                ; Strength
-    .byte 20                ; Force
-    .byte 93, 93, 93, 1, 1, 1, 1, 1; Attacks
+    .byte 20    ; Fight
+    .byte 40    ; Speed
+    .byte 20    ; Wisdom
+    .byte 20    ; Strength
+    .byte 20    ; Force
+    .byte 93, 93, 93, 1, 1, 1, 1, 1; ATTACKs
     .word sFoureyes         ; Name
-    .word 32                ; Experience
-    .word 26                ; Money
-    .byte 0                 ; Item
+    .word 32    ; Experience
+    .word 26    ; Money
+    .byte 0     ; Item
     .byte $27               ; TilePage
 
 ;Dadseyes:
     .import sDadseyes
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte NO_RESIST         ; Flags
     .word 40|COLOR1|TILE8|TILE4|TILE2   ; HP
     .word EXTRA1            ; PP
     .word 20|ALTITUDE1      ; Offense
     .word 32|MSG2           ; Defense
-    .byte 20                ; Fight
-    .byte 20                ; Speed
-    .byte 20                ; Wisdom
-    .byte 20                ; Strength
-    .byte 20                ; Force
-    .byte 40, 40, 40, 1, 1, 1, 1, 1; Attacks
+    .byte 20    ; Fight
+    .byte 20    ; Speed
+    .byte 20    ; Wisdom
+    .byte 20    ; Strength
+    .byte 20    ; Force
+    .byte 40, 40, 40, 1, 1, 1, 1, 1; ATTACKs
     .word sDadseyes         ; Name
-    .word 35                ; Experience
-    .word 53                ; Money
-    .byte 0                 ; Item
+    .word 35    ; Experience
+    .word 53    ; Money
+    .byte 0     ; Item
     .byte $27               ; TilePage
 
 ;Momseyes:
     .import sMomseyes
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte NO_RESIST         ; Flags
     .word 40|COLOR1|TILE8|TILE4|TILE2   ; HP
     .word EXTRA2            ; PP
     .word 24|ALTITUDE2      ; Offense
     .word 20|MSG2           ; Defense
-    .byte 50                ; Fight
-    .byte 50                ; Speed
-    .byte 20                ; Wisdom
-    .byte 20                ; Strength
-    .byte 20                ; Force
-    .byte 2, 2, 2, 2, 2, 2, 2, 2; Attacks
+    .byte 50    ; Fight
+    .byte 50    ; Speed
+    .byte 20    ; Wisdom
+    .byte 20    ; Strength
+    .byte 20    ; Force
+    .byte 2, 2, 2, 2, 2, 2, 2, 2; ATTACKs
     .word sMomseyes         ; Name
-    .word 35                ; Experience
-    .word 34                ; Money
-    .byte 0                 ; Item
+    .word 35    ; Experience
+    .word 34    ; Money
+    .byte 0     ; Item
     .byte $27               ; TilePage
 
 ;SkyYddet1:
     .import sSkyYddet
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte NO_RESIST         ; Flags
     .word 180|COLOR2|TILE4  ; HP
     .word 120               ; PP
-    .word 35                ; Offense
-    .word 20                ; Defense
-    .byte 50                ; Fight
-    .byte 5                 ; Speed
-    .byte 5                 ; Wisdom
-    .byte 45                ; Strength
-    .byte 30                ; Force
-    .byte 1, 1, 1, 1, 1, 1, 1, 1; Attacks
+    .word 35    ; Offense
+    .word 20    ; Defense
+    .byte 50    ; Fight
+    .byte 5     ; Speed
+    .byte 5     ; Wisdom
+    .byte 45    ; Strength
+    .byte 30    ; Force
+    .byte 1, 1, 1, 1, 1, 1, 1, 1; ATTACKs
     .word sSkyYddet         ; Name
-    .word 0                 ; Experience
-    .word 0                 ; Money
-    .byte 0                 ; Item
+    .word 0     ; Experience
+    .word 0     ; Money
+    .byte 0     ; Item
     .byte $2F               ; TilePage
 
 ;SkyYddet2:
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte NO_RESIST         ; Flags
     .word 180|COLOR3|TILE4  ; HP
     .word 120               ; PP
-    .word 35                ; Offense
-    .word 20                ; Defense
-    .byte 50                ; Fight
-    .byte 5                 ; Speed
-    .byte 5                 ; Wisdom
-    .byte 45                ; Strength
-    .byte 30                ; Force
-    .byte 1, 1, 1, 1, 1, 1, 1, 1; Attacks
+    .word 35    ; Offense
+    .word 20    ; Defense
+    .byte 50    ; Fight
+    .byte 5     ; Speed
+    .byte 5     ; Wisdom
+    .byte 45    ; Strength
+    .byte 30    ; Force
+    .byte 1, 1, 1, 1, 1, 1, 1, 1; ATTACKs
     .word sSkyYddet         ; Name
-    .word 0                 ; Experience
-    .word 0                 ; Money
-    .byte 0                 ; Item
+    .word 0     ; Experience
+    .word 0     ; Money
+    .byte 0     ; Item
     .byte $2F               ; TilePage
 
 ;SkyYddet:
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte NO_RESIST         ; Flags
     .word 74|COLOR3|TILE4   ; HP
     .word EXTRA16           ; PP
     .word 24|ALTITUDE2      ; Offense
     .word 50|MSG2           ; Defense
-    .byte 20                ; Fight
-    .byte 30                ; Speed
-    .byte 20                ; Wisdom
-    .byte 50                ; Strength
-    .byte 20                ; Force
-    .byte 79, 79, 79, 79, 79, 79, 7, 7; Attacks
+    .byte 20    ; Fight
+    .byte 30    ; Speed
+    .byte 20    ; Wisdom
+    .byte 50    ; Strength
+    .byte 20    ; Force
+    .byte 79, 79, 79, 79, 79, 79, 7, 7; ATTACKs
     .word sSkyYddet         ; Name
-    .word 40                ; Experience
-    .word 23                ; Money
-    .byte 73                ; Item
+    .word 40    ; Experience
+    .word 23    ; Money
+    .byte 73    ; Item
     .byte $2F               ; TilePage
 
 ;GigaBorg1:
     .import sGigaBorg
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte NO_RESIST         ; Flags
     .word 180|COLOR3|TILE2  ; HP
     .word 120               ; PP
-    .word 35                ; Offense
-    .word 20                ; Defense
-    .byte 50                ; Fight
-    .byte 5                 ; Speed
-    .byte 5                 ; Wisdom
-    .byte 45                ; Strength
-    .byte 30                ; Force
-    .byte 1, 1, 1, 1, 1, 1, 1, 1; Attacks
+    .word 35    ; Offense
+    .word 20    ; Defense
+    .byte 50    ; Fight
+    .byte 5     ; Speed
+    .byte 5     ; Wisdom
+    .byte 45    ; Strength
+    .byte 30    ; Force
+    .byte 1, 1, 1, 1, 1, 1, 1, 1; ATTACKs
     .word sGigaBorg         ; Name
-    .word 0                 ; Experience
-    .word 0                 ; Money
-    .byte 0                 ; Item
+    .word 0     ; Experience
+    .word 0     ; Money
+    .byte 0     ; Item
     .byte $28               ; TilePage
 
 ;GigaBorg:
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte RESIST_PK_BEAM|IMMUNE_SLEEP_DEFDOWN|ENEMY_FLAGS_8|RESIST_PK_THUNDER|RESIST_PK_FREEZE|RESIST_PK_FIRE|IMMUNE_STATUS_EFFECTS ; Flags
     .word 180|COLOR3|TILE2  ; HP
-    .word 80                ; PP
+    .word 80    ; PP
     .word 100               ; Offense
     .word 180|MSG3          ; Defense
-    .byte 80                ; Fight
-    .byte 60                ; Speed
-    .byte 80                ; Wisdom
+    .byte 80    ; Fight
+    .byte 60    ; Speed
+    .byte 80    ; Wisdom
     .byte 100               ; Strength
     .byte 100               ; Force
-    .byte 18, 21, 18, 18, 19, 18, 18, 18; Attacks
+    .byte 18, 21, 18, 18, 19, 18, 18, 18; ATTACKs
     .word sGigaBorg         ; Name
-    .word 98                ; Experience
+    .word 98    ; Experience
     .word 143               ; Money
-    .byte 37                ; Item
+    .byte 37    ; Item
     .byte $28               ; TilePage
 
 ;OmegaBorg:
     .import sOmegaBorg
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte RESIST_PK_BEAM|IMMUNE_SLEEP_DEFDOWN|ENEMY_FLAGS_8|RESIST_PK_THUNDER|RESIST_PK_FREEZE|RESIST_PK_FIRE|IMMUNE_STATUS_EFFECTS ; Flags
     .word 230|COLOR2|TILE2  ; HP
     .word 150               ; PP
@@ -2440,153 +2441,153 @@ EnemyList:
     .word 200|MSG3          ; Defense
     .byte 200               ; Fight
     .byte 100               ; Speed
-    .byte 90                ; Wisdom
+    .byte 90    ; Wisdom
     .byte 100               ; Strength
     .byte 100               ; Force
-    .byte 21, 19, 19, 10, 10, 131, 1, 14; Attacks
+    .byte 21, 19, 19, 10, 10, 131, 1, 14; ATTACKs
     .word sOmegaBorg        ; Name
     .word 180               ; Experience
     .word 205               ; Money
-    .byte 0                 ; Item
+    .byte 0     ; Item
     .byte $28               ; TilePage
 
 ;Scrapper:
     .import sScrapper
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte RESIST_PK_BEAM|IMMUNE_SLEEP_DEFDOWN|IMMUNE_STATUS_EFFECTS ; Flags
     .word 70|TILE2          ; HP
     .word 30|EXTRA4|EXTRA2|EXTRA1 ; PP
-    .word 26                ; Offense
+    .word 26    ; Offense
     .word 76|MSG3           ; Defense
-    .byte 25                ; Fight
-    .byte 20                ; Speed
-    .byte 20                ; Wisdom
+    .byte 25    ; Fight
+    .byte 20    ; Speed
+    .byte 20    ; Wisdom
     .byte 100               ; Strength
     .byte 100               ; Force
-    .byte 83, 83, 1, 1, 1, 18, 18, 18; Attacks
+    .byte 83, 83, 1, 1, 1, 18, 18, 18; ATTACKs
     .word sScrapper         ; Name
-    .word 65                ; Experience
-    .word 38                ; Money
-    .byte 37                ; Item
+    .word 65    ; Experience
+    .word 38    ; Money
+    .byte 37    ; Item
     .byte $27               ; TilePage
 
 ;UltraBarbot:
     .import sUltraBarbot
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte IMMUNE_SLEEP_DEFDOWN|RESIST_PK_THUNDER|RESIST_PK_FIRE|IMMUNE_STATUS_EFFECTS ; Flags
     .word 80|COLOR2|TILE4|TILE1   ; HP
-    .word 50                ; PP
-    .word 54                ; Offense
+    .word 50    ; PP
+    .word 54    ; Offense
     .word 80|MSG3           ; Defense
-    .byte 30                ; Fight
-    .byte 50                ; Speed
-    .byte 40                ; Wisdom
+    .byte 30    ; Fight
+    .byte 50    ; Speed
+    .byte 40    ; Wisdom
     .byte 100               ; Strength
     .byte 100               ; Force
-    .byte 1, 21, 1, 1, 1, 1, 1, 1; Attacks
+    .byte 1, 21, 1, 1, 1, 1, 1, 1; ATTACKs
     .word sUltraBarbot      ; Name
     .word 220               ; Experience
-    .word 87                ; Money
-    .byte 38                ; Item
+    .word 87    ; Money
+    .byte 38    ; Item
     .byte $31               ; TilePage
 
 ;OmegaSaucer:
     .import sOmegaSaucer
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte IMMUNE_SLEEP_DEFDOWN|IMMUNE_STATUS_EFFECTS  ; Flags
     .word 65|COLOR1|TILE8|TILE2   ; HP
-    .word 50                ; PP
+    .word 50    ; PP
     .word 42|3072|ALTITUDE4 ; Offense
     .word 50|MSG3           ; Defense
-    .byte 20                ; Fight
-    .byte 60                ; Speed
-    .byte 40                ; Wisdom
+    .byte 20    ; Fight
+    .byte 60    ; Speed
+    .byte 40    ; Wisdom
     .byte 100               ; Strength
     .byte 100               ; Force
-    .byte 18, 1, 56, 1, 1, 1, 1, 1; Attacks
+    .byte 18, 1, 56, 1, 1, 1, 1, 1; ATTACKs
     .word sOmegaSaucer      ; Name
-    .word 82                ; Experience
-    .word 57                ; Money
-    .byte 0                 ; Item
+    .word 82    ; Experience
+    .word 57    ; Money
+    .byte 0     ; Item
     .byte $28               ; TilePage
 
 ;Kelly:
     .import sKelly
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte RESIST_PK_BEAM|IMMUNE_SLEEP_DEFDOWN|IMMUNE_STATUS_EFFECTS ; Flags
     .word 120|COLOR2|TILE4|TILE1  ; HP
     .word 80|EXTRA8|EXTRA4|EXTRA1 ; PP
-    .word 80                ; Offense
+    .word 80    ; Offense
     .word 150|MSG3          ; Defense
-    .byte 50                ; Fight
-    .byte 70                ; Speed
-    .byte 60                ; Wisdom
+    .byte 50    ; Fight
+    .byte 70    ; Speed
+    .byte 60    ; Wisdom
     .byte 100               ; Strength
     .byte 100               ; Force
-    .byte 107, 98, 49, 1, 107, 1, 1, 1; Attacks
+    .byte 107, 98, 49, 1, 107, 1, 1, 1; ATTACKs
     .word sKelly            ; Name
     .word 102               ; Experience
-    .word 88                ; Money
-    .byte 0                 ; Item
+    .word 88    ; Money
+    .byte 0     ; Item
     .byte $32               ; TilePage
 
 ;StarMiner:
     .import sStarMiner
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte IMMUNE_SLEEP_DEFDOWN|IMMUNE_STATUS_EFFECTS  ; Flags
     .word 200|TILE8|TILE2         ; HP
-    .word 0                 ; PP
+    .word 0     ; PP
     .word 140               ; Offense
     .word 200|MSG3          ; Defense
     .byte 100               ; Fight
     .byte 100               ; Speed
-    .byte 60                ; Wisdom
+    .byte 60    ; Wisdom
     .byte 100               ; Strength
     .byte 100               ; Force
-    .byte 70, 16, 70, 16, 16, 16, 16, 1; Attacks
+    .byte 70, 16, 70, 16, 16, 16, 16, 1; ATTACKs
     .word sStarMiner        ; Name
     .word 209               ; Experience
     .word 138               ; Money
-    .byte 36                ; Item
+    .byte 36    ; Item
     .byte $3B               ; TilePage
 
 ;SuperEnergy:
     .import sSuperEnergy
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte IMMUNE_SLEEP_DEFDOWN|IMMUNE_STATUS_EFFECTS  ; Flags
     .word 120|COLOR2|TILE8|TILE2  ; HP
-    .word 0                 ; PP
+    .word 0     ; PP
     .word 50|EXPLODE        ; Offense
     .word 120|MSG3          ; Defense
-    .byte 30                ; Fight
-    .byte 35                ; Speed
-    .byte 60                ; Wisdom
+    .byte 30    ; Fight
+    .byte 35    ; Speed
+    .byte 60    ; Wisdom
     .byte 100               ; Strength
     .byte 100               ; Force
-    .byte 46, 46, 46, 46, 1, 1, 1, 1; Attacks
+    .byte 46, 46, 46, 46, 1, 1, 1, 1; ATTACKs
     .word sSuperEnergy      ; Name
     .word 230               ; Experience
     .word 260               ; Money
-    .byte 0                 ; Item
+    .byte 0     ; Item
     .byte $2C               ; TilePage
 
 ;Juana:
     .import sJuana
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte RESIST_PK_BEAM|IMMUNE_SLEEP_DEFDOWN|ENEMY_FLAGS_8|RESIST_PK_THUNDER|RESIST_PK_FREEZE|RESIST_PK_FIRE|IMMUNE_STATUS_EFFECTS ; Flags
     .word 300|COLOR3|TILE4|TILE1  ; HP
     .word 200|EXTRA8|EXTRA4|EXTRA2 ; PP
@@ -2597,193 +2598,193 @@ EnemyList:
     .byte 100               ; Wisdom
     .byte 100               ; Strength
     .byte 100               ; Force
-    .byte 24, 131, 10, 107, 11, 21, 1, 1; Attacks
+    .byte 24, 131, 10, 107, 11, 21, 1, 1; ATTACKs
     .word sJuana            ; Name
     .word 270               ; Experience
     .word 362               ; Money
-    .byte 73                ; Item
+    .byte 73    ; Item
     .byte $32               ; TilePage
 
 ;BlueStarman:
     .import sBlueStarman
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte NO_RESIST         ; Flags
     .word 100|COLOR2|TILE4|TILE1  ; HP
-    .word 80                ; PP
-    .word 74                ; Offense
+    .word 80    ; PP
+    .word 74    ; Offense
     .word 120|MSG2          ; Defense
-    .byte 40                ; Fight
-    .byte 42                ; Speed
-    .byte 60                ; Wisdom
-    .byte 50                ; Strength
-    .byte 45                ; Force
-    .byte 18, 19, 56, 83, 83, 21, 1, 1; Attacks
+    .byte 40    ; Fight
+    .byte 42    ; Speed
+    .byte 60    ; Wisdom
+    .byte 50    ; Strength
+    .byte 45    ; Force
+    .byte 18, 19, 56, 83, 83, 21, 1, 1; ATTACKs
     .word sBlueStarman      ; Name
     .word 150               ; Experience
-    .word 91                ; Money
-    .byte 0                 ; Item
+    .word 91    ; Money
+    .byte 0     ; Item
     .byte $33               ; TilePage
 
 ;Rockoyle:
     .import sRockoyle
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte IMMUNE_SLEEP_DEFDOWN ; Flags
     .word 120|COLOR1|TILE2|TILE1 ; HP
-    .word 60                ; PP
+    .word 60    ; PP
     .word 70|ALTITUDE2      ; Offense
     .word 150|MSG2          ; Defense
-    .byte 60                ; Fight
-    .byte 65                ; Speed
+    .byte 60    ; Fight
+    .byte 65    ; Speed
     .byte 120               ; Wisdom
-    .byte 30                ; Strength
+    .byte 30    ; Strength
     .byte 100               ; Force
-    .byte 13, 64, 14, 15, 1, 1, 1, 1; Attacks
+    .byte 13, 64, 14, 15, 1, 1, 1, 1; ATTACKs
     .word sRockoyle         ; Name
     .word 162               ; Experience
-    .word 93                ; Money
-    .byte 0                 ; Item
+    .word 93    ; Money
+    .byte 0     ; Item
     .byte $29               ; TilePage
 
 ;Titanian:
     .import sTitanian
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte IMMUNE_SLEEP_DEFDOWN|ENEMY_FLAGS_8 ; Flags
     .word 320|COLOR3|TILE4  ; HP
-    .word 0                 ; PP
+    .word 0     ; PP
     .word 100               ; Offense
     .word 420|MSG2          ; Defense
-    .byte 60                ; Fight
-    .byte 70                ; Speed
+    .byte 60    ; Fight
+    .byte 70    ; Speed
     .byte 200               ; Wisdom
-    .byte 80                ; Strength
-    .byte 25                ; Force
-    .byte 98, 98, 98, 1, 1, 1, 1, 62; Attacks
+    .byte 80    ; Strength
+    .byte 25    ; Force
+    .byte 98, 98, 98, 1, 1, 1, 1, 62; ATTACKs
     .word sTitanian         ; Name
     .word 180               ; Experience
     .word 130               ; Money
-    .byte 0                 ; Item
+    .byte 0     ; Item
     .byte $33               ; TilePage
 
 ;OhMook:
     .import sOhMook
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte IMMUNE_SLEEP_DEFDOWN|RESIST_PK_FREEZE ; Flags
     .word 160|COLOR1|TILE4|TILE1  ; HP
     .word 250               ; PP
-    .word 60                ; Offense
+    .word 60    ; Offense
     .word 140|MSG2          ; Defense
     .byte 100               ; Fight
-    .byte 65                ; Speed
+    .byte 65    ; Speed
     .byte 250               ; Wisdom
     .byte 100               ; Strength
     .byte 100               ; Force
-    .byte 10, 13, 66, 75, 43, 29, 49, 54; Attacks
+    .byte 10, 13, 66, 75, 43, 29, 49, 54; ATTACKs
     .word sOhMook           ; Name
     .word 175               ; Experience
     .word 110               ; Money
-    .byte 0                 ; Item
+    .byte 0     ; Item
     .byte $34               ; TilePage
 
 ;Zombie1:
     .import sZombie
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte NO_RESIST         ; Flags
     .word 180               ; HP
     .word 120               ; PP
-    .word 35                ; Offense
-    .word 20                ; Defense
-    .byte 50                ; Fight
-    .byte 5                 ; Speed
-    .byte 5                 ; Wisdom
-    .byte 45                ; Strength
-    .byte 30                ; Force
-    .byte 1, 1, 1, 1, 1, 1, 1, 1; Attacks
+    .word 35    ; Offense
+    .word 20    ; Defense
+    .byte 50    ; Fight
+    .byte 5     ; Speed
+    .byte 5     ; Wisdom
+    .byte 45    ; Strength
+    .byte 30    ; Force
+    .byte 1, 1, 1, 1, 1, 1, 1, 1; ATTACKs
     .word sZombie           ; Name
-    .word 0                 ; Experience
-    .word 0                 ; Money
-    .byte 0                 ; Item
-    .byte 0                 ; TilePage
+    .word 0     ; Experience
+    .word 0     ; Money
+    .byte 0     ; Item
+    .byte 0     ; TilePage
 
 ;Zombie:
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte IMMUNE_STATUS_EFFECTS ; Flags
     .word 70|COLOR2|TILE8   ; HP
-    .word 50                ; PP
-    .word 50                ; Offense
+    .word 50    ; PP
+    .word 50    ; Offense
     .word 80|MSG4           ; Defense
-    .byte 45                ; Fight
-    .byte 48                ; Speed
-    .byte 80                ; Wisdom
-    .byte 60                ; Strength
-    .byte 15                ; Force
-    .byte 66, 66, 66, 76, 76, 76, 76, 1; Attacks
+    .byte 45    ; Fight
+    .byte 48    ; Speed
+    .byte 80    ; Wisdom
+    .byte 60    ; Strength
+    .byte 15    ; Force
+    .byte 66, 66, 66, 76, 76, 76, 76, 1; ATTACKs
     .word sZombie           ; Name
-    .word 48                ; Experience
-    .word 43                ; Money
-    .byte 0                 ; Item
+    .word 48    ; Experience
+    .word 43    ; Money
+    .byte 0     ; Item
     .byte $3C               ; TilePage
 
 ;NastyZombie:
     .import sNastyZombie
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte IMMUNE_STATUS_EFFECTS ; Flags
     .word 90|COLOR2|TILE4|TILE2|TILE1   ; HP
-    .word 0                 ; PP
-    .word 62                ; Offense
+    .word 0     ; PP
+    .word 62    ; Offense
     .word 90|MSG4           ; Defense
-    .byte 30                ; Fight
-    .byte 30                ; Speed
-    .byte 50                ; Wisdom
-    .byte 60                ; Strength
-    .byte 20                ; Force
-    .byte 1, 1, 1, 1, 1, 1, 1, 1; Attacks
+    .byte 30    ; Fight
+    .byte 30    ; Speed
+    .byte 50    ; Wisdom
+    .byte 60    ; Strength
+    .byte 20    ; Force
+    .byte 1, 1, 1, 1, 1, 1, 1, 1; ATTACKs
     .word sNastyZombie      ; Name
-    .word 54                ; Experience
-    .word 58                ; Money
-    .byte 0                 ; Item
+    .word 54    ; Experience
+    .word 58    ; Money
+    .byte 0     ; Item
     .byte $3C               ; TilePage
 
 ;SilverWolf:
     .import sSilverWolf
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte RESIST_PK_FREEZE  ; Flags
     .word 80|COLOR2|TILE4   ; HP
-    .word 0                 ; PP
-    .word 44                ; Offense
+    .word 0     ; PP
+    .word 44    ; Offense
     .word 76|MSG1           ; Defense
-    .byte 40                ; Fight
-    .byte 42                ; Speed
-    .byte 30                ; Wisdom
-    .byte 30                ; Strength
-    .byte 25                ; Force
-    .byte 3, 3, 3, 3, 3, 3, 3, 3; Attacks
+    .byte 40    ; Fight
+    .byte 42    ; Speed
+    .byte 30    ; Wisdom
+    .byte 30    ; Strength
+    .byte 25    ; Force
+    .byte 3, 3, 3, 3, 3, 3, 3, 3; ATTACKs
     .word sSilverWolf       ; Name
-    .word 66                ; Experience
-    .word 43                ; Money
-    .byte 0                 ; Item
+    .word 66    ; Experience
+    .word 43    ; Money
+    .byte 0     ; Item
     .byte $36               ; TilePage
 
 ;R7037:
     .import sR7037
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte RESIST_PK_BEAM|IMMUNE_SLEEP_DEFDOWN|ENEMY_FLAGS_8|RESIST_PK_THUNDER|RESIST_PK_FREEZE|RESIST_PK_FIRE|IMMUNE_STATUS_EFFECTS ; Flags
     .word 1000|TILE1        ; HP
     .word EXTRA4            ; PP
@@ -2791,80 +2792,80 @@ EnemyList:
     .word 600|MSG3          ; Defense
     .byte 100               ; Fight
     .byte 100               ; Speed
-    .byte 40                ; Wisdom
+    .byte 40    ; Wisdom
     .byte 100               ; Strength
     .byte 100               ; Force
-    .byte 1, 1, 1, 1, 1, 1, 1, 1; Attacks
+    .byte 1, 1, 1, 1, 1, 1, 1, 1; ATTACKs
     .word sR7037            ; Name
     .word 205               ; Experience
-    .word 71                ; Money
-    .byte 0                 ; Item
+    .word 71    ; Money
+    .byte 0     ; Item
     .byte $22               ; TilePage
 
 ;GrizzlyBear:
     .import sGrizzlyBear
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte NO_RESIST         ; Flags
     .word 340|COLOR2|TILE2  ; HP
-    .word 0                 ; PP
+    .word 0     ; PP
     .word 160               ; Offense
     .word 340|MSG1          ; Defense
     .byte 100               ; Fight
     .byte 100               ; Speed
-    .byte 60                ; Wisdom
+    .byte 60    ; Wisdom
     .byte 100               ; Strength
-    .byte 25                ; Force
-    .byte 2, 2, 2, 4, 5, 2, 2, 7; Attacks
+    .byte 25    ; Force
+    .byte 2, 2, 2, 4, 5, 2, 2, 7; ATTACKs
     .word sGrizzlyBear      ; Name
     .word 250               ; Experience
-    .word 65                ; Money
-    .byte 0                 ; Item
+    .word 65    ; Money
+    .byte 0     ; Item
     .byte $2B               ; TilePage
 
 ;R7038XX:
     .import sR7038XX
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte RESIST_PK_BEAM|IMMUNE_SLEEP_DEFDOWN|RESIST_PK_THUNDER|RESIST_PK_FREEZE|RESIST_PK_FIRE|IMMUNE_STATUS_EFFECTS  ; Flags
     .word 1000|COLOR3|TILE1 ; HP
     .word EXTRA4|EXTRA2     ; PP
     .word 900               ; Offense
     .word 1000|MSG3         ; Defense
-    .byte 60                ; Fight
-    .byte 60                ; Speed
-    .byte 60                ; Wisdom
+    .byte 60    ; Fight
+    .byte 60    ; Speed
+    .byte 60    ; Wisdom
     .byte 100               ; Strength
     .byte 100               ; Force
-    .byte 1, 1, 1, 1, 1, 1, 1, 1; Attacks
+    .byte 1, 1, 1, 1, 1, 1, 1, 1; ATTACKs
     .word sR7038XX          ; Name
     .word 550               ; Experience
     .word 180               ; Money
-    .byte 0                 ; Item
+    .byte 0     ; Item
     .byte $22               ; TilePage
 
 ;LastStarman:
     .import sLastStarman
 
-    .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0     ; field_0
+    .byte 0     ; Status
     .byte NO_RESIST         ; Flags
     .word 120|COLOR2|TILE4|TILE1  ; HP
     .word 100               ; PP
-    .word 90                ; Offense
+    .word 90    ; Offense
     .word 140|MSG2          ; Defense
-    .byte 70                ; Fight
-    .byte 60                ; Speed
-    .byte 60                ; Wisdom
-    .byte 80                ; Strength
-    .byte 50                ; Force
-    .byte 19, 19, 56, 21, 1, 1, 83, 83; Attacks
+    .byte 70    ; Fight
+    .byte 60    ; Speed
+    .byte 60    ; Wisdom
+    .byte 80    ; Strength
+    .byte 50    ; Force
+    .byte 19, 19, 56, 21, 1, 1, 83, 83; ATTACKs
     .word sLastStarman      ; Name
     .word 330               ; Experience
     .word 389               ; Money
-    .byte 73                ; Item
+    .byte 73    ; Item
     .byte $33               ; TilePage
 
 .export byte_168F40
@@ -3130,17 +3131,17 @@ byte_1697B5:
 
 .export BattleScripts
 BattleScripts:
-    .word End,Fight,ContAttack,Bite,Scratch,Charge,RanOutOf,FinalBlow
+    .word End,Fight,ContATTACK,Bite,Scratch,Charge,RanOutOf,FinalBlow
     .word Inexplicable,PKFireAlpha,PKFireBeta,PKFireGamma,PKFreezeAlpha,PKFreezeBeta,PKFreezeOmega,PKFreezeGamma
     .word Bomb,SuperBomb,PKBeamAlpha,PKBeamBeta,PKBeamOmega,PKBeamGamma,Insecticide,PKThunderAlpha
     .word PKThunderBeta,Explode,Burn,OffenseUp,Sing,DefenseUpAlpha,DefenseUpBeta,QuickUp
     .word EndScript,EndScript,ThreatWords,DirtyWord,EndScript,DefenseDownAlpha,EndScript,EndScript
     .word Rampage,LifeUpAlpha,LifeUpBeta,LifeUpGamma,LifeUpPi,LifeUpOmega,FlowEnergy,PSIStone
-    .word PSIMagnet,Darkness,GasAttack,EndScript,Dehydrate,EndScript,PSIBlock,PowerShield
+    .word PSIMagnet,Darkness,GasATTACK,EndScript,Dehydrate,EndScript,PSIBlock,PowerShield
     .word PSIShieldAlpha,PSIShieldBeta,EndScript,EndScript,Bullhorn,PoisnNeedle,StoneOrigin,StickySpit
     .word Confuse,EvilSeed,BrainShock,BrainCyclon,Hypnosis,Paralysis,Trip,UseRope
     .word Run,Fight_49,Fight_4A,Fight_4B,Laugh,EndScript,EndScript,Grin
-    .word Meditate,WalkAway,EndScript,AttackReady,Circumstance,EndScript,EndScript,EndScript
+    .word Meditate,WalkAway,EndScript,ATTACKReady,Circumstance,EndScript,EndScript,EndScript
     .word EndScript,GuardScript,EndScript,HealingAlpha,P4thDSlip,Fight_5D,CameClose,NobleSeed
     .word FleaBag,EndScript,Fight_62,HealingBeta,HealingPi,SuprHealing,ShieldOff,FlThrower
     .word EndScript,LaserBeam,PlasmaBeam,Smile,Cry,Flashdark,StkyMachine,Fight_6F
@@ -3149,444 +3150,1149 @@ BattleScripts:
     .word ParalyzingGas,EndScript,DefenseDownBeta,PKThunderGamma,Bread,PKFireOmega,HealingGamma,EndScript, BlowUp
 
 End:
-    .byte 0
+    end_script
 
 Fight:
-    .byte $51, $80, $1B, $99, $73, $1B, $99, $74, $3A, $99, $72, $2E
-    .byte $99, $66, 0, $68, 4, $80, $B7, $9E, $81, $BA, $9E
-    .byte $73, $BF, $9E, $12, $60, 0, $40, 6, 0, $69, 3, $68
-    .byte 4, $1B, $68, $B, $61, 0, $40, 6, 0, $69, 8, $68
-    .byte 5, $1B, $62, $3C, $40, 6, 0
+    get_target
+    check_bcs GROUP_STATUS, stru_16991B
+    check_bcc RESIST_CHANCE, stru_16991B
+    check_bcc NO_VECHICLE, stru_16993A
+    check_bcc FIGHT_SIMPLE, stru_16992E
 
-ContAttack:
-    .byte $51, $66, 0, $68, 4, $90, $1F, $99, $80, $56, $99, $66, 0, $68, 7, $90
-    .byte $1F, $99, 0
+stru_16991B:
+    choose_sound 0
+    print_msg ATTACK
+
+stru_16991F:
+    check_bcs GROUP_STATUS, AlreadyGone
+    check_bcs FIGHT_LOWER, Dodge
+    check_bcc RESIST_CHANCE, Missed
+    hit
+    calc_attack 0
+    change RESOLVE_ATTACK
+    end_script
+
+stru_16992E:
+    play_sound 3
+    print_msg ATTACK
+    hit_smash
+    print_msg SMASH
+    get_offense 0
+    change RESOLVE_ATTACK
+    end_script
+
+stru_16993A:
+    play_sound 8
+    print_msg TANKGUN
+    hit_smash
+    set_value $3C
+    change RESOLVE_ATTACK
+    end_script
+
+ContATTACK:
+    get_target
+    choose_sound 0
+    print_msg ATTACK
+    subroutine stru_16991F
+    check_bcs GROUP_STATUS, byte_169956
+    choose_sound 0
+    print_msg CONTINUOUSATTACK
+    subroutine stru_16991F
+
+byte_169956:
+    end_script
 
 Bite:
-    .byte $51, $66, 0, $68, 8, $60, 0, $80, $B7
-    .byte $9E, $81, $BA, $9E, $73, $BF, $9E, $12, $40, 6, 0
+    get_target
+    choose_sound 0
+    print_msg BIT_MSG
+
+stru_16995C:
+    calc_attack 0
+
+stru_16995E:
+    check_bcs GROUP_STATUS, AlreadyGone
+    check_bcs FIGHT_LOWER, Dodge
+    check_bcc RESIST_CHANCE, Missed
+    hit
+    change RESOLVE_ATTACK
+    end_script
 
 Scratch:
-    .byte $51, $66, 0, $68, 9, $A0, $5C, $99
+    get_target
+    choose_sound 0
+    print_msg SCRATCHED
+    jump stru_16995C
 
 Charge:
-    .byte $51, $66, 0, $68, $A, $A0, $5C, $99
+    get_target
+    choose_sound 0
+    print_msg CHARGED
+    jump stru_16995C
 
 RanOutOf:
-    .byte $51, $66, 0, $68, $13, $62, $F, $A0, $5E, $99
+    get_target
+    choose_sound 0
+    print_msg RANOUT
+    set_value $F
+    jump stru_16995E
 
 FinalBlow:
-    .byte $51, $69, 3, $68, $15, $80, $9A, $99, $73, $A0, $99, $1B, $62, $C8, $40, 6, $40, $E
-    .byte $68, $14, 0, $90, $B7, $9E, $A0, $95, $99, $90, $BF, $9E, $A0, $95, $99
+    get_target
+    play_sound 3
+    print_msg LASTBLOW
+    check_bcs GROUP_STATUS, stru_16999A
+    check_bcc RESIST_CHANCE, stru_1699A0
+    hit_smash
+    set_value $C8
+
+stru_169993:
+    change RESOLVE_ATTACK
+
+stru_169995:
+    change TRIGGER_KILL
+    print_msg EXHAUSTED
+    end_script
+
+stru_16999A:
+    subroutine AlreadyGone
+    jump stru_169995
+
+stru_1699A0:
+    subroutine Missed
+    jump stru_169995
 
 Inexplicable:
-    .byte $63, 0, $52, $69, $14, $68, $16
-    .byte $B4, $80, $B6, $99, $13, $62, $4B, $40, 6, $56, 0, 0
+    boss_msg 0
+    get_group_status1
+    play_sound $14
+    print_msg FORM
+        loop4
+        check_bcs GROUP_STATUS, byte_1699B6
+        blast
+        set_value $4B
+        change RESOLVE_ATTACK
+
+byte_1699B6:
+        get_next_target
+        end_loop
+    end_script
 
 Sing:
-    .byte $52, $68, $5A, $B4, $80, $CA, $99, $8D, $C8, $99
-    .byte $40, $29, $A0, $CA, $99, $68, $12, $56, 0, 0
+    get_group_status1
+    print_msg SANG
+        loop4
+        check_bcs GROUP_STATUS, byte_1699CA
+        check_bcs FINAL_BOSSES, stru_1699C8
+        change DEFEATED
+        jump byte_1699CA
+
+stru_1699C8:
+        print_msg NOEFFECT
+
+byte_1699CA:
+        get_next_target
+        end_loop
+    end_script
 
 PKFireAlpha:
-    .byte $67, 5, $20, $2C, $62, $14, $52, $B4, $80, $DD, $99, $64
-    .byte $40, $17, $40, 6, $56, 0, 0
+    sound 5
+    use_psi $2C
+
+stru_1699D1:
+    set_value $14
+
+byte_1699D3:
+    get_group_status1
+        loop4
+        check_bcs GROUP_STATUS, byte_1699DD
+        set_flags $40
+        hit_fire
+        change RESOLVE_ATTACK
+
+byte_1699DD:
+        get_next_target
+        end_loop
+    end_script
 
 BottlRocket:
-    .byte $67, 5, $31, $61, $A0, $D1, $99
+    sound 5
+    use_remove_item $61
+    jump stru_1699D1
 
 PKFireBeta:
-    .byte $67, 5, $20, $2D, $62, $3C, $A0, $D3, $99
+    sound 5
+    use_psi $2D
+    set_value 60
+    jump byte_1699D3
 
 PKFireGamma:
-    .byte $67, 5, $20, $2E, $62, $64, $A0, $D3, $99
+    sound 5
+    use_psi $2E
+
+stru_1699F4:
+    set_value 100
+    jump byte_1699D3
 
 FlThrower:
-    .byte $67, 5, $32, $22, $90, $F4, $99, $C0, $22, 0
+    sound 5
+    use_item2 $22
+    subroutine stru_1699F4
+    item_broken $22
+    end_script
 
 PKFireOmega:
-    .byte $67, 5, $20, $2F, $A0, $A, $9A, $52, $B4, $80, $12, $9A, $17, $40, 9, $56, 0, 0
+    sound 5
+    use_psi $2F
+    jump byte_169A0A
+
+byte_169A0A:
+    get_group_status1
+        loop4
+        check_bcs GROUP_STATUS, byte_169A12
+        hit_fire
+        change KNOCK_OUT
+
+byte_169A12:
+        get_next_target
+        end_loop
+    end_script
 
 PKFreezeAlpha:
-    .byte $67, 7, $20, $28, $62, $A, $51
-    .byte $80, $B7, $9E, $64, $20, $18, $40, 6, 0
+    sound 7
+    use_psi $28
+    set_value 10
+
+byte_169A1B:
+    get_target
+    check_bcs GROUP_STATUS, AlreadyGone
+    set_flags $20
+    hit_freeze
+    change RESOLVE_ATTACK
+    end_script
 
 PKFreezeBeta:
-    .byte $67, 7, $20, $29, $62, $28, $A0, $1B, $9A
+    sound 7
+    use_psi $29
+    set_value 40
+    jump byte_169A1B
 
 PKFreezeOmega:
-    .byte $67, 7, $20, $2B, $62, $50, $52, $B4, $80, $3E
-    .byte $9A, $64, $20, $18, $40, 6, $56, 0, 0
+    sound 7
+    use_psi $2B
+    set_value 80
+    get_group_status1
+        loop4
+        check_bcs GROUP_STATUS, byte_169A3E
+        set_flags $20
+        hit_freeze
+        change RESOLVE_ATTACK
+
+byte_169A3E:
+        get_next_target
+        end_loop
+    end_script
 
 PKFreezeGamma:
-    .byte $67, 7, $20, $2A, $51, $80, $B7, $9E, $18, $40, $A, 0
+    sound 7
+    use_psi $2A
+    get_target
+    check_bcs GROUP_STATUS, AlreadyGone
+    hit_freeze
+    change CRITICAL_DMG
+    end_script
 
 Bomb:
-    .byte $67, 8, $31, $23, $62, $3C, $A0, $D3, $99
+    sound 8
+    use_remove_item $23
+
+stru_169A51:
+    set_value 60
+    jump byte_1699D3
 
 SuperBomb:
-    .byte $67, 8, $31, $24, $90, $A, $9A, $62, $1F, $40, $F, 0
+    sound 8
+    use_remove_item $24
+    subroutine byte_169A0A
+    set_value 31
+    change RANDOM_DAMAGE
+    end_script
 
 PKBeamAlpha:
-    .byte $67, 6, $20, $30, $62, $1E, $51, $80, $B7, $9E, $64, 2, $1A, $40, 6, 0
+    sound 6
+    use_psi $30
+
+stru_169A66:
+    set_value 30
+
+byte_169A68:
+    get_target
+    check_bcs GROUP_STATUS, AlreadyGone
+    set_flags 2
+    hit_beam
+    change RESOLVE_ATTACK
+    end_script
 
 LaserBeam:
-    .byte $67, 6, $32, $25, $90, $66, $9A, $C0, $25, 0
+    sound 6
+    use_item2 $25
+    subroutine stru_169A66
+    item_broken $25
+    end_script
 
 PKBeamBeta:
-    .byte $67, 6, $20, $31, $62, $50, $A0, $68, $9A
+    sound 6
+    use_psi $31
+
+stru_169A80:
+    set_value 80
+    jump byte_169A68
 
 PlasmaBeam:
-    .byte $67, 6, $32, $26, $90, $80, $9A, $C0, $26, 0
+    sound 6
+    use_item2 $26
+    subroutine stru_169A80
+    item_broken $26
+    end_script
 
 PKBeamOmega:
-    .byte $67, 6, $20, $33, $62, $B4, $52, $B4, $80, $9F, $9A, $64
-    .byte 2, $1A, $40, 6, $56, 0, 0
+    sound 6
+    use_psi $33
+    set_value 180
+    get_group_status1
+        loop4
+        check_bcs GROUP_STATUS, byte_169A9F
+        set_flags 2
+        hit_beam
+        change RESOLVE_ATTACK
+
+byte_169A9F:
+        get_next_target
+        end_loop
+    end_script
 
 PKBeamGamma:
-    .byte $67, 6, $20, $32, $51, $80, $B7, $9E, $75, $B4, $9A, $1A, $79, $C4, $9E
-    .byte $40, 9, 0, $68, $52, $54, $A0, $AD, $9A
+    sound 6
+    use_psi $32
+    get_target
+    check_bcs GROUP_STATUS, AlreadyGone
+    check_bcc FRANKLIN, stru_169AB4
+
+byte_169AAD:
+    hit_beam
+    check_bcc IMMUNE_STATUS, WithoutEffect
+    change KNOCK_OUT
+    end_script
+
+stru_169AB4:
+    print_msg BOUNCED
+    char2target
+    jump byte_169AAD
 
 PKThunderAlpha:
-    .byte $67, 4, $20, $34, $62, $A, $51, $80, $B7, $9E, $64, $10, $19, $40, 6, 0
+    sound 4
+    use_psi $34
+    set_value 10
+
+byte_169AC0:
+    get_target
+    check_bcs GROUP_STATUS, AlreadyGone
+    set_flags $10
+    hit_thunder
+    change RESOLVE_ATTACK
+    end_script
 
 PKThunderBeta:
-    .byte $67, 4, $20, $35, $62, $32, $A0, $C0, $9A
+    sound 4
+    use_psi $35
+    set_value 50
+    jump byte_169AC0
 
 PKThunderGamma:
-    .byte $67, 4, $20, $36, $62, $3C, $52, $B4, $80
-    .byte $E3, $9A, $64, $10, $19, $40, 6, $56, 0, 0
+    sound 4
+    use_psi $36
+    set_value 60
+    get_group_status1
+        loop4
+        check_bcs GROUP_STATUS, byte_169AE3
+        set_flags $10
+        hit_thunder
+        change RESOLVE_ATTACK
+
+byte_169AE3:
+        get_next_target
+        end_loop
+    end_script
 
 Insecticide:
-    .byte $67, 1, $32, $19, $90, $F0, $9A, $C0, $19, 0, $52, $B4
-    .byte $80, $FE, $9A, $12, $79, 1, $9B, $87, 1, $9B, $40
-    .byte 9, $56, 0, 0, $68, $12, $A0, $FE, $9A
+    sound 1
+    use_item2 $19
+    subroutine byte_169AF0
+    item_broken $19
+    end_script
+
+byte_169AF0:
+    get_group_status1
+        loop4
+        check_bcs GROUP_STATUS, byte_169AFE
+        hit
+        check_bcc IMMUNE_STATUS, stru_169B01
+        check_bcs TARGET_FLAGS, stru_169B01
+        change KNOCK_OUT
+
+byte_169AFE:
+        get_next_target
+        end_loop
+    end_script
+
+stru_169B01:
+    print_msg NOEFFECT
+    jump byte_169AFE
 
 SuperSpray:
-    .byte $67, 1, $30, $1A, $90, $F0, $9A, 0
+    sound 1
+    use_item0 $1A
+    subroutine byte_169AF0
+    end_script
 
- Darkness:
-    .byte $67, $D, $20, $1C, $51, $80, $B7, $9E, $13, $79, $C4, $9E, $40, $12, 0
+Darkness:
+    sound $D
+    use_psi $1C
+
+byte_169B12:
+    get_target
+    check_bcs GROUP_STATUS, AlreadyGone
+    blast
+    check_bcc IMMUNE_STATUS, WithoutEffect
+    change BLINDED
+    end_script
 
 Flashdark:
-    .byte $67, 0, $30, $1F, $A0, $12, $9B
+    sound 0
+    use_item0 $1F
+    jump byte_169B12
 
 StickySpit:
-    .byte $66,  0,$68,$1A,$51,$80,$B7,$9E
-    .byte $13,$40,$12,  0
+    choose_sound 0
+    print_msg SPIT
+    get_target
+    check_bcs GROUP_STATUS, AlreadyGone
+    blast
+    change BLINDED
+    end_script
 
 Confuse:
-    .byte $69, $D,$51,$68,$2C,$51,$80,$B7
-    .byte $9E,$13,$78,$C4,$9E,$79,$C4,$9E
-    .byte $7A,$C4,$9E,$40,$14,  0
+    play_sound $D
+    get_target
+    print_msg CONFUSED
+
+byte_169B35:
+    get_target
+    check_bcs GROUP_STATUS, AlreadyGone
+    blast
+    check_bcc COIN_CHANCE, WithoutEffect
+    check_bcc IMMUNE_STATUS, WithoutEffect
+    check_bcc IMMUNE_SLEEP, WithoutEffect
+    change CONFUSE
+    end_script
 
 EvilSeed:
-    .byte $69, $D,$68,$76,$A0,$35,$9B
+    play_sound $D
+    print_msg WICKEDSEED
+    jump byte_169B35
 
 BrainShock:
-    .byte $67, $D,$20,$18,$A0,$35,$9B
+    sound  $D
+    use_psi $18
+    jump byte_169B35
 
 BrainCyclon:
-    .byte $67, $D,$20,$19,$52,$B4,$80,$69
-    .byte $9B,$13,$78,$6C,$9B,$79,$6C,$9B
-    .byte $7A,$6C,$9B,$40,$14,$56,  0,  0
-    .byte $68,$12,$A0,$69,$9B
+    sound $D
+    use_psi $19
+    get_group_status1
+        loop4
+        check_bcs GROUP_STATUS, byte_169B69
+        blast
+        check_bcc COIN_CHANCE, stru_169B6C
+        check_bcc IMMUNE_STATUS, stru_169B6C
+        check_bcc IMMUNE_SLEEP, stru_169B6C
+        change CONFUSE
+
+byte_169B69:
+        get_next_target
+        end_loop
+    end_script
+
+stru_169B6C:
+    print_msg NOEFFECT
+    jump byte_169B69
 
 OffenseUp:
-    .byte $67,  0,$20,$20,$51,$80,$B7,$9E
-    .byte $40,  3,  0
+    sound 0
+    use_psi $20
+    get_target
+    check_bcs GROUP_STATUS, AlreadyGone
+    change INCREASE_OFF
+    end_script
 
 DefenseUpAlpha:
-    .byte $67,  0,$20,$21,$51,$80,$B7,$9E
-    .byte $40,  4,  0
+    sound 0
+    use_psi $21
+    get_target
+
+stru_169B81:
+    check_bcs GROUP_STATUS, AlreadyGone
+    change INCREASE_DEFENSE
+    end_script
 
 Smile:
-    .byte $68,$28,$54,$A0,$81,$9B
+    print_msg DARLINGSMILE
+    char2target
+    jump stru_169B81
 
 DefenseUpBeta:
-    .byte $67,  0,$20,$22,$53,$B4,$80,$9B
-    .byte $9B,$7C,$9B,$9B,$40,  4,$56, 0, 0
+    sound 0
+    use_psi $22
+    get_group_status2
+        loop4
+        check_bcs GROUP_STATUS, byte_169B9B
+        check_bcc TARGET_UP, byte_169B9B
+        change INCREASE_DEFENSE
+
+byte_169B9B:
+        get_next_target
+        end_loop
+    end_script
 
 QuickUp:
-    .byte $67,  0,$20,$23,$51,$80,$B7,$9E
-    .byte $62,$14,$40,  2,  0
+    sound 0
+    use_psi $23
+    get_target
+    check_bcs GROUP_STATUS, AlreadyGone
+    set_value 20
+    change INCREASE_SPEED
+    end_script
 
 Rampage:
-    .byte $62,$19
-    .byte $54
-    .byte $68,$2A
-    .byte $62,$14
-    .byte $40,$11
-    .byte 0
+    set_value 25
+    char2target
+    print_msg RAGE
+    set_value 20
+    change INCREASE_OFFENSE
+    end_script
 
 Fight_5D:
-    .byte $66,  0,$62,$14,$40,$10,  0
+    choose_sound 0
+    set_value 20
+    change APPROACH_ENEMY
+    end_script
 
 DefenseDownAlpha:
-    .byte $67, $D,$20,$24,$62,$28,$51,$80
-    .byte $B7,$9E,$13,$79,$C4,$9E,$64,  4
-    .byte $40,  7,  0
+    sound $D
+    use_psi $24
+
+stru_169BC0:
+    set_value 40
+    get_target
+    check_bcs GROUP_STATUS, AlreadyGone
+    blast
+    check_bcc IMMUNE_STATUS, WithoutEffect
+    set_flags 4
+    change DECREASE_DEF
+    end_script
 
 PoisnNeedle:
-    .byte $67,  0,$31,$21,$51,$80,$B7,$9E
-    .byte $73,$BF,$9E,$13,$79,$C4,$9E,$40
-    .byte $13,  0
+    sound 0
+    use_remove_item $21
+    get_target
+    check_bcs GROUP_STATUS, AlreadyGone
+    check_bcc RESIST_CHANCE, Missed
+    blast
+    check_bcc IMMUNE_STATUS, WithoutEffect
+    change POISONED
+    end_script
 
 Cry:
-    .byte $68,$1D,$A0,$C0,$9B
+    print_msg STRANGECRY
+    jump stru_169BC0
 
 DefenseDownBeta:
-    .byte $52,$67, $D,$20,$25,$B4,$62,$28
-    .byte $80,$F9,$9B,$13,$79,$FC,$9B,$64
-    .byte   4,$40,  7,$56,  0,  0,$68,$12
-    .byte $A0,$F9,$9B
+    get_group_status1
+    sound $D
+    use_psi $25
+        loop4
+        set_value 40
+        check_bcs GROUP_STATUS, byte_169BF9
+        blast
+        check_bcc IMMUNE_STATUS, stru_169BFC
+        set_flags 4
+        change DECREASE_DEF
+
+byte_169BF9:
+        get_next_target
+        end_loop
+    end_script
+
+stru_169BFC:
+    print_msg NOEFFECT
+    jump byte_169BF9
 
 ThreatWords:
-    .byte $68,$32,$62,$1E,$51,$80,$B7,$9E
-    .byte $13,$40,  8,  0
+    print_msg UTTERED
+    set_value 30
+
+byte_169C05:
+    get_target
+    check_bcs GROUP_STATUS, AlreadyGone
+    blast
+    change DECREASE_FIGHT
+    end_script
 
 DirtyWord:
-    .byte $68,$33,$62,$14,$A0,  5,$9C
+    print_msg DIRTYWORDS
+    set_value 20
+    jump byte_169C05
 
-GasAttack:
-    .byte $52,$66,  0,$68,$4A,$B4,$80,$2B
-    .byte $9C,$12,$62,$1E,$40,  6,$80,$2B
-    .byte $9C,$62,$14,$40,  8,$40,$1D,$56
-    .byte   0,  0
+GasATTACK:
+    get_group_status1
+    choose_sound 0
+    print_msg PUFFED
+        loop4
+        check_bcs GROUP_STATUS, byte_169C2B
+        hit
+        set_value 30
+        change RESOLVE_ATTACK
+        check_bcs GROUP_STATUS, byte_169C2B
+        set_value 20
+        change DECREASE_FIGHT
+        change GASPING
+
+byte_169C2B:
+        get_next_target
+        end_loop
+    end_script
 
 Dehydrate:
-    .byte $51,$66,  0,$68,  4,$80,$B7,$9E
-    .byte $73,$BF,$9E,$13,$79,$C4,$9E,$68
-    .byte $4C,$40, $B,$40, $C,  0
+    get_target
+    choose_sound 0
+    print_msg ATTACK
+    check_bcs GROUP_STATUS, AlreadyGone
+    check_bcc RESIST_CHANCE, Missed
+    blast
+    check_bcc IMMUNE_STATUS, WithoutEffect
+    print_msg DEHYDRATED
+    change DECREASE_OFFENSE
+    change DECREASE_DEFENSE
+    end_script
 
 Bullhorn:
-    .byte $67,  0,$30,$70,$51,$80,$B7,$9E
-    .byte $68,$18,$13,$88,$59,$9C,$68,$35
-    .byte $62,$19,$40,  8,  0,$68,$36,$68
-    .byte $37,$62,$14,$40,$11,  0
+    sound 0
+    use_item0 $70
+    get_target
+    check_bcs GROUP_STATUS, AlreadyGone
+    print_msg MOTHERCALL
+    blast
+    check_bcs COIN_CHANCE, DontBelieved
+    print_msg BELIEVED
+    set_value 25
+    change DECREASE_FIGHT
+    end_script
+
+DontBelieved:
+    print_msg WASNTCONVINCED
+    print_msg MADEANGRY
+    set_value 20
+    change INCREASE_OFFENSE
+    end_script
 
 FleaBag:
-    .byte $67,  0,$31,$1B,$51,$79,$C4,$9E
-    .byte $68,$5F,$40, $B,$40, $C,  0
+    sound 0
+    use_remove_item $1B
+    get_target
+    check_bcc IMMUNE_STATUS, WithoutEffect
+    print_msg ITCHY
+    change DECREASE_OFFENSE
+    change DECREASE_DEFENSE
+    end_script
 
 StoneOrigin:
-    .byte $67,  0,$31,$20,$51,$80,$B7,$9E
-    .byte $73,$BF,$9E,$13,$79,$C4,$9E,$40
-    .byte $1C,  0
+    sound 0
+    use_remove_item $20
+    get_target
+    check_bcs GROUP_STATUS, AlreadyGone
+    check_bcc RESIST_CHANCE, Missed
+    blast
+    check_bcc IMMUNE_STATUS, WithoutEffect
+    change STONED
+    end_script
 
 Hypnosis:
-    .byte $67, $D,$20,$1A,$51,$80,$B7,$9E
-    .byte $13,$78,$C4,$9E,$79,$C4,$9E,$7A
-    .byte $C4,$9E,$40,$15,  0
+    sound $D
+    use_psi $1A
+    get_target
+    check_bcs GROUP_STATUS, AlreadyGone
+    blast
+    check_bcc COIN_CHANCE, WithoutEffect
+    check_bcc IMMUNE_STATUS, WithoutEffect
+    check_bcc IMMUNE_SLEEP, WithoutEffect
+    change PUT2SLEEP
+    end_script
 
 Paralysis:
-    .byte $67, $D,$20,$1B,$51,$80,$B7,$9E
-    .byte $13,$79,$C4,$9E,$40,$16,  0
+    sound $D
+    use_psi $1B
+    get_target
+    check_bcs GROUP_STATUS, AlreadyGone
+    blast
+    check_bcc IMMUNE_STATUS, WithoutEffect
+    change CANT_MOVE
+    end_script
 
 StkyMachine:
-    .byte $67,  0,$32,$1E,$51,$80,$B7,$9E
-    .byte $13,$79,$C4,$9E,$40,$16,$C0,$1E
-    .byte   0
+    sound 0
+    use_item2 $1E
+
+byte_169CAB:
+    get_target
+    check_bcs GROUP_STATUS, AlreadyGone
+    blast
+    check_bcc IMMUNE_STATUS, WithoutEffect
+    change CANT_MOVE
+    item_broken $1E
+    end_script
 
 ParalyzingGas:
-    .byte $68,$77,$A0,$AB,$9C
+    print_msg GAS
+    jump byte_169CAB
 
 Fight_62:
-    .byte $68,  4,$51,$80,$B7,$9E,$13,$40
-    .byte $1E,  0
+    print_msg ATTACK
+    get_target
+    check_bcs GROUP_STATUS, AlreadyGone
+    blast
+    change STRANGE
+    end_script
 
 UseRope:
-    .byte $67,  0,$31,$28,$51,$80,$B7,$9E
-    .byte $12,$40,$1B,  0
+    sound 0
+    use_remove_item $28
+    get_target
+    check_bcs GROUP_STATUS, AlreadyGone
+    hit
+    change BOUNDED
+    end_script
 
 LifeUpAlpha:
-    .byte $67,  0,$20,  8,$62,$1E,$51,$80
-    .byte $B7,$9E,$40,  0,  0
+    sound 0
+    use_psi 8
+    set_value 30
+
+byte_169CD9:
+    get_target
+    check_bcs GROUP_STATUS, AlreadyGone
+    change RECOVER_HP
+    end_script
 
 LifeUpBeta:
-    .byte $67,  0,$20,  9,$62,$50,$A0,$D9
-    .byte $9C
+    sound 0
+    use_psi 9
+    set_value 80
+    jump byte_169CD9
 
 LifeUpGamma:
-    .byte $67,  0,$20, $A,$51,$80,$B7,$9E
-    .byte $40,  5,  0
+    sound 0
+    use_psi  $A
+
+CheckAlive:
+    get_target
+    check_bcs GROUP_STATUS, AlreadyGone
+    change RESTORE_HP
+    end_script
 
 LifeUpPi:
-    .byte $67,  0,$20, $B,$62,$32,$53,$B4
-    .byte $80,  4,$9D,$7C,  4,$9D,$40,  0
-    .byte $56,  0,  0
+    sound 0
+    use_psi  $B
+    set_value 50
+    get_group_status2
+        loop4
+        check_bcs GROUP_STATUS, byte_169D04
+        check_bcc TARGET_UP, byte_169D04
+        change RECOVER_HP
+
+byte_169D04:
+        get_next_target
+        end_loop
+    end_script
 
 LifeUpOmega:
-    .byte $67,  0,$20, $C,$53,$B4,$80,$15
-    .byte $9D,$7C,$15,$9D,$40,  5,$56,  0
-    .byte   0
+    sound 0
+    use_psi $C
+    get_group_status2
+        loop4
+        check_bcs GROUP_STATUS, byte_169D15
+        check_bcc TARGET_UP, byte_169D15
+        change RESTORE_HP
+
+byte_169D15:
+        get_next_target
+        end_loop
+    end_script
 
 FlowEnergy:
-    .byte $51,$68,$3F,$A0,$ED,$9C
+    get_target
+    print_msg ENERGY
+    jump CheckAlive
 
 PSIStone:
-    .byte $67,  0,$32,$49,$62,$14,$54,$80
-    .byte $B7,$9E,$40,  1,$C1,$49,  0
+    sound 0
+    use_item2 $49
+    set_value 20
+    char2target
+    check_bcs GROUP_STATUS, AlreadyGone
+    change RECOVER_PP
+    turn2stone $49
+    end_script
 
 OrangeJuice:
-    .byte $67,  0,$31,$3C,$62, $A,$A0,$D9
-    .byte $9C
+    sound 0
+    use_remove_item $3C
+    set_value 10
+    jump byte_169CD9
 
 FrenchFries:
-    .byte $67,  0,$31,$3D,$62,$14,$A0,$D9
-    .byte $9C
+    sound 0
+    use_remove_item $3D
+
+stru_169D3A:
+    set_value 20
+    jump byte_169CD9
 
 MagicHerb:
-    .byte $67,  0,$31,$3E,$62,$1E,$A0,$D9
-    .byte $9C
+    sound 0
+    use_remove_item $3E
+
+stru_169D43:
+    set_value 30
+    jump byte_169CD9
 
 SportsDrink:
-    .byte $67,  0,$31,$40,$62,$64,$A0,$D9
-    .byte $9C
+    sound 0
+    use_remove_item $40
+    set_value 100
+    jump byte_169CD9
 
 BigBag:
-    .byte $67,  0,$33,  1,$90,$43,$9D,$C2
-    .byte   1,  0
+    sound 0
+    use_item3 1
+    subroutine stru_169D43
+    became_empty 1
+    end_script
 
 Hamburger:
-    .byte $67,  0,$31,$3F,$62,$3C,$A0,$D9
-    .byte $9C
+    sound 0
+    use_remove_item $3F
+    set_value 60
+    jump byte_169CD9
 
 LifeUpCream:
-    .byte $67,  0,$31,$41,$A0,$ED,$9C
+    sound 0
+    use_remove_item $41
+    jump CheckAlive
 
 Bread:
-    .byte $67,  0,$31,$47,$A0,$3A,$9D
+    sound 0
+    use_remove_item $47
+    jump stru_169D3A
 
 HealingAlpha:
-    .byte $67,  0,$20,$10,$51,$80,$B7,$9E
-    .byte $40,$1F,  0
+    sound 0
+    use_psi $10
+
+byte_169D76:
+    get_target
+    check_bcs GROUP_STATUS, AlreadyGone
+    change DISSIPATED
+    end_script
 
 Antidote:
-    .byte $67,  0,$31,$43,$A0,$76,$9D
+    sound 0
+    use_remove_item $43
+    jump byte_169D76
 
 NobleSeed:
-    .byte $67,  0,$31,$48,$51,$80,$B7,$9E
-    .byte $40,$23,  0
+    sound 0
+    use_remove_item $48
+    get_target
+    check_bcs GROUP_STATUS, AlreadyGone
+    change REGAINED
+    end_script
 
 HealingBeta:
-    .byte $67,  0,$20,$11,$51,$80,$B7,$9E
-    .byte $40,$21,  0
+    sound 0
+    use_psi $11
+    get_target
+    check_bcs GROUP_STATUS, AlreadyGone
+    change CAN_MOVE
+    end_script
 
 HealingPi:
-    .byte $67,  0,$20,$13,$51,$80,$B7,$9E
-    .byte $40,$20,  0
+    sound 0
+    use_psi $13
+    get_target
+    check_bcs GROUP_STATUS, AlreadyGone
+    change WAKE_UP
+    end_script
 
 SuprHealing:
-    .byte $67,  0,$20,$14,$51,$40,$25,  0
+    sound 0
+    use_psi $14
+    get_target
+    change REVIVES
+    end_script
 
 AsthmaSpray:
-    .byte $67,  0,$30,$42,$51,$80,$B7,$9E
-    .byte $40,$22,  0
+    sound 0
+    use_item0 $42
+    get_target
+    check_bcs GROUP_STATUS, AlreadyGone
+    change ASTHMA_PASS
+    end_script
 
 HealingGamma:
-    .byte $67,  0,$20,$12,$51,$80,$B7,$9E
-    .byte $40,$26,  0
+    sound 0
+    use_psi $12
+    get_target
+    check_bcs GROUP_STATUS, AlreadyGone
+    change RECOVERED_STONE
+    end_script
 
 PSIBlock:
-    .byte $67, $D,$20,$1F,$51,$80,$B7,$9E
-    .byte $78,$D1,$9D,$78,$C4,$9E,$13,$40
-    .byte $17,  0
+    sound $D
+    use_psi $1F
+    get_target
+    check_bcs GROUP_STATUS, AlreadyGone
+    check_bcc COIN_CHANCE, byte_169DD1
+    check_bcc COIN_CHANCE, WithoutEffect
+
+byte_169DD1:
+    blast
+    change PSI_BLOCKED
+    end_script
 
 PowerShield:
-    .byte $67,  0,$20,$17,$51,$80,$B7,$9E
-    .byte $40,$1A,  0
+    sound 0
+    use_psi $17
+    get_target
+    check_bcs GROUP_STATUS, AlreadyGone
+    change BARRIER
+    end_script
 
 PSIShieldAlpha:
-    .byte $67,  0,$20,$15,$51,$80,$B7,$9E
-    .byte $40,$19,  0
+    sound 0
+    use_psi $15
+    get_target
+    check_bcs GROUP_STATUS, AlreadyGone
+    change SHIELDED
+    end_script
 
 PSIShieldBeta:
-    .byte $67,  0,$20,$16,$53,$B4,$80,$F6
-    .byte $9D,$40,$19,$56,  0,  0
+    sound 0
+    use_psi $16
+    get_group_status2
+        loop4
+        check_bcs GROUP_STATUS, byte_169DF6
+        change SHIELDED
+
+byte_169DF6:
+        get_next_target
+        end_loop
+    end_script
 
 Run:
-    .byte $55,$68,$43,$78, $C,$9E,$7B, $C
-    .byte $9E,$B4,$86,  9,$9E,$69,$11,$11
-    .byte $56,  0,  0,$68,$44,  0
+    get_group
+    print_msg RANAWAY
+    check_bcc COIN_CHANCE, stru_169E0C
+    check_bcc OBJECT, stru_169E0C
+        loop4
+        check_bcs TARGET_STATUS, byte_169E09
+        play_sound $11
+        enemy_removal
 
-AttackReady:
-    .byte $68,$59,$54,$40,$18,  0
+byte_169E09:
+        get_next_target
+        end_loop
+    end_script
+
+stru_169E0C:
+    print_msg DIDNTWORK
+    end_script
+
+ATTACKReady:
+    print_msg READY
+    char2target
+    change SET_RESIST
+    end_script
 
 GuardScript:
-    .byte $68,$5B,$54,$40,$18,  0
+    print_msg ISGUARDING
+    char2target
+    change SET_RESIST
+    end_script
 
 P4thDSlip:
-    .byte $67, $C,$20,$26,$7B,$2B,$9E,$55
-    .byte $B4,$86,$28,$9E,$16,$56,  0,  0
-    .byte $68,$90,  0
+    sound $C
+    use_psi $26
+    check_bcc OBJECT, stru_169E2B
+    get_group
+        loop4
+        check_bcs TARGET_STATUS, byte_169E28
+        escape_battle
+
+byte_169E28:
+        get_next_target
+        end_loop
+    end_script
+
+stru_169E2B:
+    print_msg ITNOEFFECT
+    end_script
 
 ShieldOff:
-    .byte $67,  0,$20,$1E,$51,$80,$B7,$9E
-    .byte $40,$24,  0
+    sound 0
+    use_psi $1E
+    get_target
+    check_bcs GROUP_STATUS, AlreadyGone
+    change DESTROYED
+    end_script
 
 Trip:
-    .byte $69,$13,$68,$45,  0
+    play_sound $13
+    print_msg TRIPPED
+    end_script
 
 Laugh:
-    .byte $68,$30,  0
+    print_msg STARTED
+    end_script
 
 Grin:
-    .byte $68,$34,  0
+    print_msg GRINS
+    end_script
 
 Meditate:
-    .byte $68,$57,  0
+    print_msg MEDITATING
+    end_script
 
 WordsOLove:
-    .byte $67,  0,$30,$1C,$68,$72,  0
+    sound 0
+    use_item0 $1C
+    print_msg ILOVEYOU
+    end_script
 
 SwearWords:
-    .byte $67,  0,$30,$1D,$68,$73,  0
+    sound 0
+    use_item0 $1D
+    print_msg IHATEYOU
+    end_script
 
 Explode:
-    .byte $69,  8,$68,$1E,$90,$51,$9A,$40
-    .byte  $E,  0
+    play_sound 8
+    print_msg EXPLODED
+    subroutine stru_169A51
+    change TRIGGER_KILL
+    end_script
 
 BlowUp:
-    .byte $69,  8,$68,$1E,$90, $A,$9A,$40
-    .byte  $E,  0
+    play_sound 8
+    print_msg EXPLODED
+    subroutine byte_169A0A
+    change TRIGGER_KILL
+    end_script
 
 Burn:
-    .byte $69,  5,$68,$1F,$62,$1E,$90,$D3
-    .byte $99,$40, $E,  0
+    play_sound 5
+    print_msg BURST_MSG
+    set_value 30
+    subroutine byte_1699D3
+    change TRIGGER_KILL
+    end_script
 
 PSIMagnet:
-    .byte $67, $D,$20,$1D,$51,$80,$B7,$9E
-    .byte $78,$83,$9E,$78,$C4,$9E,$13,$40
-    .byte $27,  0
+    sound $D
+    use_psi $1D
+    get_target
+    check_bcs GROUP_STATUS, AlreadyGone
+    check_bcc COIN_CHANCE, byte_169E83
+    check_bcc COIN_CHANCE, WithoutEffect
+
+byte_169E83:
+    blast
+    change SNATCHED
+    end_script
 
 Fight_49:
-    .byte $14,  0
+    call_backup
+    end_script
 
 Fight_4A:
-    .byte $15,  0
+   sowed_seed
+   end_script
 
 Fight_4B:
-    .byte $51,$80, $E,$99,$73, $E,$99,$69
-    .byte  $B,$40,$28,  0
+    get_target
+    check_bcs GROUP_STATUS, Fight
+    check_bcc RESIST_CHANCE, Fight
+    play_sound $B
+    change TOOK_AWAY
+    end_script
 
 WalkAway:
-    .byte $68,$58,$54,$69,$11,$11,$51,$62
-    .byte $46,$40, $D,  0
+    print_msg SAID
+    char2target
+    play_sound $11
+    enemy_removal
+    get_target
+    set_value 70
+    change INCREASE_EXP
+    end_script
 
 Circumstance:
-    .byte $66,  0,$68,$66,$54,$40,$2A,  0
+    choose_sound 0
+    print_msg CIRCUMSTANCES
+    char2target
+    change LOST_SENSES
+    end_script
 
 CameClose:
-    .byte $10
-    .byte $68,  3
-    .byte 0
+    enemy_approach
+    print_msg DREWNEAR
+    end_script
 
 Fight_6F:
-    .byte $51,$80,$B7,$9E,$65,  0,  0
+    get_target
+    check_bcs GROUP_STATUS, AlreadyGone
+    enemy_check 0
+    end_script
 
 EndScript:
-    .byte 0
-    .byte $68, $11, 0, $69, $B, $68, 6, 0, $69, $13, $68, $50, 0, $68, $12, 0
+    end_script
+
+AlreadyGone:
+    print_msg GONE
+    end_script
+
+Dodge:
+    play_sound $B
+    print_msg DODGED
+    end_script
+
+Missed:
+    play_sound $13
+    print_msg MISS
+    end_script
+
+WithoutEffect:
+    print_msg NOEFFECT
+    end_script
 
 .export BattleAction
 BattleAction:

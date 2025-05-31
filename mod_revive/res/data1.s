@@ -877,7 +877,7 @@ StateFrame:
     tile_position 1, 5
     left
     .byte " Lvl"
-    convert Character+CHARACTER::Level, 1, 3          ; $610
+    convert Character+CHARACTER::Level, 1, 3
     fill " ", 7
     right
     left

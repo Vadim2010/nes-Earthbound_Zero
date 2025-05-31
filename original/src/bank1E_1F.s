@@ -93,7 +93,7 @@ loc_C210:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_C218:
+prep_irq:
     sta IRQ_LATCH
     lda #2
     ora BankMode
@@ -106,7 +106,7 @@ wait4:
     dey
     bne @wait
     rts
-; End of function sub_C218
+; End of function prep_irq
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -519,7 +519,7 @@ loc_C40F:
     lda Character + CHARACTER::NameOffset+1,X
     sta PointerTilePack+1
     ldy #1
-    lda Character + CHARACTER::InitialStatus,X
+    lda Character + CHARACTER::Status,X
     and Pointer
     sta (PointerTilePack),Y
     ldy #CHARACTER::Health
@@ -1884,7 +1884,7 @@ main:
     .import sub_13A1C6, sub_13A123, sub_13A82F, sub_13A000, command_menu, sub_13AB53
     .import sub_149516, sub_149779, sub_1497A3, CurrentMusic
     .importzp ButtonPressed, GamepadButtons
-    .importzp byte_D, byte_1F, byte_20, ObjectNumWithChar, byte_22, byte_23, byte_24, byte_25
+    .importzp byte_D, byte_1F, byte_20, ObjectNumWithChar, byte_22, Vechicle, byte_24, byte_25
     .importzp EnemyGroup
 
     jsr sram_read_enable
@@ -1937,7 +1937,7 @@ loc_CB91:
     beq loc_CBAD
     jsr bank13_A000
     jsr sub_13A1C6
-    bcc check_enemy
+    bcc check_no_vechicle
 
 loc_CBAD:
     jsr bank13_A000
@@ -1945,10 +1945,10 @@ loc_CBAD:
     ldy GamepadButtons
     sta GamepadButtons
     lda byte_22
-    ora byte_23
+    ora Vechicle
     ora ObjectNumWithChar
     ora byte_20
-    bne check_enemy
+    bne check_no_vechicle
     tya
     and #$F0
     bmi pressA
@@ -1978,7 +1978,7 @@ pressB:
     jsr bank14_8000
     jsr sub_149516
 
-check_enemy:
+check_no_vechicle:
     lda EnemyGroup
     beq no_enemy
     cmp #$A2
@@ -3636,11 +3636,11 @@ load_map_tile:
 ; ---------------------------------------------------------------------------
 
 loc_D5F3:
-    lda byte_23
+    lda Vechicle
     beq loc_D5FF
     bpl set_PPU1800
     and #$7F
-    sta byte_23
+    sta Vechicle
     bpl set_PPU0000
 
 loc_D5FF:
@@ -3736,7 +3736,7 @@ loc_D6CB:
                         ; OffScreen - offset
     jsr get_objects
     jsr sram_write_enable
-    lda byte_23
+    lda Vechicle
     bne loc_D71B
     ldx #0
 
@@ -4005,7 +4005,7 @@ loc_D840:
     ldy #$17
     sta (Dist),Y
     clc
-    ldy #CHARACTER::InitialStatus
+    ldy #CHARACTER::Status
     lda (ObjOffset),Y
     bpl locret_D86B
     and #$80
@@ -4165,7 +4165,7 @@ loc_D906:
 loc_D90E:
     jsr sub_D8C9
     jsr sram_write_enable
-    set CurrentGame + PURE_SAVE::Boy1 + CHARACTER::InitialStatus, #0
+    set CurrentGame + PURE_SAVE::Boy1 + CHARACTER::Status, #0
     sta CurrentGame + PURE_SAVE::Boy1 + CHARACTER::PP
     sta CurrentGame + PURE_SAVE::Boy1 + CHARACTER::PP+1
     store CurrentGame + PURE_SAVE::Boy1 + CHARACTER::MaxHealth, CurrentGame + PURE_SAVE::Boy1 + CHARACTER::Health
@@ -4179,7 +4179,7 @@ loc_D90E:
     sta CurrentGame + PURE_SAVE::Cash + 1
     set ItemCount, #1
     set ObjectNumWithChar, #0
-    sta byte_23
+    sta Vechicle
     ldx byte_47
     ldy byte_D96B,X
     ldx #3
@@ -7137,7 +7137,7 @@ loc_E900:
 sub_E905:
     .importzp byte_C, byte_E7, ShiftX, ShiftY
 
-    lda byte_23
+    lda Vechicle
     clc
     bne loc_E95B
     lda View
@@ -7190,7 +7190,7 @@ loc_E94C:
 
 loc_E95B:
     set View, #0
-    sta byte_23
+    sta Vechicle
     lda #$10
     bcs loc_E967
 
@@ -7208,7 +7208,7 @@ loc_E967:
 
 
 sub_E96C:
-    lda byte_23
+    lda Vechicle
     asl A
     bne loc_E94C
     jsr sub_E9CD
@@ -7431,7 +7431,7 @@ loc_EA7C:
 loc_EA9B:
     cmp #0
     bne loc_EAA1
-    sta byte_23
+    sta Vechicle
 
 loc_EAA1:
     iny
@@ -7440,9 +7440,9 @@ loc_EAA1:
     tya
     ldy #$1F
     sta (Dist),Y
-    lda byte_23
+    lda Vechicle
     bne loc_EABB
-    set byte_23, #$80
+    set Vechicle, #$80
     jsr sub_D9FA
     ldx #0
     jsr sub_CDAF
@@ -7666,7 +7666,7 @@ FlagBit:      .byte $80, $40, $20, $10, 8, 4, 2, 1
 
 sub_EC65:
     .importzp BankPPU_X000, BankPPU_X400, BankPPU_X800, BankPPU_XC00
-    .importzp byte_45, byte_46
+    .importzp CHRFlags, IRQLine
 
     jsr darken_palette
     ldx #0
@@ -7696,8 +7696,8 @@ sub_EC65:
     sta BankPPU_X400
     sta BankPPU_X800
     sta BankPPU_XC00
-    set byte_46, #0
-    set byte_45, #0
+    set IRQLine, #0
+    set CHRFlags, #0
     ldx #9
 
 @next_byte:
@@ -7760,7 +7760,7 @@ CHRTable:
     .byte $78, 0, $7C, $7D, $7E, $7F
 
 IRQTable:
-    .word sub_ED22-1, loc_ED62-1, sub_ED22-1, load_fonts-1, 0
+    .word irq_split-1, irq_enemy-1, irq_split-1, irq_gui-1, 0
 
 ; =============== S U B R O U T I N E =======================================
 
@@ -7805,59 +7805,59 @@ sub_ED1A:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_ED22:
+irq_split:
     clc
     lda #2
-    adc byte_46
-    jsr sub_C218
-    bit byte_45
-    bpl loc_ED6F
+    adc IRQLine
+    jsr prep_irq
+    bit CHRFlags
+    bpl low_pages
 
 loc_ED2E:
     lda BankPPU_X000
-    bpl loc_ED34
+    bpl @low_X000
     lda #$7C
 
-loc_ED34:
+@low_X000:
     stx BANK_SELECT
     sta BANK_DATA
     inx
     lda BankPPU_X400
-    bpl loc_ED41
+    bpl @low_X400
     lda #$7C
 
-loc_ED41:
+@low_X400:
     stx BANK_SELECT
     sta BANK_DATA
     inx
     lda BankPPU_X800
-    bpl loc_ED4E
+    bpl @low_X800
     lda #$7C
 
-loc_ED4E:
+@low_X800:
     stx BANK_SELECT
     sta BANK_DATA
     inx
     lda BankPPU_XC00
-    bpl loc_ED5B
+    bpl @low_XC00
     lda #$7C
 
-loc_ED5B:
+@low_XC00:
     stx BANK_SELECT
     sta BANK_DATA
     rts
 ; ---------------------------------------------------------------------------
 
-loc_ED62:
+irq_enemy:
     sec
-    lda #$23
-    sbc byte_46
+    lda #35
+    sbc IRQLine
     asl A
-    jsr sub_C218
-    bit byte_45
+    jsr prep_irq
+    bit CHRFlags
     bvs loc_ED2E
 
-loc_ED6F:
+low_pages:
     lda BankPPU_X000
     and #$7F
     stx BANK_SELECT
@@ -7878,19 +7878,18 @@ loc_ED6F:
     stx BANK_SELECT
     sta BANK_DATA
     rts
-; End of function sub_ED22
+; End of function irq_split
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-load_fonts:
-    .export locret_EDCA
-    .importzp byte_44
+irq_gui:
+    .importzp SplitLine
 
-    set byte_46, byte_44
-    lda #$C8
-    jsr sub_C218
+    set IRQLine, SplitLine
+    lda #200
+    jsr prep_irq
     sta IRQ_DISABLE           ; Disable MMC3 interrupts and acknowledge any pending interrupts
     lda BankTable + BANK_TABLE::PPU_1K_0000
     stx BANK_SELECT
@@ -7907,16 +7906,16 @@ load_fonts:
     lda BankTable + BANK_TABLE::PPU_1K_0C00
     stx BANK_SELECT
     sta BANK_DATA
-
-locret_EDCA:
     rts
-; End of function load_fonts
+; End of function irq_gui
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
 sub_EDCB:
+    .export sub_EDCB
+
     jsr wait4
     ldx #$24
     lda #$1F
@@ -8999,7 +8998,7 @@ wait_A_B:
 script_low:
     .export script_low
 
-    asl A               ; diff effects in the battle
+    asl A
     tay
     iny
     iny
@@ -9021,7 +9020,7 @@ script_low:
     pha
     txa
     pha
-    jmp (AddrForJmp)    ; F6BF
+    jmp (AddrForJmp)
 ; End of function script_low
 
 
@@ -9585,7 +9584,7 @@ loc_F630:
     eor #6
     beq loc_F660
     ldx #2
-    lda Character + CHARACTER::InitialStatus,Y
+    lda Character + CHARACTER::Status,Y
     and #$80
     bne loc_F655
     ldx #1

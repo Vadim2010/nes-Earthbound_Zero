@@ -132,13 +132,13 @@ These are functions of the following form:
 
 Where NUMBER is 1, 2, or 3.
 
-We will keep the following functions: `sub_17ADEC`, `sub_17B863`, and `step_3`.
+We will keep the following functions: `step1`, `step_2`, and `step_3`.
 We will remove: `@step_1`, `@step_2`.
 
 The following lines will be replaced accordingly:
 <pre>
     ...                                                     ...
-    lda #2                                                  jmp sub_17B863
+    lda #2                                                  jmp step_2
     jmp get_script_pntr                                     ...
     ...
 
@@ -153,13 +153,13 @@ Then we will update the tables to reflect the changes:
 Before
 <pre>
     ...
-    .word @step_1, nullsub_4, get_target_offset, sub_17B202, sub_17B21D
-    .word sub_17B238, sub_17B23D, sub_17B248
+    .word @step_1, nullsub_4, get_target_offset, get_group_by_status1, get_group_by_status2
+    .word char2target, get_group, get_next_target
     ...
 
     ...
-    .word @step_2, sub_17B250, get_offense, set_value, sub_17B302
-    .word set_flags, sub_17B320, sub_17B3C2, pTileID2sound, print_pTileID
+    .word @step_2, calc_attack, get_offense, set_value, boss_msg
+    .word set_flags, enemy_check, choose_sound, pTileID2sound, print_pTileID
     .word play_pTileID
     ...
 </pre>
@@ -167,34 +167,34 @@ Before
 After
 <pre>
     ...
-    .word sub_17ADEC, nullsub_4, get_target_offset, sub_17B202, sub_17B21D
-    .word sub_17B238, sub_17B23D, sub_17B248
+    .word step1, nullsub_4, get_target_offset, get_group_by_status1, get_group_by_status2
+    .word char2target, get_group, get_next_target
     ...
 
     ...
-    .word sub_17B863, sub_17B250, get_offense, set_value, sub_17B302
-    .word set_flags, sub_17B320, sub_17B3C2, pTileID2sound, print_pTileID
+    .word step_2, calc_attack, get_offense, set_value, boss_msg
+    .word set_flags, enemy_check, choose_sound, pTileID2sound, print_pTileID
     .word play_pTileID
     ...
 </pre>
 
 To the table:
 <pre>
-    .word sub_17B863, recover_hp, recover_pp, increase_speed, increase_off
-    .word increase_defense, sub_17B8CB, sub_17B915, decrease_def, decrease_fight
-    .word sub_17BA2A, sub_17BA3C, decrease_offense, decrease_defense, sub_17BA95
-    .word sub_17B8AA, sub_17B8F2, sub_17BA86, increase_offense, sub_17BAE4
-    .word sub_17BAFA, sub_17BB0D, sub_17BB25, sub_17BB3D, sub_17BB55
-    .word set_resist, sub_17BB83, sub_17BB8C, sub_17BB9D, sub_17BBB0
-    .word sub_17BBCD, sub_17BBEB, sub_17BBF9, sub_17BC02, sub_17BC0B
-    .word sub_17BC14, sub_17BC1D, sub_17BC26, revives, sub_17BC2F
-    .word sub_17BCD0, sub_17BD2B, sub_17BC5D, sub_17BD44
+    .word step_2, recover_hp, recover_pp, increase_speed, increase_off
+    .word increase_defense, restore_hp, resolve_attack, decrease_def, decrease_fight
+    .word knock_out, critical_dmg, decrease_offense, decrease_defense, increase_exp
+    .word trigger_kill, random_damage, approach_enemy, increase_offense, blinded
+    .word poisoned, confused, put2sleep, cant_move, psi_blocked
+    .word set_resist, shielded, barrier, bound, stone
+    .word asthma, strange, dissipated, wake_up, can_move
+    .word asthma_pass, regained, destroyed, revives, recovered_stone
+    .word snatched, took_away, defeated, lost_senses
 </pre>
 
 We will add one more entry at the end — the handler that increases Fight:
 <pre>
     ...
-    .word sub_17BCD0, sub_17BD2B, sub_17BC5D, sub_17BD44, increase_fight
+    .word snatched, took_away, defeated, lost_senses, increase_fight
 </pre>
 
 We will insert the handler code after the `increase_offense` code and before `increase_speed`:
@@ -208,23 +208,41 @@ increase_fight:
     jmp print_text
 </pre>
 
+Add a new parameter INCREASE_FIGHT = $2B to the `battle.inc` file.
+
 Let’s fix the script that handles Bullhorn in the `enemies.s` file.
 Before:
 <pre>
 Bullhorn:
-    .byte $67, 0,$30,$70,$51,$80,$B7,$9E
-    .byte $68,$18,$13,$88,$59,$9C,$68,$35
-    .byte $62,$19,$40,$2B, 0,$68,$36,$68
-    .byte $37,$62,$14,$40, $B, 0
+    ...
+    print_msg BELIEVED
+    set_value 25
+    change DECREASE_FIGHT
+    end_script
+
+DontBelieved:
+    print_msg WASNTCONVINCED
+    print_msg MADEANGRY
+    set_value 20
+    change INCREASE_OFFENSE
+    end_script
 </pre>
 
 After:
 <pre>
 Bullhorn:
-    .byte $67, 0,$30,$70,$51,$80,$B7,$9E
-    .byte $68,$18,$13,$88,$59,$9C,$68,$35
-    .byte $62,$14,$40,$B, 0,$68,$36,$68
-    .byte $37,$62,$19,$40, $2B, 0
+    ...
+    print_msg BELIEVED
+    set_value 20
+    change DECREASE_OFFENSE
+    end_script
+
+DontBelieved:
+    print_msg WASNTCONVINCED
+    print_msg MADEANGRY
+    set_value 25
+    change INCREASE_FIGHT
+    end_script
 </pre>
 
 Since Bullhorn is only used during battle, these are the only changes that need to be made.
@@ -237,45 +255,37 @@ We’ll start by modifying the battle behavior. However, memory in BANK_7 is sti
 We’ll need to apply another code optimization to free up the necessary space.
 
 <pre>
-loc_17ACE2:                                                 loc_17ACE2:
-    lda Character1 + BATTLE::InitialStatus,Y                    lda Character1 + BATTLE::InitialStatus,Y
+@check_alive:                                               @check_alive:
+    lda Character1 + BATTLE::Status,Y                           lda Character1 + BATTLE::Status,Y
     and #$80                                                    asl A
-    beq loc_17ACEE                                              bcc loc_17ACEE
+    beq @check_stone                                            bcc @check_stone
     ...                                                         ...
 
-loc_17ACEE:                                                 loc_17ACEE:
-    lda Character1 + BATTLE::InitialStatus,Y                    asl A
-    and #$40                                                    bcc loc_17ACFA
-    beq loc_17ACFA                                              ...
+@check_stone:                                               @check_stone:
+    lda Character1 + BATTLE::Status,Y                           asl A
+    and #$40                                                    bcc @check_cantmove
+    beq @check_cantmove                                         ...
     ... 
 
-loc_17ACFA:                                                 loc_17ACFA:
-    lda Character1 + BATTLE::InitialStatus,Y                    asl A
-    and #$20                                                    bcc loc_17AD06
-    beq loc_17AD06                                              ...
+@check_cantmove:                                            @check_cantmove:
+    lda Character1 + BATTLE::Status,Y                           asl A
+    and #$20                                                    bcc @check_asleep
+    beq @check_asleep                                           ...
     ...
 
-loc_17AD06:                                                 loc_17AD06:
-    lda Character1 + BATTLE::InitialStatus,Y                    asl A
-    and #$10                                                    bcc loc_17AD2B
-    beq loc_17AD2B                                              ...
+@check_asleep:                                              @check_asleep:
+    lda Character1 + BATTLE::Status,Y                           asl A
+    and #$10                                                    bcc @check_daydream
+    beq @check_daydream                                         ...
     ...
 
-loc_17AD2B:                                                 loc_17AD2B:
-    lda Character1 + BATTLE::InitialStatus,Y                    asl A
+@check_daydream:                                            @check_daydream:
+    lda Character1 + BATTLE::Status,Y                           asl A
     and #4                                                      asl A
-    beq loc_17AD37                                              bcc loc_17AD37
+    beq @check_wheeze                                           bcc @check_wheeze
     ...                                                         ...
 
-loc_17AD37:                                                 loc_17AD37:
-    lda Character1 + BATTLE::Resist,Y                           asl A
-    and #2                                                      bcc loc_17AD4A
-    beq loc_17AD4A                                              ...
-    ...
-
-
-
-sub_17B150:                                                 sub_17B150:
+check_target_flags:                                         check_target_flags:
     ...                                                         ...
     and #$80                                                    asl A
     bne loc_17B160                                              bcs loc_17B160
@@ -283,7 +293,7 @@ sub_17B150:                                                 sub_17B150:
     ...                                                         ...
 
 
-sub_17B202:                                                 sub_17B202:
+get_group_by_status1:                                       get_group_by_status1:
     ...                                                         ...
     and #$80                                                    asl A
     bne loc_17B22D                                              bcs loc_17B22D
@@ -302,12 +312,12 @@ revives:                                                    revives:
     ...                                                         ...
 </pre>
 
-We will add the label loc_17B12D to the sub_17B125 subroutine:
+We will add the label loc_17B12D to the check_no_vechicle subroutine:
 <pre>
-sub_17B125:
+check_no_vechicle:
     lda CharacterOffset
     bmi loc_17B12F
-    lda byte_23
+    lda Vechicle
     beq loc_17B12F
 
 loc_17B12D:
@@ -332,7 +342,7 @@ We will add the label brought:
 <pre>
 revives:
     ...
-    sta Value
+    set Value, #$FF
     sta Value+1
 
 brought:
@@ -352,7 +362,7 @@ get_chr_pntr:
 
 We will replace it with the following function:
 <pre>
-sub_17BF2C:                                                 sub_17BF2C:
+get_char_parameter:                                         get_char_parameter:
     lda Character1 + BATTLE::PointerChr,X                       jsr get_chr_pntr
     sta TilepackMode                                            ...
     lda Character1 + BATTLE::PointerChr+1,X
@@ -362,16 +372,15 @@ sub_17BF2C:                                                 sub_17BF2C:
 
 And we will add the code for reviving with 50% HP:
 <pre>
-sub_17B8CB:                                                 sub_17B8CB:
-    lda #$FF                                                    lda #$FF
-    sta Value                                                   sta Value
+restore_hp:                                                 restore_hp:
+    set Value, #$FF                                             set Value, #$FF
     sta Value+1                                                 sta Value+1
     jmp loc_17B86B                                              ldy TargetOffset
-    ...                                                         lda Character1 + BATTLE::InitialStatus,Y
+    ...                                                         lda Character1 + BATTLE::Status,Y
                                                                 asl A
                                                                 bcc loc_17B86B
                                                                 lda #0
-                                                                sta Character1 + BATTLE::InitialStatus,Y
+                                                                sta Character1 + BATTLE::Status,Y
                                                                 ldx TargetOffset
                                                                 ldy #CHARACTER::MaxHealth
                                                                 jsr get_chr_pntr
@@ -389,12 +398,14 @@ We will fix the scripts in `enemies.s`:
 Before:
 <pre>
 LifeUpCream:
-    .byte $67,  0,$31,$41,$A0,$ED,$9C
+    sound 0
+    use_remove_item $41
+    jump CheckAlive
 
 ...
-EndScript:
-    .byte 0
-    .byte $68, $11, 0, $69, $B, $68, 6, 0, $69, $13, $68, $50, 0, $68, $12, 0
+WithoutEffect:
+    print_msg NOEFFECT
+    end_script
 
 .export BattleAction
 BattleAction:
@@ -404,16 +415,19 @@ BattleAction:
 After:
 <pre>
 LifeUpCream:
-    .byte $67,  0,$31,$41,$A0
-    .word Revive
+    sound 0
+    use_remove_item $41
+    jump Revive
 
 ...
-EndScript:
-    .byte 0
-    .byte $68, $11, 0, $69, $B, $68, 6, 0, $69, $13, $68, $50, 0, $68, $12, 0
+WithoutEffect:
+    print_msg NOEFFECT
+    end_script
 
 Revive:
-    .byte $51, $40, 5, 0
+    get_target
+    change RESTORE_HP
+    end_script
 
 .export BattleAction
 BattleAction:
@@ -449,7 +463,7 @@ We will insert the `resurrect` function between the subroutines `sub_13A661` and
 .import loc_13A6F0
 resurrect:
     jsr sram_write_enable
-    ldy #CHARACTER::InitialStatus
+    ldy #CHARACTER::Status
     lda (BankPPU_X000),Y
     and #$7F
     sta (BankPPU_X000),Y

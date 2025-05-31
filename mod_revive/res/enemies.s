@@ -1,4 +1,5 @@
 .include "structures.inc"
+.include "battle.inc"
 
 .segment "BANK_6"
 
@@ -222,7 +223,7 @@ EnemyList:
     .import sBigWoodoh
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte IMMUNE_SLEEP_DEFDOWN|RESIST_PK_FREEZE ; Flags
     .word 70|COLOR1|TILE1   ; HP
     .word EXTRA1|EXTRA2     ; PP
@@ -244,7 +245,7 @@ EnemyList:
     .import sDragon
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte RESIST_PK_BEAM|IMMUNE_SLEEP_DEFDOWN|ENEMY_FLAGS_8|RESIST_PK_THUNDER|RESIST_PK_FREEZE|RESIST_PK_FIRE|IMMUNE_STATUS_EFFECTS ; Flags
     .word 650|TILE1         ; HP
     .word 200               ; PP
@@ -266,7 +267,7 @@ EnemyList:
     .import sR7038
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte RESIST_PK_BEAM|IMMUNE_SLEEP_DEFDOWN|RESIST_PK_THUNDER|RESIST_PK_FREEZE|RESIST_PK_FIRE|IMMUNE_STATUS_EFFECTS   ; Flags
     .word 1000|COLOR1|TILE1 ; HP
     .word EXTRA4|EXTRA1     ; PP
@@ -288,7 +289,7 @@ EnemyList:
     .import sElephant
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte NO_RESIST         ; Flags
     .word 70|COLOR2|TILE1   ; HP
     .word 0                 ; PP
@@ -310,7 +311,7 @@ EnemyList:
     .import sBear
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte NO_RESIST         ; Flags
     .word 80|TILE2          ; HP
     .word 0                 ; PP
@@ -332,7 +333,7 @@ EnemyList:
     .import sBigFoot
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte RESIST_PK_FREEZE  ; Flags
     .word 90|COLOR2|TILE1   ; HP
     .word 50                ; PP
@@ -354,7 +355,7 @@ EnemyList:
     .import sMadTruck
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte IMMUNE_SLEEP_DEFDOWN|IMMUNE_STATUS_EFFECTS    ; Flags
     .word 60|TILE2          ; HP
     .word 0                 ; PP
@@ -376,7 +377,7 @@ EnemyList:
     .import sOldRobot
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte IMMUNE_SLEEP_DEFDOWN|IMMUNE_STATUS_EFFECTS    ; Flags
     .word 60|COLOR2|TILE2   ; HP
     .word 30                ; PP
@@ -398,7 +399,7 @@ EnemyList:
     .import sMegaborg
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte RESIST_PK_BEAM|IMMUNE_SLEEP_DEFDOWN|ENEMY_FLAGS_8|RESIST_PK_THUNDER|RESIST_PK_FREEZE|RESIST_PK_FIRE|IMMUNE_STATUS_EFFECTS ; Flags
     .word 160|TILE2         ; HP
     .word 60                ; PP
@@ -420,7 +421,7 @@ EnemyList:
     .import sGargoyle
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte IMMUNE_SLEEP_DEFDOWN  ; Flags
     .word 180|TILE2|TILE1   ; HP
     .word 60                ; PP
@@ -442,7 +443,7 @@ EnemyList:
     .import sGabilan
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte NO_RESIST         ; Flags
     .word 100|TILE2         ; HP
     .word 0                 ; PP
@@ -464,7 +465,7 @@ EnemyList:
     .import sGorilla
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte NO_RESIST         ; Flags
     .word 40|COLOR2|TILE4   ; HP
     .word 0                 ; PP
@@ -486,7 +487,7 @@ EnemyList:
     .import sBison
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte NO_RESIST         ; Flags
     .word 160|TILE2|TILE1   ; HP
     .word 0                 ; PP
@@ -508,7 +509,7 @@ EnemyList:
     .import sTiger
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte NO_RESIST         ; Flags
     .word 35|COLOR2|TILE2   ; HP
     .word 0                 ; PP
@@ -530,7 +531,7 @@ EnemyList:
     .import sMadCar
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte IMMUNE_SLEEP_DEFDOWN|IMMUNE_STATUS_EFFECTS    ; Flags
     .word 40|TILE4          ; HP
     .word 0                 ; PP
@@ -552,7 +553,7 @@ EnemyList:
     .import sRaebYddet
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte NO_RESIST         ; Flags
     .word 40|COLOR2|TILE4   ; HP
     .word 0                 ; PP
@@ -574,7 +575,7 @@ EnemyList:
     .import sMagicSnail
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte SPRAY_VULNERABLE|ENEMY_FLAGS_8     ; Flags
     .word 50|COLOR1|TILE4   ; HP
     .word 0                 ; PP
@@ -596,7 +597,7 @@ EnemyList:
     .import sTitanees
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte SPRAY_VULNERABLE|IMMUNE_SLEEP_DEFDOWN|ENEMY_FLAGS_8    ; Flags
     .word 130|COLOR2|TILE4  ; HP
     .word 40                ; PP
@@ -618,7 +619,7 @@ EnemyList:
     .import sGiegue
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte RESIST_PK_BEAM|IMMUNE_SLEEP_DEFDOWN|ENEMY_FLAGS_8|RESIST_PK_THUNDER|RESIST_PK_FREEZE|RESIST_PK_FIRE|IMMUNE_STATUS_EFFECTS ; Flags
     .word 35|COLOR3|TILE1   ; HP
     .word EXTRA8|EXTRA4|EXTRA2|EXTRA1 ; PP
@@ -640,7 +641,7 @@ EnemyList:
     .import sEagle
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte NO_RESIST         ; Flags
     .word 45|COLOR3|TILE4   ; HP
     .word 0                 ; PP
@@ -662,7 +663,7 @@ EnemyList:
     .import sWolf
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte NO_RESIST         ; Flags
     .word 50|COLOR1|TILE4   ; HP
     .word 0                 ; PP
@@ -684,7 +685,7 @@ EnemyList:
     .import sSeagull
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte NO_RESIST         ; Flags
     .word 90|COLOR3|TILE4   ; HP
     .word 0                 ; PP
@@ -706,7 +707,7 @@ EnemyList:
     .import sAlligator
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte NO_RESIST         ; Flags
     .word 30|TILE4          ; HP
     .word 0                 ; PP
@@ -728,7 +729,7 @@ EnemyList:
     .import sEnergyRobot
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte IMMUNE_SLEEP_DEFDOWN|IMMUNE_STATUS_EFFECTS    ; Flags
     .word 80|TILE8|TILE2    ; HP
     .word 0                 ; PP
@@ -750,7 +751,7 @@ EnemyList:
     .import sTheFish
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte RESIST_PK_BEAM|RESIST_PK_FREEZE|RESIST_PK_FIRE    ; Flags
     .word 65|COLOR2|TILE4|TILE1   ; HP
     .word 0                 ; PP
@@ -772,7 +773,7 @@ EnemyList:
     .import sFugitive
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte NO_RESIST         ; Flags
     .word 60|COLOR1|TILE4|TILE1   ; HP
     .word 0                 ; PP
@@ -794,7 +795,7 @@ EnemyList:
     .import sBBsBoss
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte NO_RESIST         ; Flags
     .word 108|COLOR2|TILE4|TILE1  ; HP
     .word 0                 ; PP
@@ -816,7 +817,7 @@ EnemyList:
     .import sBarbot
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte RESIST_PK_BEAM|IMMUNE_SLEEP_DEFDOWN|RESIST_PK_THUNDER|RESIST_PK_FIRE|IMMUNE_STATUS_EFFECTS    ; Flags
     .word 60|TILE4|TILE1          ; HP
     .word 40                ; PP
@@ -838,7 +839,7 @@ EnemyList:
     .import sNancy
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte IMMUNE_SLEEP_DEFDOWN|RESIST_PK_THUNDER|RESIST_PK_FREEZE|IMMUNE_STATUS_EFFECTS ; Flags
     .word 120|TILE4|TILE1         ; HP
     .word 60                ; PP
@@ -860,7 +861,7 @@ EnemyList:
     .import sStarman
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte NO_RESIST         ; Flags
     .word 80|TILE4|TILE1          ; HP
     .word 50                ; PP
@@ -882,7 +883,7 @@ EnemyList:
     .import sUllrich
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte RESIST_PK_THUNDER ; Flags
     .word 40|COLOR2|TILE4|TILE1   ; HP
     .word 60                ; PP
@@ -904,7 +905,7 @@ EnemyList:
     .import sCerebrum
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte RESIST_PK_BEAM|IMMUNE_SLEEP_DEFDOWN|ENEMY_FLAGS_8|RESIST_PK_THUNDER|RESIST_PK_FREEZE|RESIST_PK_FIRE|IMMUNE_STATUS_EFFECTS ; Flags
     .word 200|COLOR1|TILE4|TILE1  ; HP
     .word 180               ; PP
@@ -926,7 +927,7 @@ EnemyList:
     .import sMook
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte IMMUNE_SLEEP_DEFDOWN  ; Flags
     .word 85|TILE4|TILE1    ; HP
     .word 80                ; PP
@@ -948,7 +949,7 @@ EnemyList:
     .import sArmor
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte RESIST_PK_BEAM|IMMUNE_SLEEP_DEFDOWN|ENEMY_FLAGS_8|RESIST_PK_THUNDER|RESIST_PK_FREEZE|RESIST_PK_FIRE|IMMUNE_STATUS_EFFECTS ; Flags
     .word 120|TILE4|TILE1   ; HP
     .word 100|EXTRA8|EXTRA2 ; PP
@@ -970,7 +971,7 @@ EnemyList:
     .import sWoodoh
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte IMMUNE_SLEEP_DEFDOWN|RESIST_PK_FREEZE ; Flags
     .word 40|TILE4|TILE1          ; HP
     .word 0                 ; PP
@@ -992,7 +993,7 @@ EnemyList:
     .import sWally
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte NO_RESIST         ; Flags
     .word 20|COLOR2|TILE8   ; HP
     .word 0                 ; PP
@@ -1014,7 +1015,7 @@ EnemyList:
     .import sTheHippie
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte NO_RESIST         ; Flags
     .word 25|TILE4|TILE2|TILE1          ; HP
     .word 0                 ; PP
@@ -1036,7 +1037,7 @@ EnemyList:
     .import sBagLady
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte NO_RESIST         ; Flags
     .word 90|COLOR1|TILE4|TILE2|TILE1   ; HP
     .word 0                 ; PP
@@ -1058,7 +1059,7 @@ EnemyList:
     .import sBBGang
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte NO_RESIST         ; Flags
     .word 80|COLOR3|TILE8   ; HP
     .word 0                 ; PP
@@ -1080,7 +1081,7 @@ EnemyList:
     .import sDrDistorto
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte NO_RESIST         ; Flags
     .word 60|COLOR1|TILE4|TILE2|TILE1   ; HP
     .word 0                 ; PP
@@ -1102,7 +1103,7 @@ EnemyList:
     .import sGangZombie
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte NO_RESIST         ; Flags
     .word 12|COLOR1|TILE8   ; HP
     .word 106               ; PP
@@ -1124,7 +1125,7 @@ EnemyList:
     .import sGangZombie
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte IMMUNE_STATUS_EFFECTS ; Flags
     .word 34|COLOR1|TILE4|TILE2|TILE1   ; HP
     .word 0                 ; PP
@@ -1146,7 +1147,7 @@ EnemyList:
     .import sPseudoZombi
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte IMMUNE_STATUS_EFFECTS ; Flags
     .word 30|COLOR1|TILE8   ; HP
     .word 0                 ; PP
@@ -1168,7 +1169,7 @@ EnemyList:
     .import sCrow
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte NO_RESIST         ; Flags
     .word 22|COLOR2|TILE8   ; HP
     .word 0                 ; PP
@@ -1190,7 +1191,7 @@ EnemyList:
     .import sSnake
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte NO_RESIST         ; Flags
     .word 18|COLOR1|TILE8   ; HP
     .word 0                 ; PP
@@ -1212,7 +1213,7 @@ EnemyList:
     .import sHyena
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte NO_RESIST         ; Flags
     .word 30|TILE8|TILE1    ; HP
     .word 0                 ; PP
@@ -1234,7 +1235,7 @@ EnemyList:
     .import sCougar
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte NO_RESIST         ; Flags
     .word 42|COLOR3|TILE8|TILE1   ; HP
     .word 0                 ; PP
@@ -1256,7 +1257,7 @@ EnemyList:
     .import sCentipede
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte SPRAY_VULNERABLE  ; Flags
     .word 12|COLOR1|TILE8   ; HP
     .word EXTRA8|EXTRA1     ; PP
@@ -1278,7 +1279,7 @@ EnemyList:
     .import sDustBall
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte IMMUNE_STATUS_EFFECTS ; Flags
     .word 78|COLOR1|TILE8|TILE1   ; HP
     .word 0                 ; PP
@@ -1300,7 +1301,7 @@ EnemyList:
     .import sFly
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte SPRAY_VULNERABLE  ; Flags
     .word 10|TILE8|TILE2          ; HP
     .word 0                 ; PP
@@ -1322,7 +1323,7 @@ EnemyList:
     .import sSpider
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte SPRAY_VULNERABLE  ; Flags
     .word 80|COLOR2|TILE8|TILE2   ; HP
     .word 0                 ; PP
@@ -1344,7 +1345,7 @@ EnemyList:
     .import sScorpion
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte SPRAY_VULNERABLE  ; Flags
     .word 75|COLOR1|TILE8|TILE2   ; HP
     .word 0                 ; PP
@@ -1366,7 +1367,7 @@ EnemyList:
     .import sRope
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte NO_RESIST         ; Flags
     .word 80|COLOR3|TILE8|TILE2   ; HP
     .word 0                 ; PP
@@ -1388,7 +1389,7 @@ EnemyList:
     .import sFireBall
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte RESIST_PK_FIRE|IMMUNE_STATUS_EFFECTS  ; Flags
     .word 58|COLOR3|TILE8|TILE2   ; HP
     .word EXTRA8|50         ; PP
@@ -1410,7 +1411,7 @@ EnemyList:
     .import sWatcher
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte NO_RESIST         ; Flags
     .word 30|COLOR1|TILE8|TILE4|TILE2   ; HP
     .word 0                 ; PP
@@ -1432,7 +1433,7 @@ EnemyList:
     .import sGroucho
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte NO_RESIST         ; Flags
     .word 35|COLOR1|TILE8|TILE2   ; HP
     .word 0                 ; PP
@@ -1454,7 +1455,7 @@ EnemyList:
     .import sGhost
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte IMMUNE_STATUS_EFFECTS ; Flags
     .word 20|COLOR1|TILE8|TILE2   ; HP
     .word 0                 ; PP
@@ -1476,7 +1477,7 @@ EnemyList:
     .import sLilSaucer
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte RESIST_PK_BEAM|IMMUNE_SLEEP_DEFDOWN|RESIST_PK_THUNDER|RESIST_PK_FIRE|IMMUNE_STATUS_EFFECTS  ; Flags
     .word 32|COLOR1|TILE8|TILE2   ; HP
     .word 20                ; PP
@@ -1498,7 +1499,7 @@ EnemyList:
     .import sMrBat
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte NO_RESIST         ; Flags
     .word 20|COLOR3|TILE8|TILE2   ; HP
     .word 0                 ; PP
@@ -1520,7 +1521,7 @@ EnemyList:
     .import sStarmanJr
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte RESIST_PK_BEAM|IMMUNE_SLEEP_DEFDOWN|RESIST_PK_THUNDER|RESIST_PK_FREEZE|RESIST_PK_FIRE|IMMUNE_STATUS_EFFECTS  ; Flags
     .word 52|TILE8|TILE2          ; HP
     .word 23                ; PP
@@ -1542,7 +1543,7 @@ EnemyList:
     .import sSkunk
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte NO_RESIST         ; Flags
     .word 40|COLOR2|TILE8|TILE2   ; HP
     .word 0                 ; PP
@@ -1564,7 +1565,7 @@ EnemyList:
     .import sShroudley
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte IMMUNE_STATUS_EFFECTS ; Flags
     .word 90|COLOR2|TILE4   ; HP
     .word 0                 ; PP
@@ -1586,7 +1587,7 @@ EnemyList:
     .import sRat
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte NO_RESIST         ; Flags
     .word 10|COLOR2|TILE8|TILE2   ; HP
     .word 0                 ; PP
@@ -1608,7 +1609,7 @@ EnemyList:
     .import sBomber
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte IMMUNE_SLEEP_DEFDOWN|RESIST_PK_FIRE|IMMUNE_STATUS_EFFECTS  ; Flags
     .word 60|COLOR1|TILE8|TILE2   ; HP
     .word 0                 ; PP
@@ -1630,7 +1631,7 @@ EnemyList:
     .import sDoll
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte NO_RESIST         ; Flags
     .word 4|TILE8|TILE2|TILE1 ; HP
     .word 0                 ; PP
@@ -1652,7 +1653,7 @@ EnemyList:
     .import sDoll
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte IMMUNE_SLEEP_DEFDOWN|IMMUNE_STATUS_EFFECTS  ; Flags
     .word 12|COLOR1|TILE8|TILE4   ; HP
     .word 0                 ; PP
@@ -1674,7 +1675,7 @@ EnemyList:
     .import sLamp
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte IMMUNE_SLEEP_DEFDOWN|IMMUNE_STATUS_EFFECTS  ; Flags
     .word 6|COLOR1|TILE8|TILE4|TILE1    ; HP
     .word 0                 ; PP
@@ -1696,7 +1697,7 @@ EnemyList:
     .import sBionicCenti
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte NO_RESIST         ; Flags
     .word 180               ; HP
     .word 120               ; PP
@@ -1718,7 +1719,7 @@ EnemyList:
     .import sBionicCenti
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte NO_RESIST         ; Flags
     .word 180               ; HP
     .word 120               ; PP
@@ -1740,7 +1741,7 @@ EnemyList:
     .import sBionicCenti
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte SPRAY_VULNERABLE  ; Flags
     .word 35|COLOR2|TILE8   ; HP
     .word EXTRA8|EXTRA1     ; PP
@@ -1762,7 +1763,7 @@ EnemyList:
     .import sBionicScorp
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte SPRAY_VULNERABLE  ; Flags
     .word 100|COLOR2|TILE8|TILE2  ; HP
     .word 0                 ; PP
@@ -1784,7 +1785,7 @@ EnemyList:
     .import sRedSnake
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte NO_RESIST         ; Flags
     .word 180               ; HP
     .word 120               ; PP
@@ -1805,7 +1806,7 @@ EnemyList:
 ;RedSnake2:
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte NO_RESIST         ; Flags
     .word 180               ; HP
     .word 120               ; PP
@@ -1826,7 +1827,7 @@ EnemyList:
 ;RedSnake:
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte NO_RESIST         ; Flags
     .word 150|COLOR1|TILE8  ; HP
     .word 0                 ; PP
@@ -1848,7 +1849,7 @@ EnemyList:
     .import sLoneWolf
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte RESIST_PK_FREEZE  ; Flags
     .word 80|COLOR2|TILE4   ; HP
     .word 0                 ; PP
@@ -1870,7 +1871,7 @@ EnemyList:
     .import sPolarBear
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte RESIST_PK_FREEZE  ; Flags
     .word 100|COLOR1|TILE2  ; HP
     .word 0                 ; PP
@@ -1892,7 +1893,7 @@ EnemyList:
     .import sRattlesnake
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte NO_RESIST         ; Flags
     .word 70|TILE8|TILE2          ; HP
     .word 100               ; PP
@@ -1913,7 +1914,7 @@ EnemyList:
 ;Rattlesnake2:
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte NO_RESIST         ; Flags
     .word 70|TILE8|TILE2          ; HP
     .word 100               ; PP
@@ -1934,7 +1935,7 @@ EnemyList:
 ;Rattlesnake3:
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte NO_RESIST         ; Flags
     .word 95                ; HP
     .word 100               ; PP
@@ -1955,7 +1956,7 @@ EnemyList:
 ;Rattlesnake4:
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte NO_RESIST         ; Flags
     .word 180               ; HP
     .word 120               ; PP
@@ -1976,7 +1977,7 @@ EnemyList:
 ;Rattlesnake:
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte ENEMY_FLAGS_8     ; Flags
     .word 100|COLOR2|TILE8  ; HP
     .word EXTRA8|EXTRA2|EXTRA1 ; PP
@@ -1998,7 +1999,7 @@ EnemyList:
     .import sTarantula
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte SPRAY_VULNERABLE  ; Flags
     .word 120|COLOR1|TILE8|TILE2  ; HP
     .word 0                 ; PP
@@ -2020,7 +2021,7 @@ EnemyList:
     .import sCrocodile
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte NO_RESIST         ; Flags
     .word 120|COLOR1|TILE4  ; HP
     .word 0                 ; PP
@@ -2042,7 +2043,7 @@ EnemyList:
     .import sBuffalo
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte NO_RESIST         ; Flags
     .word 90|TILE8|TILE2          ; HP
     .word 100               ; PP
@@ -2063,7 +2064,7 @@ EnemyList:
 ;Buffalo:
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte NO_RESIST         ; Flags
     .word 150|TILE2|TILE1   ; HP
     .word 0                 ; PP
@@ -2085,7 +2086,7 @@ EnemyList:
     .import sBionicBat
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte NO_RESIST         ; Flags
     .word 180               ; HP
     .word 120               ; PP
@@ -2106,7 +2107,7 @@ EnemyList:
 ;BionicBat:
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte NO_RESIST         ; Flags
     .word 50|TILE8|TILE2          ; HP
     .word 0                 ; PP
@@ -2128,7 +2129,7 @@ EnemyList:
     .import sStrayDog
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte NO_RESIST         ; Flags
     .word 16|COLOR3|TILE4   ; HP
     .word EXTRA8|EXTRA4     ; PP
@@ -2150,7 +2151,7 @@ EnemyList:
     .import sPsychoCar
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte IMMUNE_SLEEP_DEFDOWN|IMMUNE_STATUS_EFFECTS  ; Flags
     .word 40|COLOR1|TILE4   ; HP
     .word 0                 ; PP
@@ -2172,7 +2173,7 @@ EnemyList:
     .import sPsychoTruck
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte IMMUNE_SLEEP_DEFDOWN|IMMUNE_STATUS_EFFECTS  ; Flags
     .word 58|COLOR1|TILE2   ; HP
     .word 0                 ; PP
@@ -2194,7 +2195,7 @@ EnemyList:
     .import sManiacTruck
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte IMMUNE_SLEEP_DEFDOWN|IMMUNE_STATUS_EFFECTS  ; Flags
     .word 80|COLOR3|TILE2   ; HP
     .word 0                 ; PP
@@ -2216,7 +2217,7 @@ EnemyList:
     .import sAlarmGhost
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte IMMUNE_STATUS_EFFECTS ; Flags
     .word 100|COLOR3|TILE8|TILE2  ; HP
     .word 0                 ; PP
@@ -2238,7 +2239,7 @@ EnemyList:
     .import sFoureyes
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte NO_RESIST         ; Flags
     .word 180               ; HP
     .word 120               ; PP
@@ -2259,7 +2260,7 @@ EnemyList:
 ;Foureyes:
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte NO_RESIST         ; Flags
     .word 40|COLOR1|TILE8|TILE4|TILE2|TILE1   ; HP
     .word 0                 ; PP
@@ -2281,7 +2282,7 @@ EnemyList:
     .import sDadseyes
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte NO_RESIST         ; Flags
     .word 40|COLOR1|TILE8|TILE4|TILE2   ; HP
     .word EXTRA1            ; PP
@@ -2303,7 +2304,7 @@ EnemyList:
     .import sMomseyes
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte NO_RESIST         ; Flags
     .word 40|COLOR1|TILE8|TILE4|TILE2   ; HP
     .word EXTRA2            ; PP
@@ -2325,7 +2326,7 @@ EnemyList:
     .import sSkyYddet
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte NO_RESIST         ; Flags
     .word 180|COLOR2|TILE4  ; HP
     .word 120               ; PP
@@ -2346,7 +2347,7 @@ EnemyList:
 ;SkyYddet2:
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte NO_RESIST         ; Flags
     .word 180|COLOR3|TILE4  ; HP
     .word 120               ; PP
@@ -2367,7 +2368,7 @@ EnemyList:
 ;SkyYddet:
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte NO_RESIST         ; Flags
     .word 74|COLOR3|TILE4   ; HP
     .word EXTRA16           ; PP
@@ -2389,7 +2390,7 @@ EnemyList:
     .import sGigaBorg
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte NO_RESIST         ; Flags
     .word 180|COLOR3|TILE2  ; HP
     .word 120               ; PP
@@ -2410,7 +2411,7 @@ EnemyList:
 ;GigaBorg:
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte RESIST_PK_BEAM|IMMUNE_SLEEP_DEFDOWN|ENEMY_FLAGS_8|RESIST_PK_THUNDER|RESIST_PK_FREEZE|RESIST_PK_FIRE|IMMUNE_STATUS_EFFECTS ; Flags
     .word 180|COLOR3|TILE2  ; HP
     .word 80                ; PP
@@ -2432,7 +2433,7 @@ EnemyList:
     .import sOmegaBorg
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte RESIST_PK_BEAM|IMMUNE_SLEEP_DEFDOWN|ENEMY_FLAGS_8|RESIST_PK_THUNDER|RESIST_PK_FREEZE|RESIST_PK_FIRE|IMMUNE_STATUS_EFFECTS ; Flags
     .word 230|COLOR2|TILE2  ; HP
     .word 150               ; PP
@@ -2454,7 +2455,7 @@ EnemyList:
     .import sScrapper
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte RESIST_PK_BEAM|IMMUNE_SLEEP_DEFDOWN|IMMUNE_STATUS_EFFECTS ; Flags
     .word 70|TILE2          ; HP
     .word 30|EXTRA4|EXTRA2|EXTRA1 ; PP
@@ -2476,7 +2477,7 @@ EnemyList:
     .import sUltraBarbot
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte IMMUNE_SLEEP_DEFDOWN|RESIST_PK_THUNDER|RESIST_PK_FIRE|IMMUNE_STATUS_EFFECTS ; Flags
     .word 80|COLOR2|TILE4|TILE1   ; HP
     .word 50                ; PP
@@ -2498,7 +2499,7 @@ EnemyList:
     .import sOmegaSaucer
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte IMMUNE_SLEEP_DEFDOWN|IMMUNE_STATUS_EFFECTS  ; Flags
     .word 65|COLOR1|TILE8|TILE2   ; HP
     .word 50                ; PP
@@ -2520,7 +2521,7 @@ EnemyList:
     .import sKelly
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte RESIST_PK_BEAM|IMMUNE_SLEEP_DEFDOWN|IMMUNE_STATUS_EFFECTS ; Flags
     .word 120|COLOR2|TILE4|TILE1  ; HP
     .word 80|EXTRA8|EXTRA4|EXTRA1 ; PP
@@ -2542,7 +2543,7 @@ EnemyList:
     .import sStarMiner
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte IMMUNE_SLEEP_DEFDOWN|IMMUNE_STATUS_EFFECTS  ; Flags
     .word 200|TILE8|TILE2         ; HP
     .word 0                 ; PP
@@ -2564,7 +2565,7 @@ EnemyList:
     .import sSuperEnergy
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte IMMUNE_SLEEP_DEFDOWN|IMMUNE_STATUS_EFFECTS  ; Flags
     .word 120|COLOR2|TILE8|TILE2  ; HP
     .word 0                 ; PP
@@ -2586,7 +2587,7 @@ EnemyList:
     .import sJuana
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte RESIST_PK_BEAM|IMMUNE_SLEEP_DEFDOWN|ENEMY_FLAGS_8|RESIST_PK_THUNDER|RESIST_PK_FREEZE|RESIST_PK_FIRE|IMMUNE_STATUS_EFFECTS ; Flags
     .word 300|COLOR3|TILE4|TILE1  ; HP
     .word 200|EXTRA8|EXTRA4|EXTRA2 ; PP
@@ -2608,7 +2609,7 @@ EnemyList:
     .import sBlueStarman
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte NO_RESIST         ; Flags
     .word 100|COLOR2|TILE4|TILE1  ; HP
     .word 80                ; PP
@@ -2630,7 +2631,7 @@ EnemyList:
     .import sRockoyle
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte IMMUNE_SLEEP_DEFDOWN ; Flags
     .word 120|COLOR1|TILE2|TILE1 ; HP
     .word 60                ; PP
@@ -2652,7 +2653,7 @@ EnemyList:
     .import sTitanian
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte SPRAY_VULNERABLE|IMMUNE_SLEEP_DEFDOWN|ENEMY_FLAGS_8 ; Flags
     .word 320|COLOR3|TILE4  ; HP
     .word 0                 ; PP
@@ -2674,7 +2675,7 @@ EnemyList:
     .import sOhMook
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte IMMUNE_SLEEP_DEFDOWN|RESIST_PK_FREEZE ; Flags
     .word 160|COLOR1|TILE4|TILE1  ; HP
     .word 250               ; PP
@@ -2696,7 +2697,7 @@ EnemyList:
     .import sZombie
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte NO_RESIST         ; Flags
     .word 180               ; HP
     .word 120               ; PP
@@ -2717,7 +2718,7 @@ EnemyList:
 ;Zombie:
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte IMMUNE_STATUS_EFFECTS ; Flags
     .word 70|COLOR2|TILE8   ; HP
     .word 50                ; PP
@@ -2739,7 +2740,7 @@ EnemyList:
     .import sNastyZombie
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte IMMUNE_STATUS_EFFECTS ; Flags
     .word 90|COLOR2|TILE4|TILE2|TILE1   ; HP
     .word 0                 ; PP
@@ -2761,7 +2762,7 @@ EnemyList:
     .import sSilverWolf
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte RESIST_PK_FREEZE  ; Flags
     .word 80|COLOR2|TILE4   ; HP
     .word 0                 ; PP
@@ -2783,7 +2784,7 @@ EnemyList:
     .import sR7037
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte RESIST_PK_BEAM|IMMUNE_SLEEP_DEFDOWN|ENEMY_FLAGS_8|RESIST_PK_THUNDER|RESIST_PK_FREEZE|RESIST_PK_FIRE|IMMUNE_STATUS_EFFECTS ; Flags
     .word 1000|TILE1        ; HP
     .word EXTRA4            ; PP
@@ -2805,7 +2806,7 @@ EnemyList:
     .import sGrizzlyBear
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte NO_RESIST         ; Flags
     .word 340|COLOR2|TILE2  ; HP
     .word 0                 ; PP
@@ -2827,7 +2828,7 @@ EnemyList:
     .import sR7038XX
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte RESIST_PK_BEAM|IMMUNE_SLEEP_DEFDOWN|RESIST_PK_THUNDER|RESIST_PK_FREEZE|RESIST_PK_FIRE|IMMUNE_STATUS_EFFECTS  ; Flags
     .word 1000|COLOR3|TILE1 ; HP
     .word EXTRA4|EXTRA2     ; PP
@@ -2849,7 +2850,7 @@ EnemyList:
     .import sLastStarman
 
     .byte 0                 ; field_0
-    .byte 0                 ; InitialStatus
+    .byte 0                 ; Status
     .byte NO_RESIST         ; Flags
     .word 120|COLOR2|TILE4|TILE1  ; HP
     .word 100               ; PP
@@ -3130,467 +3131,1173 @@ byte_1697B5:
 
 .export BattleScripts
 BattleScripts:
-    .word End,Fight,Fight2,Fight3,Fight4,Fight5,Fight6,Fight7
-    .word Fight8,PKFireAlpha,PKFireBeta,PKFireGamma,PKFreezeAlpha,PKFreezeBeta,PKFreezeOmega,PKFreezeGamma
+    .word End,Fight,ContATTACK,Bite,Scratch,Charge,RanOutOf,FinalBlow
+    .word Inexplicable,PKFireAlpha,PKFireBeta,PKFireGamma,PKFreezeAlpha,PKFreezeBeta,PKFreezeOmega,PKFreezeGamma
     .word Bomb,SuperBomb,PKBeamAlpha,PKBeamBeta,PKBeamOmega,PKBeamGamma,Insecticide,PKThunderAlpha
-    .word PKThunderBeta,Fight_19,Fight_1A,OffenseUp,Fight_1C,DefenseUpAlpha,DefenseUpBeta,QuickUp
-    .word EndScript,EndScript,Fight_22,Fight_23,EndScript,DefenseDownAlpha,EndScript,EndScript
-    .word Fight_28,LifeUpAlpha,LifeUpBeta,LifeUpGamma,LifeUpPi,LifeUpOmega,Fight_2E,PSIStone
-    .word PSIMagnet,Darkness,Fight_32,EndScript,Fight_34,EndScript,PSIBlock,PowerShield
-    .word PSIShieldAlpha,PSIShieldBeta,EndScript,EndScript,Bullhorn,PoisnNeedle,StoneOrigin,Fight_3F
-    .word Fight_40,Fight_41,BrainShock,BrainCyclon,Hypnosis,Paralysis,Fight_46,UseRope
-    .word Fight_48,Fight_49,Fight_4A,Fight_4B,Fight_4C,EndScript,EndScript,Fight_4F
-    .word Fight_50,Fight_51,EndScript,Fight_53,Fight_54,EndScript,EndScript,EndScript
-    .word EndScript,GuardScript,EndScript,HealingAlpha,P4thDSlip,Fight_5D,Fight_5E,NobleSeed
+    .word PKThunderBeta,Explode,Burn,OffenseUp,Sing,DefenseUpAlpha,DefenseUpBeta,QuickUp
+    .word EndScript,EndScript,ThreatWords,DirtyWord,EndScript,DefenseDownAlpha,EndScript,EndScript
+    .word Rampage,LifeUpAlpha,LifeUpBeta,LifeUpGamma,LifeUpPi,LifeUpOmega,FlowEnergy,PSIStone
+    .word PSIMagnet,Darkness,GasATTACK,EndScript,Dehydrate,EndScript,PSIBlock,PowerShield
+    .word PSIShieldAlpha,PSIShieldBeta,EndScript,EndScript,Bullhorn,PoisnNeedle,StoneOrigin,StickySpit
+    .word Confuse,EvilSeed,BrainShock,BrainCyclon,Hypnosis,Paralysis,Trip,UseRope
+    .word Run,Fight_49,Fight_4A,Fight_4B,Laugh,EndScript,EndScript,Grin
+    .word Meditate,WalkAway,EndScript,ATTACKReady,Circumstance,EndScript,EndScript,EndScript
+    .word EndScript,GuardScript,EndScript,HealingAlpha,P4thDSlip,Fight_5D,CameClose,NobleSeed
     .word FleaBag,EndScript,Fight_62,HealingBeta,HealingPi,SuprHealing,ShieldOff,FlThrower
-    .word EndScript,LaserBeam,PlasmaBeam,Fight_6B,Fight_6C,Flashdark,StkyMachine,Fight_6F
+    .word EndScript,LaserBeam,PlasmaBeam,Smile,Cry,Flashdark,StkyMachine,Fight_6F
     .word EndScript,OrangeJuice,FrenchFries,MagicHerb,SportsDrink,BigBag,AsthmaSpray,SuperSpray
     .word WordsOLove,SwearWords,Hamburger,LifeUpCream,Antidote,BottlRocket,EndScript,EndScript
-    .word Fight_80,EndScript,DefenseDownBeta,PKThunderGamma,Bread,PKFireOmega,HealingGamma,EndScript, Fight_88
+    .word ParalyzingGas,EndScript,DefenseDownBeta,PKThunderGamma,Bread,PKFireOmega,HealingGamma,EndScript, BlowUp
 
 End:
-    .byte 0
+    end_script
 
 Fight:
-    .byte $51, $80, $1B, $99, $73, $1B, $99, $74, $3A, $99, $72, $2E
-    .byte $99, $66, 0, $68, 4, $80, $B7, $9E, $81, $BA, $9E
-    .byte $73, $BF, $9E, $12, $60, 0, $40, 6, 0, $69, 3, $68
-    .byte 4, $1B, $68, $B, $61, 0, $40, 6, 0, $69, 8, $68
-    .byte 5, $1B, $62, $3C, $40, 6, 0
+    get_target
+    check_bcs GROUP_STATUS, stru_16991B
+    check_bcc RESIST_CHANCE, stru_16991B
+    check_bcc NO_VECHICLE, stru_16993A
+    check_bcc FIGHT_SIMPLE, stru_16992E
 
-Fight2:
-    .byte $51, $66, 0, $68, 4, $90, $1F, $99, $80, $56, $99, $66, 0, $68, 7, $90
-    .byte $1F, $99, 0
+stru_16991B:
+    choose_sound 0
+    print_msg ATTACK
 
-Fight3:
-    .byte $51, $66, 0, $68, 8, $60, 0, $80, $B7
-    .byte $9E, $81, $BA, $9E, $73, $BF, $9E, $12, $40, 6, 0
+stru_16991F:
+    check_bcs GROUP_STATUS, AlreadyGone
+    check_bcs FIGHT_LOWER, Dodge
+    check_bcc RESIST_CHANCE, Missed
+    hit
+    calc_attack 0
+    change RESOLVE_ATTACK
+    end_script
 
-Fight4:
-    .byte $51, $66, 0, $68, 9, $A0, $5C, $99
+stru_16992E:
+    play_sound 3
+    print_msg ATTACK
+    hit_smash
+    print_msg SMASH
+    get_offense 0
+    change RESOLVE_ATTACK
+    end_script
 
-Fight5:
-    .byte $51, $66, 0, $68, $A, $A0, $5C, $99
+stru_16993A:
+    play_sound 8
+    print_msg TANKGUN
+    hit_smash
+    set_value $3C
+    change RESOLVE_ATTACK
+    end_script
 
-Fight6:
-    .byte $51, $66, 0, $68, $13, $62, $F, $A0, $5E, $99
+ContATTACK:
+    get_target
+    choose_sound 0
+    print_msg ATTACK
+    subroutine stru_16991F
+    check_bcs GROUP_STATUS, byte_169956
+    choose_sound 0
+    print_msg CONTINUOUSATTACK
+    subroutine stru_16991F
 
-Fight7:
-    .byte $51, $69, 3, $68, $15, $80, $9A, $99, $73, $A0, $99, $1B, $62, $C8, $40, 6, $40, $E
-    .byte $68, $14, 0, $90, $B7, $9E, $A0, $95, $99, $90, $BF, $9E, $A0, $95, $99
+byte_169956:
+    end_script
 
-Fight8:
-    .byte $63, 0, $52, $69, $14, $68, $16
-    .byte $B4, $80, $B6, $99, $13, $62, $4B, $40, 6, $56, 0, 0
+Bite:
+    get_target
+    choose_sound 0
+    print_msg BIT_MSG
 
-Fight_1C:
-    .byte $52, $68, $5A, $B4, $80, $CA, $99, $8D, $C8, $99
-    .byte $40, $29, $A0, $CA, $99, $68, $12, $56, 0, 0
+stru_16995C:
+    calc_attack 0
+
+stru_16995E:
+    check_bcs GROUP_STATUS, AlreadyGone
+    check_bcs FIGHT_LOWER, Dodge
+    check_bcc RESIST_CHANCE, Missed
+    hit
+    change RESOLVE_ATTACK
+    end_script
+
+Scratch:
+    get_target
+    choose_sound 0
+    print_msg SCRATCHED
+    jump stru_16995C
+
+Charge:
+    get_target
+    choose_sound 0
+    print_msg CHARGED
+    jump stru_16995C
+
+RanOutOf:
+    get_target
+    choose_sound 0
+    print_msg RANOUT
+    set_value $F
+    jump stru_16995E
+
+FinalBlow:
+    get_target
+    play_sound 3
+    print_msg LASTBLOW
+    check_bcs GROUP_STATUS, stru_16999A
+    check_bcc RESIST_CHANCE, stru_1699A0
+    hit_smash
+    set_value $C8
+
+stru_169993:
+    change RESOLVE_ATTACK
+
+stru_169995:
+    change TRIGGER_KILL
+    print_msg EXHAUSTED
+    end_script
+
+stru_16999A:
+    subroutine AlreadyGone
+    jump stru_169995
+
+stru_1699A0:
+    subroutine Missed
+    jump stru_169995
+
+Inexplicable:
+    boss_msg 0
+    get_group_status1
+    play_sound $14
+    print_msg FORM
+        loop4
+        check_bcs GROUP_STATUS, byte_1699B6
+        blast
+        set_value $4B
+        change RESOLVE_ATTACK
+
+byte_1699B6:
+        get_next_target
+        end_loop
+    end_script
+
+Sing:
+    get_group_status1
+    print_msg SANG
+        loop4
+        check_bcs GROUP_STATUS, byte_1699CA
+        check_bcs FINAL_BOSSES, stru_1699C8
+        change DEFEATED
+        jump byte_1699CA
+
+stru_1699C8:
+        print_msg NOEFFECT
+
+byte_1699CA:
+        get_next_target
+        end_loop
+    end_script
 
 PKFireAlpha:
-    .byte $67, 5, $20, $2C, $62, $14, $52, $B4, $80, $DD, $99, $64
-    .byte $40, $17, $40, 6, $56, 0, 0
+    sound 5
+    use_psi $2C
+
+stru_1699D1:
+    set_value $14
+
+byte_1699D3:
+    get_group_status1
+        loop4
+        check_bcs GROUP_STATUS, byte_1699DD
+        set_flags $40
+        hit_fire
+        change RESOLVE_ATTACK
+
+byte_1699DD:
+        get_next_target
+        end_loop
+    end_script
 
 BottlRocket:
-    .byte $67, 5, $31, $61, $A0, $D1, $99
+    sound 5
+    use_remove_item $61
+    jump stru_1699D1
 
 PKFireBeta:
-    .byte $67, 5, $20, $2D, $62, $3C, $A0, $D3, $99
+    sound 5
+    use_psi $2D
+    set_value 60
+    jump byte_1699D3
 
 PKFireGamma:
-    .byte $67, 5, $20, $2E, $62, $64, $A0, $D3, $99
+    sound 5
+    use_psi $2E
+
+stru_1699F4:
+    set_value 100
+    jump byte_1699D3
 
 FlThrower:
-    .byte $67, 5, $32, $22, $90, $F4, $99, $C0, $22, 0
+    sound 5
+    use_item2 $22
+    subroutine stru_1699F4
+    item_broken $22
+    end_script
 
 PKFireOmega:
-    .byte $67, 5, $20, $2F, $A0, $A, $9A, $52, $B4, $80, $12, $9A, $17, $40, 9, $56, 0, 0
+    sound 5
+    use_psi $2F
+    jump byte_169A0A
+
+byte_169A0A:
+    get_group_status1
+        loop4
+        check_bcs GROUP_STATUS, byte_169A12
+        hit_fire
+        change KNOCK_OUT
+
+byte_169A12:
+        get_next_target
+        end_loop
+    end_script
 
 PKFreezeAlpha:
-    .byte $67, 7, $20, $28, $62, $A, $51
-    .byte $80, $B7, $9E, $64, $20, $18, $40, 6, 0
+    sound 7
+    use_psi $28
+    set_value 10
+
+byte_169A1B:
+    get_target
+    check_bcs GROUP_STATUS, AlreadyGone
+    set_flags $20
+    hit_freeze
+    change RESOLVE_ATTACK
+    end_script
 
 PKFreezeBeta:
-    .byte $67, 7, $20, $29, $62, $28, $A0, $1B, $9A
+    sound 7
+    use_psi $29
+    set_value 40
+    jump byte_169A1B
 
 PKFreezeOmega:
-    .byte $67, 7, $20, $2B, $62, $50, $52, $B4, $80, $3E
-    .byte $9A, $64, $20, $18, $40, 6, $56, 0, 0
+    sound 7
+    use_psi $2B
+    set_value 80
+    get_group_status1
+        loop4
+        check_bcs GROUP_STATUS, byte_169A3E
+        set_flags $20
+        hit_freeze
+        change RESOLVE_ATTACK
+
+byte_169A3E:
+        get_next_target
+        end_loop
+    end_script
 
 PKFreezeGamma:
-    .byte $67, 7, $20, $2A, $51, $80, $B7, $9E, $18, $40, $A, 0
+    sound 7
+    use_psi $2A
+    get_target
+    check_bcs GROUP_STATUS, AlreadyGone
+    hit_freeze
+    change CRITICAL_DMG
+    end_script
 
 Bomb:
-    .byte $67, 8, $31, $23, $62, $3C, $A0, $D3, $99
+    sound 8
+    use_remove_item $23
+
+stru_169A51:
+    set_value 60
+    jump byte_1699D3
 
 SuperBomb:
-    .byte $67, 8, $31, $24, $90, $A, $9A, $62, $1F, $40, $F, 0
+    sound 8
+    use_remove_item $24
+    subroutine byte_169A0A
+    set_value 31
+    change RANDOM_DAMAGE
+    end_script
 
 PKBeamAlpha:
-    .byte $67, 6, $20, $30, $62, $1E, $51, $80, $B7, $9E, $64, 2, $1A, $40, 6, 0
+    sound 6
+    use_psi $30
+
+stru_169A66:
+    set_value 30
+
+byte_169A68:
+    get_target
+    check_bcs GROUP_STATUS, AlreadyGone
+    set_flags 2
+    hit_beam
+    change RESOLVE_ATTACK
+    end_script
 
 LaserBeam:
-    .byte $67, 6, $32, $25, $90, $66, $9A, $C0, $25, 0
+    sound 6
+    use_item2 $25
+    subroutine stru_169A66
+    item_broken $25
+    end_script
 
 PKBeamBeta:
-    .byte $67, 6, $20, $31, $62, $50, $A0, $68, $9A
+    sound 6
+    use_psi $31
+
+stru_169A80:
+    set_value 80
+    jump byte_169A68
 
 PlasmaBeam:
-    .byte $67, 6, $32, $26, $90, $80, $9A, $C0, $26, 0
+    sound 6
+    use_item2 $26
+    subroutine stru_169A80
+    item_broken $26
+    end_script
 
 PKBeamOmega:
-    .byte $67, 6, $20, $33, $62, $B4, $52, $B4, $80, $9F, $9A, $64
-    .byte 2, $1A, $40, 6, $56, 0, 0
+    sound 6
+    use_psi $33
+    set_value 180
+    get_group_status1
+        loop4
+        check_bcs GROUP_STATUS, byte_169A9F
+        set_flags 2
+        hit_beam
+        change RESOLVE_ATTACK
+
+byte_169A9F:
+        get_next_target
+        end_loop
+    end_script
 
 PKBeamGamma:
-    .byte $67, 6, $20, $32, $51, $80, $B7, $9E, $75, $B4, $9A, $1A, $79, $C4, $9E
-    .byte $40, 9, 0, $68, $52, $54, $A0, $AD, $9A
+    sound 6
+    use_psi $32
+    get_target
+    check_bcs GROUP_STATUS, AlreadyGone
+    check_bcc FRANKLIN, stru_169AB4
+
+byte_169AAD:
+    hit_beam
+    check_bcc IMMUNE_STATUS, WithoutEffect
+    change KNOCK_OUT
+    end_script
+
+stru_169AB4:
+    print_msg BOUNCED
+    char2target
+    jump byte_169AAD
 
 PKThunderAlpha:
-    .byte $67, 4, $20, $34, $62, $A, $51, $80, $B7, $9E, $64, $10, $19, $40, 6, 0
+    sound 4
+    use_psi $34
+    set_value 10
+
+byte_169AC0:
+    get_target
+    check_bcs GROUP_STATUS, AlreadyGone
+    set_flags $10
+    hit_thunder
+    change RESOLVE_ATTACK
+    end_script
 
 PKThunderBeta:
-    .byte $67, 4, $20, $35, $62, $32, $A0, $C0, $9A
+    sound 4
+    use_psi $35
+    set_value 50
+    jump byte_169AC0
 
 PKThunderGamma:
-    .byte $67, 4, $20, $36, $62, $3C, $52, $B4, $80
-    .byte $E3, $9A, $64, $10, $19, $40, 6, $56, 0, 0
+    sound 4
+    use_psi $36
+    set_value 60
+    get_group_status1
+        loop4
+        check_bcs GROUP_STATUS, byte_169AE3
+        set_flags $10
+        hit_thunder
+        change RESOLVE_ATTACK
+
+byte_169AE3:
+        get_next_target
+        end_loop
+    end_script
 
 Insecticide:
-    .byte $67, 1, $32, $19, $90, $F0, $9A, $C0, $19, 0, $52, $B4
-    .byte $80, $FE, $9A, $12, $79, 1, $9B, $87, 1, $9B, $40
-    .byte 9, $56, 0, 0, $68, $12, $A0, $FE, $9A
+    sound 1
+    use_item2 $19
+    subroutine byte_169AF0
+    item_broken $19
+    end_script
+
+byte_169AF0:
+    get_group_status1
+        loop4
+        check_bcs GROUP_STATUS, byte_169AFE
+        hit
+        check_bcc IMMUNE_STATUS, stru_169B01
+        check_bcs TARGET_FLAGS, stru_169B01
+        change KNOCK_OUT
+
+byte_169AFE:
+        get_next_target
+        end_loop
+    end_script
+
+stru_169B01:
+    print_msg NOEFFECT
+    jump byte_169AFE
 
 SuperSpray:
-    .byte $67, 1, $30, $1A, $90, $F0, $9A, 0
+    sound 1
+    use_item0 $1A
+    subroutine byte_169AF0
+    end_script
 
- Darkness:
-    .byte $67, $D, $20, $1C, $51, $80, $B7, $9E, $13, $79, $C4, $9E, $40, $12, 0
+Darkness:
+    sound $D
+    use_psi $1C
+
+byte_169B12:
+    get_target
+    check_bcs GROUP_STATUS, AlreadyGone
+    blast
+    check_bcc IMMUNE_STATUS, WithoutEffect
+    change BLINDED
+    end_script
 
 Flashdark:
-    .byte $67, 0, $30, $1F, $A0, $12, $9B
+    sound 0
+    use_item0 $1F
+    jump byte_169B12
 
-Fight_3F:
-    .byte $66,  0,$68,$1A,$51,$80,$B7,$9E
-    .byte $13,$40,$12,  0
+StickySpit:
+    choose_sound 0
+    print_msg SPIT
+    get_target
+    check_bcs GROUP_STATUS, AlreadyGone
+    blast
+    change BLINDED
+    end_script
 
-Fight_40:
-    .byte $69, $D,$51,$68,$2C,$51,$80,$B7
-    .byte $9E,$13,$78,$C4,$9E,$79,$C4,$9E
-    .byte $7A,$C4,$9E,$40,$14,  0
+Confuse:
+    play_sound $D
+    get_target
+    print_msg CONFUSED
 
-Fight_41:
-    .byte $69, $D,$68,$76,$A0,$35,$9B
+byte_169B35:
+    get_target
+    check_bcs GROUP_STATUS, AlreadyGone
+    blast
+    ;check_bcc COIN_CHANCE, WithoutEffect
+    check_bcc IMMUNE_STATUS, WithoutEffect
+    check_bcc IMMUNE_SLEEP, WithoutEffect
+    change CONFUSE
+    end_script
+
+EvilSeed:
+    play_sound $D
+    print_msg WICKEDSEED
+    jump byte_169B35
 
 BrainShock:
-    .byte $67, $D,$20,$18,$A0,$35,$9B
+    sound  $D
+    use_psi $18
+    jump byte_169B35
 
 BrainCyclon:
-    .byte $67, $D,$20,$19,$52,$B4,$80,$69
-    .byte $9B,$13,$78,$6C,$9B,$79,$6C,$9B
-    .byte $7A,$6C,$9B,$40,$14,$56,  0,  0
-    .byte $68,$12,$A0,$69,$9B
+    sound $D
+    use_psi $19
+    get_group_status1
+        loop4
+        check_bcs GROUP_STATUS, byte_169B69
+        blast
+        ;check_bcc COIN_CHANCE, stru_169B6C
+        check_bcc IMMUNE_STATUS, stru_169B6C
+        check_bcc IMMUNE_SLEEP, stru_169B6C
+        change CONFUSE
+
+byte_169B69:
+        get_next_target
+        end_loop
+    end_script
+
+stru_169B6C:
+    print_msg NOEFFECT
+    jump byte_169B69
 
 OffenseUp:
-    .byte $67,  0,$20,$20,$51,$80,$B7,$9E
-    .byte $40,  3,  0
+    sound 0
+    use_psi $20
+    get_target
+    check_bcs GROUP_STATUS, AlreadyGone
+    change INCREASE_OFF
+    end_script
 
 DefenseUpAlpha:
-    .byte $67,  0,$20,$21,$51,$80,$B7,$9E
-    .byte $40,  4,  0
+    sound 0
+    use_psi $21
+    get_target
 
-Fight_6B:
-    .byte $68,$28,$54,$A0,$81,$9B
+stru_169B81:
+    check_bcs GROUP_STATUS, AlreadyGone
+    change INCREASE_DEFENSE
+    end_script
+
+Smile:
+    print_msg DARLINGSMILE
+    char2target
+    jump stru_169B81
 
 DefenseUpBeta:
-    .byte $67,  0,$20,$22,$53,$B4,$80,$9B
-    .byte $9B,$7C,$9B,$9B,$40,  4,$56, 0, 0
+    sound 0
+    use_psi $22
+    get_group_status2
+        loop4
+        check_bcs GROUP_STATUS, byte_169B9B
+        check_bcc TARGET_UP, byte_169B9B
+        change INCREASE_DEFENSE
+
+byte_169B9B:
+        get_next_target
+        end_loop
+    end_script
 
 QuickUp:
-    .byte $67,  0,$20,$23,$51,$80,$B7,$9E
-    .byte $62,$14,$40,  2,  0
+    sound 0
+    use_psi $23
+    get_target
+    check_bcs GROUP_STATUS, AlreadyGone
+    set_value 20
+    change INCREASE_SPEED
+    end_script
 
-Fight_28:
-    .byte $62,$19
-    .byte $54
-    .byte $68,$2A
-    .byte $62,$14
-    .byte $40,$11
-    .byte 0
+Rampage:
+    set_value 25
+    char2target
+    print_msg RAGE
+    set_value 20
+    change INCREASE_OFFENSE
+    end_script
 
 Fight_5D:
-    .byte $66,  0,$62,$14,$40,$10,  0
+    choose_sound 0
+    set_value 20
+    change APPROACH_ENEMY
+    end_script
 
 DefenseDownAlpha:
-    .byte $67, $D,$20,$24,$62,$28,$51,$80
-    .byte $B7,$9E,$13,$79,$C4,$9E,$64,  4
-    .byte $40,  7,  0
+    sound $D
+    use_psi $24
+
+stru_169BC0:
+    set_value 40
+    get_target
+    check_bcs GROUP_STATUS, AlreadyGone
+    blast
+    check_bcc IMMUNE_STATUS, WithoutEffect
+    set_flags 4
+    change DECREASE_DEF
+    end_script
 
 PoisnNeedle:
-    .byte $67,  0,$31,$21,$51,$80,$B7,$9E
-    .byte $73,$BF,$9E,$13,$79,$C4,$9E,$40
-    .byte $13,  0
+    sound 0
+    use_remove_item $21
+    get_target
+    check_bcs GROUP_STATUS, AlreadyGone
+    check_bcc RESIST_CHANCE, Missed
+    blast
+    check_bcc IMMUNE_STATUS, WithoutEffect
+    change POISONED
+    end_script
 
-Fight_6C:
-    .byte $68,$1D,$A0,$C0,$9B
+Cry:
+    print_msg STRANGECRY
+    jump stru_169BC0
 
 DefenseDownBeta:
-    .byte $52,$67, $D,$20,$25,$B4,$62,$28
-    .byte $80,$F9,$9B,$13,$79,$FC,$9B,$64
-    .byte   4,$40,  7,$56,  0,  0,$68,$12
-    .byte $A0,$F9,$9B
+    get_group_status1
+    sound $D
+    use_psi $25
+        loop4
+        set_value 40
+        check_bcs GROUP_STATUS, byte_169BF9
+        blast
+        check_bcc IMMUNE_STATUS, stru_169BFC
+        set_flags 4
+        change DECREASE_DEF
 
-Fight_22:
-    .byte $68,$32,$62,$1E,$51,$80,$B7,$9E
-    .byte $13,$40,  8,  0
+byte_169BF9:
+        get_next_target
+        end_loop
+    end_script
 
-Fight_23:
-    .byte $68,$33,$62,$14,$A0,  5,$9C
+stru_169BFC:
+    print_msg NOEFFECT
+    jump byte_169BF9
 
-Fight_32:
-    .byte $52,$66,  0,$68,$4A,$B4,$80,$2B
-    .byte $9C,$12,$62,$1E,$40,  6,$80,$2B
-    .byte $9C,$62,$14,$40,  8,$40,$1D,$56
-    .byte   0,  0
+ThreatWords:
+    print_msg UTTERED
+    set_value 30
 
-Fight_34:
-    .byte $51,$66,  0,$68,  4,$80,$B7,$9E
-    .byte $73,$BF,$9E,$13,$79,$C4,$9E,$68
-    .byte $4C,$40, $B,$40, $C,  0
+byte_169C05:
+    get_target
+    check_bcs GROUP_STATUS, AlreadyGone
+    blast
+    change DECREASE_FIGHT
+    end_script
+
+DirtyWord:
+    print_msg DIRTYWORDS
+    set_value 20
+    jump byte_169C05
+
+GasATTACK:
+    get_group_status1
+    choose_sound 0
+    print_msg PUFFED
+        loop4
+        check_bcs GROUP_STATUS, byte_169C2B
+        hit
+        set_value 30
+        change RESOLVE_ATTACK
+        check_bcs GROUP_STATUS, byte_169C2B
+        set_value 20
+        change DECREASE_FIGHT
+        change GASPING
+
+byte_169C2B:
+        get_next_target
+        end_loop
+    end_script
+
+Dehydrate:
+    get_target
+    choose_sound 0
+    print_msg ATTACK
+    check_bcs GROUP_STATUS, AlreadyGone
+    check_bcc RESIST_CHANCE, Missed
+    blast
+    check_bcc IMMUNE_STATUS, WithoutEffect
+    print_msg DEHYDRATED
+    change DECREASE_OFFENSE
+    change DECREASE_DEFENSE
+    end_script
 
 Bullhorn:
-    .byte $67,  0,$30,$70,$51,$80,$B7,$9E
-    .byte $68,$18,$13,$88,$59,$9C,$68,$35
-    .byte $62,$14,$40,$B,  0,$68,$36,$68
-    .byte $37,$62,$19,$40, $2B,  0
+    sound 0
+    use_item0 $70
+    get_target
+    check_bcs GROUP_STATUS, AlreadyGone
+    print_msg MOTHERCALL
+    blast
+    check_bcs COIN_CHANCE, DontBelieved
+    print_msg BELIEVED
+    set_value 25
+    change DECREASE_FIGHT
+    end_script
+
+DontBelieved:
+    print_msg WASNTCONVINCED
+    print_msg MADEANGRY
+    set_value 20
+    change INCREASE_OFFENSE
+    end_script
 
 FleaBag:
-    .byte $67,  0,$31,$1B,$51,$79,$C4,$9E
-    .byte $68,$5F,$40, $B,$40, $C,  0
+    sound 0
+    use_remove_item $1B
+    get_target
+    check_bcc IMMUNE_STATUS, WithoutEffect
+    print_msg ITCHY
+    change DECREASE_OFFENSE
+    change DECREASE_DEFENSE
+    end_script
 
 StoneOrigin:
-    .byte $67,  0,$31,$20,$51,$80,$B7,$9E
-    .byte $73,$BF,$9E,$13,$79,$C4,$9E,$40
-    .byte $1C,  0
+    sound 0
+    use_remove_item $20
+    get_target
+    check_bcs GROUP_STATUS, AlreadyGone
+    check_bcc RESIST_CHANCE, Missed
+    blast
+    check_bcc IMMUNE_STATUS, WithoutEffect
+    change STONED
+    end_script
 
 Hypnosis:
-    .byte $67, $D,$20,$1A,$51,$80,$B7,$9E
-    .byte $13,$78,$C4,$9E,$79,$C4,$9E,$7A
-    .byte $C4,$9E,$40,$15,  0
+    sound $D
+    use_psi $1A
+    get_target
+    check_bcs GROUP_STATUS, AlreadyGone
+    blast
+    ;check_bcc COIN_CHANCE, WithoutEffect
+    check_bcc IMMUNE_STATUS, WithoutEffect
+    check_bcc IMMUNE_SLEEP, WithoutEffect
+    change PUT2SLEEP
+    end_script
 
 Paralysis:
-    .byte $67, $D,$20,$1B,$51,$80,$B7,$9E
-    .byte $13,$79,$C4,$9E,$40,$16,  0
+    sound $D
+    use_psi $1B
+    get_target
+    check_bcs GROUP_STATUS, AlreadyGone
+    blast
+    check_bcc IMMUNE_STATUS, WithoutEffect
+    change CANT_MOVE
+    end_script
 
 StkyMachine:
-    .byte $67,  0,$32,$1E,$51,$80,$B7,$9E
-    .byte $13,$79,$C4,$9E,$40,$16,$C0,$1E
-    .byte   0
+    sound 0
+    use_item2 $1E
 
-Fight_80:
-    .byte $68,$77,$A0,$AB,$9C
+byte_169CAB:
+    get_target
+    check_bcs GROUP_STATUS, AlreadyGone
+    blast
+    check_bcc IMMUNE_STATUS, WithoutEffect
+    change CANT_MOVE
+    item_broken $1E
+    end_script
+
+ParalyzingGas:
+    print_msg GAS
+    jump byte_169CAB
 
 Fight_62:
-    .byte $68,  4,$51,$80,$B7,$9E,$13,$40
-    .byte $1E,  0
+    print_msg ATTACK
+    get_target
+    check_bcs GROUP_STATUS, AlreadyGone
+    blast
+    change STRANGE
+    end_script
 
 UseRope:
-    .byte $67,  0,$31,$28,$51,$80,$B7,$9E
-    .byte $12,$40,$1B,  0
+    sound 0
+    use_remove_item $28
+    get_target
+    check_bcs GROUP_STATUS, AlreadyGone
+    hit
+    change BOUNDED
+    end_script
 
 LifeUpAlpha:
-    .byte $67,  0,$20,  8,$62,$1E,$51,$80
-    .byte $B7,$9E,$40,  0,  0
+    sound 0
+    use_psi 8
+    set_value 30
+
+byte_169CD9:
+    get_target
+    check_bcs GROUP_STATUS, AlreadyGone
+    change RECOVER_HP
+    end_script
 
 LifeUpBeta:
-    .byte $67,  0,$20,  9,$62,$50,$A0,$D9
-    .byte $9C
+    sound 0
+    use_psi 9
+    set_value 80
+    jump byte_169CD9
 
 LifeUpGamma:
-    .byte $67,  0,$20, $A,$51,$80,$B7,$9E
-    .byte $40,  5,  0
+    sound 0
+    use_psi  $A
+
+CheckAlive:
+    get_target
+    check_bcs GROUP_STATUS, AlreadyGone
+    change RESTORE_HP
+    end_script
 
 LifeUpPi:
-    .byte $67,  0,$20, $B,$62,$32,$53,$B4
-    .byte $80,  4,$9D,$7C,  4,$9D,$40,  0
-    .byte $56,  0,  0
+    sound 0
+    use_psi  $B
+    set_value 50
+    get_group_status2
+        loop4
+        check_bcs GROUP_STATUS, byte_169D04
+        check_bcc TARGET_UP, byte_169D04
+        change RECOVER_HP
+
+byte_169D04:
+        get_next_target
+        end_loop
+    end_script
 
 LifeUpOmega:
-    .byte $67,  0,$20, $C,$53,$B4,$80,$15
-    .byte $9D,$7C,$15,$9D,$40,  5,$56,  0
-    .byte   0
+    sound 0
+    use_psi $C
+    get_group_status2
+        loop4
+        check_bcs GROUP_STATUS, byte_169D15
+        check_bcc TARGET_UP, byte_169D15
+        change RESTORE_HP
 
-Fight_2E:
-    .byte $51,$68,$3F,$A0,$ED,$9C
+byte_169D15:
+        get_next_target
+        end_loop
+    end_script
+
+FlowEnergy:
+    get_target
+    print_msg ENERGY
+    jump CheckAlive
 
 PSIStone:
-    .byte $67,  0,$32,$49,$62,$14,$54,$80
-    .byte $B7,$9E,$40,  1,$C1,$49,  0
+    sound 0
+    use_item2 $49
+    set_value 20
+    char2target
+    check_bcs GROUP_STATUS, AlreadyGone
+    change RECOVER_PP
+    turn2stone $49
+    end_script
 
 OrangeJuice:
-    .byte $67,  0,$31,$3C,$62, $A,$A0,$D9
-    .byte $9C
+    sound 0
+    use_remove_item $3C
+    set_value 10
+    jump byte_169CD9
 
 FrenchFries:
-    .byte $67,  0,$31,$3D,$62,$14,$A0,$D9
-    .byte $9C
+    sound 0
+    use_remove_item $3D
+
+stru_169D3A:
+    set_value 20
+    jump byte_169CD9
 
 MagicHerb:
-    .byte $67,  0,$31,$3E,$62,$1E,$A0,$D9
-    .byte $9C
+    sound 0
+    use_remove_item $3E
+
+stru_169D43:
+    set_value 30
+    jump byte_169CD9
 
 SportsDrink:
-    .byte $67,  0,$31,$40,$62,$64,$A0,$D9
-    .byte $9C
+    sound 0
+    use_remove_item $40
+    set_value 100
+    jump byte_169CD9
 
 BigBag:
-    .byte $67,  0,$33,  1,$90,$43,$9D,$C2
-    .byte   1,  0
+    sound 0
+    use_item3 1
+    subroutine stru_169D43
+    became_empty 1
+    end_script
 
 Hamburger:
-    .byte $67,  0,$31,$3F,$62,$3C,$A0,$D9
-    .byte $9C
+    sound 0
+    use_remove_item $3F
+    set_value 60
+    jump byte_169CD9
 
 LifeUpCream:
-    .byte $67,  0,$31,$41,$A0
-    .word Revive
+    sound 0
+    use_remove_item $41
+    jump Revive
 
 Bread:
-    .byte $67,  0,$31,$47,$A0,$3A,$9D
+    sound 0
+    use_remove_item $47
+    jump stru_169D3A
 
 HealingAlpha:
-    .byte $67,  0,$20,$10,$51,$80,$B7,$9E
-    .byte $40,$1F,  0
+    sound 0
+    use_psi $10
+
+byte_169D76:
+    get_target
+    check_bcs GROUP_STATUS, AlreadyGone
+    change DISSIPATED
+    end_script
 
 Antidote:
-    .byte $67,  0,$31,$43,$A0,$76,$9D
+    sound 0
+    use_remove_item $43
+    jump byte_169D76
 
 NobleSeed:
-    .byte $67,  0,$31,$48,$51,$80,$B7,$9E
-    .byte $40,$23,  0
+    sound 0
+    use_remove_item $48
+    get_target
+    check_bcs GROUP_STATUS, AlreadyGone
+    change REGAINED
+    end_script
 
 HealingBeta:
-    .byte $67,  0,$20,$11,$51,$80,$B7,$9E
-    .byte $40,$21,  0
+    sound 0
+    use_psi $11
+    get_target
+    check_bcs GROUP_STATUS, AlreadyGone
+    change CAN_MOVE
+    end_script
 
 HealingPi:
-    .byte $67,  0,$20,$13,$51,$80,$B7,$9E
-    .byte $40,$20,  0
+    sound 0
+    use_psi $13
+    get_target
+    check_bcs GROUP_STATUS, AlreadyGone
+    change WAKE_UP
+    end_script
 
 SuprHealing:
-    .byte $67,  0,$20,$14,$51,$40,$25,  0
+    sound 0
+    use_psi $14
+    get_target
+    change REVIVES
+    end_script
 
 AsthmaSpray:
-    .byte $67,  0,$30,$42,$51,$80,$B7,$9E
-    .byte $40,$22,  0
+    sound 0
+    use_item0 $42
+    get_target
+    check_bcs GROUP_STATUS, AlreadyGone
+    change ASTHMA_PASS
+    end_script
 
 HealingGamma:
-    .byte $67,  0,$20,$12,$51,$80,$B7,$9E
-    .byte $40,$26,  0
+    sound 0
+    use_psi $12
+    get_target
+    check_bcs GROUP_STATUS, AlreadyGone
+    change RECOVERED_STONE
+    end_script
 
 PSIBlock:
-    .byte $67, $D,$20,$1F,$51,$80,$B7,$9E
-    .byte $78,$D1,$9D,$78,$C4,$9E,$13,$40
-    .byte $17,  0
+    sound $D
+    use_psi $1F
+    get_target
+    check_bcs GROUP_STATUS, AlreadyGone
+    check_bcc COIN_CHANCE, byte_169DD1
+    check_bcc COIN_CHANCE, WithoutEffect
+
+byte_169DD1:
+    blast
+    change PSI_BLOCKED
+    end_script
 
 PowerShield:
-    .byte $67,  0,$20,$17,$51,$80,$B7,$9E
-    .byte $40,$1A,  0
+    sound 0
+    use_psi $17
+    get_target
+    check_bcs GROUP_STATUS, AlreadyGone
+    change BARRIER
+    end_script
 
 PSIShieldAlpha:
-    .byte $67,  0,$20,$15,$51,$80,$B7,$9E
-    .byte $40,$19,  0
+    sound 0
+    use_psi $15
+    get_target
+    check_bcs GROUP_STATUS, AlreadyGone
+    change SHIELDED
+    end_script
 
 PSIShieldBeta:
-    .byte $67,  0,$20,$16,$53,$B4,$80,$F6
-    .byte $9D,$40,$19,$56,  0,  0
+    sound 0
+    use_psi $16
+    get_group_status2
+        loop4
+        check_bcs GROUP_STATUS, byte_169DF6
+        change SHIELDED
 
-Fight_48:
-    .byte $55,$68,$43,$78, $C,$9E,$7B, $C
-    .byte $9E,$B4,$86,  9,$9E,$69,$11,$11
-    .byte $56,  0,  0,$68,$44,  0
+byte_169DF6:
+        get_next_target
+        end_loop
+    end_script
 
-Fight_53:
-    .byte $68,$59,$54,$40,$18,  0
+Run:
+    get_group
+    print_msg RANAWAY
+    check_bcc COIN_CHANCE, stru_169E0C
+    check_bcc OBJECT, stru_169E0C
+        loop4
+        check_bcs TARGET_STATUS, byte_169E09
+        play_sound $11
+        enemy_removal
+
+byte_169E09:
+        get_next_target
+        end_loop
+    end_script
+
+stru_169E0C:
+    print_msg DIDNTWORK
+    end_script
+
+ATTACKReady:
+    print_msg READY
+    char2target
+    change SET_RESIST
+    end_script
 
 GuardScript:
-    .byte $68,$5B,$54,$40,$18,  0
+    print_msg ISGUARDING
+    char2target
+    change SET_RESIST
+    end_script
 
 P4thDSlip:
-    .byte $67, $C,$20,$26,$7B,$2B,$9E,$55
-    .byte $B4,$86,$28,$9E,$16,$56,  0,  0
-    .byte $68,$90,  0
+    sound $C
+    use_psi $26
+    check_bcc OBJECT, stru_169E2B
+    get_group
+        loop4
+        check_bcs TARGET_STATUS, byte_169E28
+        escape_battle
+
+byte_169E28:
+        get_next_target
+        end_loop
+    end_script
+
+stru_169E2B:
+    print_msg ITNOEFFECT
+    end_script
 
 ShieldOff:
-    .byte $67,  0,$20,$1E,$51,$80,$B7,$9E
-    .byte $40,$24,  0
+    sound 0
+    use_psi $1E
+    get_target
+    check_bcs GROUP_STATUS, AlreadyGone
+    change DESTROYED
+    end_script
 
-Fight_46:
-    .byte $69,$13,$68,$45,  0
+Trip:
+    play_sound $13
+    print_msg TRIPPED
+    end_script
 
-Fight_4C:
-    .byte $68,$30,  0
+Laugh:
+    print_msg STARTED
+    end_script
 
-Fight_4F:
-    .byte $68,$34,  0
+Grin:
+    print_msg GRINS
+    end_script
 
-Fight_50:
-    .byte $68,$57,  0
+Meditate:
+    print_msg MEDITATING
+    end_script
 
 WordsOLove:
-    .byte $67,  0,$30,$1C,$68,$72,  0
+    sound 0
+    use_item0 $1C
+    print_msg ILOVEYOU
+    end_script
 
 SwearWords:
-    .byte $67,  0,$30,$1D,$68,$73,  0
+    sound 0
+    use_item0 $1D
+    print_msg IHATEYOU
+    end_script
 
-Fight_19:
-    .byte $69,  8,$68,$1E,$90,$51,$9A,$40
-    .byte  $E,  0
+Explode:
+    play_sound 8
+    print_msg EXPLODED
+    subroutine stru_169A51
+    change TRIGGER_KILL
+    end_script
 
-Fight_88:
-    .byte $69,  8,$68,$1E,$90, $A,$9A,$40
-    .byte  $E,  0
+BlowUp:
+    play_sound 8
+    print_msg EXPLODED
+    subroutine byte_169A0A
+    change TRIGGER_KILL
+    end_script
 
-Fight_1A:
-    .byte $69,  5,$68,$1F,$62,$1E,$90,$D3
-    .byte $99,$40, $E,  0
+Burn:
+    play_sound 5
+    print_msg BURST_MSG
+    set_value 30
+    subroutine byte_1699D3
+    change TRIGGER_KILL
+    end_script
 
 PSIMagnet:
-    .byte $67, $D,$20,$1D,$51,$80,$B7,$9E
-    .byte $78,$83,$9E,$78,$C4,$9E,$13,$40
-    .byte $27,  0
+    sound $D
+    use_psi $1D
+    get_target
+    check_bcs GROUP_STATUS, AlreadyGone
+    check_bcc COIN_CHANCE, byte_169E83
+    check_bcc COIN_CHANCE, WithoutEffect
+
+byte_169E83:
+    blast
+    change SNATCHED
+    end_script
 
 Fight_49:
-    .byte $14,  0
+    call_backup
+    end_script
 
 Fight_4A:
-    .byte $15,  0
+   sowed_seed
+   end_script
 
 Fight_4B:
-    .byte $51,$80, $E,$99,$73, $E,$99,$69
-    .byte  $B,$40,$28,  0
+    get_target
+    check_bcs GROUP_STATUS, Fight
+    check_bcc RESIST_CHANCE, Fight
+    play_sound $B
+    change TOOK_AWAY
+    end_script
 
-Fight_51:
-    .byte $68,$58,$54,$69,$11,$11,$51,$62
-    .byte $46,$40, $D,  0
+WalkAway:
+    print_msg SAID
+    char2target
+    play_sound $11
+    enemy_removal
+    get_target
+    set_value 70
+    change INCREASE_EXP
+    end_script
 
-Fight_54:
-    .byte $66,  0,$68,$66,$54,$40,$2A,  0
+Circumstance:
+    choose_sound 0
+    print_msg CIRCUMSTANCES
+    char2target
+    change LOST_SENSES
+    end_script
 
-Fight_5E:
-    .byte $10
-    .byte $68,  3
-    .byte 0
+CameClose:
+    enemy_approach
+    print_msg DREWNEAR
+    end_script
 
 Fight_6F:
-    .byte $51,$80,$B7,$9E,$65,  0,  0
+    get_target
+    check_bcs GROUP_STATUS, AlreadyGone
+    enemy_check 0
+    end_script
 
 EndScript:
-    .byte 0
-    .byte $68, $11, 0, $69, $B, $68, 6, 0, $69, $13, $68, $50, 0, $68, $12, 0
+    end_script
+
+AlreadyGone:
+    print_msg GONE
+    end_script
+
+Dodge:
+    play_sound $B
+    print_msg DODGED
+    end_script
+
+Missed:
+    play_sound $13
+    print_msg MISS
+    end_script
+
+WithoutEffect:
+    print_msg NOEFFECT
+    end_script
 
 Revive:
-    .byte $51, $40, 5, 0
+    get_target
+    change RESTORE_HP
+    end_script
 
 .export BattleAction
 BattleAction:

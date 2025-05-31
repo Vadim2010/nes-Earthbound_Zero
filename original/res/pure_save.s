@@ -35,7 +35,7 @@ PureSave:
     .byte $20               ; MsgSpdCheckbox
     
     .byte 0                 ; Boy1.field_0
-    .byte 0                 ; Boy1.InitialStatus
+    .byte 0                 ; Boy1.Status
     .byte 0                 ; Boy1.Flags
     .word 30                ; Boy1.MaxHealth
     .word 8                 ; Boy1.MaxPP
@@ -63,7 +63,7 @@ PureSave:
     .byte 0, 0, 0, 0, 0, 0, 0, 0; Boy1.Name
     
     .byte 0                 ; Girl.field_0
-    .byte 0                 ; Girl.InitialStatus
+    .byte 0                 ; Girl.Status
     .byte 0                 ; Girl.Flags
     .word 26                ; Girl.MaxHealth
     .word 12                ; Girl.MaxPP
@@ -91,7 +91,7 @@ PureSave:
     .byte 0, 0, 0, 0, 0, 0, 0, 0; Girl.Name
     
     .byte 0                 ; Boy2.field_0
-    .byte 0                 ; Boy2.InitialStatus
+    .byte 0                 ; Boy2.Status
     .byte 0                 ; Boy2.Flags
     .word 28                ; Boy2.MaxHealth
     .word 0                 ; Boy2.MaxPP
@@ -119,7 +119,7 @@ PureSave:
     .byte 0, 0, 0, 0, 0, 0, 0, 0; Boy2.Name
     
     .byte 0                 ; Boy3.field_0
-    .byte 0                 ; Boy3.InitialStatus
+    .byte 0                 ; Boy3.Status
     .byte 0                 ; Boy3.Flags
     .word 134               ; Boy3.MaxHealth
     .word 0                 ; Boy3.MaxPP

@@ -15,6 +15,11 @@
     pFrame          .word
 .endstruct
 
+.macro animation_sprite Tiles, TileID, PosX, PosY, ShiftX, ShiftY, pFrame
+    .byte Tiles, TileID, PosX, PosY, ShiftX, ShiftY
+    .word pFrame
+.endmacro
+
 .struct NMI_DATA
     NMI_ID          .byte
     NumOfChr        .byte
@@ -32,7 +37,7 @@
 
 .struct CHARACTER
     field_0         .byte
-    InitialStatus   .byte
+    Status          .byte
     Flags           .byte
     MaxHealth       .word
     MaxPP           .word
@@ -175,7 +180,7 @@
 
 .struct BATTLE
     EnemyGroup      .byte
-    InitialStatus   .byte
+    Status          .byte
     Flags           .byte
     Health          .word
     PP              .word
@@ -198,7 +203,7 @@
 
 .struct ENEMY
     field_0         .byte
-    InitialStatus   .byte
+    Status          .byte
     Flags           .byte
     HP              .word
     PP              .word

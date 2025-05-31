@@ -26,7 +26,7 @@ sRepelRing:
 sButterKnife:
     .byte "ButterKnife", 0
 sSurvKnife:
-    .byte "SurvvlKnife", 0
+    .byte "SrvivlKnife", 0
 sSword:
     .byte "Sword", 0
 sKatana:

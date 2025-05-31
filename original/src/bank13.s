@@ -1949,7 +1949,7 @@ press_redraw:
 .proc get_char_status
     .importzp BankPPU_X000
 
-    ldy #CHARACTER::InitialStatus
+    ldy #CHARACTER::Status
     lda (BankPPU_X000),Y
     and #$F0
     rts
@@ -3874,20 +3874,20 @@ loc_13B295:
 
 .proc sub_13B29C
     .import sram_write_enable, sram_read_enable
-    .importzp Dist, ObjectNumWithChar, byte_23, ScriptOffset
+    .importzp Dist, ObjectNumWithChar, Vechicle, ScriptOffset
 
     tax
     sty ScriptOffset
     jsr sram_write_enable
     txa
-    eor byte_23
+    eor Vechicle
     and #$7F
     bne loc_13B2AA
     rts
 ; ---------------------------------------------------------------------------
 
 loc_13B2AA:
-    stx byte_23
+    stx Vechicle
     ldy #$1C
     lda ScriptOffset
     sta (Dist),Y
@@ -4024,10 +4024,10 @@ loc_13B2DE:
 
 .proc train
     .import sram_write_enable, sram_read_enable, sub_CDAF
-    .importzp ObjNumber, byte_23, Item, ScriptOffset
+    .importzp ObjNumber, Vechicle, Item, ScriptOffset
 
     sty ScriptOffset
-    set byte_23, #$F0
+    set Vechicle, #$F0
     set ObjNumber, #$3F
     jsr sram_write_enable
     set $67C0, #0
@@ -4092,7 +4092,7 @@ loc_13B2DE:
 
 .proc no_vehicle
     .import sub_CDAF, copy_character_buffer
-    .importzp Source, Dist, byte_20, byte_23, ScriptOffset
+    .importzp Source, Dist, byte_20, Vechicle, ScriptOffset
 
     iny
     sty ScriptOffset
@@ -4100,7 +4100,7 @@ loc_13B2DE:
     ora #$80
     sta byte_20
     ldx #0
-    stx byte_23
+    stx Vechicle
     jsr sub_CDAF
     lda Dist
     pha

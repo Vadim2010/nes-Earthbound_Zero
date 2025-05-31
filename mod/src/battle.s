@@ -20,7 +20,7 @@ battle:
     .import frame, shift_down_window, sub_F760, sub_F765, shift_up_window, clear_jmp_instr, Character, CurrentGame, byte_580
     .import NMI_Data, Enemy1, Enemy2, Enemy3, Enemy4, Character1, Character2, Character3, Character4, BattlePalettes
     .importzp GamepadButtons, pCharacter, Pointer, NMIFlags, OffsetNMI_Data, NamePos
-    .importzp byte_23, byte_47, EnemyGroup, Experience, Money
+    .importzp Vechicle, byte_47, EnemyGroup, Experience, Money
     .importzp MsgCounter, CharacterOffset, BossID, Auto, EnemyPos, EnemyCount
 
     set GamepadButtons, #0
@@ -232,7 +232,7 @@ loc_17A142:
 
 loc_17A173:
     stx EnemyCount
-    lda byte_23
+    lda Vechicle
     beq loc_17A18C
     ldy #0
     sty BossID
@@ -307,12 +307,12 @@ loc_17A1E8:
     sta Pointer+1
     dex
     bne loc_17A1E8
-    ldy #CHARACTER::InitialStatus
+    ldy #CHARACTER::Status
     ldx CharacterOffset
 
 @copy_to_lvl:
     lda (Pointer),Y
-    sta Character1 + BATTLE::InitialStatus,X
+    sta Character1 + BATTLE::Status,X
     iny
     inx
     cpy #CHARACTER::Level
@@ -373,7 +373,7 @@ loc_17A23E:
 
 loc_17A257:
     lda (AddrForJmp),Y
-    sta Character1 + BATTLE::InitialStatus,X
+    sta Character1 + BATTLE::Status,X
     iny
     inx
     cpy #ENEMY::Name
@@ -805,7 +805,7 @@ loc_17A50E:
     sta Character1 + BATTLE::Resist,Y
     lda Character1 + BATTLE::EnemyGroup,Y
     beq loc_17A535
-    lda Character1 + BATTLE::InitialStatus,Y
+    lda Character1 + BATTLE::Status,Y
     and #$F4
     bne loc_17A535
     lda Character1 + BATTLE::Resist,Y
@@ -892,7 +892,7 @@ loc_17A57F:
     and #6
     eor #6
     beq loc_17A594
-    lda Character1 + BATTLE::InitialStatus,Y
+    lda Character1 + BATTLE::Status,Y
     bmi loc_17A59D
 
 loc_17A594:
@@ -914,7 +914,7 @@ loc_17A5A2:
     sty TargetOffset
     lda Character1 + BATTLE::EnemyGroup,Y
     beq loc_17A5BC
-    lda Character1 + BATTLE::InitialStatus,Y
+    lda Character1 + BATTLE::Status,Y
     bmi loc_17A5BC
     lda Character1 + BATTLE::Scripts+1,Y
     and #6
@@ -938,7 +938,7 @@ loc_17A5C5:
 loc_17A5C9:
     lda Character1 + BATTLE::EnemyGroup,Y
     beq loc_17A5DB
-    lda Character1 + BATTLE::InitialStatus,Y
+    lda Character1 + BATTLE::Status,Y
     bmi loc_17A5DB
     jsr sub_F673
     bcs loc_17A5DB
@@ -967,7 +967,7 @@ loc_17A5EB:
     and #6
     eor #6
     beq loc_17A604
-    lda Character1 + BATTLE::InitialStatus,Y
+    lda Character1 + BATTLE::Status,Y
     bmi loc_17A604
     and #$70
     bne loc_17A60E
@@ -1031,7 +1031,7 @@ loc_17A651:
 
 loc_17A659:
     ldy TargetOffset
-    lda Character1 + BATTLE::InitialStatus,Y
+    lda Character1 + BATTLE::Status,Y
     tax
     and #$20
     bne loc_17A670
@@ -1082,7 +1082,7 @@ loc_17A697:
     tay
     lda Character1 + BATTLE::EnemyGroup,Y
     beq loc_17A697
-    lda Character1 + BATTLE::InitialStatus,Y
+    lda Character1 + BATTLE::Status,Y
     bmi loc_17A697
     tya
     ldy CharacterOffset
@@ -1282,7 +1282,7 @@ random_targeting:
     tay
     lda Character1 + BATTLE::EnemyGroup,Y
     beq random_targeting
-    lda Character1 + BATTLE::InitialStatus,Y
+    lda Character1 + BATTLE::Status,Y
     bmi random_targeting
     sty TargetOffset
     rts
@@ -1304,7 +1304,7 @@ sub_17A7BE:
     tay
     lda Character1 + BATTLE::EnemyGroup,Y
     beq loc_17A7D8
-    lda Character1 + BATTLE::InitialStatus,Y
+    lda Character1 + BATTLE::Status,Y
     bmi loc_17A7D8
     sty TargetOffset
     sec
@@ -1314,6 +1314,7 @@ sub_17A7BE:
 loc_17A7D8:
     clc
     rts
+
 ; End of function sub_17A7BE
 
 
@@ -1394,7 +1395,7 @@ loc_17A850:
     bne loc_17A850
     lda Pointer
     beq loc_17A868
-    jsr sub_17AB10
+    jsr choose_psi
     bcs loc_17A865
     jmp nullsub_6
 ; ---------------------------------------------------------------------------
@@ -1533,9 +1534,9 @@ sub_17A8E7:
     tay
     lda Character1 + BATTLE::EnemyGroup,Y
     beq sub_17A8E7
-    lda Character1 + BATTLE::InitialStatus,Y
+    lda Character1 + BATTLE::Status,Y
     bmi sub_17A8E7
-    lda Character1 + BATTLE::InitialStatus,Y
+    lda Character1 + BATTLE::Status,Y
     and #$F4
     bne sub_17A8E7
     lda Character1 + BATTLE::Resist,Y
@@ -1935,7 +1936,7 @@ loc_17AB0E:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17AB10:
+choose_psi:
     .import set_jmp_addr
 
     ldy #1
@@ -1961,7 +1962,7 @@ loc_17AB12:
 loc_17AB32:
     iny
     cpy #8
-    beq sub_17AB10
+    beq choose_psi
     bne loc_17AB12
 
 loc_17AB39:
@@ -1988,7 +1989,7 @@ loc_17AB57:
 loc_17AB5F:
     sec
     rts
-; End of function sub_17AB10
+; End of function choose_psi
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -2207,7 +2208,7 @@ loc_17AC71:
     txa
     pha
     jsr sub_17ACA5
-    jsr sub_17ACD6      ; out message, animation
+    jsr script      ; out message, animation
     lda #$FF
     ldy CharacterOffset
     sta Character1 + BATTLE::Script,Y
@@ -2286,108 +2287,109 @@ loc_17ACD3:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17ACD6:
+script:
     .import BattleScripts
     .importzp pBattleScript
 
     ldy CharacterOffset
     lda Character1 + BATTLE::EnemyGroup,Y
-    bne loc_17ACE2
+    bne @check_alive
     lda #Empty
-    jmp loc_17ADC1
+    jmp print_message
 ; ---------------------------------------------------------------------------
 
-loc_17ACE2:
-    lda Character1 + BATTLE::InitialStatus,Y
+@check_alive:
+    lda Character1 + BATTLE::Status,Y
     asl A
-    bcc loc_17ACEE
+    bcc @check_stone
     lda #Empty
-    jmp loc_17ADC1
+    jmp print_message
 ; ---------------------------------------------------------------------------
 
-loc_17ACEE:
+@check_stone:
     asl A
-    bcc loc_17ACFA
+    bcc @check_cantmove
     lda #Turned
-    jmp loc_17ADC1
+    jmp print_message
 ; ---------------------------------------------------------------------------
 
-loc_17ACFA:
+@check_cantmove:
     asl A
-    bcc loc_17AD06
+    bcc @check_asleep
     lda #CantMove
-    jmp loc_17ADC1
+    jmp print_message
 ; ---------------------------------------------------------------------------
 
-loc_17AD06:
+@check_asleep:
     asl A
-    bcc loc_17AD2B
+    bcc @check_daydream
     jsr randomize
     and #$E0
-    bne loc_17AD26
-    lda Character1 + BATTLE::InitialStatus,Y
+    bne @still_asleep
+    lda Character1 + BATTLE::Status,Y
     and #$EF
-    sta Character1 + BATTLE::InitialStatus,Y
+    sta Character1 + BATTLE::Status,Y
     sty TargetOffset
     jsr statistical_frame
     lda #WokeUp
-    jmp loc_17ADC1
+    jmp print_message
 ; ---------------------------------------------------------------------------
 
-loc_17AD26:
+@still_asleep:
     lda #IsAsleep
-    jmp loc_17ADC1
+    jmp print_message
 ; ---------------------------------------------------------------------------
 
-loc_17AD2B:
+@check_daydream:
     asl A
     asl A
-    bcc loc_17AD37
+    bcc @check_wheeze
     lda #DayDreaming
-    jmp loc_17ADC1
+    jmp print_message
 ; ---------------------------------------------------------------------------
 
-loc_17AD37:
-    asl A
-    bcc loc_17AD4A
+@check_wheeze:
+    lda Character1 + BATTLE::Resist,Y
+    and #2
+    beq check_bound
     lda Character1 + BATTLE::Script,Y
     cmp #$76
-    beq loc_17AD4A
+    beq check_bound
     lda #Wheeze
-    jmp loc_17ADC1
+    jmp print_message
 ; ---------------------------------------------------------------------------
 
-loc_17AD4A:
+check_bound:
     lda Character1 + BATTLE::Resist,Y
     and #$20
-    beq loc_17AD6A
+    beq @check_confused
     jsr randomize
     and #$C0
-    bne loc_17AD65
+    bne @still_bound
     lda Character1 + BATTLE::Resist,Y
     and #$DF
     sta Character1 + BATTLE::Resist,Y
     lda #EscapedRope
-    jmp loc_17ADC1
+    jmp print_message
 ; ---------------------------------------------------------------------------
 
-loc_17AD65:
+@still_bound:
     lda #Bound
-    jmp loc_17ADC1
+    jmp print_message
 ; ---------------------------------------------------------------------------
 
-loc_17AD6A:
-    lda Character1 + BATTLE::InitialStatus,Y
+@check_confused:
+    lda Character1 + BATTLE::Status,Y
     and #8
-    beq loc_17AD76
+    beq @load_script_id
     lda #SoConfused
     jsr print_text
 
-loc_17AD76:
+@load_script_id:
     ldy CharacterOffset
     lda Character1 + BATTLE::Script,Y
 
-loc_17AD7B:
+get_script_pointer:
     ldy #0
     sty Pointer+1
     asl A
@@ -2407,7 +2409,7 @@ loc_17AD7B:
     lda (Pointer),Y
     sta pBattleScript+1
 
-next_script:
+execute_script:
     ldy #0
     lda (pBattleScript),Y
     lsr A
@@ -2416,14 +2418,14 @@ next_script:
     lsr A
     jsr script_high
 ; ---------------------------------------------------------------------------
-    .word step_1, sub_17ADC9, use_psi, print_used_item, change_parameter
-    .word get_target, sub_17AF08, script_bcc, script_bcs, script_sub
-    .word script_jmp, sub_17AF98, item_gone
+    .word step_1, battle_event, use_psi, print_used_item, change_parameter
+    .word get_target, action, script_bcc, script_bcs, script_sub
+    .word script_jmp, script_loop, item_gone
 ; ---------------------------------------------------------------------------
 
-loc_17ADC1:
+print_message:
     jmp print_text
-; End of function sub_17ACD6
+; End of function script
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -2438,26 +2440,26 @@ step_1:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17ADC9:
+battle_event:
     .import script_low
 
     ldy #0
     lda (pBattleScript),Y
     and #$F
     jsr script_low
-; End of function sub_17ADC9
+; End of function battle_event
 ; ---------------------------------------------------------------------------
-    .word sub_17ADEC, sub_17AFED, sub_17AFF2, sub_17AFFE, sub_17B008
-    .word sub_17B012, sub_17B022, sub_17B032, sub_17B037, sub_17B041
-    .word sub_17B04B, sub_17B055, sub_17B05F
+    .word step1, enemy_approach, enemy_removal, hit, blast
+    .word call_backup, sowed_seed, escape_battle, hit_fire, hit_freeze
+    .word hit_thunder, hit_beam, hit_smash
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17ADEC:
+step1:
     lda #1
     jmp get_script_pntr
-; End of function sub_17ADEC
+; End of function step1
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -2508,7 +2510,7 @@ loc_17ADFB:
     lda Sound
     jsr play_sound
     set Sound, #0
-    jmp sub_17B863
+    jmp step_2
 ; ---------------------------------------------------------------------------
 
 @blocked:
@@ -2548,7 +2550,7 @@ loc_17AE7B:
     lda Sound
     jsr play_sound
     set Sound, #0
-    jmp sub_17B863
+    jmp step_2
 ; End of function print_used_item
 
 
@@ -2614,7 +2616,7 @@ became_empty:
     jsr print_text
 
 step2:
-    jmp sub_17B863
+    jmp step_2
 ; End of function became_empty
 
 
@@ -2629,13 +2631,13 @@ get_target:
 ; End of function get_target
 
 ; ---------------------------------------------------------------------------
-    .word sub_17ADEC, nullsub_4, get_target_offset, sub_17B202, sub_17B21D
-    .word sub_17B238, sub_17B23D, get_next_target
+    .word step1, nullsub_4, get_target_offset, get_group_by_status1, get_group_by_status2
+    .word char2target, get_group, get_next_target
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17AF08:
+action:
     ldy #1
     lda (pBattleScript),Y
     sta pTileID
@@ -2644,7 +2646,7 @@ sub_17AF08:
     and #$F
     jsr script_low
 ; ---------------------------------------------------------------------------
-    .word sub_17B863, sub_17B250, get_offense, set_value, boss_msg
+    .word step_2, calc_attack, get_offense, set_value, boss_msg
     .word set_flags, enemy_check, choose_sound, pTileID2sound, print_pTileID
     .word play_pTileID
 
@@ -2679,7 +2681,7 @@ new_script:
     sta pBattleScript+1
     pla
     sta pBattleScript
-    jmp next_script
+    jmp execute_script
 ; End of function new_script
 
 
@@ -2701,9 +2703,9 @@ low_script:
     and #$F
     jsr script_low
 ; ---------------------------------------------------------------------------
-    .word nullsub_5, check_group_status, sub_17B0CC, sub_17B0F7, sub_17B112
-    .word sub_17B125, sub_17B131, loc_17B0BC, sub_17B150, sub_17B164
-    .word sub_17B169, sub_17B174, sub_17B180, sub_17B188, sub_17B194
+    .word nullsub_5, check_group_status, fight_lower, fight_check_simple, check_resist_chance
+    .word check_no_vechicle, check_franklin, check_target_status, check_target_flags, coin_chance
+    .word check_immune_status, check_immune_sleep, check_object, check_target_up, check_final_bosses
 
 nullsub_5:
     rts
@@ -2714,7 +2716,7 @@ nullsub_5:
 script_sub:
     save pBattleScript
     jsr new_battle_script
-    jsr next_script
+    jsr execute_script
     restore pBattleScript
     jmp step_3
 ; End of function script_sub
@@ -2725,14 +2727,14 @@ script_sub:
 
 script_jmp:
     jsr new_battle_script
-    jmp next_script
+    jmp execute_script
 ; End of function script_jmp
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17AF98:
+script_loop:
     ldy #0
     lda (pBattleScript),Y
     and #$F
@@ -2740,20 +2742,20 @@ sub_17AF98:
     lda #1
     jsr next_battle_script
 
-loc_17AFA4:
+@next_loop:
     txa
     pha
     save pBattleScript
-    jsr next_script
+    jsr execute_script
     store pBattleScript, Pointer
     restore pBattleScript
     pla
     tax
     dex
-    bne loc_17AFA4
+    bne @next_loop
     store Pointer, pBattleScript
-    jmp next_script
-; End of function sub_17AF98
+    jmp execute_script
+; End of function script_loop
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -2761,7 +2763,7 @@ loc_17AFA4:
 
 get_script_pntr:
     jsr next_battle_script
-    jmp next_script
+    jmp execute_script
 ; End of function get_script_pntr
 
 
@@ -2798,170 +2800,170 @@ next_battle_script:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17AFED:
+enemy_approach:
     ldy CharacterOffset
-    jmp sub_17B513
-; End of function sub_17AFED
+    jmp spawn_enemy
+; End of function enemy_approach
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17AFF2:
+enemy_removal:
     ldy TargetOffset
     bpl @player
-    jmp sub_17B555
+    jmp despawn_enemy
 ; ---------------------------------------------------------------------------
 
 @player:
     set byte_47, #1
     rts
-; End of function sub_17AFF2
+; End of function enemy_removal
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17AFFE:
+hit:
     ldy TargetOffset
     bpl @player
     jmp black_flash
 ; ---------------------------------------------------------------------------
 
 @player:
-    jmp sub_17B6B2
-; End of function sub_17AFFE
+    jmp black_shake
+; End of function hit
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17B008:
+blast:
     ldy TargetOffset
     bpl @player
-    jmp sub_17B67C
+    jmp blink_enemy
 ; ---------------------------------------------------------------------------
 
 @player:
-    jmp sub_17B6F1
-; End of function sub_17B008
+    jmp blast_black
+; End of function blast
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17B012:
+call_backup:
     lda #CriedOut
     jsr print_text
-    jsr sub_17B069
+    jsr summon_ally
     bcs locret_17B021
     lda #HoweverNoOne
     jsr print_text
 
 locret_17B021:
     rts
-; End of function sub_17B012
+; End of function call_backup
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17B022:
+sowed_seed:
     lda #Sowed
     jsr print_text
-    jsr sub_17B069
+    jsr summon_ally
     bcs locret_17B031
     lda #Silence
     jsr print_text
 
 locret_17B031:
     rts
-; End of function sub_17B022
+; End of function sowed_seed
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17B032:
+escape_battle:
     set byte_47, #2
     rts
-; End of function sub_17B032
+; End of function escape_battle
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17B037:
+hit_fire:
     ldy TargetOffset
     bpl @player
     jmp red_flash
 ; ---------------------------------------------------------------------------
 
 @player:
-    jmp sub_17B6BB
-; End of function sub_17B037
+    jmp red_shake
+; End of function hit_fire
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17B041:
+hit_freeze:
     ldy TargetOffset
     bpl @player
     jmp indigo_flash
 ; ---------------------------------------------------------------------------
 
 @player:
-    jmp sub_17B6C4
-; End of function sub_17B041
+    jmp indigo_shake
+; End of function hit_freeze
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17B04B:
+hit_thunder:
     ldy TargetOffset
     bpl @player
     jmp blue_flash
 ; ---------------------------------------------------------------------------
 
 @player:
-    jmp sub_17B6CD
-; End of function sub_17B04B
+    jmp blue_shake
+; End of function hit_thunder
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17B055:
+hit_beam:
     ldy TargetOffset
     bpl @player
     jmp yellow_flash
 ; ---------------------------------------------------------------------------
 
 @player:
-    jmp sub_17B6D6
-; End of function sub_17B055
+    jmp yellow_shake
+; End of function hit_beam
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17B05F:
+hit_smash:
     ldy TargetOffset
     bpl @player
     jmp green_flash
 ; ---------------------------------------------------------------------------
 
 @player:
-    jmp sub_17B6DF
-; End of function sub_17B05F
+    jmp green_impact
+; End of function hit_smash
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17B069:
+summon_ally:
     ldy #$80
 
 loc_17B06B:
@@ -2983,7 +2985,7 @@ loc_17B076:
 
 loc_17B07F:
     sty TargetOffset
-    jsr sub_17B513
+    jsr spawn_enemy
     ldy TargetOffset
     lda Character1 + BATTLE::Resist,Y
     and #$FE
@@ -2998,7 +3000,7 @@ loc_17B07F:
     jsr print_text
     sec
     rts
-; End of function sub_17B069
+; End of function summon_ally
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -3023,14 +3025,14 @@ check_group_status:
     ldy CharacterOffset
     lda Character1 + BATTLE::EnemyGroup,Y
     beq loc_17B0CA
-    lda Character1 + BATTLE::InitialStatus,Y
+    lda Character1 + BATTLE::Status,Y
     bmi loc_17B0CA
 
-loc_17B0BC:
+check_target_status:
     ldy TargetOffset
     lda Character1 + BATTLE::EnemyGroup,Y
     beq loc_17B0CA
-    lda Character1 + BATTLE::InitialStatus,Y
+    lda Character1 + BATTLE::Status,Y
     bmi loc_17B0CA
     clc
     rts
@@ -3045,41 +3047,41 @@ loc_17B0CA:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17B0CC:
-    lda byte_23
-    bne loc_17B0F3
+fight_lower:
+    lda Vechicle
+    bne fight_disadvantage
     ldy TargetOffset
-    lda Character1 + BATTLE::InitialStatus,Y
+    lda Character1 + BATTLE::Status,Y
     and #$70
-    bne loc_17B0F3
+    bne fight_disadvantage
     lda Character1 + BATTLE::Resist,Y
-    bmi loc_17B0F3
+    bmi fight_disadvantage
     lda Character1 + BATTLE::Fight,Y
     sta Pointer
     ldy CharacterOffset
     lda Character1 + BATTLE::Fight,Y
     sta AddrForJmp
-    jsr sub_17B1A2
+    jsr get_dmg
     lda Pointer
     cmp AddrForJmp
-    bcs loc_17B0F5
+    bcs fight_advantage
 
-loc_17B0F3:
+fight_disadvantage:
     clc
     rts
 ; ---------------------------------------------------------------------------
 
-loc_17B0F5:
+fight_advantage:
     sec
     rts
-; End of function sub_17B0CC
+; End of function fight_lower
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17B0F7:
-    jsr sub_17BFE2
+fight_check_simple:
+    jsr check_boss
     bcs locret_17B111
     ldy CharacterOffset
     lda Character1 + BATTLE::Fight,Y
@@ -3087,58 +3089,55 @@ sub_17B0F7:
     ldy TargetOffset
     lda Character1 + BATTLE::Fight,Y
     sta AddrForJmp
-    jsr sub_17B1A2
+    jsr get_dmg
     lda AddrForJmp
     cmp Pointer
 
 locret_17B111:
     rts
-; End of function sub_17B0F7
+; End of function fight_check_simple
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17B112:
+check_resist_chance:
     ldy CharacterOffset
     lda Character1 + BATTLE::Resist,Y
     and #$80
     eor #$80
     rol A
-    bcs locret_17B124
+    bcs @resist
     jsr randomize
     and #$80
     rol A
 
-locret_17B124:
+@resist:
     rts
-; End of function sub_17B112
+; End of function check_resist_chance
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17B125:
+check_no_vechicle:
     lda CharacterOffset
-    bmi loc_17B12F
-    lda byte_23
-    beq loc_17B12F
+    bmi loc_17B14C
+    lda Vechicle
+    beq loc_17B14C
 
 loc_17B12D:
     clc
     rts
 ; ---------------------------------------------------------------------------
 
-loc_17B12F:
-    sec
-    rts
-; End of function sub_17B125
+; End of function check_no_vechicle
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17B131:
+check_franklin:
     ldy TargetOffset
     bmi loc_17B14C
     lda Character1 + BATTLE::PointerChr,Y
@@ -3147,25 +3146,26 @@ sub_17B131:
     sta Pointer+1
     ldy #$20
 
-loc_17B141:
+@next_item:
     lda (Pointer),Y
     cmp #$68
     beq loc_17B12D
     iny
     cpy #$28
-    bne loc_17B141
+    bne @next_item
 
 loc_17B14C:
     sec
     rts
+; ---------------------------------------------------------------------------
 
-; End of function sub_17B131
+; End of function check_franklin
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17B150:
+check_target_flags:
     ldy TargetOffset
     lda Character1 + BATTLE::Flags,Y
     asl A
@@ -3179,49 +3179,49 @@ loc_17B160:
     rts
 ; ---------------------------------------------------------------------------
 
-; End of function sub_17B150
+; End of function check_target_flags
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17B164:
+coin_chance:
     jsr randomize
     asl A
     rts
-; End of function sub_17B164
+; End of function coin_chance
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17B169:
+check_immune_status:
     ldy TargetOffset
     lda Character1 + BATTLE::Flags,Y
     and #$80
     eor #$80
     rol A
     rts
-; End of function sub_17B169
+; End of function check_immune_status
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17B174:
+check_immune_sleep:
     ldy TargetOffset
     lda Character1 + BATTLE::Flags,Y
     and #4
     eor #4
     cmp #1
     rts
-; End of function sub_17B174
+; End of function check_immune_sleep
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17B180:
+check_object:
     .importzp ObjectNumWithChar
 
     lda ObjectNumWithChar
@@ -3230,26 +3230,26 @@ sub_17B180:
     rts
 ; ---------------------------------------------------------------------------
 
-; End of function sub_17B180
+; End of function check_object
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17B188:
+check_target_up:
     ldy TargetOffset
     lda Character1 + BATTLE::Scripts+1,Y
     and #6
     eor #6
     cmp #1
     rts
-; End of function sub_17B188
+; End of function check_target_up
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17B194:
+check_final_bosses:
     lda BossID
     cmp #5
     beq loc_17B12D
@@ -3259,13 +3259,13 @@ sub_17B194:
     rts
 ; ---------------------------------------------------------------------------
 
-; End of function sub_17B194
+; End of function check_final_bosses
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17B1A2:
+get_dmg:
     set Pointer+1, #1
     sec
     lda Pointer
@@ -3277,7 +3277,7 @@ sub_17B1A2:
     ror Pointer
     sec
     lda Pointer
-    sbc #$66
+    sbc #102
     bcs loc_17B1BD
     lda #0
 
@@ -3286,7 +3286,7 @@ loc_17B1BD:
     jsr randomize
     sta AddrForJmp
     rts
-; End of function sub_17B1A2
+; End of function get_dmg
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -3323,7 +3323,7 @@ nullsub_4:
 
 get_target_offset:
     ldy CharacterOffset
-    lda Character1 + BATTLE::InitialStatus,Y
+    lda Character1 + BATTLE::Status,Y
     and #8
     bne select_target
     lda Character1 + BATTLE::TargetOff,Y
@@ -3337,7 +3337,7 @@ select_target:
     tay
     lda Character1 + BATTLE::EnemyGroup,Y
     beq select_target
-    lda Character1 + BATTLE::InitialStatus,Y
+    lda Character1 + BATTLE::Status,Y
     bmi select_target
     sty TargetOffset
     rts
@@ -3347,9 +3347,9 @@ select_target:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17B202:
+get_group_by_status1:
     ldy CharacterOffset
-    lda Character1 + BATTLE::InitialStatus,Y
+    lda Character1 + BATTLE::Status,Y
     and #8
     beq loc_17B212
     jsr randomize
@@ -3365,19 +3365,19 @@ loc_17B212:
 loc_17B21A:
     stx TargetOffset
     rts
-; End of function sub_17B202
+; End of function get_group_by_status1
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17B21D:
+get_group_by_status2:
     ldy CharacterOffset
-    lda Character1 + BATTLE::InitialStatus,Y
+    lda Character1 + BATTLE::Status,Y
     and #8
     beq loc_17B22D
     jsr randomize
-    asl
+    asl A
     bcs loc_17B212
 
 loc_17B22D:
@@ -3389,22 +3389,22 @@ loc_17B22D:
 loc_17B235:
     stx TargetOffset
     rts
-; End of function sub_17B21D
+; End of function get_group_by_status2
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17B238:
+char2target:
     set TargetOffset, CharacterOffset
     rts
-; End of function sub_17B238
+; End of function char2target
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17B23D:
+get_group:
     ldx #0
     ldy CharacterOffset
     bpl loc_17B245
@@ -3413,7 +3413,7 @@ sub_17B23D:
 loc_17B245:
     stx TargetOffset
     rts
-; End of function sub_17B23D
+; End of function get_group
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -3431,7 +3431,7 @@ get_next_target:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17B250:
+calc_attack:
     ldy TargetOffset
     lda Character1 + BATTLE::Defense,Y
     sta pTileID
@@ -3447,7 +3447,7 @@ sub_17B250:
     sta TilesCount
     sta pDist+1
     sbc pTileID+1
-    bcc loc_17B2A8
+    bcc weak_attack
     lsr pTileID+1
     ror pTileID
     sec
@@ -3458,28 +3458,28 @@ sub_17B250:
     sbc pTileID+1
     sta Pointer+1
 
-loc_17B284:
+boss:
     lda BossID
     cmp #1
-    bne loc_17B297
+    bne @final_check
     jsr randomize
     and #7
     ora #4
     sta Pointer
     set Pointer+1, #0
 
-loc_17B297:
+@final_check:
     lda Pointer
     ora Pointer+1
-    bne loc_17B29F
+    bne @store_value
     inc Pointer
 
-loc_17B29F:
+@store_value:
     store Pointer, Value
     rts
 ; ---------------------------------------------------------------------------
 
-loc_17B2A8:
+weak_attack:
     asl TilepackMode
     rol TilesCount
     clc
@@ -3496,17 +3496,17 @@ loc_17B2A8:
     lda TilesCount
     sbc pTileID+1
     sta Pointer+1
-    bcs loc_17B2CE
+    bcs @halve_result
     set Pointer, #0
     sta Pointer+1
 
-loc_17B2CE:
+@halve_result:
     lsr Pointer+1
     ror Pointer
     lsr Pointer+1
     ror Pointer
-    jmp loc_17B284
-; End of function sub_17B250
+    jmp boss
+; End of function calc_attack
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -3737,38 +3737,38 @@ play_pTileID:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17B3DD:
+attack_outcome:
     tya
-    bmi loc_17B3F0
+    bmi check_explode
     lda Character1 + BATTLE::Scripts+1,Y
     cmp #6
-    bne loc_17B3F0
+    bne check_explode
     set BossID, #0
     ldx #$88
-    jmp loc_17B40B
+    jmp final_action
 ; ---------------------------------------------------------------------------
 
-loc_17B3F0:
-    jsr sub_17B4CA
+check_explode:
+    jsr get_final_action
     cmp #1
-    bne loc_17B3FC
+    bne @check_burn
     ldx #$19
-    jmp loc_17B40B
+    jmp final_action
 ; ---------------------------------------------------------------------------
 
-loc_17B3FC:
+@check_burn:
     cmp #2
-    bne loc_17B405
+    bne @enemy_defeated
     ldx #$1A
-    jmp loc_17B40B
+    jmp final_action
 ; ---------------------------------------------------------------------------
 
-loc_17B405:
-    jsr sub_17B42D
-    jmp sub_17B496
+@enemy_defeated:
+    jsr kill_enemy
+    jmp defeat_msg
 ; ---------------------------------------------------------------------------
 
-loc_17B40B:
+final_action:
     lda TargetOffset
     pha
     lda CharacterOffset
@@ -3776,21 +3776,21 @@ loc_17B40B:
     save pBattleScript
     sty CharacterOffset
     txa
-    jsr loc_17AD7B
+    jsr get_script_pointer
     restore pBattleScript
     pla
     sta CharacterOffset
     pla
     sta TargetOffset
     tay
-    jmp sub_17B496
-; End of function sub_17B3DD
+    jmp defeat_msg
+; End of function attack_outcome
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17B42D:
+kill_enemy:
     .import Sound1
 
     tya
@@ -3799,7 +3799,7 @@ sub_17B42D:
     sta Character1 + BATTLE::Health,Y
     sta Character1 + BATTLE::Health+1,Y
     lda #$80
-    sta Character1 + BATTLE::InitialStatus,Y
+    sta Character1 + BATTLE::Status,Y
     tya 
     bpl loc_17B48B
     lda #0
@@ -3840,7 +3840,7 @@ loc_17B47E:
     set Sound1, #6
     pla
     tay
-    jsr sub_17B555
+    jsr despawn_enemy
     jmp loc_17B490
 ; ---------------------------------------------------------------------------
 
@@ -3853,13 +3853,13 @@ loc_17B490:
     pla
     tay
     rts
-; End of function sub_17B42D
+; End of function kill_enemy
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17B496:
+defeat_msg:
     tya
     pha
     bmi loc_17B4A9
@@ -3892,13 +3892,13 @@ loc_17B4C7:
     pla
     tay
     rts
-; End of function sub_17B496
+; End of function defeat_msg
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17B4CA:
+get_final_action:
     tya
     pha
     lda Character1 + BATTLE::PointerChr,Y
@@ -3915,7 +3915,7 @@ sub_17B4CA:
     tay
     lda Pointer
     rts
-; End of function sub_17B4CA
+; End of function get_final_action
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -3957,21 +3957,20 @@ loc_17B4FC:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17B513:
+spawn_enemy:
     .import wait_nmi
-    .importzp byte_45, BankPPU_X000
+    .importzp CHRFlags, BankPPU_X000
 
-    jsr sub_17B5BC
-    lda Character1 + BATTLE::InitialStatus,Y
+    jsr get_enemy_ptr
+    lda Character1 + BATTLE::Status,Y
     and #$7F
-    sta Character1 + BATTLE::InitialStatus,Y
-    lda #$22
-    sta Pointer
+    sta Character1 + BATTLE::Status,Y
+    set Pointer, #$22
     set Pointer+1, #$FF
     lda #$FF
     sta AddrForJmp
     jsr draw_enemy
-    set byte_45, #0
+    set CHRFlags, #0
     tya
     pha
     lda Character1 + BATTLE::Letter,Y
@@ -3989,14 +3988,14 @@ sub_17B513:
     jsr wait_nmi
     set NMIFlags, #$80
     rts
-; End of function sub_17B513
+; End of function spawn_enemy
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17B555:
-    jsr sub_17B5BC
+despawn_enemy:
+    jsr get_enemy_ptr
     lda #0
     ldx pTileID+1
     sta SpriteTable,X
@@ -4015,14 +4014,14 @@ sub_17B555:
     lda #$7C
     sta BankPPU_X000,X
     rts
-; End of function sub_17B555
+; End of function despawn_enemy
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
 draw_enemy:
-    .importzp byte_44
+    .importzp SplitLine
 
     tya
     pha
@@ -4035,15 +4034,15 @@ draw_enemy:
     sta BankPPU_X000,X
     pla
     tay
-    set byte_45, #$80
+    set CHRFlags, #$80
 
 loc_17B59F:
-    set byte_44, Pointer
+    set SplitLine, Pointer
     and #1
     bne loc_17B5AD
-    lda byte_45
+    lda CHRFlags
     eor #$40
-    sta byte_45
+    sta CHRFlags
 
 loc_17B5AD:
     jsr wait_nmi
@@ -4060,7 +4059,7 @@ loc_17B5AD:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17B5BC:
+get_enemy_ptr:
     lda Character1 + BATTLE::PointerChr,Y
     sta pCharacter
     lda Character1 + BATTLE::PointerChr+1,Y
@@ -4073,7 +4072,7 @@ sub_17B5BC:
     asl A
     sta pTileID+1
     rts
-; End of function sub_17B5BC
+; End of function get_enemy_ptr
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -4182,7 +4181,7 @@ flash_enemy:
     lda #2
     jsr play_sound
     ldy TargetOffset
-    jsr sub_17B5BC
+    jsr get_enemy_ptr
     jsr wait_nmi_processed
     ldx Pointer
 
@@ -4224,10 +4223,10 @@ loc_17B639:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17B67C:
+blink_enemy:
     lda #2
     jsr play_sound
-    jsr sub_17B5BC
+    jsr get_enemy_ptr
     ldy TargetOffset
     lda Character1 + BATTLE::TargetOff,Y
     pha
@@ -4242,98 +4241,98 @@ sub_17B67C:
     jsr wait_nmi        ; wait for NMI interrupt processing to complete
     set NMIFlags, #$80
     ldy TargetOffset
-    jsr sub_17B513
+    jsr spawn_enemy
     pla
     ldy TargetOffset
     sta Character1 + BATTLE::TargetOff,Y
     rts
-; End of function sub_17B67C
+; End of function blink_enemy
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17B6B2:
+black_shake:
     .import ScreenEffects1
 
     ldyx #ScreenEffects1
     lda #BLACK
     jmp screen_shift_effects
-; End of function sub_17B6B2
+; End of function black_shake
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17B6BB:
+red_shake:
     ldyx #ScreenEffects1
     lda #MEDIUM_RED
     jmp screen_shift_effects
-; End of function sub_17B6BB
+; End of function red_shake
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17B6C4:
+indigo_shake:
     ldyx #ScreenEffects1
     lda #MEDIUM_INDIGO
     jmp screen_shift_effects
-; End of function sub_17B6C4
+; End of function indigo_shake
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17B6CD:
+blue_shake:
     ldyx #ScreenEffects1
     lda #LIGHTEST_BLUE
     jmp screen_shift_effects
-; End of function sub_17B6CD
+; End of function blue_shake
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17B6D6:
+yellow_shake:
     ldyx #ScreenEffects1
     lda #LIGHT_YELLOW
     jmp screen_shift_effects
-; End of function sub_17B6D6
+; End of function yellow_shake
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17B6DF:
+green_impact:
     .import ScreenEffects3
 
     ldyx #ScreenEffects3
     lda #LIGHT_GREEN
     jmp screen_shift_effects
-; End of function sub_17B6DF
+; End of function green_impact
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17B6E8:
+black_impact:
     ldyx #ScreenEffects3
     lda #BLACK
     jmp screen_shift_effects
-; End of function sub_17B6E8
+; End of function black_impact
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17B6F1:
+blast_black:
     .import ScreenEffects2
 
     ldyx #ScreenEffects2
     lda #BLACK
     jmp screen_shift_effects
-; End of function sub_17B6F1
+; End of function blast_black
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -4421,7 +4420,7 @@ loc_17B766:
     and #6
     eor #6
     beq loc_17B77B
-    lda Character1 + BATTLE::InitialStatus,Y
+    lda Character1 + BATTLE::Status,Y
     and #$E0
     beq check_enemies
 
@@ -4431,10 +4430,10 @@ loc_17B77B:
     adc #$20
     tay
     bpl loc_17B766
-    set Character1 + BATTLE::InitialStatus, #$80
-    sta Character2 + BATTLE::InitialStatus
-    sta Character3 + BATTLE::InitialStatus
-    sta Character4 + BATTLE::InitialStatus
+    set Character1 + BATTLE::Status, #$80
+    sta Character2 + BATTLE::Status
+    sta Character3 + BATTLE::Status
+    sta Character4 + BATTLE::Status
     lda BossID
     cmp #4
     bne loc_17B7A7
@@ -4462,7 +4461,7 @@ check_enemies:
     ora Enemy3 + BATTLE::EnemyGroup
     ora Enemy4 + BATTLE::EnemyGroup
     bne alive_enemy
-    lda byte_23
+    lda Vechicle
     beq loc_17B7C9
     lda #TankBroken
     jsr print_text
@@ -4516,23 +4515,23 @@ change_parameter:
     lda (pBattleScript),Y
     jsr script_low
 ; ---------------------------------------------------------------------------
-    .word sub_17B863, recover_hp, recover_pp, increase_speed, increase_off
-    .word increase_defense, restore_hp, sub_17B915, decrease_def, decrease_fight
-    .word sub_17BA2A, sub_17BA3C, decrease_offense, decrease_defense, increase_exp
-    .word sub_17B8AA, sub_17B8F2, sub_17BA86, increase_offense, sub_17BAE4
-    .word sub_17BAFA, sub_17BB0D, sub_17BB25, sub_17BB3D, sub_17BB55
-    .word set_resist, sub_17BB83, sub_17BB8C, sub_17BB9D, sub_17BBB0
-    .word sub_17BBCD, sub_17BBEB, sub_17BBF9, sub_17BC02, sub_17BC0B
-    .word sub_17BC14, sub_17BC1D, sub_17BC26, revives, sub_17BC2F
-    .word sub_17BCD0, sub_17BD2B, sub_17BC5D, sub_17BD44, increase_fight
+    .word step_2, recover_hp, recover_pp, increase_speed, increase_off
+    .word increase_defense, restore_hp, resolve_attack, decrease_def, decrease_fight
+    .word knock_out, critical_dmg, decrease_offense, decrease_defense, increase_exp
+    .word trigger_kill, random_damage, approach_enemy, increase_offense, blinded
+    .word poisoned, confused, put2sleep, cant_move, psi_blocked
+    .word set_resist, shielded, barrier, bound, stone
+    .word asthma, strange, dissipated, wake_up, can_move
+    .word asthma_pass, regained, destroyed, revives, recovered_stone
+    .word snatched, took_away, defeated, lost_senses, increase_fight
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17B863:
+step_2:
     lda #2
     jmp get_script_pntr
-; End of function sub_17B863
+; End of function step_2
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -4587,10 +4586,11 @@ increase_fight:
 
 ; =============== S U B R O U T I N E =======================================
 
+
 increase_speed:
     jsr get_random_value
     ldx TargetOffset
-    ldy #$C
+    ldy #CHARACTER::Speed
     jsr sub_17BE3B
     ldx #9
     lda #SPEEDinc
@@ -4601,10 +4601,10 @@ increase_speed:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17B8AA:
+trigger_kill:
     ldy CharacterOffset
-    jmp sub_17B42D
-; End of function sub_17B8AA
+    jmp kill_enemy
+; End of function trigger_kill
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -4637,15 +4637,14 @@ increase_defense:
 
 
 restore_hp:
-    lda #$FF
-    sta Value
+    set Value, #$FF
     sta Value+1
     ldy TargetOffset
-    lda Character1 + BATTLE::InitialStatus,Y
+    lda Character1 + BATTLE::Status,Y
     asl A
     bcc loc_17B86B
     lda #0
-    sta Character1 + BATTLE::InitialStatus,Y
+    sta Character1 + BATTLE::Status,Y
     ldx TargetOffset
     ldy #CHARACTER::MaxHealth
     jsr get_chr_pntr
@@ -4668,7 +4667,7 @@ sub_17B8D4:
     sta Value+1
     lda #0
     ldx TargetOffset
-    sta Character1 + BATTLE::InitialStatus,X
+    sta Character1 + BATTLE::Status,X
     ldy #CHARACTER::MaxHealth
     jsr sub_17BEF2
     ldx #$A
@@ -4682,7 +4681,7 @@ sub_17B8D4:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17B8F2:
+random_damage:
     jsr get_random_value
     ldy CharacterOffset
     sec
@@ -4692,52 +4691,52 @@ sub_17B8F2:
     lda Character1 + BATTLE::Health+1,Y
     sbc Pointer+1
     sta Character1 + BATTLE::Health+1,Y
-    bcc loc_17B912
+    bcc fatal_damage
     ora Character1 + BATTLE::Health,Y
-    beq loc_17B912
+    beq fatal_damage
     jmp statistical_frame
 ; ---------------------------------------------------------------------------
 
-loc_17B912:
-    jmp sub_17B3DD
-; End of function sub_17B8F2
+fatal_damage:
+    jmp attack_outcome
+; End of function random_damage
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17B915:
+resolve_attack:
     lda BossID
     cmp #5
-    beq loc_17B93E
+    beq check_reflect
     cmp #6
-    beq loc_17B93E
-    jsr sub_17BFE2
-    bcc loc_17B93E
+    beq check_reflect
+    jsr check_boss
+    bcc check_reflect
 
-loc_17B924:
+dmg_range:
     ldx #3
     ldy CharacterOffset
     lda Character1 + BATTLE::Scripts+1,Y
     cmp #6
-    bne loc_17B931
+    bne @dmg_value
     ldx #$3F
 
-loc_17B931:
+@dmg_value:
     stx Pointer
     jsr randomize
     and Pointer
     sta Value
     set Value+1, #0
 
-loc_17B93E:
+check_reflect:
     lda TargetOffset
     pha
     jsr get_random_value
     ldy TargetOffset
     lda Character1 + BATTLE::Resist,Y
     and #4
-    beq loc_17B962
+    beq @dmg_resist1
     save Pointer
     lda #BouncedBack
     jsr print_text
@@ -4745,28 +4744,28 @@ loc_17B93E:
     ldy CharacterOffset
     sty TargetOffset
 
-loc_17B962:
+@dmg_resist1:
     lda Character1 + BATTLE::Resist,Y
     and #$10
-    beq loc_17B96D
+    beq @dmg_resist2
     lsr Pointer+1
     ror Pointer
 
-loc_17B96D:
+@dmg_resist2:
     lda Character1 + BATTLE::Resist,Y
     and #8
-    beq loc_17B978
+    beq @correct_dmg
     lsr Pointer+1
     ror Pointer
 
-loc_17B978:
-    jsr sub_17BF74
+@correct_dmg:
+    jsr damage_correction
     lda Pointer
     ora Pointer+1
-    bne loc_17B983
+    bne @store_dmg
     inc Pointer
 
-loc_17B983:
+@store_dmg:
     set byte_590, Pointer
     pha
     set byte_591, Pointer+1
@@ -4780,12 +4779,12 @@ loc_17B983:
     lda BossID
     cmp #3
     beq loc_17B9A5
-    jsr sub_17BFEF
-    bcs loc_17B9C4
+    jsr special_enemy
+    bcs check_confuse
 
 loc_17B9A5:
-    jsr sub_17BFE2
-    bcs loc_17B9C4
+    jsr check_boss
+    bcs check_confuse
     ldy TargetOffset
     sec
     lda Character1 + BATTLE::Health,Y
@@ -4794,48 +4793,48 @@ loc_17B9A5:
     lda Character1 + BATTLE::Health+1,Y
     sbc Pointer+1
     sta Character1 + BATTLE::Health+1,Y
-    bcc loc_17BA00
+    bcc kill_target
     ora Character1 + BATTLE::Health,Y
-    beq loc_17BA00
+    beq kill_target
 
-loc_17B9C4:
-    lda Character1 + BATTLE::InitialStatus,Y
+check_confuse:
+    lda Character1 + BATTLE::Status,Y
     and #$C
-    beq loc_17B9DF
+    beq check_asleep
     jsr randomize
     and #$C0
-    bne loc_17B9DF
-    lda Character1 + BATTLE::InitialStatus,Y
+    bne check_asleep
+    lda Character1 + BATTLE::Status,Y
     and #$F3
-    sta Character1 + BATTLE::InitialStatus,Y
+    sta Character1 + BATTLE::Status,Y
     lda #WasntConfused
     jsr print_text
 
-loc_17B9DF:
-    lda Character1 + BATTLE::InitialStatus,Y
+check_asleep:
+    lda Character1 + BATTLE::Status,Y
     and #$10
-    beq loc_17B9FA
+    beq update_gui
     jsr randomize
     and #$C0
-    bne loc_17B9FA
-    lda Character1 + BATTLE::InitialStatus,Y
+    bne update_gui
+    lda Character1 + BATTLE::Status,Y
     and #$EF
-    sta Character1 + BATTLE::InitialStatus,Y
+    sta Character1 + BATTLE::Status,Y
     lda #WakeUp
     jsr print_text
 
-loc_17B9FA:
+update_gui:
     pla
     sta TargetOffset
     jmp statistical_frame
 ; ---------------------------------------------------------------------------
 
-loc_17BA00:
-    jsr sub_17B3DD
+kill_target:
+    jsr attack_outcome
     pla
     sta TargetOffset
     rts
-; End of function sub_17B915
+; End of function resolve_attack
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -4844,7 +4843,7 @@ loc_17BA00:
 decrease_def:
     jsr get_random_value
     ldy TargetOffset
-    jsr sub_17BF74
+    jsr damage_correction
     ldx TargetOffset
     ldy #9
     jsr sub_17BE72
@@ -4869,27 +4868,27 @@ decrease_fight:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17BA2A:
-    jsr sub_17BFE2
-    bcs loc_17BA39
-    jsr sub_17BFEF
-    bcs loc_17BA39
+knock_out:
+    jsr check_boss
+    bcs skip_knockout
+    jsr special_enemy
+    bcs skip_knockout
     ldy TargetOffset
-    jmp sub_17B3DD
+    jmp attack_outcome
 ; ---------------------------------------------------------------------------
 
-loc_17BA39:
-    jmp loc_17B924
-; End of function sub_17BA2A
+skip_knockout:
+    jmp dmg_range
+; End of function knock_out
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17BA3C:
-    jsr sub_17BFE2
+critical_dmg:
+    jsr check_boss
     bcs loc_17BA6B
-    jsr sub_17BFEF
+    jsr special_enemy
     bcs loc_17BA6B
     ldy TargetOffset
     jsr randomize
@@ -4913,7 +4912,7 @@ sub_17BA3C:
 
 loc_17BA6B:
     jmp print_no_effect
-; End of function sub_17BA3C
+; End of function critical_dmg
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -4943,14 +4942,14 @@ decrease_defense:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17BA86:
+approach_enemy:
     jsr get_random_value
     ldx CharacterOffset
     ldy #CHARACTER::Offense
     jsr sub_17BDE8
     lda #Approached
     jmp print_text
-; End of function sub_17BA86
+; End of function approach_enemy
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -5005,94 +5004,94 @@ loc_17BADD:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17BAE4:
-    jsr sub_17BFE2
-    bcs loc_17BAF7
+blinded:
+    jsr check_boss
+    bcs wasted
     jsr sub_17BF58
-    bcs loc_17BAF7
+    bcs wasted
     lda #Blinded
     ldy #0
     ldx #$80
     jmp loc_17BD7F
 ; ---------------------------------------------------------------------------
 
-loc_17BAF7:
+wasted:
     jmp print_no_effect
-; End of function sub_17BAE4
+; End of function blinded
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17BAFA:
-    jsr sub_17BFE2
-    bcs loc_17BAF7
+poisoned:
+    jsr check_boss
+    bcs wasted
     jsr sub_17BF58
-    bcs loc_17BAF7
+    bcs wasted
     lda #WasPoisoned
     ldy #0
     ldx #2
     jmp sub_17BD69
-; End of function sub_17BAFA
+; End of function poisoned
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17BB0D:
-    jsr sub_17BFE2
-    bcs loc_17BAF7
-    jsr sub_17BFEF
-    bcs loc_17BAF7
+confused:
+    jsr check_boss
+    bcs wasted
+    jsr special_enemy
+    bcs wasted
     jsr sub_17BF66
-    bcs loc_17BAF7
+    bcs wasted
     lda #Senses
     ldy #0
     ldx #8
     jmp sub_17BD69
-; End of function sub_17BB0D
+; End of function confused
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17BB25:
-    jsr sub_17BFE2
-    bcs loc_17BAF7
-    jsr sub_17BFEF
-    bcs loc_17BAF7
+put2sleep:
+    jsr check_boss
+    bcs wasted
+    jsr special_enemy
+    bcs wasted
     jsr sub_17BF66
-    bcs loc_17BAF7
+    bcs wasted
     lda #PutSleep
     ldy #0
     ldx #$10
     jmp sub_17BD69
-; End of function sub_17BB25
+; End of function put2sleep
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17BB3D:
-    jsr sub_17BFE2
-    bcs loc_17BAF7
-    jsr sub_17BFEF
-    bcs loc_17BAF7
+cant_move:
+    jsr check_boss
+    bcs wasted
+    jsr special_enemy
+    bcs wasted
     jsr sub_17BF58
-    bcs loc_17BAF7
+    bcs wasted
     lda #CannotMove
     ldy #0
     ldx #$20
     jmp sub_17BD69
-; End of function sub_17BB3D
+; End of function cant_move
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17BB55:
-    jsr sub_17BFE2
-    bcs loc_17BAF7
+psi_blocked:
+    jsr check_boss
+    bcs wasted
     ldy TargetOffset
     lda Character1 + BATTLE::PointerChr,Y
     sta Pointer
@@ -5102,12 +5101,12 @@ sub_17BB55:
     lda (Pointer),Y
     iny
     ora (Pointer),Y
-    beq loc_17BAF7
+    beq wasted
     lda #Blocked
     ldy #0
     ldx #$40
     jmp loc_17BD7F
-; End of function sub_17BB55
+; End of function psi_blocked
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -5125,19 +5124,19 @@ set_resist:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17BB83:
+shielded:
     lda #Shielded
     ldy #$A
     ldx #$10
     jmp loc_17BD7F
-; End of function sub_17BB83
+; End of function shielded
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17BB8C:
-    jsr loc_17BFE6
+barrier:
+    jsr chk_boss
     bcs loc_17BB9A
     lda #Surrounded
     ldy #$A
@@ -5147,31 +5146,31 @@ sub_17BB8C:
 
 loc_17BB9A:
     jmp print_no_effect
-; End of function sub_17BB8C
+; End of function barrier
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17BB9D:
-    jsr sub_17BFE2
+bound:
+    jsr check_boss
     bcs loc_17BB9A
-    jsr sub_17BFEF
+    jsr special_enemy
     bcs loc_17BB9A
     lda #WasBound
     ldy #0
     ldx #$20
     jmp loc_17BD7F
-; End of function sub_17BB9D
+; End of function bound
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17BBB0:
-    jsr sub_17BFE2
+stone:
+    jsr check_boss
     bcs loc_17BB9A
-    jsr sub_17BFEF
+    jsr special_enemy
     bcs loc_17BB9A
     lda #Tturned
     ldy #0
@@ -5184,13 +5183,13 @@ sub_17BBB0:
 
 locret_17BBCC:
     rts
-; End of function sub_17BBB0
+; End of function stone
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17BBCD:
+asthma:
     ldy TargetOffset
     lda Character1 + BATTLE::Scripts+1,Y
     cmp #1
@@ -5207,97 +5206,97 @@ sub_17BBCD:
 
 locret_17BBEA:
     rts
-; End of function sub_17BBCD
+; End of function asthma
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17BBEB:
+strange:
     jsr sub_17BF66
     bcs loc_17BB9A
     lda #SomethingStrange
     ldy #0
     ldx #4
     jmp sub_17BD69
-; End of function sub_17BBEB
+; End of function strange
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17BBF9:
+dissipated:
     lda #Dissipated
     ldy #$A
     ldx #2
     jmp loc_17BD95
-; End of function sub_17BBF9
+; End of function dissipated
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17BC02:
+wake_up:
     lda #WakeUp
     ldy #$A
     ldx #$10
     jmp loc_17BD95
-; End of function sub_17BC02
+; End of function wake_up
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17BC0B:
+can_move:
     lda #CanMove
     ldy #$A
     ldx #$20
     jmp loc_17BD95
-; End of function sub_17BC0B
+; End of function can_move
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17BC14:
+asthma_pass:
     lda #AsthmaAttackPass
     ldy #$A
     ldx #2
     jmp loc_17BDAB
-; End of function sub_17BC14
+; End of function asthma_pass
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17BC1D:
+regained:
     lda #Regained
     ldy #$A
     ldx #$C
     jmp loc_17BD95
-; End of function sub_17BC1D
+; End of function regained
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17BC26:
+destroyed:
     lda #Destroyed
     ldy #2
     ldx #$10
     jmp loc_17BDAB
-; End of function sub_17BC26
+; End of function destroyed
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17BC2F:
+recovered_stone:
     lda #RecoveredStone
     ldy #$A
     ldx #$40
     jmp loc_17BD95
-; End of function sub_17BC2F
+; End of function recovered_stone
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -5305,13 +5304,12 @@ sub_17BC2F:
 
 revives:
     ldy TargetOffset
-    lda Character1 + BATTLE::InitialStatus,Y
+    lda Character1 + BATTLE::Status,Y
     asl A
     bcc no_revives
     lda #0
-    sta Character1 + BATTLE::InitialStatus,Y
-    lda #$FF
-    sta Value
+    sta Character1 + BATTLE::Status,Y
+    set Value, #$FF
     sta Value+1
 
 brought:
@@ -5331,7 +5329,7 @@ no_revives:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17BC5D:
+defeated:
     .import sub_F26B, CurrentMusic, NewMusic
 
     ldx BossID
@@ -5364,7 +5362,7 @@ loc_17BC85:
     tax
     jsr sub_F26B
     set Sound1, #3
-    jsr sub_17B6E8
+    jsr black_impact
     lda NamePos
     jsr print_text
     lda #$2C
@@ -5394,14 +5392,14 @@ loc_17BCAF:
     cpx #$AC
     bne @next_msg
     ldy #$80
-    jmp sub_17B3DD
-; End of function sub_17BC5D
+    jmp attack_outcome
+; End of function defeated
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17BCD0:
+snatched:
     ldx #$A
     ldy TargetOffset
     lda Character1 + BATTLE::PP,Y
@@ -5441,13 +5439,13 @@ loc_17BCEC:
 
 loc_17BD28:
     jmp print_no_effect
-; End of function sub_17BCD0
+; End of function snatched
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17BD2B:
+took_away:
     ldy TargetOffset
     bmi loc_17BD3F
     jsr sub_17BFAA
@@ -5461,26 +5459,26 @@ sub_17BD2B:
 loc_17BD3F:
     lda #Ready
     jmp print_text
-; End of function sub_17BD2B
+; End of function took_away
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17BD44:
+lost_senses:
     ldy TargetOffset
-    lda Character1 + BATTLE::InitialStatus,Y
+    lda Character1 + BATTLE::Status,Y
     and #8
     bne locret_17BD5A
-    lda Character1 + BATTLE::InitialStatus,Y
+    lda Character1 + BATTLE::Status,Y
     ora #8
-    sta Character1 + BATTLE::InitialStatus,Y
+    sta Character1 + BATTLE::Status,Y
     lda #Senses
     jsr print_text
 
 locret_17BD5A:
     rts
-; End of function sub_17BD44
+; End of function lost_senses
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -5505,13 +5503,13 @@ loc_17BD62:
 sub_17BD69:
     pha
     jsr sub_17BDCC
-    lda Character1 + BATTLE::InitialStatus,Y
+    lda Character1 + BATTLE::Status,Y
     and Pointer
-    bne loc_17BDC6
-    lda Character1 + BATTLE::InitialStatus,Y
+    bne prnt_no_effect
+    lda Character1 + BATTLE::Status,Y
     ora Pointer
-    sta Character1 + BATTLE::InitialStatus,Y
-    jmp loc_17BDBE
+    sta Character1 + BATTLE::Status,Y
+    jmp take_effect
 ; ---------------------------------------------------------------------------
 
 loc_17BD7F:
@@ -5519,23 +5517,23 @@ loc_17BD7F:
     jsr sub_17BDCC
     lda Character1 + BATTLE::Resist,Y
     and Pointer
-    bne loc_17BDC6
+    bne prnt_no_effect
     lda Character1 + BATTLE::Resist,Y
     ora Pointer
     sta Character1 + BATTLE::Resist,Y
-    jmp loc_17BDBE
+    jmp take_effect
 ; ---------------------------------------------------------------------------
 
 loc_17BD95:
     pha
     jsr sub_17BDCC
-    lda Character1 + BATTLE::InitialStatus,Y
+    lda Character1 + BATTLE::Status,Y
     and Pointer
-    beq loc_17BDC6
-    lda Character1 + BATTLE::InitialStatus,Y
+    beq prnt_no_effect
+    lda Character1 + BATTLE::Status,Y
     and Pointer+1
-    sta Character1 + BATTLE::InitialStatus,Y
-    jmp loc_17BDBE
+    sta Character1 + BATTLE::Status,Y
+    jmp take_effect
 ; ---------------------------------------------------------------------------
 
 loc_17BDAB:
@@ -5543,12 +5541,12 @@ loc_17BDAB:
     jsr sub_17BDCC
     lda Character1 + BATTLE::Resist,Y
     and Pointer
-    beq loc_17BDC6
+    beq prnt_no_effect
     lda Character1 + BATTLE::Resist,Y
     and Pointer+1
     sta Character1 + BATTLE::Resist,Y
 
-loc_17BDBE:
+take_effect:
     ldx Sound
     pla
     jsr sound_frame_text
@@ -5556,7 +5554,7 @@ loc_17BDBE:
     rts
 ; ---------------------------------------------------------------------------
 
-loc_17BDC6:
+prnt_no_effect:
     pla
     jsr print_no_effect
     sec
@@ -5602,19 +5600,14 @@ get_random_value:
 
 
 sub_17BDE8:
-    jsr sub_17BF2C
-; End of function sub_17BDE8
+    jsr get_char_parameter
 
-
-; =============== S U B R O U T I N E =======================================
-
-
-sub_17BDEB:
+loc_17BDEB:
     clc
     lda Character1 + BATTLE::EnemyGroup,X
     adc Pointer
     sta TilepackMode
-    lda Character1 + BATTLE::InitialStatus,X
+    lda Character1 + BATTLE::Status,X
     adc Pointer+1
     sta TilesCount
     bcc loc_17BE02
@@ -5637,7 +5630,7 @@ loc_17BE15:
     sbc Character1 + BATTLE::EnemyGroup,X
     sta byte_590
     lda TilesCount
-    sbc Character1 + BATTLE::InitialStatus,X
+    sbc Character1 + BATTLE::Status,X
     sta byte_591
     bcc loc_17BE38
     ora byte_590
@@ -5645,20 +5638,20 @@ loc_17BE15:
     lda TilepackMode
     sta Character1 + BATTLE::EnemyGroup,X
     lda TilesCount
-    sta Character1 + BATTLE::InitialStatus,X
+    sta Character1 + BATTLE::Status,X
     rts
 ; ---------------------------------------------------------------------------
 
 loc_17BE38:
     jmp sub_17BFD8
-; End of function sub_17BDEB
+; End of function loc_17BDEB
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
 sub_17BE3B:
-    jsr sub_17BF2C
+    jsr get_char_parameter
     clc
     lda Character1 + BATTLE::EnemyGroup,X
     adc Pointer
@@ -5695,12 +5688,12 @@ loc_17BE6F:
 
 
 sub_17BE72:
-    jsr sub_17BF2C
+    jsr get_char_parameter
     sec
     lda Character1 + BATTLE::EnemyGroup,X
     sbc Pointer
     sta TilepackMode
-    lda Character1 + BATTLE::InitialStatus,X
+    lda Character1 + BATTLE::Status,X
     sbc Pointer+1
     sta TilesCount
     bcs loc_17BE8C
@@ -5722,7 +5715,7 @@ loc_17BE9E:
     lda Character1 + BATTLE::EnemyGroup,X
     sbc TilepackMode
     sta byte_590
-    lda Character1 + BATTLE::InitialStatus,X
+    lda Character1 + BATTLE::Status,X
     sbc TilesCount
     sta byte_591
     bcc loc_17BEC1
@@ -5731,7 +5724,7 @@ loc_17BE9E:
     lda TilepackMode
     sta Character1 + BATTLE::EnemyGroup,X
     lda TilesCount
-    sta Character1 + BATTLE::InitialStatus,X
+    sta Character1 + BATTLE::Status,X
     rts
 ; ---------------------------------------------------------------------------
 
@@ -5744,7 +5737,7 @@ loc_17BEC1:
 
 
 decrease_parameter:
-    jsr sub_17BF2C
+    jsr get_char_parameter
     sec
     lda Character1 + BATTLE::EnemyGroup,X
     sbc Pointer
@@ -5777,9 +5770,9 @@ loc_17BEEF:
 
 
 sub_17BEF2:
-    jsr sub_17BF2C
+    jsr get_char_parameter
     store AddrForJmp, pTileID
-    jmp sub_17BDEB
+    jmp loc_17BDEB
 ; End of function sub_17BEF2
 
 
@@ -5789,7 +5782,7 @@ sub_17BEF2:
 sub_17BF00:
     txa
     pha
-    jsr sub_17BF2C
+    jsr get_char_parameter
     pla
     tax
     store AddrForJmp, Pointer
@@ -5804,7 +5797,7 @@ sub_17BF00:
 sub_17BF15:
     txa
     pha
-    jsr sub_17BF2C
+    jsr get_char_parameter
     pla
     tax
     lda AddrForJmp+1
@@ -5821,7 +5814,7 @@ sub_17BF15:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17BF2C:
+get_char_parameter:
     jsr get_chr_pntr
     lda (TilepackMode),Y
     sta AddrForJmp
@@ -5845,7 +5838,7 @@ loc_17BF4F:
     adc pDist
     tax
     rts
-; End of function sub_17BF2C
+; End of function get_char_parameter
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -5877,7 +5870,7 @@ sub_17BF66:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17BF74:
+damage_correction:
     lda Character1 + BATTLE::Flags,Y
     and Flags
     beq loc_17BF87
@@ -5891,7 +5884,7 @@ sub_17BF74:
 loc_17BF87:
     set Flags, #0
     rts
-; End of function sub_17BF74
+; End of function damage_correction
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -5975,43 +5968,40 @@ sub_17BFD8:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17BFE2:
+check_boss:
     lda TargetOffset
-    bpl loc_17BFEB
+    bpl not_enemy
 
-loc_17BFE6:
+chk_boss:
     lda BossID
     lsr A
     bne loc_17BFED
 
-loc_17BFEB:
+not_enemy:
     clc
     rts
+
 ; ---------------------------------------------------------------------------
 
-loc_17BFED:
-    sec
-    rts
-; End of function sub_17BFE2
+; End of function check_boss
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_17BFEF:
+special_enemy:
     ldy TargetOffset
-    bmi loc_17BFFC
+    bmi not_enemy
     lda Character1 + BATTLE::Scripts+1,Y
     cmp #6
-    bne loc_17BFFC
+    bne not_enemy
+
+loc_17BFED:
     sec
     rts
 ; ---------------------------------------------------------------------------
 
-loc_17BFFC:
-    clc
-    rts
-; End of function sub_17BFEF
+; End of function special_enemy
 
 get_chr_pntr:
     lda Character1 + BATTLE::PointerChr,X

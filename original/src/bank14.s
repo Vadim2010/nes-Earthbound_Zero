@@ -755,13 +755,13 @@ game_menu:
 sub_149516:
     .export sub_149516
     .import get_save_field, randomize, sub_19A4A7
-    .importzp byte_20, ObjectNumWithChar, byte_22, byte_23, byte_24, byte_25, EnemyGroup, NewView, ObjNumber
+    .importzp byte_20, ObjectNumWithChar, byte_22, Vechicle, byte_24, byte_25, EnemyGroup, NewView, ObjNumber
 
     lda EnemyGroup
     ora byte_20
     ora ObjectNumWithChar
     ora byte_22
-    ora byte_23
+    ora Vechicle
     ora byte_25
     bne locret_149538
     bit NewView
@@ -862,7 +862,7 @@ loc_1495D5:
     lda CurrentGame + PURE_SAVE::CharactersNum,X
     beq loc_14962A
     jsr get_character_pointer
-    ldy #CHARACTER::InitialStatus
+    ldy #CHARACTER::Status
     lda (Pointer),Y
     lsr A
     bcc loc_1495E8
@@ -1511,10 +1511,9 @@ CHRBank_1:
 byte_149A05:
     .byte $F, $38, $21, $34
 
-    .import locret_EDCA
+    .import sub_EDCB
 off_149A09:
-    .word locret_EDCA
-    .byte   0, 0
+    .word sub_EDCB-1, 0
 
 Palettes_0:
     .byte BLACK, MEDIUM_INDIGO, WHITE, DARK_GRAY            ; PALETTE0
