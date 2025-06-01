@@ -3794,14 +3794,14 @@ Bullhorn:
     blast
     check_bcs COIN_CHANCE, DontBelieved
     print_msg BELIEVED
-    set_value 25
+    set_value 20
     change DECREASE_FIGHT
     end_script
 
 DontBelieved:
     print_msg WASNTCONVINCED
     print_msg MADEANGRY
-    set_value 20
+    set_value 25
     change INCREASE_OFFENSE
     end_script
 
