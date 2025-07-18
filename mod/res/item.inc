@@ -1,5 +1,5 @@
 .enum
-    INVENTORYLIST
+    EMPTY               ; INVENTORYLIST
     BigBag
     PhoneCard
     Crumbs
@@ -105,7 +105,7 @@
     Snowman3
     Reindeer3
     Snowman4
-    Reindeer3
+    Reindeer4
     Spookane4
     FlightplanA
     FlightplanB

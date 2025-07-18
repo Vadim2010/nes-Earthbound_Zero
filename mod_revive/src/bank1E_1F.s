@@ -423,9 +423,9 @@ draw_goods_menu:
 
 sub_C3CE:
     .export sub_C3CE
-    .import byte_935F
+    .import NameRegFrame
 
-    ldxa #byte_935F
+    ldxa #NameRegFrame
     jmp out_frame
 ; End of function sub_C3CE
 
@@ -2197,7 +2197,7 @@ loc_CD26:
     jsr bank13_A000
     jsr sram_write_enable
     jsr sub_13BBD4
-    jsr sub_D9FA
+    jsr new_char_coor
     pla
     lda CurrentGame + PURE_SAVE::GlobalX
     tax
@@ -3734,7 +3734,7 @@ loc_D6CB:
                         ; AttributeScr $6200 or $6300
                         ; ObjectScr $6400 or $6500
                         ; OffScreen - offset
-    jsr get_objects
+    jsr init_objects
     jsr sram_write_enable
     lda Vechicle
     bne loc_D71B
@@ -3903,7 +3903,7 @@ loc_D7AE:
     txa
     jsr get_buffer_offset
     jsr sub_DFBF
-    jsr get_objects
+    jsr init_objects
     ldx #0
 
 loc_D7BD:
@@ -4319,8 +4319,8 @@ get_character_num:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_D9FA:
-    .export sub_D9FA
+new_char_coor:
+    .export new_char_coor
 
     ldx #0
 
@@ -4343,7 +4343,7 @@ loc_DA10:
     cpx #4
     bcc loc_D9FC
     rts
-; End of function sub_D9FA
+; End of function new_char_coor
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -4383,7 +4383,7 @@ loc_DA3C:
 
 
 sub_DA48:
-    .import sub_13BBC3, sub_13BB8C, sub_13A979, print_text
+    .import get_price, get_item_name, sub_13A979, print_text
     .importzp CharNum, Item, Price, Experience, CharacterOffset
 
     set pTileID, ItemCount
@@ -4488,7 +4488,7 @@ loc_DADD:
     beq loc_DB30
     sta Item
     jsr bank13_A000
-    jsr sub_13BBC3
+    jsr get_price
     set Price, #$FF
     lda Price+1
     ora #$1F
@@ -4500,7 +4500,7 @@ loc_DB0A:
     jsr randomize
     and Price
     bne loc_DB30
-    jsr sub_13BB8C
+    jsr get_item_name
     ldx #0
 
 loc_DB1B:
@@ -4544,13 +4544,13 @@ sub_DB40:
     stx Pointer
     set Pointer+1, #0
     sta AddrForJmp
-    jsr sub_F109
-    jsr sub_F109
+    jsr mul32
+    jsr mul32
     jsr sub_DCDF
     ldy #0
     lda (pDist),Y
     sta pTileID
-    jsr sub_F109
+    jsr mul32
     set pTileID, Pointer+1
     set pTileID+1, AddrForJmp
     set TilepackMode, AddrForJmp+1
@@ -4884,7 +4884,7 @@ loc_DCE8:
 
 
 set_characters_pos:
-    jsr get_objects
+    jsr init_objects
     jsr sram_write_enable
 
 loc_DD07:
@@ -4921,7 +4921,7 @@ loc_DD2B:
     stxa CurrentGame + PURE_SAVE::GlobalX
     lda CoorY
     and #$C0
-    ora $6795
+    ora Characters + OBJECT::View
     ldx CoorY+1
     stxa CurrentGame + PURE_SAVE::GlobalY
 
@@ -4933,13 +4933,13 @@ loc_DD54:
 ; =============== S U B R O U T I N E =======================================
 
 
-get_objects:
+init_objects:
     ldxa #Characters
     stxa Dist
     ldx #$FC
     stx ObjectID
     rts
-; End of function get_objects
+; End of function init_objects
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -5540,7 +5540,7 @@ loc_E07F:
 sub_E087:
     .export sub_E087
 
-    jsr get_objects
+    jsr init_objects
     ldx #4
     stx ObjectID
     set AddrForJmp, #0
@@ -5738,11 +5738,11 @@ locret_E20E:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_E20F:
-    .export sub_E20F
+get_interaction_object:
+    .export get_interaction_object
     .importzp Tiles
 
-    jsr get_objects
+    jsr init_objects
     ldy #OBJECT::View
     lda (Dist),Y
     asl A
@@ -5794,7 +5794,7 @@ source2dist:
     ldyx Source
     styx Dist
     rts
-; End of function sub_E20F
+; End of function get_interaction_object
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -6781,7 +6781,7 @@ sub_E756:
     jsr sub_E73D
     jsr sub_E746
     jsr get_pntr
-    jsr sub_E772
+    jsr GetBoxFlags
     and FlagBit,X
     beq loc_E76C
     lda #4
@@ -6795,13 +6795,13 @@ loc_E76C:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_E772:
-    .export sub_E772
+GetBoxFlags:
+    .export GetBoxFlags
 
-    ldy #6
+    ldy #BOX::ItemID
     lda (Source),Y
     asl A
-    ldy #7
+    ldy #BOX::BoxID
     lda (Source),Y
     and #7
     tax
@@ -6810,9 +6810,9 @@ sub_E772:
     lsr A
     lsr A
     tay
-    lda $7620,Y
+    lda CurrentGame + GAME_SAVE::Boxes,Y
     rts
-; End of function sub_E772
+; End of function GetBoxFlags
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -7443,7 +7443,7 @@ loc_EAA1:
     lda Vechicle
     bne loc_EABB
     set Vechicle, #$80
-    jsr sub_D9FA
+    jsr new_char_coor
     ldx #0
     jsr sub_CDAF
 
@@ -8552,12 +8552,12 @@ CursorShiftTab:
 
 ; =============== S U B R O U T I N E =======================================
 
-; Input: Pointer - first multiplier
-;        pTileID - second multiplier
-; Output: AddrForJmp, Pointer - result Pointer * pTileID
+; Input: Pointer - first multiplier 16 bit
+;        pTileID - second multiplier 8 bit
+; Output: AddrForJmp+0, Pointer - 24-bit result Pointer * pTileID
 
-multiplication:
-    .export multiplication
+mul24:
+    .export mul24
 
     lda #0
     ldx #$10
@@ -8577,13 +8577,15 @@ loc_F0FE:
     ror Pointer+1
     ror Pointer
     rts
-; End of function multiplication
+; End of function mul24
 
 
 ; =============== S U B R O U T I N E =======================================
+; Input: AddrForJmp, Pointer - first multiplier 24 bit
+;        pTileID - second multiplier 8 bit
+; Output: AddrForJmp, Pointer - 32-bit result (AddrForJmp,Pointer) * pTileID
 
-
-sub_F109:
+mul32:
     lda #0
     ldx #$18
 
@@ -8604,7 +8606,7 @@ loc_F118:
     ror Pointer+1
     ror Pointer
     rts
-; End of function sub_F109
+; End of function mul32
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -9086,7 +9088,7 @@ loc_F320:
     tax
     lda MultiplierTable,X
     sta pTileID
-    jsr multiplication      ; Input: Pointer - first multiplier, pTileID - second multiplier
+    jsr mul24      ; Input: Pointer - first multiplier, pTileID - second multiplier
                             ; Output: AddrForJmp, Pointer - result Pointer * pTileID
     plp
     bcs loc_F346
@@ -9258,7 +9260,7 @@ get_enemy_group:
     set Pointer, EnemyGroup
     set Pointer+1, #0
     set pTileID, #$A
-    jsr multiplication      ; Input: Pointer - first multiplier, pTileID - second multiplier
+    jsr mul24      ; Input: Pointer - first multiplier, pTileID - second multiplier
                             ; Output: AddrForJmp, Pointer - result Pointer * pTileID
     clc
     lda #<(EnemyGroups)

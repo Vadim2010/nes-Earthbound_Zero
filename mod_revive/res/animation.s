@@ -64,7 +64,7 @@ AnimBoy3:
     frame MoveLeft2, $60, $15
     frame MoveUpLeft2, $60, $15
 
-
+stru_158080:
     frame MoveUp, 8, $19
     frame MoveUpRight, 8, $19
     frame MoveRight, 8, $19
@@ -115,6 +115,7 @@ AnimBoy3:
     frame stru_1595AC, 0, 0
     frame stru_1595BC, 0, 0
 
+stru_158140:
     frame MoveUp, $A0, 9
     frame MoveUpRight, $A0, 9
     frame MoveRight, $A0, 9
@@ -132,16 +133,25 @@ AnimBoy3:
     frame stru_159324, $8A, 5
     frame stru_159324, $8C, 5
     frame stru_159324, $8E, 5
+
+stru_158180:
     frame stru_158EAC, $68, 0
     frame stru_158EAC, $68, 0
+
+BoxAnim:
     frame stru_158EAC, $6A, 5
     frame stru_158EAC, $6C, 5
     frame stru_158EAC, $6C, 0
+
+stru_158194:
     frame stru_158EAC, $6E, 5
     frame stru_158EDC, $3C, 5
     frame stru_158EE4, $3C, 5
     frame stru_158EEC, $3E, 0
     frame stru_158EF4, $3E, 0
+
+stru_1581A8:
+    .export stru_1581A8
 
     frame MoveUp, $80, $F
     frame MoveUpRight, $80, $F
@@ -151,6 +161,9 @@ AnimBoy3:
     frame MoveDownLeft, $80, $F
     frame MoveLeft, $80, $F
     frame MoveUpLeft, $80, $F
+
+stru_1581C8:
+    .export stru_1581C8
 
     frame MoveUp, $A0, $F
     frame MoveUpRight, $A0, $F
@@ -161,14 +174,22 @@ AnimBoy3:
     frame MoveLeft, $A0, $F
     frame MoveUpLeft, $A0, $F
 
+stru_1581E8:
+    .export stru_1581E8, stru_158200
+
     frame MoveUp1, $C0, 5
     frame MoveUpRight1, $C0, 5
     frame MoveRight1, $C0, 5
     frame MoveDownRight1, $C0, 5
     frame MoveDown1, $C0, 5
     frame MoveDownLeft1, $C0, 5
+stru_158200:
     frame MoveLeft1, $C0, 5
     frame MoveUpLeft1, $C0, 5
+
+stru_158208:
+    .export stru_158208
+
     frame MoveUp1, $E0, 9
     frame MoveUpRight1, $E0, 9
     frame MoveRight1, $E0, 9
@@ -177,6 +198,9 @@ AnimBoy3:
     frame MoveDownLeft1, $E0, 9
     frame MoveLeft1, $E0, 9
     frame MoveUpLeft1, $E0, 9
+
+stru_158228:
+    .export stru_158228
 
     frame MoveUp, $88, $F
     frame MoveUpRight, $88, $F
@@ -187,6 +211,9 @@ AnimBoy3:
     frame MoveLeft, $88, $F
     frame MoveUpLeft, $88, $F
 
+stru_158248:
+    .export stru_158248
+
     frame MoveUp, $A8, 9
     frame MoveUpRight, $A8, 9
     frame MoveRight, $A8, 9
@@ -195,6 +222,9 @@ AnimBoy3:
     frame MoveDownLeft, $A8, 9
     frame MoveLeft, $A8, 9
     frame MoveUpLeft, $A8, 9
+
+stru_158268:
+    .export stru_158268
 
     frame MoveUp, $C8, 5
     frame MoveUpRight, $C8, 5
@@ -205,6 +235,9 @@ AnimBoy3:
     frame MoveLeft, $C8, 5
     frame MoveUpLeft, $C8, 5
 
+stru_158288:
+    .export stru_158288
+
     frame MoveUp, $E8, 5
     frame MoveUpRight, $E8, 5
     frame MoveRight, $E8, 5
@@ -214,6 +247,9 @@ AnimBoy3:
     frame MoveLeft, $E8, 5
     frame MoveUpLeft, $E8, 5
 
+stru_1582A8:
+    .export stru_1582A8
+
     frame stru_158C5C, $80, 5
     frame stru_158C6C, $80, 5
     frame stru_158C7C, $80, 5
@@ -222,6 +258,10 @@ AnimBoy3:
     frame stru_158CAC, $80, 5
     frame stru_158CBC, $80, 5
     frame stru_158CCC, $80, 5
+
+ReceptionistAnim:
+    .export ReceptionistAnim
+
     frame stru_158CDC, $80, $F
     frame stru_158CEC, $80, $F
     frame stru_158CFC, $80, $F
@@ -230,6 +270,10 @@ AnimBoy3:
     frame stru_158D2C, $80, $F
     frame stru_158D3C, $80, $F
     frame stru_158D4C, $80, $F
+
+ServicemanAnim:
+    .export ServicemanAnim
+
     frame stru_158D5C, $80, 5
     frame stru_158D6C, $80, 5
     frame stru_158D7C, $80, 5
@@ -239,6 +283,9 @@ AnimBoy3:
     frame stru_158DBC, $80, 5
     frame stru_158DCC, $80, 5
 
+stru_158308:
+    .export stru_158308
+
     frame MoveUp, $80, $D
     frame MoveUpRight, $80, $D
     frame MoveRight, $80, $D
@@ -247,6 +294,9 @@ AnimBoy3:
     frame MoveDownLeft, $80, $D
     frame MoveLeft, $80, $D
     frame MoveUpLeft, $80, $D
+
+stru_158328:
+    .export stru_158328
 
     frame MoveUp, $A0, 6
     frame MoveUpRight, $A0, 6
@@ -257,6 +307,9 @@ AnimBoy3:
     frame MoveLeft, $A0, 6
     frame MoveUpLeft, $A0, 6
 
+stru_158348:
+    .export stru_158348
+
     frame MoveUp, $C0, $F
     frame MoveUpRight, $C0, $F
     frame MoveRight, $C0, $F
@@ -265,6 +318,9 @@ AnimBoy3:
     frame MoveDownLeft, $C0, $F
     frame MoveLeft, $C0, $F
     frame MoveUpLeft, $C0, $F
+
+stru_158368:
+    .export stru_158368
 
     frame MoveUp1, $E0, $F
     frame MoveUpRight1, $E0, $F
@@ -275,6 +331,9 @@ AnimBoy3:
     frame MoveLeft1, $E0, $F
     frame MoveUpLeft1, $E0, $F
 
+stru_158388:
+    .export stru_158388
+
     frame MoveUp, $88, 5
     frame MoveUpRight, $88, 5
     frame MoveRight, $88, 5
@@ -283,6 +342,9 @@ AnimBoy3:
     frame MoveDownLeft, $88, 5
     frame MoveLeft, $88, 5
     frame MoveUpLeft, $88, 5
+
+stru_1583A8:
+    .export stru_1583A8
 
     frame MoveUp, $A8, 9
     frame MoveUpRight, $A8, 9
@@ -293,6 +355,9 @@ AnimBoy3:
     frame MoveLeft, $A8, 9
     frame MoveUpLeft, $A8, 9
 
+stru_1583C8:
+    .export stru_1583C8
+
     frame MoveUp, $C8, $A
     frame MoveUpRight, $C8, $A
     frame MoveRight, $C8, $A
@@ -302,6 +367,9 @@ AnimBoy3:
     frame MoveLeft, $C8, $A
     frame MoveUpLeft, $C8, $A
 
+stru_1583E8:
+    .export stru_1583E8
+
     frame MoveUp1, $E8, $F
     frame MoveUpRight1, $E8, $F
     frame MoveRight1, $E8, $F
@@ -310,6 +378,10 @@ AnimBoy3:
     frame MoveDownLeft1, $E8, $F
     frame MoveLeft1, $E8, $F
     frame MoveUpLeft1, $E8, $F
+
+stru_158408:
+    .export stru_158408
+
     frame stru_158C5C, $80, $F
     frame stru_158C6C, $80, $F
     frame stru_158C7C, $80, $F
@@ -318,6 +390,10 @@ AnimBoy3:
     frame stru_158CAC, $80, $F
     frame stru_158CBC, $80, $F
     frame stru_158CCC, $80, $F
+
+stru_158428:
+    .export stru_158428
+
     frame stru_158CDC, $80, 7
     frame stru_158CEC, $80, 7
     frame stru_158CFC, $80, 7
@@ -326,6 +402,10 @@ AnimBoy3:
     frame stru_158D2C, $80, 7
     frame stru_158D3C, $80, 7
     frame stru_158D4C, $80, 7
+
+stru_158448:
+    .export stru_158448
+
     frame stru_158D5C, $80, $F
     frame stru_158D6C, $80, $F
     frame stru_158D7C, $80, $F
@@ -334,6 +414,10 @@ AnimBoy3:
     frame stru_158DAC, $80, $F
     frame stru_158DBC, $80, $F
     frame stru_158DCC, $80, $F
+
+WaitressAnim:
+    .export WaitressAnim
+
     frame MoveUp1, $80, $A
     frame MoveUpRight1, $80, $A
     frame MoveRight1, $80, $A
@@ -343,6 +427,9 @@ AnimBoy3:
     frame MoveLeft1, $80, $A
     frame MoveUpLeft1, $80, $A
 
+NurseAnim:
+    .export NurseAnim
+
     frame MoveUp, $A0, 5
     frame MoveUpRight, $A0, 5
     frame MoveRight, $A0, 5
@@ -351,6 +438,9 @@ AnimBoy3:
     frame MoveDownLeft, $A0, 5
     frame MoveLeft, $A0, 5
     frame MoveUpLeft, $A0, 5
+
+PharmacistAnim:
+    .export PharmacistAnim
 
     frame MoveUp, $C0, $F
     frame MoveUpRight, $C0, $F
@@ -361,6 +451,9 @@ AnimBoy3:
     frame MoveLeft, $C0, $F
     frame MoveUpLeft, $C0, $F
 
+DoctorAnim:
+    .export DoctorAnim
+
     frame MoveUp, $88, $F
     frame MoveUpRight, $88, $F
     frame MoveRight, $88, $F
@@ -369,6 +462,9 @@ AnimBoy3:
     frame MoveDownLeft, $88, $F
     frame MoveLeft, $88, $F
     frame MoveUpLeft, $88, $F
+
+stru_1584E8:
+    .export stru_1584E8
 
     frame MoveUp, $A8, $F
     frame MoveUpRight, $A8, $F
@@ -379,7 +475,12 @@ AnimBoy3:
     frame MoveLeft, $A8, $F
     frame MoveUpLeft, $A8, $F
 
+BabyAnim:
     frame stru_158ECC, $A8, 5
+
+stru_15850C:
+    .export stru_15850C
+
     frame MoveUp1, $E0, $1A
     frame MoveUpRight1, $E0, $1A
     frame MoveRight1, $E0, $1A
@@ -388,6 +489,10 @@ AnimBoy3:
     frame MoveDownLeft1, $E0, $1A
     frame MoveLeft1, $E0, $1A
     frame MoveUpLeft1, $E0, $1A
+
+stru_15852C:
+    .export stru_15852C
+
     frame MoveUp1, $C8, $F
     frame MoveUpRight1, $C8, $F
     frame MoveRight1, $C8, $F
@@ -396,14 +501,24 @@ AnimBoy3:
     frame MoveDownLeft1, $C8, $F
     frame MoveLeft1, $C8, $F
     frame MoveUpLeft1, $C8, $F
+
     frame stru_158EAC, $EC, $15
+
+stru_158550:
     frame stru_1592DC, $E8, $F
     frame stru_1592EC, $E8, $F
+
+stru_158558:
     frame stru_158EAC, $EA, 0
     frame stru_158EAC, $EA, 0
+
+stru_158560:
     frame stru_158EAC, $EE, 0
+
+stru_158564:
     frame stru_158ECC, $C0, 0
 
+stru_158568:
     frame MoveUp, $80, 0
     frame MoveUpRight, $80, 0
     frame MoveRight, $80, 0
@@ -412,6 +527,9 @@ AnimBoy3:
     frame MoveDownLeft, $80, 0
     frame MoveLeft, $80, 0
     frame MoveUpLeft, $80, 0
+
+stru_158588:
+    .export stru_158588
 
     frame MoveUp1, $A0, 5
     frame MoveUpRight1, $A0, 5
@@ -422,6 +540,9 @@ AnimBoy3:
     frame MoveLeft1, $A0, 5
     frame MoveUpLeft1, $A0, 5
 
+stru_1585A8:
+    .export stru_1585A8
+
     frame MoveUp, $C0, $A
     frame MoveUpRight, $C0, $A
     frame MoveRight, $C0, $A
@@ -431,6 +552,7 @@ AnimBoy3:
     frame MoveLeft, $C0, $A
     frame MoveUpLeft, $C0, $A
 
+stru_1585C8:
     frame MoveUp, $E0, 6
     frame MoveUpRight, $E0, 6
     frame MoveRight, $E0, 6
@@ -440,7 +562,11 @@ AnimBoy3:
     frame MoveLeft, $E0, 6
     frame MoveUpLeft, $E0, 6
 
+stru_1585E8:
     frame stru_158F9C, $88, 0
+
+AnimDog:
+    .export AnimDog
 
     frame MoveUp, $A8, 0
     frame MoveUpRight, $A8, 0
@@ -451,6 +577,9 @@ AnimBoy3:
     frame MoveLeft, $A8, 0
     frame MoveUpLeft, $A8, 0
 
+stru_15860C:
+    .export stru_15860C
+
     frame MoveUp, $C8, $F
     frame MoveUpRight, $C8, $F
     frame MoveRight, $C8, $F
@@ -459,6 +588,9 @@ AnimBoy3:
     frame MoveDownLeft, $C8, $F
     frame MoveLeft, $C8, $F
     frame MoveUpLeft, $C8, $F
+
+stru_15862C:
+    .export stru_15862C
 
     frame MoveUp, $E8, $A
     frame MoveUpRight, $E8, $A
@@ -469,6 +601,7 @@ AnimBoy3:
     frame MoveLeft, $E8, $A
     frame MoveUpLeft, $E8, $A
 
+stru_15864C:
     frame stru_158E5C, $80, 0
     frame stru_158E64, $80, 0
     frame stru_158E6C, $80, 0
@@ -477,13 +610,19 @@ AnimBoy3:
     frame stru_158E84, $80, 0
     frame stru_158E8C, $80, 0
     frame stru_158E94, $80, 0
+
+stru_15866C:
     frame stru_158ECC, $C0, $F
+
+stru_158670:
     frame stru_158ECC, $A8, 0
 
 AnimLamp:
     frame stru_158EAC, $8E, $F
     frame stru_158EAC, $8E, $F
 
+
+stru_15867C:
     frame MoveUp, $E8, 5
     frame MoveUpRight, $E8, 5
     frame MoveRight, $E8, 5
@@ -492,6 +631,9 @@ AnimLamp:
     frame MoveDownLeft, $E8, 5
     frame MoveLeft, $E8, 5
     frame MoveUpLeft, $E8, 5
+
+stru_15869C:
+    .export stru_15869C
 
     frame MoveUp1, $80, $F
     frame MoveUpRight1, $80, $F
@@ -502,6 +644,9 @@ AnimLamp:
     frame MoveLeft1, $80, $F
     frame MoveUpLeft1, $80, $F
 
+stru_1586BC:
+    .export stru_1586BC
+
     frame MoveUp, $A8, 5
     frame MoveUpRight, $A8, 5
     frame MoveRight, $A8, 5
@@ -510,6 +655,9 @@ AnimLamp:
     frame MoveDownLeft, $A8, 5
     frame MoveLeft, $A8, 5
     frame MoveUpLeft, $A8, 5
+
+stru_1586DC:
+    .export stru_1586DC
 
     frame MoveUp, $A0, 5
     frame MoveUpRight, $A0, 5
@@ -520,6 +668,9 @@ AnimLamp:
     frame MoveLeft, $A0, 5
     frame MoveUpLeft, $A0, 5
 
+stru_1586FC:
+    .export stru_1586FC
+
     frame MoveUp, $88, 5
     frame MoveUpRight, $88, 5
     frame MoveRight, $88, 5
@@ -529,6 +680,7 @@ AnimLamp:
     frame MoveLeft, $88, 5
     frame MoveUpLeft, $88, 5
 
+stru_15871C:
     frame MoveUp, $C8, $F
     frame MoveUpRight, $C8, $F
     frame MoveRight, $C8, $F
@@ -538,6 +690,9 @@ AnimLamp:
     frame MoveLeft, $C8, $F
     frame MoveUpLeft, $C8, $F
 
+stru_15873C:
+    .export stru_15873C
+
     frame MoveUp, $E0, $A
     frame MoveUpRight, $E0, $A
     frame MoveRight, $E0, $A
@@ -546,6 +701,9 @@ AnimLamp:
     frame MoveDownLeft, $E0, $A
     frame MoveLeft, $E0, $A
     frame MoveUpLeft, $E0, $A
+
+stru_15875C:
+    .export stru_15875C
 
     frame MoveUp, $C0, 5
     frame MoveUpRight, $C0, 5
@@ -556,8 +714,13 @@ AnimLamp:
     frame MoveLeft, $C0, 5
     frame MoveUpLeft, $C0, 5
 
+stru_15877C:
     frame stru_158F7C, $80, $66
     frame stru_158F7C, $80, $66
+
+stru_158784:
+    .export stru_158784
+
     frame stru_158C5C, $80, 5
     frame stru_158C6C, $80, 5
     frame stru_158C7C, $80, 5
@@ -566,6 +729,9 @@ AnimLamp:
     frame stru_158CAC, $80, 5
     frame stru_158CBC, $80, 5
     frame stru_158CCC, $80, 5
+
+stru_1587A4:
+    .export stru_1587A4
 
     frame MoveUp, $80, $F
     frame MoveUpRight, $80, $F
@@ -576,6 +742,9 @@ AnimLamp:
     frame MoveLeft, $80, $F
     frame MoveUpLeft, $80, $F
 
+stru_1587C4:
+    .export stru_1587C4
+
     frame MoveUp1, $C0, 5
     frame MoveUpRight1, $C0, 5
     frame MoveRight1, $C0, 5
@@ -584,6 +753,9 @@ AnimLamp:
     frame MoveDownLeft1, $C0, 5
     frame MoveLeft1, $C0, 5
     frame MoveUpLeft1, $C0, 5
+
+stru_1587E4:
+    .export stru_1587E4
 
     frame MoveUp, $E0, $A
     frame MoveUpRight, $E0, $A
@@ -594,6 +766,9 @@ AnimLamp:
     frame MoveLeft, $E0, $A
     frame MoveUpLeft, $E0, $A
 
+stru_158804:
+    .export stru_158804
+
     frame MoveUp, $88, 5
     frame MoveUpRight, $88, 5
     frame MoveRight, $88, 5
@@ -602,6 +777,9 @@ AnimLamp:
     frame MoveDownLeft, $88, 5
     frame MoveLeft, $88, 5
     frame MoveUpLeft, $88, 5
+
+stru_158824:
+    .export stru_158824
 
     frame MoveUp1, $A8, $A
     frame MoveUpRight1, $A8, $A
@@ -612,6 +790,9 @@ AnimLamp:
     frame MoveLeft1, $A8, $A
     frame MoveUpLeft1, $A8, $A
 
+stru_158844:
+    .export stru_158844
+
     frame MoveUp, $C8, 0
     frame MoveUpRight, $C8, 0
     frame MoveRight, $C8, 0
@@ -621,21 +802,39 @@ AnimLamp:
     frame MoveLeft, $C8, 0
     frame MoveUpLeft, $C8, 0
 
+stru_158864:
     frame stru_1592DC, $E8, $F
+
+stru_158868:
     frame stru_158EAC, $EA, 0
+
+stru_15886C:
     frame stru_1592DC, $EC, 0
+
+stru_158870:
     frame stru_158EAC, $EE, 0
     frame stru_158EAC, $EE, 0
+
+stru_158878:
     frame stru_158E5C, $80, 0
     frame stru_158E64, $80, 0
     frame stru_158E6C, $80, 0
+
+stru_158884:
     frame stru_158E74, $80, 0
     frame stru_158E7C, $80, 0
     frame stru_158E84, $80, 0
     frame stru_158E8C, $80, 0
     frame stru_158E94, $80, 0
+
+stru_158898:
     frame stru_158ECC, $C0, $AA
+
+stru_15889C:
     frame stru_158ECC, $A8, 0
+
+stru_1588A0:
+    .export stru_1588A0
 
     frame MoveUp, $80, $D
     frame MoveUpRight, $80, $D
@@ -646,6 +845,9 @@ AnimLamp:
     frame MoveLeft, $80, $D
     frame MoveUpLeft, $80, $D
 
+stru_1588C0:
+    .export stru_1588C0
+
     frame MoveUp, $88, $A
     frame MoveUpRight, $88, $A
     frame MoveRight, $88, $A
@@ -655,6 +857,9 @@ AnimLamp:
     frame MoveLeft, $88, $A
     frame MoveUpLeft, $88, $A
 
+stru_1588E0:
+    .export stru_1588E0
+
     frame MoveUp, $A8, $F
     frame MoveUpRight, $A8, $F
     frame MoveRight, $A8, $F
@@ -663,6 +868,9 @@ AnimLamp:
     frame MoveDownLeft, $A8, $F
     frame MoveLeft, $A8, $F
     frame MoveUpLeft, $A8, $F
+
+stru_158900:
+    .export stru_158900
 
     frame MoveUp, $80, 5
     frame MoveUpRight, $80, 5
@@ -673,6 +881,9 @@ AnimLamp:
     frame MoveLeft, $80, 5
     frame MoveUpLeft, $80, 5
 
+stru_158920:
+    .export stru_158920
+
     frame MoveUp, $C0, $A
     frame MoveUpRight, $C0, $A
     frame MoveRight, $C0, $A
@@ -682,7 +893,11 @@ AnimLamp:
     frame MoveLeft, $C0, $A
     frame MoveUpLeft, $C0, $A
 
+stru_158940:
     frame stru_158EAC, $88, $F
+
+stru_158944:
+    .export stru_158944
 
     frame MoveUp, $A8, $F
     frame MoveUpRight, $A8, $F
@@ -693,6 +908,9 @@ AnimLamp:
     frame MoveLeft, $A8, $F
     frame MoveUpLeft, $A8, $F
 
+stru_158964:
+    .export stru_158964
+
     frame MoveUp, $C8, $F
     frame MoveUpRight, $C8, $F
     frame MoveRight, $C8, $F
@@ -702,14 +920,27 @@ AnimLamp:
     frame MoveLeft, $C8, $F
     frame MoveUpLeft, $C8, $F
 
+stru_158984:
     frame stru_158EAC, $E8, 0
+
+stru_158988:
     frame stru_158EAC, $EA, 0
+
+stru_15898C:
     frame stru_158E9C, 0, 5
     frame stru_158E9C, 0, 5
+
+stru_158994:
     frame stru_158F3C, 0, 5
     frame stru_158F3C, 0, 5
+
+stru_15899C:
     frame stru_158F5C, 0, 5
     frame stru_158F6C, 0, 5
+
+stru_1589A4:
+    .export stru_1589A4
+
     frame stru_158EFC, $E0, 5
     frame stru_158EFC, $E0, 5
     frame stru_158F0C, $E0, 5
@@ -718,12 +949,23 @@ AnimLamp:
     frame stru_158F1C, $E0, 5
     frame stru_158F2C, $E0, 5
     frame stru_158F2C, $E0, 5
+
+stru_1589C4:
     frame stru_158ECC, $A8, 0
     frame stru_158EAC, $EC, 5
     frame stru_158EAC, $EE, 5
     frame stru_158EAC, $8A, $F
+
+stru_1589D4:
     frame stru_158EAC, $8C, 5
+
+stru_1589D8:
+    .export stru_1589D8
+
     frame stru_158EAC, $8E, $F
+
+stru_1589DC:
+    .export stru_1589DC
 
     frame MoveUp, $C8, $A
     frame MoveUpRight, $C8, $A
@@ -734,6 +976,9 @@ AnimLamp:
     frame MoveLeft, $C8, $A
     frame MoveUpLeft, $C8, $A
 
+stru_1589FC:
+    .export stru_1589FC
+
     frame MoveUp, $C8, 5
     frame MoveUpRight, $C8, 5
     frame MoveRight, $C8, 5
@@ -743,9 +988,20 @@ AnimLamp:
     frame MoveLeft, $C8, 5
     frame MoveUpLeft, $C8, 5
 
+stru_158A1C:
+    .export stru_158A1C
+
     frame stru_158EAC, $8E, $A
+
+stru_158A20:
+    .export stru_158A20
+
     frame stru_158EAC, $8E, 5
+
+stru_158A24:
     frame stru_158EAC, $8C, $F
+
+stru_158A28:
     frame stru_158FC4, $80, 0
     frame stru_158FE8, $80, 0
     frame stru_158FC4, $80, 0
@@ -754,9 +1010,15 @@ AnimLamp:
     frame stru_15900C, $80, 0
     frame stru_159030, $80, 0
     frame stru_159078, $80, 0
+
+stru_158A48:
     frame stru_1592FC, $80, 5
     frame stru_1595CC, $80, 1
     frame stru_1595CC, $80, 1
+
+stru_158A54:
+    .export stru_158A54
+
     frame stru_1595F0, $80, 5
     frame stru_159600, $80, 5
     frame stru_159610, $80, 5
@@ -765,6 +1027,10 @@ AnimLamp:
     frame stru_159640, $80, 5
     frame stru_159650, $80, 5
     frame stru_159660, $80, 5
+
+stru_158A74:
+    .export stru_158A74
+
     frame stru_1595F0, $80, 0
     frame stru_159600, $80, 0
     frame stru_159610, $80, 0
@@ -773,6 +1039,10 @@ AnimLamp:
     frame stru_159640, $80, 0
     frame stru_159650, $80, 0
     frame stru_159660, $80, 0
+
+stru_158A94:
+    .export stru_158A94
+
     frame stru_1595F0, $80, $F
     frame stru_159600, $80, $F
     frame stru_159610, $80, $F
@@ -781,6 +1051,8 @@ AnimLamp:
     frame stru_159640, $80, $F
     frame stru_159650, $80, $F
     frame stru_159660, $80, $F
+
+stru_158AB4:
     frame stru_159670, 0, 0
     frame stru_159670, 0, 0
     frame stru_159680, 0, 0
@@ -789,6 +1061,9 @@ AnimLamp:
     frame stru_159690, 0, 0
     frame stru_1596A0, 0, 0
     frame stru_1596A0, 0, 0
+
+PilotAnim:
+    .export PilotAnim
 
     frame MoveUp, $88, 5
     frame MoveUpRight, $88, 5
@@ -799,24 +1074,37 @@ AnimLamp:
     frame MoveLeft, $88, 5
     frame MoveUpLeft, $88, 5
 
+stru_158AF4:
     frame stru_158EAC, $C6, $F
     frame stru_158EAC, $C6, $15
+
+AirplaneAnim:
+    .export AirplaneAnim
+
     frame stru_1591BC, $80, $55
     frame stru_1591E0, $80, $55
     frame stru_159204, $80, $55
     frame stru_159228, $80, $55
     frame stru_15924C, $80, $55
     frame stru_159270, $80, $55
+
+stru_158B14:
     frame stru_159294, $80, $55
     frame stru_1592B8, $80, $55
+
+stru_158B1C:
     frame stru_15909C, $E0, 0
     frame stru_1590C0, $E0, 0
     frame stru_1590E4, $E0, 0
     frame stru_159108, $E0, 0
+
+stru_158B2C:
     frame stru_15912C, $E0, 0
     frame stru_159150, $E0, 0
     frame stru_159174, $E0, 0
     frame stru_159198, $E0, 0
+
+stru_158B3C:
     frame stru_15909C, $A0, $FF
     frame stru_1590C0, $A0, $FF
     frame stru_1590E4, $A0, $FF
@@ -831,270 +1119,327 @@ MoveUp:
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 5   ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 5
     .byte $10, $28, COLOR_1|TILE_OFFSET|FOREGROUND, $12     ; TILE <$10, $28, COLOR_1|TILE_OFFSET|FOREGROUND, $12
     .byte $18, $28, COLOR_1|TILE_OFFSET|FOREGROUND, $13     ; TILE <$18, $28, COLOR_1|TILE_OFFSET|FOREGROUND, $13
+
 MoveUpRight:
     .byte $10, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND, 4   ; TILE <$10, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND, 4
     .byte $18, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND, 5   ; TILE <$18, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND, 5
     .byte $10, $27, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $13     ; TILE <$10, $27, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $13
     .byte $18, $27, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $12     ; TILE <$18, $27, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $12
+
 MoveRight:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 7   ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 7
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 6   ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 6
     .byte $10, $28, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $15     ; TILE <$10, $28, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $15
     .byte $18, $28, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $14     ; TILE <$18, $28, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $14
+
 MoveDownRight:
     .byte $10, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 7   ; TILE <$10, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 7
     .byte $18, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 6   ; TILE <$18, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 6
     .byte $10, $27, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $17     ; TILE <$10, $27, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $17
     .byte $18, $27, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $16     ; TILE <$18, $27, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $16
+
 MoveDown:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 2           ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 2
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 3           ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 3
     .byte $10, $28, COLOR_1|TILE_OFFSET|FOREGROUND, $10             ; TILE <$10, $28, COLOR_1|TILE_OFFSET|FOREGROUND, $10
     .byte $18, $28, COLOR_1|TILE_OFFSET|FOREGROUND, $11             ; TILE <$18, $28, COLOR_1|TILE_OFFSET|FOREGROUND, $11
+
 MoveDownLeft:
     .byte $10, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND, 2           ; TILE <$10, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND, 2
     .byte $18, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND, 3           ; TILE <$18, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND, 3
     .byte $10, $27, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $11 ; TILE <$10, $27, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $11
     .byte $18, $27, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $10 ; TILE <$18, $27, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $10
+
 MoveLeft:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 6           ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 6
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 7           ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 7
     .byte $10, $28, COLOR_1|TILE_OFFSET|FOREGROUND, $14             ; TILE <$10, $28, COLOR_1|TILE_OFFSET|FOREGROUND, $14
     .byte $18, $28, COLOR_1|TILE_OFFSET|FOREGROUND, $15             ; TILE <$18, $28, COLOR_1|TILE_OFFSET|FOREGROUND, $15
+
 MoveUpLeft:
     .byte $10, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND, 6           ; TILE <$10, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND, 6
     .byte $18, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND, 7           ; TILE <$18, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND, 7
     .byte $10, $27, COLOR_1|TILE_OFFSET|FOREGROUND, $16             ; TILE <$10, $27, COLOR_1|TILE_OFFSET|FOREGROUND, $16
     .byte $18, $27, COLOR_1|TILE_OFFSET|FOREGROUND, $17             ; TILE <$18, $27, COLOR_1|TILE_OFFSET|FOREGROUND, $17
+
 MoveUp1:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 4           ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 4
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 5           ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 5
     .byte $10, $28, COLOR_1|TILE_OFFSET|FOREGROUND, $12             ; TILE <$10, $28, COLOR_1|TILE_OFFSET|FOREGROUND, $12
     .byte $18, $28, COLOR_1|TILE_OFFSET|FOREGROUND, $13             ; TILE <$18, $28, COLOR_1|TILE_OFFSET|FOREGROUND, $13
+
 MoveUpRight1:
     .byte $10, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND, 4           ; TILE <$10, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND, 4
     .byte $18, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND, 5           ; TILE <$18, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND, 5
     .byte $F, $27, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $13  ; TILE <$F, $27, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $13
     .byte $17, $27, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $12 ; TILE <$17, $27, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $12
+
 MoveRight1:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 7   ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 7
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 6   ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 6
     .byte $10, $28, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $15     ; TILE <$10, $28, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $15
     .byte $18, $28, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $14     ; TILE <$18, $28, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $14
+
 MoveDownRight1:
     .byte $10, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 7   ; TILE <$10, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 7
     .byte $18, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 6   ; TILE <$18, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 6
     .byte $10, $27, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $17     ; TILE <$10, $27, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $17
     .byte $18, $27, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $16     ; TILE <$18, $27, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $16
+
 MoveDown1:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 2       ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 2
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 3       ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 3
     .byte $10, $28, COLOR_1|TILE_OFFSET|FOREGROUND, $10         ; TILE <$10, $28, COLOR_1|TILE_OFFSET|FOREGROUND, $10
     .byte $18, $28, COLOR_1|TILE_OFFSET|FOREGROUND, $11         ; TILE <$18, $28, COLOR_1|TILE_OFFSET|FOREGROUND, $11
+
 MoveDownLeft1:
     .byte $10, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND, 2       ; TILE <$10, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND, 2
     .byte $18, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND, 3       ; TILE <$18, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND, 3
     .byte $F, $27, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $11  ; TILE <$F, $27, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $11
     .byte $17, $27, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $10 ; TILE <$17, $27, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $10
+
 MoveLeft1:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 6       ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 6
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 7       ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 7
     .byte $10, $28, COLOR_1|TILE_OFFSET|FOREGROUND, $14          ; TILE <$10, $28, COLOR_1|TILE_OFFSET|FOREGROUND, $14
     .byte $18, $28, COLOR_1|TILE_OFFSET|FOREGROUND, $15          ; TILE <$18, $28, COLOR_1|TILE_OFFSET|FOREGROUND, $15
+
 MoveUpLeft1:
     .byte $10, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND, 6       ; TILE <$10, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND, 6
     .byte $18, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND, 7       ; TILE <$18, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND, 7
     .byte $10, $27, COLOR_1|TILE_OFFSET|FOREGROUND, $16         ; TILE <$10, $27, COLOR_1|TILE_OFFSET|FOREGROUND, $16
     .byte $18, $27, COLOR_1|TILE_OFFSET|FOREGROUND, $17         ; TILE <$18, $27, COLOR_1|TILE_OFFSET|FOREGROUND, $17
+
 stru_158C5C:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $40     ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $40
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $41     ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $41
     .byte $10, $28, COLOR_1|TILE_OFFSET|FOREGROUND, $28         ; TILE <$10, $28, COLOR_1|TILE_OFFSET|FOREGROUND, $28
     .byte $18, $28, COLOR_1|TILE_OFFSET|FOREGROUND, $29         ; TILE <$18, $28, COLOR_1|TILE_OFFSET|FOREGROUND, $29
+
 stru_158C6C:
     .byte $10, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND, $40     ; TILE <$10, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND, $40
     .byte $18, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND, $41     ; TILE <$18, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND, $41
     .byte $10, $27, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $29 ; TILE <$10, $27, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $29
     .byte $18, $27, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $28 ; TILE <$18, $27, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $28
+
 stru_158C7C:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $61 ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $61
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $60 ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $60
     .byte $10, $28, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $69     ; TILE <$10, $28, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $69
     .byte $18, $28, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $68     ; TILE <$18, $28, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $68
+
 stru_158C8C:
     .byte $10, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $61 ; TILE <$10, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $61
     .byte $18, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $60 ; TILE <$18, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $60
     .byte $10, $27, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $49     ; TILE <$10, $27, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $49
     .byte $18, $27, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $48     ; TILE <$18, $27, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $48
+
 stru_158C9C:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $20     ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $20
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $21     ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $21
     .byte $10, $28, COLOR_1|TILE_OFFSET|FOREGROUND, 8           ; TILE <$10, $28, COLOR_1|TILE_OFFSET|FOREGROUND, 8
     .byte $18, $28, COLOR_1|TILE_OFFSET|FOREGROUND, 9           ; TILE <$18, $28, COLOR_1|TILE_OFFSET|FOREGROUND, 9
+
 stru_158CAC:
     .byte $10, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND, $20     ; TILE <$10, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND, $20
     .byte $18, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND, $21     ; TILE <$18, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND, $21
     .byte $10, $27, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 9 ; TILE <$10, $27, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 9
     .byte $18, $27, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 8 ; TILE <$18, $27, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 8
+
 stru_158CBC:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $60     ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $60
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $61     ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $61
     .byte $10, $28, COLOR_1|TILE_OFFSET|FOREGROUND, $48         ; TILE <$10, $28, COLOR_1|TILE_OFFSET|FOREGROUND, $48
     .byte $18, $28, COLOR_1|TILE_OFFSET|FOREGROUND, $49         ; TILE <$18, $28, COLOR_1|TILE_OFFSET|FOREGROUND, $49
+
 stru_158CCC:
     .byte $10, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND, $60     ; TILE <$10, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND, $60
     .byte $18, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND, $61     ; TILE <$18, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND, $61
     .byte $10, $27, COLOR_1|TILE_OFFSET|FOREGROUND, $68         ; TILE <$10, $27, COLOR_1|TILE_OFFSET|FOREGROUND, $68
     .byte $18, $27, COLOR_1|TILE_OFFSET|FOREGROUND, $69         ; TILE <$18, $27, COLOR_1|TILE_OFFSET|FOREGROUND, $69
+
 stru_158CDC:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $C      ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $C
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $D      ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $D
     .byte $10, $28, COLOR_1|TILE_OFFSET|FOREGROUND, $12         ; TILE <$10, $28, COLOR_1|TILE_OFFSET|FOREGROUND, $12
     .byte $18, $28, COLOR_1|TILE_OFFSET|FOREGROUND, $13         ; TILE <$18, $28, COLOR_1|TILE_OFFSET|FOREGROUND, $13
+
 stru_158CEC:
     .byte $10, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND, $C      ; TILE <$10, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND, $C
     .byte $18, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND, $D      ; TILE <$18, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND, $D
     .byte $10, $27, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $13  ; TILE <$10, $27, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $13
     .byte $18, $27, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $12  ; TILE <$18, $27, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $12
+
 stru_158CFC:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $F      ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $F
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $E      ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $E
     .byte $10, $28, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $15         ; TILE <$10, $28, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $15
     .byte $18, $28, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $14         ; TILE <$18, $28, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $14
+
 stru_158D0C:
     .byte $10, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $F      ; TILE <$10, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $F
     .byte $18, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $E      ; TILE <$18, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $E
     .byte $10, $27, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $17         ; TILE <$10, $27, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $17
     .byte $18, $27, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $16         ; TILE <$18, $27, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $16
+
 stru_158D1C:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $A      ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $A
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $B      ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $B
     .byte $10, $28, COLOR_1|TILE_OFFSET|FOREGROUND, $10         ; TILE <$10, $28, COLOR_1|TILE_OFFSET|FOREGROUND, $10
     .byte $18, $28, COLOR_1|TILE_OFFSET|FOREGROUND, $11         ; TILE <$18, $28, COLOR_1|TILE_OFFSET|FOREGROUND, $11
+
 stru_158D2C:
     .byte $10, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND, $A      ; TILE <$10, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND, $A
     .byte $18, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND, $B      ; TILE <$18, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND, $B
     .byte $10, $27, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $11 ; TILE <$10, $27, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $11
     .byte $18, $27, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $10 ; TILE <$18, $27, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $10
+
 stru_158D3C:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $E      ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $E
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $F      ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $F
     .byte $10, $28, COLOR_1|TILE_OFFSET|FOREGROUND, $14         ; TILE <$10, $28, COLOR_1|TILE_OFFSET|FOREGROUND, $14
     .byte $18, $28, COLOR_1|TILE_OFFSET|FOREGROUND, $15         ; TILE <$18, $28, COLOR_1|TILE_OFFSET|FOREGROUND, $15
+
 stru_158D4C:
     .byte $10, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND, $E      ; TILE <$10, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND, $E
     .byte $18, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND, $F      ; TILE <$18, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND, $F
     .byte $10, $27, COLOR_1|TILE_OFFSET|FOREGROUND, $16         ; TILE <$10, $27, COLOR_1|TILE_OFFSET|FOREGROUND, $16
     .byte $18, $27, COLOR_1|TILE_OFFSET|FOREGROUND, $17         ; TILE <$18, $27, COLOR_1|TILE_OFFSET|FOREGROUND, $17
+
 stru_158D5C:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $2C     ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $2C
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $2D     ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $2D
     .byte $10, $28, COLOR_1|TILE_OFFSET|FOREGROUND, $12         ; TILE <$10, $28, COLOR_1|TILE_OFFSET|FOREGROUND, $12
     .byte $18, $28, COLOR_1|TILE_OFFSET|FOREGROUND, $13         ; TILE <$18, $28, COLOR_1|TILE_OFFSET|FOREGROUND, $13
+
 stru_158D6C:
     .byte $10, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND, $2C     ; TILE <$10, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND, $2C
     .byte $18, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND, $2D     ; TILE <$18, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND, $2D
     .byte $10, $27, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $13 ; TILE <$10, $27, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $13
     .byte $18, $27, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $12 ; TILE <$18, $27, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $12
+
 stru_158D7C:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $2F     ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $2F
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $2E     ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $2E
     .byte $10, $28, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $15         ; TILE <$10, $28, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $15
     .byte $18, $28, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $14         ; TILE <$18, $28, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $14
+
 stru_158D8C:
     .byte $10, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $2F     ; TILE <$10, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $2F
     .byte $18, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $2E     ; TILE <$18, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $2E
     .byte $10, $27, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $17         ; TILE <$10, $27, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $17
     .byte $18, $27, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $16         ; TILE <$18, $27, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $16
+
 stru_158D9C:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $2A     ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $2A
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $2B     ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $2B
     .byte $10, $28, COLOR_1|TILE_OFFSET|FOREGROUND, $10         ; TILE <$10, $28, COLOR_1|TILE_OFFSET|FOREGROUND, $10
     .byte $18, $28, COLOR_1|TILE_OFFSET|FOREGROUND, $11         ; TILE <$18, $28, COLOR_1|TILE_OFFSET|FOREGROUND, $11
+
 stru_158DAC:
     .byte $10, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND, $2A     ; TILE <$10, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND, $2A
     .byte $18, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND, $2B     ; TILE <$18, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND, $2B
     .byte $10, $27, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $11 ; TILE <$10, $27, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $11
     .byte $18, $27, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $10 ; TILE <$18, $27, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $10
+
 stru_158DBC:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $2E     ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $2E
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $2F     ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $2F
     .byte $10, $28, COLOR_1|TILE_OFFSET|FOREGROUND, $14         ; TILE <$10, $28, COLOR_1|TILE_OFFSET|FOREGROUND, $14
     .byte $18, $28, COLOR_1|TILE_OFFSET|FOREGROUND, $15         ; TILE <$18, $28, COLOR_1|TILE_OFFSET|FOREGROUND, $15
+
 stru_158DCC:
     .byte $10, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND, $2E     ; TILE <$10, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND, $2E
     .byte $18, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND, $2F     ; TILE <$18, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND, $2F
     .byte $10, $27, COLOR_1|TILE_OFFSET|FOREGROUND, $16         ; TILE <$10, $27, COLOR_1|TILE_OFFSET|FOREGROUND, $16
     .byte $18, $27, COLOR_1|TILE_OFFSET|FOREGROUND, $17         ; TILE <$18, $27, COLOR_1|TILE_OFFSET|FOREGROUND, $17
+
 MoveUp2:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 2       ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 2
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 3       ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 3
     .byte $10, $28, COLOR_1|TILE_OFFSET|FOREGROUND, $14         ; TILE <$10, $28, COLOR_1|TILE_OFFSET|FOREGROUND, $14
     .byte $18, $28, COLOR_1|TILE_OFFSET|FOREGROUND, $15         ; TILE <$18, $28, COLOR_1|TILE_OFFSET|FOREGROUND, $15
+
 MoveUpRight2:
     .byte $F, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 3        ; TILE <$F, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 3
     .byte $17, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 2       ; TILE <$17, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 2
     .byte $F, $28, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $15          ; TILE <$F, $28, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $15
     .byte $17, $28, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $14         ; TILE <$17, $28, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $14
+
 MoveRight2:
     .byte $10, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 5       ; TILE <$10, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 5
     .byte $18, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 4       ; TILE <$18, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 4
     .byte $10, $27, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $17         ; TILE <$10, $27, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $17
     .byte $18, $27, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $16         ; TILE <$18, $27, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $16
+
 MoveDownRight2:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 5       ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 5
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 4       ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 4
     .byte $10, $28, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 7           ; TILE <$10, $28, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 7
     .byte $18, $28, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 6           ; TILE <$18, $28, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 6
+
 MoveDown2:
     .byte $11, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0       ; TILE <$11, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0
     .byte $19, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND, 1       ; TILE <$19, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND, 1
     .byte $11, $27, COLOR_1|TILE_OFFSET|FOREGROUND, $10         ; TILE <$11, $27, COLOR_1|TILE_OFFSET|FOREGROUND, $10
     .byte $19, $27, COLOR_1|TILE_OFFSET|FOREGROUND, $11         ; TILE <$19, $27, COLOR_1|TILE_OFFSET|FOREGROUND, $11
+
 MoveDownLeft2:
     .byte $F, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 1    ; TILE <$F, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 1
     .byte $17, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 0   ; TILE <$17, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 0
     .byte $F, $27, COLOR_1|TILE_OFFSET|FOREGROUND, $12      ; TILE <$F, $27, COLOR_1|TILE_OFFSET|FOREGROUND, $12
     .byte $17, $27, COLOR_1|TILE_OFFSET|FOREGROUND, $13     ; TILE <$17, $27, COLOR_1|TILE_OFFSET|FOREGROUND, $13
+
 MoveLeft2:
     .byte $10, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND, 4       ; TILE <$10, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND, 4
     .byte $18, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND, 5       ; TILE <$18, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND, 5
     .byte $10, $27, COLOR_1|TILE_OFFSET|FOREGROUND, $16         ; TILE <$10, $27, COLOR_1|TILE_OFFSET|FOREGROUND, $16
     .byte $18, $27, COLOR_1|TILE_OFFSET|FOREGROUND, $17         ; TILE <$18, $27, COLOR_1|TILE_OFFSET|FOREGROUND, $17
+
 MoveUpLeft2:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 4       ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 4
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 5       ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 5
     .byte $10, $28, COLOR_1|TILE_OFFSET|FOREGROUND, 6           ; TILE <$10, $28, COLOR_1|TILE_OFFSET|FOREGROUND, 6
     .byte $18, $28, COLOR_1|TILE_OFFSET|FOREGROUND, 7           ; TILE <$18, $28, COLOR_1|TILE_OFFSET|FOREGROUND, 7
+
 stru_158E5C:
     .byte $14, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 8       ; TILE <$14, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 8
     .byte $14, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $20     ; TILE <$14, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $20
+
 stru_158E64:
     .byte $14, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 8   ; TILE <$14, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 8
     .byte $14, $27, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $20 ; TILE <$14, $27, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $20
+
 stru_158E6C:
     .byte $14, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 9       ; TILE <$14, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 9
     .byte $14, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $21 ; TILE <$14, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $21
+
 stru_158E74:
     .byte $14, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 9   ; TILE <$14, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 9
     .byte $14, $27, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $21 ; TILE <$14, $27, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $21
+
 stru_158E7C:
     .byte $14, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 8       ; TILE <$14, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 8
     .byte $14, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, 1       ; TILE <$14, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, 1
+
 stru_158E84:
     .byte $14, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 8   ; TILE <$14, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 8
     .byte $14, $27, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 1   ; TILE <$14, $27, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 1
+
 stru_158E8C:
     .byte $14, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 9   ; TILE <$14, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 9
     .byte $14, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $21     ; TILE <$14, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $21
+
 stru_158E94:
     .byte $14, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND, 9       ; TILE <$14, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND, 9
     .byte $14, $27, TRANSPARENT|TILE_OFFSET|FOREGROUND, $21     ; TILE <$14, $27, TRANSPARENT|TILE_OFFSET|FOREGROUND, $21
+
 stru_158E9C:
     .byte $14, $24, TRANSPARENT|TILE_OFFSET|FOREGROUND, $81     ; TILE <$14, $24, TRANSPARENT|TILE_OFFSET|FOREGROUND, $81
     .byte 0, 0, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0           ; TILE <0, 0, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0
     .byte 0, 0, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0           ; TILE <0, 0, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0
     .byte 0, 0, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0           ; TILE <0, 0, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0
+
 stru_158EAC:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0       ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 1       ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 1
@@ -1104,43 +1449,53 @@ stru_158EAC:
     .byte $19, $21, TRANSPARENT|TILE_OFFSET|FOREGROUND, 1       ; TILE <$19, $21, TRANSPARENT|TILE_OFFSET|FOREGROUND, 1
     .byte $11, $29, TRANSPARENT|TILE_OFFSET|FOREGROUND, $10     ; TILE <$11, $29, TRANSPARENT|TILE_OFFSET|FOREGROUND, $10
     .byte $19, $29, TRANSPARENT|TILE_OFFSET|FOREGROUND, $11     ; TILE <$19, $29, TRANSPARENT|TILE_OFFSET|FOREGROUND, $11
+
 stru_158ECC:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0       ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 1       ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 1
     .byte $10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $20     ; TILE <$10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $20
     .byte $18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $21     ; TILE <$18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $21
+
 stru_158EDC:
     .byte $10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0       ; TILE <$10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0
     .byte $18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, 1       ; TILE <$18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, 1
+
 stru_158EE4:
     .byte $10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, 1       ; TILE <$10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, 1
     .byte $18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0       ; TILE <$18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0
+
 stru_158EEC:
     .byte $10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0       ; TILE <$10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0
     .byte $18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 0   ; TILE <$18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 0
+
 stru_158EF4:
     .byte $10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, 1       ; TILE <$10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, 1
     .byte $18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 1   ; TILE <$18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 1
+
 stru_158EFC:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0       ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 1       ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 1
     .byte $10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $10     ; TILE <$10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $10
     .byte $18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $11     ; TILE <$18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $11
+
 stru_158F0C:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 2       ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 2
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 3       ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 3
     .byte $10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $12     ; TILE <$10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $12
     .byte $18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $13     ; TILE <$18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $13
+
 stru_158F1C:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 4       ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 4
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 5       ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 5
     .byte $10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $14     ; TILE <$10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $14
     .byte $18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $15     ; TILE <$18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $15
+
 stru_158F2C:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 6       ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 6
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 7       ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 7
     .byte $10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $16     ; TILE <$10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $16
     .byte $18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $17     ; TILE <$18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $17
+
 stru_158F3C:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $C0     ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $C0
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $C0 ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $C0
@@ -1150,16 +1505,19 @@ stru_158F3C:
     .byte $19, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $C0 ; TILE <$19, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $C0
     .byte $11, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $C1     ; TILE <$11, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $C1
     .byte $19, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $C1 ; TILE <$19, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $C1
+
 stru_158F5C:
     .byte $14, $30, TRANSPARENT|TILE_OFFSET|FOREGROUND, $A0     ; TILE <$14, $30, TRANSPARENT|TILE_OFFSET|FOREGROUND, $A0
     .byte 0, 0, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0           ; TILE <0, 0, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0
     .byte 0, 0, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0           ; TILE <0, 0, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0
     .byte 0, 0, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0           ; TILE <0, 0, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0
+
 stru_158F6C:
     .byte $14, $30, TRANSPARENT|TILE_OFFSET|FOREGROUND, $A1     ; TILE <$14, $30, TRANSPARENT|TILE_OFFSET|FOREGROUND, $A1
     .byte 0, 0, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0           ; TILE <0, 0, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0
     .byte 0, 0, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0           ; TILE <0, 0, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0
     .byte 0, 0, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0           ; TILE <0, 0, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0
+
 stru_158F7C:
     .byte 8, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $6C           ; TILE <8, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $6C
     .byte $10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $6D         ; TILE <$10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $6D
@@ -1169,6 +1527,7 @@ stru_158F7C:
     .byte $10, $30, TRANSPARENT|TILE_OFFSET|FOREGROUND, $7D         ; TILE <$10, $30, TRANSPARENT|TILE_OFFSET|FOREGROUND, $7D
     .byte $18, $30, TRANSPARENT|TILE_OFFSET|FOREGROUND, $7E         ; TILE <$18, $30, TRANSPARENT|TILE_OFFSET|FOREGROUND, $7E
     .byte $20, $30, TRANSPARENT|TILE_OFFSET|FOREGROUND, $7F         ; TILE <$20, $30, TRANSPARENT|TILE_OFFSET|FOREGROUND, $7F
+
 stru_158F9C:
     .byte $10, 8, TRANSPARENT|TILE_OFFSET|FOREGROUND, 4             ; TILE <$10, 8, TRANSPARENT|TILE_OFFSET|FOREGROUND, 4
     .byte $18, 8, TRANSPARENT|TILE_OFFSET|FOREGROUND, 5             ; TILE <$18, 8, TRANSPARENT|TILE_OFFSET|FOREGROUND, 5
@@ -1180,6 +1539,7 @@ stru_158F9C:
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $13         ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $13
     .byte $10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $10         ; TILE <$10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $10
     .byte $18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $11         ; TILE <$18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $11
+
 stru_158FC4:
     .byte $10, $1C, TRANSPARENT|TILE_OFFSET|FOREGROUND, $2A         ; TILE <$10, $1C, TRANSPARENT|TILE_OFFSET|FOREGROUND, $2A
     .byte $18, $1C, TRANSPARENT|TILE_OFFSET|FOREGROUND, $2B         ; TILE <$18, $1C, TRANSPARENT|TILE_OFFSET|FOREGROUND, $2B
@@ -1190,6 +1550,7 @@ stru_158FC4:
     .byte $10, $2C, TRANSPARENT|TILE_OFFSET|FOREGROUND, $27         ; TILE <$10, $2C, TRANSPARENT|TILE_OFFSET|FOREGROUND, $27
     .byte $18, $2C, TRANSPARENT|TILE_OFFSET|FOREGROUND, $28         ; TILE <$18, $2C, TRANSPARENT|TILE_OFFSET|FOREGROUND, $28
     .byte $20, $2C, TRANSPARENT|TILE_OFFSET|FOREGROUND, $29         ; TILE <$20, $2C, TRANSPARENT|TILE_OFFSET|FOREGROUND, $29
+
 stru_158FE8:
     .byte 8, $1C, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $2C   ; TILE <8, $1C, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $2C
     .byte $10, $1C, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $2B ; TILE <$10, $1C, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $2B
@@ -1200,6 +1561,7 @@ stru_158FE8:
     .byte 8, $2C, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $29   ; TILE <8, $2C, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $29
     .byte $10, $2C, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $28 ; TILE <$10, $2C, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $28
     .byte $18, $2C, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $27 ; TILE <$18, $2C, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $27
+
 stru_15900C:
     .byte 8, $24, TRANSPARENT|TILE_OFFSET|FOREGROUND, $2A       ; TILE <8, $24, TRANSPARENT|TILE_OFFSET|FOREGROUND, $2A
     .byte $10, $24, TRANSPARENT|TILE_OFFSET|FOREGROUND, $2B     ; TILE <$10, $24, TRANSPARENT|TILE_OFFSET|FOREGROUND, $2B
@@ -1210,6 +1572,7 @@ stru_15900C:
     .byte 8, $34, TRANSPARENT|TILE_OFFSET|FOREGROUND, $25       ; TILE <8, $34, TRANSPARENT|TILE_OFFSET|FOREGROUND, $25
     .byte $10, $34, TRANSPARENT|TILE_OFFSET|FOREGROUND, $26     ; TILE <$10, $34, TRANSPARENT|TILE_OFFSET|FOREGROUND, $26
     .byte $18, $34, TRANSPARENT|TILE_OFFSET|FOREGROUND, $29     ; TILE <$18, $34, TRANSPARENT|TILE_OFFSET|FOREGROUND, $29
+
 stru_159030:
     .byte $10, $24, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $2C     ; TILE <$10, $24, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $2C
     .byte $18, $24, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $2B     ; TILE <$18, $24, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $2B
@@ -1220,6 +1583,7 @@ stru_159030:
     .byte $10, $34, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $29     ; TILE <$10, $34, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $29
     .byte $18, $34, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $26     ; TILE <$18, $34, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $26
     .byte $20, $34, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $25     ; TILE <$20, $34, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $25
+
 stru_159054:
     .byte 8, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $1A       ; TILE <8, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $1A
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $1B     ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $1B
@@ -1230,6 +1594,7 @@ stru_159054:
     .byte 8, $30, TRANSPARENT|TILE_OFFSET|FOREGROUND, $2D       ; TILE <8, $30, TRANSPARENT|TILE_OFFSET|FOREGROUND, $2D
     .byte $10, $30, TRANSPARENT|TILE_OFFSET|FOREGROUND, $2E     ; TILE <$10, $30, TRANSPARENT|TILE_OFFSET|FOREGROUND, $2E
     .byte $18, $30, TRANSPARENT|TILE_OFFSET|FOREGROUND, $2F     ; TILE <$18, $30, TRANSPARENT|TILE_OFFSET|FOREGROUND, $2F
+
 stru_159078:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $1C     ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $1C
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $1B     ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $1B
@@ -1240,6 +1605,7 @@ stru_159078:
     .byte $10, $30, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $2F     ; TILE <$10, $30, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $2F
     .byte $18, $30, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $2E     ; TILE <$18, $30, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $2E
     .byte $20, $30, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $2D     ; TILE <$20, $30, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $2D
+
 stru_15909C:
     .byte $C, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, 5        ; TILE <$C, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, 5
     .byte $14, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, 6       ; TILE <$14, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, 6
@@ -1250,6 +1616,7 @@ stru_15909C:
     .byte $C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $19      ; TILE <$C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $19
     .byte $14, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $1A     ; TILE <$14, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $1A
     .byte $1C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $19 ; TILE <$1C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $19
+
 stru_1590C0:
     .byte $C, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, 5        ; TILE <$C, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, 5
     .byte $14, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, 6       ; TILE <$14, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, 6
@@ -1260,6 +1627,7 @@ stru_1590C0:
     .byte $C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $1B  ; TILE <$C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $1B
     .byte $14, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $1A     ; TILE <$14, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $1A
     .byte $1C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $1B     ; TILE <$1C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $1B
+
 stru_1590E4:
     .byte $C, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $A       ; TILE <$C, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $A
     .byte $14, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 9       ; TILE <$14, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 9
@@ -1270,6 +1638,7 @@ stru_1590E4:
     .byte $C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $1C      ; TILE <$C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $1C
     .byte $14, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $C      ; TILE <$14, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $C
     .byte $1C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $B      ; TILE <$1C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $B
+
 stru_159108:
     .byte $C, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $A       ; TILE <$C, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $A
     .byte $14, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 9       ; TILE <$14, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 9
@@ -1280,6 +1649,7 @@ stru_159108:
     .byte $C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $1F      ; TILE <$C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $1F
     .byte $14, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $1E     ; TILE <$14, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $1E
     .byte $1C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $1D     ; TILE <$1C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $1D
+
 stru_15912C:
     .byte $C, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, 2        ; TILE <$C, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, 2
     .byte $14, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, 3       ; TILE <$14, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, 3
@@ -1290,6 +1660,7 @@ stru_15912C:
     .byte $C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $13      ; TILE <$C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $13
     .byte $14, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $14     ; TILE <$14, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $14
     .byte $1C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $13 ; TILE <$1C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $13
+
 stru_159150:
     .byte $C, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, 2        ; TILE <$C, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, 2
     .byte $14, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, 3       ; TILE <$14, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, 3
@@ -1300,6 +1671,7 @@ stru_159150:
     .byte $C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $15  ; TILE <$C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $15
     .byte $14, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $14     ; TILE <$14, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $14
     .byte $1C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $15     ; TILE <$1C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $15
+
 stru_159174:
     .byte $C, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, 8        ; TILE <$C, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, 8
     .byte $14, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, 9       ; TILE <$14, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, 9
@@ -1310,6 +1682,7 @@ stru_159174:
     .byte $C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $1D      ; TILE <$C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $1D
     .byte $14, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $1E     ; TILE <$14, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $1E
     .byte $1C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $1F     ; TILE <$1C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $1F
+
 stru_159198:
     .byte $C, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, 8        ; TILE <$C, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, 8
     .byte $14, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, 9       ; TILE <$14, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, 9
@@ -1320,6 +1693,7 @@ stru_159198:
     .byte $C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $B       ; TILE <$C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $B
     .byte $14, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $C      ; TILE <$14, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $C
     .byte $1C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $1C     ; TILE <$1C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $1C
+
 stru_1591BC:
     .byte $C, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0        ; TILE <$C, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0
     .byte $14, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, $4C     ; TILE <$14, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, $4C
@@ -1330,6 +1704,7 @@ stru_1591BC:
     .byte $C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $5D      ; TILE <$C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $5D
     .byte $14, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $5E     ; TILE <$14, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $5E
     .byte $1C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $5F     ; TILE <$1C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $5F
+
 stru_1591E0:
     .byte $C, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0        ; TILE <$C, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0
     .byte $14, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, $5C     ; TILE <$14, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, $5C
@@ -1340,6 +1715,7 @@ stru_1591E0:
     .byte $C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $5D      ; TILE <$C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $5D
     .byte $14, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $5E     ; TILE <$14, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $5E
     .byte $1C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $5F     ; TILE <$1C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $5F
+
 stru_159204:
     .byte $C, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 0        ; TILE <$C, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 0
     .byte $14, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $51     ; TILE <$14, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $51
@@ -1350,6 +1726,7 @@ stru_159204:
     .byte $C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $55      ; TILE <$C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $55
     .byte $14, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $54     ; TILE <$14, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $54
     .byte $1C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $53     ; TILE <$1C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $53
+
 stru_159228:
     .byte $C, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 0        ; TILE <$C, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 0
     .byte $14, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $51     ; TILE <$14, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $51
@@ -1360,6 +1737,7 @@ stru_159228:
     .byte $C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $55      ; TILE <$C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $55
     .byte $14, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $54     ; TILE <$14, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $54
     .byte $1C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $52     ; TILE <$1C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $52
+
 stru_15924C:
     .byte $C, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0        ; TILE <$C, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0
     .byte $14, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, $48     ; TILE <$14, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, $48
@@ -1370,6 +1748,7 @@ stru_15924C:
     .byte $C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $59      ; TILE <$C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $59
     .byte $14, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $5A     ; TILE <$14, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $5A
     .byte $1C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $5B     ; TILE <$1C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $5B
+
 stru_159270:
     .byte $C, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0        ; TILE <$C, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0
     .byte $14, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, $48     ; TILE <$14, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, $48
@@ -1380,6 +1759,7 @@ stru_159270:
     .byte $C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $59      ; TILE <$C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $59
     .byte $14, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $58     ; TILE <$14, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $58
     .byte $1C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $5B     ; TILE <$1C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $5B
+
 stru_159294:
     .byte $C, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, $50      ; TILE <$C, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, $50
     .byte $14, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, $51     ; TILE <$14, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, $51
@@ -1390,6 +1770,7 @@ stru_159294:
     .byte $C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $53      ; TILE <$C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $53
     .byte $14, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $54     ; TILE <$14, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $54
     .byte $1C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $55     ; TILE <$1C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $55
+
 stru_1592B8:
     .byte $C, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, $50      ; TILE <$C, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, $50
     .byte $14, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, $51     ; TILE <$14, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, $51
@@ -1400,16 +1781,19 @@ stru_1592B8:
     .byte $C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $52      ; TILE <$C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $52
     .byte $14, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $54     ; TILE <$14, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $54
     .byte $1C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $55     ; TILE <$1C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $55
+
 stru_1592DC:
     .byte $10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0       ; TILE <$10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0
     .byte $18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, 1       ; TILE <$18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, 1
     .byte $10, $30, TRANSPARENT|TILE_OFFSET|FOREGROUND, $10     ; TILE <$10, $30, TRANSPARENT|TILE_OFFSET|FOREGROUND, $10
     .byte $18, $30, TRANSPARENT|TILE_OFFSET|FOREGROUND, $11     ; TILE <$18, $30, TRANSPARENT|TILE_OFFSET|FOREGROUND, $11
+
 stru_1592EC:
     .byte $10, $29, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0       ; TILE <$10, $29, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0
     .byte $18, $29, TRANSPARENT|TILE_OFFSET|FOREGROUND, 1       ; TILE <$18, $29, TRANSPARENT|TILE_OFFSET|FOREGROUND, 1
     .byte $10, $31, TRANSPARENT|TILE_OFFSET|FOREGROUND, $10     ; TILE <$10, $31, TRANSPARENT|TILE_OFFSET|FOREGROUND, $10
     .byte $18, $31, TRANSPARENT|TILE_OFFSET|FOREGROUND, $11     ; TILE <$18, $31, TRANSPARENT|TILE_OFFSET|FOREGROUND, $11
+
 stru_1592FC:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $10     ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $10
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $11     ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $11
@@ -1421,6 +1805,7 @@ stru_1592FC:
     .byte $20, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $22     ; TILE <$20, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $22
     .byte $28, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $23     ; TILE <$28, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $23
     .byte $30, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $24     ; TILE <$30, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $24
+
 stru_159324:
     .byte $10, 8, TRANSPARENT|TILE_OFFSET|FOREGROUND, $30       ; TILE <$10, 8, TRANSPARENT|TILE_OFFSET|FOREGROUND, $30
     .byte $18, 8, TRANSPARENT|TILE_OFFSET|FOREGROUND, $31       ; TILE <$18, 8, TRANSPARENT|TILE_OFFSET|FOREGROUND, $31
@@ -1432,206 +1817,247 @@ stru_159324:
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $61     ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $61
     .byte $10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $70     ; TILE <$10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $70
     .byte $18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $71     ; TILE <$18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $71
+
 stru_15934C:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $4C     ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $4C
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $4C ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $4C
     .byte $10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $5C     ; TILE <$10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $5C
     .byte $18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $5C ; TILE <$18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $5C
+
 stru_15935C:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $4C     ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $4C
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $4C ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $4C
     .byte $10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $5C     ; TILE <$10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $5C
     .byte $18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $5C ; TILE <$18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $5C
+
 stru_15936C:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $4F     ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $4F
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $4E     ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $4E
     .byte $10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $5F     ; TILE <$10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $5F
     .byte $18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $5E     ; TILE <$18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $5E
+
 stru_15937C:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $4F     ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $4F
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $4E     ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $4E
     .byte $10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $5F     ; TILE <$10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $5F
     .byte $18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $5E     ; TILE <$18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $5E
+
 stru_15938C:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $4A         ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $4A
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $4B         ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $4B
     .byte $10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $5A         ; TILE <$10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $5A
     .byte $18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $5B         ; TILE <$18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $5B
+
 stru_15939C:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $4A         ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $4A
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $4B         ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $4B
     .byte $10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $5A         ; TILE <$10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $5A
     .byte $18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $5B         ; TILE <$18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $5B
+
 stru_1593AC:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $4E         ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $4E
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $4F         ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $4F
     .byte $10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $5E         ; TILE <$10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $5E
     .byte $18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $5F         ; TILE <$18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $5F
+
 stru_1593BC:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $4E         ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $4E
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $4F         ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $4F
     .byte $10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $5E         ; TILE <$10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $5E
     .byte $18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $5F         ; TILE <$18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $5F
+
 stru_1593CC:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $5D         ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $5D
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $5D     ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $5D
     .byte $10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $2F         ; TILE <$10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $2F
     .byte $18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $2F     ; TILE <$18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $2F
+
 stru_1593DC:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $5D         ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $5D
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $5D     ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $5D
     .byte $10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $2F         ; TILE <$10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $2F
     .byte $18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $2F     ; TILE <$18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $2F
+
 stru_1593EC:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $39     ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $39
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $38     ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $38
     .byte $10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $59     ; TILE <$10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $59
     .byte $18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $58     ; TILE <$18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $58
+
 stru_1593FC:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $39     ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $39
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $38     ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $38
     .byte $10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $59     ; TILE <$10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $59
     .byte $18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $58     ; TILE <$18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $58
+
 stru_15940C:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $21         ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $21
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $21     ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $21
     .byte $10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $40         ; TILE <$10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $40
     .byte $18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $40     ; TILE <$18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $40
+
 stru_15941C:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $21         ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $21
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $21     ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $21
     .byte $10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $40         ; TILE <$10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $40
     .byte $18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $40     ; TILE <$18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $40
+
 stru_15942C:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $38         ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $38
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $39         ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $39
     .byte $10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $58         ; TILE <$10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $58
     .byte $18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $59         ; TILE <$18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $59
+
 stru_15943C:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $38         ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $38
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $39         ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $39
     .byte $10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $58         ; TILE <$10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $58
     .byte $18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $59         ; TILE <$18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $59
+
 stru_15944C:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $4C         ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $4C
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $4C     ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $4C
     .byte $10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $2F         ; TILE <$10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $2F
     .byte $18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $2F     ; TILE <$18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $2F
+
 stru_15945C:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $4C         ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $4C
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $4C     ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $4C
     .byte $10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $2F         ; TILE <$10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $2F
     .byte $18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $2F     ; TILE <$18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $2F
+
 stru_15946C:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $49     ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $49
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $48     ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $48
     .byte $10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $59     ; TILE <$10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $59
     .byte $18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $58     ; TILE <$18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $58
+
 stru_15947C:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $49     ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $49
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $48     ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $48
     .byte $10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $59     ; TILE <$10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $59
     .byte $18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $58     ; TILE <$18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $58
+
 stru_15948C:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $20     ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $20
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $20     ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $20
     .byte $10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $40     ; TILE <$10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $40
     .byte $18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $40     ; TILE <$18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $40
+
 stru_15949C:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $20     ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $20
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $20     ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $20
     .byte $10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $40     ; TILE <$10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $40
     .byte $18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $40     ; TILE <$18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $40
+
 stru_1594AC:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $48     ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $48
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $49     ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $49
     .byte $10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $58     ; TILE <$10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $58
     .byte $18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $59     ; TILE <$18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $59
+
 stru_1594BC:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $48     ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $48
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $49     ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $49
     .byte $10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $58     ; TILE <$10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $58
     .byte $18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $59     ; TILE <$18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $59
+
 stru_1594CC:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $2E     ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $2E
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $2E     ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $2E
     .byte $10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, 9       ; TILE <$10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, 9
     .byte $18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 9       ; TILE <$18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 9
+
 stru_1594DC:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $2E     ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $2E
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $2E     ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $2E
     .byte $10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, 9       ; TILE <$10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, 9
     .byte $18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 9       ; TILE <$18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 9
+
 stru_1594EC:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $2D     ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $2D
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $2C     ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $2C
     .byte $10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $3D     ; TILE <$10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $3D
     .byte $18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $3C     ; TILE <$18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $3C
+
 stru_1594FC:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $2D     ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $2D
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $2C     ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $2C
     .byte $10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $3D     ; TILE <$10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $3D
     .byte $18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $3C     ; TILE <$18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $3C
+
 stru_15950C:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $2A     ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $2A
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $2A     ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $2A
     .byte $10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, 8       ; TILE <$10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, 8
     .byte $18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 8       ; TILE <$18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 8
+
 stru_15951C:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $2A     ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $2A
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $2A     ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $2A
     .byte $10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, 8       ; TILE <$10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, 8
     .byte $18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 8       ; TILE <$18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 8
+
 stru_15952C:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $2C     ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $2C
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $2D     ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $2D
     .byte $10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $3C     ; TILE <$10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $3C
     .byte $18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $3D     ; TILE <$18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $3D
+
 stru_15953C:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $2C     ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $2C
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $2D     ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $2D
     .byte $10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $3C     ; TILE <$10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $3C
     .byte $18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $3D     ; TILE <$18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $3D
+
 stru_15954C:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $4D     ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $4D
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $4D     ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $4D
     .byte $10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $2F     ; TILE <$10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $2F
     .byte $18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $2F     ; TILE <$18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $2F
+
 stru_15955C:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $4D     ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $4D
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $4D     ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $4D
     .byte $10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $2F     ; TILE <$10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $2F
     .byte $18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $2F     ; TILE <$18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $2F
+
 stru_15956C:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $29     ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $29
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $28     ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $28
     .byte $10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $59     ; TILE <$10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $59
     .byte $18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $58     ; TILE <$18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $58
+
 stru_15957C:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $29     ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $29
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $28     ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $28
     .byte $10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $59     ; TILE <$10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $59
     .byte $18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $58     ; TILE <$18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $58
+
 stru_15958C:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $41     ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $41
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $41     ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $41
     .byte $10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $40     ; TILE <$10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $40
     .byte $18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $40     ; TILE <$18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $40
+
 stru_15959C:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $41     ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $41
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $41     ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $41
     .byte $10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $40     ; TILE <$10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $40
     .byte $18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $40     ; TILE <$18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $40
+
 stru_1595AC:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $28     ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $28
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $29     ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $29
     .byte $10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $58     ; TILE <$10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $58
     .byte $18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $59     ; TILE <$18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $59
+
 stru_1595BC:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $28     ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $28
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $29     ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $29
     .byte $10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $58     ; TILE <$10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $58
     .byte $18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $59     ; TILE <$18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $59
+
 stru_1595CC:
     .byte $C, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $D       ; TILE <$C, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $D
     .byte $14, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $E      ; TILE <$14, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $E
@@ -1642,61 +2068,73 @@ stru_1595CC:
     .byte $C, $30, TRANSPARENT|TILE_OFFSET|FOREGROUND, $2D      ; TILE <$C, $30, TRANSPARENT|TILE_OFFSET|FOREGROUND, $2D
     .byte $14, $30, TRANSPARENT|TILE_OFFSET|FOREGROUND, $2E     ; TILE <$14, $30, TRANSPARENT|TILE_OFFSET|FOREGROUND, $2E
     .byte $1C, $30, TRANSPARENT|TILE_OFFSET|FOREGROUND, $2F     ; TILE <$1C, $30, TRANSPARENT|TILE_OFFSET|FOREGROUND, $2F
+
 stru_1595F0:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 1       ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 1
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 2       ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 2
     .byte $10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0       ; TILE <$10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0
     .byte $18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0       ; TILE <$18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0
+
 stru_159600:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 3       ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 3
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 4       ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 4
     .byte $10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0       ; TILE <$10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0
     .byte $18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0       ; TILE <$18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0
+
 stru_159610:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 2   ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 2
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 1   ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 1
     .byte $10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0       ; TILE <$10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0
     .byte $18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0       ; TILE <$18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0
+
 stru_159620:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 4   ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 4
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 3   ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 3
     .byte $10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0       ; TILE <$10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0
     .byte $18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0       ; TILE <$18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0
+
 stru_159630:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 2   ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 2
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 1   ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 1
     .byte $10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0       ; TILE <$10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0
     .byte $18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0       ; TILE <$18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0
+
 stru_159640:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 4   ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 4
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 3   ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 3
     .byte $10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0       ; TILE <$10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0
     .byte $18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0       ; TILE <$18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0
+
 stru_159650:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 1       ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 1
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 2       ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 2
     .byte $10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0       ; TILE <$10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0
     .byte $18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0       ; TILE <$18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0
+
 stru_159660:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 3       ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 3
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 4       ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 4
     .byte $10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0       ; TILE <$10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0
     .byte $18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0       ; TILE <$18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, 0
+
 stru_159670:
     .byte $10, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, $86     ; TILE <$10, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, $86
     .byte $18, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $85     ; TILE <$18, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $85
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|VERTICAL_FLIP, $85       ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|VERTICAL_FLIP, $85
     .byte 0, 0, TRANSPARENT|TILE_OFFSET|FOREGROUND, $80         ; TILE <0, 0, TRANSPARENT|TILE_OFFSET|FOREGROUND, $80
+
 stru_159680:
     .byte $10, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND|%11000000, $85       ; TILE <$10, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND|11000000b, $85
     .byte $20, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $85 ; TILE <$20, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $85
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $86 ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $86
     .byte $10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $85 ; TILE <$10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $85
+
 stru_159690:
     .byte 8, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, $85       ; TILE <8, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, $85
     .byte $10, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $86 ; TILE <$10, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $86
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $85     ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $85
     .byte $18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $85     ; TILE <$18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $85
+
 stru_1596A0:
     .byte $18, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $85     ; TILE <$18, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $85
     .byte $18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|VERTICAL_FLIP, $85       ; TILE <$18, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|VERTICAL_FLIP, $85
@@ -1774,27 +2212,32 @@ stru_159730:
     .byte $F8, $98, TRANSPARENT|FOREGROUND, $39     ; TILE <$F8, $98, TRANSPARENT|FOREGROUND, $39
     .byte $18, $99, TRANSPARENT|FOREGROUND, $39     ; TILE <$18, $99, TRANSPARENT|FOREGROUND, $39
     .byte $A0, $99, TRANSPARENT|FOREGROUND, $39     ; TILE <$A0, $99, TRANSPARENT|FOREGROUND, $39
+
 stru_159780:
     .byte $F, $C, TRANSPARENT|TILE_OFFSET|FOREGROUND, $20   ; TILE <$F, $C, TRANSPARENT|TILE_OFFSET|FOREGROUND, $20
     .byte $17, $C, TRANSPARENT|TILE_OFFSET|FOREGROUND, $21  ; TILE <$17, $C, TRANSPARENT|TILE_OFFSET|FOREGROUND, $21
     .byte $20, $C, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $21  ; TILE <$20, $C, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $21
     .byte $28, $C, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $20  ; TILE <$28, $C, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $20
+
 stru_159790:
     .byte $F, $C, TRANSPARENT|TILE_OFFSET|FOREGROUND, $30   ; TILE <$F, $C, TRANSPARENT|TILE_OFFSET|FOREGROUND, $30
     .byte $17, $C, TRANSPARENT|TILE_OFFSET|FOREGROUND, $31  ; TILE <$17, $C, TRANSPARENT|TILE_OFFSET|FOREGROUND, $31
     .byte $20, $C, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $31  ; TILE <$20, $C, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $31
     .byte $28, $C, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $30  ; TILE <$28, $C, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $30
+
 stru_1597A0:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 1   ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 1
     .byte $10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $11 ; TILE <$10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $11
     .byte $40, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, 3   ; TILE <$40, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, 3
     .byte $48, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, 4   ; TILE <$48, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, 4
     .byte $48, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $14 ; TILE <$48, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $14
+
 stru_1597B4:
     .byte $28, $28, COLOR_1|TILE_OFFSET|FOREGROUND, $29     ; TILE <$28, $28, COLOR_1|TILE_OFFSET|FOREGROUND, $29
     .byte $30, $28, COLOR_1|TILE_OFFSET|FOREGROUND, $2A     ; TILE <$30, $28, COLOR_1|TILE_OFFSET|FOREGROUND, $2A
     .byte $28, $30, COLOR_1|TILE_OFFSET|FOREGROUND, $39     ; TILE <$28, $30, COLOR_1|TILE_OFFSET|FOREGROUND, $39
     .byte $30, $30, COLOR_1|TILE_OFFSET|FOREGROUND, $3A     ; TILE <$30, $30, COLOR_1|TILE_OFFSET|FOREGROUND, $3A
+
 stru_1597C4:
     .byte $10, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, 7   ; TILE <$10, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, 7
     .byte $18, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, 8   ; TILE <$18, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, 8
@@ -1812,6 +2255,7 @@ stru_1597C4:
     .byte $30, $28, COLOR_2|TILE_OFFSET|FOREGROUND, $2A     ; TILE <$30, $28, COLOR_2|TILE_OFFSET|FOREGROUND, $2A
     .byte $28, $30, COLOR_2|TILE_OFFSET|FOREGROUND, $39     ; TILE <$28, $30, COLOR_2|TILE_OFFSET|FOREGROUND, $39
     .byte $30, $30, COLOR_2|TILE_OFFSET|FOREGROUND, $3A     ; TILE <$30, $30, COLOR_2|TILE_OFFSET|FOREGROUND, $3A
+
 stru_159804:
     .byte $10, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, 7   ; TILE <$10, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, 7
     .byte $18, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, 8   ; TILE <$18, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, 8
@@ -1837,6 +2281,7 @@ stru_159804:
     .byte $30, $28, COLOR_2|TILE_OFFSET|FOREGROUND, $2A     ; TILE <$30, $28, COLOR_2|TILE_OFFSET|FOREGROUND, $2A
     .byte $28, $30, COLOR_2|TILE_OFFSET|FOREGROUND, $39     ; TILE <$28, $30, COLOR_2|TILE_OFFSET|FOREGROUND, $39
     .byte $30, $30, COLOR_2|TILE_OFFSET|FOREGROUND, $3A     ; TILE <$30, $30, COLOR_2|TILE_OFFSET|FOREGROUND, $3A
+
 stru_159864:
     .byte $18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $1D ; TILE <$18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $1D
     .byte $10, $30, TRANSPARENT|TILE_OFFSET|FOREGROUND, $C  ; TILE <$10, $30, TRANSPARENT|TILE_OFFSET|FOREGROUND, $C
@@ -1847,6 +2292,7 @@ stru_159864:
     .byte $30, $20, COLOR_1|TILE_OFFSET|FOREGROUND, $F      ; TILE <$30, $20, COLOR_1|TILE_OFFSET|FOREGROUND, $F
     .byte $28, $28, COLOR_1|TILE_OFFSET|FOREGROUND, $1E     ; TILE <$28, $28, COLOR_1|TILE_OFFSET|FOREGROUND, $1E
     .byte $30, $28, COLOR_1|TILE_OFFSET|FOREGROUND, $1F     ; TILE <$30, $28, COLOR_1|TILE_OFFSET|FOREGROUND, $1F
+
 stru_159888:
     .byte $18, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, $10 ; TILE <$18, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, $10
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 2   ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 2
@@ -1855,22 +2301,26 @@ stru_159888:
     .byte $28, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $13 ; TILE <$28, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $13
     .byte $20, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $19 ; TILE <$20, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $19
     .byte $28, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $1A ; TILE <$28, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $1A
+
 stru_1598A4:
     .byte $10, $18, COLOR_1|TILE_OFFSET|FOREGROUND, $40     ; TILE <$10, $18, COLOR_1|TILE_OFFSET|FOREGROUND, $40
     .byte $20, $18, COLOR_1|TILE_OFFSET|FOREGROUND, $41     ; TILE <$20, $18, COLOR_1|TILE_OFFSET|FOREGROUND, $41
     .byte $18, $38, COLOR_1|TILE_OFFSET|FOREGROUND, $42     ; TILE <$18, $38, COLOR_1|TILE_OFFSET|FOREGROUND, $42
     .byte $20, $38, COLOR_1|TILE_OFFSET|FOREGROUND, $43     ; TILE <$20, $38, COLOR_1|TILE_OFFSET|FOREGROUND, $43
     .byte $28, $38, COLOR_1|TILE_OFFSET|FOREGROUND, $44     ; TILE <$28, $38, COLOR_1|TILE_OFFSET|FOREGROUND, $44
+
 stru_1598B8:
     .byte $10, $10, TRANSPARENT|TILE_OFFSET|FOREGROUND, 9   ; TILE <$10, $10, TRANSPARENT|TILE_OFFSET|FOREGROUND, 9
     .byte $18, $10, TRANSPARENT|TILE_OFFSET|FOREGROUND, $A  ; TILE <$18, $10, TRANSPARENT|TILE_OFFSET|FOREGROUND, $A
     .byte $28, $10, TRANSPARENT|TILE_OFFSET|FOREGROUND, $B  ; TILE <$28, $10, TRANSPARENT|TILE_OFFSET|FOREGROUND, $B
     .byte $28, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, $1B ; TILE <$28, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, $1B
+
 stru_1598C8:
     .byte $28, $2F, COLOR_2|TILE_OFFSET|FOREGROUND, $45     ; TILE <$28, $2F, COLOR_2|TILE_OFFSET|FOREGROUND, $45
     .byte $30, $2F, COLOR_2|TILE_OFFSET|FOREGROUND, $46     ; TILE <$30, $2F, COLOR_2|TILE_OFFSET|FOREGROUND, $46
     .byte $28, $37, COLOR_2|TILE_OFFSET|FOREGROUND, $47     ; TILE <$28, $37, COLOR_2|TILE_OFFSET|FOREGROUND, $47
     .byte $30, $37, COLOR_2|TILE_OFFSET|FOREGROUND, $48     ; TILE <$30, $37, COLOR_2|TILE_OFFSET|FOREGROUND, $48
+
 stru_1598D8:
     .byte $38, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $49 ; TILE <$38, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $49
     .byte $40, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $4A ; TILE <$40, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, $4A
@@ -1879,8 +2329,10 @@ stru_1598D8:
     .byte $20, $10, COLOR_1|TILE_OFFSET|FOREGROUND, $4D     ; TILE <$20, $10, COLOR_1|TILE_OFFSET|FOREGROUND, $4D
     .byte $18, $18, COLOR_1|TILE_OFFSET|FOREGROUND, $E      ; TILE <$18, $18, COLOR_1|TILE_OFFSET|FOREGROUND, $E
     .byte $20, $18, COLOR_1|TILE_OFFSET|FOREGROUND, $4F     ; TILE <$20, $18, COLOR_1|TILE_OFFSET|FOREGROUND, $4F
+
 stru_1598F4:
     .byte $20, $10, TRANSPARENT|TILE_OFFSET|FOREGROUND, $22 ; TILE <$20, $10, TRANSPARENT|TILE_OFFSET|FOREGROUND, $22
+
 stru_1598F8:
     .byte $10, $10, COLOR_1|TILE_OFFSET|FOREGROUND, $23     ; TILE <$10, $10, COLOR_1|TILE_OFFSET|FOREGROUND, $23
     .byte $18, $10, COLOR_1|TILE_OFFSET|FOREGROUND, $24     ; TILE <$18, $10, COLOR_1|TILE_OFFSET|FOREGROUND, $24
@@ -1890,6 +2342,7 @@ stru_1598F8:
     .byte $18, $18, COLOR_1|TILE_OFFSET|FOREGROUND, $34     ; TILE <$18, $18, COLOR_1|TILE_OFFSET|FOREGROUND, $34
     .byte $20, $18, COLOR_1|TILE_OFFSET|FOREGROUND, $35     ; TILE <$20, $18, COLOR_1|TILE_OFFSET|FOREGROUND, $35
     .byte $28, $18, COLOR_1|TILE_OFFSET|FOREGROUND, $36     ; TILE <$28, $18, COLOR_1|TILE_OFFSET|FOREGROUND, $36
+
 stru_159918:
     .byte $28, $10, COLOR_1|TILE_OFFSET|FOREGROUND, $58     ; TILE <$28, $10, COLOR_1|TILE_OFFSET|FOREGROUND, $58
     .byte $30, $10, COLOR_1|TILE_OFFSET|FOREGROUND, $59     ; TILE <$30, $10, COLOR_1|TILE_OFFSET|FOREGROUND, $59
@@ -1925,6 +2378,7 @@ stru_159918:
     .byte $48, $40, TRANSPARENT|TILE_OFFSET|FOREGROUND, $75 ; TILE <$48, $40, TRANSPARENT|TILE_OFFSET|FOREGROUND, $75
     .byte $50, $40, TRANSPARENT|TILE_OFFSET|FOREGROUND, $76 ; TILE <$50, $40, TRANSPARENT|TILE_OFFSET|FOREGROUND, $76
     .byte $58, $40, TRANSPARENT|TILE_OFFSET|FOREGROUND, $77 ; TILE <$58, $40, TRANSPARENT|TILE_OFFSET|FOREGROUND, $77
+
 stru_1599A0:
     .byte $10, $10, COLOR_1|TILE_OFFSET|FOREGROUND, 5       ; TILE <$10, $10, COLOR_1|TILE_OFFSET|FOREGROUND, 5
     .byte $18, $10, COLOR_1|TILE_OFFSET|FOREGROUND, 6       ; TILE <$18, $10, COLOR_1|TILE_OFFSET|FOREGROUND, 6
@@ -1934,6 +2388,7 @@ stru_1599A0:
     .byte $38, $10, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 5   ; TILE <$38, $10, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 5
     .byte $30, $18, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $16 ; TILE <$30, $18, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $16
     .byte $38, $18, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $15 ; TILE <$38, $18, COLOR_1|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $15
+
 stru_1599C0:
     .export stru_1599C0
 

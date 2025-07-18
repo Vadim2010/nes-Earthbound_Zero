@@ -349,7 +349,7 @@ CommandCursor:
     and #$3C
     beq locret_13A1E9
     set byte_34, #$35
-    jsr sub_13AB0F
+    jsr world_script
     bcs locret_13A1E9
 
 loc_13A1E1:
@@ -369,17 +369,17 @@ locret_13A1E9:
 
 
 .proc talk
-    .import sub_E20F, set_oam, message_button, redraw_screen
+    .import get_interaction_object, set_oam, message_button, redraw_screen
     .importzp byte_34
 
-    jsr sub_E20F
+    jsr get_interaction_object
     asl A
     bpl nobody
     and #$1E
     beq what
     jsr set_oam
     set byte_34, #$A
-    jsr sub_13AB0F
+    jsr world_script
     bcc redraw
 
 nobody:
@@ -402,10 +402,10 @@ redraw:
 
 
 .proc check
-    .import sub_E20F, redraw_screen, message_button
+    .import get_interaction_object, redraw_screen, message_button
     .importzp byte_34
 
-    jsr sub_E20F
+    jsr get_interaction_object
     jsr get_obj_type
     bne loc_13A21D
     jsr sub_13A9D6
@@ -418,7 +418,7 @@ loc_13A21D:
     and #$1E
     beq no_problem
     set byte_34, #$B
-    jsr sub_13AB0F
+    jsr world_script
     bcc loc_13A235
 
 no_problem:
@@ -759,17 +759,17 @@ ActionTable:
 
 
 .proc sub_13A427
-    .import sub_E20F
+    .import get_interaction_object
     .importzp byte_34
 
     jsr spend_pp
-    jsr sub_E20F
+    jsr get_interaction_object
     asl A
     bpl sub_13A43E
     and #$1E
     beq sub_13A43E
     set byte_34, #$C
-    jsr sub_13AB0F
+    jsr world_script
     bcs sub_13A43E
     rts
 .endproc            ; End of function sub_13A427
@@ -816,16 +816,16 @@ message_button:
 
 
 .proc sub_13A451
-    .import sub_E20F
+    .import get_interaction_object
     .importzp byte_34
 
-    jsr sub_E20F
+    jsr get_interaction_object
     asl A
     bpl nothing_happend
     and #$1E
     beq nothing_happend
     set byte_34, #$D
-    jsr sub_13AB0F
+    jsr world_script
     bcs nothing_happend
     rts
 .endproc            ; End of function sub_13A451
@@ -882,10 +882,10 @@ loc_13A480:
     lda CursorPosition
     bne loc_13A4CA
     lda #3
-    jsr sub_13B058
+    jsr item_search
     bcc loc_13A4C5
     lda Item
-    jsr sub_13B058
+    jsr item_search
     jsr sram_write_enable
     lda #3
     sta (Pointer),Y
@@ -1410,7 +1410,7 @@ loc_13A6F0:
     lda Dist+1
     pha
     jsr sub_D8D3
-    jsr sub_13A728
+    jsr find_char
     bcs loc_13A71E
     txa
     jsr get_buffer_offset
@@ -1443,23 +1443,23 @@ loc_13A71E:
 ; =============== S U B R O U T I N E =======================================
 
 
-.proc sub_13A728
+.proc find_char
     .importzp CharNum
 
     lda CharNum
     ldx #0
 
-loc_13A72C:
+@next_char:
     cmp CurrentGame + PURE_SAVE::CharactersNum,X
     clc
-    beq locret_13A737
+    beq @exit
     inx
     cpx #4
-    bcc loc_13A72C
+    bcc @next_char
 
-locret_13A737:
+@exit:
     rts
-.endproc            ; End of function sub_13A728
+.endproc            ; End of function find_char
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -1630,7 +1630,7 @@ loc_13A797:
 
 
 .proc sub_13A7D7
-    .import sram_write_enable, sub_D9FA, loc_D8CE, message_button
+    .import sram_write_enable, new_char_coor, loc_D8CE, message_button
     .importzp FuncID, byte_20
 
     jsr sub_13A62C
@@ -1648,7 +1648,7 @@ loc_13A7E7:
     sta CurrentGame + PURE_SAVE::GlobalX,X
     dex
     bpl loc_13A7E7
-    jsr sub_D9FA
+    jsr new_char_coor
     jsr loc_D8CE
     set FuncID, #2
     set byte_20, #$40
@@ -1965,7 +1965,7 @@ sub_13A979:
     .importzp Pointer, Item
 
     lda #0
-    jsr sub_13B058
+    jsr item_search
     bcs loc_13A9A1
     jsr sram_write_enable
     lda Item
@@ -1979,7 +1979,7 @@ sub_13A979:
 
 
 sub_13A98B:
-    jsr sub_13B0A3
+    jsr get_item_flag7
     bne loc_13A9A1
 ; End of function sub_13A98B
 
@@ -1992,7 +1992,7 @@ sub_13A990:
     .importzp Item
 
     lda Item
-    jsr sub_13B058
+    jsr item_search
     bcs loc_13A9A1
     jsr sram_write_enable
     jsr item_removed
@@ -2068,11 +2068,11 @@ loc_13A9D3:
 
 
 .proc sub_13A9D6
-    .import sub_E772, FlagBit, loc_E2C2, message_button, get_character_num
+    .import GetBoxFlags, FlagBit, loc_E2C2, message_button, get_character_num
     .importzp Source, CharNum, Item
 
     jsr obj_bank
-    jsr sub_E772
+    jsr GetBoxFlags
     and FlagBit,X
     bne loc_13A9FD
     lda #4
@@ -2094,7 +2094,7 @@ loc_13A9FD:
 ; ---------------------------------------------------------------------------
 
 loc_13AA05:
-    jsr sub_13BB8C
+    jsr get_item_name
     ldx #$68
     jsr message_button
     ldx #0
@@ -2133,12 +2133,12 @@ loc_13AA2C:
 
 
 .proc sub_13AA3F
-    .import sram_write_enable, sub_E772, FlagBit, sram_read_enable
+    .import sram_write_enable, GetBoxFlags, FlagBit, sram_read_enable
 
     jsr sram_write_enable
-    jsr sub_E772
+    jsr GetBoxFlags
     ora FlagBit,X
-    sta CurrentGame + GAME_SAVE::field_220,Y
+    sta CurrentGame + GAME_SAVE::Boxes,Y
     jmp sram_read_enable
 .endproc            ; End of function sub_13AA3F
 
@@ -2206,8 +2206,8 @@ DialogsID:
 ; =============== S U B R O U T I N E =======================================
 
 
-.proc sub_13AB0F
-    .export sub_13AB0F, next_scr, end_object, check_button_pressed
+.proc world_script
+    .export world_script, next_scr, end_object, check_button_pressed
     .import get_obj_pointer, wait_press_button
     .importzp Dist, Source, ObjectNumWithChar, WaitPressed, byte_34
 
@@ -2229,7 +2229,7 @@ end_object:
     beq check_button_pressed
     jsr get_obj_pointer
     set byte_34, #$40
-    bne sub_13AB0F
+    bne world_script
 
 check_button_pressed:
     lda WaitPressed
@@ -2242,7 +2242,7 @@ check_button_pressed:
 @no_wait:
     sec
     rts
-.endproc            ; End of function sub_13AB0F
+.endproc            ; End of function world_script
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -2321,10 +2321,10 @@ MapScripts:
     .word input_number-1, load_number-1, jump_number_less-1, show_money-1
     .word choose_inventory-1, choose_closet_item-1, choose_list_item-1, none_inventory-1
     .word none_closet-1, select_item-1, none_select-1, none_items-1
-    .word give_money-1, take_money-1, add_account-1, withdraw-1
+    .word get_money-1, give_money-1, add_account-1, withdraw-1
     .word jump_unsellable-1, add_inventory-1, remove_inventory-1, add_closet-1
     .word remove_closet-1, select_character_item-1, multiply_num-1, no_character-1
-    .word jump_nothing-1, jump_nothing-1, sub_13B3D8-1, show_menu-1
+    .word jump_nothing-1, jump_nothing-1, view_compare-1, show_menu-1
     .word no_inventory-1, no_closet-1, select_character-1, change_object_type-1
     .word sub_13B42B-1, teleport-1, move_object-1, another_object-1
     .word jump_nothing-1, teleport_save-1, add_character-1, remove_character-1
@@ -2432,7 +2432,7 @@ jump_nothing:
     cmp byte_34
     bne jump
 
-loc_13AC77:
+get_next_script:
     iny
     iny
     rts
@@ -2442,36 +2442,36 @@ loc_13AC77:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_13AC7A:
-    .export sub_13AC7A, loc_13AC7E, loc_13AC82
+not_less:
+    .export not_less, less, not_equal
 
-    bcs loc_13AC77
+    bcs get_next_script
     bcc jump
 
-loc_13AC7E:
-    bcc loc_13AC77
+less:
+    bcc get_next_script
     bcs jump
 
-loc_13AC82:
-    bne loc_13AC77
+not_equal:
+    bne get_next_script
     beq jump
-; End of function sub_13AC7A
+; End of function not_less
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_13AC86:
+equal:
     .importzp Source
 
-    beq loc_13AC77
+    beq get_next_script
 
 jump:
     iny
     lda (Source),Y
     tay
     rts
-; End of function sub_13AC86
+; End of function equal
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -2708,7 +2708,7 @@ byte_13AD91:
     jsr sub_13ADAE
     ldy ScriptOffset
     lda CursorPosition
-    jmp sub_13AC86
+    jmp equal
 .endproc            ; End of function confirm_msg
 
 
@@ -2800,7 +2800,7 @@ loc_13AE20:
     .importzp ScriptOffset
 
     jsr sram_write_enable
-    jsr sub_13AE58
+    jsr get_flag
     ora FlagBit,X
     sta CurrentGame + GAME_SAVE::Flags,Y
     ldy ScriptOffset
@@ -2817,7 +2817,7 @@ loc_13AE20:
     .importzp ScriptOffset
 
     jsr sram_write_enable
-    jsr sub_13AE58
+    jsr get_flag
     ora FlagBit,X
     eor FlagBit,X
     sta CurrentGame + GAME_SAVE::Flags,Y
@@ -2834,25 +2834,25 @@ loc_13AE20:
     .import FlagBit
     .importzp ScriptOffset
 
-    jsr sub_13AE58
+    jsr get_flag
     ldy ScriptOffset
     and FlagBit,X
     eor FlagBit,X
-    jmp sub_13AC86
+    jmp equal
 .endproc            ; End of function jump_none_flag
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-.proc sub_13AE58
+.proc get_flag
     .import get_flags
     .importzp ScriptOffset
 
     iny
     sty ScriptOffset
     jmp get_flags
-.endproc            ; End of function sub_13AE58
+.endproc            ; End of function get_flag
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -2867,7 +2867,7 @@ loc_13AE20:
     tax
     iny
     jsr sram_write_enable
-    inc CurrentGame + GAME_SAVE::field_260,X
+    inc CurrentGame + GAME_SAVE::Counters,X
     jmp sram_read_enable
 .endproc            ; End of function increase_counter
 
@@ -2884,7 +2884,7 @@ loc_13AE20:
     tax
     iny
     jsr sram_write_enable
-    dec CurrentGame + GAME_SAVE::field_260,X
+    dec CurrentGame + GAME_SAVE::Counters,X
     jmp sram_read_enable
 .endproc            ; End of function decrease_counter
 
@@ -2902,7 +2902,7 @@ loc_13AE20:
     iny
     jsr sram_write_enable
     lda #0
-    sta CurrentGame + GAME_SAVE::field_260,X
+    sta CurrentGame + GAME_SAVE::Counters,X
     jmp sram_read_enable
 .endproc            ; End of function reset_counter
 
@@ -2917,9 +2917,9 @@ loc_13AE20:
     lda (Source),Y
     tax
     iny
-    lda CurrentGame + GAME_SAVE::field_260,X
+    lda CurrentGame + GAME_SAVE::Counters,X
     cmp (Source),Y
-    jmp sub_13AC7A
+    jmp not_less
 .endproc            ; End of function jump_less
 
 
@@ -2929,7 +2929,7 @@ loc_13AE20:
 .proc special_character
     .importzp ScriptOffset
 
-    jsr sub_13B032
+    jsr get_char_name
     ldy ScriptOffset
     iny
     rts
@@ -2971,7 +2971,7 @@ loc_13AE20:
 .proc select_item
     .importzp ScriptOffset
 
-    jsr sub_13AFC4
+    jsr item_price_name
     ldy ScriptOffset
     iny
     rts
@@ -2987,7 +2987,7 @@ loc_13AE20:
     iny
     lda CharNum
     cmp (Source),Y
-    jmp sub_13AC86
+    jmp equal
 .endproc            ; End of function jump_none_select
 
 
@@ -3004,7 +3004,7 @@ loc_13AE20:
     iny
     lda Price+1
     sbc (Source),Y
-    jmp sub_13AC7A
+    jmp not_less
 .endproc            ; End of function jump_number_less
 
 
@@ -3017,14 +3017,14 @@ loc_13AE20:
     iny
     lda Item
     cmp (Source),Y
-    jmp sub_13AC86
+    jmp equal
 .endproc            ; End of function none_select
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-give_money:
+get_money:
     .import sram_write_enable, sram_read_enable
     .importzp Pointer, Price
 
@@ -3038,7 +3038,7 @@ give_money:
     bcs loc_13AF12
     bcc loc_13AEFF
 
-take_money:
+give_money:
     sec
     lda CurrentGame + PURE_SAVE::Cash
     sbc Price
@@ -3059,7 +3059,7 @@ loc_13AEFF:
 
 loc_13AF12:
     jmp jump
-; End of function give_money
+; End of function get_money
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -3110,7 +3110,7 @@ loc_13AF47:
 
 
 .proc multiply_num
-    .import multiplication, divide
+    .import mul24, divide
     .importzp Source, pTileID, Pointer, AddrForJmp, ScriptOffset, Price
 
     iny
@@ -3118,7 +3118,7 @@ loc_13AF47:
     sta pTileID
     sty ScriptOffset
     store Price, Pointer
-    jsr multiplication      ; Input: Pointer - first multiplier
+    jsr mul24      ; Input: Pointer - first multiplier
                         ;        pTileID - second multiplier
                         ; Output: AddrForJmp, Pointer - result Pointer * pTileID
     lda #100
@@ -3152,7 +3152,7 @@ loc_13AF47:
     .import get_character_num
     .importzp CharNum, Item
 
-    jsr sub_13AFC4
+    jsr item_price_name
     ldx #0
 
 loc_13AF93:
@@ -3162,7 +3162,7 @@ loc_13AF93:
     txa
     pha
     lda Item
-    jsr sub_13B058
+    jsr item_search
     pla
     tax
     bcc sub_13B01E
@@ -3171,7 +3171,7 @@ loc_13AFA5:
     inx
     cpx #4
     bcc loc_13AF93
-    bcs sub_13B023
+    bcs script_jump
 .endproc            ; End of function none_items
 
 
@@ -3182,17 +3182,17 @@ loc_13AFA5:
     .export none_inventory, none_closet
     .importzp Item
 
-    jsr sub_13AFC4
+    jsr item_price_name
     lda Item
-    jsr sub_13B058
+    jsr item_search
     bcc sub_13B01E
-    bcs sub_13B023
+    bcs script_jump
 
 none_closet:
-    jsr sub_13AFC4
+    jsr item_price_name
     lda Item
-    jsr sub_13B063
-    bcs sub_13B023
+    jsr loc_13B063
+    bcs script_jump
     bcc sub_13B01E
 .endproc            ; End of function none_inventory
 
@@ -3200,17 +3200,16 @@ none_closet:
 ; =============== S U B R O U T I N E =======================================
 
 
-.proc sub_13AFC4
+.proc item_price_name
     .importzp Source, Item, ScriptOffset
-
 
     iny
     lda (Source),Y
     sta Item
     sty ScriptOffset
-    jsr sub_13BBC3
-    jmp sub_13BB8C
-.endproc            ; End of function sub_13AFC4
+    jsr get_price
+    jmp get_item_name
+.endproc            ; End of function item_price_name
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -3223,17 +3222,17 @@ none_closet:
 
     sty ScriptOffset
     lda #0
-    jsr sub_13B058
-    bcs sub_13B023
+    jsr item_search
+    bcs script_jump
     bcc loc_13AFFE
 
 jump_unsellable:
     sty ScriptOffset
-    jsr sub_13B0A3
+    jsr get_item_flag7
     php
     jsr load_obj_bank
     plp
-    bne sub_13B023
+    bne script_jump
     beq loc_13AFEC
 
 remove_inventory:
@@ -3241,15 +3240,15 @@ remove_inventory:
 
 loc_13AFEC:
     lda Item
-    jsr sub_13B058
-    bcs sub_13B023
+    jsr item_search
+    bcs script_jump
     bcc loc_13B015
 
 add_closet:
     sty ScriptOffset
     lda #0
-    jsr sub_13B063
-    bcs sub_13B023
+    jsr loc_13B063
+    bcs script_jump
 
 loc_13AFFE:
     jsr sram_write_enable
@@ -3264,8 +3263,8 @@ loc_13AFFE:
 remove_closet:
     sty ScriptOffset
     lda Item
-    jsr sub_13B063
-    bcs sub_13B023
+    jsr loc_13B063
+    bcs script_jump
 
 loc_13B015:
     jsr sram_write_enable
@@ -3290,29 +3289,29 @@ loc_13B015:
 ; =============== S U B R O U T I N E =======================================
 
 
-.proc sub_13B023
+.proc script_jump
     .importzp ScriptOffset
 
     ldy ScriptOffset
     jmp jump
-.endproc            ; End of function sub_13B023
+.endproc            ; End of function script_jump
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
 .proc no_character
-    jsr sub_13B032
-    jsr sub_13A728
+    jsr get_char_name
+    jsr find_char
     bcc sub_13B01E
-    bcs sub_13B023
+    bcs script_jump
 .endproc            ; End of function no_character
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-.proc sub_13B032
+.proc get_char_name
     .importzp Source, CharNum, ScriptOffset
 
     iny
@@ -3320,7 +3319,7 @@ loc_13B015:
     sta CharNum
     sty ScriptOffset
     jmp get_name
-.endproc            ; End of function sub_13B032
+.endproc            ; End of function get_char_name
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -3338,10 +3337,10 @@ loc_13B015:
     pla
     tay
     lda (Pointer),Y
-    beq sub_13B023
+    beq script_jump
     sta Item
-    jsr sub_13BBC3
-    jsr sub_13BB8C
+    jsr get_price
+    jsr get_item_name
     jmp sub_13B01E
 .endproc            ; End of function select_character_item
 
@@ -3349,8 +3348,9 @@ loc_13B015:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_13B058:
-    .importzp CharNum
+item_search:
+    .export loc_13B063
+    .importzp CharNum, Pointer, pTileID
 
     pha
     lda CharNum
@@ -3358,16 +3358,8 @@ sub_13B058:
     pla
     ldy #8
     bne loc_13B068
-; End of function sub_13B058
 
-
-; =============== S U B R O U T I N E =======================================
-
-
-sub_13B063:
-    .export sub_13B063, item_removed
-    .importzp Pointer, pTileID
-
+loc_13B063:
     jsr sub_13B09A
     ldy #$50
 
@@ -3389,7 +3381,9 @@ loc_13B068:
     rts
 ; ---------------------------------------------------------------------------
 
-loc_13B078:
+sub_13B078:
+    .export item_removed
+
     lda (Pointer),Y
     dey
     sta (Pointer),Y
@@ -3398,12 +3392,11 @@ loc_13B078:
 item_removed:
     iny
     cpy pTileID
-    bcc loc_13B078
+    bcc sub_13B078
     lda #0
     dey
     sta (Pointer),Y
     rts
-; End of function sub_13B063
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -3440,15 +3433,15 @@ item_removed:
 ; =============== S U B R O U T I N E =======================================
 
 
-.proc sub_13B0A3
+.proc get_item_flag7
     .importzp Pointer
 
     jsr get_item_pointer
-    ldy #2
+    ldy #ITEM::Flags
     lda (Pointer),Y
     and #$80
     rts
-.endproc            ; End of function sub_13B0A3
+.endproc            ; End of function get_item_flag7
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -3512,7 +3505,7 @@ select_character:
     .importzp Column, Buttons, pCursor, byte_6C, Price, DialogPage
 
     sty ScriptOffset
-    jsr sub_13BC28
+    jsr display_cash
     ldx #7
 
 loc_13B0EB:
@@ -3575,7 +3568,7 @@ loc_13B146:
     ldy ScriptOffset
     lda #$40
     bit Buttons
-    jmp sub_13AC86
+    jmp equal
 .endproc            ; End of function input_number
 
 ; ---------------------------------------------------------------------------
@@ -3646,8 +3639,8 @@ loc_13B1A5:
     pla
     sta Column
     bcs loc_13B1B8
-    jsr sub_13BBC3
-    jsr sub_13BB8C
+    jsr get_price
+    jsr get_item_name
 
 loc_13B1B3:
     ldy ScriptOffset
@@ -3775,8 +3768,8 @@ select_weapon:
     beq loc_13B220
     sta Item
     sty ScriptOffset
-    jsr sub_13BBC3
-    jsr sub_13BB8C
+    jsr get_price
+    jsr get_item_name
     jmp loc_13B216
 ; End of function select_weapon
 
@@ -3834,7 +3827,7 @@ select_weapon:
     ldy #$1C
     lda ScriptOffset
     sta (Dist),Y
-    lda $6795           ; byte_6795
+    lda Characters + OBJECT::View           ; byte_6795
     asl A
     asl A
     asl A
@@ -3891,7 +3884,7 @@ loc_13B2AA:
     ldy #$1C
     lda ScriptOffset
     sta (Dist),Y
-    jsr get_objects_num
+    jsr init_objects_num
     ora #$80
     sta ObjectNumWithChar
     jsr sram_read_enable
@@ -3906,7 +3899,7 @@ loc_13B2AA:
 ; =============== S U B R O U T I N E =======================================
 
 
-.proc get_objects_num
+.proc init_objects_num
     .importzp Pointer, Dist
 
     sec
@@ -3922,7 +3915,7 @@ loc_13B2AA:
     asl Pointer
     rol A
     rts
-.endproc            ; End of function get_objects_num
+.endproc            ; End of function init_objects_num
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -3947,7 +3940,7 @@ loc_13B2DE:
     ldy ScriptOffset
     iny
     lda (Source),Y
-    sta $6795           ; byte_6795
+    sta Characters + OBJECT::View           ; byte_6795
     sta $6799           ; byte_6799
     rts
 .endproc            ; End of function sub_13B2D8
@@ -3957,13 +3950,13 @@ loc_13B2DE:
 
 
 .proc airplane
-    .import sub_CDAF, loc_13B295
+    .import sub_CDAF, loc_13B295, AirplaneAnim
 
     lda #$74
     jsr sub_13B29C
     lda #9
-    ldx #$FC
-    ldy #$8A            ; 8AFC
+    ldx #<AirplaneAnim
+    ldy #>AirplaneAnim
     jsr sub_13B2D8
     set $679A, #$F
     ldx #$10
@@ -4120,7 +4113,7 @@ loc_13B2DE:
 ; =============== S U B R O U T I N E =======================================
 
 
-.proc sub_13B3D8
+.proc view_compare
     .importzp Source, ScriptOffset
 
     sty ScriptOffset
@@ -4128,9 +4121,9 @@ loc_13B2DE:
     lda (Source),Y
     and #$3F
     ldy ScriptOffset
-    cmp $6795           ; byte_6795
-    jmp sub_13AC86
-.endproc            ; End of function sub_13B3D8
+    cmp Characters + OBJECT::View
+    jmp equal
+.endproc            ; End of function view_compare
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -4206,12 +4199,12 @@ loc_13B41B:
 
 
 .proc sub_13B432
-    .import sram_write_enable, sram_read_enable, sub_D9FA
+    .import sram_write_enable, sram_read_enable, new_char_coor
     .importzp ScriptOffset
 
     sty ScriptOffset
     jsr sram_write_enable
-    jsr sub_D9FA
+    jsr new_char_coor
     ldy ScriptOffset
     iny
     jmp sram_read_enable
@@ -4222,10 +4215,10 @@ loc_13B41B:
 
 
 .proc add_character
-    .import sub_D759, loc_13AC7E
+    .import sub_D759, less
     .importzp Dist, CharNum, ScriptOffset
 
-    jsr sub_13B032
+    jsr get_char_name
     lda Dist
     pha
     lda Dist+1
@@ -4237,7 +4230,7 @@ loc_13B41B:
     pla
     sta Dist
     ldy ScriptOffset
-    jmp loc_13AC7E
+    jmp less
 .endproc            ; End of function add_character
 
 
@@ -4245,10 +4238,10 @@ loc_13B41B:
 
 
 .proc remove_character
-    .import sub_D78D, loc_13AC7E
+    .import sub_D78D, less
     .importzp Dist, CharNum, ScriptOffset
 
-    jsr sub_13B032
+    jsr get_char_name
     lda Dist
     pha
     lda Dist+1
@@ -4260,7 +4253,7 @@ loc_13B41B:
     pla
     sta Dist
     ldy ScriptOffset
-    jmp loc_13AC7E
+    jmp less
 .endproc            ; End of function remove_character
 
 
@@ -4273,7 +4266,7 @@ loc_13B41B:
     iny
     lda (Source),Y
     sta EnemyGroup
-    jsr get_objects_num
+    jsr init_objects_num
     sta ObjectNumWithChar
     iny
     sty ScriptOffset
@@ -4289,9 +4282,9 @@ loc_13B41B:
 .proc show_money
     .importzp ScriptOffset
 
-    sty     ScriptOffset
-    jsr     sub_13BC28
-    ldy     ScriptOffset
+    sty ScriptOffset
+    jsr display_cash
+    ldy ScriptOffset
     iny
     rts
 .endproc            ; End of function show_money
@@ -4398,12 +4391,12 @@ loc_13B4F0:
 
 
 .proc no_add_money
-    .import loc_13AC82
+    .import not_equal
 
     lda CurrentGame + PURE_SAVE::Transfer
     ora CurrentGame + PURE_SAVE::Transfer + 1
     ora CurrentGame + PURE_SAVE::field_17
-    jmp loc_13AC82
+    jmp not_equal
 .endproc            ; End of function no_add_money
 
 
@@ -4540,7 +4533,7 @@ loc_13B57A:
 .proc less_maxhp
     .importzp Pointer, ScriptOffset
 
-    jsr sub_13B5C2
+    jsr char_pointer
     sec
     ldy #$14
     lda (Pointer),Y
@@ -4551,15 +4544,15 @@ loc_13B57A:
     ldy #4
     sbc (Pointer),Y
     ldy ScriptOffset
-    jmp sub_13AC7A
+    jmp not_less
 .endproc            ; End of function less_maxhp
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-.proc sub_13B5C2
-    .export sub_13B5C2, get_char_pointer
+.proc char_pointer
+    .export char_pointer, get_char_pointer
     .import get_character_pointer
     .importzp CharNum, ScriptOffset
 
@@ -4568,7 +4561,7 @@ loc_13B57A:
 get_char_pointer:
     lda CharNum
     jmp get_character_pointer ; Input: A - Character number
-.endproc            ; End of function sub_13B5C2            ; Output: Pointer (word) = High $74 Low $40 * A
+.endproc            ; End of function char_pointer            ; Output: Pointer (word) = High $74 Low $40 * A
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -4577,7 +4570,7 @@ get_char_pointer:
 .proc less_maxpp
     .importzp Pointer, ScriptOffset
 
-    jsr sub_13B5C2
+    jsr char_pointer
     sec
     ldy #$16
     lda (Pointer),Y
@@ -4588,7 +4581,7 @@ get_char_pointer:
     ldy #6
     sbc (Pointer),Y
     ldy ScriptOffset
-    jmp sub_13AC7A
+    jmp not_less
 .endproc            ; End of function less_maxpp
 
 
@@ -4599,12 +4592,12 @@ get_char_pointer:
     .importzp Source, Pointer, ScriptOffset
 
     iny
-    jsr sub_13B5C2
+    jsr char_pointer
     ldy #1
     lda (Pointer),Y
     ldy ScriptOffset
     and (Source),Y
-    jmp sub_13AC86
+    jmp equal
 .endproc            ; End of function status
 
 
@@ -4615,12 +4608,12 @@ get_char_pointer:
     .importzp Source, Pointer, ScriptOffset
 
     iny
-    jsr sub_13B5C2
+    jsr char_pointer
     ldy #$10
     lda (Pointer),Y
     ldy ScriptOffset
     cmp (Source),Y
-    jmp sub_13AC7A
+    jmp not_less
 .endproc            ; End of function below_level
 
 
@@ -4632,7 +4625,7 @@ get_char_pointer:
     .importzp Source, Pointer, ScriptOffset
 
     iny
-    jsr sub_13B5C2
+    jsr char_pointer
     jsr sram_write_enable
     ldy ScriptOffset
     lda (Source),Y
@@ -4666,7 +4659,7 @@ loc_13B623:
     .importzp Source, Pointer, ScriptOffset
 
     iny
-    jsr sub_13B5C2
+    jsr char_pointer
     jsr sram_write_enable
     ldy ScriptOffset
     lda (Source),Y
@@ -4688,14 +4681,14 @@ loc_13B623:
     .importzp Pointer, ScriptOffset, AddrForJmp, Source, pTileID
 
     iny
-    jsr sub_13B5C2
+    jsr char_pointer
     ldx #$16
     ldy #5
     bne loc_13B652
 
 heal_hp:
     iny
-    jsr sub_13B5C2
+    jsr char_pointer
     ldx #$14
     ldy #3
 
@@ -5146,7 +5139,7 @@ loc_13B829:
     ldx #3
     stx Column
     jsr print_item
-    jsr sub_13BBC3
+    jsr get_price
     set PrintSize, #0
     ldx #$F
     stx Column
@@ -5717,13 +5710,13 @@ next_item:
 ; =============== S U B R O U T I N E =======================================
 
 
-.proc sub_13BB8C
-    .export sub_13BB8C
+.proc get_item_name
+    .export get_item_name
     .import sram_write_enable, sram_read_enable, load_obj_bank, byte_6D04
     .importzp Pointer, pTileID
 
     jsr get_item_pointer
-    ldy #0
+    ldy #ITEM::Name
     lda (Pointer),Y
     sta pTileID
     iny
@@ -5740,7 +5733,7 @@ loc_13BB9F:
     bne loc_13BB9F
     jsr sram_read_enable
     jmp load_obj_bank
-.endproc            ; End of function sub_13BB8C
+.endproc            ; End of function get_item_name
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -5765,20 +5758,20 @@ loc_13BB9F:
 ; =============== S U B R O U T I N E =======================================
 
 
-.proc sub_13BBC3
-    .export sub_13BBC3
+.proc get_price
+    .export get_price
     .import load_obj_bank
     .importzp Pointer, Price
 
     jsr get_item_pointer
-    ldy #6
+    ldy #ITEM::Price
     lda (Pointer),Y
     sta Price
     iny
     lda (Pointer),Y
     sta Price+1
     jmp load_obj_bank
-.endproc            ; End of function sub_13BBC3
+.endproc            ; End of function get_price
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -5880,7 +5873,7 @@ get_off:
 ; =============== S U B R O U T I N E =======================================
 
 
-.proc sub_13BC28
+.proc display_cash
     .import cash_frame, load_obj_bank
     .importzp Column, Row
 
@@ -5894,7 +5887,7 @@ get_off:
     pla
     sta Column
     jmp load_obj_bank
-.endproc            ; End of function sub_13BC28
+.endproc            ; End of function display_cash
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -5914,7 +5907,7 @@ sub_13BC3A:
     adc #$28
     sta AddrForJmp
     lda Item
-    jsr sub_13B058
+    jsr item_search
     bcs locret_13BC59
     tya
     adc #$20

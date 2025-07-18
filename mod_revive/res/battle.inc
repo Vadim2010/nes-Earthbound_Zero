@@ -44,6 +44,7 @@ SNATCHED                = $27
 TOOK_AWAY               = $28
 DEFEATED                = $29
 LOST_SENSES             = $2A
+INCREASE_FIGHT          = $2B
 
 ;--------------------------------------------------------
 ;                         CHECKS
@@ -240,7 +241,7 @@ IWILL                   = $AA
 MEETAGAIN               = $AB
 
 ;--------------------------------------------------------
-;                     BATTLE_SCRIPTS
+;                     BATTLE SCRIPTS
 ;--------------------------------------------------------
 ;           single-byte
 .macro end_script

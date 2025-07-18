@@ -543,7 +543,7 @@ BattleMsg:
     .word $684, $685, $686, $687
 
 .export CommandMenu, FrameOff, InfoFrame, MsgFrame, GoodsPSIFrame, StoreFrame, WhoFrame, GoodsMenu
-.export byte_935F, CashFrame, StateFrame, Setup
+.export NameRegFrame, CashFrame, StateFrame, Setup
 .import CurrentGame, Character
 
 CommandMenu:
@@ -807,7 +807,7 @@ GoodsMenu:
     .byte FRAME_BOTTOM_RIGHT
     end_frame
 
-byte_935F:
+NameRegFrame:
     tile_position 5, 3
     .byte FRAME_TOP_LEFT
     fill FRAME_TOP, 24

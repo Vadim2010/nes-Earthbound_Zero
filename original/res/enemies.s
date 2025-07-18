@@ -4,7 +4,7 @@
 .segment "BANK_6"
 
 ;--------------------------------------------------------
-;        ENEMY_FLAGS
+;                      ENEMY_FLAGS
 ;--------------------------------------------------------
 NO_RESIST               = $00
 SPRAY_VULNERABLE        = $01
@@ -18,7 +18,7 @@ IMMUNE_STATUS_EFFECTS   = $80
 
 ; HP, PP, Offense, Defense maximum possible value of 1023
 ;--------------------------------------------------------
-;           HP fields
+;                       HP fields
 ;--------------------------------------------------------
 
 COLOR0                  = $00 << 10
@@ -33,7 +33,7 @@ TILE4                   = $04 << 12
 TILE8                   = $08 << 12
 
 ;--------------------------------------------------------
-;           PP fields
+;                       PP fields
 ;--------------------------------------------------------
 
 EXTRA0                  = $00 << 10
@@ -45,7 +45,7 @@ EXTRA16                 = $10 << 10
 EXTRA32                 = $20 << 10
 
 ;--------------------------------------------------------
-;       Offense fields
+;                     Offense fields
 ;--------------------------------------------------------
 NONE_ACT                = $00 << 10
 EXPLODE                 = $01 << 10
@@ -57,7 +57,7 @@ ALTITUDE2               = $02 << 13
 ALTITUDE4               = $04 << 13
 
 ;--------------------------------------------------------
-;       Defense fields
+;                     Defense fields
 ;--------------------------------------------------------
 
 MSG0                    = $00 << 10
@@ -70,13 +70,13 @@ MSG6                    = $06 << 10
 MSG7                    = $07 << 10
 
 ;--------------------------------------------------------
-;       Enemy properties
+;                    Enemy properties
 ;--------------------------------------------------------
 
 HIDE                    = $80
 
 ;--------------------------------------------------------
-;         Enemy names
+;                      Enemy names
 ;--------------------------------------------------------
 
 .enum
@@ -3794,14 +3794,14 @@ Bullhorn:
     blast
     check_bcs COIN_CHANCE, DontBelieved
     print_msg BELIEVED
-    set_value 20
+    set_value 25
     change DECREASE_FIGHT
     end_script
 
 DontBelieved:
     print_msg WASNTCONVINCED
     print_msg MADEANGRY
-    set_value 25
+    set_value 20
     change INCREASE_OFFENSE
     end_script
 

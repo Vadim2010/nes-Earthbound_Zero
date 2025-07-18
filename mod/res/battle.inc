@@ -241,7 +241,7 @@ IWILL                   = $AA
 MEETAGAIN               = $AB
 
 ;--------------------------------------------------------
-;                     BATTLE_SCRIPTS
+;                     BATTLE SCRIPTS
 ;--------------------------------------------------------
 ;           single-byte
 .macro end_script

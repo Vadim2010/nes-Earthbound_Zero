@@ -105,8 +105,8 @@
 .struct GAME_SAVE
     PureSave        .tag PURE_SAVE
     Flags           .res 32
-    field_220       .res 64
-    field_260       .res 32
+    Boxes           .res 64
+    Counters        .res 32
     field_280       .byte
     field_281       .res 7
     field_288       .byte
@@ -254,6 +254,17 @@
     .word pStruct
 .endmacro
 
+;--------------------------------------------------------
+;                     WORLD OBJECTS
+;--------------------------------------------------------
+; $20
+.struct BOX
+    Type_X          .word
+    Direction_Y     .word
+    AnimPntr        .word
+    ItemID          .byte
+    BoxID           .byte
+.endstruct
 
 ;offsets ??? into dialogs
 ;$0058

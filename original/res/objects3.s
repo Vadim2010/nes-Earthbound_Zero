@@ -19,57 +19,67 @@ off_12802A:
     .word 0
 
 byte_128054:
-    entrance DOOR, $D380, $2580, RIGHT, $D, $2D40, $8E00, DOWN
+    entrance DOOR, $D380, $2580, RIGHT, MUSIC_d, $2D40, $8E00, DOWN
 
 byte_12805C:
-    entrance DOOR, $CB80, $2580, RIGHT, $A, $F440, $FA00, DOWN
+    entrance DOOR, $CB80, $2580, RIGHT, MUSIC_a, $F440, $FA00, DOWN
 
 byte_128064:
-    entrance DOOR, $DB80, $2580, RIGHT, $30, $B140, $7400, DOWN
+    entrance DOOR, $DB80, $2580, RIGHT, MUSIC_30, $B140, $7400, DOWN
 
 byte_12806C:
-    entrance DOOR, $B80, $3580, RIGHT, 6, $B840, $3400, DOWN
+    entrance DOOR, $B80, $3580, RIGHT, MUSIC_6, $B840, $3400, DOWN
 
 byte_128074:
-    entrance DOOR, $A00, $34C0, UP, 0, $EC0, $5B00, DOWN
+    entrance DOOR, $A00, $34C0, UP, MUSIC_SAME, $EC0, $5B00, DOWN
 
 byte_12807C:
-    entrance DOOR, $FB80, $2180, RIGHT, 6, $F440, $7700, DOWN
+    entrance DOOR, $FB80, $2180, RIGHT, MUSIC_6, $F440, $7700, DOWN
 
 byte_128084:
-    entrance DOOR, $F840, $2180, LEFT, 0, $E740, $2580, LEFT
+    entrance DOOR, $F840, $2180, LEFT, MUSIC_SAME, $E740, $2580, LEFT
 
 byte_12808C:
-    entrance DOOR, $E780, $2580, RIGHT, 0, $F880, $2180, RIGHT
+    entrance DOOR, $E780, $2580, RIGHT, MUSIC_SAME, $F880, $2180, RIGHT
 
 byte_128094:
-    entrance DOOR, $DF80, $2180, RIGHT, $12, $80, $4980, RIGHT
+    entrance DOOR, $DF80, $2180, RIGHT, MUSIC_12, $80, $4980, RIGHT
 
 byte_12809C:
-    .byte $90, $F9, $C4, $21, $A8, $84, $A, $15, 8, $FE, 1
+    .import PharmacistAnim
+
+    npc NPC_1, $F980, $21C0, DOWN, PharmacistAnim
+    .byte $A, $15, 8, $FE, 1
     .byte 9, $11, 8, $FF, 1, 0, 8, 0, 2, 0, $D, $45, $34, $27
     .byte $45, $34, $25, $45, $2E, $34, $12, $57, $26, 8, $6B
     .byte 2, 0, $27, 0, $34, $25, $1C, $2D, $34, $10, $57
     .byte 8, 1, 2, $5C, 6, 0
 
 byte_1280D1:
-    .byte $11, $E6, $82, $25, $2C, $85, $A, $C, 8, $61, 2
+    .import stru_15852C
+
+    npc WALK_NPC, $E600, $2580, RIGHT, stru_15852C
+    .byte $A, $C, 8, $61, 2
     .byte 0, $D, $45, $22, $27, $45, $22, $25, $45, $2E, $22
     .byte $12, $58, $1D, 8, $6B, 2, 0, 8, $62, 2, $10, $58
     .byte 0
 
 byte_1280F4:
-    .byte $91, $E6, $C6, $25, $2C, $85, $A, $C, 8, $63, 2
+    npc WALK_NPC, $E680, $25C0, LEFT, stru_15852C
+    .byte $A, $C, 8, $63, 2
     .byte 0, $D, $45, $2B, $27, $45, $2B, $25, $45, $2E, $2B
     .byte $12, $59, $1D, 8, $6B, 2, 0, 8, $64, 2, $27, 0, $2B
     .byte $25, $1D, $2D, $2B, $5C, 6, $10, $59, 0
 
 byte_128120:
-    .byte $90, $D0, $82, $25, $E8, $84, $A, $B, 8, $BB, 2
-    .byte 0
+    .import stru_1584E8
+
+    npc NPC_1, $D080, $2580, RIGHT, stru_1584E8
+    .byte $A, $B, 8, $BB, 2, 0
 
 byte_12812C:
-    .byte $90, $C8, $82, $25, $E8, $84, $A, $1D, $33, 2, $1A
+    npc NPC_1, $C880, $2580, RIGHT, stru_1584E8
+    .byte $A, $1D, $33, 2, $1A
     .byte $52, $80, $16, 8, $9A, 1, $55, 8, $64, 3, 0, 8, $9B
     .byte 2, 0, 8, $99, 1, 0
 
@@ -84,10 +94,14 @@ byte_12814A:
     .byte 0
 
 byte_12819F:
-    .byte $50, $A, 4, $35, $68, $84, $A, $B, 8, $FC, 2, 0
+    .import WaitressAnim
+
+    npc NPC_1, $A40, $3500, DOWN, WaitressAnim
+    .byte $A, $B, 8, $FC, 2, 0
 
 byte_1281AB:
-    .byte $D1, 9, $84, $35, $2C, $85, $A, $B, 8, $FD, 2, 0
+    npc WALK_NPC, $9C0, $3580, DOWN, stru_15852C
+    .byte $A, $B, 8, $FD, 2, 0
 
 byte_1281B7:
     .byte $14, $DE, $86, $21, 0, $80, 6, $FF, $40, $F, $3F
@@ -153,76 +167,76 @@ off_1283F4:
     .word 0
 
 byte_128426:
-    entrance DOOR, $3A40, $F1C0, UP, 6, $4D80, $3F00, DOWN
+    entrance DOOR, $3A40, $F1C0, UP, MUSIC_6, $4D80, $3F00, DOWN
 
 byte_12842E:
-    entrance DOOR, $3840, $D6C0, UP, 0, $340, $D180, LEFT
+    entrance DOOR, $3840, $D6C0, UP, MUSIC_SAME, $340, $D180, LEFT
 
 byte_128436:
-    entrance DOOR, $2840, $DAC0, UP, 0, $340, $D980, LEFT
+    entrance DOOR, $2840, $DAC0, UP, MUSIC_SAME, $340, $D980, LEFT
 
 byte_12843E:
-    entrance DOOR, $2740, $DDC0, UP, 0, $1740, $B580, LEFT
+    entrance DOOR, $2740, $DDC0, UP, MUSIC_SAME, $1740, $B580, LEFT
 
 byte_128446:
-    entrance DOOR, $3240, $DDC0, UP, 0, $340, $F180, LEFT
+    entrance DOOR, $3240, $DDC0, UP, MUSIC_SAME, $340, $F180, LEFT
 
 byte_12844E:
-    entrance DOOR, $3840, $DCC0, UP, 0, $B40, $D180, LEFT
+    entrance DOOR, $3840, $DCC0, UP, MUSIC_SAME, $B40, $D180, LEFT
 
 byte_128456:
-    entrance DOOR, $3A80, $DD80, RIGHT, 0, $880, $D980, RIGHT
+    entrance DOOR, $3A80, $DD80, RIGHT, MUSIC_SAME, $880, $D980, RIGHT
 
 byte_12845E:
-    entrance DOOR, $1740, $DFC0, UP, 0, $B40, $E980, LEFT
+    entrance DOOR, $1740, $DFC0, UP, MUSIC_SAME, $B40, $E980, LEFT
 
 byte_128466:
-    entrance DOOR, $1340, $E180, LEFT, 0, $F40, $BD80, LEFT
+    entrance DOOR, $1340, $E180, LEFT, MUSIC_SAME, $F40, $BD80, LEFT
 
 byte_12846E:
-    entrance DOOR, $3680, $EA80, RIGHT, 0, $880, $F180, RIGHT
+    entrance DOOR, $3680, $EA80, RIGHT, MUSIC_SAME, $880, $F180, RIGHT
 
 byte_128476:
-    entrance DOOR, $2A80, $EB80, RIGHT, 0, $880, $F980, RIGHT
+    entrance DOOR, $2A80, $EB80, RIGHT, MUSIC_SAME, $880, $F980, RIGHT
 
 byte_12847E:
-    entrance DOOR, $2740, $F2C0, UP, 0, $1340, $D180, LEFT
+    entrance DOOR, $2740, $F2C0, UP, MUSIC_SAME, $1340, $D180, LEFT
 
 byte_128486:
-    entrance DOOR, $3880, $F880, RIGHT, 0, $880, $B180, RIGHT
+    entrance DOOR, $3880, $F880, RIGHT, MUSIC_SAME, $880, $B180, RIGHT
 
 byte_12848E:
-    entrance DOOR, $3540, $F6C0, UP, 0, $740, $B580, LEFT
+    entrance DOOR, $3540, $F6C0, UP, MUSIC_SAME, $740, $B580, LEFT
 
 byte_128496:
-    entrance DOOR, $3340, $F6C0, UP, 0, $1340, $B180, LEFT
+    entrance DOOR, $3340, $F6C0, UP, MUSIC_SAME, $1340, $B180, LEFT
 
 byte_12849E:
-    entrance DOOR, $2580, $F780, RIGHT, 0, $1880, $B180, RIGHT
+    entrance DOOR, $2580, $F780, RIGHT, MUSIC_SAME, $1880, $B180, RIGHT
 
 byte_1284A6:
-    entrance DOOR, $1F40, $EAC0, UP, 0, $2340, $B180, LEFT
+    entrance DOOR, $1F40, $EAC0, UP, MUSIC_SAME, $2340, $B180, LEFT
 
 byte_1284AE:
-    entrance DOOR, $1D40, $F0C0, UP, 0, $3B40, $B180, LEFT
+    entrance DOOR, $1D40, $F0C0, UP, MUSIC_SAME, $3B40, $B180, LEFT
 
 byte_1284B6:
-    entrance DOOR, $4180, $DA80, RIGHT, 0, $80, $E980, RIGHT
+    entrance DOOR, $4180, $DA80, RIGHT, MUSIC_SAME, $80, $E980, RIGHT
 
 byte_1284BE:
-    entrance DOOR, $4B80, $E180, RIGHT, 0, $80, $B180, RIGHT
+    entrance DOOR, $4B80, $E180, RIGHT, MUSIC_SAME, $80, $B180, RIGHT
 
 byte_1284C6:
-    entrance DOOR, $5180, $EE80, RIGHT, 0, $2C80, $B580, RIGHT
+    entrance DOOR, $5180, $EE80, RIGHT, MUSIC_SAME, $2C80, $B580, RIGHT
 
 byte_1284CE:
-    entrance DOOR, $4D40, $F2C0, UP, 0, $2B40, $B180, LEFT
+    entrance DOOR, $4D40, $F2C0, UP, MUSIC_SAME, $2B40, $B180, LEFT
 
 byte_1284D6:
-    entrance DOOR, $4B80, $F780, RIGHT, 0, $3080, $B180, RIGHT
+    entrance DOOR, $4B80, $F780, RIGHT, MUSIC_SAME, $3080, $B180, RIGHT
 
 byte_1284DE:
-    entrance DOOR, $4840, $F980, LEFT, 0, $340, $F980, LEFT
+    entrance DOOR, $4840, $F980, LEFT, MUSIC_SAME, $340, $F980, LEFT
 
 off_1284E6:
     .word 0
@@ -235,53 +249,52 @@ off_1284E8:
     .word byte_128592, byte_12859E, 0
 
 byte_12850E:
-    entrance DOOR, $B780, $2180, RIGHT, 6, $BE00, $C980, DOWN
+    entrance DOOR, $B780, $2180, RIGHT, MUSIC_6, $BE00, $C980, DOWN
 
 byte_128516:
-    entrance DOOR, $B480, $2140, LEFT, 0, $6F40, $2180, LEFT
+    entrance DOOR, $B480, $2140, LEFT, MUSIC_SAME, $6F40, $2180, LEFT
 
 byte_12851E:
-    entrance DOOR, $B400, $21C0, LEFT, 0, $7740, $2180, LEFT
+    entrance DOOR, $B400, $21C0, LEFT, MUSIC_SAME, $7740, $2180, LEFT
 
 byte_128526:
-    entrance DOOR, $6F80, $2180, RIGHT, 0, $B4C0, $2140, RIGHT
+    entrance DOOR, $6F80, $2180, RIGHT, MUSIC_SAME, $B4C0, $2140, RIGHT
 
 byte_12852E:
-    entrance DOOR, $6C80, $2140, LEFT, 0, $A380, $F480, LEFT
+    entrance DOOR, $6C80, $2140, LEFT, MUSIC_SAME, $A380, $F480, LEFT
 
 byte_128536:
-    entrance DOOR, $6C00, $21C0, LEFT, 0, $740, $2980, LEFT
+    entrance DOOR, $6C00, $21C0, LEFT, MUSIC_SAME, $740, $2980, LEFT
 
 byte_12853E:
-    entrance DOOR, $7780, $2180, RIGHT, 0, $B440, $21C0, RIGHT
+    entrance DOOR, $7780, $2180, RIGHT, MUSIC_SAME, $B440, $21C0, RIGHT
 
 byte_128546:
-    entrance DOOR, $7480, $2140, LEFT, 0, $9740, $2180, LEFT
+    entrance DOOR, $7480, $2140, LEFT, MUSIC_SAME, $9740, $2180, LEFT
 
 byte_12854E:
-    entrance DOOR, $7400, $21C0, LEFT, 0, $F40, $2980, LEFT
+    entrance DOOR, $7400, $21C0, LEFT, MUSIC_SAME, $F40, $2980, LEFT
 
 byte_128556:
-    entrance DOOR, $7F80, $2180, RIGHT, 0, $9440, $FEC0, RIGHT
+    entrance DOOR, $7F80, $2180, RIGHT, MUSIC_SAME, $9440, $FEC0, RIGHT
 
 byte_12855E:
-    entrance DOOR, $7C80, $2140, LEFT, 0, $780, $2180, LEFT
+    entrance DOOR, $7C80, $2140, LEFT, MUSIC_SAME, $780, $2180, LEFT
 
 byte_128566:
-    entrance DOOR, $7C00, $21C0, LEFT, 0, $9F40, $2180, LEFT
+    entrance DOOR, $7C00, $21C0, LEFT, MUSIC_SAME, $9F40, $2180, LEFT
 
 byte_12856E:
-    entrance DOOR, $780, $2980, RIGHT, 0, $6C40, $21C0, RIGHT
+    entrance DOOR, $780, $2980, RIGHT, MUSIC_SAME, $6C40, $21C0, RIGHT
 
 byte_128576:
-    entrance DOOR, $480, $2940, LEFT, 0, $740, $5180, LEFT
+    entrance DOOR, $480, $2940, LEFT, MUSIC_SAME, $740, $5180, LEFT
 
 byte_12857E:
-    entrance DOOR, $400, $29C0, LEFT, 0, $F40, $4180, LEFT
+    entrance DOOR, $400, $29C0, LEFT, MUSIC_SAME, $F40, $4180, LEFT
 
 byte_128586:
-    .byte $E2, $B4, $82, $21, $4C, $86, $A, $B, 8, $67, 1
-    .byte 0
+    .byte $E2, $B4, $82, $21, $4C, $86, $A, $B, 8, $67, 1, 0
 
 byte_128592:
     .byte $DF, 4, $40, $29, 5, $F, $35, $B, 8, $62, 1, 0
@@ -298,49 +311,49 @@ off_1285AA:
     .word byte_12868C, 0
 
 byte_1285D6:
-    entrance DOOR, $1C80, $6B80, RIGHT, 6, $5580, $9600, DOWN
+    entrance DOOR, $1C80, $6B80, RIGHT, MUSIC_6, $5580, $9600, DOWN
 
 byte_1285DE:
-    entrance DOOR, $1280, $6F80, RIGHT, 0, $480, $D180, RIGHT
+    entrance DOOR, $1280, $6F80, RIGHT, MUSIC_SAME, $480, $D180, RIGHT
 
 byte_1285E6:
-    entrance DOOR, $D40, $6EC0, UP, 0, $F40, $D180, LEFT
+    entrance DOOR, $D40, $6EC0, UP, MUSIC_SAME, $F40, $D180, LEFT
 
 byte_1285EE:
-    entrance DOOR, $B40, $6EC0, UP, 0, $740, $E180, LEFT
+    entrance DOOR, $B40, $6EC0, UP, MUSIC_SAME, $740, $E180, LEFT
 
 byte_1285F6:
-    entrance DOOR, $940, $6F80, LEFT, 0, $740, $D980, LEFT
+    entrance DOOR, $940, $6F80, LEFT, MUSIC_SAME, $740, $D980, LEFT
 
 byte_1285FE:
-    entrance DOOR, $1540, $69C0, UP, 0, $740, $F980, LEFT
+    entrance DOOR, $1540, $69C0, UP, MUSIC_SAME, $740, $F980, LEFT
 
 byte_128606:
-    entrance DOOR, $1080, $6A80, RIGHT, 0, $480, $E980, RIGHT
+    entrance DOOR, $1080, $6A80, RIGHT, MUSIC_SAME, $480, $E980, RIGHT
 
 byte_12860E:
-    entrance DOOR, $880, $6A80, RIGHT, 0, $480, $F180, RIGHT
+    entrance DOOR, $880, $6A80, RIGHT, MUSIC_SAME, $480, $F180, RIGHT
 
 byte_128616:
-    entrance DOOR, $640, $69C0, UP, 0, $F40, $F980, LEFT
+    entrance DOOR, $640, $69C0, UP, MUSIC_SAME, $F40, $F980, LEFT
 
 byte_12861E:
-    entrance DOOR, $240, $6B80, LEFT, 0, $F40, $B180, LEFT
+    entrance DOOR, $240, $6B80, LEFT, MUSIC_SAME, $F40, $B180, LEFT
 
 byte_128626:
-    entrance DOOR, $1A80, $6880, RIGHT, 0, $1480, $B180, RIGHT
+    entrance DOOR, $1A80, $6880, RIGHT, MUSIC_SAME, $1480, $B180, RIGHT
 
 byte_12862E:
-    entrance DOOR, $E40, $66C0, UP, 0, $740, $B180, LEFT
+    entrance DOOR, $E40, $66C0, UP, MUSIC_SAME, $740, $B180, LEFT
 
 byte_128636:
-    entrance DOOR, $540, $6780, LEFT, 0, $1F40, $B180, LEFT
+    entrance DOOR, $540, $6780, LEFT, MUSIC_SAME, $1F40, $B180, LEFT
 
 byte_12863E:
-    entrance DOOR, $1D80, $6780, RIGHT, 0, $2480, $B180, RIGHT
+    entrance DOOR, $1D80, $6780, RIGHT, MUSIC_SAME, $2480, $B180, RIGHT
 
 byte_128646:
-    entrance DOOR, $740, $63C0, UP, 0, $2F40, $B180, LEFT
+    entrance DOOR, $740, $63C0, UP, MUSIC_SAME, $2F40, $B180, LEFT
 
 byte_12864E:
     .byte $D9, 8, $40, $63, $70, $88, $B, $1D, $25, $61, 8
@@ -348,7 +361,7 @@ byte_12864E:
     .byte 3, $5C, 6, 0, 8, $9D, 3, 0
 
 byte_12866C:
-    .byte $83, $BF, $82, $21, $52, $A, 4, $21
+    entrance STAIRS, $BF80, $2180, RIGHT, MUSIC_12, $A40, $2100, DOWN
 
 byte_128674:
     .byte $E0, $BD, 0, $21, $88, $81, $10, 0
@@ -374,34 +387,34 @@ off_128694:
     .word 0
 
 byte_1286D6:
-    entrance DOOR, $3040, $CD80, LEFT, 0, $2D40, $C880, LEFT
+    entrance DOOR, $3040, $CD80, LEFT, MUSIC_SAME, $2D40, $C880, LEFT
 
 byte_1286DE:
-    entrance DOOR, $2640, $C880, LEFT, 0, $2340, $C880, LEFT
+    entrance DOOR, $2640, $C880, LEFT, MUSIC_SAME, $2340, $C880, LEFT
 
 byte_1286E6:
-    entrance DOOR, $2040, $C880, LEFT, 0, $1D40, $C880, LEFT
+    entrance DOOR, $2040, $C880, LEFT, MUSIC_SAME, $1D40, $C880, LEFT
 
 byte_1286EE:
-    entrance DOOR, $1740, $C880, LEFT, 0, $1440, $C880, LEFT
+    entrance DOOR, $1740, $C880, LEFT, MUSIC_SAME, $1440, $C880, LEFT
 
 byte_1286F6:
-    entrance DOOR, $1040, $C880, LEFT, 0, $740, $C880, LEFT
+    entrance DOOR, $1040, $C880, LEFT, MUSIC_SAME, $740, $C880, LEFT
 
 byte_1286FE:
-    entrance DOOR, $240, $C880, LEFT, 0, $3640, $C280, LEFT
+    entrance DOOR, $240, $C880, LEFT, MUSIC_SAME, $3640, $C280, LEFT
 
 byte_128706:
-    entrance DOOR, $2B40, $C280, LEFT, 0, $2840, $C280, LEFT
+    entrance DOOR, $2B40, $C280, LEFT, MUSIC_SAME, $2840, $C280, LEFT
 
 byte_12870E:
-    entrance DOOR, $2880, $C280, RIGHT, 0, $2B80, $C280, RIGHT
+    entrance DOOR, $2880, $C280, RIGHT, MUSIC_SAME, $2B80, $C280, RIGHT
 
 byte_128716:
-    entrance DOOR, $1940, $C280, LEFT, 0, $1640, $C280, LEFT
+    entrance DOOR, $1940, $C280, LEFT, MUSIC_SAME, $1640, $C280, LEFT
 
 byte_12871E:
-    entrance DOOR, $1680, $C280, RIGHT, 0, $1980, $C280, RIGHT
+    entrance DOOR, $1680, $C280, RIGHT, MUSIC_SAME, $1980, $C280, RIGHT
 
 byte_128726:
     .byte $6B, $20, 4, $BD, $60, $81, 5, $C0, $B, $17, 8, $44
@@ -414,37 +427,54 @@ byte_128741:
     .byte $34, 3, 0
 
 byte_12875A:
-    .byte $12, $1E, $C6, $C0, $74, $8A, 0
+    .import stru_158A74
+
+    npc STAT_NPC, $1E00, $C0C0, LEFT, stru_158A74
+    end_script
 
 byte_128761:
-    .byte $D2, $24, $42, $C1, $54, $8A, 0
+    .import stru_158A54
+
+    npc STAT_NPC, $24C0, $C140, RIGHT, stru_158A54
+    end_script
 
 byte_128768:
-    .byte $12, $24, 2, $C1, $94, $8A, 0
+    .import stru_158A94
+
+    npc STAT_NPC, $2400, $C100, RIGHT, stru_158A94
+    end_script
 
 byte_12876F:
-    .byte $92, $22, $C2, $C0, $54, $8A, 0
+    npc STAT_NPC, $2280, $C0C0, RIGHT, stru_158A54
+    end_script
 
 byte_128776:
-    .byte $12, $1A, $42, $C7, $74, $8A, 0
+    npc STAT_NPC, $1A00, $C740, RIGHT, stru_158A74
+    end_script
 
 byte_12877D:
-    .byte $D2, 5, 2, $C7, $54, $8A, 0
+    npc STAT_NPC, $5C0, $C700, RIGHT, stru_158A54
+    end_script
 
 byte_128784:
-    .byte $12, $23, $42, $C1, $74, $8A, 0
+    npc STAT_NPC, $2300, $C140, RIGHT, stru_158A74
+    end_script
 
 byte_12878B:
-    .byte $52, $1F, 2, $C1, $54, $8A, 0
+    npc STAT_NPC, $1F40, $C100, RIGHT, stru_158A54
+    end_script
 
 byte_128792:
-    .byte $12, $1B, $42, $C7, $94, $8A, 0
+    npc STAT_NPC, $1B00, $C740, RIGHT, stru_158A94
+    end_script
 
 byte_128799:
-    .byte $92, 4, 2, $C7, $54, $8A, 0
+    npc STAT_NPC, $480, $C700, RIGHT, stru_158A54
+    end_script
 
 byte_1287A0:
-    .byte $92, $1C, $42, $C1, $94, $8A, 0
+    npc STAT_NPC, $1C80, $C140, RIGHT, stru_158A94
+    end_script
 
 byte_1287A7:
     .byte $5F, $20, $80, $BE, 5, $95, $35, $A, $10, $95, 0
@@ -492,46 +522,46 @@ off_12883F:
     .word 0
 
 byte_128879:
-    entrance DOOR, $440, $E980, LEFT, 0, $1040, $6A80, LEFT
+    entrance DOOR, $440, $E980, LEFT, MUSIC_SAME, $1040, $6A80, LEFT
 
 byte_128881:
-    entrance DOOR, $440, $F180, LEFT, 0, $840, $6A80, LEFT
+    entrance DOOR, $440, $F180, LEFT, MUSIC_SAME, $840, $6A80, LEFT
 
 byte_128889:
-    entrance DOOR, $F80, $F980, RIGHT, 0, $640, $6A00, DOWN
+    entrance DOOR, $F80, $F980, RIGHT, MUSIC_SAME, $640, $6A00, DOWN
 
 byte_128891:
-    entrance DOOR, $780, $E180, RIGHT, 0, $B40, $6F00, DOWN
+    entrance DOOR, $780, $E180, RIGHT, MUSIC_SAME, $B40, $6F00, DOWN
 
 byte_128899:
-    entrance DOOR, $780, $F980, RIGHT, 0, $1540, $6A00, DOWN
+    entrance DOOR, $780, $F980, RIGHT, MUSIC_SAME, $1540, $6A00, DOWN
 
 byte_1288A1:
-    entrance DOOR, $440, $D180, LEFT, 0, $1240, $6F80, LEFT
+    entrance DOOR, $440, $D180, LEFT, MUSIC_SAME, $1240, $6F80, LEFT
 
 byte_1288A9:
-    entrance DOOR, $F80, $D180, RIGHT, 0, $D40, $6F00, DOWN
+    entrance DOOR, $F80, $D180, RIGHT, MUSIC_SAME, $D40, $6F00, DOWN
 
 byte_1288B1:
-    entrance DOOR, $780, $D980, RIGHT, 0, $980, $6F80, RIGHT
+    entrance DOOR, $780, $D980, RIGHT, MUSIC_SAME, $980, $6F80, RIGHT
 
 byte_1288B9:
-    entrance DOOR, $1F80, $B180, RIGHT, 0, $580, $6780, RIGHT
+    entrance DOOR, $1F80, $B180, RIGHT, MUSIC_SAME, $580, $6780, RIGHT
 
 byte_1288C1:
-    entrance DOOR, $2440, $B180, LEFT, 0, $1D40, $6780, LEFT
+    entrance DOOR, $2440, $B180, LEFT, MUSIC_SAME, $1D40, $6780, LEFT
 
 byte_1288C9:
-    entrance DOOR, $2F80, $B180, RIGHT, 0, $740, $6400, DOWN
+    entrance DOOR, $2F80, $B180, RIGHT, MUSIC_SAME, $740, $6400, DOWN
 
 byte_1288D1:
-    entrance DOOR, $F80, $B180, RIGHT, 0, $280, $6B80, RIGHT
+    entrance DOOR, $F80, $B180, RIGHT, MUSIC_SAME, $280, $6B80, RIGHT
 
 byte_1288D9:
-    entrance DOOR, $1440, $B180, LEFT, 0, $1A40, $6880, LEFT
+    entrance DOOR, $1440, $B180, LEFT, MUSIC_SAME, $1A40, $6880, LEFT
 
 byte_1288E1:
-    entrance DOOR, $780, $B180, RIGHT, 0, $E40, $6700, DOWN
+    entrance DOOR, $780, $B180, RIGHT, MUSIC_SAME, $E40, $6700, DOWN
 
 byte_1288E9:
     .byte $A0, $25, $40, $B1, $88, $81, $4E, 4
@@ -587,55 +617,55 @@ off_128959:
     .word byte_128AD6, byte_128ADE, byte_128AE6, 0
 
 byte_1289A1:
-    entrance DOOR, $380, $D180, RIGHT, 0, $3840, $D700, DOWN
+    entrance DOOR, $380, $D180, RIGHT, MUSIC_SAME, $3840, $D700, DOWN
 
 byte_1289A9:
-    entrance DOOR, $380, $D980, RIGHT, 0, $2840, $DB00, DOWN
+    entrance DOOR, $380, $D980, RIGHT, MUSIC_SAME, $2840, $DB00, DOWN
 
 byte_1289B1:
-    entrance DOOR, $1780, $B580, RIGHT, 0, $2740, $DE00, DOWN
+    entrance DOOR, $1780, $B580, RIGHT, MUSIC_SAME, $2740, $DE00, DOWN
 
 byte_1289B9:
-    entrance DOOR, $380, $F180, RIGHT, 0, $3240, $DE00, DOWN
+    entrance DOOR, $380, $F180, RIGHT, MUSIC_SAME, $3240, $DE00, DOWN
 
 byte_1289C1:
-    entrance DOOR, $B80, $D180, RIGHT, 0, $3840, $DD00, DOWN
+    entrance DOOR, $B80, $D180, RIGHT, MUSIC_SAME, $3840, $DD00, DOWN
 
 byte_1289C9:
-    entrance DOOR, $840, $D980, LEFT, 0, $3A40, $DD80, LEFT
+    entrance DOOR, $840, $D980, LEFT, MUSIC_SAME, $3A40, $DD80, LEFT
 
 byte_1289D1:
-    entrance DOOR, $B80, $E980, RIGHT, 0, $1740, $E000, DOWN
+    entrance DOOR, $B80, $E980, RIGHT, MUSIC_SAME, $1740, $E000, DOWN
 
 byte_1289D9:
-    entrance DOOR, $F80, $BD80, RIGHT, 0, $1380, $E180, RIGHT
+    entrance DOOR, $F80, $BD80, RIGHT, MUSIC_SAME, $1380, $E180, RIGHT
 
 byte_1289E1:
-    entrance DOOR, $840, $F180, LEFT, 0, $3640, $EA80, LEFT
+    entrance DOOR, $840, $F180, LEFT, MUSIC_SAME, $3640, $EA80, LEFT
 
 byte_1289E9:
-    entrance DOOR, $840, $F980, LEFT, 0, $2A40, $EB80, LEFT
+    entrance DOOR, $840, $F980, LEFT, MUSIC_SAME, $2A40, $EB80, LEFT
 
 byte_1289F1:
-    entrance DOOR, $1380, $D180, RIGHT, 0, $2740, $F300, DOWN
+    entrance DOOR, $1380, $D180, RIGHT, MUSIC_SAME, $2740, $F300, DOWN
 
 byte_1289F9:
-    entrance DOOR, $840, $B180, LEFT, 0, $3840, $F880, LEFT
+    entrance DOOR, $840, $B180, LEFT, MUSIC_SAME, $3840, $F880, LEFT
 
 byte_128A01:
-    entrance DOOR, $780, $B580, RIGHT, 0, $3540, $F700, DOWN
+    entrance DOOR, $780, $B580, RIGHT, MUSIC_SAME, $3540, $F700, DOWN
 
 byte_128A09:
-    entrance DOOR, $1380, $B180, RIGHT, 0, $3340, $F700, DOWN
+    entrance DOOR, $1380, $B180, RIGHT, MUSIC_SAME, $3340, $F700, DOWN
 
 byte_128A11:
-    entrance DOOR, $1840, $B180, LEFT, 0, $2540, $F780, LEFT
+    entrance DOOR, $1840, $B180, LEFT, MUSIC_SAME, $2540, $F780, LEFT
 
 byte_128A19:
-    entrance DOOR, $2380, $B180, RIGHT, 0, $1F40, $EB00, DOWN
+    entrance DOOR, $2380, $B180, RIGHT, MUSIC_SAME, $1F40, $EB00, DOWN
 
 byte_128A21:
-    entrance DOOR, $3B80, $B180, RIGHT, 0, $1D40, $F100, DOWN
+    entrance DOOR, $3B80, $B180, RIGHT, MUSIC_SAME, $1D40, $F100, DOWN
 
 byte_128A29:
     .byte $9D, 9, $80, $BD, $50, $85, 5, $71, $B, $C, 1, $E
@@ -703,22 +733,22 @@ off_128AEE:
     .word 0
 
 byte_128B08:
-    entrance DOOR, $40, $E980, LEFT, 0, $4140, $DA80, LEFT
+    entrance DOOR, $40, $E980, LEFT, MUSIC_SAME, $4140, $DA80, LEFT
 
 byte_128B10:
-    entrance DOOR, $40, $B180, LEFT, 0, $4B40, $E180, LEFT
+    entrance DOOR, $40, $B180, LEFT, MUSIC_SAME, $4B40, $E180, LEFT
 
 byte_128B18:
-    entrance DOOR, $2C40, $B580, LEFT, 0, $5140, $EE80, LEFT
+    entrance DOOR, $2C40, $B580, LEFT, MUSIC_SAME, $5140, $EE80, LEFT
 
 byte_128B20:
-    entrance DOOR, $2B80, $B180, RIGHT, 0, $4D40, $F300, DOWN
+    entrance DOOR, $2B80, $B180, RIGHT, MUSIC_SAME, $4D40, $F300, DOWN
 
 byte_128B28:
-    entrance DOOR, $3040, $B180, LEFT, 0, $4B40, $F780, LEFT
+    entrance DOOR, $3040, $B180, LEFT, MUSIC_SAME, $4B40, $F780, LEFT
 
 byte_128B30:
-    entrance DOOR, $380, $F980, RIGHT, 0, $4880, $F980, RIGHT
+    entrance DOOR, $380, $F980, RIGHT, MUSIC_SAME, $4880, $F980, RIGHT
 
 byte_128B38:
     .byte $20, $2A, $80, $B1, $88, $81, $23, $43
@@ -744,7 +774,7 @@ off_128B68:
     .word 0
 
 byte_128B7A:
-    entrance DOOR, $DF40, $DCC0, UP, $13, $FF40, $3740, DOWN
+    entrance DOOR, $DF40, $DCC0, UP, MUSIC_13, $FF40, $3740, DOWN
 
 byte_128B82:
     .byte $9C, $E1, $C0, $DC, 6, $C9, $35, $A, $3F, 6, 0
@@ -775,7 +805,7 @@ byte_128BE4:
     .byte 9, $F6, 4, 3, 0
 
 byte_128C23:
-    entrance DOOR, $EF40, $D0C0, UP, $12, $340, $4980, LEFT
+    entrance DOOR, $EF40, $D0C0, UP, MUSIC_12, $340, $4980, LEFT
 
 off_128C2B:
     .word byte_128C45, byte_128C4D, byte_128C55, byte_128C5D
@@ -784,16 +814,16 @@ off_128C2B:
     .word 0
 
 byte_128C45:
-    entrance DOOR, $EF40, $D0C0, UP, $15, $9740, $F980, LEFT
+    entrance DOOR, $EF40, $D0C0, UP, MUSIC_15, $9740, $F980, LEFT
 
 byte_128C4D:
-    entrance DOOR, $E380, $2D80, RIGHT, 0, $C340, $9D40, DOWN
+    entrance DOOR, $E380, $2D80, RIGHT, MUSIC_SAME, $C340, $9D40, DOWN
 
 byte_128C55:
-    entrance DOOR, $F540, $9CC0, UP, 0, $7540, $8380, DOWN
+    entrance DOOR, $F540, $9CC0, UP, MUSIC_SAME, $7540, $8380, DOWN
 
 byte_128C5D:
-    entrance DOOR, $7540, $8340, UP, 0, $F540, $9D00, DOWN
+    entrance DOOR, $7540, $8340, UP, MUSIC_SAME, $F540, $9D00, DOWN
 
 byte_128C65:
     .byte $5F, $F0, 0, $9B, 5, $91, $35, $17, $12, $C0, $17
@@ -815,7 +845,7 @@ byte_128CB4:
     .byte $18, $E2, $C0, $2D, $A, 9, 8, $CA, 3, 0
 
 byte_128CBE:
-    entrance DOOR, $E240, $9140, UP, $32, $C140, $A040, DOWN
+    entrance DOOR, $E240, $9140, UP, MUSIC_32, $C140, $A040, DOWN
 
 byte_128CC6:
     .byte $E0, $72, $80, $83, $88, $81, $36, $20
@@ -836,76 +866,76 @@ off_128CEB:
     .word byte_128E09, byte_128E11, 0
 
 byte_128D29:
-    entrance STAIRS, $E680, $3E00, UP, 6, $F940, $5400, DOWN
+    entrance STAIRS, $E680, $3E00, UP, MUSIC_6, $F940, $5400, DOWN
 
 byte_128D31:
-    entrance STAIRS, $E940, $3A00, UP, 0, $F740, $3440, DOWN
+    entrance STAIRS, $E940, $3A00, UP, MUSIC_SAME, $F740, $3440, DOWN
 
 byte_128D39:
-    entrance STAIRS, $EA40, $3500, UP, 0, $F540, $2F40, DOWN
+    entrance STAIRS, $EA40, $3500, UP, MUSIC_SAME, $F540, $2F40, DOWN
 
 byte_128D41:
-    entrance STAIRS, $EE80, $3E00, UP, 0, $F540, $3940, DOWN
+    entrance STAIRS, $EE80, $3E00, UP, MUSIC_SAME, $F540, $3940, DOWN
 
 byte_128D49:
-    entrance STAIRS, $F140, $3E00, UP, 0, $F680, $2740, DOWN
+    entrance STAIRS, $F140, $3E00, UP, MUSIC_SAME, $F680, $2740, DOWN
 
 byte_128D51:
-    entrance STAIRS, $F480, $3E00, UP, 0, $FC40, $2C40, DOWN
+    entrance STAIRS, $F480, $3E00, UP, MUSIC_SAME, $FC40, $2C40, DOWN
 
 byte_128D59:
-    entrance STAIRS, $FF40, $3700, UP, $B, $DF40, $DD00, DOWN
+    entrance STAIRS, $FF40, $3700, UP, MUSIC_b, $DF40, $DD00, DOWN
 
 byte_128D61:
-    entrance STAIRS, $F540, $3900, UP, 0, $EE80, $3E40, DOWN
+    entrance STAIRS, $F540, $3900, UP, MUSIC_SAME, $EE80, $3E40, DOWN
 
 byte_128D69:
-    entrance STAIRS, $F180, $3900, UP, 0, $F240, $2340, DOWN
+    entrance STAIRS, $F180, $3900, UP, MUSIC_SAME, $F240, $2340, DOWN
 
 byte_128D71:
-    entrance STAIRS, $F740, $3400, UP, 0, $E940, $3A40, DOWN
+    entrance STAIRS, $F740, $3400, UP, MUSIC_SAME, $E940, $3A40, DOWN
 
 byte_128D79:
-    entrance STAIRS, $EF80, $3400, UP, 0, $EB80, $2E40, DOWN
+    entrance STAIRS, $EF80, $3400, UP, MUSIC_SAME, $EB80, $2E40, DOWN
 
 byte_128D81:
-    entrance STAIRS, $FE40, $3100, UP, 0, $EA80, $2640, DOWN
+    entrance STAIRS, $FE40, $3100, UP, MUSIC_SAME, $EA80, $2640, DOWN
 
 byte_128D89:
-    entrance STAIRS, $FC40, $2C00, UP, 0, $F480, $3E40, DOWN
+    entrance STAIRS, $FC40, $2C00, UP, MUSIC_SAME, $F480, $3E40, DOWN
 
 byte_128D91:
-    entrance STAIRS, $FB40, $2500, UP, 0, $E780, $3040, DOWN
+    entrance STAIRS, $FB40, $2500, UP, MUSIC_SAME, $E780, $3040, DOWN
 
 byte_128D99:
-    entrance STAIRS, $F540, $2F00, UP, 0, $EA40, $3540, DOWN
+    entrance STAIRS, $F540, $2F00, UP, MUSIC_SAME, $EA40, $3540, DOWN
 
 byte_128DA1:
-    entrance STAIRS, $F440, $2D00, UP, 0, $F540, $2640, DOWN
+    entrance STAIRS, $F440, $2D00, UP, MUSIC_SAME, $F540, $2640, DOWN
 
 byte_128DA9:
-    entrance STAIRS, $F740, $2D00, UP, 0, $ED40, $2E40, DOWN
+    entrance STAIRS, $F740, $2D00, UP, MUSIC_SAME, $ED40, $2E40, DOWN
 
 byte_128DB1:
-    entrance STAIRS, $F680, $2700, UP, 0, $F140, $3E40, DOWN
+    entrance STAIRS, $F680, $2700, UP, MUSIC_SAME, $F140, $3E40, DOWN
 
 byte_128DB9:
-    entrance STAIRS, $F540, $2600, UP, 0, $F440, $2D40, DOWN
+    entrance STAIRS, $F540, $2600, UP, MUSIC_SAME, $F440, $2D40, DOWN
 
 byte_128DC1:
-    entrance STAIRS, $F240, $2300, UP, 0, $F180, $3940, DOWN
+    entrance STAIRS, $F240, $2300, UP, MUSIC_SAME, $F180, $3940, DOWN
 
 byte_128DC9:
-    entrance STAIRS, $EA80, $2600, UP, 0, $FE40, $3140, DOWN
+    entrance STAIRS, $EA80, $2600, UP, MUSIC_SAME, $FE40, $3140, DOWN
 
 byte_128DD1:
-    entrance STAIRS, $ED40, $2E00, UP, 0, $F740, $2D40, DOWN
+    entrance STAIRS, $ED40, $2E00, UP, MUSIC_SAME, $F740, $2D40, DOWN
 
 byte_128DD9:
-    entrance STAIRS, $EB80, $2E00, UP, 0, $EF80, $3440, DOWN
+    entrance STAIRS, $EB80, $2E00, UP, MUSIC_SAME, $EF80, $3440, DOWN
 
 byte_128DE1:
-    entrance STAIRS, $E780, $3000, UP, 0, $FB40, $2540, DOWN
+    entrance STAIRS, $E780, $3000, UP, MUSIC_SAME, $FB40, $2540, DOWN
 
 byte_128DE9:
     .byte $20, $E6, $40, $3B, $88, $81, $D, $21
@@ -967,95 +997,110 @@ off_128EB1:
     .word byte_129084, 0
 
 byte_128EF5:
-    entrance DOOR, $9780, $A5C0, UP, 0, $B40, $8580, LEFT
+    entrance DOOR, $9780, $A5C0, UP, MUSIC_SAME, $B40, $8580, LEFT
 
 byte_128EFD:
-    entrance DOOR, $A580, $A4C0, UP, 0, $1340, $8580, LEFT
+    entrance DOOR, $A580, $A4C0, UP, MUSIC_SAME, $1340, $8580, LEFT
 
 byte_128F05:
-    entrance DOOR, $A680, $A4C0, UP, 0, $1B40, $8580, LEFT
+    entrance DOOR, $A680, $A4C0, UP, MUSIC_SAME, $1B40, $8580, LEFT
 
 byte_128F0D:
-    entrance DOOR, $A780, $A4C0, UP, 0, $340, $8D80, LEFT
+    entrance DOOR, $A780, $A4C0, UP, MUSIC_SAME, $340, $8D80, LEFT
 
 byte_128F15:
-    entrance DOOR, $A380, $A4C0, UP, 0, $B40, $8D80, LEFT
+    entrance DOOR, $A380, $A4C0, UP, MUSIC_SAME, $B40, $8D80, LEFT
 
 byte_128F1D:
-    entrance DOOR, $A280, $A4C0, UP, 0, $1340, $8D80, LEFT
+    entrance DOOR, $A280, $A4C0, UP, MUSIC_SAME, $1340, $8D80, LEFT
 
 byte_128F25:
-    entrance DOOR, $A180, $A4C0, UP, 0, $1B40, $8D80, LEFT
+    entrance DOOR, $A180, $A4C0, UP, MUSIC_SAME, $1B40, $8D80, LEFT
 
 byte_128F2D:
-    entrance DOOR, $9F80, $A6C0, UP, 0, $340, $9580, LEFT
+    entrance DOOR, $9F80, $A6C0, UP, MUSIC_SAME, $340, $9580, LEFT
 
 byte_128F35:
-    entrance DOOR, $A080, $A6C0, UP, 0, $B40, $9580, LEFT
+    entrance DOOR, $A080, $A6C0, UP, MUSIC_SAME, $B40, $9580, LEFT
 
 byte_128F3D:
-    entrance DOOR, $A180, $A6C0, UP, 0, $1340, $9580, LEFT
+    entrance DOOR, $A180, $A6C0, UP, MUSIC_SAME, $1340, $9580, LEFT
 
 byte_128F45:
-    entrance DOOR, $A380, $A6C0, UP, 0, $1B40, $9580, LEFT
+    entrance DOOR, $A380, $A6C0, UP, MUSIC_SAME, $1B40, $9580, LEFT
 
 byte_128F4D:
-    entrance DOOR, $A480, $A6C0, UP, 0, $340, $9D80, LEFT
+    entrance DOOR, $A480, $A6C0, UP, MUSIC_SAME, $340, $9D80, LEFT
 
 byte_128F55:
-    entrance DOOR, $A580, $A6C0, UP, 0, $B40, $9D80, LEFT
+    entrance DOOR, $A580, $A6C0, UP, MUSIC_SAME, $B40, $9D80, LEFT
 
 byte_128F5D:
-    entrance DOOR, $A380, $A8C0, UP, 0, $1340, $9D80, LEFT
+    entrance DOOR, $A380, $A8C0, UP, MUSIC_SAME, $1340, $9D80, LEFT
 
 byte_128F65:
-    entrance DOOR, $9D80, $A8C0, UP, 0, $1B40, $9D80, LEFT
+    entrance DOOR, $9D80, $A8C0, UP, MUSIC_SAME, $1B40, $9D80, LEFT
 
 byte_128F6D:
-    entrance DOOR, $9C80, $A9C0, UP, 0, $740, $8580, LEFT
+    entrance DOOR, $9C80, $A9C0, UP, MUSIC_SAME, $740, $8580, LEFT
 
 byte_128F75:
-    entrance DOOR, $9B80, $AAC0, UP, 0, $F40, $8580, LEFT
+    entrance DOOR, $9B80, $AAC0, UP, MUSIC_SAME, $F40, $8580, LEFT
 
 byte_128F7D:
-    entrance DOOR, $9A80, $ABC0, UP, 0, $1740, $8580, LEFT
+    entrance DOOR, $9A80, $ABC0, UP, MUSIC_SAME, $1740, $8580, LEFT
 
 byte_128F85:
-    entrance DOOR, $9C80, $ABC0, UP, 0, $1F40, $8580, LEFT
+    entrance DOOR, $9C80, $ABC0, UP, MUSIC_SAME, $1F40, $8580, LEFT
 
 byte_128F8D:
-    entrance DOOR, $9D80, $ABC0, UP, 0, $740, $8D80, LEFT
+    entrance DOOR, $9D80, $ABC0, UP, MUSIC_SAME, $740, $8D80, LEFT
 
 byte_128F95:
-    entrance DOOR, $9980, $ACC0, UP, 0, $F40, $8D80, LEFT
+    entrance DOOR, $9980, $ACC0, UP, MUSIC_SAME, $F40, $8D80, LEFT
 
 byte_128F9D:
-    .byte $D1, $9C, $C4, $A8, $A4, $87, $A, $B, 8, $82, 0
-    .byte 0
+    .import stru_1587A4
+
+    npc WALK_NPC, $9CC0, $A8C0, DOWN, stru_1587A4
+    .byte $A, $B, 8, $82, 0, 0
 
 byte_128FA9:
-    .byte $11, $A1, 4, $A7, 4, $88, $A, $B, 8, $B3, 0, 0
+    .import stru_158804
+
+    npc WALK_NPC, $A100, $A700, DOWN, stru_158804
+    .byte $A, $B, 8, $B3, 0, 0
 
 byte_128FB5:
-    .byte $90, $95, $44, $AB, 4, $88, $A, $B, 8, $B4, 0, 0
+    npc NPC_1, $9580, $AB40, DOWN, stru_158804
+    .byte $A, $B, 8, $B4, 0, 0
 
 byte_128FC1:
-    .byte $11, $99, $84, $A9, $C4, $87, $A, $14, 8, $B8, 0
+    .import stru_1587C4
+
+    npc WALK_NPC, $9900, $A980, DOWN, stru_1587C4
+    .byte $A, $14, 8, $B8, 0
     .byte 9, $11, 8, $B9, 0, 0, 8, $BA, 0, 0
 
 byte_128FD6:
-    .byte $51, $9B, 4, $AC, $C0, $88, $A, $B, 8, $BC, 0, 0
+    .import stru_1588C0
+
+    npc WALK_NPC, $9B40, $AC00, DOWN, stru_1588C0
+    .byte $A, $B, 8, $BC, 0, 0
 
 byte_128FE2:
-    .byte $51, $A1, $84, $AC, 4, $88, $A, $B, 8, $CF, 0, 0
+    npc WALK_NPC, $A140, $AC80, DOWN, stru_158804
+    .byte $A, $B, 8, $CF, 0, 0
 
 byte_128FEE:
-    .byte $91, $97, 4, $A8, $E4, $87, $A, $13, $12, $49, $F
+    .import stru_1587E4
+
+    npc WALK_NPC, $9780, $A800, DOWN, stru_1587E4
+    .byte $A, $13, $12, $49, $F
     .byte 8, $BF, 0, 0, 8, $D1, 0, 0, $C, 1, $3E, $12, $49
     .byte $1D, 8, $BF, 0, 0, 8, $D2, 0, $33, 2, $3B, $52, $80
     .byte $3B, 8, $D3, 0, $19, 2, $23, 0, $37, $25, $4B, $2D
-    .byte $3E, $5C, 6, $10, $49, 0, 8, $4B, 2, 0, 8, $BE, 0
-    .byte 0
+    .byte $3E, $5C, 6, $10, $49, 0, 8, $4B, 2, 0, 8, $BE, 0, 0
 
 byte_12902D:
     .byte $D3, $A1, $84, $A9, $E4, $87, $A, $36, $12, $4A
@@ -1065,13 +1110,15 @@ byte_12902D:
     .byte 8, $4B, 2, 0, 8, $D5, 0, 0
 
 byte_129064:
-    .byte $11, $99, 4, $AD, $A4, $87, $A, $B, 8, $D9, 0, 0
+    npc WALK_NPC, $9900, $AD00, DOWN, stru_1587A4
+    .byte $A, $B, 8, $D9, 0, 0
 
 byte_129070:
-    .byte $50, $9E, $C4, $AA, 4, $88, $A, $B, 8, $87, 0, 0
+    npc NPC_1, $9E40, $AAC0, DOWN, stru_158804
+    .byte $A, $B, 8, $87, 0, 0
 
 byte_12907C:
-    entrance DOOR, $D940, $65C0, UP, $12, $E340, $3980, LEFT
+    entrance DOOR, $D940, $65C0, UP, MUSIC_12, $E340, $3980, LEFT
 
 byte_129084:
     .byte $E1, $D8, 0, $66, $70, $88, 5, 1, $B, $E, 8, $2D
@@ -1089,7 +1136,7 @@ off_1290B6:
     .word 0
 
 byte_1290E8:
-    entrance DOOR, $F080, $8500, UP, 6, $5240, $3A00, DOWN
+    entrance DOOR, $F080, $8500, UP, MUSIC_6, $5240, $3A00, DOWN
 
 byte_1290F0:
     .byte $98, $F2, $80, $80, $B, $F, $12, $E0, $B, 1, $2A
@@ -1098,7 +1145,7 @@ byte_1290F0:
     .byte $49, $A0, 4, $AA, $3C, 2, $4E, 0
 
 byte_12911B:
-    entrance DOOR, $F880, $8A00, UP, $18, $1340, $A640, DOWN
+    entrance DOOR, $F880, $8A00, UP, MUSIC_18, $1340, $A640, DOWN
 
 byte_129123:
     .byte $98, $FD, $80, $88, $B, $F, $12, $E0, $B, 1, $24
@@ -1107,16 +1154,16 @@ byte_129123:
     .byte 2, $4E, 0
 
 byte_129148:
-    entrance DOOR, $F980, $8200, UP, 6, $5980, $93C0, DOWN
+    entrance DOOR, $F980, $8200, UP, MUSIC_6, $5980, $93C0, DOWN
 
 byte_129150:
-    entrance DOOR, $FF40, $7900, UP, 8, $9E40, $6400, DOWN
+    entrance DOOR, $FF40, $7900, UP, MUSIC_8, $9E40, $6400, DOWN
 
 byte_129158:
-    entrance HOLE, $B240, $A5C0, UP, $11, $7240, $8F00, DOWN
+    entrance HOLE, $B240, $A5C0, UP, MUSIC_11, $7240, $8F00, DOWN
 
 byte_129160:
-    entrance DOOR, $AD00, $9A80, UP, $1A, $900, $8940, LEFT
+    entrance DOOR, $AD00, $9A80, UP, MUSIC_1a, $900, $8940, LEFT
 
 byte_129168:
     .byte $9B, $B2, $C0, $94, $36, $52, $35, $52, $11, 0, $12
@@ -1144,12 +1191,14 @@ byte_1291FD:
     .byte 0, $11, $70, 0, 8, $E2, 0, $11, $70, 0
 
 byte_129237:
-    .byte $51, $97, $C4, $98, $DC, $89, $A, $B, 8, $7E, 0
-    .byte 0
+    .import stru_1589DC
+
+    npc WALK_NPC, $9740, $98C0, DOWN, stru_1589DC
+    .byte $A, $B, 8, $7E, 0, 0
 
 byte_129243:
-    .byte $D1, $96, $44, $98, $DC, $89, $A, $B, 8, $9E, 0
-    .byte 0
+    npc WALK_NPC, $96C0, $9840, DOWN, stru_1589DC
+    .byte $A, $B, 8, $9E, 0, 0
 
 byte_12924F:
     .byte $5D, $B5, $80, $94, $C4, $89, 6, $6D, $B, $D, 8
@@ -1183,16 +1232,21 @@ byte_1292BF:
     .byte $98, $AE, $80, $9F, 2, $95, $92, 9, 0
 
 byte_1292C8:
-    .byte $50, $AB, 4, $9D, 0, $89, $A, $C, 8, $CA, 0, 0, $40
+    .import stru_158900
+
+    npc NPC_1, $AB40, $9D00, DOWN, stru_158900
+    .byte $A, $C, 8, $CA, 0, 0, $40
     .byte $11, $3E, $DA, $92, 0, $F4, 1, 0
 
 byte_1292DD:
-    .byte $D0, $AB, 4, $9D, 0, $89, $A, $C, 8, $CA, 0, 0, $40
+    npc NPC_1, $ABC0, $9D00, DOWN, stru_158900
+    .byte $A, $C, 8, $CA, 0, 0, $40
     .byte $13, $3F, $15, $3E, $F1, $92, 0, $F4, 1, $7E, 4
     .byte 0
 
 byte_1292F6:
-    .byte $90, $AB, 4, $9D, 0, $89, $A, $1C, $12, $4C, $16
+    npc NPC_1, $AB80, $9D00, DOWN, stru_158900
+    .byte $A, $1C, $12, $4C, $16
     .byte 8, $AB, 0, $4F, $2E, $3F, $16, $3E, $25, $93, 0
     .byte 8, $A9, 0, $10, $4B, 0, $C, 1, $2E, $12, $4B, $2E
     .byte $12, $4C, $27, 1, $2E, 8, $AA, 0, $10, $4C, 1, $10
@@ -1205,33 +1259,33 @@ off_12932C:
     .word byte_129356, byte_12935E, byte_129366, byte_12936E
     .word byte_129376, byte_12937E, byte_129386, byte_12938E
     .word byte_129396, byte_1293F9, byte_12942B, byte_12945D
-    .word byte_12948F, byte_1294C1, byte_1294D4, byte_12951B
-    .word byte_129562, byte_1295A9, byte_1295CB, byte_1295F4
+    .word byte_12948F, byte_1294C1, MagCoinClerk, MagRingClerk
+    .word MagPendantClerk, byte_1295A9, byte_1295CB, byte_1295F4
     .word 0
 
 byte_129356:
-    entrance DOOR, $380, $8580, RIGHT, 0, $B280, $9500, DOWN
+    entrance DOOR, $380, $8580, RIGHT, MUSIC_SAME, $B280, $9500, DOWN
 
 byte_12935E:
-    entrance DOOR, $B80, $8580, RIGHT, 0, $9780, $A600, DOWN
+    entrance DOOR, $B80, $8580, RIGHT, MUSIC_SAME, $9780, $A600, DOWN
 
 byte_129366:
-    entrance DOOR, $1380, $8580, RIGHT, 0, $A580, $A500, DOWN
+    entrance DOOR, $1380, $8580, RIGHT, MUSIC_SAME, $A580, $A500, DOWN
 
 byte_12936E:
-    entrance DOOR, $1B80, $8580, RIGHT, 0, $A680, $A500, DOWN
+    entrance DOOR, $1B80, $8580, RIGHT, MUSIC_SAME, $A680, $A500, DOWN
 
 byte_129376:
-    entrance DOOR, $380, $8D80, RIGHT, 0, $A780, $A500, DOWN
+    entrance DOOR, $380, $8D80, RIGHT, MUSIC_SAME, $A780, $A500, DOWN
 
 byte_12937E:
-    entrance DOOR, $B80, $8D80, RIGHT, 0, $A380, $A500, DOWN
+    entrance DOOR, $B80, $8D80, RIGHT, MUSIC_SAME, $A380, $A500, DOWN
 
 byte_129386:
-    entrance DOOR, $1380, $8D80, RIGHT, 0, $A280, $A500, DOWN
+    entrance DOOR, $1380, $8D80, RIGHT, MUSIC_SAME, $A280, $A500, DOWN
 
 byte_12938E:
-    entrance DOOR, $1B80, $8D80, RIGHT, 0, $A180, $A500, DOWN
+    entrance DOOR, $1B80, $8D80, RIGHT, MUSIC_SAME, $A180, $A500, DOWN
 
 byte_129396:
     .byte $D5, 1, 4, $85, $40, $81, 5, $64, $A, $31, 2, $96
@@ -1273,32 +1327,140 @@ byte_12948F:
     .byte $68, 0
 
 byte_1294C1:
-    .byte $51, $A, $84, $85, $44, $89, $A, $12, $54, $19, $F
+    .import stru_158944
+
+    npc WALK_NPC, $A40, $8580, DOWN, stru_158944
+    .byte $A, $12, $54, $19, $F
     .byte 8, $B2, 0, 0, 8, $AE, 0, 0
 
-byte_1294D4:
-    .byte $59, $12, 0, $85, $D8, $89, $A, $46, 8, $E1, 3, $10
-    .byte 0, $27, 0, $12, $11, 0, $22, $3E, $2D, $2E, $2F
-    .byte $3D, $12, 0, $21, 8, $3B, 2, $11, 0, 0, $29, $43
-    .byte 8, $3A, 2, 9, $3B, 8, 9, 3, $5C, $B, $1F, $2D, $46
-    .byte 8, $E3, 3, 9, $37, 1, $B, 8, 9, 3, 0, $28, $46, 8
-    .byte $A, 3, $11, 0, 0, 8, $3A, 3, 0
+MagCoinClerk:
+    .import stru_1589D8
 
-byte_12951B:
-    .byte $59, $1A, 0, $85, $1C, $8A, $A, $46, 8, $E1, 3, $10
-    .byte 0, $27, 0, $12, $11, 0, $22, $3E, $30, $31, $32
-    .byte $3D, $12, 0, $21, 8, $3B, 2, $11, 0, 0, $29, $43
-    .byte 8, $3A, 2, 9, $3B, 8, 9, 3, $5C, $B, $1F, $2D, $46
-    .byte 8, $E3, 3, 9, $37, 1, $B, 8, 9, 3, 0, $28, $46, 8
-    .byte $A, 3, $11, 0, 0, 8, $3A, 3, 0
+    entity $1240, $8500, UP, stru_1589D8
 
-byte_129562:
-    .byte $59, 2, 0, $8D, $20, $8A, $A, $46, 8, $E1, 3, $10
-    .byte 0, $27, 0, $12, $11, 0, $22, 4, $33, $34, $35, $3D
-    .byte $12, 0, $21, 8, $3B, 2, $11, 0, 0, $29, $43, 8, $3A
-    .byte 2, 9, $3B, 8, 9, 3, $5C, $B, $1F, $2D, $46, 8, $E3
-    .byte 3, 9, $37, 1, $B, 8, 9, 3, 0, $28, $46, 8, $A, 3
-    .byte $11, 0, 0, 8, $3A, 3, 0
+    check_action TALK, CoinExit - MagCoinClerk
+    print $3E1
+CoinRepeat:
+    set_flag FLAG0|BIT7
+    find_item EMPTY, CoinList - MagCoinClerk
+    clear_flag FLAG0|BIT7
+CoinList:
+    item_list MagicHerb, PeaceCoin, ProtectCoin, MagicCoin, CoinRefuse - MagCoinClerk
+    check_flag FLAG0|BIT7, CoinBuy - MagCoinClerk
+    print $23B
+    clear_flag FLAG0|BIT7
+    end_script
+CoinBuy:
+    pay CoinLess - MagCoinClerk
+    print $23A
+    confirm CoinStop - MagCoinClerk
+    print $309
+    play SOUND2, $B
+    cash
+    add_item CoinExit - MagCoinClerk
+    print $3E3
+    confirm CoinDontNeed - MagCoinClerk
+    jump CoinRepeat - MagCoinClerk
+CoinDontNeed:
+    print $309
+    end_script
+CoinStop:
+    get CoinExit - MagCoinClerk
+CoinRefuse:
+    print $30A
+    clear_flag FLAG0|BIT7
+    end_script
+CoinLess:
+    print $33A
+CoinExit:
+    end_script
+
+
+MagRingClerk:
+    .import stru_158A1C
+
+    entity $1A40, $8500, UP, stru_158A1C
+
+    check_action TALK, RingExit - MagRingClerk
+    print $3E1
+RingRepeat:
+    set_flag FLAG0|BIT7
+    find_item EMPTY, RingList - MagRingClerk
+    clear_flag FLAG0|BIT7
+RingList:
+    item_list MagicHerb, BrassRing, SilverRing, GoldRing, RingRefuse - MagRingClerk
+    check_flag FLAG0|BIT7, RingBuy - MagRingClerk
+    print $23B
+    clear_flag FLAG0|BIT7
+    end_script
+RingBuy:
+    pay RingLess - MagRingClerk
+    print $23A
+    confirm RingStop - MagRingClerk
+    print $309
+    play SOUND2, $B
+    cash
+    add_item RingExit - MagRingClerk
+    print $3E3
+    confirm RingDontNeed - MagRingClerk
+    jump RingRepeat - MagRingClerk
+RingDontNeed:
+    print $309
+    end_script
+RingStop:
+    get RingExit - MagRingClerk
+RingRefuse:
+    print $30A
+    clear_flag FLAG0|BIT7
+    end_script
+RingLess:
+    print $33A
+RingExit:
+    end_script
+
+
+MagPendantClerk:
+    .import stru_158A20
+
+    entity $240, $8D00, UP, stru_158A20
+
+    check_action TALK, PendantExit - MagPendantClerk
+    print $3E1
+PendantRepeat:
+    set_flag FLAG0|BIT7
+    find_item EMPTY, PendantList - MagPendantClerk
+    clear_flag FLAG0|BIT7
+PendantList:
+    item_list RepelRing, H2oPendant, FirePendant, EarthPendnt, PendantRefuse - MagPendantClerk
+    check_flag FLAG0|BIT7, PendantBuy - MagPendantClerk
+    print $23B
+    clear_flag FLAG0|BIT7
+    end_script
+PendantBuy:
+    pay PendantLess - MagPendantClerk
+    print $23A
+    confirm PendantStop - MagPendantClerk
+    print $309
+    play SOUND2, $B
+    cash
+    add_item PendantExit - MagPendantClerk
+    print $3E3
+    confirm PendantDontNeed - MagPendantClerk
+    jump PendantRepeat - MagPendantClerk
+PendantDontNeed:
+    print $309
+    end_script
+PendantStop:
+    get PendantExit - MagPendantClerk
+PendantRefuse:
+    print $30A
+    clear_flag FLAG0|BIT7
+    end_script
+PendantLess:
+    print $33A
+PendantExit:
+    end_script
+
 
 byte_1295A9:
     .byte $D9, $A, 4, $8D, $D4, $89, $A, $21, 8, $8A, 0, 9
@@ -1325,94 +1487,109 @@ off_129600:
     .word byte_129896, byte_1298A2, 0
 
 byte_12963E:
-    entrance DOOR, $380, $9580, RIGHT, 0, $9F80, $A700, DOWN
+    entrance DOOR, $380, $9580, RIGHT, MUSIC_SAME, $9F80, $A700, DOWN
 
 byte_129646:
-    entrance DOOR, $B80, $9580, RIGHT, 0, $A080, $A700, DOWN
+    entrance DOOR, $B80, $9580, RIGHT, MUSIC_SAME, $A080, $A700, DOWN
 
 byte_12964E:
-    entrance DOOR, $1380, $9580, RIGHT, 0, $A180, $A700, DOWN
+    entrance DOOR, $1380, $9580, RIGHT, MUSIC_SAME, $A180, $A700, DOWN
 
 byte_129656:
-    entrance DOOR, $1B80, $9580, RIGHT, 0, $A380, $A700, DOWN
+    entrance DOOR, $1B80, $9580, RIGHT, MUSIC_SAME, $A380, $A700, DOWN
 
 byte_12965E:
-    entrance DOOR, $380, $9D80, RIGHT, 0, $A480, $A700, DOWN
+    entrance DOOR, $380, $9D80, RIGHT, MUSIC_SAME, $A480, $A700, DOWN
 
 byte_129666:
-    entrance DOOR, $B80, $9D80, RIGHT, 0, $A580, $A700, DOWN
+    entrance DOOR, $B80, $9D80, RIGHT, MUSIC_SAME, $A580, $A700, DOWN
 
 byte_12966E:
-    entrance DOOR, $1380, $9D80, RIGHT, 0, $A380, $A900, DOWN
+    entrance DOOR, $1380, $9D80, RIGHT, MUSIC_SAME, $A380, $A900, DOWN
 
 byte_129676:
-    entrance DOOR, $1B80, $9D80, RIGHT, 0, $9D80, $A900, DOWN
+    entrance DOOR, $1B80, $9D80, RIGHT, MUSIC_SAME, $9D80, $A900, DOWN
 
 byte_12967E:
-    entrance DOOR, $780, $8580, RIGHT, 0, $9C80, $AA00, DOWN
+    entrance DOOR, $780, $8580, RIGHT, MUSIC_SAME, $9C80, $AA00, DOWN
 
 byte_129686:
-    entrance DOOR, $F80, $8580, RIGHT, 0, $9B80, $AB00, DOWN
+    entrance DOOR, $F80, $8580, RIGHT, MUSIC_SAME, $9B80, $AB00, DOWN
 
 byte_12968E:
-    entrance DOOR, $1780, $8580, RIGHT, 0, $9A80, $AC00, DOWN
+    entrance DOOR, $1780, $8580, RIGHT, MUSIC_SAME, $9A80, $AC00, DOWN
 
 byte_129696:
-    entrance DOOR, $1F80, $8580, RIGHT, 0, $9C80, $AC00, DOWN
+    entrance DOOR, $1F80, $8580, RIGHT, MUSIC_SAME, $9C80, $AC00, DOWN
 
 byte_12969E:
-    entrance DOOR, $780, $8D80, RIGHT, 0, $9D80, $AC00, DOWN
+    entrance DOOR, $780, $8D80, RIGHT, MUSIC_SAME, $9D80, $AC00, DOWN
 
 byte_1296A6:
-    entrance DOOR, $F80, $8D80, RIGHT, 0, $9980, $AD00, DOWN
+    entrance DOOR, $F80, $8D80, RIGHT, MUSIC_SAME, $9980, $AD00, DOWN
 
 byte_1296AE:
-    .byte $51, 2, $C4, $95, $A4, $87, $A, $B, 8, $99, 0, 0
+    npc WALK_NPC, $240, $95C0, DOWN, stru_1587A4
+    .byte $A, $B, 8, $99, 0, 0
 
 byte_1296BA:
-    .byte $51, $A, 4, $95, $E0, $88, $A, $14, 8, $7B, 0, 9
+    .import stru_1588E0
+
+    npc WALK_NPC, $A40, $9500, DOWN, stru_1588E0
+    .byte $A, $14, 8, $7B, 0, 9
     .byte $11, 8, $7C, 0, 0, 8, $7D, 0, 0
 
 byte_1296CF:
-    .byte $11, $12, 4, $95, $24, $88, $A, $30, $12, $4E, $F
+    .import stru_158824
+
+    npc WALK_NPC, $1200, $9500, DOWN, stru_158824
+    .byte $A, $30, $12, $4E, $F
     .byte 8, $77, 0, 0, $12, $4F, $21, 8, $74, 0, 9, $1D, 8
     .byte $75, 0, $10, $4E, 0, 8, $76, 0, 0, 8, $71, 0, 9
     .byte $2B, 8, $72, 0, 1, $2E, 8, $73, 0, $10, $50, 0
 
 byte_129700:
-    .byte $51, $1A, $44, $95, $A0, $88, $A, $B, 8, $93, 0
-    .byte 0
+    .import stru_1588A0
+
+    npc WALK_NPC, $1A40, $9540, DOWN, stru_1588A0
+    .byte $A, $B, 8, $93, 0, 0
 
 byte_12970C:
-    .byte $11, 2, $C4, $9D, $E0, $88, $A, $1D, 8, $78, 0, 9
+    npc WALK_NPC, $200, $9DC0, DOWN, stru_1588E0
+    .byte $A, $1D, 8, $78, 0, 9
     .byte $1A, $12, $50, $16, 8, $79, 0, $10, $4F, 0, 8, $2E
     .byte 2, 0, 8, $7A, 0, 0
 
 byte_12972A:
-    .byte $D1, 9, $84, $9D, $A4, $87, $A, $34, $12, $60, $19
+    npc WALK_NPC, $9C0, $9D80, DOWN, stru_1587A4
+    .byte $A, $34, $12, $60, $19
     .byte 8, $97, 2, 9, $15, $55, 8, $74, 2, 0, 8, $92, 0
     .byte 0, 8, $84, 0, 9, $31, 8, $85, 0, 9, $2D, 8, $88
     .byte 0, $55, 8, $75, 2, $10, $60, 0, 8, $89, 0, 0, 8
     .byte $86, 0, 0
 
 byte_12975F:
-    .byte $D1, $12, $C4, $9D, $E0, $88, $A, $2B, $12, $51
+    npc WALK_NPC, $12C0, $9DC0, DOWN, stru_1588E0
+    .byte $A, $2B, $12, $51
     .byte $F, 8, $98, 0, 0, 8, $94, 0, 9, $19, 8, $96, 0, 1
     .byte $1C, 8, $97, 0, $27, 0, $28, $5C, 6, $25, $66, $2D
     .byte $2B, $10, $51, 0, 8, $4A, 2, 0
 
 byte_12978B:
-    .byte $11, $1A, $44, $9D, $24, $88, $A, $B, 8, $81, 0
-    .byte 0
+    npc WALK_NPC, $1A00, $9D40, DOWN, stru_158824
+    .byte $A, $B, 8, $81, 0, 0
 
 byte_129797:
-    .byte $51, 6, $84, $85, $E0, $88, $A, $B, 8, $6F, 0, 0
+    npc WALK_NPC, $640, $8580, DOWN, stru_1588E0
+    .byte $A, $B, 8, $6F, 0, 0
 
 byte_1297A3:
-    .byte $91, 5, $42, $85, $C0, $88, $A, $B, 8, $9B, 0, 0
+    npc WALK_NPC, $580, $8540, RIGHT, stru_1588C0
+    .byte $A, $B, 8, $9B, 0, 0
 
 byte_1297AF:
-    .byte $D0, $16, 4, $85, $24, $88, $A, $69, 8, $9D, 0, $1B
+    npc NPC_1, $16C0, $8500, DOWN, stru_158824
+    .byte $A, $69, 8, $9D, 0, $1B
     .byte $10, 8, $15, 0, 8, $C, 0, $3A, 0, $43, $1A, 7, $1B
     .byte 1, $1F, $57, 8, $45, 3, $3A, 1, $43, $1A, 7, $27
     .byte 1, $2B, $57, 8, $45, 3, $3A, 2, $43, $1A, 7, $33
@@ -1423,28 +1600,31 @@ byte_1297AF:
     .byte 0, 8, $13, 0, 0, 0
 
 byte_129819:
-    .byte $D1, $1D, $44, $85, 4, $88, $A, $B, 8, $80, 0, 0
+    npc WALK_NPC, $1DC0, $8540, DOWN, stru_158804
+    .byte $A, $B, 8, $80, 0, 0
 
 byte_129825:
-    .byte $D1, 5, $82, $8D, $C0, $88, $A, $D, 8, $A1, 0, $10
-    .byte $53, 0
+    npc WALK_NPC, $5C0, $8D80, RIGHT, stru_1588C0
+    .byte $A, $D, 8, $A1, 0, $10, $53, 0
 
 byte_129833:
-    .byte $91, $E, $84, $8D, $E0, $88, $A, $62, $12, $54, $F
+    npc WALK_NPC, $E80, $8D80, DOWN, stru_1588E0
+    .byte $A, $62, $12, $54, $F
     .byte 8, $DF, 0, 0, $12, $55, $25, 8, $67, 2, $27, 0, $21
     .byte $5C, 6, $25, 1, $2D, $62, $10, $54, 0, 8, $66, 2
     .byte 0, $12, $56, $3F, 8, $A7, 0, $27, 0, $3B, $5C, 6
     .byte $25, $6E, $2D, $62, $10, $55, 8, $68, 2, 1, $15
     .byte 8, $EB, 0, 0, 8, $A2, 0, 9, $5E, 8, $A3, 0, 9, $5A
     .byte $27, $6E, $56, 8, $A5, 0, $25, $6E, $2E, $62, $10
-    .byte $56, 0, 8, $D9, 3, 0, 8, $A6, 0, 0, 8, $A4, 0, 0
-    .byte 0
+    .byte $56, 0, 8, $D9, 3, 0, 8, $A6, 0, 0, 8, $A4, 0, 0, 0
 
 byte_129896:
-    .byte $D1, 1, $84, $95, $24, $88, $A, $B, 8, $9A, 0, 0
+    npc WALK_NPC, $1C0, $9580, DOWN, stru_158824
+    .byte $A, $B, 8, $9A, 0, 0
 
 byte_1298A2:
-    .byte $50, $E, $44, $85, 4, $88, $A, $65, 8, $9C, 0, 9
+    npc NPC_1, $E40, $8540, DOWN, stru_158804
+    .byte $A, $65, 8, $9C, 0, 9
     .byte $62, $37, $22, 3, $28, $56, $38, $5A, $20, $56, $26
     .byte 3, $1B, 1, $52, $2F, $4E, $5C, 6, $2E, $65, 8, $C7
     .byte 3, 9, $56, 1, $12, $39, $5E, $21, $56, $19, 1, $3A
@@ -1467,64 +1647,67 @@ off_129908:
     .word byte_129B2C, byte_129B34, 0
 
 byte_129956:
-    entrance DOOR, $940, $8940, RIGHT, 9, $AD00, $9AC0, DOWN
+    entrance DOOR, $940, $8940, RIGHT, MUSIC_9, $AD00, $9AC0, DOWN
 
 byte_12995E:
-    entrance DOOR, $540, $88C0, UP, 0, $1F00, $9140, LEFT
+    entrance DOOR, $540, $88C0, UP, MUSIC_SAME, $1F00, $9140, LEFT
 
 byte_129966:
-    entrance DOOR, $1F40, $9140, RIGHT, 0, $540, $8900, DOWN
+    entrance DOOR, $1F40, $9140, RIGHT, MUSIC_SAME, $540, $8900, DOWN
 
 byte_12996E:
-    entrance DOOR, $1DC0, $90C0, UP, 0, $1700, $9140, LEFT
+    entrance DOOR, $1DC0, $90C0, UP, MUSIC_SAME, $1700, $9140, LEFT
 
 byte_129976:
-    entrance DOOR, $1740, $9140, RIGHT, 0, $1DC0, $9100, DOWN
+    entrance DOOR, $1740, $9140, RIGHT, MUSIC_SAME, $1DC0, $9100, DOWN
 
 byte_12997E:
-    entrance DOOR, $240, $88C0, UP, 0, $500, $9140, LEFT
+    entrance DOOR, $240, $88C0, UP, MUSIC_SAME, $500, $9140, LEFT
 
 byte_129986:
-    entrance DOOR, $540, $9140, RIGHT, 0, $240, $8900, DOWN
+    entrance DOOR, $540, $9140, RIGHT, MUSIC_SAME, $240, $8900, DOWN
 
 byte_12998E:
-    entrance DOOR, $340, $90C0, UP, 0, $1500, $8940, LEFT
+    entrance DOOR, $340, $90C0, UP, MUSIC_SAME, $1500, $8940, LEFT
 
 byte_129996:
-    entrance DOOR, $1540, $8940, RIGHT, 0, $340, $9100, DOWN
+    entrance DOOR, $1540, $8940, RIGHT, MUSIC_SAME, $340, $9100, DOWN
 
 byte_12999E:
-    entrance DOOR, $240, $90C0, UP, 0, $1F00, $8940, LEFT
+    entrance DOOR, $240, $90C0, UP, MUSIC_SAME, $1F00, $8940, LEFT
 
 byte_1299A6:
-    entrance DOOR, $1F40, $8940, RIGHT, 0, $240, $9100, DOWN
+    entrance DOOR, $1F40, $8940, RIGHT, MUSIC_SAME, $240, $9100, DOWN
 
 byte_1299AE:
-    entrance DOOR, $1D40, $88C0, UP, 0, $1300, $9940, LEFT
+    entrance DOOR, $1D40, $88C0, UP, MUSIC_SAME, $1300, $9940, LEFT
 
 byte_1299B6:
-    entrance DOOR, $1340, $9940, RIGHT, 0, $1D40, $8900, DOWN
+    entrance DOOR, $1340, $9940, RIGHT, MUSIC_SAME, $1D40, $8900, DOWN
 
 byte_1299BE:
-    entrance DOOR, $1C40, $88C0, UP, 0, $300, $9940, LEFT
+    entrance DOOR, $1C40, $88C0, UP, MUSIC_SAME, $300, $9940, LEFT
 
 byte_1299C6:
-    entrance DOOR, $340, $9940, RIGHT, 0, $1C40, $8900, DOWN
+    entrance DOOR, $340, $9940, RIGHT, MUSIC_SAME, $1C40, $8900, DOWN
 
 byte_1299CE:
-    entrance DOOR, $1B40, $88C0, UP, 0, $F00, $9140, LEFT
+    entrance DOOR, $1B40, $88C0, UP, MUSIC_SAME, $F00, $9140, LEFT
 
 byte_1299D6:
-    entrance DOOR, $F40, $9140, RIGHT, 0, $1B40, $8900, DOWN
+    entrance DOOR, $F40, $9140, RIGHT, MUSIC_SAME, $1B40, $8900, DOWN
 
 byte_1299DE:
-    entrance DOOR, $1C0, $98C0, UP, 0, $B00, $9940, LEFT
+    entrance DOOR, $1C0, $98C0, UP, MUSIC_SAME, $B00, $9940, LEFT
 
 byte_1299E6:
-    entrance DOOR, $B40, $9940, RIGHT, 0, $1C0, $9900, DOWN
+    entrance DOOR, $B40, $9940, RIGHT, MUSIC_SAME, $1C0, $9900, DOWN
 
 byte_1299EE:
-    .byte $90, $E, $42, $89, $20, $89, $A, $6A, $65, $67, 8
+    .import stru_158920
+
+    npc NPC_1, $E80, $8940, RIGHT, stru_158920
+    .byte $A, $6A, $65, $67, 8
     .byte $CB, 0, $19, 1, $53, 0, $61, $FF, $60, $11, $3A
     .byte 1, $27, $53, 0, $61, $FF, $60, $1A, $3A, 2, $27
     .byte $53, 0, $61, $FF, $60, $23, $5A, 1, 4, $FA, 4, $FA
@@ -1536,7 +1719,10 @@ byte_1299EE:
     .byte 5, $16, 5, 3
 
 byte_129A5E:
-    .byte $90, $FD, 0, $7E, $A4, $89, $35, $24, $43, 7, $B
+    .import stru_1589A4
+
+    npc NPC_1, $FD80, $7E00, UP, stru_1589A4
+    .byte $35, $24, $43, 7, $B
     .byte $3E, $83, $9A, 4, $50, 8, $DF, 3, $5A, 9, 4, $96
     .byte $10, $E0, $3D, $4B, $E2, $C0, $94, $3C, 6, $4E, $17
     .byte $1B, $7B, 0, $F0, 1, $F2, 1, $F0, 1, $F2, 1, $F4
@@ -1544,19 +1730,25 @@ byte_129A5E:
     .byte 0
 
 byte_129A9A:
-    .byte $51, $1D, $42, $91, $64, $89, $A, $B, 8, $BD, 0
-    .byte 0
+    .import stru_158964
+
+    npc WALK_NPC, $1D40, $9140, RIGHT, stru_158964
+    .byte $A, $B, 8, $BD, 0, 0
 
 byte_129AA6:
-    .byte $50, $E, $C2, $89, $FC, $89, $A, $15, $27, $6B, $F
+    .import stru_1589FC
+
+    npc NPC_1, $E40, $89C0, RIGHT, stru_1589FC
+    .byte $A, $15, $27, $6B, $F
     .byte 8, $C3, 0, 0, 8, $C2, 0, 8, $C3, 0, 0
 
 byte_129ABC:
-    .byte $11, $1E, $82, $91, $64, $89, $A, $B, 8, $AD, 0
-    .byte 0
+    npc WALK_NPC, $1E00, $9180, RIGHT, stru_158964
+    .byte $A, $B, 8, $AD, 0, 0
 
 byte_129AC8:
-    .byte $50, $14, 4, $89, $FC, $89, $A, $B, 8, $A8, 0, 0
+    npc NPC_1, $1440, $8900, DOWN, stru_1589FC
+    .byte $A, $B, 8, $A8, 0, 0
 
 byte_129AD4:
     .byte $A0, 9, 0, $99, $88, $81, $70, $27
@@ -1624,79 +1816,79 @@ byte_129B86:
     .byte $80, $4E, 0, $3D, $B1, $FD, $C4, $74, $4E, 0
 
 byte_129C09:
-    entrance DOOR, $7240, $8E80, UP, 9, $B240, $A5C0, DOWN
+    entrance DOOR, $7240, $8E80, UP, MUSIC_9, $B240, $A5C0, DOWN
 
 byte_129C11:
-    entrance HOLE, $7140, $8F80, UP, 0, $7C40, $8F00, DOWN
+    entrance HOLE, $7140, $8F80, UP, MUSIC_SAME, $7C40, $8F00, DOWN
 
 byte_129C19:
-    entrance DOOR, $7C40, $8E80, UP, 0, $7140, $8F80, DOWN
+    entrance DOOR, $7C40, $8E80, UP, MUSIC_SAME, $7140, $8F80, DOWN
 
 byte_129C21:
-    entrance HOLE, $7340, $8F80, UP, 0, $8640, $8F00, DOWN
+    entrance HOLE, $7340, $8F80, UP, MUSIC_SAME, $8640, $8F00, DOWN
 
 byte_129C29:
-    entrance DOOR, $8640, $8E80, UP, 0, $7340, $8F80, DOWN
+    entrance DOOR, $8640, $8E80, UP, MUSIC_SAME, $7340, $8F80, DOWN
 
 byte_129C31:
-    entrance HOLE, $7B40, $8F80, UP, 0, $7240, $9600, DOWN
+    entrance HOLE, $7B40, $8F80, UP, MUSIC_SAME, $7240, $9600, DOWN
 
 byte_129C39:
-    entrance DOOR, $7240, $9580, UP, 0, $7B40, $8F80, DOWN
+    entrance DOOR, $7240, $9580, UP, MUSIC_SAME, $7B40, $8F80, DOWN
 
 byte_129C41:
-    entrance HOLE, $7D40, $8F80, UP, 0, $7C40, $9600, DOWN
+    entrance HOLE, $7D40, $8F80, UP, MUSIC_SAME, $7C40, $9600, DOWN
 
 byte_129C49:
-    entrance DOOR, $7C40, $9580, UP, 0, $7D40, $8F80, DOWN
+    entrance DOOR, $7C40, $9580, UP, MUSIC_SAME, $7D40, $8F80, DOWN
 
 byte_129C51:
-    entrance HOLE, $8540, $8F80, UP, 0, $8640, $9600, DOWN
+    entrance HOLE, $8540, $8F80, UP, MUSIC_SAME, $8640, $9600, DOWN
 
 byte_129C59:
-    entrance DOOR, $8640, $9580, UP, 0, $8540, $8F80, DOWN
+    entrance DOOR, $8640, $9580, UP, MUSIC_SAME, $8540, $8F80, DOWN
 
 byte_129C61:
-    entrance HOLE, $8740, $8F80, UP, 0, $7240, $9D00, DOWN
+    entrance HOLE, $8740, $8F80, UP, MUSIC_SAME, $7240, $9D00, DOWN
 
 byte_129C69:
-    entrance DOOR, $7240, $9C80, UP, 0, $8740, $8F80, DOWN
+    entrance DOOR, $7240, $9C80, UP, MUSIC_SAME, $8740, $8F80, DOWN
 
 byte_129C71:
-    entrance HOLE, $8540, $9680, UP, 0, $7C40, $9D00, DOWN
+    entrance HOLE, $8540, $9680, UP, MUSIC_SAME, $7C40, $9D00, DOWN
 
 byte_129C79:
-    entrance DOOR, $7C40, $9C80, UP, 0, $8540, $9680, DOWN
+    entrance DOOR, $7C40, $9C80, UP, MUSIC_SAME, $8540, $9680, DOWN
 
 byte_129C81:
-    entrance HOLE, $8740, $9680, UP, 0, $8640, $9D00, DOWN
+    entrance HOLE, $8740, $9680, UP, MUSIC_SAME, $8640, $9D00, DOWN
 
 byte_129C89:
-    entrance DOOR, $8640, $9C80, UP, 0, $8740, $9680, DOWN
+    entrance DOOR, $8640, $9C80, UP, MUSIC_SAME, $8740, $9680, DOWN
 
 byte_129C91:
-    entrance HOLE, $7140, $9D80, UP, 0, $7240, $A400, DOWN
+    entrance HOLE, $7140, $9D80, UP, MUSIC_SAME, $7240, $A400, DOWN
 
 byte_129C99:
-    entrance DOOR, $7240, $A380, UP, 0, $7140, $9D80, DOWN
+    entrance DOOR, $7240, $A380, UP, MUSIC_SAME, $7140, $9D80, DOWN
 
 byte_129CA1:
-    entrance HOLE, $7340, $9D80, UP, 0, $7C40, $A400, DOWN
+    entrance HOLE, $7340, $9D80, UP, MUSIC_SAME, $7C40, $A400, DOWN
 
 byte_129CA9:
-    entrance DOOR, $7C40, $A380, UP, 0, $7340, $9D80, DOWN
+    entrance DOOR, $7C40, $A380, UP, MUSIC_SAME, $7340, $9D80, DOWN
 
 byte_129CB1:
-    entrance HOLE, $7B40, $9D80, UP, 0, $8640, $A400, DOWN
+    entrance HOLE, $7B40, $9D80, UP, MUSIC_SAME, $8640, $A400, DOWN
 
 byte_129CB9:
-    entrance DOOR, $8640, $A380, UP, 0, $7B40, $9D80, DOWN
+    entrance DOOR, $8640, $A380, UP, MUSIC_SAME, $7B40, $9D80, DOWN
 
 byte_129CC1:
-    entrance HOLE, $7D40, $9D80, UP, 0, $8240, $6A00, DOWN
+    entrance HOLE, $7D40, $9D80, UP, MUSIC_SAME, $8240, $6A00, DOWN
 
 byte_129CC9:
-    entrance DOOR, $8240, $6980, UP, 0, $7D40, $9D80, DOWN
+    entrance DOOR, $8240, $6980, UP, MUSIC_SAME, $7D40, $9D80, DOWN
 
 byte_129CD1:
     .byte $5B, $8B, $40, $6F, $35, $1B, $12, $75, $F, $3D
@@ -1704,7 +1896,7 @@ byte_129CD1:
     .byte $7F, 4, $86, $3E, $ED, $9C, 0, $50, 1, 0
 
 byte_129CF0:
-    entrance DOOR, $7F40, $8580, UP, 0, $8B40, $6F40, DOWN
+    entrance DOOR, $7F40, $8580, UP, MUSIC_SAME, $8B40, $6F40, DOWN
 
 byte_129CF8:
     .byte $5D, $85, $C4, $69, $40, $89, 5, $29, $A, $43, $14
@@ -1776,10 +1968,14 @@ byte_129E7D:
     .byte $F2
 
 byte_129EA0:
-    .byte $12, $A8, 0, $F, $A7, $46, $FA
+    npc STAT_NPC, $A800, $F00, UP, $46A7
+    .byte $FA
 
 byte_129EA7:
-    .byte $12, $CB, 1, $80, 2, $82, $82, $12, $6C, 1, 0, $D0
+    .import stru_158200
+
+    npc STAT_NPC, $CB00, $8001, UP, stru_158200+2
+    .byte $82, $12, $6C, 1, 0, $D0
     .byte $45, $F2, $15, 8, $14, 1, $13, $D, $12, $16, 0, $A
     .byte $B7, $46, $F2
 
@@ -1793,7 +1989,8 @@ byte_129EE5:
     .byte $16, $A8, 0, $F, $9B, $46, $F2
 
 byte_129EEC:
-    .byte $12, $23, 1, $80, 2, $82, $82, $12, $6C, 1, 0, $D0
+    npc STAT_NPC, $2300, $8001, UP, stru_158200+2
+    .byte $82, $12, $6C, 1, 0, $D0
     .byte $45, $F2, $15, 8, $14, 1, $13, $D, $12, $16, 0, $A
     .byte $B7, $46, $F2
 
