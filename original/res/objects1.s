@@ -15,23 +15,23 @@ off_108034:
     .word 0, 0
 
 off_108038:
-    .word byte_10807C, byte_108084, byte_10808C, byte_108094
-    .word byte_10809A, Dog, byte_1080D0, byte_1080ED
-    .word byte_108158, byte_108184, byte_108190, byte_1081C3
-    .word byte_1081DD, byte_1081E8, byte_1081F3, byte_1081FE
-    .word byte_108209, byte_108214, byte_10821F, byte_10822A
-    .word byte_10825C, byte_108265, byte_108270, byte_10827C
-    .word byte_108288, byte_108290, byte_1082BF, byte_1082E8
-    .word byte_108357, byte_10837F, byte_10838D, byte_1083E2
+    .word HomeIn, CemeteryChurchIn, FabIn, byte_108094
+    .word byte_10809A, Dog, PippisMom, PippiAtHome
+    .word CanaryNPC, byte_108184, CanaryLaura, Canary1
+    .word Canary2, Canary3, Canary4, Canary5
+    .word Canary6, Canary7, Canary8, FabDog
+    .word CemeteryIn, CemeteryOut, CanaryDirectionsSign, SignHome
+    .word ItoiHealerOut, ItoiHealerRoomIn2, ItoiHealerRoomIn1, ItoiHealer
+    .word Seclusion, byte_10837F, byte_10838D, byte_1083E2
     .word byte_1083EA, 0
 
-byte_10807C:
+HomeIn:
     entrance DOOR, $2C40, $4EC0, UP, MUSIC_12, $B40, $2180, LEFT
 
-byte_108084:
+CemeteryChurchIn:
     entrance DOOR, $2D40, $8DC0, UP, MUSIC_12, $D340, $2580, LEFT
 
-byte_10808C:
+FabIn:
     entrance DOOR, $4D80, $3EC0, UP, MUSIC_c, $3A40, $F200, DOWN
 
 byte_108094:
@@ -41,12 +41,12 @@ byte_10809A:
     .byte $69, $2C, $80, $4E, $E8, 0
 
 Dog:
-    .import AnimDog
+    .import DogAnim
 
-    npc WALK_NPC, $2B00, $4F00, DOWN, AnimDog
+    npc WALK_NPC, $2B00, $4F00, DOWN, DogAnim
 
     check_action TALK, DogAction - Dog
-    check_flag FLAG6|BIT4, DogCheck - Dog
+    check_flag FLAG06|BIT4, DogCheck - Dog
     print $35C
     end_script
 DogCheck:
@@ -54,144 +54,389 @@ DogCheck:
     end_script
 DogAction:
     check_action CHECK, DogExit - Dog
-    check_flag FLAG6|BIT4, DogKey - Dog
+    check_flag FLAG06|BIT4, DogKey - Dog
     jump DogExit - Dog
 DogKey:
     print $3CF
     find_item EMPTY, DogFull - Dog
-    select_item $55
+    select_item BasementKey
     add_item DogExit - Dog
     print $39B
     play SOUND2, 6
-    set_flag FLAG6|BIT4
+    set_flag FLAG06|BIT4
     end_script
 DogFull:
     print $39D
 DogExit:
     end_script
 
-byte_1080D0:
-    .byte $93, $36, 4, $54, $A8, $85, $A, $1C, $12, $B, $F
-    .byte 8, $23, 0, 0, $33, 5, $19, $52, $80, $19, 8, $4A
-    .byte 3, 0, 8, $28, 2, 0
+PippisMom:
+    npc STAT_NPC1, $3680, $5400, DOWN, stru_1585A8
 
-byte_1080ED:
-    .byte $14, $36, 4, $54, $80, $80, 6, $2D, $A, $6A, $19
-    .byte 5, $31, 0, $35, $33, 1, $31, $52, $80, $31, 8, $BB
-    .byte 3, $19, 5, $31, 0, $29, $19, 1, $2D, $2D, $5C, 6
-    .byte $19, 5, $2E, $2D, 1, $18, 8, $BC, 3, 0, 8, $42, 2
-    .byte 0, 8, $14, 2, 0, $33, 1, $67, $52, $80, $67, 8, $C4
-    .byte 2, 9, $44, 8, $66, 0, 0, 8, $67, 0, 9, $63, $12
-    .byte $62, $50, 8, $56, 0, 0, 8, $68, 0, $27, 0, $5F, $5C
-    .byte 6, $25, $68, $2D, $5F, $10, $62, 0, 8, $49, 2, 0
-    .byte 8, $69, 0, 0, 8, $59, 2, 0
+    check_action TALK, PippisMomExit - PippisMom
+    check_flag FLAG01|BIT4, MomLooksFor - PippisMom
+    print $23
+    end_script
+MomLooksFor:
+    check_char 5, PippiNotFound - PippisMom
+    check_status $80, PippiNotFound - PippisMom
+    print $34A
+    end_script
+PippiNotFound:
+    print $228
+PippisMomExit:
+    end_script
 
-byte_108158:
-    .import stru_15860C
+PippiAtHome:
+    .import stru_158080
 
-    npc NPC_1, $1700, $4E80, DOWN, stru_15860C
-    .byte $A, $2B, $27, $5F, $18
-    .byte 8, $5F, 0, 9, $14, 8, $61, 0, 0, 8, $60, 0, 0, $12
-    .byte $C, $28, 8, $62, 0, 9, $24, 8, $64, 0, 0, 8, $63
-    .byte 0, 0, 8, $5E, 0, 0
+    npc STAT_NPC2, $3600, $5400, DOWN, stru_158080
+
+    show FLAG05|BIT2
+    check_action TALK, PippiAtHomeExit - PippiAtHome
+    get_char_name 5
+    select_char_item EMPTY, AreYouBrave - PippiAtHome
+    check_char 1, CantGive - PippiAtHome
+    check_status $80, CantGive - PippiAtHome
+    print $3BB
+NextItem:
+    get_char_name 5
+    select_char_item EMPTY, IllGive - PippiAtHome
+    get_char_name 1
+    add_item CantCarry - PippiAtHome
+    play SOUND2, 6
+    get_char_name 5
+    remove_item CantCarry - PippiAtHome
+    jump NextItem - PippiAtHome
+IllGive:
+    print $3BC
+    end_script
+CantCarry:
+    print $242
+    end_script
+CantGive:
+    print $214
+    end_script
+AreYouBrave:
+    check_char 1, GoodLuck - PippiAtHome
+    check_status $80, GoodLuck - PippiAtHome
+    print $2C4
+    confirm Brave - PippiAtHome
+    print $66
+    end_script
+Brave:
+    print $67
+    confirm Special - PippiAtHome
+    check_flag FLAG0C|BIT5, Gift - PippiAtHome
+    print $56
+    end_script
+Gift:
+    print $68
+    find_item EMPTY, CantCarryAll - PippiAtHome
+    play SOUND2, 6
+    select_item FranklnBdge
+    add_item CantCarryAll - PippiAtHome
+    set_flag FLAG0C|BIT5
+    end_script
+CantCarryAll:
+    print $249
+    end_script
+Special:
+    print $69
+    end_script
+GoodLuck:
+    print $259
+PippiAtHomeExit:
+    end_script
+
+CanaryNPC:
+    .import OldManAnim
+
+    npc NPC_1, $1700, $4E80, DOWN, OldManAnim
+
+    check_action TALK, CanaryNPCExit - CanaryNPC
+    find_item CanaryChick, Chick - CanaryNPC
+    print $5F
+    confirm Important - CanaryNPC
+    print $61
+    end_script
+Important:
+    print $60
+    end_script
+Chick:
+    check_flag FLAG01|BIT3, Return - CanaryNPC
+    print $62
+    confirm NoGood - CanaryNPC
+    print $64
+    end_script
+NoGood:
+    print $63
+    end_script
+Return:
+    print $5E
+CanaryNPCExit:
+    end_script
 
 byte_108184:
     .byte $A3, $1B, 0, $4C, $E8, $85, $B, $B, 8, $2D, 3, 0
 
-byte_108190:
-    .import stru_158588
+CanaryLaura:
+    .import CanaryAnim
 
-    npc STAT_NPC, $1B40, $4B00, DOWN, stru_158588
-    .byte $A, $14, $12, $C, $10
-    .byte 8, $41, 3, 1, $21, 8, $6C, 2, 0, $D, $5F, $32, $27
-    .byte $5F, $B, $25, $5F, $2E, $32, 8, $3F, 3, $5C, 8, 4
-    .byte $B4, $5A, $25, 4, $F0, $5A, 6, $10, $F6, $10, $C
-    .byte 8, $40, 3, 0
+    npc STAT_NPC, $1B40, $4B00, DOWN, CanaryAnim
 
-byte_1081C3:
-    npc STAT_NPC, $1700, $4CC0, RIGHT, stru_158588
-    .byte 2, $C3, $81, $B, 0
-    .byte $A, $19, $12, $C, $16, 8, $41, 3, $5C, 8, 3, 8, $CA
-    .byte 0, 3
+    check_action TALK, UseItem - CanaryLaura
+    check_flag FLAG01|BIT3, Introduce - CanaryLaura
+FoundBaby:
+    print $341
+    jump CanarySing - CanaryLaura
+Introduce:
+    print $26C
+    end_script
+UseItem:
+    use_item CanaryChick, CanaryLauraExit - CanaryLaura
+    find_item CanaryChick, FoundBaby - CanaryLaura
+    select_item CanaryChick
+    remove_item CanaryLauraExit - CanaryLaura
+    print $33F
+CanarySing:
+    play SOUND2, 8
+    wait 180
+    play MUSIC, $25
+    wait 240
+    play MUSIC, 6
+    set_flag TUNES|BIT1
+    set_flag FLAG01|BIT3
+    print $340
+CanaryLauraExit:
+    end_script
 
-byte_1081DD:
-    npc STAT_NPC, $18C0, $4F00, DOWN, stru_158588
-    .byte 2, $C3, $81, $B, 0
+Canary1:
+    npc STAT_NPC, $1700, $4CC0, RIGHT, CanaryAnim
 
-byte_1081E8:
-    npc STAT_NPC, $1A40, $4E00, LEFT, stru_158588
-    .byte 2, $C3, $81, $B, 0
+    call Canary1, CanaryCall - Canary1
+    end_script
+CanaryCall:
+    check_action TALK, CanaryExit - Canary1
+    check_flag FLAG01|BIT3, CanaryPause - Canary1
+    print $341
+    play SOUND2, 8
+    return
+CanaryPause:
+    print $CA
+CanaryExit:
+    return
 
-byte_1081F3:
-    npc STAT_NPC, $1AC0, $4F00, DOWN, stru_158588
-    .byte 2, $C3, $81, $B, 0
+Canary2:
+    npc STAT_NPC, $18C0, $4F00, DOWN, CanaryAnim
 
-byte_1081FE:
-    npc STAT_NPC, $1CC0, $4E40, RIGHT, stru_158588
-    .byte 2, $C3, $81, $B, 0
+    call Canary1, CanaryCall - Canary1
+    end_script
 
-byte_108209:
-    npc STAT_NPC, $1F80, $4C80, LEFT, stru_158588
-    .byte 2, $C3, $81, $B, 0
+Canary3:
+    npc STAT_NPC, $1A40, $4E00, LEFT, CanaryAnim
 
-byte_108214:
-    npc STAT_NPC, $1C00, $5280, DOWN, stru_158588
-    .byte 2, $C3, $81, $B, 0
+    call Canary1, CanaryCall - Canary1
+    end_script
 
-byte_10821F:
-    npc STAT_NPC, $1780, $5280, RIGHT, stru_158588
-    .byte 2, $C3, $81, $B, 0
+Canary4:
+    npc STAT_NPC, $1AC0, $4F00, DOWN, CanaryAnim
 
-byte_10822A:
-    .byte $94, $4D, 4, $3F, $EC, $85, 5, $7E, $A, $E, 8, $F8
-    .byte 0, 0, $D, $59, $23, 8, $F9, 0, $27, $59, $23, $2E
-    .byte $23, $3E, $4E, $82, $44, 7, $10, $7E, $3E, $5B, $82
-    .byte 0, $7E, 2, $F6, 1, $7A, 4, $F0, 1, $7E, 2, $F4, 1
-    .byte 3, 0
+    call Canary1, CanaryCall - Canary1
+    end_script
 
-byte_10825C:
-    .byte $5B, $2F, 0, $8C, $35, 8, $5A, $D, 0
+Canary5:
+    npc STAT_NPC, $1CC0, $4E40, RIGHT, CanaryAnim
 
-byte_108265:
-    .byte $5B, $2F, $C0, $8B, $35, $A, $36, $A, $5A, 6, 0
+    call Canary1, CanaryCall - Canary1
+    end_script
 
-byte_108270:
-    .byte $19, $21, $80, $51, $94, $81, $B, $B, 8, $A3, 3
+Canary6:
+    npc STAT_NPC, $1F80, $4C80, LEFT, CanaryAnim
+
+    call Canary1, CanaryCall - Canary1
+    end_script
+
+Canary7:
+    npc STAT_NPC, $1C00, $5280, DOWN, CanaryAnim
+
+    call Canary1, CanaryCall - Canary1
+    end_script
+
+Canary8:
+    npc STAT_NPC, $1780, $5280, RIGHT, CanaryAnim
+
+    call Canary1, CanaryCall - Canary1
+    end_script
+
+FabDog:
+    npc STAT_NPC2, $4D80, $3F00, DOWN, DogAnim
+
+    hide FLAG0F|BIT1
+    check_action TALK, UsePass - FabDog
+    print $F8
+    end_script
+UsePass:
+    use_item Pass, FabDogExit - FabDog
+    print $F9
+    find_item Pass, FabDogExit - FabDog
+    remove_item FabDogExit - FabDog
+    move byte_10824E
+    enemies 7
+    set_flag FLAG0F|BIT1
+    move byte_10825B
+FabDogExit:
+    end_script
+byte_10824E:
+    .byte $7E, 2, $F6, 1, $7A, 4, $F0, 1, $7E, 2, $F4, 1, 3
+byte_10825B:
     .byte 0
 
-byte_10827C:
-    .byte $19, $2D, 0, $50, $94, $81, $B, $B, 8, $AE, 3, 0
+CemeteryIn:
+    change_location $2F40, $8C00, UP
 
-byte_108288:
+    approach CemeteryInExit - CemeteryIn
+    play MUSIC, $D
+CemeteryInExit:
+    end_script
+
+CemeteryOut:
+    change_location $2F40, $8BC0, UP
+
+    approach CemeteryOutExit - CemeteryOut
+    check_view CemeteryOutExit - CemeteryOut
+    play MUSIC, 6
+CemeteryOutExit:
+    end_script
+
+CanaryDirectionsSign:
+    .import SignAnim
+
+    entity $2100, $5180, UP, SignAnim
+
+    check_action CHECK, CanarySignExit - CanaryDirectionsSign
+    print $3A3
+CanarySignExit:
+    end_script
+
+SignHome:
+    entity $2D00, $5000, UP, SignAnim
+    check_action CHECK, SignHomeExit - SignHome
+    print $3AE
+SignHomeExit:
+    end_script
+
+ItoiHealerOut:
     entrance DOOR, $380, $4980, RIGHT, MUSIC_b, $EF40, $D100, DOWN
 
-byte_108290:
-    .byte $58, 0, $86, $49, $36, $2E, $35, $2E, $12, $C8, $1A
-    .byte $3D, $52, $DF, $86, $21, 0, $12, $7D, $B, $3D, $12
-    .byte $DF, $86, $21, 0, $19, 1, $52, $FF, $11, $19, 2
-    .byte $52, $FF, $11, $19, 4, $52, $FF, $11, $43, 4, $11
-    .byte $3F, $1C, 0
+ItoiHealerRoomIn2:
+    unknown_18 $40, $4980, LEFT
 
-byte_1082BF:
-    .byte $9B, 0, $86, $49, $35, $28, $11, $7C, $36, $C, $10
-    .byte $7C, $3A, 0, $28, $52, $FF, $26, $50, $26, $3A, 1
-    .byte $28, $52, $FF, $26, $50, $26, $3A, 2, $28, $52, $FF
-    .byte $26, $50, $26, 1, $28, $3F, $1B, 0
+    check_view ItoiHealerRoomIn2Exit - ItoiHealerRoomIn2
+    approach ItoiHealerRoomIn2Exit - ItoiHealerRoomIn2
+    check_flag FLAG19|BIT7, ItoiCheckStatus - ItoiHealerRoomIn2
+ItoiTel1:
+    teleport $DF52, $2186
+    end_script
+ItoiTel2:
+    check_flag FLAG0F|BIT2, ItoiTel1 - ItoiHealerRoomIn2
+    teleport $DF12, $2186
+    end_script
+ItoiCheckStatus:
+    get_char_name 1
+    check_status $FF, ItoiTel2 - ItoiHealerRoomIn2
+    get_char_name 2
+    check_status $FF, ItoiTel2 - ItoiHealerRoomIn2
+    get_char_name 4
+    check_status $FF, ItoiTel2 - ItoiHealerRoomIn2
+    remove_char 4, ItoiTel2 - ItoiHealerRoomIn2
+    another $1C
+ItoiHealerRoomIn2Exit:
+    end_script
 
-byte_1082E8:
-    npc NPC_1, $140, $4900, DOWN, stru_15860C
-    .byte $40, $18, $12, $7C, $10
-    .byte $3E, $3B, $83, 1, $13, $3E, $49, $83, 8, $B0, 0
-    .byte 1, $1D, $A, $52, 8, $B1, 0, $19, 1, $53, 0, $51
-    .byte $FF, $50, $21, $61, $FF, $60, $25, $3A, 1, $43, $53
-    .byte 0, $51, $FF, $50, $2E, $61, $FF, $60, $32, $3A, 2
-    .byte $43, $53, 0, $51, $FF, $50, $3B, $61, $FF, $60, $3F
-    .byte $5C, 7, $40, $52, $12, $7C, $4F, $3E, $42, $83, 1
-    .byte $52, $3E, $50, $83, 0, $74, 3, $76, 3, $F0, 1, 3
-    .byte $72, 3, $70, 3, $F4, 1, 0, $74, 2, $76, 2, $F6, 1
-    .byte 3, $72, 2, $70, 2, $F4, 1, 0
+ItoiHealerRoomIn1:
+    change_location $80, $4980, LEFT
 
-byte_108357:
+    approach ItoiHealerRoomIn1Exit - ItoiHealerRoomIn1
+    clear_flag FLAG0F|BIT3
+    check_view ItoiHeal - ItoiHealerRoomIn1
+    set_flag FLAG0F|BIT3
+ItoiHeal:
+    sel_char 0, ItoiHealerRoomIn1Exit - ItoiHealerRoomIn1
+    check_status $FF, ItoiAnother - ItoiHealerRoomIn1
+    max_hp ItoiAnother - ItoiHealerRoomIn1
+    sel_char 1, ItoiHealerRoomIn1Exit - ItoiHealerRoomIn1
+    check_status $FF, ItoiAnother - ItoiHealerRoomIn1
+    max_hp ItoiAnother - ItoiHealerRoomIn1
+    sel_char 2, ItoiHealerRoomIn1Exit - ItoiHealerRoomIn1
+    check_status $FF, ItoiAnother - ItoiHealerRoomIn1
+    max_hp ItoiAnother - ItoiHealerRoomIn1
+    jump ItoiHealerRoomIn1Exit - ItoiHealerRoomIn1
+ItoiAnother:
+    another $1B
+ItoiHealerRoomIn1Exit:
+    end_script
+
+ItoiHealer:
+    npc NPC_1, $140, $4900, DOWN, OldManAnim
+
+    check_keypress ItoiTalk - ItoiHealer
+    check_flag FLAG0F|BIT3, MoveIgnore - ItoiHealer
+    move byte_10833B
+    jump Ignore - ItoiHealer
+MoveIgnore:
+    move byte_108349
+Ignore:
+    print $B0
+    jump CharsRecovery - ItoiHealer
+ItoiTalk:
+    check_action TALK, $52
+    print $B1
+CharsRecovery:
+    get_char_name 1
+    clear_status 0
+ItoiHeal1:
+    heal $FF
+    max_hp ItoiHeal1 - ItoiHealer
+ItoiRecPP1:
+    rec_pp $FF
+    max_pp ItoiRecPP1 - ItoiHealer
+    sel_char 1, ItoiSound - ItoiHealer
+    clear_status 0
+ItoiHeal2:
+    heal $FF
+    max_hp ItoiHeal2 - ItoiHealer
+ItoiRecPP2:
+    rec_pp $FF
+    max_pp ItoiRecPP2 - ItoiHealer
+    sel_char 2, ItoiSound - ItoiHealer
+    clear_status 0
+ItoiHeal3:
+    heal $FF
+    max_hp ItoiHeal3 - ItoiHealer
+ItoiRecPP3:
+    rec_pp $FF
+    max_pp ItoiRecPP3 - ItoiHealer
+ItoiSound:
+    play SOUND2, 7
+    check_keypress ItoiHealerExit - ItoiHealer
+    check_flag FLAG0F|BIT3, ItoiMoveExit - ItoiHealer
+    move byte_108342
+    jump ItoiHealerExit - ItoiHealer
+ItoiMoveExit:
+    move byte_108350
+ItoiHealerExit:
+    end_script
+byte_10833B:
+    .byte $74, 3, $76, 3, $F0, 1, 3
+byte_108342:
+    .byte $72, 3, $70, 3, $F4, 1, 0
+byte_108349:
+    .byte $74, 2, $76, 2, $F6, 1, 3
+byte_108350:
+    .byte $72, 2, $70, 2, $F4, 1, 0
+
+Seclusion:
     .byte $D4, 0, $46, $49, $60, $80, 6, 1, $40, $1F, $3E
     .byte $77, $83, 8, $BF, 3, $3E, $7A, $83, $10, $7B, $43
     .byte 2, $1F, $10, $7D, $3D, $12, $DF, $86, $21, 0, $F4
@@ -251,7 +496,7 @@ PodNPC1:
     npc WALK_NPC, $3200, $64C0, RIGHT, stru_158228
 
     check_action TALK, PodNPC1Exit - PodNPC1
-    check_flag FLAG1|BIT4, PodNPC1Msg - PodNPC1
+    check_flag FLAG01|BIT4, PodNPC1Msg - PodNPC1
     print $25
     end_script
 PodNPC1Msg:
@@ -854,9 +1099,9 @@ byte_108DB4:
     .byte 0
 
 byte_108DD8:
-    .import stru_158368
+    .import MayorAnim
 
-    npc WALK_NPC, $B2C0, $D600, RIGHT, stru_158368
+    npc WALK_NPC, $B2C0, $D600, RIGHT, MayorAnim
     .byte $A, $14, 8, $5E, 1, 9
     .byte $11, 8, $5F, 1, 0, 8, $60, 1, 0
 
@@ -887,7 +1132,7 @@ byte_108E1A:
     .byte 8, $6C, 1, $10, $31, 0
 
 byte_108E53:
-    npc NPC_1, $BE00, $DC40, DOWN, stru_158368
+    npc NPC_1, $BE00, $DC40, DOWN, MayorAnim
     .byte $A, $B, 8, $71, 1, 0
 
 byte_108E5F:
@@ -1059,7 +1304,7 @@ NoTicket:
     print $3CE
     end_script
 NotTank:
-    check_flag FLAG7|BIT5, OneMine - Pilot
+    check_flag FLAG07|BIT5, OneMine - Pilot
     print $1A7
     confirm RefuseRide - Pilot
     print $24D
@@ -1130,14 +1375,14 @@ RefuseRide:
     end_script
 OneMine:
     print $1A6
-    set_flag FLAG7|BIT5
+    set_flag FLAG07|BIT5
 PilotExit:
     end_script
 GetAllTickets:
     play SOUND2, 6
     move Boarding
     another 2
-    set_flag FLAG2|BIT0
+    set_flag FLAG02|BIT0
     end_script
 Boarding:
     .byte $30, 1, $14, 1, 0

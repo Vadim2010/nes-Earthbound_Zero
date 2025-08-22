@@ -241,9 +241,9 @@ byte_118471:
     .byte $3E, $98, $84, 0, $F0, 1, 3, 0
 
 byte_118499:
-    .import stru_15860C
+    .import OldManAnim
 
-    npc NPC_1, $9940, $2180, DOWN, stru_15860C
+    npc NPC_1, $9940, $2180, DOWN, OldManAnim
     .byte $A, $13, $12, $41, $F
     .byte 8, $38, 1, 0, 8, $58, 1, 0, $D, $63, $31, $25, $63
     .byte $2E, $37, 8, $5A, 1, $25, $44, $5C, 6, $2D, $2D
@@ -259,7 +259,7 @@ byte_1184D1:
     .byte 8, $59, 1, 0
 
 byte_118505:
-    npc WALK_NPC, $100, $3100, RIGHT, stru_15860C
+    npc WALK_NPC, $100, $3100, RIGHT, OldManAnim
     .byte $1D, $1E, 0, 2, 5, $85
     .byte $E, 0, $A, $77, 8, $B5, 0, $37, $BE, 3, $40, $6A
     .byte $32, $3C, 8, $14, 3, 9, $6A, $29, $6E, $3A, 1, $28
@@ -272,7 +272,7 @@ byte_118505:
     .byte 3, 3, 8, $3D, 2, 3, $28, $77, 8, $1B, 2, 3
 
 byte_11857D:
-    npc WALK_NPC, $900, $2900, RIGHT, stru_15860C
+    npc WALK_NPC, $900, $2900, RIGHT, OldManAnim
     .byte $1D, $4B, 0, 2, $7D, $85
     .byte $E, 0, $A, $77, 8, $12, 3, $37, $BE, 3, $40, $6A
     .byte $32, $3C, 8, $14, 3, 9, $6A, $29, $6E, $3A, 1, $28
@@ -285,7 +285,7 @@ byte_11857D:
     .byte 3, 3, 8, $3D, 2, 3, $28, $77, 8, $1B, 2, 3
 
 byte_1185F5:
-    npc WALK_NPC, $900, $4100, RIGHT, stru_15860C
+    npc WALK_NPC, $900, $4100, RIGHT, OldManAnim
     .byte $1D, $58, 0, 2, $7D, $85, $E, 0
 
 byte_118603:
@@ -571,14 +571,14 @@ Cafe:
     check_action TALK, CafeExit - PodCafeClerk
     print $2B1
 CafeRepeat:
-    set_flag FLAG0|BIT7
+    set_flag FLAG00|BIT7
     find_item EMPTY, CafeList - PodCafeClerk
-    clear_flag FLAG0|BIT7
+    clear_flag FLAG00|BIT7
 CafeList:
     item_list OrangeJuice, FrenchFries, Hamburger, EMPTY, CafeDontNeed - PodCafeClerk
-    check_flag FLAG0|BIT7, CafeBuy - PodCafeClerk
+    check_flag FLAG00|BIT7, CafeBuy - PodCafeClerk
     print $33C
-    clear_flag FLAG0|BIT7
+    clear_flag FLAG00|BIT7
     return
 CafeBuy:
     pay CafeLessMoney - PodCafeClerk
@@ -598,7 +598,7 @@ CafeRefuse:
     get CafeExit - PodCafeClerk
 CafeDontNeed:
     print $308
-    clear_flag FLAG0|BIT7
+    clear_flag FLAG00|BIT7
     return
 CafeLessMoney:
     print $33B
@@ -651,14 +651,14 @@ Drugs:
     check_action TALK, DrugsExit - MerDrugsClerk
     print $306
 DrugsRepeat:
-    set_flag FLAG0|BIT7
+    set_flag FLAG00|BIT7
     find_item EMPTY, DrugsList - MerDrugsClerk
-    clear_flag FLAG0|BIT7
+    clear_flag FLAG00|BIT7
 DrugsList:
     item_list Antidote, AsthmaSpray, LifeUpCream, Insecticide, DrugsDontNeed - MerDrugsClerk
-    check_flag FLAG0|BIT7, DrugsBuy - MerDrugsClerk
+    check_flag FLAG00|BIT7, DrugsBuy - MerDrugsClerk
     print $23B
-    clear_flag FLAG0|BIT7
+    clear_flag FLAG00|BIT7
     return
 DrugsBuy:
     pay DrugsLessMoney - MerDrugsClerk
@@ -678,7 +678,7 @@ DrugsRefuse:
     get DrugsExit - MerDrugsClerk
 DrugsDontNeed:
     print $30A
-    clear_flag FLAG0|BIT7
+    clear_flag FLAG00|BIT7
     return
 DrugsLessMoney:
     print $33A
@@ -752,14 +752,14 @@ YounStoreClerk:
     check_action TALK, YounStoreExit - YounStoreClerk
     print $306
 YounStoreRepeat:
-    set_flag FLAG0|BIT7
+    set_flag FLAG00|BIT7
     find_item EMPTY, YounStoreList - YounStoreClerk
-    clear_flag FLAG0|BIT7
+    clear_flag FLAG00|BIT7
 YounStoreList:
     item_list Bread, LifeUpCream, NonstickPan, AirGun, YounStoreRefuse - YounStoreClerk
-    check_flag FLAG0|BIT7, YounStoreBuy - YounStoreClerk
+    check_flag FLAG00|BIT7, YounStoreBuy - YounStoreClerk
     print $23B
-    clear_flag FLAG0|BIT7
+    clear_flag FLAG00|BIT7
     end_script
 YounStoreBuy:
     pay YounStoreLess - YounStoreClerk
@@ -779,7 +779,7 @@ YounStoreBuy:
     get YounStoreExit - YounStoreClerk
 YounStoreRefuse:
     print $30A
-    clear_flag FLAG0|BIT7
+    clear_flag FLAG00|BIT7
     end_script
 YounStoreLess:
     print $33A
@@ -794,14 +794,14 @@ MerSportsClerk:
     check_action TALK, MerSportsExit - MerSportsClerk
     print $306
 MerSportsRepeat:
-    set_flag FLAG0|BIT7
+    set_flag FLAG00|BIT7
     find_item EMPTY, MerSportsList - MerSportsClerk
-    clear_flag FLAG0|BIT7
+    clear_flag FLAG00|BIT7
 MerSportsList:
     item_list WoodenBat, AluminumBat, Boomerang, EMPTY, MerSportsRefuse - MerSportsClerk
-    check_flag FLAG0|BIT7, MerSportsBuy - MerSportsClerk
+    check_flag FLAG00|BIT7, MerSportsBuy - MerSportsClerk
     print $33C
-    clear_flag FLAG0|BIT7
+    clear_flag FLAG00|BIT7
     end_script
 MerSportsBuy:
     pay MerSportsLess - MerSportsClerk
@@ -821,7 +821,7 @@ MerSportsBuy:
     get MerSportsExit - MerSportsClerk
 MerSportsRefuse:
     print $308
-    clear_flag FLAG0|BIT7
+    clear_flag FLAG00|BIT7
     end_script
 MerSportsLess:
     print $33B
@@ -836,14 +836,14 @@ MerFoodsClerk:
     check_action TALK, MerFoodsExit - MerFoodsClerk
     print $306
 MerFoodsRepeat:
-    set_flag FLAG0|BIT7
+    set_flag FLAG00|BIT7
     find_item EMPTY, MerFoodsList - MerFoodsClerk
-    clear_flag FLAG0|BIT7
+    clear_flag FLAG00|BIT7
 MerFoodsList:
     item_list OrangeJuice, Bread, SportsDrink, EMPTY, MerFoodsRefuse - MerFoodsClerk
-    check_flag FLAG0|BIT7, MerFoodsBuy - MerFoodsClerk
+    check_flag FLAG00|BIT7, MerFoodsBuy - MerFoodsClerk
     print $23B
-    clear_flag FLAG0|BIT7
+    clear_flag FLAG00|BIT7
     end_script
 MerFoodsBuy:
     pay MerFoodsLess - MerFoodsClerk
@@ -863,7 +863,7 @@ MerFoodsBuy:
     get MerFoodsExit - MerFoodsClerk
 MerFoodsRefuse:
     print $30A
-    clear_flag FLAG0|BIT7
+    clear_flag FLAG00|BIT7
     end_script
 MerFoodsLess:
     print $33A
@@ -876,14 +876,14 @@ ReinSportsClerk:
     check_action TALK, ReinSportsExit - ReinSportsClerk
     print $306
 ReinSportsRepeat:
-    set_flag FLAG0|BIT7
+    set_flag FLAG00|BIT7
     find_item EMPTY, ReinSportsList - ReinSportsClerk
-    clear_flag FLAG0|BIT7
+    clear_flag FLAG00|BIT7
 ReinSportsList:
     item_list AluminumBat, Boomerang, EMPTY, EMPTY, ReinSportsRefuse - ReinSportsClerk
-    check_flag FLAG0|BIT7, ReinSportsBuy - ReinSportsClerk
+    check_flag FLAG00|BIT7, ReinSportsBuy - ReinSportsClerk
     print $33C
-    clear_flag FLAG0|BIT7
+    clear_flag FLAG00|BIT7
     end_script
 ReinSportsBuy:
     pay ReinSportsLess - ReinSportsClerk
@@ -903,7 +903,7 @@ ReinSportsBuy:
     get ReinSportsExit - ReinSportsClerk
 ReinSportsRefuse:
     print $308
-    clear_flag FLAG0|BIT7
+    clear_flag FLAG00|BIT7
     end_script
 ReinSportsLess:
     print $33B
@@ -917,14 +917,14 @@ ReinFoodsClerk:
     check_action TALK, ReinFoodsExit - ReinFoodsClerk
     print $306
 ReinFoodsRepeat:
-    set_flag FLAG0|BIT7
+    set_flag FLAG00|BIT7
     find_item EMPTY, ReinFoodsList - ReinFoodsClerk
-    clear_flag FLAG0|BIT7
+    clear_flag FLAG00|BIT7
 ReinFoodsList:
     item_list OrangeJuice, Bread, SportsDrink, BerryTofu, ReinFoodsRefuse - ReinFoodsClerk
-    check_flag FLAG0|BIT7, ReinFoodsBuy - ReinFoodsClerk
+    check_flag FLAG00|BIT7, ReinFoodsBuy - ReinFoodsClerk
     print $23B
-    clear_flag FLAG0|BIT7
+    clear_flag FLAG00|BIT7
     end_script
 ReinFoodsBuy:
     pay ReinFoodsLess - ReinFoodsClerk
@@ -944,7 +944,7 @@ ReinFoodsBuy:
     get ReinFoodsExit - ReinFoodsClerk
 ReinFoodsRefuse:
     print $30A
-    clear_flag FLAG0|BIT7
+    clear_flag FLAG00|BIT7
     end_script
 ReinFoodsLess:
     print $33A
@@ -962,14 +962,14 @@ EllVarietyClerk:
     check_action TALK, EllVarietyExit - EllVarietyClerk
     print $306
 EllVarietyRepeat:
-    set_flag FLAG0|BIT7
+    set_flag FLAG00|BIT7
     find_item EMPTY, EllVarietyList - EllVarietyClerk
-    clear_flag FLAG0|BIT7
+    clear_flag FLAG00|BIT7
 EllVarietyList:
     item_list Ticket, ButterKnife, Rope, SurvKnife, EllVarietyRefuse - EllVarietyClerk
-    check_flag FLAG0|BIT7, EllVarietyBuy - EllVarietyClerk
+    check_flag FLAG00|BIT7, EllVarietyBuy - EllVarietyClerk
     print $23B
-    clear_flag FLAG0|BIT7
+    clear_flag FLAG00|BIT7
     end_script
 EllVarietyBuy:
     pay EllVarietyLess - EllVarietyClerk
@@ -989,7 +989,7 @@ EllVarietyBuy:
     get EllVarietyExit - EllVarietyClerk
 EllVarietyRefuse:
     print $30A
-    clear_flag FLAG0|BIT7
+    clear_flag FLAG00|BIT7
     end_script
 EllVarietyLess:
     print $33A
@@ -1024,14 +1024,14 @@ ReinWeaponClerk:
     check_action TALK, ReinWeaponExit - ReinWeaponClerk
     print $38B
 ReinWeaponRepeat:
-    set_flag FLAG0|BIT7
+    set_flag FLAG00|BIT7
     find_item EMPTY, ReinWeaponList - ReinWeaponClerk
-    clear_flag FLAG0|BIT7
+    clear_flag FLAG00|BIT7
 ReinWeaponList:
     item_list Bomb, LaserBeam, PlasmaBeam, EMPTY, ReinWeaponRefuse - ReinWeaponClerk
-    check_flag FLAG0|BIT7, ReinWeaponBuy - ReinWeaponClerk
+    check_flag FLAG00|BIT7, ReinWeaponBuy - ReinWeaponClerk
     print $23B
-    clear_flag FLAG0|BIT7
+    clear_flag FLAG00|BIT7
     end_script
 ReinWeaponBuy:
     pay ReinWeaponLess - ReinWeaponClerk
@@ -1051,7 +1051,7 @@ ReinWeaponBuy:
     get ReinWeaponExit - ReinWeaponClerk
 ReinWeaponRefuse:
     print $30A
-    clear_flag FLAG0|BIT7
+    clear_flag FLAG00|BIT7
     end_script
 ReinWeaponLess:
     print $33A
@@ -1096,19 +1096,19 @@ MerVarietyClerk:
     check_action TALK, MerVarietyExit - MerVarietyClerk
     print $306
 MerVarietyRepeat:
-    set_flag FLAG0|BIT7
+    set_flag FLAG00|BIT7
     find_item EMPTY, MerVarietyList - MerVarietyClerk
-    clear_flag FLAG0|BIT7
+    clear_flag FLAG00|BIT7
 MerVarietyList:
     item_list Ruler, StunGun, Rope, RepelRing, MerVarietyRefuse - MerVarietyClerk
     buying_item PhoneCard, MerVarCard - MerVarietyClerk
     print $307
-    clear_flag FLAG0|BIT7
+    clear_flag FLAG00|BIT7
     end_script
 MerVarCard:
-    check_flag FLAG0|BIT7, MerVarietyBuy - MerVarietyClerk
+    check_flag FLAG00|BIT7, MerVarietyBuy - MerVarietyClerk
     print $33C
-    clear_flag FLAG0|BIT7
+    clear_flag FLAG00|BIT7
     end_script
 MerVarietyBuy:
     pay MerVarietyLess - MerVarietyClerk
@@ -1128,7 +1128,7 @@ MerVarietyBuy:
     get MerVarietyExit - MerVarietyClerk
 MerVarietyRefuse:
     print $308
-    clear_flag FLAG0|BIT7
+    clear_flag FLAG00|BIT7
     end_script
 MerVarietyLess:
     print $33B
@@ -1142,14 +1142,14 @@ EllFoodsClerk:
     check_action TALK, EllFoodsExit - EllFoodsClerk
     print $306
 EllFoodsRepeat:
-    set_flag FLAG0|BIT7
+    set_flag FLAG00|BIT7
     find_item EMPTY, EllFoodsList - EllFoodsClerk
-    clear_flag FLAG0|BIT7
+    clear_flag FLAG00|BIT7
 EllFoodsList:
     item_list OrangeJuice, Bread, SportsDrink, BerryTofu, EllFoodsRefuse - EllFoodsClerk
-    check_flag FLAG0|BIT7, EllFoodsBuy - EllFoodsClerk
+    check_flag FLAG00|BIT7, EllFoodsBuy - EllFoodsClerk
     print $23B
-    clear_flag FLAG0|BIT7
+    clear_flag FLAG00|BIT7
     end_script
 EllFoodsBuy:
     pay EllFoodsLess - EllFoodsClerk
@@ -1169,7 +1169,7 @@ EllFoodsBuy:
     get EllFoodsExit - EllFoodsClerk
 EllFoodsRefuse:
     print $30A
-    clear_flag FLAG0|BIT7
+    clear_flag FLAG00|BIT7
     end_script
 EllFoodsLess:
     print $33A
@@ -1207,7 +1207,7 @@ UnionStationClerk:
     npc NPC_1, $A740, $F240, LEFT, ReceptionistAnim
 
     check_action TALK, UnionStationExit - UnionStationClerk
-    check_flag FLAGE|BIT6, UnRock - UnionStationClerk
+    check_flag FLAG0E|BIT6, UnRock - UnionStationClerk
     jump UnBuyTicket - UnionStationClerk
 UnRock:
     print $239
@@ -1233,7 +1233,7 @@ ReinStationClerk:
     npc NPC_1, $9B40, $F240, LEFT, ReceptionistAnim
 
     check_action TALK, ReinStationExit - ReinStationClerk
-    check_flag FLAGE|BIT6, ReinRock - ReinStationClerk
+    check_flag FLAG0E|BIT6, ReinRock - ReinStationClerk
     jump ReinBuyTicket - ReinStationClerk
 ReinRock:
     print $239
@@ -1260,7 +1260,7 @@ SpookStationClerk:
     npc NPC_1, $A740, $FA40, LEFT, ReceptionistAnim
 
     check_action TALK, SpookStationExit - SpookStationClerk
-    check_flag FLAGE|BIT6, SpookRock - SpookStationClerk
+    check_flag FLAG0E|BIT6, SpookRock - SpookStationClerk
     jump SpookBuyTicket - SpookStationClerk
 SpookRock:
     print $239
@@ -1287,7 +1287,7 @@ SnowStationClerk:
     npc NPC_1, $B740, $F240, LEFT, ReceptionistAnim
 
     check_action TALK, SnowStationExit - SnowStationClerk
-    check_flag FLAGE|BIT6, SnowRock - SnowStationClerk
+    check_flag FLAG0E|BIT6, SnowRock - SnowStationClerk
     jump SnowBuyTicket - SnowStationClerk
 SnowRock:
     print $239
@@ -1318,7 +1318,7 @@ off_118FD5:
     .word byte_119077, byte_11907F, byte_119087, byte_119090
     .word byte_119099, PodPhone, byte_1190AB, byte_1190B4
     .word byte_1190BD, PodATM, byte_1190CF, PodServiceNPC
-    .word byte_1190E5, ReinServiceClerk, PodSportsClerk, PodFoodsClerk
+    .word MerServiceClerk, ReinServiceClerk, PodSportsClerk, PodFoodsClerk
     .word PodPetClerk, PodPetNPC, SnowStoreClerk, byte_11927C
     .word 0
 
@@ -1390,15 +1390,21 @@ PodATM:
 
 byte_1190CF:
     npc NPC_1, $9C0, $5500, DOWN, ServicemanAnim
-    .byte 2, $F0, $90, $B, 0
+
+    call ReinServiceClerk, Service - ReinServiceClerk
+    end_script
 
 PodServiceNPC:
     npc NPC_1, $1C0, $4500, DOWN, ServicemanAnim
-    .byte 2, $F0, $90, $B, 0
 
-byte_1190E5:
+    call ReinServiceClerk, Service - ReinServiceClerk
+    end_script
+
+MerServiceClerk:
     npc NPC_1, $1C0, $2D00, DOWN, ServicemanAnim
-    .byte 2, $F0, $90, $B, 0
+
+    call ReinServiceClerk, Service - ReinServiceClerk
+    end_script
 
 ReinServiceClerk:
     npc NPC_1, $71C0, $2500, DOWN, ServicemanAnim
@@ -1443,14 +1449,14 @@ PodSportsClerk:
     check_action TALK, PodSportsExit - PodSportsClerk
     print $306
 PodSportsRepeat:
-    set_flag FLAG0|BIT7
+    set_flag FLAG00|BIT7
     find_item EMPTY, PodSportsList - PodSportsClerk
-    clear_flag FLAG0|BIT7
+    clear_flag FLAG00|BIT7
 PodSportsList:
     item_list PlasticBat, Slingshot, WoodenBat, EMPTY, PodSportsRefuse - PodSportsClerk
-    check_flag FLAG0|BIT7, PodSportsBuy - PodSportsClerk
+    check_flag FLAG00|BIT7, PodSportsBuy - PodSportsClerk
     print $33C
-    clear_flag FLAG0|BIT7
+    clear_flag FLAG00|BIT7
     end_script
 PodSportsBuy:
     pay PodSportsLess - PodSportsClerk
@@ -1470,7 +1476,7 @@ PodSportsBuy:
     get PodSportsExit - PodSportsClerk
 PodSportsRefuse:
     print $308
-    clear_flag FLAG0|BIT7
+    clear_flag FLAG00|BIT7
     end_script
 PodSportsLess:
     print $33B
@@ -1484,14 +1490,14 @@ PodFoodsClerk:
     check_action TALK, PodFoodsExit - PodFoodsClerk
     print $306
 PodFoodsRepeat:
-    set_flag FLAG0|BIT7
+    set_flag FLAG00|BIT7
     find_item EMPTY, PodFoodsList - PodFoodsClerk
-    clear_flag FLAG0|BIT7
+    clear_flag FLAG00|BIT7
 PodFoodsList:
     item_list OrangeJuice, Bread, SportsDrink, EMPTY, PodFoodsRefuse - PodFoodsClerk
-    check_flag FLAG0|BIT7, PodFoodsBuy - PodFoodsClerk
+    check_flag FLAG00|BIT7, PodFoodsBuy - PodFoodsClerk
     print $33C
-    clear_flag FLAG0|BIT7
+    clear_flag FLAG00|BIT7
     end_script
 PodFoodsBuy:
     pay PodFoodsLess - PodFoodsClerk
@@ -1511,7 +1517,7 @@ PodFoodsBuy:
     get PodFoodsExit - PodFoodsClerk
 PodFoodsRefuse:
     print $308
-    clear_flag FLAG0|BIT7
+    clear_flag FLAG00|BIT7
     end_script
 PodFoodsLess:
     print $33B
@@ -1523,11 +1529,11 @@ PodPetClerk:
     npc NPC_1, $9A00, $2500, UP, ReceptionistAnim
 
     check_action TALK, PodPetExit - PodPetClerk
-    check_flag FLAG1|BIT3, EscapeAnimals - PodPetClerk
+    check_flag FLAG01|BIT3, EscapeAnimals - PodPetClerk
     print $4D
     end_script
 EscapeAnimals:
-    check_flag FLAG8|BIT5, NoCanary - PodPetClerk
+    check_flag FLAG08|BIT5, NoCanary - PodPetClerk
     print $53
     end_script
 NoCanary:
@@ -1543,7 +1549,7 @@ NoCanary:
     cash
     select_item CanaryChick
     add_item 0
-    set_flag FLAG8|BIT5
+    set_flag FLAG08|BIT5
     print $51
     end_script
 NoEmty:
@@ -1561,7 +1567,7 @@ Trade:
     cash
     select_item CanaryChick
     add_item 0
-    set_flag FLAG8|BIT5
+    set_flag FLAG08|BIT5
     end_script
 Shame:
     print $24A
@@ -1576,7 +1582,7 @@ PodPetNPC:
     npc WALK_NPC, $9A80, $2500, DOWN, ServicemanAnim
 
     check_action TALK, PetNPCExit - PodPetNPC
-    check_flag FLAG1|BIT2, ContolAnimals - PodPetNPC
+    check_flag FLAG01|BIT2, ContolAnimals - PodPetNPC
     print $55
     confirm PetRefuse - PodPetNPC
     print $56
@@ -1595,14 +1601,14 @@ SnowStoreClerk:
     check_action TALK, SnowStoreExit - SnowStoreClerk
     print $306
 SnowStoreRepeat:
-    set_flag FLAG0|BIT7
+    set_flag FLAG00|BIT7
     find_item EMPTY, SnowStoreList - SnowStoreClerk
-    clear_flag FLAG0|BIT7
+    clear_flag FLAG00|BIT7
 SnowStoreList:
     item_list Bread, Mouthwash, LifeUpCream, FryingPan, SnowStoreRefuse - SnowStoreClerk
-    check_flag FLAG0|BIT7, SnowStoreBuy - SnowStoreClerk
+    check_flag FLAG00|BIT7, SnowStoreBuy - SnowStoreClerk
     print $23B
-    clear_flag FLAG0|BIT7
+    clear_flag FLAG00|BIT7
     end_script
 SnowStoreBuy:
     pay SnowStoreLess - SnowStoreClerk
@@ -1622,7 +1628,7 @@ SnowStoreBuy:
     get SnowStoreExit - SnowStoreClerk
 SnowStoreRefuse:
     print $30A
-    clear_flag FLAG0|BIT7
+    clear_flag FLAG00|BIT7
     end_script
 SnowStoreLess:
     print $33A
@@ -1634,79 +1640,117 @@ byte_11927C:
     .byte $18, $A1, $C0, $24, 2, $B5, $8C, 9, 0
 
 off_119285:
-    .word byte_1192AB, byte_1192B3, byte_1192BB, byte_1192C3
-    .word byte_1192CB, byte_1192D3, byte_1192DB, byte_1192E3
-    .word byte_1192EB, byte_1192F3, byte_1192FB, byte_119303
-    .word byte_11930B, byte_119313, byte_11931B, byte_119323
-    .word byte_11932B, byte_119377, 0
+    .word EllDoctorOut, EllHotelRoom2Out, ReinHotelDown1, ReinHotelRoom1In
+    .word ReinHotelRoom2In, ReinHotelUp2, ReinHospitalRoom1Out, ReinHospitalRoom2Out
+    .word SpookDoctorOut, SpookHospitalDown, SpookHospitalRoom1In, SpookHospitalRoom2In
+    .word SpookHospitalRoom1Out, SpookHospitalRoom2Out, SpookHotelRoom1Out, SpookHotelRoom2Out
+    .word EllDoctor, SpookDoctor, 0
 
-byte_1192AB:
+EllDoctorOut:
     entrance DOOR, $B780, $2580, RIGHT, MUSIC_SAME, $BD80, $FD00, DOWN
 
-byte_1192B3:
+EllHotelRoom2Out:
     entrance DOOR, $9780, $2580, RIGHT, MUSIC_SAME, $7E40, $2500, DOWN
 
-byte_1192BB:
+ReinHotelDown1:
     entrance STAIRS, $440, $3580, LEFT, MUSIC_SAME, $C0, $4140, RIGHT
 
-byte_1192C3:
+ReinHotelRoom1In:
     entrance DOOR, $580, $34C0, UP, MUSIC_SAME, $740, $3D80, LEFT
 
-byte_1192CB:
+ReinHotelRoom2In:
     entrance DOOR, $640, $34C0, UP, MUSIC_SAME, $740, $4580, LEFT
 
-byte_1192D3:
+ReinHotelUp2:
     entrance STAIRS, $480, $3540, LEFT, MUSIC_SAME, $C80, $4580, RIGHT
 
-byte_1192DB:
+ReinHospitalRoom1Out:
     entrance DOOR, $780, $2580, RIGHT, MUSIC_SAME, $580, $5500, DOWN
 
-byte_1192E3:
+ReinHospitalRoom2Out:
     entrance DOOR, $780, $2D80, RIGHT, MUSIC_SAME, $640, $5500, DOWN
 
-byte_1192EB:
+SpookDoctorOut:
     entrance DOOR, $780, $4D80, RIGHT, MUSIC_SAME, $9600, $F500, DOWN
 
-byte_1192F3:
+SpookHospitalDown:
     entrance STAIRS, $C40, $4D80, LEFT, MUSIC_SAME, $94C0, $F540, RIGHT
 
-byte_1192FB:
+SpookHospitalRoom1In:
     entrance DOOR, $D80, $4CC0, UP, MUSIC_SAME, $F40, $2580, LEFT
 
-byte_119303:
+SpookHospitalRoom2In:
     entrance DOOR, $E40, $4CC0, UP, MUSIC_SAME, $F40, $2D80, LEFT
 
-byte_11930B:
+SpookHospitalRoom1Out:
     entrance DOOR, $F80, $2580, RIGHT, MUSIC_SAME, $D80, $4D00, DOWN
 
-byte_119313:
+SpookHospitalRoom2Out:
     entrance DOOR, $F80, $2D80, RIGHT, MUSIC_SAME, $E40, $4D00, DOWN
 
-byte_11931B:
+SpookHotelRoom1Out:
     entrance DOOR, $F80, $3D80, RIGHT, MUSIC_SAME, $D80, $3500, DOWN
 
-byte_119323:
+SpookHotelRoom2Out:
     entrance DOOR, $7780, $2580, RIGHT, MUSIC_SAME, $E40, $3500, DOWN
 
-byte_11932B:
+EllDoctor:
     .import DoctorAnim
 
     npc NPC_1, $B500, $2500, DOWN, DoctorAnim
-    .byte $1D, $5C, 0, 2, $2B
-    .byte $93, $E, 0, $A, $4B, 8, $D, 3, 9, $3E, $29, $48
-    .byte $3A, 1, $1E, $18, $3C, 1, $21, $3A, 0, $21, $52
-    .byte $80, $42, $50, $2F, $52, 3, $2F, 8, $F, 3, $28, $4B
-    .byte 3, $51, $FF, $50, $2F, $53, $FC, $1F, $5C, 7, 8
-    .byte $10, 3, 3, $28, $4B, 8, $E, 3, 3, $28, $4B, 8, $19
-    .byte 2, 3, 8, $3F, 2, 3
 
-byte_119377:
+    price 92
+    call EllDoctor, EllDoctorCall - EllDoctor
+    end_script
+EllDoctorCall:
+    check_action TALK, EllDoctorExit - EllDoctor
+    print $30D
+    confirm EllDoctorRefuse - EllDoctor
+    pay EllDoctorLess - EllDoctor
+    sel_char 1, EllDoctorChar - EllDoctor
+    choose_char EllDoctorChoose1 - EllDoctor
+    jump EllDoctorStatus - EllDoctor
+EllDoctorChar:
+    sel_char 0, EllDoctorStatus - EllDoctor
+EllDoctorStatus:
+    check_status $80, EllDoctorFainted - EllDoctor
+    max_hp EllDoctorHeal - EllDoctor
+    check_status 3, EllDoctorHeal - EllDoctor
+    print $30F
+    get EllDoctorExit - EllDoctor
+    return
+EllDoctorHeal:
+    heal $FF
+    max_hp EllDoctorHeal - EllDoctor
+    clear_status $FC
+    cash
+    play SOUND2, 7
+    print $310
+    return
+EllDoctorChoose1:
+    get EllDoctorExit - EllDoctor
+EllDoctorRefuse:
+    print $30E
+    return
+EllDoctorFainted:
+    get EllDoctorExit - EllDoctor
+    print $219
+    return
+EllDoctorLess:
+    print $23F
+EllDoctorExit:
+    return
+
+SpookDoctor:
     npc NPC_1, $500, $4D00, DOWN, DoctorAnim
-    .byte $1D, $4E, 0, 2, $2B, $93, $E, 0
+
+    price 78
+    call EllDoctor, EllDoctorCall - EllDoctor
+    end_script
 
 off_119385:
-    .word PodCityHallOut, PodCityHallUp, PodCityHallDown, byte_1193C2
-    .word byte_1193CA, byte_1193D2, PodCityHallNPC, PodMayor
+    .word PodCityHallOut, PodCityHallUp, PodCityHallDown, EllHospitalDown
+    .word EllHospitalRoom1In, EllHospitalRoom2In, PodCityHallNPC, PodMayor
     .word PodMayorSecretary, byte_1194A7, 0
 
 PodCityHallOut:
@@ -1716,24 +1760,33 @@ PodCityHallUp:
     entrance STAIRS, $AC80, $2540, LEFT, MUSIC_SAME, $CC80, $2580, RIGHT
 
 PodCityHallDown:
-    .byte $58, $CC, $86, $25, $36, $16, $35, $16, $12, $2C
-    .byte $F, $11, $2C, $10, $2D, $5B, 8, $3D, $C0, $AC, $42
-    .byte $25, 0
+    .byte $58, $CC, $86, $25
 
-byte_1193C2:
+    check_view PodCityHallExit - PodCityHallDown
+    approach PodCityHallExit - PodCityHallDown
+    check_flag FLAG05|BIT3, PodDown - PodCityHallDown
+    clear_flag FLAG05|BIT3
+    set_flag FLAG05|BIT2
+PodDown:
+    play SOUND1, 8
+    teleport $ACC0, $2542
+PodCityHallExit:
+    end_script
+
+EllHospitalDown:
     entrance STAIRS, $D440, $2580, LEFT, MUSIC_SAME, $BCC0, $FD40, RIGHT
 
-byte_1193CA:
+EllHospitalRoom1In:
     entrance DOOR, $D580, $24C0, UP, MUSIC_SAME, $B40, $4980, LEFT
 
-byte_1193D2:
+EllHospitalRoom2In:
     entrance DOOR, $D640, $24C0, UP, MUSIC_SAME, $B40, $5180, LEFT
 
 PodCityHallNPC:
     npc NPC_1, $AE00, $2500, DOWN, stru_158328
 
     check_action TALK, ExitCityHallNPC - PodCityHallNPC
-    check_flag FLAG1|BIT2, CityHallMsg - PodCityHallNPC
+    check_flag FLAG01|BIT2, CityHallMsg - PodCityHallNPC
     print $4B
     end_script
 CityHallMsg:
@@ -1742,26 +1795,73 @@ ExitCityHallNPC:
     end_script
 
 PodMayor:
-    .import stru_158368
+    .import MayorAnim
 
-    npc NPC_1, $CE40, $2540, DOWN, stru_158368
+    npc NPC_1, $CE40, $2540, DOWN, MayorAnim
 
     check_action TALK, Exit1Mayor - PodMayor
-    .byte $33, 5, $46
-    .byte $52, $80, $10, 1, $17, 8, $70, 2, $3E, $71, $94
-    .byte 0, $33, 1, $46, $52, $80, $3F, $1D, $64, 0, 8, $43
-    .byte 0, $5C, 6, $28, $77, $1F, $10, $B, $3E, $65, $94
-    .byte 8, $46, 0, 9, $32, 8, $47, 0, $10, $5E, $10, $B
-    .byte $3F, 9, $3E, $70, $94, 0, 8, $71, 2, $3E, $71, $94, 0
-
-    .byte $12, $D, $50, 8, $4A, 0, $3E, $71, $94, 0, $12
-    .byte $B, $5A, 8, $49, 0, $3E, $71, $94, 0, $12, $5D, $64
-    .byte 8, $40, 0, $3E, $71, $94, 0, 8, $40, 0, 8, $41, 0
-    .byte 9, $6C, 8, $42, 0, 8, $49, 0, $3E, $71, $94, $10, $5D
+    check_char 5, Alone - PodMayor
+    check_status $80, Rest - PodMayor
+    jump CheckChar1 - PodMayor
+Rest:
+    print $270
+    move byte_119471
+    end_script
+CheckChar1:
+    check_char 1, Alone - PodMayor
+    check_status $80, Char1Fainted - PodMayor
+    price 100
+    print $43
+    play SOUND2, 6
+    get Exit1Mayor - PodMayor
+    cash
+    set_flag FLAG01|BIT4
+    move byte_119465
+    print $46
+    confirm Anyway - PodMayor
+Anyway:
+    print $47
+    set_flag FLAG0B|BIT1
+    set_flag FLAG01|BIT4
+    another 9
+    move byte_119470
+    end_script
+Char1Fainted:
+    print $271
+    move byte_119471
+    end_script
+Alone:
+    check_flag FLAG01|BIT2, Hero - PodMayor
+    print $4A
+    move byte_119471
+    end_script
+Hero:
+    check_flag FLAG01|BIT4, TownHelp - PodMayor
+    print $49
+    move byte_119471
+    end_script
+TownHelp:
+    check_flag FLAG0B|BIT2, Child - PodMayor
+    print $40
+    move byte_119471
+    end_script
+Child:
+    print $40
+    print $41
+    confirm Anyway2 - PodMayor
+Anyway2:
+    print $42
+    print $49
+    move byte_119471
+    set_flag FLAG0B|BIT2
 Exit1Mayor:
     end_script
+byte_119465:
     .byte $36, 2, $34, 2, $32, 3, $72, 1, $F6, 6, 3
-    .byte 0, $F4, 1, 0
+byte_119470:
+    .byte 0
+byte_119471:
+    .byte $F4, 1, 0
 
 PodMayorSecretary:
     npc NPC_1, $CD00, $2500, DOWN, stru_158348
@@ -2123,7 +2223,7 @@ MysteriousTeacher:
 
     .byte 6, $46
     check_action TALK, MystTeachExit - MysteriousTeacher
-    check_flag FLAG8|BIT4, Meet - MysteriousTeacher
+    check_flag FLAG08|BIT4, Meet - MysteriousTeacher
     print $12C
     confirm NotLook - MysteriousTeacher
     jump RepeatBuy - MysteriousTeacher
@@ -2132,16 +2232,16 @@ Meet:
     confirm NotLook - MysteriousTeacher
     print $128
 RepeatBuy:
-    set_flag FLAG0|BIT7
+    set_flag FLAG00|BIT7
     find_item EMPTY, MystList - MysteriousTeacher
-    clear_flag FLAG0|BIT7
+    clear_flag FLAG00|BIT7
 MystList:
-    set_flag FLAG8|BIT4
+    set_flag FLAG08|BIT4
     item_list LastWeapon, SuperBomb, StkyMachine, RealRocket, MystRefuse - MysteriousTeacher
-    check_flag FLAG0|BIT7, MystBuy - MysteriousTeacher
+    check_flag FLAG00|BIT7, MystBuy - MysteriousTeacher
     print $23E
     print $12B
-    clear_flag FLAG0|BIT7
+    clear_flag FLAG00|BIT7
     end_script
 MystBuy:
     pay MystLess - MysteriousTeacher
@@ -2159,11 +2259,11 @@ NotRocket:
 MystLess:
     print $23D
     print $12B
-    clear_flag FLAG0|BIT7
+    clear_flag FLAG00|BIT7
     end_script
 MystRefuse:
     print $12B
-    clear_flag FLAG0|BIT7
+    clear_flag FLAG00|BIT7
     end_script
 NotLook:
     print $129

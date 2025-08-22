@@ -112,8 +112,7 @@
     field_288       .byte
     Food            .res 7
     field_290       .res 32
-    field_2B0       .res 32
-    field_2D0       .res 48
+    Storage         .res 80
 .endstruct
 
 .struct OBJECT

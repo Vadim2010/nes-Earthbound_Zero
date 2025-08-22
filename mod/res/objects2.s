@@ -2150,7 +2150,6 @@ MystBuy:
     print $223
     teleport $E540, $2182
     end_script
-
 MystNext:
     buying_item RealRocket, MystNext - MysteriousTeacher
     print $21C

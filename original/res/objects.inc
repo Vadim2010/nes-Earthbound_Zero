@@ -27,9 +27,9 @@ HOLE        = 4
 NPC_1       = $10
 WALK_NPC    = $11
 STAT_NPC    = $12
-NPC_2       = $13
+STAT_NPC1   = $13
 STAT_NPC2   = $14
-NPC_3       = $15
+WALK_NPC2   = $15
 
 ;--------------------------------------------------------
 ;                         SOUNDS
@@ -119,22 +119,22 @@ BIT2        = 5
 BIT1        = 6
 BIT0        = 7
 
-FLAG0       = $00 << 3
-FLAG1       = $01 << 3
-FLAG2       = $02 << 3
-FLAG3       = $03 << 3
-FLAG4       = $04 << 3
-FLAG5       = $05 << 3
-FLAG6       = $06 << 3
-FLAG7       = $07 << 3
-FLAG8       = $08 << 3
-FLAG9       = $09 << 3
-FLAGA       = $0A << 3
-FLAGB       = $0B << 3
-FLAGC       = $0C << 3
-FLAGD       = $0D << 3
-FLAGE       = $0E << 3
-FLAGF       = $0F << 3
+FLAG00      = $00 << 3
+FLAG01      = $01 << 3
+FLAG02      = $02 << 3
+FLAG03      = $03 << 3
+FLAG04      = $04 << 3
+FLAG05      = $05 << 3
+FLAG06      = $06 << 3
+FLAG07      = $07 << 3
+FLAG08      = $08 << 3
+FLAG09      = $09 << 3
+FLAG0A      = $0A << 3
+FLAG0B      = $0B << 3
+FLAG0C      = $0C << 3
+FLAG0D      = $0D << 3
+FLAG0E      = $0E << 3
+FLAG0F      = $0F << 3
 FLAG10      = $10 << 3
 FLAG11      = $11 << 3
 FLAG12      = $12 << 3
@@ -149,7 +149,7 @@ FLAG1A      = $1A << 3
 FLAG1B      = $1B << 3
 FLAG1C      = $1C << 3
 FLAG1D      = $1D << 3
-FLAG1E      = $1E << 3
+TUNES       = $1E << 3
 FLAG1F      = $1F << 3
 
 ;--------------------------------------------------------
@@ -166,9 +166,19 @@ FLAG1F      = $1F << 3
     .word CoorX|Type, CoorY|View, Anim
 .endmacro
 
+; $1B
+.macro unknown_18 CoorX, CoorY, View
+    .word CoorX|$18, CoorY|View
+.endmacro
+
 ; $19
 .macro entity CoorX, CoorY, View, Anim
     .word CoorX|$19, CoorY|View, Anim
+.endmacro
+
+; $1B
+.macro change_location CoorX, CoorY, View
+    .word CoorX|$1B, CoorY|View
 .endmacro
 
 ;--------------------------------------------------------
@@ -210,9 +220,15 @@ FLAG1F      = $1F << 3
 
 ; $05
 ; object_show_hide
+.macro hide flag
+    .byte 5, flag
+.endmacro
 
 ; $06
 ; object_show_hide
+.macro show flag
+    .byte 6, flag
+.endmacro
 
 ; $07
 ; infinite_loop
@@ -238,6 +254,9 @@ FLAG1F      = $1F << 3
 
 ; $0C
 ; jump_none_psi
+.macro check_psi psi, offset
+    .byte $0C, psi, offset
+.endmacro
 
 ; $0D
 ; jump_unuse_item
@@ -298,9 +317,15 @@ FLAG1F      = $1F << 3
 
 ; $18
 ; choose_character
+.macro choose_char offset
+    .byte $18, offset
+.endmacro
 
 ; $19
 ; special_character
+.macro get_char_name character
+    .byte $19, character
+.endmacro
 
 ; $1A
 ; jump_none_select
@@ -415,6 +440,9 @@ FLAG1F      = $1F << 3
 
 ; $31
 ; select_character_item
+.macro select_char_item item, offset
+    .byte $31, item, offset
+.endmacro
 
 ; $32
 ; multiply_num
@@ -433,6 +461,9 @@ FLAG1F      = $1F << 3
 
 ; $35
 ; jump_nothing
+.macro approach offset
+    .byte $35, offset
+.endmacro
 
 ; $36
 ; view_compare
@@ -459,7 +490,7 @@ FLAG1F      = $1F << 3
 ; change_object_type
 
 ; $3C
-; sub_13B42B
+; function
 
 ; $3D
 ; teleport
@@ -483,6 +514,9 @@ FLAG1F      = $1F << 3
 
 ; $40
 ; jump_nothing
+.macro check_keypress offset
+    .byte $40, offset
+.endmacro
 
 ; $41
 ; teleport_save
@@ -492,9 +526,15 @@ FLAG1F      = $1F << 3
 
 ; $43
 ; remove_character
+.macro remove_char number, offset
+    .byte $43, number, offset
+.endmacro
 
 ; $44
 ; set_enemy_group
+.macro enemies group
+    .byte $44, group
+.endmacro
 
 ; $45
 ; multiply_char
@@ -537,9 +577,15 @@ FLAG1F      = $1F << 3
 
 ; $50
 ; less_maxhp
+.macro max_hp offset
+    .byte $50, offset
+.endmacro
 
 ; $51
 ; heal_hp
+.macro heal value
+    .byte $51, value
+.endmacro
 
 ; $52
 ; status
@@ -549,6 +595,9 @@ FLAG1F      = $1F << 3
 
 ; $53
 ; remove_status
+.macro clear_status flag
+    .byte $53, flag
+.endmacro
 
 ; $54
 ; below_level
@@ -585,9 +634,15 @@ FLAG1F      = $1F << 3
 
 ; $60
 ; less_maxpp
+.macro max_pp offset
+    .byte $60, offset
+.endmacro
 
 ; $61
 ; recovery_pp
+.macro rec_pp value
+    .byte $61, value
+.endmacro
 
 ; $62
 ; take_weapon

@@ -65,6 +65,8 @@ AnimBoy3:
     frame MoveUpLeft2, $60, $15
 
 stru_158080:
+    .export stru_158080
+
     frame MoveUp, 8, $19
     frame MoveUpRight, 8, $19
     frame MoveRight, 8, $19
@@ -143,8 +145,10 @@ BoxAnim:
     frame stru_158EAC, $6C, 5
     frame stru_158EAC, $6C, 0
 
-stru_158194:
+SignAnim:
+    .export SignAnim
     frame stru_158EAC, $6E, 5
+
     frame stru_158EDC, $3C, 5
     frame stru_158EE4, $3C, 5
     frame stru_158EEC, $3E, 0
@@ -319,8 +323,8 @@ stru_158348:
     frame MoveLeft, $C0, $F
     frame MoveUpLeft, $C0, $F
 
-stru_158368:
-    .export stru_158368
+MayorAnim:
+    .export MayorAnim
 
     frame MoveUp1, $E0, $F
     frame MoveUpRight1, $E0, $F
@@ -528,8 +532,8 @@ stru_158568:
     frame MoveLeft, $80, 0
     frame MoveUpLeft, $80, 0
 
-stru_158588:
-    .export stru_158588
+CanaryAnim:
+    .export CanaryAnim
 
     frame MoveUp1, $A0, 5
     frame MoveUpRight1, $A0, 5
@@ -565,8 +569,8 @@ stru_1585C8:
 stru_1585E8:
     frame stru_158F9C, $88, 0
 
-AnimDog:
-    .export AnimDog
+DogAnim:
+    .export DogAnim
 
     frame MoveUp, $A8, 0
     frame MoveUpRight, $A8, 0
@@ -577,8 +581,8 @@ AnimDog:
     frame MoveLeft, $A8, 0
     frame MoveUpLeft, $A8, 0
 
-stru_15860C:
-    .export stru_15860C
+OldManAnim:
+    .export OldManAnim
 
     frame MoveUp, $C8, $F
     frame MoveUpRight, $C8, $F
@@ -2412,8 +2416,8 @@ stru_1599C4:
     .byte $10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $7E     ; TILE <$10, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $7E
     .byte $18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $7F     ; TILE <$18, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $7F
 
-stru_1599F8:
-    .export stru_1599F8
+TombAnim:
+    .export TombAnim
 
     frame stru_159C04, $F8, 0
     frame stru_158EAC, $EA, 0

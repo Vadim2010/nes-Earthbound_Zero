@@ -2326,7 +2326,7 @@ MapScripts:
     .word remove_closet-1, select_character_item-1, multiply_num-1, no_character-1
     .word jump_nothing-1, jump_nothing-1, view_compare-1, show_menu-1
     .word no_inventory-1, no_closet-1, select_character-1, change_object_type-1
-    .word sub_13B42B-1, teleport-1, move_object-1, another_object-1
+    .word function-1, teleport-1, move_object-1, another_object-1
     .word jump_nothing-1, teleport_save-1, add_character-1, remove_character-1
     .word set_enemy_group-1, multiply_char-1, rocket-1, airplane-1
     .word tank-1, boat-1, train-1, elevator-1
@@ -3425,7 +3425,7 @@ item_removed:
 .proc sub_13B09A
     .importzp Pointer
 
-    storex #CurrentGame + GAME_SAVE::field_2B0, Pointer
+    storex #CurrentGame + GAME_SAVE::Storage, Pointer
     rts
 .endproc            ; End of function sub_13B09A
 
@@ -4184,7 +4184,7 @@ loc_13B41B:
 ; =============== S U B R O U T I N E =======================================
 
 
-.proc sub_13B42B
+.proc function
     .importzp Source, FuncID
 
     iny
@@ -4192,7 +4192,7 @@ loc_13B41B:
     sta FuncID
     iny
     rts
-.endproc            ; End of function sub_13B42B
+.endproc            ; End of function function
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -4820,15 +4820,13 @@ loc_13B681:
 
 
 .proc live_show
-    .import bank_A000_a, sub_19A6C2
+    .import bank_A000_a, dancing
     .importzp ScriptOffset
 
     sty ScriptOffset
     lda #$19
-    ldyx #(sub_19A6C2-1)
-    jsr bank_A000_a     ; changes the memory bank $A000, transfers the execution of the code after completion of which returns the original memory bank
-                        ; input: A - bank number, YX - (subroutine address - 1)
-                        ; Y - high byte, X - low byte
+    ldyx #(dancing-1)
+    jsr bank_A000_a
     ldy ScriptOffset
     iny
     rts
@@ -4936,12 +4934,12 @@ loc_13B737:
 
 
 .proc crystal
-    .import bank_A000_a, load_obj_bank, sub_19A5CC
+    .import bank_A000_a, load_obj_bank, tomb_animation
     .importzp ScriptOffset
 
     sty ScriptOffset
     lda #$19
-    ldyx #(sub_19A5CC-1)
+    ldyx #(tomb_animation-1)
     jsr bank_A000_a     ; changes the memory bank $A000, transfers the execution of the code after completion of which returns the original memory bank
                         ; input: A - bank number, YX - (subroutine address - 1)
                         ; Y - high byte, X - low byte
@@ -5194,7 +5192,7 @@ loc_13B88B:
     ldx #0
 
 loc_13B896:
-    lda CurrentGame + GAME_SAVE::field_2B0,X
+    lda CurrentGame + GAME_SAVE::Storage,X
     bne loc_13B89D
     ldx #0
 
@@ -5236,10 +5234,10 @@ loc_13B8C7:
 
     clc
     lda ItemCount
-    adc #<(CurrentGame + GAME_SAVE::field_2B0)     ; #$B0
+    adc #<(CurrentGame + GAME_SAVE::Storage)
     sta pStr
     lda #0
-    adc #>(CurrentGame + GAME_SAVE::field_2B0)      ; #$76
+    adc #>(CurrentGame + GAME_SAVE::Storage)
     sta pStr+1
     rts
 .endproc            ; End of function sub_13B8CA

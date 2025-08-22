@@ -1341,14 +1341,14 @@ MagCoinClerk:
     check_action TALK, CoinExit - MagCoinClerk
     print $3E1
 CoinRepeat:
-    set_flag FLAG0|BIT7
+    set_flag FLAG00|BIT7
     find_item EMPTY, CoinList - MagCoinClerk
-    clear_flag FLAG0|BIT7
+    clear_flag FLAG00|BIT7
 CoinList:
     item_list MagicHerb, PeaceCoin, ProtectCoin, MagicCoin, CoinRefuse - MagCoinClerk
-    check_flag FLAG0|BIT7, CoinBuy - MagCoinClerk
+    check_flag FLAG00|BIT7, CoinBuy - MagCoinClerk
     print $23B
-    clear_flag FLAG0|BIT7
+    clear_flag FLAG00|BIT7
     end_script
 CoinBuy:
     pay CoinLess - MagCoinClerk
@@ -1368,7 +1368,7 @@ CoinStop:
     get CoinExit - MagCoinClerk
 CoinRefuse:
     print $30A
-    clear_flag FLAG0|BIT7
+    clear_flag FLAG00|BIT7
     end_script
 CoinLess:
     print $33A
@@ -1384,14 +1384,14 @@ MagRingClerk:
     check_action TALK, RingExit - MagRingClerk
     print $3E1
 RingRepeat:
-    set_flag FLAG0|BIT7
+    set_flag FLAG00|BIT7
     find_item EMPTY, RingList - MagRingClerk
-    clear_flag FLAG0|BIT7
+    clear_flag FLAG00|BIT7
 RingList:
     item_list MagicHerb, BrassRing, SilverRing, GoldRing, RingRefuse - MagRingClerk
-    check_flag FLAG0|BIT7, RingBuy - MagRingClerk
+    check_flag FLAG00|BIT7, RingBuy - MagRingClerk
     print $23B
-    clear_flag FLAG0|BIT7
+    clear_flag FLAG00|BIT7
     end_script
 RingBuy:
     pay RingLess - MagRingClerk
@@ -1411,7 +1411,7 @@ RingStop:
     get RingExit - MagRingClerk
 RingRefuse:
     print $30A
-    clear_flag FLAG0|BIT7
+    clear_flag FLAG00|BIT7
     end_script
 RingLess:
     print $33A
@@ -1427,14 +1427,14 @@ MagPendantClerk:
     check_action TALK, PendantExit - MagPendantClerk
     print $3E1
 PendantRepeat:
-    set_flag FLAG0|BIT7
+    set_flag FLAG00|BIT7
     find_item EMPTY, PendantList - MagPendantClerk
-    clear_flag FLAG0|BIT7
+    clear_flag FLAG00|BIT7
 PendantList:
     item_list RepelRing, H2oPendant, FirePendant, EarthPendnt, PendantRefuse - MagPendantClerk
-    check_flag FLAG0|BIT7, PendantBuy - MagPendantClerk
+    check_flag FLAG00|BIT7, PendantBuy - MagPendantClerk
     print $23B
-    clear_flag FLAG0|BIT7
+    clear_flag FLAG00|BIT7
     end_script
 PendantBuy:
     pay PendantLess - MagPendantClerk
@@ -1454,7 +1454,7 @@ PendantStop:
     get PendantExit - MagPendantClerk
 PendantRefuse:
     print $30A
-    clear_flag FLAG0|BIT7
+    clear_flag FLAG00|BIT7
     end_script
 PendantLess:
     print $33A

@@ -79,28 +79,117 @@ Let's restore the time machine joke. In the file `../res/objects2.s`, locate the
 
 <pre>
 MysteriousTeacher:
-    .byte $94, $A9, 4, $F5, $A8, $84, 6, $46, $A, $62, $12
-    .byte $43, $14, 8, $2C, 1, 9, $5F, 1, $1C, 8, $26, 1, 9
-    .byte $5F, 8, $28, 1, $10, 0, $27, 0, $23, $11, 0, $10
-    .byte $43, $22, $6C, $24, $1E, $A6, $59, $12, 0, $37, 8
-    .byte $3E, 2, 8, $2B, 1, $11, 0, 0, $29, $50, $26, $A6
-    .byte $48, 8, $1C, 2, 8, $23, 2, $5B, 9, 8, $75, 1, 0
-    .byte $2D, $62, $5C, 6, 8, $2B, 1, 0, 8, $3D, 2, 8, $2B
-    .byte 1, $11, 0, 0, 8, $2B, 1, $11, 0, 0, 8, $29, 1, 0
+    npc STAT_NPC2, $A980, $F500, DOWN, PharmacistAnim
+
+    .byte 6, $46
+    check_action TALK, MystTeachExit - MysteriousTeacher
+    check_flag FLAG8|BIT4, Meet - MysteriousTeacher
+    print $12C
+    confirm NotLook - MysteriousTeacher
+    jump RepeatBuy - MysteriousTeacher
+Meet:
+    print $126
+    confirm NotLook - MysteriousTeacher
+    print $128
+RepeatBuy:
+    set_flag FLAG0|BIT7
+    find_item EMPTY, MystList - MysteriousTeacher
+    clear_flag FLAG0|BIT7
+MystList:
+    set_flag FLAG8|BIT4
+    item_list LastWeapon, SuperBomb, StkyMachine, RealRocket, MystRefuse - MysteriousTeacher
+    check_flag FLAG0|BIT7, MystBuy - MysteriousTeacher
+    print $23E
+    print $12B
+    clear_flag FLAG0|BIT7
+    end_script
+MystBuy:
+    pay MystLess - MysteriousTeacher
+    buying_item RealRocket, NotRocket - MysteriousTeacher
+    print $21C
+    print $223
+    play SOUND1, 9
+    print $175
+    end_script
+NotRocket:
+    add_item MystTeachExit - MysteriousTeacher
+    play SOUND2, 6
+    print $12B
+    end_script
+MystLess:
+    print $23D
+    print $12B
+    clear_flag FLAG0|BIT7
+    end_script
+MystRefuse:
+    print $12B
+    clear_flag FLAG0|BIT7
+    end_script
+NotLook:
+    print $129
+MystTeachExit:
+    end_script
 </pre>
 
 And replace everything under it with the following values:
 <pre>
-    .byte $94, $A9, 4, $F5, $A8, $84, 6, $46, $A, $71, $12
-    .byte $43, $14, 8, $2C, 1, 9, $6E, 1, $1C, 8, $26, 1, 9
-    .byte $6E, 8, $28, 1, $10, 0, $27, 0, $23, $11, 0, $10
-    .byte $43, $22, $6C, $A7, $1E, $A6, $68, $12, 0, $37, 8
-    .byte $3E, 2, 8, $2B, 1, $11, 0, 0, $29, $5F, $26, $A7
-    .byte $48, 8, $1C, 2, 8, $23, 2, $3D, $40, $E5, $82, $21
-    .byte 0, $26, $A6, $57, 8, $1C, 2, 8, $23, 2, $5B, 9, 8
-    .byte $75, 1, 0, $2D, $71, $5C, 6, 8, $2B, 1, 0, 8, $3D
-    .byte 2, 8, $2B, 1, $11, 0, 0, 8, $2B, 1, $11, 0, 0, 8
-    .byte $29, 1, 0
+MysteriousTeacher:
+    npc STAT_NPC2, $A980, $F500, DOWN, PharmacistAnim
+
+    .byte 6, $46
+    check_action TALK, MystTeachExit - MysteriousTeacher
+    check_flag FLAG8|BIT4, Meet - MysteriousTeacher
+    print $12C
+    confirm NotLook - MysteriousTeacher
+    jump RepeatBuy - MysteriousTeacher
+Meet:
+    print $126
+    confirm NotLook - MysteriousTeacher
+    print $128
+RepeatBuy:
+    set_flag FLAG0|BIT7
+    find_item EMPTY, MystList - MysteriousTeacher
+    clear_flag FLAG0|BIT7
+MystList:
+    set_flag FLAG8|BIT4
+    item_list LastWeapon, TimeMachine, StkyMachine, RealRocket, MystRefuse - MysteriousTeacher
+    check_flag FLAG0|BIT7, MystBuy - MysteriousTeacher
+    print $23E
+    print $12B
+    clear_flag FLAG0|BIT7
+    end_script
+MystBuy:
+    pay MystLess - MysteriousTeacher
+    buying_item TimeMachine, MystNext - MysteriousTeacher
+    print $21C
+    print $223
+    teleport $E540, $2182
+    end_script
+MystNext:
+    buying_item RealRocket, MystNext - MysteriousTeacher
+    print $21C
+    print $223
+    play SOUND1, 9
+    print $175
+    end_script
+NotRocket:
+    add_item MystTeachExit - MysteriousTeacher
+    play SOUND2, 6
+    print $12B
+    end_script
+MystLess:
+    print $23D
+    print $12B
+    clear_flag FLAG0|BIT7
+    end_script
+MystRefuse:
+    print $12B
+    clear_flag FLAG0|BIT7
+    end_script
+NotLook:
+    print $129
+MystTeachExit:
+    end_script
 </pre>
 
 After finishing the edits, build the ROM. Go to the folder with your modifications (`mod`) and run the command `make`. The game ROM, `game.nes`, will be located in the `../mod/build` folder.
