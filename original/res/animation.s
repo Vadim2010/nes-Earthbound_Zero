@@ -166,8 +166,8 @@ stru_1581A8:
     frame MoveLeft, $80, $F
     frame MoveUpLeft, $80, $F
 
-stru_1581C8:
-    .export stru_1581C8
+PolicemanAnim:
+    .export PolicemanAnim
 
     frame MoveUp, $A0, $F
     frame MoveUpRight, $A0, $F
@@ -512,17 +512,23 @@ stru_158550:
     frame stru_1592DC, $E8, $F
     frame stru_1592EC, $E8, $F
 
-stru_158558:
+CoffinAnim:
+    .export CoffinAnim
+
     frame stru_158EAC, $EA, 0
     frame stru_158EAC, $EA, 0
 
 stru_158560:
     frame stru_158EAC, $EE, 0
 
-stru_158564:
+BonesAnim:
+    .export BonesAnim
+
     frame stru_158ECC, $C0, 0
 
 stru_158568:
+    .export stru_158568
+
     frame MoveUp, $80, 0
     frame MoveUpRight, $80, 0
     frame MoveRight, $80, 0
@@ -567,6 +573,8 @@ stru_1585C8:
     frame MoveUpLeft, $E0, 6
 
 stru_1585E8:
+    .export stru_1585E8
+
     frame stru_158F9C, $88, 0
 
 DogAnim:
@@ -605,23 +613,29 @@ stru_15862C:
     frame MoveLeft, $E8, $A
     frame MoveUpLeft, $E8, $A
 
-stru_15864C:
-    frame stru_158E5C, $80, 0
-    frame stru_158E64, $80, 0
-    frame stru_158E6C, $80, 0
-    frame stru_158E74, $80, 0
-    frame stru_158E7C, $80, 0
-    frame stru_158E84, $80, 0
-    frame stru_158E8C, $80, 0
-    frame stru_158E94, $80, 0
+MouseAnim:
+    .export MouseAnim
+
+    frame MouseUp, $80, 0
+    frame MouseUpRight, $80, 0
+    frame MouseRight, $80, 0
+    frame MouseDownRight, $80, 0
+    frame MouseDown, $80, 0
+    frame MouseDownLeft, $80, 0
+    frame MouseLeft, $80, 0
+    frame MouseUpLeft, $80, 0
 
 stru_15866C:
     frame stru_158ECC, $C0, $F
 
-stru_158670:
+PhoneAnim:
+    .export PhoneAnim
+
     frame stru_158ECC, $A8, 0
 
-AnimLamp:
+LampAnim:
+    .export LampAnim
+
     frame stru_158EAC, $8E, $F
     frame stru_158EAC, $8E, $F
 
@@ -672,8 +686,8 @@ stru_1586DC:
     frame MoveLeft, $A0, 5
     frame MoveUpLeft, $A0, 5
 
-stru_1586FC:
-    .export stru_1586FC
+AngryPilotAnim:
+    .export AngryPilotAnim
 
     frame MoveUp, $88, 5
     frame MoveUpRight, $88, 5
@@ -685,6 +699,8 @@ stru_1586FC:
     frame MoveUpLeft, $88, 5
 
 stru_15871C:
+    .export stru_15871C
+
     frame MoveUp, $C8, $F
     frame MoveUpRight, $C8, $F
     frame MoveRight, $C8, $F
@@ -746,8 +762,8 @@ stru_1587A4:
     frame MoveLeft, $80, $F
     frame MoveUpLeft, $80, $F
 
-stru_1587C4:
-    .export stru_1587C4
+MonkeyAnim:
+    .export MonkeyAnim
 
     frame MoveUp1, $C0, 5
     frame MoveUpRight1, $C0, 5
@@ -794,8 +810,8 @@ stru_158824:
     frame MoveLeft1, $A8, $A
     frame MoveUpLeft1, $A8, $A
 
-stru_158844:
-    .export stru_158844
+PenguinAnim:
+    .export PenguinAnim
 
     frame MoveUp, $C8, 0
     frame MoveUpRight, $C8, 0
@@ -807,34 +823,44 @@ stru_158844:
     frame MoveUpLeft, $C8, 0
 
 stru_158864:
+    .export stru_158864
+
     frame stru_1592DC, $E8, $F
 
 stru_158868:
+    .export stru_158868
+
     frame stru_158EAC, $EA, 0
 
 stru_15886C:
+    .export stru_15886C
+
     frame stru_1592DC, $EC, 0
 
 stru_158870:
     frame stru_158EAC, $EE, 0
     frame stru_158EAC, $EE, 0
 
-stru_158878:
-    frame stru_158E5C, $80, 0
-    frame stru_158E64, $80, 0
-    frame stru_158E6C, $80, 0
+RabbitAnim:
+    .export RabbitAnim
 
-stru_158884:
-    frame stru_158E74, $80, 0
-    frame stru_158E7C, $80, 0
-    frame stru_158E84, $80, 0
-    frame stru_158E8C, $80, 0
-    frame stru_158E94, $80, 0
+    frame MouseUp, $80, 0
+    frame MouseUpRight, $80, 0
+    frame MouseRight, $80, 0
+    frame MouseDownRight, $80, 0
+    frame MouseDown, $80, 0
+    frame MouseDownLeft, $80, 0
+    frame MouseLeft, $80, 0
+    frame MouseUpLeft, $80, 0
 
-stru_158898:
+FlamingoAnim:
+    .export FlamingoAnim
+
     frame stru_158ECC, $C0, $AA
 
-stru_15889C:
+PandaAnim:
+    .export PandaAnim
+
     frame stru_158ECC, $A8, 0
 
 stru_1588A0:
@@ -1078,12 +1104,12 @@ PilotAnim:
     frame MoveLeft, $88, 5
     frame MoveUpLeft, $88, 5
 
-stru_158AF4:
+CapsuleAnim:
     frame stru_158EAC, $C6, $F
     frame stru_158EAC, $C6, $15
 
-AirplaneAnim:
-    .export AirplaneAnim
+PlaneAnim:
+    .export PlaneAnim
 
     frame stru_1591BC, $80, $55
     frame stru_1591E0, $80, $55
@@ -1091,32 +1117,30 @@ AirplaneAnim:
     frame stru_159228, $80, $55
     frame stru_15924C, $80, $55
     frame stru_159270, $80, $55
-
-stru_158B14:
     frame stru_159294, $80, $55
     frame stru_1592B8, $80, $55
 
-stru_158B1C:
-    frame stru_15909C, $E0, 0
-    frame stru_1590C0, $E0, 0
-    frame stru_1590E4, $E0, 0
-    frame stru_159108, $E0, 0
+TankAnim:
+    .export TankAnim
 
-stru_158B2C:
-    frame stru_15912C, $E0, 0
-    frame stru_159150, $E0, 0
-    frame stru_159174, $E0, 0
-    frame stru_159198, $E0, 0
+    frame VehicleUp, $E0, 0
+    frame VehicleUpRight, $E0, 0
+    frame VehicleRight, $E0, 0
+    frame VehicleDownRight, $E0, 0
+    frame VehicleDown, $E0, 0
+    frame VehicleDownLeft, $E0, 0
+    frame VehicleLeft, $E0, 0
+    frame VehicleLeftUp, $E0, 0
 
-stru_158B3C:
-    frame stru_15909C, $A0, $FF
-    frame stru_1590C0, $A0, $FF
-    frame stru_1590E4, $A0, $FF
-    frame stru_159108, $A0, $FF
-    frame stru_15912C, $A0, $FF
-    frame stru_159150, $A0, $FF
-    frame stru_159174, $A0, $FF
-    frame stru_159198, $A0, $FF
+BoatAnim:
+    frame VehicleUp, $A0, $FF
+    frame VehicleUpRight, $A0, $FF
+    frame VehicleRight, $A0, $FF
+    frame VehicleDownRight, $A0, $FF
+    frame VehicleDown, $A0, $FF
+    frame VehicleDownLeft, $A0, $FF
+    frame VehicleLeft, $A0, $FF
+    frame VehicleLeftUp, $A0, $FF
 
 MoveUp:
     .byte $10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 4   ; TILE <$10, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 4
@@ -1406,35 +1430,35 @@ MoveUpLeft2:
     .byte $10, $28, COLOR_1|TILE_OFFSET|FOREGROUND, 6           ; TILE <$10, $28, COLOR_1|TILE_OFFSET|FOREGROUND, 6
     .byte $18, $28, COLOR_1|TILE_OFFSET|FOREGROUND, 7           ; TILE <$18, $28, COLOR_1|TILE_OFFSET|FOREGROUND, 7
 
-stru_158E5C:
+MouseUp:
     .byte $14, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 8       ; TILE <$14, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 8
     .byte $14, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $20     ; TILE <$14, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $20
 
-stru_158E64:
+MouseUpRight:
     .byte $14, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 8   ; TILE <$14, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 8
     .byte $14, $27, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $20 ; TILE <$14, $27, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $20
 
-stru_158E6C:
+MouseRight:
     .byte $14, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 9       ; TILE <$14, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 9
     .byte $14, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $21 ; TILE <$14, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $21
 
-stru_158E74:
+MouseDownRight:
     .byte $14, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 9   ; TILE <$14, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 9
     .byte $14, $27, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $21 ; TILE <$14, $27, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $21
 
-stru_158E7C:
+MouseDown:
     .byte $14, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 8       ; TILE <$14, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND, 8
     .byte $14, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, 1       ; TILE <$14, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, 1
 
-stru_158E84:
+MouseDownLeft:
     .byte $14, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 8   ; TILE <$14, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 8
     .byte $14, $27, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 1   ; TILE <$14, $27, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 1
 
-stru_158E8C:
+MouseLeft:
     .byte $14, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 9   ; TILE <$14, $20, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 9
     .byte $14, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $21     ; TILE <$14, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $21
 
-stru_158E94:
+MouseUpLeft:
     .byte $14, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND, 9       ; TILE <$14, $1F, TRANSPARENT|TILE_OFFSET|FOREGROUND, 9
     .byte $14, $27, TRANSPARENT|TILE_OFFSET|FOREGROUND, $21     ; TILE <$14, $27, TRANSPARENT|TILE_OFFSET|FOREGROUND, $21
 
@@ -1610,7 +1634,7 @@ stru_159078:
     .byte $18, $30, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $2E     ; TILE <$18, $30, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $2E
     .byte $20, $30, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $2D     ; TILE <$20, $30, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $2D
 
-stru_15909C:
+VehicleUp:
     .byte $C, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, 5        ; TILE <$C, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, 5
     .byte $14, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, 6       ; TILE <$14, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, 6
     .byte $1C, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, 7       ; TILE <$1C, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, 7
@@ -1621,7 +1645,7 @@ stru_15909C:
     .byte $14, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $1A     ; TILE <$14, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $1A
     .byte $1C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $19 ; TILE <$1C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $19
 
-stru_1590C0:
+VehicleUpRight:
     .byte $C, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, 5        ; TILE <$C, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, 5
     .byte $14, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, 6       ; TILE <$14, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, 6
     .byte $1C, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, 7       ; TILE <$1C, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, 7
@@ -1632,7 +1656,7 @@ stru_1590C0:
     .byte $14, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $1A     ; TILE <$14, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $1A
     .byte $1C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $1B     ; TILE <$1C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $1B
 
-stru_1590E4:
+VehicleRight:
     .byte $C, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $A       ; TILE <$C, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $A
     .byte $14, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 9       ; TILE <$14, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 9
     .byte $1C, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 8       ; TILE <$1C, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 8
@@ -1643,7 +1667,7 @@ stru_1590E4:
     .byte $14, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $C      ; TILE <$14, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $C
     .byte $1C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $B      ; TILE <$1C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $B
 
-stru_159108:
+VehicleDownRight:
     .byte $C, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $A       ; TILE <$C, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $A
     .byte $14, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 9       ; TILE <$14, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 9
     .byte $1C, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 8       ; TILE <$1C, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, 8
@@ -1654,7 +1678,7 @@ stru_159108:
     .byte $14, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $1E     ; TILE <$14, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $1E
     .byte $1C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $1D     ; TILE <$1C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $1D
 
-stru_15912C:
+VehicleDown:
     .byte $C, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, 2        ; TILE <$C, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, 2
     .byte $14, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, 3       ; TILE <$14, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, 3
     .byte $1C, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, 4       ; TILE <$1C, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, 4
@@ -1665,7 +1689,7 @@ stru_15912C:
     .byte $14, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $14     ; TILE <$14, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $14
     .byte $1C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $13 ; TILE <$1C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND|HORIZONTAL_FLIP, $13
 
-stru_159150:
+VehicleDownLeft:
     .byte $C, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, 2        ; TILE <$C, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, 2
     .byte $14, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, 3       ; TILE <$14, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, 3
     .byte $1C, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, 4       ; TILE <$1C, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, 4
@@ -1676,7 +1700,7 @@ stru_159150:
     .byte $14, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $14     ; TILE <$14, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $14
     .byte $1C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $15     ; TILE <$1C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $15
 
-stru_159174:
+VehicleLeft:
     .byte $C, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, 8        ; TILE <$C, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, 8
     .byte $14, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, 9       ; TILE <$14, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, 9
     .byte $1C, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, $A      ; TILE <$1C, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, $A
@@ -1687,7 +1711,7 @@ stru_159174:
     .byte $14, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $1E     ; TILE <$14, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $1E
     .byte $1C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $1F     ; TILE <$1C, $28, TRANSPARENT|TILE_OFFSET|FOREGROUND, $1F
 
-stru_159198:
+VehicleLeftUp:
     .byte $C, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, 8        ; TILE <$C, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, 8
     .byte $14, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, 9       ; TILE <$14, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, 9
     .byte $1C, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, $A      ; TILE <$1C, $18, TRANSPARENT|TILE_OFFSET|FOREGROUND, $A

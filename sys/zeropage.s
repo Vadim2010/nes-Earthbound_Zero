@@ -11,7 +11,7 @@
 .exportzp CameraX, CameraY, SpriteTabOffset, SpriteTabStep, StartX, Source, ShiftCameraX, ShiftCameraY, ScreenX, ScreenY, Screen
 .exportzp ObjectID, TileCount, TileID, pTileID, p4TileID, p4TileAttr, TileX, TileY, Attribute, pOAMSprite, pFrame, pStr, pDist
 .exportzp pCursor, pCharacter, FuncID, Dist, Row, Column
-.exportzp byte_C, byte_D, byte_F, byte_1F, byte_20, ObjectNumWithChar, byte_22, Vechicle, byte_24, byte_25, RandomNumber
+.exportzp byte_C, byte_D, byte_F, byte_1F, byte_20, ObjectNumWithChar, byte_22, Vehicle, byte_24, byte_25, RandomNumber
 .exportzp CharNum, Item, WaitPressed, byte_2D, byte_34, ScriptOffset, TempX, TempY, Tiles, NewView, byte_A9, StepX, StepY
 .exportzp SplitLine, CHRFlags, IRQLine, byte_47, EnemyGroup, Experience, Money, Value
 .exportzp StackPointer, MsgCounter, CharacterOffset, TargetOffset, BossID, Flags, Sound, Auto, EnemyPos, EnemyCount
@@ -63,7 +63,7 @@ byte_1F:            .res 1
 byte_20:            .res 1
 ObjectNumWithChar:  .res 1
 byte_22:            .res 1
-Vechicle:           .res 1
+Vehicle:            .res 1
 byte_24:            .res 1
 byte_25:            .res 1
 RandomNumber:       .res 2

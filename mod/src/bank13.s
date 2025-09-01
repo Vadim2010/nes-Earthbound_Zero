@@ -3899,20 +3899,20 @@ loc_13B295:
 
 .proc sub_13B29C
     .import sram_write_enable, sram_read_enable
-    .importzp Dist, ObjectNumWithChar, Vechicle, ScriptOffset
+    .importzp Dist, ObjectNumWithChar, Vehicle, ScriptOffset
 
     tax
     sty ScriptOffset
     jsr sram_write_enable
     txa
-    eor Vechicle
+    eor Vehicle
     and #$7F
     bne loc_13B2AA
     rts
 ; ---------------------------------------------------------------------------
 
 loc_13B2AA:
-    stx Vechicle
+    stx Vehicle
     ldy #$1C
     lda ScriptOffset
     sta (Dist),Y
@@ -3982,13 +3982,13 @@ loc_13B2DE:
 
 
 .proc airplane
-    .import sub_CDAF, loc_13B295, AirplaneAnim
+    .import sub_CDAF, loc_13B295, PlaneAnim
 
     lda #$74
     jsr sub_13B29C
     lda #9
-    ldx #<AirplaneAnim
-    ldy #>AirplaneAnim
+    ldx #<PlaneAnim
+    ldy #>PlaneAnim
     jsr sub_13B2D8
     set $679A, #$F
     ldx #$10
@@ -4049,10 +4049,10 @@ loc_13B2DE:
 
 .proc train
     .import sram_write_enable, sram_read_enable, sub_CDAF
-    .importzp ObjNumber, Vechicle, Item, ScriptOffset
+    .importzp ObjNumber, Vehicle, Item, ScriptOffset
 
     sty ScriptOffset
-    set Vechicle, #$F0
+    set Vehicle, #$F0
     set ObjNumber, #$3F
     jsr sram_write_enable
     set $67C0, #0
@@ -4117,7 +4117,7 @@ loc_13B2DE:
 
 .proc no_vehicle
     .import sub_CDAF, copy_character_buffer
-    .importzp Source, Dist, byte_20, Vechicle, ScriptOffset
+    .importzp Source, Dist, byte_20, Vehicle, ScriptOffset
 
     iny
     sty ScriptOffset
@@ -4125,7 +4125,7 @@ loc_13B2DE:
     ora #$80
     sta byte_20
     ldx #0
-    stx Vechicle
+    stx Vehicle
     jsr sub_CDAF
     lda Dist
     pha

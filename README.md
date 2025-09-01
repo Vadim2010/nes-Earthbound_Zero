@@ -81,7 +81,7 @@ Let's restore the time machine joke. In the file `../res/objects2.s`, locate the
 MysteriousTeacher:
     npc STAT_NPC2, $A980, $F500, DOWN, PharmacistAnim
 
-    .byte 6, $46
+    show FLAG08|BIT1
     check_action TALK, MystTeachExit - MysteriousTeacher
     check_flag FLAG8|BIT4, Meet - MysteriousTeacher
     print $12C
@@ -136,7 +136,7 @@ And replace everything under it with the following values:
 MysteriousTeacher:
     npc STAT_NPC2, $A980, $F500, DOWN, PharmacistAnim
 
-    .byte 6, $46
+    show FLAG08|BIT1
     check_action TALK, MystTeachExit - MysteriousTeacher
     check_flag FLAG8|BIT4, Meet - MysteriousTeacher
     print $12C

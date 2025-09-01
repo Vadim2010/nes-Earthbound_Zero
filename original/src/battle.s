@@ -20,7 +20,7 @@ battle:
     .import frame, shift_down_window, sub_F760, sub_F765, shift_up_window, clear_jmp_instr, Character, CurrentGame, byte_580
     .import NMI_Data, Enemy1, Enemy2, Enemy3, Enemy4, Character1, Character2, Character3, Character4, BattlePalettes
     .importzp GamepadButtons, pCharacter, Pointer, NMIFlags, OffsetNMI_Data, NamePos
-    .importzp Vechicle, byte_47, EnemyGroup, Experience, Money
+    .importzp Vehicle, byte_47, EnemyGroup, Experience, Money
     .importzp MsgCounter, CharacterOffset, BossID, Auto, EnemyPos, EnemyCount
 
     set GamepadButtons, #0
@@ -232,7 +232,7 @@ loc_17A142:
 
 loc_17A173:
     stx EnemyCount
-    lda Vechicle
+    lda Vehicle
     beq loc_17A18C
     ldy #0
     sty BossID
@@ -3072,7 +3072,7 @@ loc_17B0CA:
 
 
 fight_lower:
-    lda Vechicle
+    lda Vehicle
     bne fight_disadvantage
     ldy TargetOffset
     lda Character1 + BATTLE::Status,Y
@@ -3147,7 +3147,7 @@ check_resist_chance:
 check_no_vechicle:
     lda CharacterOffset
     bmi loc_17B12F
-    lda Vechicle
+    lda Vehicle
     beq loc_17B12F
     clc
     rts
@@ -4498,7 +4498,7 @@ check_enemies:
     ora Enemy3 + BATTLE::EnemyGroup
     ora Enemy4 + BATTLE::EnemyGroup
     bne alive_enemy
-    lda Vechicle
+    lda Vehicle
     beq loc_17B7C9
     lda #TankBroken
     jsr print_text

@@ -1076,9 +1076,9 @@ byte_128FB5:
     .byte $A, $B, 8, $B4, 0, 0
 
 byte_128FC1:
-    .import stru_1587C4
+    .import MonkeyAnim
 
-    npc WALK_NPC, $9900, $A980, DOWN, stru_1587C4
+    npc WALK_NPC, $9900, $A980, DOWN, MonkeyAnim
     .byte $A, $14, 8, $B8, 0
     .byte 9, $11, 8, $B9, 0, 0, 8, $BA, 0, 0
 

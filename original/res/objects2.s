@@ -1713,7 +1713,7 @@ EllDoctorCall:
 EllDoctorChar:
     sel_char 0, EllDoctorStatus - EllDoctor
 EllDoctorStatus:
-    check_status $80, EllDoctorFainted - EllDoctor
+    check_status FAINTED, EllDoctorFainted - EllDoctor
     max_hp EllDoctorHeal - EllDoctor
     check_status 3, EllDoctorHeal - EllDoctor
     print $30F
@@ -1801,7 +1801,7 @@ PodMayor:
 
     check_action TALK, Exit1Mayor - PodMayor
     check_char 5, Alone - PodMayor
-    check_status $80, Rest - PodMayor
+    check_status FAINTED, Rest - PodMayor
     jump CheckChar1 - PodMayor
 Rest:
     print $270
@@ -1809,7 +1809,7 @@ Rest:
     end_script
 CheckChar1:
     check_char 1, Alone - PodMayor
-    check_status $80, Char1Fainted - PodMayor
+    check_status FAINTED, Char1Fainted - PodMayor
     price 100
     print $43
     play SOUND2, 6
@@ -2221,7 +2221,7 @@ byte_11999F:
 MysteriousTeacher:
     npc STAT_NPC2, $A980, $F500, DOWN, PharmacistAnim
 
-    .byte 6, $46
+    show FLAG08|BIT1
     check_action TALK, MystTeachExit - MysteriousTeacher
     check_flag FLAG08|BIT4, Meet - MysteriousTeacher
     print $12C
@@ -2510,93 +2510,93 @@ byte_119D66:
     .byte $F4, 1, 0
 
 byte_119D69:
-    .import stru_1587C4
+    .import MonkeyAnim
 
-    npc WALK_NPC, $1640, $7380, UP, stru_1587C4
+    npc WALK_NPC, $1640, $7380, UP, MonkeyAnim
     .byte $A, $B, 8, $77, 2, 0
 
 byte_119D75:
-    npc WALK_NPC, $1840, $A480, RIGHT, stru_1587C4
+    npc WALK_NPC, $1840, $A480, RIGHT, MonkeyAnim
     .byte $A, $14, 8, $78, 2
     .byte 9, $11, 8, $79, 2, 0, 8, $7A, 2, 0
 
 byte_119D8A:
-    npc WALK_NPC, $1B80, $A640, DOWN, stru_1587C4
+    npc WALK_NPC, $1B80, $A640, DOWN, MonkeyAnim
     .byte $A, $14, 8, $7B, 2
     .byte 9, $11, 8, $7C, 2, 0, 8, $7D, 2, 0
 
 byte_119D9F:
-    npc STAT_NPC, $1380, $AC40, RIGHT, stru_1587C4
+    npc STAT_NPC, $1380, $AC40, RIGHT, MonkeyAnim
     .byte $A, $21, $12, $45
     .byte $F, 8, $DC, 0, 0, 8, $7E, 2, $27, 0, $1E, $25, $4E
     .byte $2D, $21, $5C, 6, $10, $45, 0, 8, $3E, 2, 0
 
 byte_119DC1:
-    npc WALK_NPC, $B40, $A540, LEFT, stru_1587C4
+    npc WALK_NPC, $B40, $A540, LEFT, MonkeyAnim
     .byte $A, $B, 8, $7F, 2, 0
 
 byte_119DCD:
-    npc WALK_NPC, $700, $7A40, UP, stru_1587C4
+    npc WALK_NPC, $700, $7A40, UP, MonkeyAnim
     .byte $A, $B, 8, $80, 2, 0
 
 byte_119DD9:
-    npc WALK_NPC, $29C0, $A240, LEFT, stru_1587C4
+    npc WALK_NPC, $29C0, $A240, LEFT, MonkeyAnim
     .byte $A, $B, 8, $81, 2, 0
 
 byte_119DE5:
-    npc WALK_NPC, $B40, $7B40, RIGHT, stru_1587C4
+    npc WALK_NPC, $B40, $7B40, RIGHT, MonkeyAnim
     .byte $A, $14, 8, $82, 2
     .byte 9, $11, 8, $83, 2, 0, 8, $56, 0, 0
 
 byte_119DFA:
-    npc WALK_NPC, $1A40, $A4C0, DOWN, stru_1587C4
+    npc WALK_NPC, $1A40, $A4C0, DOWN, MonkeyAnim
     .byte $A, $B, 8, $85, 2, 0
 
 byte_119E06:
-    npc WALK_NPC, $1F40, $A640, DOWN, stru_1587C4
+    npc WALK_NPC, $1F40, $A640, DOWN, MonkeyAnim
     .byte $A, $B, 8, $86, 2, 0
 
 byte_119E12:
-    npc WALK_NPC, $1040, $7840, RIGHT, stru_1587C4
+    npc WALK_NPC, $1040, $7840, RIGHT, MonkeyAnim
     .byte $A, $14, 8, $87, 2
     .byte 9, $11, 8, $88, 2, 0, 8, $89, 2, 0
 
 byte_119E27:
-    npc WALK_NPC, $1140, $A240, UP, stru_1587C4
+    npc WALK_NPC, $1140, $A240, UP, MonkeyAnim
     .byte $A, $B, 8, $8A, 2, 0
 
 byte_119E33:
-    npc WALK_NPC, $1080, $A480, DOWN, stru_1587C4
+    npc WALK_NPC, $1080, $A480, DOWN, MonkeyAnim
     .byte $A, $B, 8, $8B, 2, 0
 
 byte_119E3F:
-    npc WALK_NPC, $1C80, $A880, LEFT, stru_1587C4
+    npc WALK_NPC, $1C80, $A880, LEFT, MonkeyAnim
     .byte $A, $B, 8, $8C, 2, 0
 
 byte_119E4B:
-    npc WALK_NPC, $1240, $7680, RIGHT, stru_1587C4
+    npc WALK_NPC, $1240, $7680, RIGHT, MonkeyAnim
     .byte $A, $B, 8, $8D, 2, 0
 
 byte_119E57:
-    npc WALK_NPC, $1DC0, $A440, DOWN, stru_1587C4
+    npc WALK_NPC, $1DC0, $A440, DOWN, MonkeyAnim
     .byte $A, $B, 8, $8E, 2, 0
 
 byte_119E63:
-    npc WALK_NPC, $1240, $AA00, LEFT, stru_1587C4
+    npc WALK_NPC, $1240, $AA00, LEFT, MonkeyAnim
     .byte $A, $B, 8, $8F, 2, 0
 
 byte_119E6F:
-    npc WALK_NPC, $1700, $A640, DOWN, stru_1587C4
+    npc WALK_NPC, $1700, $A640, DOWN, MonkeyAnim
     .byte $A, $B, 8, $90, 2, 0
 
 byte_119E7B:
-    npc WALK_NPC, $1940, $A540, RIGHT, stru_1587C4
+    npc WALK_NPC, $1940, $A540, RIGHT, MonkeyAnim
     .byte $A, $B, 8, $91, 2, 0
 
 byte_119E87:
-    .import stru_158844
+    .import PenguinAnim
 
-    npc WALK_NPC, $1880, $A540, UP, stru_158844
+    npc WALK_NPC, $1880, $A540, UP, PenguinAnim
     .byte $A, $B, 8, $92, 2, 0
 
 byte_119E93:

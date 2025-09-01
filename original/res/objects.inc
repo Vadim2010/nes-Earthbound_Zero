@@ -18,18 +18,36 @@ APPROACH    = $35
 VIEW        = $36
 
 ;--------------------------------------------------------
+;                    CHARACTER STATUS
+;--------------------------------------------------------
+FLU         = 1
+DREAM       = 4
+CONFUSED    = 8
+ASLEEP      = $10
+PARALYCH    = $20
+STONE       = $40
+FAINTED     = $80
+
+;--------------------------------------------------------
 ;                       OBJECT TYPES
 ;--------------------------------------------------------
+;----Entrance----
 DOOR        = 1
 STAIRS      = 3
 HOLE        = 4
 
+;------NPC-------
 NPC_1       = $10
 WALK_NPC    = $11
 STAT_NPC    = $12
 STAT_NPC1   = $13
 STAT_NPC2   = $14
 WALK_NPC2   = $15
+
+UNKNOWN_22  = $22
+
+;-----???--------
+UNKNOWN_18  = $18
 
 ;--------------------------------------------------------
 ;                         SOUNDS
@@ -166,7 +184,7 @@ FLAG1F      = $1F << 3
     .word CoorX|Type, CoorY|View, Anim
 .endmacro
 
-; $1B
+; $18 Trigger
 .macro unknown_18 CoorX, CoorY, View
     .word CoorX|$18, CoorY|View
 .endmacro
@@ -179,6 +197,41 @@ FLAG1F      = $1F << 3
 ; $1B
 .macro change_location CoorX, CoorY, View
     .word CoorX|$1B, CoorY|View
+.endmacro
+
+; $1C Trigger
+.macro unknown_1C CoorX, CoorY, View
+    .word CoorX|$1C, CoorY|View
+.endmacro
+
+; $1D
+.macro unknown_1D CoorX, CoorY, View, Anim
+    .word CoorX|$1D, CoorY|View, Anim
+.endmacro
+
+; $1E
+.macro vehicle CoorX, CoorY, View, Anim
+    .word CoorX|$1E, CoorY|View, Anim
+.endmacro
+
+; $1F Trigger
+.macro unknown_1F CoorX, CoorY, View
+    .word CoorX|$1F, CoorY|View
+.endmacro
+
+; $21 Animated OBJECT
+.macro unknown_21 CoorX, CoorY, View, Anim
+    .word CoorX|$21, CoorY|View, Anim
+.endmacro
+
+; $23
+.macro unknown_23 CoorX, CoorY, View, Anim
+    .word CoorX|$23, CoorY|View, Anim
+.endmacro
+
+; $24 Animated OBJECT
+.macro unknown_24 CoorX, CoorY, View, Anim
+    .word CoorX|$24, CoorY|View, Anim
 .endmacro
 
 ;--------------------------------------------------------
@@ -269,6 +322,9 @@ FLAG1F      = $1F << 3
 
 ; $0F
 ; reboot
+.macro reboot
+    .byte $F
+.endmacro
 
 ; $10
 ; set_flag
@@ -329,9 +385,15 @@ FLAG1F      = $1F << 3
 
 ; $1A
 ; jump_none_select
+.macro if_char character, offset
+    .byte $1A, character, offset
+.endmacro
 
 ; $1B
 ; no_add_money
+.macro transfer offset
+    .byte $1B, offset
+.endmacro
 
 ; $1C
 ; input_number
@@ -473,6 +535,11 @@ FLAG1F      = $1F << 3
 
 ; $37
 ; show_menu
+.macro confirm_menu text, no_offset, cancel_offset
+    .byte $37
+    .word text
+    .byte no_offset, cancel_offset
+.endmacro
 
 ; $38
 ; no_inventory
@@ -488,6 +555,9 @@ FLAG1F      = $1F << 3
 
 ; $3B
 ; change_object_type
+.macro change_type type
+    .byte $3B, type
+.endmacro
 
 ; $3C
 ; function
@@ -523,6 +593,9 @@ FLAG1F      = $1F << 3
 
 ; $42
 ; add_character
+.macro add_char number, offset
+    .byte $42, number, offset
+.endmacro
 
 ; $43
 ; remove_character
@@ -547,9 +620,15 @@ FLAG1F      = $1F << 3
 
 ; $47
 ; airplane
+.macro plane value
+    .byte $47, value
+.endmacro
 
 ; $48
 ; tank
+.macro tank persons ;load vehicle, persons
+    .byte $48, persons
+.endmacro
 
 ; $49
 ; boat
@@ -565,15 +644,24 @@ FLAG1F      = $1F << 3
 
 ; $4C
 ; no_vehicle
+.macro get_off persons
+    .byte $4C, persons
+.endmacro
 
 ; $4D
 ; sub_13B317
+.macro land
+    .byte $4D
+.endmacro
 
 ; $4E
 ; sub_13B432
 
 ; $4F
 ; sub_13B3E8
+.macro update_coor offset
+    .byte $4F, offset
+.endmacro
 
 ; $50
 ; less_maxhp
@@ -604,9 +692,15 @@ FLAG1F      = $1F << 3
 
 ; $55
 ; sleep
+.macro sleep
+    .byte $55
+.endmacro
 
 ; $56
 ; save_game
+.macro save
+    .byte $56
+.endmacro
 
 ; $57
 ; next_level
@@ -616,9 +710,15 @@ FLAG1F      = $1F << 3
 
 ; $58
 ; load_money
+.macro all_cash
+    .byte $58
+.endmacro
 
 ; $59
 ; inflict_status
+.macro set_status status
+    .byte $59, status
+.endmacro
 
 ; $5A, $5B - $5D
 ; set_music, play_sound
@@ -646,12 +746,21 @@ FLAG1F      = $1F << 3
 
 ; $62
 ; take_weapon
+.macro get_weapon offset
+    .byte $62, offset
+.endmacro
 
 ; $63
 ; select_weapon
+.macro sel_weapon offset
+    .byte $63, offset
+.endmacro
 
 ; $64
 ; live_show
+.macro live_show
+    .byte $64
+.endmacro
 
 ; $65
 ; less_melodies
@@ -664,6 +773,9 @@ FLAG1F      = $1F << 3
 
 ; $68
 ; land_mine
+.macro mine
+    .byte $68
+.endmacro
 
 ; $69
 ; shake
