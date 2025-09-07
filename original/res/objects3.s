@@ -56,16 +56,16 @@ byte_12809C:
     .byte 8, 1, 2, $5C, 6, 0
 
 byte_1280D1:
-    .import stru_15852C
+    .import AssistantAnim
 
-    npc WALK_NPC, $E600, $2580, RIGHT, stru_15852C
+    npc WALK_NPC, $E600, $2580, RIGHT, AssistantAnim
     .byte $A, $C, 8, $61, 2
     .byte 0, $D, $45, $22, $27, $45, $22, $25, $45, $2E, $22
     .byte $12, $58, $1D, 8, $6B, 2, 0, 8, $62, 2, $10, $58
     .byte 0
 
 byte_1280F4:
-    npc WALK_NPC, $E680, $25C0, LEFT, stru_15852C
+    npc WALK_NPC, $E680, $25C0, LEFT, AssistantAnim
     .byte $A, $C, 8, $63, 2
     .byte 0, $D, $45, $2B, $27, $45, $2B, $25, $45, $2E, $2B
     .byte $12, $59, $1D, 8, $6B, 2, 0, 8, $64, 2, $27, 0, $2B
@@ -100,7 +100,7 @@ byte_12819F:
     .byte $A, $B, 8, $FC, 2, 0
 
 byte_1281AB:
-    npc WALK_NPC, $9C0, $3580, DOWN, stru_15852C
+    npc WALK_NPC, $9C0, $3580, DOWN, AssistantAnim
     .byte $A, $B, 8, $FD, 2, 0
 
 byte_1281B7:

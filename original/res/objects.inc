@@ -219,6 +219,12 @@ FLAG1F      = $1F << 3
     .word CoorX|$1F, CoorY|View
 .endmacro
 
+; $20 Box OBJECT
+.macro box CoorX, CoorY, View, Anim, Item, BoxID
+    .word CoorX|$20, CoorY|View, Anim
+    .byte Item, BoxID
+.endmacro
+
 ; $21 Animated OBJECT
 .macro unknown_21 CoorX, CoorY, View, Anim
     .word CoorX|$21, CoorY|View, Anim
@@ -232,6 +238,16 @@ FLAG1F      = $1F << 3
 ; $24 Animated OBJECT
 .macro unknown_24 CoorX, CoorY, View, Anim
     .word CoorX|$24, CoorY|View, Anim
+.endmacro
+
+; $27
+.macro unknown_27 CoorX, CoorY, View, Anim
+    .word CoorX|$27, CoorY|View, Anim
+.endmacro
+
+; $2D
+.macro unknown_2D CoorX, CoorY, View, Anim
+    .word CoorX|$2D, CoorY|View, Anim
 .endmacro
 
 ;--------------------------------------------------------
@@ -370,6 +386,9 @@ FLAG1F      = $1F << 3
 
 ; $17
 ; change_map_val
+.macro map_val field, value
+    .byte $17, field, value
+.endmacro
 
 ; $18
 ; choose_character
@@ -397,6 +416,9 @@ FLAG1F      = $1F << 3
 
 ; $1C
 ; input_number
+.macro input_num offset
+    .byte $1C, offset
+.endmacro
 
 ; $1D
 ; load_number
@@ -427,6 +449,9 @@ FLAG1F      = $1F << 3
 
 ; $21
 ; choose_closet_item
+.macro select_storage offset
+    .byte $21, offset
+.endmacro
 
 ; $22
 ; choose_list_item
@@ -436,6 +461,9 @@ FLAG1F      = $1F << 3
 
 ; $23
 ; none_inventory
+.macro find_item2 item, offset
+    .byte $23, item, offset
+.endmacro
 
 ; $24
 ; none_closet
@@ -472,9 +500,14 @@ FLAG1F      = $1F << 3
 
 ; $2A
 ; add_account
-
+.macro add_account offset
+    .byte $2A, offset
+.endmacro
 ; $2B
 ; withdraw
+.macro withdraw offset
+    .byte $2B, offset
+.endmacro
 
 ; $2C
 ; jump_unsellable
@@ -496,9 +529,15 @@ FLAG1F      = $1F << 3
 
 ; $2F
 ; add_closet
+.macro add_storage offset
+    .byte $2F, offset
+.endmacro
 
 ; $30
 ; remove_closet
+.macro remove_storage offset
+    .byte $30, offset
+.endmacro
 
 ; $31
 ; select_character_item
@@ -543,9 +582,15 @@ FLAG1F      = $1F << 3
 
 ; $38
 ; no_inventory
+.macro check_inventory offset
+    .byte $38, offset
+.endmacro
 
 ; $39
 ; no_closet
+.macro check_storage offset
+    .byte $39, offset
+.endmacro
 
 ; $3A
 ; select_character
@@ -561,6 +606,9 @@ FLAG1F      = $1F << 3
 
 ; $3C
 ; function
+.macro function func_id
+    .byte $3C, func_id
+.endmacro
 
 ; $3D
 ; teleport
@@ -590,6 +638,9 @@ FLAG1F      = $1F << 3
 
 ; $41
 ; teleport_save
+.macro teleport_save
+    .byte $41
+.endmacro
 
 ; $42
 ; add_character
@@ -617,6 +668,9 @@ FLAG1F      = $1F << 3
 
 ; $46
 ; rocket
+.macro rocket
+    .byte $46
+.endmacro
 
 ; $47
 ; airplane
@@ -689,6 +743,9 @@ FLAG1F      = $1F << 3
 
 ; $54
 ; below_level
+.macro check_level level, offset
+    .byte $54, level, offset
+.endmacro
 
 ; $55
 ; sleep
@@ -731,6 +788,9 @@ FLAG1F      = $1F << 3
 
 ; $5F
 ; teach_teleport
+.macro teach_teleport
+    .byte $5F
+.endmacro
 
 ; $60
 ; less_maxpp
@@ -767,6 +827,9 @@ FLAG1F      = $1F << 3
 
 ; $66
 ; name_register
+.macro name_reg
+    .byte $66
+.endmacro
 
 ; $67
 ; darken

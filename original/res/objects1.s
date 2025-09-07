@@ -3928,9 +3928,9 @@ MerNurse:
     end_script
 
 ReinHospitalNPC1:
-    .import stru_15852C
+    .import AssistantAnim
 
-    npc WALK_NPC, $B500, $FDC0, LEFT, stru_15852C
+    npc WALK_NPC, $B500, $FDC0, LEFT, AssistantAnim
 
     check_action TALK, ReinHospitalNPC1Exit - ReinHospitalNPC1
     print $2A5

@@ -141,12 +141,15 @@ stru_158180:
     frame stru_158EAC, $68, 0
 
 BoxAnim:
+    .export BoxAnim
+
     frame stru_158EAC, $6A, 5
     frame stru_158EAC, $6C, 5
     frame stru_158EAC, $6C, 0
 
 SignAnim:
     .export SignAnim
+
     frame stru_158EAC, $6E, 5
 
     frame stru_158EDC, $3C, 5
@@ -480,10 +483,12 @@ stru_1584E8:
     frame MoveUpLeft, $A8, $F
 
 BabyAnim:
+    .export BabyAnim
+
     frame stru_158ECC, $A8, 5
 
-stru_15850C:
-    .export stru_15850C
+GirlAnim:
+    .export GirlAnim
 
     frame MoveUp1, $E0, $1A
     frame MoveUpRight1, $E0, $1A
@@ -494,8 +499,8 @@ stru_15850C:
     frame MoveLeft1, $E0, $1A
     frame MoveUpLeft1, $E0, $1A
 
-stru_15852C:
-    .export stru_15852C
+AssistantAnim:
+    .export AssistantAnim
 
     frame MoveUp1, $C8, $F
     frame MoveUpRight1, $C8, $F
@@ -505,6 +510,9 @@ stru_15852C:
     frame MoveDownLeft1, $C8, $F
     frame MoveLeft1, $C8, $F
     frame MoveUpLeft1, $C8, $F
+
+SickTeddyAnim:
+    .export SickTeddyAnim
 
     frame stru_158EAC, $EC, $15
 
@@ -563,6 +571,8 @@ stru_1585A8:
     frame MoveUpLeft, $C0, $A
 
 stru_1585C8:
+    .export stru_1585C8
+
     frame MoveUp, $E0, 6
     frame MoveUpRight, $E0, 6
     frame MoveRight, $E0, 6
@@ -625,7 +635,9 @@ MouseAnim:
     frame MouseLeft, $80, 0
     frame MouseUpLeft, $80, 0
 
-stru_15866C:
+DallAnim:
+    .export DallAnim
+
     frame stru_158ECC, $C0, $F
 
 PhoneAnim:
@@ -641,6 +653,8 @@ LampAnim:
 
 
 stru_15867C:
+    .export stru_15867C
+
     frame MoveUp, $E8, 5
     frame MoveUpRight, $E8, 5
     frame MoveRight, $E8, 5
@@ -837,7 +851,9 @@ stru_15886C:
 
     frame stru_1592DC, $EC, 0
 
-stru_158870:
+TrashAnim:
+    .export TrashAnim
+
     frame stru_158EAC, $EE, 0
     frame stru_158EAC, $EE, 0
 
@@ -950,21 +966,24 @@ stru_158964:
     frame MoveLeft, $C8, $F
     frame MoveUpLeft, $C8, $F
 
-stru_158984:
+.export PianoAnim, PianoSideAnim
+PianoAnim:
     frame stru_158EAC, $E8, 0
 
-stru_158988:
+PianoSideAnim:
     frame stru_158EAC, $EA, 0
 
-stru_15898C:
+
+.export FarRocketAnim, RocketAnim, RocketEjectionAnim
+FarRocketAnim:
     frame stru_158E9C, 0, 5
     frame stru_158E9C, 0, 5
 
-stru_158994:
+RocketAnim:
     frame stru_158F3C, 0, 5
     frame stru_158F3C, 0, 5
 
-stru_15899C:
+RocketEjectionAnim:
     frame stru_158F5C, 0, 5
     frame stru_158F6C, 0, 5
 
@@ -980,7 +999,7 @@ stru_1589A4:
     frame stru_158F2C, $E0, 5
     frame stru_158F2C, $E0, 5
 
-stru_1589C4:
+BirdGraveAnim:
     frame stru_158ECC, $A8, 0
     frame stru_158EAC, $EC, 5
     frame stru_158EAC, $EE, 5
@@ -1105,6 +1124,8 @@ PilotAnim:
     frame MoveUpLeft, $88, 5
 
 CapsuleAnim:
+    .export CapsuleAnim
+
     frame stru_158EAC, $C6, $F
     frame stru_158EAC, $C6, $15
 
