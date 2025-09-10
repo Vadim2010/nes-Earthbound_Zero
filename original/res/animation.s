@@ -117,7 +117,9 @@ stru_158080:
     frame stru_1595AC, 0, 0
     frame stru_1595BC, 0, 0
 
-stru_158140:
+BirdAnim:
+    .export BirdAnim
+
     frame MoveUp, $A0, 9
     frame MoveUpRight, $A0, 9
     frame MoveRight, $A0, 9
@@ -126,6 +128,9 @@ stru_158140:
     frame MoveDownLeft, $A0, 9
     frame MoveLeft, $A0, 9
     frame MoveUpLeft, $A0, 9
+
+EVEAnim:
+    .export EVEAnim
 
     frame stru_159324, $80, 5
     frame stru_159324, $82, 5
@@ -137,6 +142,8 @@ stru_158140:
     frame stru_159324, $8E, 5
 
 stru_158180:
+    .export stru_158180
+
     frame stru_158EAC, $68, 0
     frame stru_158EAC, $68, 0
 
@@ -517,6 +524,8 @@ SickTeddyAnim:
     frame stru_158EAC, $EC, $15
 
 stru_158550:
+    .export stru_158550
+
     frame stru_1592DC, $E8, $F
     frame stru_1592EC, $E8, $F
 
@@ -526,7 +535,9 @@ CoffinAnim:
     frame stru_158EAC, $EA, 0
     frame stru_158EAC, $EA, 0
 
-stru_158560:
+RocketLauncherAnim:
+    .export RocketLauncherAnim
+
     frame stru_158EAC, $EE, 0
 
 BonesAnim:
@@ -788,8 +799,8 @@ MonkeyAnim:
     frame MoveLeft1, $C0, 5
     frame MoveUpLeft1, $C0, 5
 
-stru_1587E4:
-    .export stru_1587E4
+CatAnim:
+    .export CatAnim
 
     frame MoveUp, $E0, $A
     frame MoveUpRight, $E0, $A
@@ -915,8 +926,8 @@ stru_1588E0:
     frame MoveLeft, $A8, $F
     frame MoveUpLeft, $A8, $F
 
-stru_158900:
-    .export stru_158900
+GuardsAnim:
+    .export GuardsAnim
 
     frame MoveUp, $80, 5
     frame MoveUpRight, $80, 5
@@ -940,6 +951,8 @@ stru_158920:
     frame MoveUpLeft, $C0, $A
 
 stru_158940:
+    .export stru_158940
+
     frame stru_158EAC, $88, $F
 
 stru_158944:
@@ -1000,12 +1013,24 @@ stru_1589A4:
     frame stru_158F2C, $E0, 5
 
 BirdGraveAnim:
+    .export BirdGraveAnim
+
     frame stru_158ECC, $A8, 0
+
+    .export DragonTailAnim, DragonAnim
+DragonTailAnim:
     frame stru_158EAC, $EC, 5
+DragonAnim:
     frame stru_158EAC, $EE, 5
+
+stru_1589D0:
+    .export stru_1589D0
+
     frame stru_158EAC, $8A, $F
 
 stru_1589D4:
+    .export stru_1589D4
+
     frame stru_158EAC, $8C, 5
 
 stru_1589D8:
@@ -1013,8 +1038,8 @@ stru_1589D8:
 
     frame stru_158EAC, $8E, $F
 
-stru_1589DC:
-    .export stru_1589DC
+GuardAnim:
+    .export GuardAnim
 
     frame MoveUp, $C8, $A
     frame MoveUpRight, $C8, $A
@@ -1048,6 +1073,8 @@ stru_158A20:
     frame stru_158EAC, $8E, 5
 
 stru_158A24:
+    .export stru_158A24
+
     frame stru_158EAC, $8C, $F
 
 stru_158A28:
@@ -1060,13 +1087,19 @@ stru_158A28:
     frame stru_159030, $80, 0
     frame stru_159078, $80, 0
 
-stru_158A48:
+EVEBodyAnim:
+    .export EVEBodyAnim
+
     frame stru_1592FC, $80, 5
+
+ElevatorAnim:
+    .export ElevatorAnim
+
     frame stru_1595CC, $80, 1
     frame stru_1595CC, $80, 1
 
-stru_158A54:
-    .export stru_158A54
+Fish2Anim:
+    .export Fish2Anim
 
     frame stru_1595F0, $80, 5
     frame stru_159600, $80, 5
@@ -1077,8 +1110,8 @@ stru_158A54:
     frame stru_159650, $80, 5
     frame stru_159660, $80, 5
 
-stru_158A74:
-    .export stru_158A74
+Fish1Anim:
+    .export Fish1Anim
 
     frame stru_1595F0, $80, 0
     frame stru_159600, $80, 0
@@ -1089,8 +1122,8 @@ stru_158A74:
     frame stru_159650, $80, 0
     frame stru_159660, $80, 0
 
-stru_158A94:
-    .export stru_158A94
+Fish3Anim:
+    .export Fish3Anim
 
     frame stru_1595F0, $80, $F
     frame stru_159600, $80, $F
@@ -1101,7 +1134,9 @@ stru_158A94:
     frame stru_159650, $80, $F
     frame stru_159660, $80, $F
 
-stru_158AB4:
+CracksAnim:
+    .export CracksAnim
+
     frame stru_159670, 0, 0
     frame stru_159670, 0, 0
     frame stru_159680, 0, 0
@@ -1154,6 +1189,8 @@ TankAnim:
     frame VehicleLeftUp, $E0, 0
 
 BoatAnim:
+    .export BoatAnim
+
     frame VehicleUp, $A0, $FF
     frame VehicleUpRight, $A0, $FF
     frame VehicleRight, $A0, $FF

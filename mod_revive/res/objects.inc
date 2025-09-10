@@ -18,18 +18,36 @@ APPROACH    = $35
 VIEW        = $36
 
 ;--------------------------------------------------------
+;                    CHARACTER STATUS
+;--------------------------------------------------------
+FLU         = 1
+DREAM       = 4
+CONFUSED    = 8
+ASLEEP      = $10
+PARALYCH    = $20
+STONE       = $40
+FAINTED     = $80
+
+;--------------------------------------------------------
 ;                       OBJECT TYPES
 ;--------------------------------------------------------
+;----Entrance----
 DOOR        = 1
 STAIRS      = 3
 HOLE        = 4
 
+;------NPC-------
 NPC_1       = $10
 WALK_NPC    = $11
 STAT_NPC    = $12
-NPC_2       = $13
+STAT_NPC1   = $13
 STAT_NPC2   = $14
-NPC_3       = $15
+WALK_NPC2   = $15
+
+UNKNOWN_22  = $22
+
+;-----???--------
+UNKNOWN_18  = $18
 
 ;--------------------------------------------------------
 ;                         SOUNDS
@@ -119,22 +137,22 @@ BIT2        = 5
 BIT1        = 6
 BIT0        = 7
 
-FLAG0       = $00 << 3
-FLAG1       = $01 << 3
-FLAG2       = $02 << 3
-FLAG3       = $03 << 3
-FLAG4       = $04 << 3
-FLAG5       = $05 << 3
-FLAG6       = $06 << 3
-FLAG7       = $07 << 3
-FLAG8       = $08 << 3
-FLAG9       = $09 << 3
-FLAGA       = $0A << 3
-FLAGB       = $0B << 3
-FLAGC       = $0C << 3
-FLAGD       = $0D << 3
-FLAGE       = $0E << 3
-FLAGF       = $0F << 3
+FLAG00      = $00 << 3
+FLAG01      = $01 << 3
+FLAG02      = $02 << 3
+FLAG03      = $03 << 3
+FLAG04      = $04 << 3
+FLAG05      = $05 << 3
+FLAG06      = $06 << 3
+FLAG07      = $07 << 3
+FLAG08      = $08 << 3
+FLAG09      = $09 << 3
+FLAG0A      = $0A << 3
+FLAG0B      = $0B << 3
+FLAG0C      = $0C << 3
+FLAG0D      = $0D << 3
+FLAG0E      = $0E << 3
+FLAG0F      = $0F << 3
 FLAG10      = $10 << 3
 FLAG11      = $11 << 3
 FLAG12      = $12 << 3
@@ -149,7 +167,7 @@ FLAG1A      = $1A << 3
 FLAG1B      = $1B << 3
 FLAG1C      = $1C << 3
 FLAG1D      = $1D << 3
-FLAG1E      = $1E << 3
+TUNES       = $1E << 3
 FLAG1F      = $1F << 3
 
 ;--------------------------------------------------------
@@ -166,9 +184,90 @@ FLAG1F      = $1F << 3
     .word CoorX|Type, CoorY|View, Anim
 .endmacro
 
+; $18 Trigger
+.macro unknown_18 CoorX, CoorY, View
+    .word CoorX|$18, CoorY|View
+.endmacro
+
 ; $19
 .macro entity CoorX, CoorY, View, Anim
     .word CoorX|$19, CoorY|View, Anim
+.endmacro
+
+; $1A Animated OBJECT
+.macro unknown_1A CoorX, CoorY, View, Anim
+    .word CoorX|$1A, CoorY|View, Anim
+.endmacro
+
+; $1B
+.macro change_location CoorX, CoorY, View
+    .word CoorX|$1B, CoorY|View
+.endmacro
+
+; $1C Trigger
+.macro unknown_1C CoorX, CoorY, View
+    .word CoorX|$1C, CoorY|View
+.endmacro
+
+; $1D
+.macro unknown_1D CoorX, CoorY, View, Anim
+    .word CoorX|$1D, CoorY|View, Anim
+.endmacro
+
+; $1E
+.macro vehicle CoorX, CoorY, View, Anim
+    .word CoorX|$1E, CoorY|View, Anim
+.endmacro
+
+; $1F Trigger
+.macro unknown_1F CoorX, CoorY, View
+    .word CoorX|$1F, CoorY|View
+.endmacro
+
+; $20 Box OBJECT
+.macro box CoorX, CoorY, View, Anim, Item, BoxID
+    .word CoorX|$20, CoorY|View, Anim
+    .byte Item, BoxID
+.endmacro
+
+; $21 Animated OBJECT
+.macro unknown_21 CoorX, CoorY, View, Anim
+    .word CoorX|$21, CoorY|View, Anim
+.endmacro
+
+; $23
+.macro unknown_23 CoorX, CoorY, View, Anim
+    .word CoorX|$23, CoorY|View, Anim
+.endmacro
+
+; $24 Animated OBJECT
+.macro unknown_24 CoorX, CoorY, View, Anim
+    .word CoorX|$24, CoorY|View, Anim
+.endmacro
+
+; $27
+.macro unknown_27 CoorX, CoorY, View, Anim
+    .word CoorX|$27, CoorY|View, Anim
+.endmacro
+
+; $28
+.macro unknown_28 CoorX, CoorY, View, Anim
+    .word CoorX|$28, CoorY|View, Anim
+.endmacro
+
+; $2B
+.macro unknown_2B CoorX, CoorY, View, Anim
+    .word CoorX|$2B, CoorY|View, Anim
+.endmacro
+
+; $2C
+.macro unknown_2C CoorX, CoorY, View, Anim
+    .word CoorX|$2C, CoorY|View, Anim
+.endmacro
+
+; $2D
+.macro unknown_2D CoorX, CoorY, View, Anim
+    .word CoorX|$2D, CoorY|View, Anim
 .endmacro
 
 ;--------------------------------------------------------
@@ -210,9 +309,15 @@ FLAG1F      = $1F << 3
 
 ; $05
 ; object_show_hide
+.macro hide flag
+    .byte 5, flag
+.endmacro
 
 ; $06
 ; object_show_hide
+.macro show flag
+    .byte 6, flag
+.endmacro
 
 ; $07
 ; infinite_loop
@@ -238,6 +343,9 @@ FLAG1F      = $1F << 3
 
 ; $0C
 ; jump_none_psi
+.macro check_psi psi, offset
+    .byte $0C, psi, offset
+.endmacro
 
 ; $0D
 ; jump_unuse_item
@@ -250,6 +358,9 @@ FLAG1F      = $1F << 3
 
 ; $0F
 ; reboot
+.macro reboot
+    .byte $F
+.endmacro
 
 ; $10
 ; set_flag
@@ -295,21 +406,39 @@ FLAG1F      = $1F << 3
 
 ; $17
 ; change_map_val
+.macro map_val field, value
+    .byte $17, field, value
+.endmacro
 
 ; $18
 ; choose_character
+.macro choose_char offset
+    .byte $18, offset
+.endmacro
 
 ; $19
 ; special_character
+.macro get_char_name character
+    .byte $19, character
+.endmacro
 
 ; $1A
 ; jump_none_select
+.macro if_char character, offset
+    .byte $1A, character, offset
+.endmacro
 
 ; $1B
 ; no_add_money
+.macro transfer offset
+    .byte $1B, offset
+.endmacro
 
 ; $1C
 ; input_number
+.macro input_num offset
+    .byte $1C, offset
+.endmacro
 
 ; $1D
 ; load_number
@@ -340,6 +469,9 @@ FLAG1F      = $1F << 3
 
 ; $21
 ; choose_closet_item
+.macro select_storage offset
+    .byte $21, offset
+.endmacro
 
 ; $22
 ; choose_list_item
@@ -349,6 +481,9 @@ FLAG1F      = $1F << 3
 
 ; $23
 ; none_inventory
+.macro find_item2 item, offset
+    .byte $23, item, offset
+.endmacro
 
 ; $24
 ; none_closet
@@ -385,9 +520,14 @@ FLAG1F      = $1F << 3
 
 ; $2A
 ; add_account
-
+.macro add_account offset
+    .byte $2A, offset
+.endmacro
 ; $2B
 ; withdraw
+.macro withdraw offset
+    .byte $2B, offset
+.endmacro
 
 ; $2C
 ; jump_unsellable
@@ -409,12 +549,21 @@ FLAG1F      = $1F << 3
 
 ; $2F
 ; add_closet
+.macro add_storage offset
+    .byte $2F, offset
+.endmacro
 
 ; $30
 ; remove_closet
+.macro remove_storage offset
+    .byte $30, offset
+.endmacro
 
 ; $31
 ; select_character_item
+.macro select_char_item item, offset
+    .byte $31, item, offset
+.endmacro
 
 ; $32
 ; multiply_num
@@ -433,6 +582,9 @@ FLAG1F      = $1F << 3
 
 ; $35
 ; jump_nothing
+.macro approach offset
+    .byte $35, offset
+.endmacro
 
 ; $36
 ; view_compare
@@ -442,12 +594,23 @@ FLAG1F      = $1F << 3
 
 ; $37
 ; show_menu
+.macro confirm_menu text, no_offset, cancel_offset
+    .byte $37
+    .word text
+    .byte no_offset, cancel_offset
+.endmacro
 
 ; $38
 ; no_inventory
+.macro check_inventory offset
+    .byte $38, offset
+.endmacro
 
 ; $39
 ; no_closet
+.macro check_storage offset
+    .byte $39, offset
+.endmacro
 
 ; $3A
 ; select_character
@@ -457,9 +620,15 @@ FLAG1F      = $1F << 3
 
 ; $3B
 ; change_object_type
+.macro change_type type
+    .byte $3B, type
+.endmacro
 
 ; $3C
-; sub_13B42B
+; function
+.macro function func_id
+    .byte $3C, func_id
+.endmacro
 
 ; $3D
 ; teleport
@@ -483,18 +652,33 @@ FLAG1F      = $1F << 3
 
 ; $40
 ; jump_nothing
+.macro check_keypress offset
+    .byte $40, offset
+.endmacro
 
 ; $41
 ; teleport_save
+.macro teleport_save
+    .byte $41
+.endmacro
 
 ; $42
 ; add_character
+.macro add_char number, offset
+    .byte $42, number, offset
+.endmacro
 
 ; $43
 ; remove_character
+.macro remove_char number, offset
+    .byte $43, number, offset
+.endmacro
 
 ; $44
 ; set_enemy_group
+.macro enemies group
+    .byte $44, group
+.endmacro
 
 ; $45
 ; multiply_char
@@ -504,15 +688,27 @@ FLAG1F      = $1F << 3
 
 ; $46
 ; rocket
+.macro rocket
+    .byte $46
+.endmacro
 
 ; $47
 ; airplane
+.macro plane value
+    .byte $47, value
+.endmacro
 
 ; $48
 ; tank
+.macro tank persons ;load vehicle, persons
+    .byte $48, persons
+.endmacro
 
 ; $49
 ; boat
+.macro boat persons
+    .byte $49, persons
+.endmacro
 
 ; $4A
 ; train
@@ -522,24 +718,45 @@ FLAG1F      = $1F << 3
 
 ; $4B
 ; elevator
+.macro elevator persons
+    .byte $4B, persons
+.endmacro
 
 ; $4C
 ; no_vehicle
+.macro get_off persons
+    .byte $4C, persons
+.endmacro
 
 ; $4D
 ; sub_13B317
+.macro land
+    .byte $4D
+.endmacro
 
 ; $4E
 ; sub_13B432
+.macro save_coor
+    .byte $4E
+.endmacro
 
 ; $4F
 ; sub_13B3E8
+.macro update_coor offset
+    .byte $4F, offset
+.endmacro
 
 ; $50
 ; less_maxhp
+.macro max_hp offset
+    .byte $50, offset
+.endmacro
 
 ; $51
 ; heal_hp
+.macro heal value
+    .byte $51, value
+.endmacro
 
 ; $52
 ; status
@@ -549,15 +766,27 @@ FLAG1F      = $1F << 3
 
 ; $53
 ; remove_status
+.macro clear_status flag
+    .byte $53, flag
+.endmacro
 
 ; $54
 ; below_level
+.macro check_level level, offset
+    .byte $54, level, offset
+.endmacro
 
 ; $55
 ; sleep
+.macro sleep
+    .byte $55
+.endmacro
 
 ; $56
 ; save_game
+.macro save
+    .byte $56
+.endmacro
 
 ; $57
 ; next_level
@@ -567,9 +796,15 @@ FLAG1F      = $1F << 3
 
 ; $58
 ; load_money
+.macro all_cash
+    .byte $58
+.endmacro
 
 ; $59
 ; inflict_status
+.macro set_status status
+    .byte $59, status
+.endmacro
 
 ; $5A, $5B - $5D
 ; set_music, play_sound
@@ -582,39 +817,76 @@ FLAG1F      = $1F << 3
 
 ; $5F
 ; teach_teleport
+.macro teach_teleport
+    .byte $5F
+.endmacro
 
 ; $60
 ; less_maxpp
+.macro max_pp offset
+    .byte $60, offset
+.endmacro
 
 ; $61
 ; recovery_pp
+.macro rec_pp value
+    .byte $61, value
+.endmacro
 
 ; $62
 ; take_weapon
+.macro get_weapon offset
+    .byte $62, offset
+.endmacro
 
 ; $63
 ; select_weapon
+.macro sel_weapon offset
+    .byte $63, offset
+.endmacro
 
 ; $64
 ; live_show
+.macro live_show
+    .byte $64
+.endmacro
 
 ; $65
 ; less_melodies
+.macro melodies offset
+    .byte $65, offset
+.endmacro
 
 ; $66
 ; name_register
+.macro name_reg
+    .byte $66
+.endmacro
 
 ; $67
 ; darken
+.macro blackout
+    .byte $67
+.endmacro
 
 ; $68
 ; land_mine
+.macro mine
+    .byte $68
+.endmacro
 
 ; $69
 ; shake
+.macro shake
+    .byte $69
+.endmacro
 
 ; $6A
 ; crystal
+.macro tomb
+    .byte $6A
+.endmacro
+
 
 ; $6B
 ; sub_13B751

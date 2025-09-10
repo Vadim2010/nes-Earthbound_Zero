@@ -40,6 +40,10 @@ Contains files for building the original game image.
 
 Contains files for creating a modified game image containing all the fixes described below.
 
+### mod_revive
+
+Contains files for creating a modified game image in which LifeUpCream is replaced with ReviveCream (does not restore health, only revives). Increased chances of Hypnosys, BrainCyclon, and Confuse triggering.
+
 ## Getting Started
 
 Install [Git](https://git-scm.com/download/win) and run the command to copy the repository to the folder `C:\Earthbound_Zero`:
@@ -83,7 +87,7 @@ MysteriousTeacher:
 
     show FLAG08|BIT1
     check_action TALK, MystTeachExit - MysteriousTeacher
-    check_flag FLAG8|BIT4, Meet - MysteriousTeacher
+    check_flag FLAG08|BIT4, Meet - MysteriousTeacher
     print $12C
     confirm NotLook - MysteriousTeacher
     jump RepeatBuy - MysteriousTeacher
@@ -92,16 +96,16 @@ Meet:
     confirm NotLook - MysteriousTeacher
     print $128
 RepeatBuy:
-    set_flag FLAG0|BIT7
+    set_flag FLAG00|BIT7
     find_item EMPTY, MystList - MysteriousTeacher
-    clear_flag FLAG0|BIT7
+    clear_flag FLAG00|BIT7
 MystList:
-    set_flag FLAG8|BIT4
+    set_flag FLAG08|BIT4
     item_list LastWeapon, SuperBomb, StkyMachine, RealRocket, MystRefuse - MysteriousTeacher
     check_flag FLAG0|BIT7, MystBuy - MysteriousTeacher
     print $23E
     print $12B
-    clear_flag FLAG0|BIT7
+    clear_flag FLAG00|BIT7
     end_script
 MystBuy:
     pay MystLess - MysteriousTeacher
@@ -119,11 +123,11 @@ NotRocket:
 MystLess:
     print $23D
     print $12B
-    clear_flag FLAG0|BIT7
+    clear_flag FLAG00|BIT7
     end_script
 MystRefuse:
     print $12B
-    clear_flag FLAG0|BIT7
+    clear_flag FLAG00|BIT7
     end_script
 NotLook:
     print $129
@@ -138,7 +142,7 @@ MysteriousTeacher:
 
     show FLAG08|BIT1
     check_action TALK, MystTeachExit - MysteriousTeacher
-    check_flag FLAG8|BIT4, Meet - MysteriousTeacher
+    check_flag FLAG08|BIT4, Meet - MysteriousTeacher
     print $12C
     confirm NotLook - MysteriousTeacher
     jump RepeatBuy - MysteriousTeacher
@@ -147,16 +151,16 @@ Meet:
     confirm NotLook - MysteriousTeacher
     print $128
 RepeatBuy:
-    set_flag FLAG0|BIT7
+    set_flag FLAG00|BIT7
     find_item EMPTY, MystList - MysteriousTeacher
-    clear_flag FLAG0|BIT7
+    clear_flag FLAG00|BIT7
 MystList:
-    set_flag FLAG8|BIT4
+    set_flag FLAG08|BIT4
     item_list LastWeapon, TimeMachine, StkyMachine, RealRocket, MystRefuse - MysteriousTeacher
-    check_flag FLAG0|BIT7, MystBuy - MysteriousTeacher
+    check_flag FLAG00|BIT7, MystBuy - MysteriousTeacher
     print $23E
     print $12B
-    clear_flag FLAG0|BIT7
+    clear_flag FLAG00|BIT7
     end_script
 MystBuy:
     pay MystLess - MysteriousTeacher
@@ -180,11 +184,11 @@ NotRocket:
 MystLess:
     print $23D
     print $12B
-    clear_flag FLAG0|BIT7
+    clear_flag FLAG00|BIT7
     end_script
 MystRefuse:
     print $12B
-    clear_flag FLAG0|BIT7
+    clear_flag FLAG00|BIT7
     end_script
 NotLook:
     print $129
@@ -406,7 +410,7 @@ We will add the label loc_17B12D to the check_no_vechicle subroutine:
 check_no_vechicle:
     lda CharacterOffset
     bmi loc_17B12F
-    lda Vechicle
+    lda Vehicle
     beq loc_17B12F
 
 loc_17B12D:

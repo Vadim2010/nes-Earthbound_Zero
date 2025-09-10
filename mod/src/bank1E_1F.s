@@ -1884,7 +1884,7 @@ main:
     .import sub_13A1C6, sub_13A123, sub_13A82F, sub_13A000, command_menu, sub_13AB53
     .import sub_149516, sub_149779, sub_1497A3, CurrentMusic
     .importzp ButtonPressed, GamepadButtons
-    .importzp byte_D, byte_1F, byte_20, ObjectNumWithChar, byte_22, Vechicle, byte_24, byte_25
+    .importzp byte_D, byte_1F, byte_20, ObjectNumWithChar, byte_22, Vehicle, byte_24, byte_25
     .importzp EnemyGroup
 
     jsr sram_read_enable
@@ -1945,7 +1945,7 @@ loc_CBAD:
     ldy GamepadButtons
     sta GamepadButtons
     lda byte_22
-    ora Vechicle
+    ora Vehicle
     ora ObjectNumWithChar
     ora byte_20
     bne check_no_vechicle
@@ -3636,11 +3636,11 @@ load_map_tile:
 ; ---------------------------------------------------------------------------
 
 loc_D5F3:
-    lda Vechicle
+    lda Vehicle
     beq loc_D5FF
     bpl set_PPU1800
     and #$7F
-    sta Vechicle
+    sta Vehicle
     bpl set_PPU0000
 
 loc_D5FF:
@@ -3736,7 +3736,7 @@ loc_D6CB:
                         ; OffScreen - offset
     jsr init_objects
     jsr sram_write_enable
-    lda Vechicle
+    lda Vehicle
     bne loc_D71B
     ldx #0
 
@@ -4179,7 +4179,7 @@ loc_D90E:
     sta CurrentGame + PURE_SAVE::Cash + 1
     set ItemCount, #1
     set ObjectNumWithChar, #0
-    sta Vechicle
+    sta Vehicle
     ldx byte_47
     ldy byte_D96B,X
     ldx #3
@@ -7137,7 +7137,7 @@ loc_E900:
 sub_E905:
     .importzp byte_C, byte_E7, ShiftX, ShiftY
 
-    lda Vechicle
+    lda Vehicle
     clc
     bne loc_E95B
     lda View
@@ -7190,7 +7190,7 @@ loc_E94C:
 
 loc_E95B:
     set View, #0
-    sta Vechicle
+    sta Vehicle
     lda #$10
     bcs loc_E967
 
@@ -7208,7 +7208,7 @@ loc_E967:
 
 
 sub_E96C:
-    lda Vechicle
+    lda Vehicle
     asl A
     bne loc_E94C
     jsr sub_E9CD
@@ -7431,7 +7431,7 @@ loc_EA7C:
 loc_EA9B:
     cmp #0
     bne loc_EAA1
-    sta Vechicle
+    sta Vehicle
 
 loc_EAA1:
     iny
@@ -7440,9 +7440,9 @@ loc_EAA1:
     tya
     ldy #$1F
     sta (Dist),Y
-    lda Vechicle
+    lda Vehicle
     bne loc_EABB
-    set Vechicle, #$80
+    set Vehicle, #$80
     jsr new_char_coor
     ldx #0
     jsr sub_CDAF

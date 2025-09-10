@@ -194,6 +194,11 @@ FLAG1F      = $1F << 3
     .word CoorX|$19, CoorY|View, Anim
 .endmacro
 
+; $1A Animated OBJECT
+.macro unknown_1A CoorX, CoorY, View, Anim
+    .word CoorX|$1A, CoorY|View, Anim
+.endmacro
+
 ; $1B
 .macro change_location CoorX, CoorY, View
     .word CoorX|$1B, CoorY|View
@@ -243,6 +248,21 @@ FLAG1F      = $1F << 3
 ; $27
 .macro unknown_27 CoorX, CoorY, View, Anim
     .word CoorX|$27, CoorY|View, Anim
+.endmacro
+
+; $28
+.macro unknown_28 CoorX, CoorY, View, Anim
+    .word CoorX|$28, CoorY|View, Anim
+.endmacro
+
+; $2B
+.macro unknown_2B CoorX, CoorY, View, Anim
+    .word CoorX|$2B, CoorY|View, Anim
+.endmacro
+
+; $2C
+.macro unknown_2C CoorX, CoorY, View, Anim
+    .word CoorX|$2C, CoorY|View, Anim
 .endmacro
 
 ; $2D
@@ -686,6 +706,9 @@ FLAG1F      = $1F << 3
 
 ; $49
 ; boat
+.macro boat persons
+    .byte $49, persons
+.endmacro
 
 ; $4A
 ; train
@@ -695,6 +718,9 @@ FLAG1F      = $1F << 3
 
 ; $4B
 ; elevator
+.macro elevator persons
+    .byte $4B, persons
+.endmacro
 
 ; $4C
 ; no_vehicle
@@ -710,6 +736,9 @@ FLAG1F      = $1F << 3
 
 ; $4E
 ; sub_13B432
+.macro save_coor
+    .byte $4E
+.endmacro
 
 ; $4F
 ; sub_13B3E8
@@ -824,6 +853,9 @@ FLAG1F      = $1F << 3
 
 ; $65
 ; less_melodies
+.macro melodies offset
+    .byte $65, offset
+.endmacro
 
 ; $66
 ; name_register
@@ -833,6 +865,9 @@ FLAG1F      = $1F << 3
 
 ; $67
 ; darken
+.macro blackout
+    .byte $67
+.endmacro
 
 ; $68
 ; land_mine
@@ -842,9 +877,16 @@ FLAG1F      = $1F << 3
 
 ; $69
 ; shake
+.macro shake
+    .byte $69
+.endmacro
 
 ; $6A
 ; crystal
+.macro tomb
+    .byte $6A
+.endmacro
+
 
 ; $6B
 ; sub_13B751

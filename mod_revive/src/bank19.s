@@ -194,10 +194,10 @@ loc_19A204:
 loc_19A214:
     lda #$7E
     ldx #4
-    jsr mmc3_bank_set   ; Set memory bank A - bank number, X - mode
+    jsr mmc3_bank_set
     lda #$7F
     ldx #5
-    jsr mmc3_bank_set   ; Set memory bank A - bank number, X - mode
+    jsr mmc3_bank_set
     set PointerTilePack, #$F4
     set DialogPage, #6
     set Column, #2
@@ -504,7 +504,7 @@ print_checkbox:
 
 next_check_box:
     stx Column
-    lda #UNCHECK            ; #$94
+    lda #UNCHECK
     asl Pointer
     adc #0
     asl Pointer+1
@@ -539,77 +539,77 @@ FightMsgSpd:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_19A42D:
+bank_checksum:
     .importzp BankTable, AddrForJmp
 
-    LDA BankTable + BANK_TABLE::CPU_8K_8000
-    PHA
-    LDX #0
+    lda BankTable + BANK_TABLE::CPU_8K_8000
+    pha
+    ldx #0
 
 loc_19A432:
-    STX Pointer
-    LDA byte_19A48F,X
-    BMI loc_19A47A
-    LDX #6
-    JSR mmc3_bank_set   ; Set memory bank A - bank number, X - mode
-    LDA #0
-    LDX #$80
-    STA pTileID
-    STX pTileID+1
-    LDA #0
-    STA Pointer+1
-    STA AddrForJmp
-    LDX #$20
+    stx Pointer
+    lda CheckSums1,X
+    bmi loc_19A47A
+    ldx #6
+    jsr mmc3_bank_set
+    lda #0
+    ldx #$80
+    sta pTileID
+    stx pTileID+1
+    lda #0
+    sta Pointer+1
+    sta AddrForJmp
+    ldx #$20
 
 loc_19A44E:
-    LDY #0
+    ldy #0
 
 loc_19A450:
-    CLC
-    LDA (pTileID),Y
-    ADC Pointer+1
-    STA Pointer+1
-    LDA #0
-    ADC AddrForJmp
-    STA AddrForJmp
-    INY
-    BNE loc_19A450
-    INC pTileID+1
-    DEX
-    BNE loc_19A44E
-    LDX Pointer
-    INX
-    LDA byte_19A48F,X
-    CMP AddrForJmp
-    NOP
-    NOP
-    INX
-    LDA byte_19A48F,X
-    CMP Pointer+1
-    NOP
-    NOP
-    INX
-    BNE loc_19A432
+    clc
+    lda (pTileID),Y
+    adc Pointer+1
+    sta Pointer+1
+    lda #0
+    adc AddrForJmp
+    sta AddrForJmp
+    iny
+    bne loc_19A450
+    inc pTileID+1
+    dex
+    bne loc_19A44E
+    ldx Pointer
+    inx
+    lda CheckSums1,X
+    cmp AddrForJmp
+    nop
+    nop
+    inx
+    lda CheckSums1,X
+    cmp Pointer+1
+    nop
+    nop
+    inx
+    bne loc_19A432
 
 loc_19A47A:
-    PLA
-    LDX #6
-    JMP mmc3_bank_set   ; Set memory bank A - bank number, X - mode
-; End of function sub_19A42D
+    pla
+    ldx #6
+    jmp mmc3_bank_set
+; End of function bank_checksum
 
 ; =============== S U B R O U T I N E =======================================
 
 
 sub_19A480:
-    JSR darken_palette
-    JSR update_animation
-    JSR clear_oam_sprite
-    JSR clear_nametables
-    JMP loc_19A204
+    jsr darken_palette
+    jsr update_animation
+    jsr clear_oam_sprite
+    jsr clear_nametables
+    jmp loc_19A204
 ; End of function sub_19A480
 
 ; ---------------------------------------------------------------------------
-byte_19A48F:
+CheckSums1:
     .byte $13, $2C, $95, $14, $B, $82, $17, $ED, $EB, $19
     .byte $C7, $A8, $1C, $AC, $D5, $1E, $1C, $CF, $1F, $36
     .byte $FA, $FF, $57, $38
@@ -689,126 +689,126 @@ byte_19A504:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_19A5CC:
-    .export sub_19A5CC
+tomb_animation:
+    .export tomb_animation
     .import one_color_palettes_save, back_palettes, wait_frames, SpriteTable
     .importzp WaitPressed, Dist
 
-    JSR sub_19A81A
-    LDA #0
-    STA WaitPressed
-    LDA #$13
+    jsr bank_checksum2
+    lda #0
+    sta WaitPressed
+    lda #$13
     ldyx #(redraw_screen-1)
     JSR bank_A000_a     ; changes the memory bank $A000, transfers the execution of the code after completion of which returns the original memory bank
                         ; input: A - bank number, YX - (subroutine address - 1)
                         ; Y - high byte, X - low byte
-    LDA #$6A
-    LDX #1
-    JSR mmc3_bank_set   ; Set memory bank A - bank number, X - mode
-    JSR wait_nmi_processed
-    LDX #$DF
+    lda #$6A
+    ldx #1
+    jsr mmc3_bank_set   ; Set memory bank A - bank number, X - mode
+    jsr wait_nmi_processed
+    ldx #$DF
 
 loc_19A5E8:
-    LDA SpriteTable,X
-    STA SpriteTable + ANIM_SPRITE::Tiles+$20,X
-    DEX
-    CPX #$FF
-    BNE loc_19A5E8
-    LDX #$1F
+    lda SpriteTable,X
+    sta SpriteTable + ANIM_SPRITE::Tiles+$20,X
+    dex
+    cpx #$FF
+    bne loc_19A5E8
+    ldx #$1F
 
 loc_19A5F5:
-    LDA stru_19A6A1,X
-    STA SpriteTable,X
-    DEX
-    BPL loc_19A5F5
-    CLC
-    LDA CoorX
-    ADC #$60
-    STA Pointer
-    LDA CoorX+1
-    ADC #0
-    STA Pointer+1
-    SEC
-    LDY #4
-    LDA (Dist),Y
-    SBC Pointer
-    STA Pointer
-    INY
-    LDA (Dist),Y
-    SBC Pointer+1
-    STA Pointer+1
-    LSR Pointer+1
-    ROR Pointer
-    LSR Pointer+1
-    ROR Pointer
-    CLC
-    LDA CoorY
-    ADC #$A4
-    STA pTileID
-    LDA CoorY+1
-    ADC #0
-    STA pTileID+1
-    SEC
-    LDY #6
-    LDA (Dist),Y
-    SBC pTileID
-    STA pTileID
-    INY
-    LDA (Dist),Y
-    SBC pTileID+1
-    STA pTileID+1
-    LSR pTileID+1
-    ROR pTileID
-    LSR pTileID+1
-    ROR pTileID
-    LDA Pointer
-    STA SpriteTable + ANIM_SPRITE::PosX
-    STA SpriteTable + ANIM_SPRITE::PosX+8
-    STA SpriteTable + ANIM_SPRITE::PosX+$10
-    STA SpriteTable + ANIM_SPRITE::PosX+$18
-    LDA pTileID
-    STA SpriteTable + ANIM_SPRITE::PosY
-    STA SpriteTable + ANIM_SPRITE::PosY+8
-    STA SpriteTable + ANIM_SPRITE::PosY+$10
-    STA SpriteTable + ANIM_SPRITE::PosY+$18
-    LDA #$5A
-    STA NMIFlags
-    LDA #$30
-    JSR one_color_palettes_save
-    JSR wait_nmi_processed
-    LDA #0
-    STA SpriteTable + ANIM_SPRITE::ShiftX
-    STA SpriteTable + ANIM_SPRITE::ShiftY
-    STA SpriteTable + ANIM_SPRITE::Tiles+8
-    STA SpriteTable + ANIM_SPRITE::Tiles+$10
-    STA SpriteTable + ANIM_SPRITE::Tiles+$18
-    LDA Pointer
-    STA SpriteTable + ANIM_SPRITE::PosX
-    LDA pTileID
-    STA SpriteTable + ANIM_SPRITE::PosY
-    LDA #$FC
-    STA SpriteTable + ANIM_SPRITE::pFrame
-    LDA #$99
-    STA SpriteTable + ANIM_SPRITE::pFrame+1
-    LDA #1
-    STA NMIFlags
-    JSR back_palettes
-    LDX #60
-    JMP wait_frames     ; wait for a few frames input: X - number of frames
-; End of function sub_19A5CC
+    lda stru_19A6A1,X
+    sta SpriteTable,X
+    dex
+    bpl loc_19A5F5
+    clc
+    lda CoorX
+    adc #$60
+    sta Pointer
+    lda CoorX+1
+    adc #0
+    sta Pointer+1
+    sec
+    ldy #4
+    lda (Dist),Y
+    sbc Pointer
+    sta Pointer
+    iny
+    lda (Dist),Y
+    sbc Pointer+1
+    sta Pointer+1
+    lsr Pointer+1
+    ror Pointer
+    lsr Pointer+1
+    ror Pointer
+    clc
+    lda CoorY
+    adc #$A4
+    sta pTileID
+    lda CoorY+1
+    adc #0
+    sta pTileID+1
+    sec
+    ldy #6
+    lda (Dist),Y
+    sbc pTileID
+    sta pTileID
+    iny
+    lda (Dist),Y
+    sbc pTileID+1
+    sta pTileID+1
+    lsr pTileID+1
+    ror pTileID
+    lsr pTileID+1
+    ror pTileID
+    lda Pointer
+    sta SpriteTable + ANIM_SPRITE::PosX
+    sta SpriteTable + ANIM_SPRITE::PosX+8
+    sta SpriteTable + ANIM_SPRITE::PosX+$10
+    sta SpriteTable + ANIM_SPRITE::PosX+$18
+    lda pTileID
+    sta SpriteTable + ANIM_SPRITE::PosY
+    sta SpriteTable + ANIM_SPRITE::PosY+8
+    sta SpriteTable + ANIM_SPRITE::PosY+$10
+    sta SpriteTable + ANIM_SPRITE::PosY+$18
+    lda #$5A
+    sta NMIFlags
+    lda #$30
+    jsr one_color_palettes_save
+    jsr wait_nmi_processed
+    lda #0
+    sta SpriteTable + ANIM_SPRITE::ShiftX
+    sta SpriteTable + ANIM_SPRITE::ShiftY
+    sta SpriteTable + ANIM_SPRITE::Tiles+8
+    sta SpriteTable + ANIM_SPRITE::Tiles+$10
+    sta SpriteTable + ANIM_SPRITE::Tiles+$18
+    lda Pointer
+    sta SpriteTable + ANIM_SPRITE::PosX
+    lda pTileID
+    sta SpriteTable + ANIM_SPRITE::PosY
+    lda #$FC
+    sta SpriteTable + ANIM_SPRITE::pFrame
+    lda #$99
+    sta SpriteTable + ANIM_SPRITE::pFrame+1
+    lda #1
+    sta NMIFlags
+    jsr back_palettes
+    ldx #60
+    jmp wait_frames
+; End of function tomb_animation
 
 ; ---------------------------------------------------------------------------
 stru_19A6A1:
-    .import stru_1599F8
+    .import TombAnim
 
     .byte 4, 0, $32, $32, 1, 1
-    .word stru_1599F8                 ; ANIM_SPRITE <4, 0, $32, $32, 1, 1, stru_1599F8>
+    .word TombAnim                 ; ANIM_SPRITE <4, 0, $32, $32, 1, 1, TombAnim>
     .byte 4, 0, $42, $32, 1, $FF
-    .word stru_1599F8                 ; ANIM_SPRITE <4, 0, $42, $32, 1, $FF, stru_1599F8>
+    .word TombAnim                 ; ANIM_SPRITE <4, 0, $42, $32, 1, $FF, TombAnim>
     .byte 4, 0, $32, $42, $FF, 1
-    .word stru_1599F8                 ; ANIM_SPRITE <4, 0, $32, $42, $FF, 1, stru_1599F8>
+    .word TombAnim                 ; ANIM_SPRITE <4, 0, $32, $42, $FF, 1, TombAnim>
     .byte 4, 0, $42, $42, $FF, $FF
-    .word stru_1599F8                 ; ANIM_SPRITE <4, 0, $42, $42, $FF, $FF, stru_1599F8>
+    .word TombAnim                 ; ANIM_SPRITE <4, 0, $42, $42, $FF, $FF, TombAnim>
 
 nullsub_7:
     .export nullsub_7
@@ -817,224 +817,221 @@ nullsub_7:
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_19A6C2:
-    .export sub_19A6C2
+dancing:
+    .export dancing
     .import NewMusic
 
-    JSR sub_19A42D
-    JSR update_animation
-    LDA #$FF
-    JSR wait_change_music
-    LDX #60
-    JSR wait_frames     ; wait for a few frames input: X - number of frames
-    LDA #$23
-    STA NewMusic
-    LDA #$F8
-    LDX #$FF
-    JSR sub_19A75E
-    LDA #$10
-    LDX #0
-    JSR sub_19A75E
-    JSR sub_19A7AD
-    JSR sub_19A7AD
-    JSR sub_19A71F
-    JSR sub_19A723
-    JSR sub_19A71F
-    JSR sub_19A723
-    JSR sub_19A7AD
-    JSR sub_19A727
-    JSR sub_19A72B
-    JSR sub_19A727
-    JSR sub_19A72B
-    JSR wait_nmi_processed
-    LDX #$60
-    JSR wait_frames     ; wait for a few frames input: X - number of frames
-    JSR sub_19A71F
-    JSR sub_19A723
-    JSR sub_19A71F
-    JSR loc_19A7B0
-    LDX #120
-    JMP wait_frames     ; wait for a few frames input: X - number of frames
-; End of function sub_19A6C2
+    jsr bank_checksum
+    jsr update_animation
+    lda #$FF
+    jsr wait_change_music
+    ldx #60
+    jsr wait_frames     ; wait for a few frames input: X - number of frames
+    lda #$23
+    sta NewMusic
+    lda #$F8
+    ldx #$FF
+    jsr update_anim
+    lda #$10
+    ldx #0
+    jsr update_anim
+    jsr steps_in_place
+    jsr steps_in_place
+    jsr side_steps
+    jsr diag_steps
+    jsr side_steps
+    jsr diag_steps
+    jsr steps_in_place
+    jsr steps_back
+    jsr steps_forward
+    jsr steps_back
+    jsr steps_forward
+    jsr wait_nmi_processed
+    ldx #$60
+    jsr wait_frames     ; wait for a few frames input: X - number of frames
+    jsr side_steps
+    jsr diag_steps
+    jsr side_steps
+    jsr loc_19A7B0
+    ldx #120
+    jmp wait_frames     ; wait for a few frames input: X - number of frames
+; End of function dancing
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_19A71F:
-    LDY #0
-    BPL loc_19A72D
-; End of function sub_19A71F
+side_steps:
+    ldy #0
+    bpl take_steps
+; End of function side_steps
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_19A723:
-    LDY #8
-    BPL loc_19A72D
-; End of function sub_19A723
+diag_steps:
+    ldy #8
+    bpl take_steps
+; End of function diag_steps
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_19A727:
-    LDY #$10
-    BPL loc_19A72D
-; End of function sub_19A727
+steps_back:
+    ldy #$10
+    bpl take_steps
+; End of function steps_back
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_19A72B:
-    LDY #$18
+steps_forward:
+    ldy #$18
 
-loc_19A72D:
-    LDA byte_19A73E,Y
-    LDX byte_19A73E+1,Y
-    JSR loc_19A7B4
-    INY
-    INY
-    TYA
-    AND #7
-    BNE loc_19A72D
-    RTS
-; End of function sub_19A72B
+take_steps:
+    lda DanceSteps,Y
+    ldx DanceSteps+1,Y
+    jsr loc_19A7B4
+    iny
+    iny
+    tya
+    and #7
+    bne take_steps
+    rts
+; End of function steps_forward
 
 ; ---------------------------------------------------------------------------
-byte_19A73E:
-    .byte 1, 0, $FF, 0, 1, 0, $FF, 0, 1, $FF, $FF, 0, 1, 1
-    .byte $FF, 0, 0, $FF, 0, $FF, 0, $FF, 0, $FF, 1, 1, $FF
-    .byte 1, 1, 1, $FF, 1
+DanceSteps:
+    .word     1,   $FF,     1,   $FF, $FF01,  $FF, $101,  $FF
+    .word $FF00, $FF00, $FF00, $FF00,  $101, $1FF, $101, $1FF
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_19A75E:
+update_anim:
     stxa Pointer
-    LDX #8
+    ldx #8
 
-loc_19A764:
-    JSR sub_19A77A
-    LDA #$30
-    STA NMIFlags
-    JSR sub_19A7A7
-    CPX #$20
-    BCC loc_19A764
-    JSR wait_nmi_processed
-    LDA #$30
-    STA NMIFlags
-    RTS
-; End of function sub_19A75E
-
-
-; =============== S U B R O U T I N E =======================================
-
-
-sub_19A77A:
-    JSR wait_nmi_processed
-    CLC
-    LDA Pointer
-    ADC SpriteTable + ANIM_SPRITE::pFrame,X
-    STA SpriteTable + ANIM_SPRITE::pFrame,X
-    LDA Pointer+1
-    ADC SpriteTable + ANIM_SPRITE::pFrame+1,X
-    STA SpriteTable + ANIM_SPRITE::pFrame+1,X
-    RTS
-; End of function sub_19A77A
+@next_sprite:
+    jsr get_pframe
+    lda #$30
+    sta NMIFlags
+    jsr get_anim_offset
+    cpx #$20
+    bcc @next_sprite
+    jsr wait_nmi_processed
+    lda #$30
+    sta NMIFlags
+    rts
+; End of function update_anim
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_19A78F:
-    CPX #$20
-    BCS sub_19A79E
-    LDA pTileID
-    STA SpriteTable + ANIM_SPRITE::ShiftX,X
-    LDA pTileID+1
-    STA SpriteTable + ANIM_SPRITE::ShiftY,X
-    RTS
-; End of function sub_19A78F
+get_pframe:
+    jsr wait_nmi_processed
+    clc
+    lda Pointer
+    adc SpriteTable + ANIM_SPRITE::pFrame,X
+    sta SpriteTable + ANIM_SPRITE::pFrame,X
+    lda Pointer+1
+    adc SpriteTable + ANIM_SPRITE::pFrame+1,X
+    sta SpriteTable + ANIM_SPRITE::pFrame+1,X
+    rts
+; End of function get_pframe
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_19A79E:
-    LDA #0
-    STA SpriteTable + ANIM_SPRITE::ShiftX,X
-    STA SpriteTable + ANIM_SPRITE::ShiftY,X
-    RTS
-; End of function sub_19A79E
+shift_characters:
+    cpx #$20
+    bcs reset_shift
+    lda pTileID
+    sta SpriteTable + ANIM_SPRITE::ShiftX,X
+    lda pTileID+1
+    sta SpriteTable + ANIM_SPRITE::ShiftY,X
+    rts
+; End of function shift_characters
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_19A7A7:
-    CLC
-    TXA
-    ADC #8
-    TAX
-    RTS
-; End of function sub_19A7A7
+reset_shift:
+    lda #0
+    sta SpriteTable + ANIM_SPRITE::ShiftX,X
+    sta SpriteTable + ANIM_SPRITE::ShiftY,X
+    rts
+; End of function reset_shift
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_19A7AD:
-    .import RESET_vector
+get_anim_offset:
+    clc
+    txa
+    adc #8
+    tax
+    rts
+; End of function get_anim_offset
 
-    JSR loc_19A7B0
+
+; =============== S U B R O U T I N E =======================================
+
+
+steps_in_place:
+    jsr loc_19A7B0
 
 loc_19A7B0:
-    LDA #0
-    LDX #0
+    lda #0
+    ldx #0
 
 loc_19A7B4:
-    STA pTileID
-    STX pTileID+1
-    JSR loc_19A7BB
+    sta pTileID
+    stx pTileID+1
+    jsr loc_19A7BB
 
 loc_19A7BB:
-    LDA #4
-    LDX #0
-    STA Pointer
-    STX Pointer+1
-    LDX #8
+    lda #4
+    ldx #0
+    sta Pointer
+    stx Pointer+1
+    ldx #8
 
-loc_19A7C5:
-    JSR sub_19A77A
-    JSR sub_19A78F
-    JSR sub_19A7A7
-    BCC loc_19A7C5
-    LDA #2
-    STA NMIFlags
-    LDX #8
+@next_shift:
+    jsr get_pframe
+    jsr shift_characters
+    jsr get_anim_offset
+    bcc @next_shift
+    lda #2
+    sta NMIFlags
+    ldx #8
 
 loc_19A7D6:
-    JSR wait_nmi_processed
-    JSR sub_19A79E
-    JSR sub_19A7A7
-    BCC loc_19A7D6
-    LDA #$16
-    STA NMIFlags
-    ldxa #RESET_vector
+    jsr wait_nmi_processed
+    jsr reset_shift
+    jsr get_anim_offset
+    bcc loc_19A7D6
+    lda #$16
+    sta NMIFlags
+    ldxa #$FFFC
     stxa Pointer
-    LDX #8
+    ldx #8
 
 loc_19A7EF:
-    JSR sub_19A77A
-    JSR sub_19A7A7
-    BCC loc_19A7EF
-    LDA #$18
-    STA NMIFlags
-    RTS
-; End of function sub_19A7AD
+    jsr get_pframe
+    jsr get_anim_offset
+    bcc loc_19A7EF
+    lda #$18
+    sta NMIFlags
+    rts
+; End of function steps_in_place
 
 
 ; =============== S U B R O U T I N E =======================================
@@ -1045,105 +1042,105 @@ waste_PP:
     .import Character
     .importzp Value, CharacterOffset
 
-    LDY CharacterOffset
-    SEC
-    LDA Character + CHARACTER::MaxPP,Y
-    SBC Value
-    STA Character + CHARACTER::MaxPP,Y
-    LDA Character + CHARACTER::MaxPP+1,Y
-    SBC Value+1
-    STA Character + CHARACTER::MaxPP+1,Y
-    BCS locret_19A819
-    LDA #0
-    STA Character + CHARACTER::MaxPP,Y
-    STA Character + CHARACTER::MaxPP+1,Y
+    ldy CharacterOffset
+    sec
+    lda Character + CHARACTER::MaxPP,Y
+    sbc Value
+    sta Character + CHARACTER::MaxPP,Y
+    lda Character + CHARACTER::MaxPP+1,Y
+    sbc Value+1
+    sta Character + CHARACTER::MaxPP+1,Y
+    bcs locret_19A819
+    lda #0
+    sta Character + CHARACTER::MaxPP,Y
+    sta Character + CHARACTER::MaxPP+1,Y
 
 locret_19A819:
-    RTS
+    rts
 ; End of function waste_PP
 
 
 ; =============== S U B R O U T I N E =======================================
 
 
-sub_19A81A:
-    LDA BankTable + BANK_TABLE::CPU_8K_8000
-    PHA
-    LDX #0
+bank_checksum2:
+    lda BankTable + BANK_TABLE::CPU_8K_8000
+    pha
+    ldx #0
 
 loc_19A81F:
-    STX Pointer
-    LDA byte_19A88C,X
-    BMI loc_19A867
-    LDX #6
-    JSR mmc3_bank_set   ; Set memory bank A - bank number, X - mode
-    LDA #0
-    LDX #$80
-    STA pTileID
-    STX pTileID+1
-    LDA #0
-    STA Pointer+1
-    STA AddrForJmp
-    LDX #$20
+    stx Pointer
+    lda CheckSums2,X
+    bmi loc_19A867
+    ldx #6
+    jsr mmc3_bank_set
+    lda #0
+    ldx #$80
+    sta pTileID
+    stx pTileID+1
+    lda #0
+    sta Pointer+1
+    sta AddrForJmp
+    ldx #$20
 
 loc_19A83B:
-    LDY #0
+    ldy #0
 
 loc_19A83D:
-    CLC
-    LDA (pTileID),Y
-    ADC Pointer+1
-    STA Pointer+1
-    LDA #0
-    ADC AddrForJmp
-    STA AddrForJmp
-    INY
-    BNE loc_19A83D
-    INC pTileID+1
-    DEX
-    BNE loc_19A83B
-    LDX Pointer
-    INX
-    LDA byte_19A88C,X
-    CMP AddrForJmp
-    NOP
-    NOP
-    INX
-    LDA byte_19A88C,X
-    CMP Pointer+1
-    NOP
-    NOP
-    INX
-    BNE loc_19A81F
+    clc
+    lda (pTileID),Y
+    adc Pointer+1
+    sta Pointer+1
+    lda #0
+    adc AddrForJmp
+    sta AddrForJmp
+    iny
+    bne loc_19A83D
+    inc pTileID+1
+    dex
+    bne loc_19A83B
+    ldx Pointer
+    inx
+    lda CheckSums2,X
+    cmp AddrForJmp
+    nop
+    nop
+    inx
+    lda CheckSums2,X
+    cmp Pointer+1
+    nop
+    nop
+    inx
+    bne loc_19A81F
 
 loc_19A867:
-    PLA
-    LDX #6
-    JMP mmc3_bank_set   ; Set memory bank A - bank number, X - mode
-; End of function sub_19A81A
+    pla
+    ldx #6
+    jmp mmc3_bank_set
+; End of function bank_checksum2
 
 ; =============== S U B R O U T I N E =======================================
 
 
 sub_19A86D:
-    JSR darken_palette
-    JSR update_animation
-    JSR clear_oam_sprite
-    JSR clear_nametables
-    JSR wait_nmi_processed
-    LDA #0
-    STA IRQCount
-    STA CameraX
-    STA CameraY
-    LDA #$FF
-    JSR wait_change_music
-    JMP loc_19A214
+    jsr darken_palette
+    jsr update_animation
+    jsr clear_oam_sprite
+    jsr clear_nametables
+    jsr wait_nmi_processed
+    lda #0
+    sta IRQCount
+    sta CameraX
+    sta CameraY
+    lda #$FF
+    jsr wait_change_music
+    jmp loc_19A214
 ; End of function sub_19A86D
 
 ; ---------------------------------------------------------------------------
-byte_19A88C:
+CheckSums2:
     .byte $13, $2C, $95, $14, $B, $82, $17, $ED, $EB, $19
     .byte $C7, $A8, $1C, $AC, $D5, $1E, $1C, $CF, $1F, $36
     .byte $FA, $FF, $57, $38
 
-.align $1800
+;.align $1800

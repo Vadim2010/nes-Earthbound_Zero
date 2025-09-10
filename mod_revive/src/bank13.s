@@ -1336,6 +1336,7 @@ resurrect:
     jsr message_button
     jmp sub_13BC04
 
+
 ; =============== S U B R O U T I N E =======================================
 
 
@@ -5268,10 +5269,10 @@ loc_13B8C7:
 
     clc
     lda ItemCount
-    adc #<(CurrentGame + GAME_SAVE::Storage)     ; #$B0
+    adc #<(CurrentGame + GAME_SAVE::Storage)
     sta pStr
     lda #0
-    adc #>(CurrentGame + GAME_SAVE::Storage)      ; #$76
+    adc #>(CurrentGame + GAME_SAVE::Storage)
     sta pStr+1
     rts
 .endproc            ; End of function sub_13B8CA
